@@ -34,7 +34,23 @@ export function ContactForm({ type = "Contact" }: { type?: "Contact" | "Supplier
           <option>Government procurement</option>
           <option>Systems integration project</option>
         </select>
-        <textarea required placeholder="Tell us what you need" rows={5} className="focus-ring rounded border border-slate-300 px-3 py-2" />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <select className="focus-ring rounded border border-slate-300 px-3 py-2" defaultValue="">
+            <option value="" disabled>Budget range</option>
+            <option>Under PHP 50,000</option>
+            <option>PHP 50,000 - PHP 250,000</option>
+            <option>PHP 250,000 - PHP 1,000,000</option>
+            <option>To be discussed</option>
+          </select>
+          <select className="focus-ring rounded border border-slate-300 px-3 py-2" defaultValue="">
+            <option value="" disabled>Timeline</option>
+            <option>Urgent</option>
+            <option>2-4 weeks</option>
+            <option>This quarter</option>
+            <option>Planning stage</option>
+          </select>
+        </div>
+        <textarea required placeholder="Project description, specifications, quantities, or procurement context" rows={5} className="focus-ring rounded border border-slate-300 px-3 py-2" />
         <button className="button-glow rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white hover:bg-[#0f46b4]">
           Send Inquiry
         </button>
