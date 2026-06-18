@@ -15,7 +15,7 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <AnimatedCard className="surface lift flex h-full flex-col overflow-hidden rounded-lg">
-      <Link href={`/product/${product.slug}`} className="block">
+      <Link href={`/products/${product.categorySlug}`} className="block">
         <div className="relative h-44 overflow-hidden bg-slate-100">
           <div className="absolute inset-0 animated-grid" />
           <div className="absolute inset-x-5 bottom-5 rounded border border-white/70 bg-white/85 p-4 backdrop-blur">
@@ -26,7 +26,7 @@ export function ProductCard({ product }: { product: Product }) {
       </Link>
       <div className="flex flex-1 flex-col p-5">
         <div className="text-xs font-semibold text-[#1457d9]">{product.availability}</div>
-        <Link href={`/product/${product.slug}`}>
+        <Link href={`/products/${product.categorySlug}`}>
           <h3 className="mt-2 text-lg font-bold text-slate-950 hover:text-[#1457d9]">{product.name}</h3>
         </Link>
         <p className="mt-3 flex-1 text-sm leading-6 text-slate-600">{product.shortDescription}</p>
@@ -50,7 +50,7 @@ export function ProductCard({ product }: { product: Product }) {
           </button>
         </div>
         <Link
-          href={`/product/${product.slug}`}
+          href={`/products/${product.categorySlug}`}
           className="interactive-link mt-4 inline-flex text-sm font-bold text-[#1457d9]"
         >
           View details and specs
