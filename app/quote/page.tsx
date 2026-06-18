@@ -14,6 +14,7 @@ export default function QuotePage() {
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="Quote Checkout"
+          as="h1"
           title="Request a quotation, not a paid checkout."
           description="This flow is designed for corporate, government, and project-based IT buying where final specifications, equivalent models, and delivery terms must be verified. Prices are indicative and subject to supplier availability."
         />

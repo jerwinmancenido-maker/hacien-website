@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SectionHeading } from "@/components/SectionHeading";
+import { AnimatedCard, StaggerContainer } from "@/components/motion";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -13,21 +14,22 @@ export default function AboutPage() {
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="About HACIEN"
+          as="h1"
           title="A Philippine IT solutions provider for practical, procurement-ready technology delivery."
           description="HACIEN Information Technology Solutions supports organizations that need reliable sourcing, specification matching, implementation coordination, and project-based IT execution."
         />
-        <div className="mt-10 grid gap-6 lg:grid-cols-3">
+        <StaggerContainer className="mt-10 grid gap-6 lg:grid-cols-3">
           {[
             ["Procurement-aware", "We help buyers and project teams translate requirements into clear product and service requests."],
             ["Implementation-focused", "We support delivery, setup, coordination, and documentation beyond simple product selling."],
             ["ERP-minded", "Our internal platform roadmap is designed around real IT trading, procurement, and project workflows."],
           ].map(([title, text]) => (
-            <div key={title} className="surface rounded-lg p-6">
+            <AnimatedCard key={title} className="surface rounded-lg p-6">
               <h2 className="text-lg font-bold text-slate-950">{title}</h2>
               <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
-            </div>
+            </AnimatedCard>
           ))}
-        </div>
+        </StaggerContainer>
         <div className="surface mt-10 rounded-lg p-6">
           <h2 className="text-xl font-bold text-slate-950">Company profile</h2>
           <div className="mt-5 grid gap-4 text-sm leading-6 text-slate-700 md:grid-cols-2">

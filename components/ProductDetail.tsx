@@ -5,6 +5,7 @@ import type { Product } from "@/data/products";
 import { getCategory } from "@/data/products";
 import { formatPeso } from "@/lib/format";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
+import { SlideUp, StaggerContainer } from "@/components/motion";
 
 export function ProductDetail({ product }: { product: Product }) {
   const [quantity, setQuantity] = useState(1);
@@ -15,8 +16,9 @@ export function ProductDetail({ product }: { product: Product }) {
   return (
     <section className="bg-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-16">
-        <div className="surface relative min-h-[420px] overflow-hidden rounded-lg p-6">
-          <div className="absolute inset-0 mesh" />
+        <SlideUp>
+        <div className="surface lift relative min-h-[420px] overflow-hidden rounded-lg p-6">
+          <div className="absolute inset-0 animated-grid" />
           <div className="relative flex h-full flex-col justify-end">
             <div className="rounded border border-white/70 bg-white/90 p-6 backdrop-blur">
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
@@ -27,7 +29,9 @@ export function ProductDetail({ product }: { product: Product }) {
             </div>
           </div>
         </div>
+        </SlideUp>
 
+        <SlideUp delay={120}>
         <div>
           <div className="text-sm font-semibold text-[#1457d9]">{category?.name}</div>
           <h1 className="mt-3 text-4xl font-bold tracking-tight text-slate-950">{product.name}</h1>
@@ -59,14 +63,14 @@ export function ProductDetail({ product }: { product: Product }) {
 
           <div className="mt-8">
             <h2 className="font-bold text-slate-950">Key specifications</h2>
-            <ul className="mt-4 grid gap-3 text-sm text-slate-700">
+            <StaggerContainer className="mt-4 grid gap-3 text-sm text-slate-700">
               {product.specs.map((spec) => (
                 <li key={spec} className="flex gap-3">
                   <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#1457d9]" />
                   <span>{spec}</span>
                 </li>
               ))}
-            </ul>
+            </StaggerContainer>
           </div>
 
           <div className="mt-8 rounded border border-blue-100 bg-blue-50 p-5 text-sm leading-6 text-slate-700">
@@ -79,7 +83,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 addItem(product, quantity);
                 setAdded(true);
               }}
-              className="rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white hover:bg-[#0f46b4]"
+              className="button-glow rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white hover:bg-[#0f46b4]"
             >
               Add to Quote Cart
             </button>
@@ -90,6 +94,7 @@ export function ProductDetail({ product }: { product: Product }) {
             ) : null}
           </div>
         </div>
+        </SlideUp>
       </div>
     </section>
   );

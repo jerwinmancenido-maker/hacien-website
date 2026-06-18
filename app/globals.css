@@ -9,6 +9,7 @@
   --navy: #071426;
   --blue: #1457d9;
   --violet: #5b4bff;
+  --motion-delay: 0ms;
 }
 
 * {
@@ -46,11 +47,112 @@ select {
   box-shadow: 0 20px 60px rgba(10, 31, 68, 0.08);
 }
 
+.button-glow {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+.button-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 20%, rgba(255, 255, 255, 0.28), transparent 80%);
+  transform: translateX(-120%);
+}
+
 .mesh {
   background:
     linear-gradient(135deg, rgba(20, 87, 217, 0.14), rgba(91, 75, 255, 0.1)),
     repeating-linear-gradient(90deg, rgba(7, 20, 38, 0.05) 0 1px, transparent 1px 34px),
     repeating-linear-gradient(0deg, rgba(7, 20, 38, 0.05) 0 1px, transparent 1px 34px);
+}
+
+.animated-grid {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(20, 87, 217, 0.2), transparent 24rem),
+    radial-gradient(circle at 85% 10%, rgba(91, 75, 255, 0.16), transparent 22rem),
+    linear-gradient(135deg, rgba(20, 87, 217, 0.1), rgba(91, 75, 255, 0.08)),
+    repeating-linear-gradient(90deg, rgba(7, 20, 38, 0.055) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(0deg, rgba(7, 20, 38, 0.055) 0 1px, transparent 1px 34px);
+}
+
+.motion-fade,
+.motion-slide-up,
+.motion-card,
+.motion-stagger > * {
+  animation-delay: var(--motion-delay);
+  animation-fill-mode: both;
+}
+
+.motion-fade {
+  animation-name: fade-in;
+  animation-duration: 620ms;
+  animation-timing-function: ease-out;
+}
+
+.motion-slide-up,
+.motion-stagger > * {
+  animation-name: slide-up;
+  animation-duration: 680ms;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.motion-stagger > *:nth-child(1) { --motion-delay: 0ms; }
+.motion-stagger > *:nth-child(2) { --motion-delay: 90ms; }
+.motion-stagger > *:nth-child(3) { --motion-delay: 180ms; }
+.motion-stagger > *:nth-child(4) { --motion-delay: 270ms; }
+.motion-stagger > *:nth-child(5) { --motion-delay: 360ms; }
+.motion-stagger > *:nth-child(6) { --motion-delay: 450ms; }
+.motion-stagger > *:nth-child(7) { --motion-delay: 540ms; }
+.motion-stagger > *:nth-child(8) { --motion-delay: 630ms; }
+.motion-stagger > *:nth-child(9) { --motion-delay: 720ms; }
+
+.motion-card {
+  animation-name: slide-up;
+  animation-duration: 620ms;
+  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.motion-section {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.motion-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 720ms ease, transform 720ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.floating-card {
+  animation: float-card 7s ease-in-out infinite;
+}
+
+.floating-card:nth-child(2) {
+  animation-delay: 700ms;
+}
+
+.floating-card:nth-child(3) {
+  animation-delay: 1400ms;
+}
+
+.floating-card:nth-child(4) {
+  animation-delay: 2100ms;
+}
+
+.progress-line {
+  position: relative;
+}
+
+.progress-line::before {
+  content: "";
+  position: absolute;
+  left: 1.25rem;
+  top: 2.5rem;
+  bottom: 2.5rem;
+  width: 1px;
+  background: linear-gradient(180deg, rgba(20, 87, 217, 0.3), rgba(91, 75, 255, 0.06));
 }
 
 .focus-ring:focus-visible {
@@ -66,5 +168,77 @@ select {
   .lift:hover {
     transform: translateY(-3px);
     box-shadow: 0 24px 70px rgba(10, 31, 68, 0.12);
+  }
+
+  .button-glow:hover::after {
+    animation: shine 820ms ease;
+  }
+
+  .interactive-link {
+    transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+  }
+
+  .interactive-link:hover {
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shine {
+  to {
+    transform: translateX(120%);
+  }
+}
+
+@keyframes float-card {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .motion-section {
+    opacity: 1;
+    transform: none;
+  }
+
+  .progress-line::before {
+    display: none;
   }
 }
