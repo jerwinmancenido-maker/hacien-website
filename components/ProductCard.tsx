@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 import type { Product } from "@/data/products";
 import { categories } from "@/data/products";
-import { formatPeso } from "@/lib/format";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
 import { AnimatedCard } from "@/components/motion";
 
@@ -32,9 +31,9 @@ export function ProductCard({ product }: { product: Product }) {
         <p className="mt-3 flex-1 text-sm leading-6 text-slate-600">{product.shortDescription}</p>
         <div className="mt-5 flex items-end justify-between gap-4">
           <div>
-            <div className="text-xs text-slate-500">Indicative from</div>
-            <div className="font-bold text-slate-950">{formatPeso(product.estimatedPrice)}</div>
-            <div className="mt-1 text-xs text-slate-500">Subject to supplier availability</div>
+            <div className="text-xs text-slate-500">Pricing status</div>
+            <div className="font-bold text-slate-950">Price upon request</div>
+            <div className="mt-1 text-xs text-slate-500">Subject to brand/model availability</div>
           </div>
           <button
             onClick={() => {
@@ -46,7 +45,7 @@ export function ProductCard({ product }: { product: Product }) {
               justAdded ? "bg-emerald-600" : "bg-[#071426] hover:bg-[#1457d9]"
             }`}
           >
-            {justAdded ? "Added" : "Add to Quote"}
+            {justAdded ? "Added" : "Add to RFQ"}
           </button>
         </div>
         <Link

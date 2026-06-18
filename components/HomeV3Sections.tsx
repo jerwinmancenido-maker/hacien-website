@@ -19,7 +19,7 @@ const howItWorks = [
   ["Requirements Gathering", "Capture business need, site context, specs, quantity, budget range, and target delivery timeline."],
   ["Product Matching", "Translate buyer requirements into viable branded or equivalent technology options."],
   ["Supplier Canvass", "Coordinate availability, warranty, lead time, and procurement constraints across suppliers."],
-  ["Quotation", "Prepare formal quotation support with indicative pricing, conditions, and delivery assumptions."],
+  ["Quotation", "Prepare formal quotation support with supplier-validated conditions and delivery assumptions."],
   ["Award", "Support buyer-side comparison and selected offer documentation without claiming accreditation."],
   ["Procurement", "Coordinate ordering, fulfillment readiness, and project delivery materials."],
   ["Delivery", "Align delivery coordination, handover needs, and follow-up support."],

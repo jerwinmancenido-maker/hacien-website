@@ -57,7 +57,7 @@ export function Header() {
                 : "border-slate-300 text-slate-900 hover:border-[#1457d9] hover:text-[#1457d9]"
             }`}
           >
-            Quote Cart ({totalQuantity})
+            RFQ Cart ({totalQuantity})
           </Link>
           <Link
             href="/contact"
@@ -91,7 +91,7 @@ export function Header() {
               </Link>
             ))}
             <Link href="/quote" onClick={() => setOpen(false)} className="font-semibold text-[#1457d9]">
-              Quote Cart ({totalQuantity})
+              RFQ Cart ({totalQuantity})
             </Link>
           </nav>
         </div>

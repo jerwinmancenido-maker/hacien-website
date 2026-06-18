@@ -20,8 +20,8 @@ export default function ProductsPage() {
         <SectionHeading
           eyebrow="Products"
           as="h1"
-          title="Ecommerce-ready quote catalog for IT procurement."
-          description="Select items for quotation. Prices are indicative and subject to supplier availability. HACIEN will validate exact brand/model, stock, warranty, and delivery terms before final offer."
+          title="RFQ procurement catalog for IT requirements."
+          description="Select requirements for RFQ. HACIEN will validate exact brand/model, stock, warranty, supplier quotation, and delivery terms before issuing a formal offer."
         />
         <StaggerContainer className="mt-8 flex flex-wrap gap-3">
           {categories.map((category) => (

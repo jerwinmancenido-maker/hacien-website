@@ -14,13 +14,13 @@ export default function TermsPage() {
           eyebrow="Terms"
           as="h1"
           title="Terms of Use"
-          description="The HACIEN website is an information and request-for-quotation channel. Catalog prices are indicative and are not paid checkout prices."
+          description="The HACIEN website is an information and request-for-quotation channel. Catalog items are requirements for RFQ, not paid checkout offers."
         />
         <div className="surface mt-10 grid gap-6 rounded-lg p-6 text-sm leading-7 text-slate-700">
           <p>
-            Product descriptions, specifications, availability notes, and indicative prices are provided for
-            quotation preparation only. Final offer details depend on supplier availability, brand/model confirmation,
-            warranty terms, lead time, and delivery requirements.
+            Product descriptions, specifications, and availability notes are provided for quotation preparation only.
+            Final offer details depend on supplier availability, brand/model confirmation, warranty terms, lead time,
+            and delivery requirements.
           </p>
           <p>
             HACIEN uses legal-safe government procurement support language. This website does not claim PhilGEPS,

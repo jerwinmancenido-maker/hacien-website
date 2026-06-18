@@ -33,7 +33,7 @@ export default async function ProductCategoryPage({ params }: { params: Promise<
           eyebrow="Product Category"
           as="h1"
           title={category.name}
-          description={`${category.summary} Prices are indicative and subject to supplier availability.`}
+          description={`${category.summary} Final pricing will be confirmed through formal quotation after supplier availability, equivalent options, warranty, and delivery terms are reviewed.`}
         />
         <div className="mt-10">
           <ProductGrid products={items} />

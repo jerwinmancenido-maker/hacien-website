@@ -3,7 +3,6 @@
 import { useState } from "react";
 import type { Product } from "@/data/products";
 import { getCategory } from "@/data/products";
-import { formatPeso } from "@/lib/format";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
 import { SlideUp, StaggerContainer } from "@/components/motion";
 
@@ -37,27 +36,48 @@ export function ProductDetail({ product }: { product: Product }) {
           <h1 className="mt-3 text-4xl font-bold tracking-tight text-slate-950">{product.name}</h1>
           <p className="mt-5 text-lg leading-8 text-slate-600">{product.shortDescription}</p>
 
-          <div className="mt-8 grid gap-4 rounded-lg border border-slate-200 bg-slate-50 p-5 sm:grid-cols-2">
-            <div>
-              <div className="text-xs text-slate-500">Indicative price from</div>
-              <div className="mt-1 text-2xl font-bold text-slate-950">{formatPeso(product.estimatedPrice)}</div>
-              <div className="text-sm text-slate-500">per {product.unit}</div>
-              <div className="mt-2 text-xs font-semibold text-slate-600">
-                Prices are indicative and subject to supplier availability.
-              </div>
-            </div>
-            <div>
+          <div className="mt-8 rounded-lg border border-slate-200 bg-slate-50 p-5">
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">RFQ requirement panel</div>
+            <p className="mt-3 text-sm leading-6 text-slate-600">
+              Final pricing will be confirmed through formal quotation. Equivalent models may be recommended
+              based on stock, warranty, and specification requirements.
+            </p>
+            <div className="mt-5 grid gap-4 sm:grid-cols-2">
               <label className="text-xs font-semibold uppercase text-slate-500" htmlFor="quantity">
                 Quantity
+                <input
+                  id="quantity"
+                  type="number"
+                  min={1}
+                  value={quantity}
+                  onChange={(event) => setQuantity(Math.max(1, Number(event.target.value)))}
+                  className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case"
+                />
               </label>
-              <input
-                id="quantity"
-                type="number"
-                min={1}
-                value={quantity}
-                onChange={(event) => setQuantity(Math.max(1, Number(event.target.value)))}
-                className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2"
-              />
+              <label className="text-xs font-semibold uppercase text-slate-500">
+                Preferred brand/model
+                <input className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case" placeholder="Optional" />
+              </label>
+              <label className="text-xs font-semibold uppercase text-slate-500">
+                Target specs
+                <input className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case" placeholder="CPU, RAM, storage, ports, license count..." />
+              </label>
+              <label className="text-xs font-semibold uppercase text-slate-500">
+                Warranty requirement
+                <input className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case" placeholder="1 year, 3 years, onsite, carry-in..." />
+              </label>
+              <label className="text-xs font-semibold uppercase text-slate-500">
+                Delivery location
+                <input className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case" placeholder="City / site location" />
+              </label>
+              <label className="text-xs font-semibold uppercase text-slate-500">
+                Target delivery date
+                <input type="date" className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case" />
+              </label>
+              <label className="text-xs font-semibold uppercase text-slate-500 sm:col-span-2">
+                Notes
+                <textarea rows={3} className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case" placeholder="BOQ line, bid requirement, equivalent rules, accessories, or installation notes" />
+              </label>
             </div>
           </div>
 
@@ -85,11 +105,11 @@ export function ProductDetail({ product }: { product: Product }) {
               }}
               className="button-glow rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white hover:bg-[#0f46b4]"
             >
-              Add to Quote Cart
+              Add to RFQ
             </button>
             {added ? (
               <span className="rounded border border-emerald-200 bg-emerald-50 px-5 py-3 text-sm font-semibold text-emerald-700">
-                Added to quote request.
+                Added to RFQ request.
               </span>
             ) : null}
           </div>
