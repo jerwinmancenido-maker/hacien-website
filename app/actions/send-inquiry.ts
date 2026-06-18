@@ -4,15 +4,10 @@ import nodemailer from "nodemailer";
 
 const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
 const RATE_LIMIT_MAX = 5; // max submissions per window per IP
-const EMAIL_SEND_TIMEOUT_MS = 10_000;
+const EMAIL_SEND_TIMEOUT_MS = 15_000;
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
-class EmailConfigurationError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = "EmailConfigurationError";
-  }
-}
+// ── Rate Limiting ──────────────────────────────────────────────
 
 function getRateLimitInfo(ip: string): { allowed: boolean; retryAfterSec: number } {
   const now = Date.now();
@@ -32,6 +27,8 @@ function getRateLimitInfo(ip: string): { allowed: boolean; retryAfterSec: number
   return { allowed: true, retryAfterSec: 0 };
 }
 
+// ── Transporter: SMTP-first, sendmail fallback ─────────────────
+
 function getSmtpConfig() {
   const host = process.env.SMTP_HOST;
   const portValue = process.env.SMTP_PORT;
@@ -39,6 +36,7 @@ function getSmtpConfig() {
   const pass = process.env.SMTP_PASS;
   const from = process.env.SMTP_FROM;
   const to = process.env.SALES_TO_EMAIL;
+
   const missing = [
     ["SMTP_HOST", host],
     ["SMTP_PORT", portValue],
@@ -50,16 +48,10 @@ function getSmtpConfig() {
     .filter(([, value]) => !value)
     .map(([name]) => name);
 
-  if (missing.length > 0) {
-    throw new EmailConfigurationError(
-      `Email delivery is not configured. Missing: ${missing.join(", ")}`,
-    );
-  }
+  if (missing.length > 0) return null; // fall back to sendmail
 
   const port = Number(portValue);
-  if (!Number.isInteger(port) || port <= 0) {
-    throw new EmailConfigurationError("Email delivery is not configured. SMTP_PORT is invalid.");
-  }
+  if (!Number.isInteger(port) || port <= 0) return null;
 
   return {
     host: host as string,
@@ -73,16 +65,44 @@ function getSmtpConfig() {
 
 function createTransporter() {
   const config = getSmtpConfig();
-  return nodemailer.createTransport({
-    host: config.host,
-    port: config.port,
-    secure: config.port === 465,
-    auth: { user: config.user, pass: config.pass },
-    connectionTimeout: EMAIL_SEND_TIMEOUT_MS,
-    greetingTimeout: EMAIL_SEND_TIMEOUT_MS,
-    socketTimeout: EMAIL_SEND_TIMEOUT_MS,
-  });
+
+  if (config) {
+    console.info("RFQ: Using SMTP transport.", {
+      host: config.host,
+      port: config.port,
+      secure: config.port === 465,
+    });
+    return {
+      transport: nodemailer.createTransport({
+        host: config.host,
+        port: config.port,
+        secure: config.port === 465,
+        auth: { user: config.user, pass: config.pass },
+        connectionTimeout: EMAIL_SEND_TIMEOUT_MS,
+        greetingTimeout: EMAIL_SEND_TIMEOUT_MS,
+        socketTimeout: EMAIL_SEND_TIMEOUT_MS,
+      }),
+      from: config.from,
+      to: config.to,
+      mode: "smtp" as const,
+    };
+  }
+
+  // Fallback: sendmail (works on Hostinger with local MTA)
+  console.info("RFQ: SMTP not fully configured. Using sendmail fallback.");
+  return {
+    transport: nodemailer.createTransport({
+      sendmail: true,
+      newline: "unix",
+      path: "/usr/sbin/sendmail",
+    }),
+    from: process.env.SMTP_FROM || "noreply@haciensolutions.com",
+    to: process.env.SALES_TO_EMAIL || "sales@haciensolutions.com",
+    mode: "sendmail" as const,
+  };
 }
+
+// ── Send with timeout ──────────────────────────────────────────
 
 async function sendMailWithTimeout(
   transporter: nodemailer.Transporter,
@@ -104,6 +124,8 @@ async function sendMailWithTimeout(
   }
 }
 
+// ── Public API ─────────────────────────────────────────────────
+
 export type EmailResult = {
   success: boolean;
   error?: string;
@@ -114,10 +136,11 @@ export async function sendInquiryEmail(
   formData: Record<string, unknown>,
   clientIp?: string,
 ): Promise<EmailResult> {
-  // Rate limit
+  // ── Rate limit ──
   const ip = clientIp || "unknown";
   const { allowed, retryAfterSec } = getRateLimitInfo(ip);
   if (!allowed) {
+    console.warn("RFQ: Rate limited.", { ip });
     return {
       success: false,
       error: `Too many requests. Please wait ${retryAfterSec} seconds before trying again.`,
@@ -125,10 +148,19 @@ export async function sendInquiryEmail(
     };
   }
 
-  try {
-    const config = getSmtpConfig();
-    const transporter = createTransporter();
+  // ── Log: submission received ──
+  const formType = (formData.type as string) || "Unknown";
+  const formEmail = (formData.email as string) || "no-email";
+  console.info("RFQ: Submission received.", {
+    type: formType,
+    email: formEmail,
+    timestamp: new Date().toISOString(),
+  });
 
+  try {
+    const { transport, from, to, mode } = createTransporter();
+
+    // ── Build email ──
     const fields = Object.entries(formData)
       .filter(([, v]) => v !== undefined && v !== null && v !== "")
       .map(([k, v]) => `${k}: ${v}`)
@@ -149,24 +181,27 @@ export async function sendInquiryEmail(
         : "HACIEN Website — New Inquiry");
     const subject = rawSubject.replace(/[\r\n]/g, "");
 
-    const info = await sendMailWithTimeout(transporter, {
-      from: config.from,
-      to: config.to,
+    // ── Log: SMTP attempt ──
+    console.info("RFQ: SMTP send attempt.", { mode, to, subject });
+
+    const info = await sendMailWithTimeout(transport, {
+      from,
+      to,
       replyTo: (formData.email as string) || undefined,
       subject,
       text: `New inquiry from haciensolutions.com\n\n${fields}`,
       html: `<!DOCTYPE html><html><body style="font-family:sans-serif;font-size:14px;color:#1a1a1a"><h2 style="color:#1457d9">HACIEN Website Inquiry</h2><table style="border-collapse:collapse">${htmlFields}</table><hr style="margin-top:24px;border:none;border-top:1px solid #e2e8f0"><p style="color:#64748b;font-size:12px">Submitted via haciensolutions.com</p></body></html>`,
     });
 
+    // ── Check acceptance ──
     const accepted = Array.isArray(info.accepted) ? info.accepted.length : 0;
     const rejected = Array.isArray(info.rejected) ? info.rejected.length : 0;
+
     if (rejected > 0 && accepted === 0) {
-      console.error("Email send rejected by SMTP provider.", {
+      console.error("RFQ: SMTP send failure — rejected by provider.", {
         accepted,
         rejected,
-        host: config.host,
-        port: config.port,
-        secure: config.port === 465,
+        mode,
       });
       return {
         success: false,
@@ -174,18 +209,20 @@ export async function sendInquiryEmail(
       };
     }
 
-    console.info("Email sent via SMTP.", {
+    // ── Log: success ──
+    console.info("RFQ: SMTP send success.", {
       accepted,
       rejected,
-      host: config.host,
-      port: config.port,
-      secure: config.port === 465,
+      mode,
+      messageId: info.messageId,
     });
+
     return { success: true };
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Failed to send email";
-    const isConfigError = err instanceof EmailConfigurationError;
-    console.error("Email send failed.", {
+
+    // ── Log: failure (safe — no secrets) ──
+    console.error("RFQ: SMTP send failure.", {
       errorName: err instanceof Error ? err.name : "UnknownError",
       errorMessage: message,
       smtpHostConfigured: Boolean(process.env.SMTP_HOST),
@@ -195,11 +232,10 @@ export async function sendInquiryEmail(
       smtpFromConfigured: Boolean(process.env.SMTP_FROM),
       salesToEmailConfigured: Boolean(process.env.SALES_TO_EMAIL),
     });
+
     return {
       success: false,
-      error: isConfigError
-        ? message
-        : "Email delivery failed before SMTP confirmation. Please email sales@haciensolutions.com directly.",
+      error: "Unable to send RFQ. Please email sales@haciensolutions.com.",
     };
   }
 }
