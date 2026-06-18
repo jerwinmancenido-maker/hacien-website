@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CTABand } from "@/components/CTABand";
 import { ContactForm } from "@/components/ContactForm";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
 
 export default function GovernmentProcurementPage() {
   return (
+    <>
     <section className="px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_0.8fr]">
         <div>
@@ -59,5 +61,7 @@ export default function GovernmentProcurementPage() {
         <ContactForm type="Government" />
       </div>
     </section>
+    <CTABand title="Preparing a government or institutional IT requirement?" />
+    </>
   );
 }

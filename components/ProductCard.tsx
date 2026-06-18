@@ -49,6 +49,12 @@ export function ProductCard({ product }: { product: Product }) {
             {justAdded ? "Added" : "Add to Quote"}
           </button>
         </div>
+        <Link
+          href={`/product/${product.slug}`}
+          className="interactive-link mt-4 inline-flex text-sm font-bold text-[#1457d9]"
+        >
+          View details and specs
+        </Link>
       </div>
     </AnimatedCard>
   );

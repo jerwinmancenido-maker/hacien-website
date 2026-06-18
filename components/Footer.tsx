@@ -37,7 +37,11 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-white/10 px-4 py-5 text-center text-xs text-slate-400">
-        © 2026 HACIEN Information Technology Solutions. All rights reserved.
+        <div className="flex flex-wrap items-center justify-center gap-4">
+          <span>© 2026 HACIEN Information Technology Solutions. All rights reserved.</span>
+          <Link href="/privacy" className="hover:text-white">Privacy Policy</Link>
+          <Link href="/terms" className="hover:text-white">Terms of Use</Link>
+        </div>
       </div>
     </footer>
   );

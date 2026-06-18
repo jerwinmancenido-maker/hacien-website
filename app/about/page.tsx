@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CTABand } from "@/components/CTABand";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedCard, StaggerContainer } from "@/components/motion";
 
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
+    <>
     <section className="px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
@@ -52,5 +54,7 @@ export default function AboutPage() {
         </div>
       </div>
     </section>
+    <CTABand title="Need an IT supplier that understands procurement workflows?" />
+    </>
   );
 }

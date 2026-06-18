@@ -6,31 +6,15 @@ import { QuoteRequestForm } from "@/components/QuoteRequestForm";
 import { SectionHeading } from "@/components/SectionHeading";
 import { ServiceCard } from "@/components/ServiceCard";
 import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
+import { CTABand } from "@/components/CTABand";
 import { categories, products } from "@/data/products";
+import { solutions } from "@/data/solutions";
 
 export const metadata: Metadata = {
   title: "IT Infrastructure and Procurement Solutions",
   description:
     "HACIEN provides IT procurement, infrastructure, systems integration, and government procurement support for Philippine organizations.",
 };
-
-const services = [
-  {
-    title: "IT Procurement",
-    description: "Sourcing, equivalent matching, and quotation preparation for hardware, software, and project materials.",
-    points: ["RFQ support", "Supplier coordination", "Specification matching"],
-  },
-  {
-    title: "Systems Integration",
-    description: "Practical implementation support for networks, endpoints, servers, surveillance, and business systems.",
-    points: ["Network rollout", "Endpoint deployment", "Project documentation"],
-  },
-  {
-    title: "Project-Based IT Support",
-    description: "Flexible support for IT integrators, contractors, distributors, and government project requirements.",
-    points: ["BOQ review", "Delivery coordination", "After-sales support"],
-  },
-];
 
 export default function Home() {
   return (
@@ -45,8 +29,10 @@ export default function Home() {
             description="HACIEN combines product sourcing, technical matching, supplier coordination, and implementation support for organizations that need dependable IT delivery."
           />
           <StaggerContainer className="mt-10 grid gap-6 md:grid-cols-3">
-            {services.map((service) => (
-              <ServiceCard key={service.title} {...service} />
+            {solutions.slice(0, 6).map((solution) => (
+              <Link key={solution.slug} href={`/solutions/${solution.slug}`} className="block">
+                <ServiceCard title={solution.title} description={solution.summary} points={solution.outcomes} />
+              </Link>
             ))}
           </StaggerContainer>
         </div>
@@ -149,6 +135,8 @@ export default function Home() {
           <QuoteRequestForm />
         </div>
       </AnimatedSection>
+
+      <CTABand />
     </>
   );
 }
