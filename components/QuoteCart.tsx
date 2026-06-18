@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
 import { formatPeso } from "@/lib/format";
+import { AnimatedCard, StaggerContainer } from "@/components/motion";
 
 export function QuoteCart() {
   const { items, updateQuantity, removeItem, clearCart } = useQuoteCart();
@@ -30,7 +31,7 @@ export function QuoteCart() {
 
   if (submitted) {
     return (
-      <div className="surface mx-auto max-w-3xl rounded-lg p-8 text-center">
+      <div className="surface motion-slide-up mx-auto max-w-3xl rounded-lg p-8 text-center">
         <div className="text-sm font-bold uppercase tracking-[0.18em] text-[#1457d9]">Quote request received</div>
         <h1 className="mt-4 text-3xl font-bold text-slate-950">Thank you. HACIEN will review your request.</h1>
         <p className="mt-4 text-slate-600">
@@ -47,17 +48,33 @@ export function QuoteCart() {
     <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr]">
       <div className="surface rounded-lg p-6">
         <h2 className="text-xl font-bold text-slate-950">Quote cart</h2>
+        <div className="mt-5 grid gap-3 sm:grid-cols-4">
+          {["Select Products", "Submit RFQ", "HACIEN Reviews", "Formal Quote"].map((step, index) => (
+            <div key={step} className="rounded border border-slate-200 bg-white p-3 text-sm">
+              <div className="grid h-8 w-8 place-items-center rounded-full bg-[#071426] text-xs font-bold text-white">
+                {index + 1}
+              </div>
+              <div className="mt-2 font-semibold text-slate-800">{step}</div>
+            </div>
+          ))}
+        </div>
         {items.length === 0 ? (
-          <div className="mt-6 rounded border border-dashed border-slate-300 bg-slate-50 p-8 text-center">
-            <p className="text-slate-600">Your quote cart is empty.</p>
-            <Link href="/products" className="mt-4 inline-flex rounded bg-[#071426] px-4 py-2 text-sm font-bold text-white">
+          <div className="mt-6 rounded border border-dashed border-blue-200 bg-blue-50/60 p-8 text-center">
+            <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-white text-lg font-bold text-[#1457d9] shadow-sm">
+              RFQ
+            </div>
+            <p className="mt-4 font-semibold text-slate-800">Your quote cart is ready for product selection.</p>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              Add items from the catalog and HACIEN will validate specs, supplier availability, warranty, and final pricing.
+            </p>
+            <Link href="/products" className="button-glow mt-5 inline-flex rounded bg-[#071426] px-4 py-2 text-sm font-bold text-white">
               Browse products
             </Link>
           </div>
         ) : (
-          <div className="mt-6 grid gap-4">
+          <StaggerContainer className="mt-6 grid gap-4">
             {items.map((item) => (
-              <div key={item.product.id} className="rounded border border-slate-200 bg-white p-4">
+              <AnimatedCard key={item.product.id} className="rounded border border-slate-200 bg-white p-4">
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <div className="font-bold text-slate-950">{item.product.name}</div>
@@ -82,13 +99,13 @@ export function QuoteCart() {
                     </button>
                   </div>
                 </div>
-              </div>
+              </AnimatedCard>
             ))}
             <div className="rounded bg-slate-950 p-5 text-white">
               <div className="text-sm text-slate-300">Indicative total for quotation basis</div>
               <div className="mt-1 text-2xl font-bold">{formatPeso(estimatedTotal)}</div>
             </div>
-          </div>
+          </StaggerContainer>
         )}
       </div>
 
@@ -129,7 +146,7 @@ export function QuoteCart() {
           <button
             type="submit"
             disabled={items.length === 0}
-            className="rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-300"
+            className="button-glow rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-300"
           >
             Submit Request for Quotation
           </button>

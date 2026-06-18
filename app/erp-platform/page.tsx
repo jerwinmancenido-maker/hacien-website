@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { SectionHeading } from "@/components/SectionHeading";
+import { AnimatedCard, StaggerContainer } from "@/components/motion";
 
 export const metadata: Metadata = {
   title: "ERP Platform Coming Soon",
@@ -26,7 +27,7 @@ export default function ErpPlatformPage() {
                 and project-based businesses that manage opportunities, canvassing, quotation,
                 procurement, inventory, billing, and collection workflows.
               </p>
-              <Link href="/contact" className="mt-8 inline-flex rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white">
+              <Link href="/contact" className="button-glow mt-8 inline-flex rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white">
                 Ask about the roadmap
               </Link>
             </div>
@@ -35,13 +36,13 @@ export default function ErpPlatformPage() {
 
         <div className="mt-12">
           <SectionHeading eyebrow="Future Capabilities" title="Designed around real quote-to-cash workflows." />
-          <div className="mt-8 grid gap-5 md:grid-cols-3">
+          <StaggerContainer className="mt-8 grid gap-5 md:grid-cols-3">
             {["CRM and opportunities", "BOQ and supplier canvassing", "Quotation to PO to billing"].map((item) => (
-              <div key={item} className="rounded border border-slate-200 bg-white p-6 font-bold text-slate-950">
+              <AnimatedCard key={item} className="rounded border border-slate-200 bg-white p-6 font-bold text-slate-950">
                 {item}
-              </div>
+              </AnimatedCard>
             ))}
-          </div>
+          </StaggerContainer>
         </div>
       </div>
     </section>

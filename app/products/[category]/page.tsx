@@ -29,6 +29,7 @@ export default async function ProductCategoryPage({ params }: { params: Promise<
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="Product Category"
+          as="h1"
           title={category.name}
           description={`${category.summary} Prices are indicative and subject to supplier availability.`}
         />
