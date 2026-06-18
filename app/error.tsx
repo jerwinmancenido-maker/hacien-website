@@ -19,8 +19,8 @@ export default function ErrorPage({
           Something went wrong
         </h1>
         <p className="mt-4 text-sm leading-6 text-slate-600">
-          An unexpected error occurred while loading this page. This has been
-          logged and our team will investigate.
+          An unexpected error occurred while loading this page. Please try again
+          or return to the home page.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <button
