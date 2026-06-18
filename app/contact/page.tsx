@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CTABand } from "@/components/CTABand";
 import { ContactForm } from "@/components/ContactForm";
 import { QuoteRequestForm } from "@/components/QuoteRequestForm";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
+    <>
     <section className="px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
@@ -49,5 +51,7 @@ export default function ContactPage() {
         </div>
       </div>
     </section>
+    <CTABand title="Prefer to start with a structured RFQ instead?" />
+    </>
   );
 }

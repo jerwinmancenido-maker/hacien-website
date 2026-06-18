@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { CTABand } from "@/components/CTABand";
 import { ProductGrid } from "@/components/ProductGrid";
 import { SectionHeading } from "@/components/SectionHeading";
 import { categories, getCategory, getProductsByCategory } from "@/data/products";
@@ -25,6 +26,7 @@ export default async function ProductCategoryPage({ params }: { params: Promise<
   const items = getProductsByCategory(category.slug);
 
   return (
+    <>
     <section className="px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
@@ -38,5 +40,7 @@ export default async function ProductCategoryPage({ params }: { params: Promise<
         </div>
       </div>
     </section>
+    <CTABand title={`Need help sourcing ${category.name.toLowerCase()}?`} />
+    </>
   );
 }

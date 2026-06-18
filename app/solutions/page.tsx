@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { SectionHeading } from "@/components/SectionHeading";
 import { ServiceCard } from "@/components/ServiceCard";
 import { AnimatedSection, StaggerContainer } from "@/components/motion";
+import { CTABand } from "@/components/CTABand";
+import { solutions } from "@/data/solutions";
 
 export const metadata: Metadata = {
   title: "Solutions",
@@ -9,15 +12,9 @@ export const metadata: Metadata = {
     "HACIEN solutions include IT infrastructure, procurement, systems integration, managed support, and project-based IT delivery.",
 };
 
-const solutions = [
-  ["IT Infrastructure", "Endpoint, network, server, storage, and facility technology sourcing.", ["Endpoint packages", "Network design support", "Storage and backup planning"]],
-  ["Hardware & Software Procurement", "Procurement support for approved equivalents, warranty options, and vendor availability.", ["Product matching", "License sourcing", "Quotation packages"]],
-  ["Systems Integration", "Coordination and technical support for deployment and rollout projects.", ["Site rollout", "Configuration", "Documentation"]],
-  ["Managed IT Support", "Practical ongoing support for office users, devices, and basic infrastructure.", ["Maintenance", "Troubleshooting", "Lifecycle planning"]],
-];
-
 export default function SolutionsPage() {
   return (
+    <>
     <section className="px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
@@ -27,8 +24,10 @@ export default function SolutionsPage() {
           description="HACIEN serves as a bridge between business requirements, supplier availability, and implementation realities."
         />
         <StaggerContainer className="mt-10 grid gap-6 md:grid-cols-2">
-          {solutions.map(([title, description, points]) => (
-            <ServiceCard key={title as string} title={title as string} description={description as string} points={points as string[]} />
+          {solutions.map((solution) => (
+            <Link key={solution.slug} href={`/solutions/${solution.slug}`} className="block">
+              <ServiceCard title={solution.title} description={solution.summary} points={solution.outcomes} />
+            </Link>
           ))}
         </StaggerContainer>
         <AnimatedSection className="mt-14 rounded-lg border border-slate-200 bg-white p-6">
@@ -50,5 +49,7 @@ export default function SolutionsPage() {
         </AnimatedSection>
       </div>
     </section>
+    <CTABand />
+    </>
   );
 }

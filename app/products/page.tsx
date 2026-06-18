@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { ProductGrid } from "@/components/ProductGrid";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedSection, StaggerContainer } from "@/components/motion";
+import { CTABand } from "@/components/CTABand";
 import { categories, products } from "@/data/products";
 
 export const metadata: Metadata = {
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
 
 export default function ProductsPage() {
   return (
+    <>
     <section className="px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
@@ -33,5 +35,7 @@ export default function ProductsPage() {
         </AnimatedSection>
       </div>
     </section>
+    <CTABand title="Building a bill of materials or supplier comparison list?" />
+    </>
   );
 }

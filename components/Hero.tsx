@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CountUpMetric, FadeIn, SlideUp, StaggerContainer } from "@/components/motion";
+import { ProcurementFlow } from "@/components/ProcurementFlow";
 
 export function Hero() {
   return (
@@ -32,6 +33,9 @@ export function Hero() {
                 Government Procurement Capability
               </Link>
             </div>
+          </SlideUp>
+          <SlideUp delay={330} className="mt-8">
+            <ProcurementFlow />
           </SlideUp>
           <StaggerContainer className="mt-8 grid gap-3 sm:grid-cols-3">
             <CountUpMetric value={7} label="Product categories" />
