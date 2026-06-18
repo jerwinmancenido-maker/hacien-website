@@ -86,11 +86,12 @@ export async function sendInquiryEmail(
       )
       .join("");
 
-    const subject =
+    const rawSubject =
       (formData.subject as string) ||
       (formData.type
         ? `HACIEN Website — ${formData.type} Inquiry`
         : "HACIEN Website — New Inquiry");
+    const subject = rawSubject.replace(/[\r\n]/g, "");
 
     await transporter.sendMail({
       from,
