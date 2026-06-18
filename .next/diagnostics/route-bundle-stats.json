@@ -1,0 +1,152 @@
+[
+  {
+    "route": "/product/[slug]",
+    "firstLoadUncompressedJsBytes": 528417,
+    "firstLoadChunkPaths": [
+      ".next/static/chunks/2bzdb8m2pkz5p.js",
+      ".next/static/chunks/14mrh2-p_w84d.js",
+      ".next/static/chunks/1_2u-7v-dcoxj.js",
+      ".next/static/chunks/1jq4o6yq14o4c.js",
+      ".next/static/chunks/15orcrkp-_9ct.js",
+      ".next/static/chunks/2nykiepra7i1k.js",
+      ".next/static/chunks/07u_h6i539_wj.js",
+      ".next/static/chunks/turbopack-3_ii05o8v06bx.js"
+    ]
+  },
+  {
+    "route": "/quote",
+    "firstLoadUncompressedJsBytes": 528396,
+    "firstLoadChunkPaths": [
+      ".next/static/chunks/2bzdb8m2pkz5p.js",
+      ".next/static/chunks/14mrh2-p_w84d.js",
+      ".next/static/chunks/0d1ve1gwqj-c9.js",
+      ".next/static/chunks/1jq4o6yq14o4c.js",
+      ".next/static/chunks/15orcrkp-_9ct.js",
+      ".next/static/chunks/2nykiepra7i1k.js",
+      ".next/static/chunks/07u_h6i539_wj.js",
+      ".next/static/chunks/turbopack-3_ii05o8v06bx.js"
+    ]
+  },
+  {
+    "route": "/",
+    "firstLoadUncompressedJsBytes": 528352,
+    "firstLoadChunkPaths": [
+      ".next/static/chunks/2bzdb8m2pkz5p.js",
+      ".next/static/chunks/14mrh2-p_w84d.js",
+      ".next/static/chunks/1mx2w5uap30oe.js",
+      ".next/static/chunks/1jq4o6yq14o4c.js",
+      ".next/static/chunks/15orcrkp-_9ct.js",
+      ".next/static/chunks/2nykiepra7i1k.js",
+      ".next/static/chunks/07u_h6i539_wj.js",
+      ".next/static/chunks/turbopack-3_ii05o8v06bx.js"
+    ]
+  },
+  {
+    "route": "/contact",
+    "firstLoadUncompressedJsBytes": 527023,
+    "firstLoadChunkPaths": [
+      ".next/static/chunks/2bzdb8m2pkz5p.js",
+      ".next/static/chunks/14mrh2-p_w84d.js",
+      ".next/static/chunks/3fdfk19ogbewg.js",
+      ".next/static/chunks/1jq4o6yq14o4c.js",
+      ".next/static/chunks/15orcrkp-_9ct.js",
+      ".next/static/chunks/2nykiepra7i1k.js",
+      ".next/static/chunks/07u_h6i539_wj.js",
+      ".next/static/chunks/turbopack-3_ii05o8v06bx.js"
+    ]
+  },
+  {
+    "route": "/products",
+    "firstLoadUncompressedJsBytes": 526958,
+    "firstLoadChunkPaths": [
+      ".next/static/chunks/2bzdb8m2pkz5p.js",
+      ".next/static/chunks/14mrh2-p_w84d.js",
+      ".next/static/chunks/1681zmir_yxzm.js",
+      ".next/static/chunks/1jq4o6yq14o4c.js",
+      ".next/static/chunks/15orcrkp-_9ct.js",
+      ".next/static/chunks/2nykiepra7i1k.js",
+      ".next/static/chunks/07u_h6i539_wj.js",
+      ".next/static/chunks/turbopack-3_ii05o8v06bx.js"
+    ]
+  },
+  {
+    "route": "/products/[category]",
+    "firstLoadUncompressedJsBytes": 526958,
+    "firstLoadChunkPaths": [
+      ".next/static/chunks/2bzdb8m2pkz5p.js",
+      ".next/static/chunks/14mrh2-p_w84d.js",
+      ".next/static/chunks/1681zmir_yxzm.js",
+      ".next/static/chunks/1jq4o6yq14o4c.js",
+      ".next/static/chunks/15orcrkp-_9ct.js",
+      ".next/static/chunks/2nykiepra7i1k.js",
+      ".next/static/chunks/07u_h6i539_wj.js",
+      ".next/static/chunks/turbopack-3_ii05o8v06bx.js"
+    ]
+  },
+  {
+    "route": "/government-procurement",
+    "firstLoadUncompressedJsBytes": 525629,
+    "firstLoadChunkPaths": [
+      ".next/static/chunks/2bzdb8m2pkz5p.js",
+      ".next/static/chunks/14mrh2-p_w84d.js",
+      ".next/static/chunks/29_hyvtejilma.js",
+      ".next/static/chunks/1jq4o6yq14o4c.js",
+      ".next/static/chunks/15orcrkp-_9ct.js",
+      ".next/static/chunks/2nykiepra7i1k.js",
+      ".next/static/chunks/07u_h6i539_wj.js",
+      ".next/static/chunks/turbopack-3_ii05o8v06bx.js"
+    ]
+  },
+  {
+    "route": "/_not-found",
+    "firstLoadUncompressedJsBytes": 523778,
+    "firstLoadChunkPaths": [
+      ".next/static/chunks/2bzdb8m2pkz5p.js",
+      ".next/static/chunks/14mrh2-p_w84d.js",
+      ".next/static/chunks/1jq4o6yq14o4c.js",
+      ".next/static/chunks/15orcrkp-_9ct.js",
+      ".next/static/chunks/2nykiepra7i1k.js",
+      ".next/static/chunks/07u_h6i539_wj.js",
+      ".next/static/chunks/turbopack-3_ii05o8v06bx.js"
+    ]
+  },
+  {
+    "route": "/about",
+    "firstLoadUncompressedJsBytes": 523778,
+    "firstLoadChunkPaths": [
+      ".next/static/chunks/2bzdb8m2pkz5p.js",
+      ".next/static/chunks/14mrh2-p_w84d.js",
+      ".next/static/chunks/1jq4o6yq14o4c.js",
+      ".next/static/chunks/15orcrkp-_9ct.js",
+      ".next/static/chunks/2nykiepra7i1k.js",
+      ".next/static/chunks/07u_h6i539_wj.js",
+      ".next/static/chunks/turbopack-3_ii05o8v06bx.js"
+    ]
+  },
+  {
+    "route": "/erp-platform",
+    "firstLoadUncompressedJsBytes": 523778,
+    "firstLoadChunkPaths": [
+      ".next/static/chunks/2bzdb8m2pkz5p.js",
+      ".next/static/chunks/14mrh2-p_w84d.js",
+      ".next/static/chunks/1jq4o6yq14o4c.js",
+      ".next/static/chunks/15orcrkp-_9ct.js",
+      ".next/static/chunks/2nykiepra7i1k.js",
+      ".next/static/chunks/07u_h6i539_wj.js",
+      ".next/static/chunks/turbopack-3_ii05o8v06bx.js"
+    ]
+  },
+  {
+    "route": "/solutions",
+    "firstLoadUncompressedJsBytes": 523778,
+    "firstLoadChunkPaths": [
+      ".next/static/chunks/2bzdb8m2pkz5p.js",
+      ".next/static/chunks/14mrh2-p_w84d.js",
+      ".next/static/chunks/1jq4o6yq14o4c.js",
+      ".next/static/chunks/15orcrkp-_9ct.js",
+      ".next/static/chunks/2nykiepra7i1k.js",
+      ".next/static/chunks/07u_h6i539_wj.js",
+      ".next/static/chunks/turbopack-3_ii05o8v06bx.js"
+    ]
+  }
+]

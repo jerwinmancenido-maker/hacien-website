@@ -1,0 +1,70 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --background: #f7f9fc;
+  --foreground: #0b1220;
+  --muted: #5f6d82;
+  --line: #dde5f2;
+  --navy: #071426;
+  --blue: #1457d9;
+  --violet: #5b4bff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at top left, rgba(20, 87, 217, 0.08), transparent 32rem),
+    linear-gradient(180deg, #ffffff 0%, var(--background) 54%, #ffffff 100%);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.surface {
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 60px rgba(10, 31, 68, 0.08);
+}
+
+.mesh {
+  background:
+    linear-gradient(135deg, rgba(20, 87, 217, 0.14), rgba(91, 75, 255, 0.1)),
+    repeating-linear-gradient(90deg, rgba(7, 20, 38, 0.05) 0 1px, transparent 1px 34px),
+    repeating-linear-gradient(0deg, rgba(7, 20, 38, 0.05) 0 1px, transparent 1px 34px);
+}
+
+.focus-ring:focus-visible {
+  outline: 3px solid rgba(20, 87, 217, 0.28);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lift {
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  }
+
+  .lift:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 24px 70px rgba(10, 31, 68, 0.12);
+  }
+}
