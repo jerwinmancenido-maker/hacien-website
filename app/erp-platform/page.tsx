@@ -1,5 +1,12 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { SectionHeading } from "@/components/SectionHeading";
+
+export const metadata: Metadata = {
+  title: "ERP Platform Coming Soon",
+  description:
+    "HACIEN ERP is a future platform for IT integrators, distributors, trading companies, and project-based businesses.",
+};
 
 export default function ErpPlatformPage() {
   return (

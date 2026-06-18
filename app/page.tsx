@@ -1,10 +1,17 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { Hero } from "@/components/Hero";
 import { ProductGrid } from "@/components/ProductGrid";
 import { QuoteRequestForm } from "@/components/QuoteRequestForm";
 import { SectionHeading } from "@/components/SectionHeading";
 import { ServiceCard } from "@/components/ServiceCard";
 import { categories, products } from "@/data/products";
+
+export const metadata: Metadata = {
+  title: "IT Infrastructure and Procurement Solutions",
+  description:
+    "HACIEN provides IT procurement, infrastructure, systems integration, and government procurement support for Philippine organizations.",
+};
 
 const services = [
   {
@@ -44,12 +51,35 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+          <SectionHeading
+            eyebrow="Company Profile"
+            title="HACIEN INFORMATION TECHNOLOGY SOLUTIONS"
+            description="A nationally registered business name supporting IT infrastructure, procurement, systems integration, and technology sourcing requirements across the Philippines."
+          />
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[
+              ["Business focus", "IT infrastructure, product sourcing, systems integration, and project-based technology support."],
+              ["Service area", "National scope for Philippine organizations, subject to project location and delivery requirements."],
+              ["Business address", "Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, San Antonio, Pasig City."],
+              ["Procurement posture", "Supplier readiness and government procurement support. Accreditation claims will be published only when finalized."],
+            ].map(([title, text]) => (
+              <div key={title} className="rounded border border-slate-200 bg-white p-5">
+                <div className="font-bold text-slate-950">{title}</div>
+                <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="bg-white px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="Product Catalog"
             title="Procurement-ready product categories."
-            description="Browse common IT product lines and prepare a quote request. Final pricing depends on availability, approved equivalent specifications, and delivery requirements."
+            description="Browse common IT product lines and prepare a quote request. Prices are indicative and subject to supplier availability."
           />
           <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {categories.slice(0, 7).map((category) => (

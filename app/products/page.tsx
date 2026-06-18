@@ -1,7 +1,14 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { ProductGrid } from "@/components/ProductGrid";
 import { SectionHeading } from "@/components/SectionHeading";
 import { categories, products } from "@/data/products";
+
+export const metadata: Metadata = {
+  title: "Products",
+  description:
+    "Browse HACIEN product categories and request quotations for computers, servers, networking, software, security, and IT accessories.",
+};
 
 export default function ProductsPage() {
   return (
@@ -10,7 +17,7 @@ export default function ProductsPage() {
         <SectionHeading
           eyebrow="Products"
           title="Ecommerce-ready quote catalog for IT procurement."
-          description="Select items for quotation. HACIEN will validate exact brand/model, stock, warranty, and delivery terms before final offer."
+          description="Select items for quotation. Prices are indicative and subject to supplier availability. HACIEN will validate exact brand/model, stock, warranty, and delivery terms before final offer."
         />
         <div className="mt-8 flex flex-wrap gap-3">
           {categories.map((category) => (

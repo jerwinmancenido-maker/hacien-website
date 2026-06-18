@@ -31,6 +31,7 @@ export function ProductCard({ product }: { product: Product }) {
           <div>
             <div className="text-xs text-slate-500">Indicative from</div>
             <div className="font-bold text-slate-950">{formatPeso(product.estimatedPrice)}</div>
+            <div className="mt-1 text-xs text-slate-500">Subject to supplier availability</div>
           </div>
           <button
             onClick={() => addItem(product)}

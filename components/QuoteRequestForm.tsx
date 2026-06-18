@@ -19,6 +19,9 @@ export function QuoteRequestForm() {
           }}
         >
           <h3 className="text-xl font-bold text-slate-950">Quick Request for Quotation</h3>
+          <p className="mt-2 text-sm leading-6 text-slate-600">
+            Prices are indicative and subject to supplier availability. Final quotation will confirm exact model, warranty, lead time, and delivery terms.
+          </p>
           <div className="mt-5 grid gap-4">
             <input required placeholder="Name" className="rounded border border-slate-300 px-3 py-2" />
             <input required placeholder="Company / agency" className="rounded border border-slate-300 px-3 py-2" />
