@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import { SectionHeading } from "@/components/SectionHeading";
 import { ServiceCard } from "@/components/ServiceCard";
+
+export const metadata: Metadata = {
+  title: "Solutions",
+  description:
+    "HACIEN solutions include IT infrastructure, procurement, systems integration, managed support, and project-based IT delivery.",
+};
 
 const solutions = [
   ["IT Infrastructure", "Endpoint, network, server, storage, and facility technology sourcing.", ["Endpoint packages", "Network design support", "Storage and backup planning"]],

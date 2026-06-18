@@ -38,6 +38,9 @@ export function ProductDetail({ product }: { product: Product }) {
               <div className="text-xs text-slate-500">Indicative price from</div>
               <div className="mt-1 text-2xl font-bold text-slate-950">{formatPeso(product.estimatedPrice)}</div>
               <div className="text-sm text-slate-500">per {product.unit}</div>
+              <div className="mt-2 text-xs font-semibold text-slate-600">
+                Prices are indicative and subject to supplier availability.
+              </div>
             </div>
             <div>
               <label className="text-xs font-semibold uppercase text-slate-500" htmlFor="quantity">

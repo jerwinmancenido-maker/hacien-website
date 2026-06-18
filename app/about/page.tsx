@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { SectionHeading } from "@/components/SectionHeading";
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "Learn about HACIEN INFORMATION TECHNOLOGY SOLUTIONS, a Philippine IT solutions provider focused on procurement-ready technology delivery.",
+};
 
 export default function AboutPage() {
   return (
@@ -20,6 +27,26 @@ export default function AboutPage() {
               <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
             </div>
           ))}
+        </div>
+        <div className="surface mt-10 rounded-lg p-6">
+          <h2 className="text-xl font-bold text-slate-950">Company profile</h2>
+          <div className="mt-5 grid gap-4 text-sm leading-6 text-slate-700 md:grid-cols-2">
+            <p>
+              <strong className="text-slate-950">Registered business name:</strong>{" "}
+              HACIEN INFORMATION TECHNOLOGY SOLUTIONS.
+            </p>
+            <p>
+              <strong className="text-slate-950">Scope:</strong> National business name registration for Philippine operations.
+            </p>
+            <p>
+              <strong className="text-slate-950">Business address:</strong> Unit D, 6th Floor,
+              Suntree Tower, 13 Meralco Avenue, Ortigas Center, San Antonio, Pasig City.
+            </p>
+            <p>
+              <strong className="text-slate-950">Positioning:</strong> IT infrastructure provider,
+              government procurement support partner, systems integrator, and technology solutions provider.
+            </p>
+          </div>
         </div>
       </div>
     </section>

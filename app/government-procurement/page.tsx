@@ -1,5 +1,12 @@
+import type { Metadata } from "next";
 import { ContactForm } from "@/components/ContactForm";
 import { SectionHeading } from "@/components/SectionHeading";
+
+export const metadata: Metadata = {
+  title: "Government Procurement Support",
+  description:
+    "HACIEN supports government procurement needs through IT sourcing, specification matching, quotation support, and supplier readiness.",
+};
 
 export default function GovernmentProcurementPage() {
   return (

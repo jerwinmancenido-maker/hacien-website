@@ -95,7 +95,8 @@ export function QuoteCart() {
       <form onSubmit={handleSubmit} className="surface rounded-lg p-6">
         <h2 className="text-xl font-bold text-slate-950">Request quotation</h2>
         <p className="mt-2 text-sm text-slate-600">
-          No online payment will be collected. HACIEN will validate availability, specifications, and final pricing.
+          No online payment will be collected. Prices are indicative and subject to supplier availability.
+          HACIEN will validate availability, specifications, and final pricing.
         </p>
         <div className="mt-6 grid gap-4">
           {[

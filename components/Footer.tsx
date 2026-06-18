@@ -30,8 +30,8 @@ export function Footer() {
         <div>
           <div className="text-sm font-semibold text-slate-100">Contact</div>
           <div className="mt-4 grid gap-3 text-sm text-slate-300">
-            <span>Philippines</span>
-            <span>info@haciensolutions.com</span>
+            <span>Pasig City, Philippines</span>
+            <span>sales@haciensolutions.com</span>
             <Link href="/contact" className="text-white">Send inquiry</Link>
           </div>
         </div>
