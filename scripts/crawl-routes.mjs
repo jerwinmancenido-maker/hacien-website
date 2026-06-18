@@ -1,20 +1,5 @@
-import { categories } from "../data/products.js";
-import { solutions } from "../data/solutions.js";
-
-const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
-
-const staticRoutes = [
-  "/",
-  "/about",
-  "/solutions",
-  "/products",
-  "/government-procurement",
-  "/erp-platform",
-  "/contact",
-  "/quote",
-  "/privacy",
-  "/terms",
-];
+const baseArg = process.argv.find((arg) => arg.startsWith("--base="));
+const BASE_URL = baseArg?.replace("--base=", "") || process.env.BASE_URL || "http://localhost:3000";
 
 async function checkRoute(path) {
   try {
@@ -35,28 +20,20 @@ async function main() {
   let ok = 0;
   let bad = 0;
 
-  // Static routes
-  console.log("Static routes:");
-  for (const route of staticRoutes) {
+  const sitemap = await fetch(`${BASE_URL}/sitemap.xml`);
+  if (!sitemap.ok) {
+    console.log(`  ❌ ${sitemap.status} — /sitemap.xml`);
+    process.exit(1);
+  }
+
+  const xml = await sitemap.text();
+  const routes = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)]
+    .map((match) => new URL(match[1]).pathname)
+    .sort();
+
+  console.log(`Sitemap routes: ${routes.length}`);
+  for (const route of routes) {
     const result = await checkRoute(route);
-    if (result.status === 200) ok++;
-    else bad++;
-  }
-
-  // Dynamic category routes
-  console.log("\nCategory routes:");
-  for (const cat of categories) {
-    const path = `/products/${cat.slug}`;
-    const result = await checkRoute(path);
-    if (result.status === 200) ok++;
-    else bad++;
-  }
-
-  // Dynamic solution routes
-  console.log("\nSolution routes:");
-  for (const sol of solutions) {
-    const path = `/solutions/${sol.slug}`;
-    const result = await checkRoute(path);
     if (result.status === 200) ok++;
     else bad++;
   }

@@ -56,8 +56,18 @@ function main() {
       errors++;
     }
 
-    if (typeof product.estimatedPrice !== "number" || product.estimatedPrice <= 0) {
-      console.error(`  ERROR: Product ${product.id} has invalid price: ${product.estimatedPrice}`);
+    if (!product.unit) {
+      console.error(`  ERROR: Product ${product.id} missing unit`);
+      errors++;
+    }
+
+    if (!product.procurementNotes) {
+      console.error(`  ERROR: Product ${product.id} missing procurement notes`);
+      errors++;
+    }
+
+    if (!Array.isArray(product.specs) || product.specs.length === 0) {
+      console.error(`  ERROR: Product ${product.id} missing specs`);
       errors++;
     }
   }

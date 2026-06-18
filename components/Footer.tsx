@@ -23,7 +23,7 @@ export function Footer() {
           <div className="text-sm font-semibold text-slate-100">Catalog</div>
           <div className="mt-4 grid gap-3 text-sm text-slate-300">
             <Link href="/products">Products</Link>
-            <Link href="/quote">Quote Cart</Link>
+            <Link href="/quote">RFQ Cart</Link>
             <Link href="/erp-platform">ERP Platform</Link>
           </div>
         </div>

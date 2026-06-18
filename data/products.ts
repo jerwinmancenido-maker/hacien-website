@@ -13,7 +13,6 @@ export type Product = {
   shortDescription: string;
   specs: string[];
   procurementNotes: string;
-  estimatedPrice: number;
   unit: string;
   availability: "For quotation" | "Fast moving" | "Project order";
   featured?: boolean;
@@ -38,7 +37,6 @@ export const products: Product[] = [
     shortDescription: "Business notebook sourcing for office, field, and government end-user computing requirements.",
     specs: ["Intel Core i5 class processor", "16GB memory target", "512GB SSD target", "Windows-ready deployment"],
     procurementNotes: "Brand and exact model subject to availability and approved equivalent specifications.",
-    estimatedPrice: 48500,
     unit: "unit",
     availability: "For quotation",
     featured: true,
@@ -51,7 +49,6 @@ export const products: Product[] = [
     shortDescription: "Business desktop and monitor package for administrative, finance, and operations teams.",
     specs: ["Business desktop class", "23.8 inch monitor target", "Keyboard and mouse", "Optional UPS bundle"],
     procurementNotes: "Can be matched to approved specifications for RFQ and bidding documents.",
-    estimatedPrice: 36500,
     unit: "set",
     availability: "Fast moving",
   },
@@ -63,7 +60,6 @@ export const products: Product[] = [
     shortDescription: "Server and NAS sourcing for file services, backup, and small application workloads.",
     specs: ["Tower, rack, or NAS option", "ECC memory option where applicable", "RAID-ready storage", "Warranty options"],
     procurementNotes: "Sizing requires workload, user count, retention, and redundancy requirements.",
-    estimatedPrice: 185000,
     unit: "project",
     availability: "Project order",
     featured: true,
@@ -76,7 +72,6 @@ export const products: Product[] = [
     shortDescription: "Managed switching options for structured network upgrades and branch deployments.",
     specs: ["24 Gigabit ports target", "VLAN support", "Rackmount-ready", "Optional PoE variant"],
     procurementNotes: "PoE budget, uplink, and management requirements are confirmed before quotation.",
-    estimatedPrice: 28500,
     unit: "unit",
     availability: "For quotation",
     featured: true,
@@ -89,7 +84,6 @@ export const products: Product[] = [
     shortDescription: "Wireless access point sourcing for offices, classrooms, and small facilities.",
     specs: ["WiFi 6 class option", "Ceiling/wall mount", "Controller-ready", "Survey support available"],
     procurementNotes: "Final access point count depends on floor area, wall density, and user load.",
-    estimatedPrice: 14500,
     unit: "unit",
     availability: "Fast moving",
   },
@@ -101,7 +95,6 @@ export const products: Product[] = [
     shortDescription: "Shared printer and scanning package for departments and admin offices.",
     specs: ["Laser or ink tank options", "Network-ready", "Duplex options", "Consumables planning"],
     procurementNotes: "Monthly print volume and consumable availability should be verified.",
-    estimatedPrice: 22500,
     unit: "unit",
     availability: "For quotation",
   },
@@ -113,7 +106,6 @@ export const products: Product[] = [
     shortDescription: "Productivity and collaboration license sourcing for business and government users.",
     specs: ["User-based licensing", "Annual or monthly options", "Admin setup guidance", "Renewal tracking"],
     procurementNotes: "Licensing terms depend on vendor program, user count, and organization type.",
-    estimatedPrice: 7200,
     unit: "user/year",
     availability: "For quotation",
   },
@@ -125,7 +117,6 @@ export const products: Product[] = [
     shortDescription: "Firewall, camera, recording, and storage package planning for small sites and offices.",
     specs: ["4 to 8 camera packages", "NVR/DVR options", "Storage sizing", "Installation support"],
     procurementNotes: "Site layout, cable routing, and retention days determine final bill of materials.",
-    estimatedPrice: 65000,
     unit: "project",
     availability: "Project order",
   },
@@ -137,7 +128,6 @@ export const products: Product[] = [
     shortDescription: "Cables, adapters, labels, and consumables for IT rollout projects.",
     specs: ["Network patch cords", "Adapters", "Labels and cable ties", "Printer and storage consumables"],
     procurementNotes: "Usually bundled with endpoint, network, or site deployment projects.",
-    estimatedPrice: 8500,
     unit: "lot",
     availability: "Fast moving",
   },

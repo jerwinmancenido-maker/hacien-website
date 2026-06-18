@@ -3,20 +3,28 @@
 import { useState, useRef } from "react";
 import Link from "next/link";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
-import { formatPeso } from "@/lib/format";
 import { AnimatedCard, StaggerContainer } from "@/components/motion";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
+
+const allowedAttachmentTypes = [
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  "application/vnd.ms-excel",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "image/png",
+  "image/jpeg",
+];
+
+const maxAttachmentSize = 10 * 1024 * 1024;
 
 export function QuoteCart() {
   const { items, updateQuantity, removeItem, clearCart } = useQuoteCart();
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [fileError, setFileError] = useState("");
+  const [attachmentInfo, setAttachmentInfo] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
-
-  const estimatedTotal = items.reduce(
-    (sum, item) => sum + item.product.estimatedPrice * item.quantity,
-    0,
-  );
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -27,21 +35,28 @@ export function QuoteCart() {
     const honeypot = data.get("_website") as string;
     if (honeypot) return;
 
-    const itemLines = items.map(
-      (item) =>
-        `${item.product.id} — ${item.product.name} x${item.quantity} @ ${formatPeso(item.product.estimatedPrice)} each = ${formatPeso(item.product.estimatedPrice * item.quantity)}`,
-    );
+    const itemLines = items.map((item) => `${item.product.id} — ${item.product.name} x${item.quantity}`);
+    const file = data.get("attachment") as File | null;
+    const submittedAttachmentInfo =
+      file && file.size > 0
+        ? `${file.name} (${Math.round(file.size / 1024)} KB) — upload UI only; buyer may also email this file to sales@haciensolutions.com`
+        : "No attachment selected";
 
     const payload: Record<string, unknown> = {
-      type: "Quote Cart RFQ",
+      type: "RFQ Cart Submission",
       name: data.get("name"),
       company: data.get("company"),
       email: data.get("email"),
       phone: data.get("phone"),
+      procurementType: data.get("procurementType"),
       location: data.get("location"),
+      targetDate: data.get("targetDate"),
+      budgetRange: data.get("budgetRange"),
       notes: data.get("notes"),
       items: itemLines.join("\n"),
-      estimatedTotal: formatPeso(estimatedTotal),
+      attachmentInfo: submittedAttachmentInfo,
+      procurementNote:
+        "HACIEN will review availability, equivalent options, warranty, delivery terms, and supplier quotations before issuing a formal quote.",
       submittedAt: new Date().toISOString(),
     };
 
@@ -61,7 +76,7 @@ export function QuoteCart() {
     return (
       <div className="surface motion-slide-up mx-auto max-w-3xl rounded-lg p-8 text-center">
         <div className="text-sm font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-          Quote request received
+          RFQ request received
         </div>
         <h1 className="mt-4 text-3xl font-bold text-slate-950">
           Thank you. HACIEN will review your request.
@@ -71,7 +86,7 @@ export function QuoteCart() {
           <a href="mailto:sales@haciensolutions.com" className="font-semibold text-[#1457d9]">
             sales@haciensolutions.com
           </a>.
-          HACIEN will validate specifications, supplier availability, warranty, and final pricing
+          HACIEN will review availability, equivalent options, warranty, delivery terms, and supplier quotations
           and respond within 1–2 business days.
         </p>
         <Link
@@ -91,7 +106,7 @@ export function QuoteCart() {
           Unable to send
         </div>
         <h1 className="mt-4 text-2xl font-bold text-slate-950">
-          Your quote request could not be sent.
+          Your RFQ request could not be sent.
         </h1>
         <p className="mt-4 text-slate-600">
           {errorMessage}. Please email your request directly to{" "}
@@ -112,11 +127,12 @@ export function QuoteCart() {
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr]">
       <div className="surface rounded-lg p-6">
-        <h2 className="text-xl font-bold text-slate-950">Quote cart</h2>
-        <div className="mt-5 grid gap-3 sm:grid-cols-4">
+        <h2 className="text-xl font-bold text-slate-950">RFQ cart</h2>
+        <div className="mt-5 grid gap-3 sm:grid-cols-5">
           {[
-            "Select Products",
-            "Submit RFQ",
+            "Select Requirements",
+            "Add Specifications",
+            "Upload RFQ/BOQ",
             "HACIEN Reviews",
             "Formal Quote",
           ].map((stepText, index) => (
@@ -137,11 +153,11 @@ export function QuoteCart() {
               RFQ
             </div>
             <p className="mt-4 font-semibold text-slate-800">
-              Your quote cart is ready for product selection.
+              Your RFQ cart is ready for requirements.
             </p>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              Add items from the catalog and HACIEN will validate specs, supplier
-              availability, warranty, and final pricing.
+              Add product requirements from the catalog and HACIEN will review availability,
+              equivalent options, warranty, delivery terms, and supplier quotations.
             </p>
             <Link
               href="/products"
@@ -161,7 +177,7 @@ export function QuoteCart() {
                   <div>
                     <div className="font-bold text-slate-950">{item.product.name}</div>
                     <div className="mt-1 text-sm text-slate-500">
-                      {item.product.id} - {formatPeso(item.product.estimatedPrice)} indicative
+                      {item.product.id} — For quotation. Subject to brand/model availability.
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
@@ -186,20 +202,21 @@ export function QuoteCart() {
               </AnimatedCard>
             ))}
             <div className="rounded bg-slate-950 p-5 text-white">
-              <div className="text-sm text-slate-300">
-                Indicative total for quotation basis
-              </div>
-              <div className="mt-1 text-2xl font-bold">{formatPeso(estimatedTotal)}</div>
+              <div className="text-sm text-slate-300">RFQ pricing note</div>
+              <div className="mt-1 text-lg font-bold">Final pricing will be confirmed through formal quotation.</div>
+              <p className="mt-2 text-sm leading-6 text-slate-300">
+                Equivalent models may be recommended based on stock, warranty, and specification requirements.
+              </p>
             </div>
           </StaggerContainer>
         )}
       </div>
 
       <form ref={formRef} onSubmit={handleSubmit} className="surface rounded-lg p-6">
-        <h2 className="text-xl font-bold text-slate-950">Request quotation</h2>
+        <h2 className="text-xl font-bold text-slate-950">Request quotation, not checkout</h2>
         <p className="mt-2 text-sm text-slate-600">
-          No online payment will be collected. Prices are indicative and subject to supplier
-          availability. HACIEN will validate availability, specifications, and final pricing.
+          No online payment will be collected. HACIEN will review availability, equivalent options,
+          warranty, delivery terms, and supplier quotations before issuing a formal quote.
         </p>
 
         {/* Honeypot */}
@@ -217,6 +234,7 @@ export function QuoteCart() {
             ["email", "Email", "email"],
             ["phone", "Phone", "tel"],
             ["location", "Delivery location", "text"],
+            ["targetDate", "Target date / deadline", "date"],
           ].map(([key, label, type]) => (
             <label key={key} className="grid gap-2 text-sm font-semibold text-slate-700">
               {label}
@@ -229,6 +247,27 @@ export function QuoteCart() {
             </label>
           ))}
           <label className="grid gap-2 text-sm font-semibold text-slate-700">
+            Procurement type
+            <select required name="procurementType" className="rounded border border-slate-300 px-3 py-2 font-normal" defaultValue="">
+              <option value="" disabled>Select procurement type</option>
+              <option>Corporate</option>
+              <option>Government</option>
+              <option>Education</option>
+              <option>Project-based</option>
+              <option>Reseller / integrator</option>
+            </select>
+          </label>
+          <label className="grid gap-2 text-sm font-semibold text-slate-700">
+            Budget range <span className="font-normal text-slate-500">(optional)</span>
+            <select name="budgetRange" className="rounded border border-slate-300 px-3 py-2 font-normal" defaultValue="">
+              <option value="">Not specified</option>
+              <option>Under PHP 50,000</option>
+              <option>PHP 50,000 - PHP 250,000</option>
+              <option>PHP 250,000 - PHP 1,000,000</option>
+              <option>Project budget to be discussed</option>
+            </select>
+          </label>
+          <label className="grid gap-2 text-sm font-semibold text-slate-700">
             Notes / specifications
             <textarea
               name="notes"
@@ -236,6 +275,39 @@ export function QuoteCart() {
               className="rounded border border-slate-300 px-3 py-2 font-normal"
             />
           </label>
+          <label className="grid gap-2 text-sm font-semibold text-slate-700">
+            Attachment <span className="font-normal text-slate-500">(RFQ document, BOQ, specs, PR, or bid document)</span>
+            <input
+              name="attachment"
+              type="file"
+              accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"
+              className="rounded border border-dashed border-slate-300 bg-slate-50 px-3 py-3 text-sm font-normal"
+              onChange={(event) => {
+                const file = event.currentTarget.files?.[0];
+                setFileError("");
+                setAttachmentInfo("");
+                if (!file) return;
+                if (!allowedAttachmentTypes.includes(file.type)) {
+                  setFileError("Unsupported file type. Please use PDF, DOC, DOCX, XLS, XLSX, PNG, or JPG.");
+                  event.currentTarget.value = "";
+                  return;
+                }
+                if (file.size > maxAttachmentSize) {
+                  setFileError("File is too large. Maximum file size is 10MB.");
+                  event.currentTarget.value = "";
+                  return;
+                }
+                setAttachmentInfo(`${file.name} selected (${Math.round(file.size / 1024)} KB).`);
+              }}
+            />
+          </label>
+          {fileError ? <p className="text-sm font-semibold text-red-600">{fileError}</p> : null}
+          {attachmentInfo ? <p className="text-sm font-semibold text-emerald-700">{attachmentInfo}</p> : null}
+          <p className="rounded border border-blue-100 bg-blue-50 p-3 text-xs leading-5 text-slate-600">
+            Attachment upload will be included in the inquiry if supported. You may also email documents to{" "}
+            <a href="mailto:sales@haciensolutions.com" className="font-semibold text-[#1457d9]">sales@haciensolutions.com</a>.
+            Accepted files: PDF, DOC, DOCX, XLS, XLSX, PNG, JPG. Maximum size: 10MB.
+          </p>
 
           <p className="text-xs text-slate-500">
             By submitting, you agree to our{" "}
@@ -250,10 +322,10 @@ export function QuoteCart() {
 
           <button
             type="submit"
-            disabled={items.length === 0 || status === "sending"}
+            disabled={items.length === 0 || status === "sending" || Boolean(fileError)}
             className="button-glow rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-300"
           >
-            {status === "sending" ? "Sending..." : "Submit Request for Quotation"}
+            {status === "sending" ? "Sending..." : "Submit RFQ"}
           </button>
         </div>
       </form>
