@@ -208,6 +208,14 @@ export function TrustV3() {
             </AnimatedCard>
           ))}
         </StaggerContainer>
+        <div className="mt-8">
+          <Link
+            href="/about/company-profile"
+            className="interactive-link inline-flex text-sm font-bold text-[#1457d9] hover:underline"
+          >
+            Read HACIEN company profile →
+          </Link>
+        </div>
       </div>
     </AnimatedSection>
   );

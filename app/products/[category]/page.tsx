@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { CTABand } from "@/components/CTABand";
 import { ProductGrid } from "@/components/ProductGrid";
 import { SectionHeading } from "@/components/SectionHeading";
+import { Breadcrumb } from "@/components/Breadcrumb";
+import { AnimatedSection } from "@/components/motion";
 import { categories, getCategory, getProductsByCategory } from "@/data/products";
 
 export function generateStaticParams() {
@@ -13,8 +15,8 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const { category: categorySlug } = await params;
   const category = getCategory(categorySlug);
   return {
-    title: category ? category.name : "Product Category",
-    description: category?.summary ?? "Browse HACIEN product categories and request a quotation.",
+    title: category ? category.seoTitle : "Product Category | HACIEN",
+    description: category?.seoDescription ?? "Browse HACIEN product categories and request a quotation.",
   };
 }
 
@@ -27,20 +29,25 @@ export default async function ProductCategoryPage({ params }: { params: Promise<
 
   return (
     <>
-    <section className="px-4 py-16 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <SectionHeading
-          eyebrow="Product Category"
-          as="h1"
-          title={category.name}
-          description={`${category.summary} Final pricing will be confirmed through formal quotation after supplier availability, equivalent options, warranty, and delivery terms are reviewed.`}
-        />
-        <div className="mt-10">
-          <ProductGrid products={items} />
+      <section className="px-4 py-16 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <Breadcrumb items={[{ label: "Products", href: "/products" }, { label: category.name }]} />
+          <SectionHeading
+            eyebrow="Product Category"
+            as="h1"
+            title={category.name}
+            description={category.heroCopy}
+          />
+          <div className="mt-10">
+            <ProductGrid products={items} />
+          </div>
+          <AnimatedSection className="mt-12 rounded-lg border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
+            <strong className="text-slate-800">Procurement note:</strong>{" "}
+            {category.summary} Final pricing is confirmed through formal quotation after supplier availability, approved equivalent options, warranty terms, and delivery requirements are reviewed.
+          </AnimatedSection>
         </div>
-      </div>
-    </section>
-    <CTABand title={`Need help sourcing ${category.name.toLowerCase()}?`} />
+      </section>
+      <CTABand title={`Need help sourcing ${category.name.toLowerCase()}?`} />
     </>
   );
 }

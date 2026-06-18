@@ -15,8 +15,10 @@ export function Footer() {
           <div className="text-sm font-semibold text-slate-100">Company</div>
           <div className="mt-4 grid gap-3 text-sm text-slate-300">
             <Link href="/about">About Us</Link>
+            <Link href="/about/company-profile">Company Profile</Link>
             <Link href="/solutions">Solutions</Link>
             <Link href="/government-procurement">Government Procurement</Link>
+            <Link href="/insights">Insights</Link>
           </div>
         </div>
         <div>

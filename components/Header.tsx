@@ -10,6 +10,7 @@ const navItems = [
   { href: "/solutions", label: "Solutions" },
   { href: "/products", label: "Products" },
   { href: "/government-procurement", label: "Government" },
+  { href: "/insights", label: "Insights" },
   { href: "/erp-platform", label: "ERP Platform" },
   { href: "/contact", label: "Contact" },
 ];
