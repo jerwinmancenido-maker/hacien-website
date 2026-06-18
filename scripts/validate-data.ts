@@ -1,5 +1,7 @@
 import { categories, products } from "../data/products";
 import { solutions } from "../data/solutions";
+import { governmentTopics } from "../data/governmentTopics";
+import { insights } from "../data/insights";
 
 function main() {
   let errors = 0;
@@ -13,6 +15,10 @@ function main() {
   for (const cat of categories) {
     if (!cat.slug || !cat.name) {
       console.error(`  ERROR: Category missing slug or name: ${JSON.stringify(cat)}`);
+      errors++;
+    }
+    if (!cat.seoTitle) {
+      console.error(`  ERROR: Category ${cat.slug} missing seoTitle`);
       errors++;
     }
   }
@@ -90,6 +96,78 @@ function main() {
 
     if (!solution.title) {
       console.error(`  ERROR: Solution ${solution.slug} missing title`);
+      errors++;
+    }
+    if (!solution.seoTitle) {
+      console.error(`  ERROR: Solution ${solution.slug} missing seoTitle`);
+      errors++;
+    }
+    if (!solution.sections || solution.sections.length === 0) {
+      console.error(`  ERROR: Solution ${solution.slug} missing sections`);
+      errors++;
+    }
+  }
+
+  // Validate government topics
+  const topicSlugs = new Set<string>();
+  console.log(`Government Topics: ${governmentTopics.length}`);
+
+  for (const topic of governmentTopics) {
+    if (!topic.slug) {
+      console.error(`  ERROR: Government topic missing slug`);
+      errors++;
+      continue;
+    }
+    if (topicSlugs.has(topic.slug)) {
+      console.error(`  ERROR: Duplicate government topic slug: ${topic.slug}`);
+      errors++;
+    }
+    topicSlugs.add(topic.slug);
+
+    if (!topic.title) {
+      console.error(`  ERROR: Government topic ${topic.slug} missing title`);
+      errors++;
+    }
+    if (!topic.seoTitle) {
+      console.error(`  ERROR: Government topic ${topic.slug} missing seoTitle`);
+      errors++;
+    }
+    if (!topic.checklist || topic.checklist.length === 0) {
+      console.error(`  ERROR: Government topic ${topic.slug} missing checklist`);
+      errors++;
+    }
+  }
+
+  // Validate insights
+  const insightSlugs = new Set<string>();
+  console.log(`Insights: ${insights.length}`);
+
+  for (const insight of insights) {
+    if (!insight.slug) {
+      console.error(`  ERROR: Insight missing slug`);
+      errors++;
+      continue;
+    }
+    if (insightSlugs.has(insight.slug)) {
+      console.error(`  ERROR: Duplicate insight slug: ${insight.slug}`);
+      errors++;
+    }
+    insightSlugs.add(insight.slug);
+
+    if (!insight.title) {
+      console.error(`  ERROR: Insight ${insight.slug} missing title`);
+      errors++;
+    }
+    if (!insight.seoTitle) {
+      console.error(`  ERROR: Insight ${insight.slug} missing seoTitle`);
+      errors++;
+    }
+    if (!insight.sections || insight.sections.length === 0) {
+      console.error(`  ERROR: Insight ${insight.slug} missing sections`);
+      errors++;
+    }
+    if (!insight.checklist || insight.checklist.length === 0) {
+      console.error(`  ERROR: Insight ${insight.slug} missing checklist`);
       errors++;
     }
   }

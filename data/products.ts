@@ -2,7 +2,10 @@ export type ProductCategory = {
   slug: string;
   name: string;
   summary: string;
+  heroCopy: string;
   accent: string;
+  seoTitle: string;
+  seoDescription: string;
 };
 
 export type Product = {
@@ -19,13 +22,87 @@ export type Product = {
 };
 
 export const categories: ProductCategory[] = [
-  { slug: "computers-laptops", name: "Computers & Laptops", summary: "Business desktops, notebooks, workstations, and endpoint packages.", accent: "#1457d9" },
-  { slug: "servers-storage", name: "Servers & Storage", summary: "Entry to midrange servers, NAS, backup, and storage expansion.", accent: "#0f766e" },
-  { slug: "network-equipment", name: "Network Equipment", summary: "Switching, routing, access points, firewalls, and structured connectivity.", accent: "#5b4bff" },
-  { slug: "printers-peripherals", name: "Printers & Peripherals", summary: "Printers, scanners, monitors, UPS, and office IT devices.", accent: "#b45309" },
-  { slug: "licensed-software", name: "Licensed Software", summary: "Productivity, endpoint security, operating systems, and business apps.", accent: "#2563eb" },
-  { slug: "security-surveillance", name: "Security & Surveillance", summary: "CCTV, access control, monitoring, and security infrastructure.", accent: "#be123c" },
-  { slug: "accessories-consumables", name: "Accessories & Consumables", summary: "Cables, printer supplies, storage media, and deployment essentials.", accent: "#475569" },
+  {
+    slug: "computers-laptops",
+    name: "Computers & Laptops",
+    summary: "Business desktops, notebooks, workstations, and endpoint packages.",
+    heroCopy: "Source business-grade computers and laptops for office, field, and institutional deployments.",
+    accent: "#1457d9",
+    seoTitle: "Computers & Laptops | HACIEN Products",
+    seoDescription: "HACIEN sources business desktops, notebooks, and workstations for Philippine organizations. RFQ-ready procurement with approved equivalent matching.",
+  },
+  {
+    slug: "servers-storage",
+    name: "Servers & Storage",
+    summary: "Entry to midrange servers, NAS, backup, and storage expansion.",
+    heroCopy: "Right-sized server and NAS storage procurement for your workload and budget.",
+    accent: "#0f766e",
+    seoTitle: "Servers & Storage | HACIEN Products",
+    seoDescription: "HACIEN sources servers, NAS appliances, and backup storage for Philippine organizations. Workload sizing and warranty planning included.",
+  },
+  {
+    slug: "network-equipment",
+    name: "Network Equipment",
+    summary: "Switching, routing, access points, firewalls, and structured connectivity.",
+    heroCopy: "Network infrastructure procurement — from access layer switches to firewall appliances.",
+    accent: "#5b4bff",
+    seoTitle: "Network Equipment | HACIEN Products",
+    seoDescription: "HACIEN sources managed switches, wireless access points, firewalls, and network infrastructure for Philippine organizations.",
+  },
+  {
+    slug: "printers-peripherals",
+    name: "Printers & Peripherals",
+    summary: "Printers, scanners, monitors, UPS, and office IT devices.",
+    heroCopy: "Office peripherals and printing solutions sourced for business and institutional buyers.",
+    accent: "#b45309",
+    seoTitle: "Printers & Peripherals | HACIEN Products",
+    seoDescription: "HACIEN sources printers, scanners, monitors, UPS units, and office peripherals for Philippine organizations.",
+  },
+  {
+    slug: "licensed-software",
+    name: "Licensed Software",
+    summary: "Productivity, endpoint security, operating systems, and business apps.",
+    heroCopy: "Software licensing sourced through appropriate vendor channels for your organization.",
+    accent: "#2563eb",
+    seoTitle: "Licensed Software | HACIEN Products",
+    seoDescription: "HACIEN sources productivity software, endpoint security, and operating system licenses for Philippine organizations.",
+  },
+  {
+    slug: "security-surveillance",
+    name: "Security & Surveillance",
+    summary: "CCTV, access control, monitoring, and security infrastructure.",
+    heroCopy: "Site security technology procurement — cameras, access control, and monitoring systems.",
+    accent: "#be123c",
+    seoTitle: "Security & Surveillance | HACIEN Products",
+    seoDescription: "HACIEN sources CCTV systems, access control, NVR/DVR equipment, and site security technology for Philippine organizations.",
+  },
+  {
+    slug: "accessories-consumables",
+    name: "Accessories & Consumables",
+    summary: "Cables, printer supplies, storage media, and deployment essentials.",
+    heroCopy: "Deployment accessories and consumables — everything needed alongside your primary IT equipment.",
+    accent: "#475569",
+    seoTitle: "Accessories & Consumables | HACIEN Products",
+    seoDescription: "HACIEN sources cables, printer supplies, storage media, and deployment accessories for Philippine organizations.",
+  },
+  {
+    slug: "power-ups",
+    name: "Power & UPS",
+    summary: "UPS units, voltage regulators, PDUs, and power protection equipment.",
+    heroCopy: "Power protection and UPS sourcing for offices, server rooms, and critical equipment.",
+    accent: "#ca8a04",
+    seoTitle: "Power & UPS | HACIEN Products",
+    seoDescription: "HACIEN sources UPS units, voltage regulators, and power distribution equipment for Philippine organizations.",
+  },
+  {
+    slug: "general-merchandise",
+    name: "General Merchandise",
+    summary: "Non-IT goods, office supplies, and general items for institutional procurement packages.",
+    heroCopy: "General merchandise procurement for organizations with mixed IT and non-IT requirements.",
+    accent: "#64748b",
+    seoTitle: "General Merchandise | HACIEN Products",
+    seoDescription: "HACIEN sources general merchandise and office supplies for Philippine organizations with mixed procurement requirements.",
+  },
 ];
 
 export const products: Product[] = [
