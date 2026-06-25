@@ -1,327 +1,349 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CTABand } from "@/components/CTABand";
-import { SectionHeading } from "@/components/SectionHeading";
-import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
+import {
+  AnimatedContent,
+  BlurReveal,
+  BorderGlow,
+  CircularText,
+  GradientBackground,
+  Marquee,
+  SplitText,
+  SpotlightCard,
+} from "@/app/components/reactbits";
 
 export const metadata: Metadata = {
   title: "About HACIEN | IT Procurement & Technology Solutions",
   description:
-    "HACIEN Information Technology Solutions is a Philippine IT procurement and technology sourcing company supporting business and institutional buyers with systems integration, supplier coordination, and government procurement support.",
+    "HACIEN Information Technology Solutions helps Philippine organizations plan, source, procure, implement, and support technology projects through structured IT procurement workflows.",
 };
 
-const coreValues = [
+const storySignals = [
+  "Multiple suppliers with different formats",
+  "Manual follow-ups across calls and email",
+  "Inconsistent product specifications",
+  "Unclear stock, lead time, and warranty details",
+  "Delivery and implementation gaps",
+];
+
+const philosophy = [
   {
-    name: "Practical Reliability",
-    description:
-      "We prioritize equipment and solutions that perform in real Philippine operating environments—not just on spec sheets. Every recommendation considers availability, serviceability, and warranty support.",
+    title: "Requirements should be documented first.",
+    text: "We begin by clarifying the product, technical, delivery, and deadline context before supplier coordination starts.",
   },
   {
-    name: "Procurement Integrity",
-    description:
-      "We do not inflate specifications, misrepresent stock availability, or claim partnerships and accreditations we do not hold. Quotations are based on verified supplier conditions.",
+    title: "Quotations should be technically useful.",
+    text: "Model numbers, approved equivalents, warranty conditions, and availability details are treated as decision inputs, not afterthoughts.",
   },
   {
-    name: "Customer Accountability",
-    description:
-      "When we commit to a delivery timeline, specification, or quotation, we follow through. If conditions change, we communicate proactively—not after a deadline passes.",
-  },
-  {
-    name: "Technical Clarity",
-    description:
-      "We translate complex IT specifications into clear, buyer-friendly language. Our quotations, comparisons, and project documentation are written for decision-makers, not just engineers.",
-  },
-  {
-    name: "Continuous Improvement",
-    description:
-      "Our processes, tools, and internal platform are continuously being refined. The HACIEN ERP system under development reflects this commitment to building better procurement and operations workflows.",
+    title: "Procurement should stay visible.",
+    text: "Customers need to know what has been reviewed, what is being sourced, and what still needs confirmation.",
   },
 ];
 
-const operatingPrinciples = [
-  {
-    name: "Quote-first procurement",
-    description:
-      "Every engagement starts with a formal quotation process. We do not accept verbal orders or unstructured purchases. Requirements are documented before supplier coordination begins.",
-  },
-  {
-    name: "Supplier availability validation",
-    description:
-      "Before issuing any quotation, HACIEN validates product availability, lead time, and pricing with suppliers. We do not quote items we cannot source or deliver.",
-  },
-  {
-    name: "Approved equivalent review",
-    description:
-      "When specified brands or models are unavailable, we identify technically equivalent alternatives and document the comparison for buyer review and acceptance.",
-  },
-  {
-    name: "Documentation-aware support",
-    description:
-      "We prepare procurement documentation—quotation packages, product data sheets, warranty certificates, and delivery records—as a standard part of every engagement.",
-  },
-  {
-    name: "Project delivery coordination",
-    description:
-      "Procurement support extends through delivery, acceptance, and handover. We coordinate logistics, support inspection, and prepare closeout documentation.",
-  },
+const workflow = [
+  "Requirement",
+  "Technical Review",
+  "Supplier Canvass",
+  "Quotation",
+  "Award",
+  "Procurement",
+  "Delivery",
+  "Implementation",
+  "Support",
+];
+
+const industries = [
+  ["Business", "Workstations, network upgrades, licensed software, and recurring office technology procurement."],
+  ["Government", "Specification review, equivalent matching, quotation support, and documentation-aware delivery."],
+  ["Education", "Classroom devices, connectivity equipment, security systems, and institutional purchasing support."],
+  ["Healthcare", "Reliable endpoint, network, power, storage, and support materials for operational environments."],
+  ["Construction", "Site connectivity, surveillance, project office equipment, and deployment materials."],
+  ["Enterprise", "Multi-supplier coordination for infrastructure refreshes, rollout planning, and handover records."],
+];
+
+const focusAreas = [
+  "Computers & Laptops",
+  "Servers & Storage",
+  "Network Equipment",
+  "Printers & Peripherals",
+  "Licensed Software",
+  "Security & Surveillance",
+  "Power & UPS",
+  "Accessories & Consumables",
+  "General Merchandise",
+  "Project Materials",
+  "IT Service Coordination",
 ];
 
 export default function AboutPage() {
   return (
     <>
-      {/* Company Overview */}
-      <section className="px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow="About HACIEN"
-            as="h1"
-            title="A Philippine IT procurement and technology solutions company built around practical sourcing, supplier coordination, and project delivery."
-            description="HACIEN Information Technology Solutions helps organizations translate IT requirements into supplier-ready procurement packages—covering hardware, software, networking, security, general merchandise, and project-based deployments across the Philippines."
-          />
-          <StaggerContainer className="mt-10 grid gap-6 lg:grid-cols-3">
-            {[
-              [
-                "Procurement-aware",
-                "We help buyers and project teams translate requirements into clear, supplier-ready product and service requests—not generic catalogs.",
-              ],
-              [
-                "Implementation-focused",
-                "We support delivery, setup coordination, and documentation beyond simple product selling. Procurement to handover is a single workflow.",
-              ],
-              [
-                "ERP-minded",
-                "Our internal platform roadmap is designed around real IT trading, procurement, and project workflows—future-proofing our operations.",
-              ],
-            ].map(([title, text]) => (
-              <AnimatedCard key={title} className="surface rounded-lg p-6">
-                <h2 className="text-lg font-bold text-slate-950">{title}</h2>
-                <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
-              </AnimatedCard>
-            ))}
-          </StaggerContainer>
-        </div>
-      </section>
-
-      {/* What HACIEN Does */}
-      <AnimatedSection className="bg-[#071426] px-4 py-16 text-white sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
-            What HACIEN Does
-          </div>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-            Technology sourcing and procurement support for Philippine organizations.
-          </h2>
-          <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {[
-              ["IT Procurement", "RFQ-ready sourcing for hardware, software, accessories, warranties, and project materials."],
-              ["Technology Sourcing", "Endpoint, server, network, security, and cloud technology sourcing with supplier coordination."],
-              ["Systems Integration", "Project coordination for IT rollouts, device deployment, systems setup, and documentation."],
-              ["Infrastructure Support", "Endpoint, switching, wireless, firewall, server, storage, and site connectivity support."],
-              ["Government Procurement Support", "Specification review, approved equivalent matching, quotation support, and delivery coordination."],
-              ["Supplier Coordination", "Multi-supplier management for availability validation, lead-time confirmation, and pricing coordination."],
-              ["General Merchandise", "Non-IT goods, office supplies, and general items for mixed institutional procurement packages."],
-            ].map(([title, text]) => (
-              <div key={title} className="rounded-lg border border-white/12 bg-white/[0.06] p-5">
-                <div className="font-bold">{title}</div>
-                <p className="mt-2 text-sm leading-6 text-slate-300">{text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </AnimatedSection>
-
-      {/* Mission & Vision */}
-      <section className="px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-2">
-          <AnimatedSection className="surface rounded-lg p-8">
-            <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-              Mission
-            </div>
-            <h2 className="text-2xl font-bold text-slate-950">Our mission</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-600">
-              To help Philippine organizations source, evaluate, procure, and deploy reliable
-              technology solutions through practical procurement support, supplier coordination,
-              and systems integration—making IT purchasing transparent, documentation-aware,
-              and delivery-focused for businesses, institutions, and government buyers.
-            </p>
-          </AnimatedSection>
-          <AnimatedSection className="surface rounded-lg p-8">
-            <div className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-              Vision
-            </div>
-            <h2 className="text-2xl font-bold text-slate-950">Our vision</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-600">
-              To become a trusted technology procurement and operations platform for Philippine
-              organizations—where IT requirements are translated into supplier-ready packages,
-              procurement workflows are documentation-complete, and future ERP-enabled systems
-              connect sourcing, quotation, delivery, and operations into a single integrated
-              experience.
-            </p>
-          </AnimatedSection>
-        </div>
-      </section>
-
-      {/* Core Values */}
-      <AnimatedSection className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow="Core Values"
-            title="What drives how HACIEN works."
-            description="Five values that shape our procurement approach, customer relationships, and internal operations."
-          />
-          <StaggerContainer className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {coreValues.map((value, index) => (
-              <AnimatedCard key={value.name} className="rounded-lg border border-slate-200 bg-white p-6">
-                <div className="flex items-center gap-3">
-                  <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#1457d9] text-sm font-bold text-white">
-                    {index + 1}
-                  </div>
-                  <h3 className="text-base font-bold text-slate-950">{value.name}</h3>
-                </div>
-                <p className="mt-3 text-sm leading-6 text-slate-600">{value.description}</p>
-              </AnimatedCard>
-            ))}
-          </StaggerContainer>
-        </div>
-      </AnimatedSection>
-
-      {/* Operating Principles */}
-      <section className="px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow="Operating Principles"
-            title="How every HACIEN engagement is conducted."
-            description="These principles define the minimum standard for every procurement workflow, quotation, and delivery engagement."
-          />
-          <div className="progress-line mt-10 grid gap-5">
-            {operatingPrinciples.map((principle, index) => (
-              <AnimatedSection key={principle.name} className="relative rounded-lg border border-slate-200 bg-white p-6">
-                <div className="flex gap-4">
-                  <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#071426] text-sm font-bold text-white">
-                    {index + 1}
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-slate-950">{principle.name}</h3>
-                    <p className="mt-1 text-sm leading-6 text-slate-600">{principle.description}</p>
-                  </div>
-                </div>
-              </AnimatedSection>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Procurement Focus */}
-      <AnimatedSection className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <SectionHeading
-            eyebrow="Procurement Focus"
-            title="Where HACIEN concentrates its sourcing capabilities."
-          />
-          <StaggerContainer className="mt-10 grid gap-4 md:grid-cols-3 lg:grid-cols-4">
-            {[
-              "Computers & Laptops",
-              "Servers & Storage",
-              "Network Equipment",
-              "Printers & Peripherals",
-              "Licensed Software",
-              "Security & Surveillance",
-              "Power & UPS",
-              "Accessories & Consumables",
-              "General Merchandise",
-              "Office Supplies & Furniture",
-              "Project Deployment Materials",
-              "IT Service Coordination",
-            ].map((area) => (
-              <AnimatedCard
-                key={area}
-                className="rounded border border-slate-200 bg-white p-4 text-sm font-semibold text-slate-800"
-              >
-                {area}
-              </AnimatedCard>
-            ))}
-          </StaggerContainer>
-        </div>
-      </AnimatedSection>
-
-      {/* Future HACIEN ERP */}
-      <AnimatedSection className="bg-[#0b1220] px-4 py-16 text-white sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
-            <div>
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
-                Future HACIEN ERP
-              </div>
-              <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-                An internal procurement and operations platform in active development.
-              </h2>
-              <p className="mt-5 leading-7 text-slate-300">
-                HACIEN ERP is being built as the future operations backbone for our procurement
-                workflows—covering lead tracking, supplier canvass, quotation management, awards,
-                purchase orders, delivery receipts, billing, and collections. It is not marketed
-                as a production-ready SaaS product yet, but reflects our commitment to
-                technology-driven operations.
+      <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+        <GradientBackground />
+        <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div>
+            <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
+              About HACIEN
+            </AnimatedContent>
+            <SplitText
+              as="h1"
+              text="Building Better IT Procurement."
+              className="mt-5 max-w-4xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
+            />
+            <BlurReveal delay={160}>
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+                HACIEN Information Technology Solutions helps organizations plan, source, procure,
+                implement, and support technology projects through one organized workflow.
               </p>
+            </BlurReveal>
+            <AnimatedContent delay={260} className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
-                href="/erp-platform"
-                className="button-glow mt-8 inline-flex rounded bg-white px-5 py-3 text-sm font-bold text-[#071426]"
+                href="/quote"
+                className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
               >
-                Preview ERP roadmap
+                Start an RFQ
               </Link>
-            </div>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-              {["Lead", "Quotation", "PO", "Delivery", "Invoice", "Inventory", "Canvass", "Reports"].map(
-                (step, index) => (
-                  <div key={step} className="rounded border border-white/12 bg-white/[0.07] p-4">
-                    <div className="text-xs font-bold text-blue-200">0{index + 1}</div>
-                    <div className="mt-2 text-sm font-bold">{step}</div>
-                  </div>
-                )
-              )}
-            </div>
-          </div>
-        </div>
-      </AnimatedSection>
-
-      {/* Company Profile Link */}
-      <AnimatedSection className="px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="surface rounded-lg p-6">
-            <h2 className="text-xl font-bold text-slate-950">Company profile</h2>
-            <div className="mt-5 grid gap-4 text-sm leading-6 text-slate-700 md:grid-cols-2">
-              <p>
-                <strong className="text-slate-950">Registered business name:</strong>{" "}
-                HACIEN INFORMATION TECHNOLOGY SOLUTIONS.
-              </p>
-              <p>
-                <strong className="text-slate-950">Scope:</strong> National business name
-                registration for Philippine operations.
-              </p>
-              <p>
-                <strong className="text-slate-950">Business address:</strong> Unit D, 6th
-                Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, San Antonio, Pasig
-                City.
-              </p>
-              <p>
-                <strong className="text-slate-950">Positioning:</strong> IT procurement,
-                technology sourcing, systems integration, infrastructure support, government
-                procurement support, supplier coordination, and general merchandise procurement.
-              </p>
-            </div>
-            <div className="mt-6">
               <Link
-                href="/about/company-profile"
-                className="interactive-link text-sm font-bold text-[#1457d9] hover:underline"
+                href="/solutions"
+                className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
               >
-                Read full company profile →
+                Explore Solutions
               </Link>
+            </AnimatedContent>
+          </div>
+
+          <AnimatedContent delay={140} direction="left">
+            <BorderGlow className="rounded-lg bg-white/[0.86] p-6 shadow-2xl shadow-slate-950/10">
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
+                    Procurement Workflow
+                  </div>
+                  <h2 className="mt-3 text-xl font-bold text-slate-950 sm:text-2xl">
+                    From requirement to delivery, every step is coordinated.
+                  </h2>
+                </div>
+                <div className="relative grid h-28 w-28 shrink-0 place-items-center rounded-full border border-slate-200 bg-slate-950 text-white">
+                  <CircularText text="RFQ TO DELIVERY " size={112} />
+                  <span className="text-sm font-bold">H</span>
+                </div>
+              </div>
+              <div className="mt-8 grid gap-3">
+                {["Clarify", "Source", "Validate", "Quote", "Deliver"].map((step, index) => (
+                  <div key={step} className="flex items-center gap-3 rounded border border-slate-200 bg-slate-50 px-4 py-3">
+                    <span className="grid h-7 w-7 place-items-center rounded-full bg-[#071426] text-xs font-bold text-white">
+                      {index + 1}
+                    </span>
+                    <span className="text-sm font-bold text-slate-800">{step}</span>
+                  </div>
+                ))}
+              </div>
+            </BorderGlow>
+          </AnimatedContent>
+        </div>
+      </section>
+
+      <section className="px-4 py-18 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
+          <AnimatedContent>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Why HACIEN Exists</div>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+              IT procurement often breaks before the purchase order is even issued.
+            </h2>
+          </AnimatedContent>
+          <div className="space-y-6">
+            <BlurReveal>
+              <p className="text-base leading-8 text-slate-600">
+                Many organizations do not struggle because they lack intent. They struggle because
+                procurement becomes fragmented. Different suppliers send different details,
+                specifications are hard to compare, and project teams spend too much time asking
+                for clarification that should have been included from the start.
+              </p>
+            </BlurReveal>
+            <BlurReveal delay={120}>
+              <p className="text-base leading-8 text-slate-600">
+                HACIEN was built to improve that experience. We combine technical review, supplier
+                coordination, quotation discipline, project tracking, and future ERP automation so
+                customers can move from requirement to delivery with greater clarity.
+              </p>
+            </BlurReveal>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {storySignals.map((signal, index) => (
+                <AnimatedContent key={signal} delay={index * 70}>
+                  <SpotlightCard className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                    <div className="text-sm font-bold text-slate-900">{signal}</div>
+                  </SpotlightCard>
+                </AnimatedContent>
+              ))}
             </div>
           </div>
         </div>
-      </AnimatedSection>
+      </section>
 
-      {/* Contact CTA */}
-      <CTABand title="Need an IT supplier that understands procurement workflows?" />
+      <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <AnimatedContent>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Our Philosophy</div>
+            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
+              Technology should not be difficult to procure.
+            </h2>
+          </AnimatedContent>
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            {philosophy.map((item, index) => (
+              <AnimatedContent key={item.title} delay={index * 90}>
+                <SpotlightCard
+                  className="h-full rounded-lg border border-white/12 bg-white/[0.06] p-6"
+                  spotlightColor="rgba(96, 165, 250, 0.14)"
+                >
+                  <div className="text-xs font-bold text-blue-200">0{index + 1}</div>
+                  <h3 className="mt-4 text-xl font-bold">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-300">{item.text}</p>
+                </SpotlightCard>
+              </AnimatedContent>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 py-18 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <AnimatedContent>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Our Workflow</div>
+            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+              A procurement lifecycle designed for accuracy, accountability, and handover.
+            </h2>
+          </AnimatedContent>
+          <div className="progress-line mt-12 grid gap-4">
+            {workflow.map((step, index) => (
+              <AnimatedContent key={step} delay={Math.min(index * 55, 360)} distance={14}>
+                <BorderGlow className="rounded-lg bg-white p-5 shadow-sm">
+                  <div className="flex gap-4">
+                    <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#1457d9] text-sm font-bold text-white">
+                      {String(index + 1).padStart(2, "0")}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-slate-950">{step}</h3>
+                      <p className="mt-1 text-sm leading-6 text-slate-600">
+                        {workflowCopy(step)}
+                      </p>
+                    </div>
+                  </div>
+                </BorderGlow>
+              </AnimatedContent>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <AnimatedContent>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Who We Support</div>
+            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+              Built for buyers who need organized technology sourcing, not a generic catalog.
+            </h2>
+          </AnimatedContent>
+          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {industries.map(([title, text], index) => (
+              <AnimatedContent key={title} delay={index * 65}>
+                <SpotlightCard className="h-full rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+                  <h3 className="text-lg font-bold text-slate-950">{title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
+                </SpotlightCard>
+              </AnimatedContent>
+            ))}
+          </div>
+          <Marquee className="mt-10" items={focusAreas} />
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden bg-[#0b1220] px-4 py-18 text-white sm:px-6 lg:px-8">
+        <GradientBackground className="opacity-40" />
+        <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
+          <AnimatedContent>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Future HACIEN ERP</div>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+              Our vision is a connected digital procurement ecosystem.
+            </h2>
+            <p className="mt-5 max-w-3xl leading-7 text-slate-300">
+              In the future, every quotation request submitted through the website will flow into
+              HACIEN ERP as a structured business opportunity. That means better tracking, cleaner
+              supplier canvass, faster quotation management, clearer delivery records, and stronger
+              accountability from first inquiry to collection.
+            </p>
+            <Link
+              href="/erp-platform"
+              className="button-glow focus-ring mt-8 inline-flex rounded bg-white px-5 py-3 text-sm font-bold text-[#071426]"
+            >
+              Preview ERP roadmap
+            </Link>
+          </AnimatedContent>
+          <AnimatedContent delay={120} direction="left">
+            <BorderGlow tone="dark" className="rounded-lg bg-white/[0.07] p-5">
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {["Lead", "Canvass", "Quote", "Award", "PO", "Delivery", "Billing", "Inventory", "Reports"].map(
+                  (item, index) => (
+                    <div key={item} className="rounded border border-white/12 bg-white/[0.06] p-4">
+                      <div className="text-xs font-bold text-blue-200">0{index + 1}</div>
+                      <div className="mt-2 text-sm font-bold">{item}</div>
+                    </div>
+                  ),
+                )}
+              </div>
+            </BorderGlow>
+          </AnimatedContent>
+        </div>
+      </section>
+
+      <section className="px-4 py-16 sm:px-6 lg:px-8">
+        <AnimatedContent className="mx-auto max-w-7xl">
+          <BorderGlow className="relative overflow-hidden rounded-lg bg-[#071426] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
+            <GradientBackground className="opacity-[0.36]" />
+            <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+              <div>
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
+                  Start with clarity
+                </div>
+                <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
+                  Need an IT supplier that understands procurement workflows?
+                </h2>
+                <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
+                  Send your requirement list, deadline, delivery location, and supporting
+                  specifications. HACIEN will help turn it into a supplier-ready RFQ.
+                </p>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="hidden h-28 w-28 place-items-center rounded-full border border-white/15 text-blue-100 sm:grid">
+                  <CircularText text="SUBMIT RFQ TODAY " size={112} />
+                  <span className="text-sm font-bold">RFQ</span>
+                </div>
+                <Link
+                  href="/quote"
+                  className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#071426]"
+                >
+                  Submit RFQ
+                </Link>
+              </div>
+            </div>
+          </BorderGlow>
+        </AnimatedContent>
+      </section>
     </>
   );
+}
+
+function workflowCopy(step: string) {
+  const copy: Record<string, string> = {
+    Requirement: "Customer needs, timelines, budget context, and delivery location are clarified.",
+    "Technical Review": "Specifications are checked for completeness, compatibility, and practical alternatives.",
+    "Supplier Canvass": "Availability, lead time, warranty terms, and price conditions are validated.",
+    Quotation: "Supplier inputs are organized into a clear quotation package for review.",
+    Award: "Approved items, quantities, pricing, and conditions are confirmed before procurement.",
+    Procurement: "Orders, supplier coordination, and documentation are tracked through fulfillment.",
+    Delivery: "Logistics, receiving requirements, and handover documents are coordinated.",
+    Implementation: "Setup, deployment materials, and project support needs are aligned where applicable.",
+    Support: "Warranty, acceptance, and closeout details are kept visible after delivery.",
+  };
+
+  return copy[step];
 }
