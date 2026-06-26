@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/Hero";
+import { CustomerJourneyConfidence } from "@/components/TrustConfidence";
 import {
   CTABand,
   ErpPreviewV3,
+  ExistingCustomerV3,
   GovernmentV3,
   HowHacienWorks,
   ProductCatalogV3,
@@ -23,11 +25,13 @@ export default function Home() {
       <Hero />
       <TechnologyEcosystem />
       <HowHacienWorks />
+      <CustomerJourneyConfidence />
       <SolutionsV3 />
       <ProductCatalogV3 />
       <ErpPreviewV3 />
       <GovernmentV3 />
       <TrustV3 />
+      <ExistingCustomerV3 />
       <CTABand />
     </>
   );

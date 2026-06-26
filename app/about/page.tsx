@@ -10,6 +10,7 @@ import {
   SplitText,
   SpotlightCard,
 } from "@/app/components/reactbits";
+import { CapabilityResources, CompanyCredentials, FutureProofAssets, OurCommitment } from "@/components/TrustConfidence";
 
 export const metadata: Metadata = {
   title: "About HACIEN | IT Procurement & Technology Solutions",
@@ -180,6 +181,8 @@ export default function AboutPage() {
         </div>
       </section>
 
+      <CompanyCredentials />
+
       <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
@@ -204,6 +207,8 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
+
+      <OurCommitment />
 
       <section className="px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
@@ -256,6 +261,9 @@ export default function AboutPage() {
           <Marquee className="mt-10" items={focusAreas} />
         </div>
       </section>
+
+      <CapabilityResources />
+      <FutureProofAssets />
 
       <section className="relative overflow-hidden bg-[#0b1220] px-4 py-18 text-white sm:px-6 lg:px-8">
         <GradientBackground className="opacity-40" />
