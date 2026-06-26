@@ -9,6 +9,7 @@ import {
   SplitText,
   SpotlightCard,
 } from "@/app/components/reactbits";
+import { OurCommitment } from "@/components/TrustConfidence";
 
 export const metadata: Metadata = {
   title: "HACIEN ERP | Procurement-First ERP for IT Integrators & Project-Based Businesses",
@@ -187,6 +188,17 @@ const differentiators = [
   ["API-first direction", "Long-term direction includes cleaner integrations across suppliers, customers, and internal workflows."],
 ];
 
+const trustArchitecture = [
+  ["Procurement-first matters", "The platform direction begins with requirements, supplier canvassing, quotation, purchasing, receiving, delivery, billing, and support instead of treating procurement as an accounting note."],
+  ["Operational events drive accounting", "Invoices, receipts, payables, ledgers, and reports should connect back to the originating opportunity, purchase plan, delivery, and customer commitment."],
+  ["BIR-ready architectural direction", "The roadmap considers audit trails, sequential documents, official receipt and sales invoice workflows, computerized books readiness, and Philippine accounting practices."],
+  ["CAS-readiness roadmap", "CAS-readiness is treated as a design direction and preparation path, not a claim of BIR approval or active certification."],
+  ["ISO-oriented discipline", "Document control, approvals, SOPs, audit support, and continuous improvement are planned as operating disciplines for more controlled workflows."],
+  ["Audit trail philosophy", "Important actions should leave a clear history so teams can understand who changed what, when, and why."],
+  ["Role-based security", "Permissions, approval control, activity logs, backups, future MFA, and future SSO are part of the governance direction."],
+  ["Future AI governance", "AI is framed as assistive search, summaries, recommendations, forecasting, and risk support, not a replacement for human accountability."],
+];
+
 function StatusPill({ children, tone = "blue" }: { children: string; tone?: "blue" | "slate" | "emerald" }) {
   const toneClass =
     tone === "emerald"
@@ -229,8 +241,8 @@ function SectionIntro({
 export default function ErpPlatformPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-[#071426] px-4 py-20 text-white sm:px-6 lg:px-8 lg:py-24">
-        <GradientBackground className="opacity-40" />
+      <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+        <GradientBackground />
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.03fr_0.97fr] lg:items-center">
           <div>
             <AnimatedContent>
@@ -242,10 +254,10 @@ export default function ErpPlatformPage() {
             <SplitText
               as="h1"
               text="HACIEN ERP is the operating system for procurement-driven technology businesses."
-              className="max-w-5xl text-4xl font-bold tracking-tight sm:text-6xl lg:text-7xl"
+              className="max-w-5xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
             />
             <BlurReveal delay={140}>
-              <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-300">
+              <p className="mt-6 max-w-3xl text-lg leading-8 text-slate-600">
                 A procurement-first ERP platform in development for IT integrators, government suppliers,
                 ICT contractors, trading companies, managed service providers, and project-based businesses
                 that need one connected workflow from requirement to support.
@@ -254,27 +266,26 @@ export default function ErpPlatformPage() {
             <AnimatedContent delay={240} className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/contact"
-                className="button-glow focus-ring rounded bg-white px-5 py-3 text-center text-sm font-bold"
-                style={{ color: "#071426" }}
+                className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
               >
                 Ask about the roadmap
               </Link>
-              <a href="#procurement-workflow" className="interactive-link focus-ring rounded border border-white/25 bg-white/8 px-5 py-3 text-center text-sm font-bold text-white">
+              <a href="#procurement-workflow" className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900">
                 Explore procurement workflow
               </a>
             </AnimatedContent>
           </div>
 
           <AnimatedContent delay={120} direction="left">
-            <BorderGlow tone="dark" className="rounded-lg bg-white/[0.07] p-6">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Operational Core</div>
+            <BorderGlow className="rounded-lg bg-white/[0.86] p-6 shadow-2xl shadow-slate-950/10">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Operational Core</div>
               <div className="mt-5 grid gap-3">
                 {["CRM", "Supplier Canvass", "Quotation", "Purchasing", "Inventory", "Accounting", "Delivery", "Support"].map((item, index) => (
-                  <div key={item} className="flex items-center gap-3 rounded border border-white/12 bg-white/[0.06] p-3">
-                    <span className="grid h-8 w-8 place-items-center rounded bg-white text-xs font-bold text-[#071426]">
+                  <div key={item} className="flex items-center gap-3 rounded border border-slate-200 bg-slate-50 p-3">
+                    <span className="grid h-8 w-8 place-items-center rounded bg-[#071426] text-xs font-bold text-white">
                       {String(index + 1).padStart(2, "0")}
                     </span>
-                    <span className="text-sm font-bold">{item}</span>
+                    <span className="text-sm font-bold text-slate-800">{item}</span>
                   </div>
                 ))}
               </div>
@@ -296,6 +307,30 @@ export default function ErpPlatformPage() {
                 <SpotlightCard className="h-full rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
                   <h3 className="text-base font-bold text-slate-950">{title}</h3>
                   <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
+                </SpotlightCard>
+              </AnimatedContent>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <SectionIntro
+            eyebrow="ERP Trust Architecture"
+            title="Credibility comes from connecting operations, finance, governance, and compliance direction."
+            description="HACIEN ERP should make procurement work traceable and accountable while remaining careful about what is available today versus what is planned."
+            inverse
+          />
+          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {trustArchitecture.map(([title, text], index) => (
+              <AnimatedContent key={title} delay={index * 45}>
+                <SpotlightCard
+                  className="h-full rounded-lg border border-white/12 bg-white/[0.06] p-5"
+                  spotlightColor="rgba(96, 165, 250, 0.14)"
+                >
+                  <h3 className="text-base font-bold text-white">{title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-300">{text}</p>
                 </SpotlightCard>
               </AnimatedContent>
             ))}
@@ -516,6 +551,8 @@ export default function ErpPlatformPage() {
           </div>
         </div>
       </section>
+
+      <OurCommitment />
 
       <section className="relative overflow-hidden px-4 py-16 sm:px-6 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">

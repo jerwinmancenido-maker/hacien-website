@@ -191,17 +191,25 @@ export function GovernmentV3() {
 }
 
 export function TrustV3() {
+  const trustCards = [
+    ["Procurement-first approach", "HACIEN starts with the requirement, buyer context, deadline, delivery location, and documentation needs before treating a request as ready to quote."],
+    ["Technical validation before quotation", "Specifications, equivalents, compatibility, warranty, lead time, and practical constraints are reviewed before formal quotation support."],
+    ["Transparent RFQ process", "The RFQ path is designed to clarify what is known, what needs supplier confirmation, and what assumptions affect the final offer."],
+    ["Long-term customer partnership", "Customer value should continue after delivery through warranty, renewal, replacement, support, and future portal visibility."],
+    ["Project documentation discipline", "Quotations, supplier inputs, delivery context, and handover needs are treated as part of one procurement record."],
+    ["ERP-driven operational vision", "The future ERP and portal roadmap is intended to improve tracking, accountability, and customer continuity without claiming live capability today."],
+  ];
+
   return (
     <AnimatedSection className="bg-white px-4 py-20 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <SectionHeading eyebrow="Trust Signals" title="Real foundations, no inflated claims." />
-        <StaggerContainer className="mt-10 grid gap-5 md:grid-cols-4">
-          {[
-            ["National business registration", "HACIEN INFORMATION TECHNOLOGY SOLUTIONS is positioned for Philippine operations."],
-            ["Ortigas business presence", "Business address at Unit D, 6th Floor, Suntree Tower, Meralco Avenue, Pasig City."],
-            ["Procurement-focused operations", "RFQ, canvassing, supplier coordination, quotation support, and delivery flow."],
-            ["Systems integration mindset", "Infrastructure sourcing tied to practical deployment and project handover needs."],
-          ].map(([title, detail]) => (
+        <SectionHeading
+          eyebrow="Trust & Confidence"
+          title="Why Organizations Trust HACIEN"
+          description="HACIEN builds confidence through practical procurement discipline, not inflated claims. Every trust signal should be visible in how requirements are reviewed, sourced, quoted, delivered, and supported."
+        />
+        <StaggerContainer className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {trustCards.map(([title, detail]) => (
             <AnimatedCard key={title} className="rounded-lg border border-slate-200 bg-slate-50 p-5">
               <div className="font-bold text-slate-950">{title}</div>
               <p className="mt-2 text-sm leading-6 text-slate-600">{detail}</p>
@@ -215,6 +223,41 @@ export function TrustV3() {
           >
             Read HACIEN company profile →
           </Link>
+        </div>
+      </div>
+    </AnimatedSection>
+  );
+}
+
+export function ExistingCustomerV3() {
+  return (
+    <AnimatedSection className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-[1fr_auto] lg:items-center">
+          <div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Customer Workspace</div>
+            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+              Already working with HACIEN?
+            </h2>
+            <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">
+              Existing customers will soon have access to a secure workspace for quotations,
+              procurement, order tracking, invoices, subscriptions, and support.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link
+              href="/login"
+              className="interactive-link rounded border border-slate-300 bg-white px-5 py-3 text-center text-sm font-bold text-slate-900 hover:border-[#1457d9] hover:text-[#1457d9]"
+            >
+              Sign In
+            </Link>
+            <Link
+              href="/signup"
+              className="button-glow rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
+            >
+              Request Portal Access
+            </Link>
+          </div>
         </div>
       </div>
     </AnimatedSection>

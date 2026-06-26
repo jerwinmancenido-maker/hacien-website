@@ -25,9 +25,9 @@ export function Hero() {
           </SlideUp>
           <SlideUp delay={170}>
             <p className="mt-6 max-w-2xl text-xl leading-8 text-slate-200">
-              Technology sourcing and project execution for Philippine organizations.
-              Helping businesses, institutions, and project teams source, evaluate, quote, procure,
-              and deploy technology solutions.
+              IT procurement, infrastructure sourcing, systems integration, and RFQ support for Philippine organizations.
+              HACIEN helps businesses, institutions, and project teams source, evaluate, quote, procure,
+              deliver, and support technology solutions with clearer documentation.
             </p>
           </SlideUp>
           <SlideUp delay={260}>
@@ -43,7 +43,7 @@ export function Hero() {
           <StaggerContainer className="mt-10 grid gap-3 sm:grid-cols-3">
             <CountUpMetric value={7} label="Product categories" />
             <CountUpMetric value={6} label="RFQ workflow stages" />
-            <CountUpMetric value={0} label="Fake certifications" />
+            <CountUpMetric value={0} label="Unsupported claims" />
           </StaggerContainer>
         </div>
 
