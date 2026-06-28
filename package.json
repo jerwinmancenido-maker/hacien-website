@@ -5,11 +5,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "postbuild": "mkdir -p .next/standalone/.next && cp -R .next/static .next/standalone/.next/static && if [ -d public ]; then cp -R public .next/standalone/public; fi",
+    "start": "node .next/standalone/server.js",
     "lint": "eslint",
     "validate": "tsx scripts/validate-data.ts",
     "prebuild": "npm run validate",
     "crawl": "node scripts/crawl-routes.mjs"
+  },
+  "engines": {
+    "node": ">=20.9.0"
   },
   "dependencies": {
     "next": "16.2.9",
