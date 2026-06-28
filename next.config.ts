@@ -9,16 +9,16 @@ const nextConfig: NextConfig = {
     const hstsEnabled = process.env.HSTS_ENABLE === "true";
     const scriptSrc =
       process.env.NODE_ENV === "production"
-        ? "script-src 'self' 'unsafe-inline'"
-        : "script-src 'self' 'unsafe-inline' 'unsafe-eval'";
+        ? "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com"
+        : "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com";
     const csp = [
       "default-src 'self'",
       scriptSrc,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: https:",
       "font-src 'self'",
-      "connect-src 'self'",
-      "frame-src 'none'",
+      "connect-src 'self' https://challenges.cloudflare.com",
+      "frame-src https://challenges.cloudflare.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",

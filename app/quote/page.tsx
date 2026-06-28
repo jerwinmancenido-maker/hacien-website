@@ -9,6 +9,8 @@ export const metadata: Metadata = {
 };
 
 export default function QuotePage() {
+  const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "";
+
   return (
     <section className="px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -19,7 +21,7 @@ export default function QuotePage() {
           description="This RFQ flow is designed for corporate, government, education, reseller, and project-based IT buying where final specifications, equivalent models, supplier availability, warranty, and delivery terms must be verified."
         />
         <div className="mt-10">
-          <QuoteCart />
+          <QuoteCart turnstileSiteKey={turnstileSiteKey} />
         </div>
       </div>
     </section>

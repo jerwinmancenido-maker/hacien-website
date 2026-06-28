@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     "HACIEN supports government and institutional IT procurement through specification review, approved equivalent matching, supplier coordination, quotation support, documentation support, and delivery coordination.",
 };
 
-const process = [
+const supportProcess = [
   ["Review", "Check specifications, compatibility, quantities, deadline, delivery site, and procurement context."],
   ["Match", "Identify compliant options or approved equivalents subject to supplier availability and buyer requirements."],
   ["Coordinate", "Validate lead time, warranty, pricing conditions, documentation, and quotation readiness."],
@@ -45,6 +45,8 @@ const confidenceAreas = [
 ];
 
 export default function GovernmentProcurementPage() {
+  const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "";
+
   return (
     <>
       <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
@@ -181,7 +183,7 @@ export default function GovernmentProcurementPage() {
             </h2>
           </AnimatedContent>
           <div className="progress-line mt-12 grid gap-4">
-            {process.map(([step, text], index) => (
+            {supportProcess.map(([step, text], index) => (
               <AnimatedContent key={step} delay={index * 70}>
                 <BorderGlow className="rounded-lg bg-white p-5 shadow-sm">
                   <div className="flex gap-4">
@@ -214,7 +216,7 @@ export default function GovernmentProcurementPage() {
               HACIEN will review the context and coordinate the next supplier-ready quotation step.
             </p>
           </AnimatedContent>
-          <ContactForm type="Government" />
+          <ContactForm type="Government" turnstileSiteKey={turnstileSiteKey} />
         </div>
       </section>
     </>

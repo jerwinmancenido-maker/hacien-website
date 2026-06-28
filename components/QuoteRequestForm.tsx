@@ -3,15 +3,32 @@
 import { useState, useRef } from "react";
 import Link from "next/link";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
+import { TurnstileField } from "@/components/TurnstileField";
 
-export function QuoteRequestForm() {
+export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [step, setStep] = useState(1);
+  const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
+  const startedAtInputRef = useRef<HTMLInputElement>(null);
+  const formStartedAtRef = useRef<number | null>(null);
+
+  function markFormStarted() {
+    if (formStartedAtRef.current) return;
+    const startedAt = Date.now();
+    formStartedAtRef.current = startedAt;
+    if (startedAtInputRef.current) startedAtInputRef.current.value = String(startedAt);
+  }
+
+  function resetFormTiming() {
+    formStartedAtRef.current = null;
+    if (startedAtInputRef.current) startedAtInputRef.current.value = "";
+  }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    markFormStarted();
     const form = event.currentTarget;
     const data = new FormData(form);
 
@@ -21,6 +38,9 @@ export function QuoteRequestForm() {
 
     const payload: Record<string, unknown> = {
       type: "Quick RFQ",
+      website: data.get("_website"),
+      formStartedAt: data.get("formStartedAt"),
+      turnstileToken: data.get("cf-turnstile-response"),
       requirementType: data.get("requirementType"),
       budgetRange: data.get("budgetRange"),
       timeline: data.get("timeline"),
@@ -39,9 +59,13 @@ export function QuoteRequestForm() {
     if (result.success) {
       setStatus("success");
       form.reset();
+      setTurnstileResetSignal((value) => value + 1);
+      resetFormTiming();
     } else {
       setStatus("error");
       setErrorMessage(result.error || "Unable to send. Please try again later.");
+      setTurnstileResetSignal((value) => value + 1);
+      resetFormTiming();
     }
   }
 
@@ -79,7 +103,12 @@ export function QuoteRequestForm() {
 
   return (
     <div className="surface rounded-lg p-6">
-      <form ref={formRef} onSubmit={handleSubmit}>
+      <form
+        ref={formRef}
+        onFocusCapture={markFormStarted}
+        onChangeCapture={markFormStarted}
+        onSubmit={handleSubmit}
+      >
         <h3 className="text-xl font-bold text-slate-950">Quick Request for Quotation</h3>
         <p className="mt-2 text-sm leading-6 text-slate-600">
           No fixed prices are published. HACIEN will review availability, equivalent options,
@@ -93,6 +122,7 @@ export function QuoteRequestForm() {
             <input type="text" name="_website" tabIndex={-1} autoComplete="off" />
           </label>
         </div>
+        <input ref={startedAtInputRef} type="hidden" name="formStartedAt" />
 
         <div className="mt-5 grid grid-cols-2 gap-2 text-xs font-bold uppercase tracking-[0.12em]">
           <div
@@ -116,6 +146,7 @@ export function QuoteRequestForm() {
               <select
                 required
                 name="requirementType"
+                aria-label="Requirement type"
                 className="focus-ring rounded border border-slate-300 px-3 py-2"
                 defaultValue=""
               >
@@ -131,6 +162,7 @@ export function QuoteRequestForm() {
               <select
                 required
                 name="budgetRange"
+                aria-label="Budget range"
                 className="focus-ring rounded border border-slate-300 px-3 py-2"
                 defaultValue=""
               >
@@ -145,6 +177,7 @@ export function QuoteRequestForm() {
               <select
                 required
                 name="timeline"
+                aria-label="Target timeline"
                 className="focus-ring rounded border border-slate-300 px-3 py-2"
                 defaultValue=""
               >
@@ -159,6 +192,7 @@ export function QuoteRequestForm() {
               <textarea
                 required
                 name="message"
+                aria-label="Requirement details"
                 placeholder="Describe products, specifications, quantities, delivery location, or RFQ details"
                 rows={5}
                 className="focus-ring rounded border border-slate-300 px-3 py-2"
@@ -169,12 +203,16 @@ export function QuoteRequestForm() {
               <input
                 required
                 name="name"
+                aria-label="Name"
+                autoComplete="name"
                 placeholder="Name"
                 className="focus-ring rounded border border-slate-300 px-3 py-2"
               />
               <input
                 required
                 name="company"
+                aria-label="Company or agency"
+                autoComplete="organization"
                 placeholder="Company / agency"
                 className="focus-ring rounded border border-slate-300 px-3 py-2"
               />
@@ -182,16 +220,22 @@ export function QuoteRequestForm() {
                 required
                 name="email"
                 type="email"
+                aria-label="Email"
+                autoComplete="email"
                 placeholder="Email"
                 className="focus-ring rounded border border-slate-300 px-3 py-2"
               />
               <input
                 name="phone"
+                aria-label="Phone number"
+                autoComplete="tel"
                 placeholder="Phone number"
                 className="focus-ring rounded border border-slate-300 px-3 py-2"
               />
               <input
                 name="industry"
+                aria-label="Industry or organization type"
+                autoComplete="organization-title"
                 placeholder="Industry / organization type"
                 className="focus-ring rounded border border-slate-300 px-3 py-2"
               />
@@ -209,6 +253,10 @@ export function QuoteRequestForm() {
                 Terms of Use
               </Link>.
             </p>
+          )}
+
+          {step === 2 && (
+            <TurnstileField siteKey={turnstileSiteKey} resetSignal={turnstileResetSignal} />
           )}
 
           <button

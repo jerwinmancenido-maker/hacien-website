@@ -3,20 +3,39 @@
 import { useState, useRef } from "react";
 import Link from "next/link";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
+import { TurnstileField } from "@/components/TurnstileField";
 
 type ContactFormType = "Contact" | "Supplier" | "Government";
 
 export function ContactForm({
   type = "Contact",
+  turnstileSiteKey,
 }: {
   type?: ContactFormType;
+  turnstileSiteKey: string;
 }) {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
+  const startedAtInputRef = useRef<HTMLInputElement>(null);
+  const formStartedAtRef = useRef<number | null>(null);
+
+  function markFormStarted() {
+    if (formStartedAtRef.current) return;
+    const startedAt = Date.now();
+    formStartedAtRef.current = startedAt;
+    if (startedAtInputRef.current) startedAtInputRef.current.value = String(startedAt);
+  }
+
+  function resetFormTiming() {
+    formStartedAtRef.current = null;
+    if (startedAtInputRef.current) startedAtInputRef.current.value = "";
+  }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    markFormStarted();
     const form = event.currentTarget;
     const data = new FormData(form);
 
@@ -26,6 +45,9 @@ export function ContactForm({
 
     const payload: Record<string, unknown> = {
       type: `${type} Inquiry`,
+      website: data.get("_website"),
+      formStartedAt: data.get("formStartedAt"),
+      turnstileToken: data.get("cf-turnstile-response"),
       name: data.get("name"),
       company: data.get("company"),
       email: data.get("email"),
@@ -43,9 +65,13 @@ export function ContactForm({
     if (result.success) {
       setStatus("success");
       form.reset();
+      setTurnstileResetSignal((value) => value + 1);
+      resetFormTiming();
     } else {
       setStatus("error");
       setErrorMessage(result.error || "Unable to send. Please try again later.");
+      setTurnstileResetSignal((value) => value + 1);
+      resetFormTiming();
     }
   }
 
@@ -82,7 +108,13 @@ export function ContactForm({
   }
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} className="surface rounded-lg p-6">
+    <form
+      ref={formRef}
+      onFocusCapture={markFormStarted}
+      onChangeCapture={markFormStarted}
+      onSubmit={handleSubmit}
+      className="surface rounded-lg p-6"
+    >
       <h3 className="text-xl font-bold text-slate-950">{type} Inquiry</h3>
 
       {/* Honeypot — hidden from humans, visible to bots */}
@@ -92,17 +124,22 @@ export function ContactForm({
           <input type="text" name="_website" tabIndex={-1} autoComplete="off" />
         </label>
       </div>
+      <input ref={startedAtInputRef} type="hidden" name="formStartedAt" />
 
       <div className="mt-5 grid gap-4">
         <input
           required
           name="name"
+          aria-label="Full name"
+          autoComplete="name"
           placeholder="Full name"
           className="focus-ring rounded border border-slate-300 px-3 py-2"
         />
         <input
           required
           name="company"
+          aria-label="Company or agency"
+          autoComplete="organization"
           placeholder="Company / agency"
           className="focus-ring rounded border border-slate-300 px-3 py-2"
         />
@@ -110,11 +147,15 @@ export function ContactForm({
           required
           name="email"
           type="email"
+          aria-label="Email address"
+          autoComplete="email"
           placeholder="Email address"
           className="focus-ring rounded border border-slate-300 px-3 py-2"
         />
         <input
           name="phone"
+          aria-label="Phone number"
+          autoComplete="tel"
           placeholder="Phone number"
           className="focus-ring rounded border border-slate-300 px-3 py-2"
         />
@@ -165,10 +206,13 @@ export function ContactForm({
         <textarea
           required
           name="message"
+          aria-label="Project description, specifications, quantities, or procurement context"
           placeholder="Project description, specifications, quantities, or procurement context"
           rows={5}
           className="focus-ring rounded border border-slate-300 px-3 py-2"
         />
+
+        <TurnstileField siteKey={turnstileSiteKey} resetSignal={turnstileResetSignal} />
 
         <p className="text-xs text-slate-500">
           By submitting, you agree to our{" "}

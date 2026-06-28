@@ -1,11 +1,15 @@
 "use server";
 
+import { headers } from "next/headers";
 import nodemailer from "nodemailer";
 
 const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
 const RATE_LIMIT_MAX = 5; // max submissions per window per IP
+const EMAIL_RATE_LIMIT_MAX = 3;
 const EMAIL_SEND_TIMEOUT_MS = 15_000;
+const MIN_SUBMIT_TIME_MS = 3_000;
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const emailRateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
 // ── Rate Limiting ──────────────────────────────────────────────
 
@@ -25,6 +29,119 @@ function getRateLimitInfo(ip: string): { allowed: boolean; retryAfterSec: number
 
   entry.count++;
   return { allowed: true, retryAfterSec: 0 };
+}
+
+function getClientIp(headerList: Headers): string {
+  const forwardedFor = headerList.get("x-forwarded-for");
+  return (
+    headerList.get("cf-connecting-ip") ||
+    (forwardedFor ? forwardedFor.split(",")[0]?.trim() : "") ||
+    headerList.get("x-real-ip") ||
+    "unknown"
+  );
+}
+
+function getEmailRateLimitInfo(email: string): { allowed: boolean; retryAfterSec: number } {
+  const key = email.trim().toLowerCase();
+  if (!key) return { allowed: true, retryAfterSec: 0 };
+
+  const now = Date.now();
+  const entry = emailRateLimitMap.get(key);
+
+  if (!entry || now > entry.resetAt) {
+    emailRateLimitMap.set(key, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return { allowed: true, retryAfterSec: 0 };
+  }
+
+  if (entry.count >= EMAIL_RATE_LIMIT_MAX) {
+    const retryAfterSec = Math.ceil((entry.resetAt - now) / 1000);
+    return { allowed: false, retryAfterSec };
+  }
+
+  entry.count++;
+  return { allowed: true, retryAfterSec: 0 };
+}
+
+function getString(value: unknown): string {
+  return typeof value === "string" ? value : "";
+}
+
+async function verifyTurnstileToken(token: string, ip: string): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret || !token) return false;
+
+  const body = new URLSearchParams({
+    secret,
+    response: token,
+  });
+
+  if (ip !== "unknown") {
+    body.set("remoteip", ip);
+  }
+
+  try {
+    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      body,
+    });
+
+    if (!response.ok) return false;
+
+    const result = (await response.json()) as { success?: boolean };
+    return result.success === true;
+  } catch {
+    return false;
+  }
+}
+
+async function validateSubmissionSecurity(
+  formData: Record<string, unknown>,
+): Promise<{ allowed: boolean; error?: string; ip: string; retryAfterSec?: number }> {
+  const headerList = await headers();
+  const ip = getClientIp(headerList);
+
+  if (getString(formData.website)) {
+    return { allowed: false, error: "We could not verify this request. Please try again.", ip };
+  }
+
+  const startedAt = Number(getString(formData.formStartedAt));
+  if (!Number.isFinite(startedAt) || Date.now() - startedAt < MIN_SUBMIT_TIME_MS) {
+    return { allowed: false, error: "Please review your message and try again.", ip };
+  }
+
+  const { allowed, retryAfterSec } = getRateLimitInfo(ip);
+  if (!allowed) {
+    console.warn("RFQ: Rate limited.", { ip });
+    return {
+      allowed: false,
+      error: `Too many requests. Please wait ${retryAfterSec} seconds before trying again.`,
+      ip,
+      retryAfterSec,
+    };
+  }
+
+  const emailLimit = getEmailRateLimitInfo(getString(formData.email));
+  if (!emailLimit.allowed) {
+    console.warn("RFQ: Email rate limited.", { ip });
+    return {
+      allowed: false,
+      error: `Too many requests. Please wait ${emailLimit.retryAfterSec} seconds before trying again.`,
+      ip,
+      retryAfterSec: emailLimit.retryAfterSec,
+    };
+  }
+
+  const tokenValid = await verifyTurnstileToken(getString(formData.turnstileToken), ip);
+  if (!tokenValid) {
+    console.warn("RFQ: Turnstile verification failed.", { ip });
+    return {
+      allowed: false,
+      error: "Security verification could not be completed. Please refresh and try again.",
+      ip,
+    };
+  }
+
+  return { allowed: true, ip };
 }
 
 // ── Transporter: SMTP-first, sendmail fallback ─────────────────
@@ -136,17 +253,16 @@ export async function sendInquiryEmail(
   formData: Record<string, unknown>,
   clientIp?: string,
 ): Promise<EmailResult> {
-  // ── Rate limit ──
-  const ip = clientIp || "unknown";
-  const { allowed, retryAfterSec } = getRateLimitInfo(ip);
-  if (!allowed) {
-    console.warn("RFQ: Rate limited.", { ip });
+  // ── Security checks ──
+  const security = await validateSubmissionSecurity(formData);
+  if (!security.allowed) {
     return {
       success: false,
-      error: `Too many requests. Please wait ${retryAfterSec} seconds before trying again.`,
-      retryAfterSec,
+      error: security.error || "Security verification could not be completed. Please try again.",
+      retryAfterSec: security.retryAfterSec,
     };
   }
+  const ip = clientIp || security.ip;
 
   // ── Log: submission received ──
   const formType = (formData.type as string) || "Unknown";
@@ -154,6 +270,7 @@ export async function sendInquiryEmail(
   console.info("RFQ: Submission received.", {
     type: formType,
     email: formEmail,
+    ip,
     timestamp: new Date().toISOString(),
   });
 
@@ -162,12 +279,12 @@ export async function sendInquiryEmail(
 
     // ── Build email ──
     const fields = Object.entries(formData)
-      .filter(([, v]) => v !== undefined && v !== null && v !== "")
+      .filter(([k, v]) => !["website", "formStartedAt", "turnstileToken"].includes(k) && v !== undefined && v !== null && v !== "")
       .map(([k, v]) => `${k}: ${v}`)
       .join("\n");
 
     const htmlFields = Object.entries(formData)
-      .filter(([, v]) => v !== undefined && v !== null && v !== "")
+      .filter(([k, v]) => !["website", "formStartedAt", "turnstileToken"].includes(k) && v !== undefined && v !== null && v !== "")
       .map(
         ([k, v]) =>
           `<tr><td style="padding:4px 12px 4px 0;font-weight:600;vertical-align:top;white-space:nowrap">${k}</td><td style="padding:4px 0">${v}</td></tr>`,
