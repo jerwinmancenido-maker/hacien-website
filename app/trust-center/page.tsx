@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const policyGroups = [
-  ["Company verification", "Pending verification", "Registration, tax, address, permit, signatory, and bank details are not published until evidence is verified."],
+  ["Company verification", "DTI verified", "HACIEN INFORMATION TECHNOLOGY SOLUTIONS is DTI-registered as a business name. BIR, permit, signatory, bank, and payment details remain unpublished until separately verified."],
   ["RFQ and quotation", "Draft framework", "RFQ submission starts review only. Formal quotation depends on supplier availability, warranty, lead time, and delivery context."],
   ["Payment instructions", "Blocked", "No public bank account or payment instruction is published until founder and finance verification is complete."],
   ["Warranty and returns", "Pending policy", "Warranty, replacement, and return terms depend on verified supplier and policy evidence."],
@@ -20,7 +20,7 @@ const policyGroups = [
 ];
 
 const documentRules = [
-  "No registration, tax, permit, address, bank, or certification claim appears here without verification.",
+  "DTI registration may appear here because it is verified; tax, permit, bank, payment, and certification claims remain unpublished without separate verification.",
   "Every future policy should show owner, version, effective date, review date, and status.",
   "ERP documents should reference the policy version that applied when issued.",
   "Public pages should explain pending status instead of hiding it.",
@@ -55,7 +55,8 @@ export default function TrustCenterPage() {
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">Current Verification Status</div>
             <div className="mt-6 grid gap-3">
               {[
-                ["Company identity", "Pending founder evidence"],
+                ["DTI business name", "Verified"],
+                ["Business Name No.", "8278010"],
                 ["Bank/payment instructions", "Not public"],
                 ["Portal", "Planned only"],
                 ["RFQ intake", "Available"],

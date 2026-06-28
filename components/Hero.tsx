@@ -9,7 +9,7 @@ export function Hero() {
         <div className="flex flex-col justify-center">
           <FadeIn>
             <div className="mb-6 inline-flex w-fit rounded border border-blue-300/30 bg-white/8 px-4 py-2 text-sm font-semibold text-blue-100 backdrop-blur">
-              Public Headquarters · Verification in progress
+              Public Headquarters · DTI verified
             </div>
           </FadeIn>
           <SlideUp delay={80}>
@@ -19,7 +19,7 @@ export function Hero() {
           </SlideUp>
           <SlideUp delay={170}>
             <p className="mt-6 max-w-2xl text-xl leading-8 text-slate-200">
-              A calm entry point for RFQs, solutions consulting, technology sourcing, procurement coordination, and future customer visibility. HACIEN is preparing for verified launch without publishing claims it has not earned.
+              A calm entry point for RFQs, solutions consulting, technology sourcing, procurement coordination, and future customer visibility. HACIEN publishes verified DTI identity while keeping tax, permit, bank, and payment claims pending.
             </p>
           </SlideUp>
           <SlideUp delay={260}>
@@ -34,7 +34,7 @@ export function Hero() {
           </SlideUp>
           <StaggerContainer className="mt-10 grid gap-3 sm:grid-cols-3">
             {[
-              ["Public identity", "Pending verification"],
+              ["DTI identity", "Verified"],
               ["RFQ path", "Available"],
               ["Customer portal", "Planned only"],
             ].map(([label, value]) => (
