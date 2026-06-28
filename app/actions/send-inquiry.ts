@@ -96,8 +96,8 @@ function createTransporter() {
       newline: "unix",
       path: "/usr/sbin/sendmail",
     }),
-    from: process.env.SMTP_FROM || "noreply@haciensolutions.com",
-    to: process.env.SALES_TO_EMAIL || "sales@haciensolutions.com",
+    from: process.env.SMTP_FROM || "noreply@localhost",
+    to: process.env.SALES_TO_EMAIL || process.env.SMTP_FROM || "noreply@localhost",
     mode: "sendmail" as const,
   };
 }
@@ -205,7 +205,7 @@ export async function sendInquiryEmail(
       });
       return {
         success: false,
-        error: "Email delivery was rejected by the SMTP provider. Please email sales@haciensolutions.com directly.",
+        error: "Email delivery was rejected by the SMTP provider. Please try again later.",
       };
     }
 
@@ -235,7 +235,7 @@ export async function sendInquiryEmail(
 
     return {
       success: false,
-      error: "Unable to send RFQ. Please email sales@haciensolutions.com.",
+      error: "Unable to send RFQ. Please try again later.",
     };
   }
 }

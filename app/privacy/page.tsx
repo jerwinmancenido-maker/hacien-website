@@ -31,10 +31,7 @@ export default function PrivacyPage() {
             through an appropriate business channel.
           </p>
           <p>
-            For privacy-related requests, contact{" "}
-            <a className="font-semibold text-[#1457d9]" href="mailto:sales@haciensolutions.com">
-              sales@haciensolutions.com
-            </a>.
+            Privacy-related requests should be routed through the public Support or Contact forms while HACIEN verifies official public contact channels.
           </p>
         </div>
       </div>

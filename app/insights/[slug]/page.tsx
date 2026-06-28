@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CTABand } from "@/components/CTABand";
-import { SectionHeading } from "@/components/SectionHeading";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { AnimatedSection } from "@/components/motion";
 import { getInsight, insights } from "@/data/insights";

@@ -39,7 +39,7 @@ export function QuoteCart() {
     const file = data.get("attachment") as File | null;
     const submittedAttachmentInfo =
       file && file.size > 0
-        ? `${file.name} (${Math.round(file.size / 1024)} KB) — upload UI only; buyer may also email this file to sales@haciensolutions.com`
+        ? `${file.name} (${Math.round(file.size / 1024)} KB) — uploaded through RFQ form`
         : "No attachment selected";
 
     const payload: Record<string, unknown> = {
@@ -68,7 +68,7 @@ export function QuoteCart() {
       clearCart();
     } else {
       setStatus("error");
-      setErrorMessage(result.error || "Unable to send. Please email sales@haciensolutions.com");
+      setErrorMessage(result.error || "Unable to send. Please try again later.");
     }
   }
 
@@ -82,12 +82,7 @@ export function QuoteCart() {
           Thank you. HACIEN will review your request.
         </h1>
         <p className="mt-4 text-slate-600">
-          Your RFQ has been sent to{" "}
-          <a href="mailto:sales@haciensolutions.com" className="font-semibold text-[#1457d9]">
-            sales@haciensolutions.com
-          </a>.
-          HACIEN will review availability, equivalent options, warranty, delivery terms, and supplier quotations
-          and respond within 1–2 business days.
+          HACIEN will review availability, equivalent options, warranty, delivery terms, and supplier quotation context before preparing a formal response.
         </p>
         <Link
           href="/products"
@@ -109,10 +104,7 @@ export function QuoteCart() {
           Your RFQ request could not be sent.
         </h1>
         <p className="mt-4 text-slate-600">
-          {errorMessage}. Please email your request directly to{" "}
-          <a href="mailto:sales@haciensolutions.com" className="font-semibold text-[#1457d9]">
-            sales@haciensolutions.com
-          </a>.
+          {errorMessage}
         </p>
         <button
           onClick={() => setStatus("idle")}
@@ -304,9 +296,7 @@ export function QuoteCart() {
           {fileError ? <p className="text-sm font-semibold text-red-600">{fileError}</p> : null}
           {attachmentInfo ? <p className="text-sm font-semibold text-emerald-700">{attachmentInfo}</p> : null}
           <p className="rounded border border-blue-100 bg-blue-50 p-3 text-xs leading-5 text-slate-600">
-            Attachment upload will be included in the inquiry if supported. You may also email documents to{" "}
-            <a href="mailto:sales@haciensolutions.com" className="font-semibold text-[#1457d9]">sales@haciensolutions.com</a>.
-            Accepted files: PDF, DOC, DOCX, XLS, XLSX, PNG, JPG. Maximum size: 10MB.
+            Attachment upload will be included in the inquiry if supported. Accepted files: PDF, DOC, DOCX, XLS, XLSX, PNG, JPG. Maximum size: 10MB.
           </p>
 
           <p className="text-xs text-slate-500">

@@ -6,22 +6,23 @@ import { useState } from "react";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
 
 const navItems = [
-  { href: "/", label: "Home" },
+  { href: "/", label: "Headquarters" },
   { href: "/solutions", label: "Solutions" },
   { href: "/products", label: "Products" },
-  { href: "/erp-platform", label: "ERP Platform" },
   { href: "/industries", label: "Industries" },
+  { href: "/trust-center", label: "Trust Center" },
   { href: "/insights", label: "Insights" },
 ];
 
 const companyItems = [
   { href: "/about", label: "About HACIEN" },
   { href: "/about/company-profile", label: "Company Profile" },
-  { href: "/about", label: "Mission & Vision" },
   { href: "/contact", label: "Contact" },
+  { href: "/support", label: "Support" },
+  { href: "/search", label: "Search" },
 ];
 
-const futureCompanyItems = ["Procurement Methodology", "Careers"];
+const futureCompanyItems = ["Careers", "Partner Area"];
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -112,14 +113,8 @@ export function Header() {
             Sign In
           </Link>
           <Link
-            href="/signup"
-            className="button-glow rounded bg-[#1457d9] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-700/20 hover:bg-[#0f46b4]"
-          >
-            Request Access
-          </Link>
-          <Link
             href="/quote"
-            className="interactive-link rounded border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-900 hover:border-[#1457d9] hover:text-[#1457d9]"
+            className="button-glow rounded bg-[#1457d9] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-700/20 hover:bg-[#0f46b4]"
           >
             Request Quote{totalQuantity ? ` (${totalQuantity})` : ""}
           </Link>
@@ -161,9 +156,6 @@ export function Header() {
             </div>
             <Link href="/login" onClick={() => setOpen(false)} className={pathname === "/login" ? "font-bold text-[#1457d9]" : ""}>
               Sign In
-            </Link>
-            <Link href="/signup" onClick={() => setOpen(false)} className="font-semibold text-[#1457d9]">
-              Request Access
             </Link>
             <Link href="/quote" onClick={() => setOpen(false)} className="font-semibold text-[#1457d9]">
               Request Quote{totalQuantity ? ` (${totalQuantity})` : ""}

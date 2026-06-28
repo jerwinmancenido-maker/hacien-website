@@ -23,9 +23,10 @@ async function checkRoute(path: string) {
     const icon = status === 200 ? "✅" : status === 404 ? "⚠️" : "❌";
     console.log(`  ${icon} ${status} — ${path}`);
     return { path, status };
-  } catch (err: any) {
-    console.log(`  ❌ ERR — ${path} (${err.message})`);
-    return { path, status: 503, error: err.message };
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Unknown error";
+    console.log(`  ❌ ERR — ${path} (${message})`);
+    return { path, status: 503, error: message };
   }
 }
 

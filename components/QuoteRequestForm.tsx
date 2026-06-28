@@ -41,7 +41,7 @@ export function QuoteRequestForm() {
       form.reset();
     } else {
       setStatus("error");
-      setErrorMessage(result.error || "Unable to send. Please email sales@haciensolutions.com");
+      setErrorMessage(result.error || "Unable to send. Please try again later.");
     }
   }
 
@@ -51,11 +51,7 @@ export function QuoteRequestForm() {
         <div className="motion-slide-up rounded border border-emerald-200 bg-emerald-50 p-5">
           <div className="text-sm font-bold text-emerald-800">RFQ request sent</div>
           <p className="mt-2 text-sm leading-6 text-emerald-700">
-            Thank you. HACIEN will validate final pricing and availability and respond to{" "}
-            <a href="mailto:sales@haciensolutions.com" className="font-semibold underline">
-              sales@haciensolutions.com
-            </a>{" "}
-            within 1–2 business days.
+            Thank you. HACIEN will review the requirement context before any formal quotation is prepared.
           </p>
         </div>
       </div>
@@ -68,11 +64,7 @@ export function QuoteRequestForm() {
         <div className="motion-slide-up rounded border border-red-200 bg-red-50 p-5">
           <div className="text-sm font-bold text-red-800">Unable to send</div>
           <p className="mt-2 text-sm leading-6 text-red-700">
-            {errorMessage}. Please email{" "}
-            <a href="mailto:sales@haciensolutions.com" className="font-semibold underline">
-              sales@haciensolutions.com
-            </a>{" "}
-            directly.
+            {errorMessage}
           </p>
           <button
             onClick={() => { setStatus("idle"); setStep(1); }}

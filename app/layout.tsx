@@ -51,20 +51,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "HACIEN INFORMATION TECHNOLOGY SOLUTIONS",
+    name: "HACIEN",
     alternateName: "HACIEN",
     url: "https://haciensolutions.com",
-    email: "sales@haciensolutions.com",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center",
-      addressLocality: "Pasig City",
-      addressRegion: "Metro Manila",
-      addressCountry: "PH",
-    },
     areaServed: "Philippines",
     description:
-      "Philippine IT infrastructure provider, government procurement support partner, systems integrator, and technology solutions provider.",
+      "HACIEN is preparing a procurement-first technology solutions headquarters for RFQ review, solutions consulting, sourcing coordination, and customer success.",
   };
 
   return (

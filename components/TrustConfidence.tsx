@@ -41,7 +41,7 @@ export function OurCommitment({ className = "" }: { className?: string }) {
             Dependable procurement support is built from small, visible disciplines.
           </h2>
           <p className="mt-4 text-base leading-7 text-slate-600">
-            HACIEN's trust promise is practical: communicate clearly, quote responsibly, document assumptions,
+            HACIEN&apos;s trust promise is practical: communicate clearly, quote responsibly, document assumptions,
             and support the customer beyond the first transaction.
           </p>
         </div>

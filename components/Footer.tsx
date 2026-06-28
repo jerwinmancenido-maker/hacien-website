@@ -7,7 +7,10 @@ export function Footer() {
         <div>
           <div className="text-lg font-bold">HACIEN Information Technology Solutions</div>
           <p className="mt-4 max-w-md text-sm leading-6 text-slate-300">
-            Procurement-first IT sourcing, systems integration, ERP roadmap, and customer portal direction for Philippine organizations.
+            Procurement-first IT sourcing, solutions consulting, and customer-success oriented technology coordination for Philippine organizations.
+          </p>
+          <p className="mt-4 max-w-md rounded border border-white/10 bg-white/[0.05] p-3 text-xs leading-5 text-slate-300">
+            Company verification is in progress. HACIEN does not publish registration, address, bank, or permit claims until verified.
           </p>
         </div>
         <div>
@@ -16,6 +19,7 @@ export function Footer() {
             <Link href="/about">About</Link>
             <Link href="/about/company-profile">Company Profile</Link>
             <Link href="/contact">Contact</Link>
+            <Link href="/support">Support</Link>
           </div>
         </div>
         <div>
@@ -37,17 +41,18 @@ export function Footer() {
         <div>
           <div className="text-sm font-semibold text-slate-100">Customer</div>
           <div className="mt-4 grid gap-3 text-sm text-slate-300">
-            <Link href="/login">Sign In</Link>
-            <Link href="/signup">Request Access</Link>
+            <Link href="/quote">Submit RFQ</Link>
             <Link href="/portal">
               Customer Portal <span className="text-xs text-blue-200">(Coming Soon)</span>
             </Link>
+            <Link href="/trust-center">Trust Center</Link>
           </div>
         </div>
         <div>
           <div className="text-sm font-semibold text-slate-100">Resources</div>
           <div className="mt-4 grid gap-3 text-sm text-slate-300">
             <Link href="/insights">Insights</Link>
+            <Link href="/search">Search</Link>
             <Link href="/privacy">Privacy Policy</Link>
             <Link href="/terms">Terms</Link>
           </div>

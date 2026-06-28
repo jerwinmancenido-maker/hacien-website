@@ -20,9 +20,9 @@ export const metadata: Metadata = {
 const inquiryRoutes = [
   ["Quotation", "Send a product list, BOQ, technical specification, deadline, or delivery context for RFQ review.", "/quote"],
   ["Government", "Ask about specification review, equivalent matching, documentation support, and institutional procurement.", "/government-procurement"],
-  ["Supplier / Partner", "Introduce authorized supply, implementation, fulfillment, warranty, delivery support, or collaboration capability.", "mailto:sales@haciensolutions.com?subject=Supplier%20or%20Partner%20Inquiry"],
-  ["General Business", "Ask about company information, project coordination, recurring sourcing, or business communication.", "mailto:sales@haciensolutions.com?subject=General%20Business%20Inquiry"],
-  ["Existing Customer Support", "Request follow-up for procurement, delivery, warranty, replacement, or post-delivery coordination.", "mailto:sales@haciensolutions.com?subject=Existing%20Customer%20Support"],
+  ["Supplier / Partner", "Introduce authorized supply, implementation, fulfillment, warranty, delivery support, or collaboration capability.", "/support"],
+  ["General Business", "Ask about company information, project coordination, recurring sourcing, or business communication.", "/support"],
+  ["Existing Customer Support", "Request follow-up for procurement, delivery, warranty, replacement, or post-delivery coordination.", "/support"],
 ];
 
 const responseSignals = [
@@ -61,12 +61,12 @@ export default function ContactPage() {
               >
                 Start an RFQ
               </Link>
-              <a
-                href="mailto:sales@haciensolutions.com"
+              <Link
+                href="/support"
                 className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
               >
-                Email HACIEN
-              </a>
+                Support desk
+              </Link>
             </AnimatedContent>
           </div>
 
@@ -153,14 +153,8 @@ export default function ContactPage() {
               </h2>
               <div className="mt-6 grid gap-5 text-sm leading-7 text-slate-700">
                 <div>
-                  <div className="font-bold text-slate-950">Sales and RFQ</div>
-                  <a className="interactive-link text-[#1457d9]" href="mailto:sales@haciensolutions.com">
-                    sales@haciensolutions.com
-                  </a>
-                </div>
-                <div>
-                  <div className="font-bold text-slate-950">Business address</div>
-                  <p>Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, San Antonio, Pasig City.</p>
+                  <div className="font-bold text-slate-950">Current contact channel</div>
+                  <p>Use the RFQ or contact forms while HACIEN verifies public email, phone, and address details.</p>
                 </div>
                 <div>
                   <div className="font-bold text-slate-950">Current website behavior</div>
