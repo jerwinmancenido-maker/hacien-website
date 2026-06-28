@@ -10,7 +10,8 @@
     "lint": "eslint",
     "validate": "tsx scripts/validate-data.ts",
     "prebuild": "npm run validate",
-    "crawl": "node scripts/crawl-routes.mjs"
+    "crawl": "node scripts/crawl-routes.mjs",
+    "smoke:production": "node scripts/production-smoke.mjs"
   },
   "engines": {
     "node": ">=20.9.0"

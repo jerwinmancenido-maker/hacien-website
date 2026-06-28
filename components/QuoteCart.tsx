@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
 import { AnimatedCard, StaggerContainer } from "@/components/motion";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
+import { TurnstileField } from "@/components/TurnstileField";
 
 const allowedAttachmentTypes = [
   "application/pdf",
@@ -18,16 +19,32 @@ const allowedAttachmentTypes = [
 
 const maxAttachmentSize = 10 * 1024 * 1024;
 
-export function QuoteCart() {
+export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   const { items, updateQuantity, removeItem, clearCart } = useQuoteCart();
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [fileError, setFileError] = useState("");
   const [attachmentInfo, setAttachmentInfo] = useState("");
+  const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
+  const startedAtInputRef = useRef<HTMLInputElement>(null);
+  const formStartedAtRef = useRef<number | null>(null);
+
+  function markFormStarted() {
+    if (formStartedAtRef.current) return;
+    const startedAt = Date.now();
+    formStartedAtRef.current = startedAt;
+    if (startedAtInputRef.current) startedAtInputRef.current.value = String(startedAt);
+  }
+
+  function resetFormTiming() {
+    formStartedAtRef.current = null;
+    if (startedAtInputRef.current) startedAtInputRef.current.value = "";
+  }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    markFormStarted();
     const form = event.currentTarget;
     const data = new FormData(form);
 
@@ -44,6 +61,9 @@ export function QuoteCart() {
 
     const payload: Record<string, unknown> = {
       type: "RFQ Cart Submission",
+      website: data.get("_website"),
+      formStartedAt: data.get("formStartedAt"),
+      turnstileToken: data.get("cf-turnstile-response"),
       name: data.get("name"),
       company: data.get("company"),
       email: data.get("email"),
@@ -66,9 +86,13 @@ export function QuoteCart() {
     if (result.success) {
       setStatus("success");
       clearCart();
+      setTurnstileResetSignal((value) => value + 1);
+      resetFormTiming();
     } else {
       setStatus("error");
       setErrorMessage(result.error || "Unable to send. Please try again later.");
+      setTurnstileResetSignal((value) => value + 1);
+      resetFormTiming();
     }
   }
 
@@ -204,7 +228,13 @@ export function QuoteCart() {
         )}
       </div>
 
-      <form ref={formRef} onSubmit={handleSubmit} className="surface rounded-lg p-6">
+      <form
+        ref={formRef}
+        onFocusCapture={markFormStarted}
+        onChangeCapture={markFormStarted}
+        onSubmit={handleSubmit}
+        className="surface rounded-lg p-6"
+      >
         <h2 className="text-xl font-bold text-slate-950">Request quotation, not checkout</h2>
         <p className="mt-2 text-sm text-slate-600">
           No online payment will be collected. HACIEN will review availability, equivalent options,
@@ -218,6 +248,7 @@ export function QuoteCart() {
             <input type="text" name="_website" tabIndex={-1} autoComplete="off" />
           </label>
         </div>
+        <input ref={startedAtInputRef} type="hidden" name="formStartedAt" />
 
         <div className="mt-6 grid gap-4">
           {[
@@ -234,6 +265,17 @@ export function QuoteCart() {
                 required
                 type={type}
                 name={key}
+                autoComplete={
+                  key === "name"
+                    ? "name"
+                    : key === "company"
+                      ? "organization"
+                      : key === "email"
+                        ? "email"
+                        : key === "phone"
+                          ? "tel"
+                          : undefined
+                }
                 className="rounded border border-slate-300 px-3 py-2 font-normal"
               />
             </label>
@@ -264,6 +306,7 @@ export function QuoteCart() {
             <textarea
               name="notes"
               rows={5}
+              aria-label="Notes or specifications"
               className="rounded border border-slate-300 px-3 py-2 font-normal"
             />
           </label>
@@ -309,6 +352,8 @@ export function QuoteCart() {
               Terms of Use
             </Link>.
           </p>
+
+          <TurnstileField siteKey={turnstileSiteKey} resetSignal={turnstileResetSignal} />
 
           <button
             type="submit"

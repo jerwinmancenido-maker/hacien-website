@@ -14,19 +14,19 @@ export default function NotFoundPage() {
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Link
             href="/"
-            className="button-glow rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white hover:bg-[#0f46b4]"
+            className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white hover:bg-[#0f46b4]"
           >
             Return to headquarters
           </Link>
           <Link
             href="/search"
-            className="interactive-link rounded border border-slate-300 px-5 py-3 text-center text-sm font-bold text-slate-700 hover:border-[#1457d9]"
+            className="interactive-link focus-ring rounded border border-slate-300 px-5 py-3 text-center text-sm font-bold text-slate-700 hover:border-[#1457d9]"
           >
             Search
           </Link>
           <Link
             href="/support"
-            className="interactive-link rounded border border-slate-300 px-5 py-3 text-center text-sm font-bold text-slate-700 hover:border-[#1457d9]"
+            className="interactive-link focus-ring rounded border border-slate-300 px-5 py-3 text-center text-sm font-bold text-slate-700 hover:border-[#1457d9]"
           >
             Support
           </Link>

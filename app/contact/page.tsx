@@ -34,6 +34,8 @@ const responseSignals = [
 ];
 
 export default function ContactPage() {
+  const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "";
+
   return (
     <>
       <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
@@ -136,13 +138,13 @@ export default function ContactPage() {
               Current requests move through RFQ review, direct communication, and formal quotation follow-up.
             </p>
           </AnimatedContent>
-          <QuoteRequestForm />
+          <QuoteRequestForm turnstileSiteKey={turnstileSiteKey} />
         </div>
       </section>
 
       <section className="px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-          <ContactForm />
+          <ContactForm turnstileSiteKey={turnstileSiteKey} />
           <AnimatedContent>
             <BorderGlow className="rounded-lg bg-white p-6 shadow-sm">
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">

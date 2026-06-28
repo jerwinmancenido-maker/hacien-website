@@ -26,6 +26,8 @@ const expectations = [
 ];
 
 export default function SupportPage() {
+  const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "";
+
   return (
     <>
       <section className="relative overflow-hidden bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8 lg:py-24">
@@ -112,7 +114,7 @@ export default function SupportPage() {
               Include RFQ reference, products, quantity, date, delivery context, quotation reference, or the policy area you need clarified.
             </p>
           </AnimatedContent>
-          <ContactForm />
+          <ContactForm turnstileSiteKey={turnstileSiteKey} />
         </div>
       </section>
     </>
