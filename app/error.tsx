@@ -3,7 +3,6 @@
 import Link from "next/link";
 
 export default function ErrorPage({
-  error,
   reset,
 }: {
   error: Error & { digest?: string };
@@ -37,13 +36,7 @@ export default function ErrorPage({
           </Link>
         </div>
         <p className="mt-6 text-xs text-slate-400">
-          If the problem persists, contact{" "}
-          <a
-            href="mailto:sales@haciensolutions.com"
-            className="font-semibold text-[#1457d9]"
-          >
-            sales@haciensolutions.com
-          </a>
+          If the problem persists, return to Support and choose the closest inquiry path.
         </p>
       </div>
     </section>

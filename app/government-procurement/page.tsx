@@ -156,7 +156,7 @@ export default function GovernmentProcurementPage() {
               Government and institutional buyers need careful quotation support, not generic product pushing.
             </h2>
             <p className="mt-4 max-w-3xl text-base leading-7 text-slate-600">
-              HACIEN's support is strongest when requirements, specifications, supplier conditions, and delivery assumptions are made visible before formal quotation decisions.
+              HACIEN&apos;s support is strongest when requirements, specifications, supplier conditions, and delivery assumptions are made visible before formal quotation decisions.
             </p>
           </AnimatedContent>
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">

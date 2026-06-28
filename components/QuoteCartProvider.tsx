@@ -22,16 +22,15 @@ const QuoteCartContext = createContext<QuoteCartContextValue | null>(null);
 const storageKey = "hacien_quote_cart_v1";
 
 export function QuoteCartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<QuoteCartItem[]>([]);
-
-  useEffect(() => {
+  const [items, setItems] = useState<QuoteCartItem[]>(() => {
+    if (typeof window === "undefined") return [];
     try {
       const saved = window.localStorage.getItem(storageKey);
-      if (saved) setItems(JSON.parse(saved) as QuoteCartItem[]);
+      return saved ? (JSON.parse(saved) as QuoteCartItem[]) : [];
     } catch {
-      setItems([]);
+      return [];
     }
-  }, []);
+  });
 
   useEffect(() => {
     window.localStorage.setItem(storageKey, JSON.stringify(items));

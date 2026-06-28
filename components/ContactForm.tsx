@@ -45,7 +45,7 @@ export function ContactForm({
       form.reset();
     } else {
       setStatus("error");
-      setErrorMessage(result.error || "Unable to send. Please email sales@haciensolutions.com");
+      setErrorMessage(result.error || "Unable to send. Please try again later.");
     }
   }
 
@@ -55,11 +55,7 @@ export function ContactForm({
         <div className="motion-slide-up rounded border border-emerald-200 bg-emerald-50 p-5">
           <div className="text-sm font-bold text-emerald-800">Inquiry sent</div>
           <p className="mt-2 text-sm leading-6 text-emerald-700">
-            Thank you. Your {type.toLowerCase()} inquiry has been sent to{" "}
-            <a href="mailto:sales@haciensolutions.com" className="font-semibold underline">
-              sales@haciensolutions.com
-            </a>.
-            HACIEN will respond within 1–2 business days.
+            Thank you. Your {type.toLowerCase()} inquiry has been queued for HACIEN review. Keep your submitted context available for follow-up.
           </p>
         </div>
       </div>
@@ -72,11 +68,7 @@ export function ContactForm({
         <div className="motion-slide-up rounded border border-red-200 bg-red-50 p-5">
           <div className="text-sm font-bold text-red-800">Unable to send</div>
           <p className="mt-2 text-sm leading-6 text-red-700">
-            {errorMessage}. Please email{" "}
-            <a href="mailto:sales@haciensolutions.com" className="font-semibold underline">
-              sales@haciensolutions.com
-            </a>{" "}
-            directly.
+            {errorMessage}
           </p>
           <button
             onClick={() => setStatus("idle")}
@@ -126,7 +118,12 @@ export function ContactForm({
           placeholder="Phone number"
           className="focus-ring rounded border border-slate-300 px-3 py-2"
         />
-        <select name="inquiryType" className="focus-ring rounded border border-slate-300 px-3 py-2" defaultValue="">
+        <select
+          name="inquiryType"
+          aria-label="Inquiry type"
+          className="focus-ring rounded border border-slate-300 px-3 py-2"
+          defaultValue=""
+        >
           <option value="" disabled>
             Inquiry type
           </option>
@@ -136,7 +133,12 @@ export function ContactForm({
           <option>Systems integration project</option>
         </select>
         <div className="grid gap-4 sm:grid-cols-2">
-          <select name="budgetRange" className="focus-ring rounded border border-slate-300 px-3 py-2" defaultValue="">
+          <select
+            name="budgetRange"
+            aria-label="Budget range"
+            className="focus-ring rounded border border-slate-300 px-3 py-2"
+            defaultValue=""
+          >
             <option value="" disabled>
               Budget range
             </option>
@@ -145,7 +147,12 @@ export function ContactForm({
             <option>PHP 250,000 - PHP 1,000,000</option>
             <option>To be discussed</option>
           </select>
-          <select name="timeline" className="focus-ring rounded border border-slate-300 px-3 py-2" defaultValue="">
+          <select
+            name="timeline"
+            aria-label="Timeline"
+            className="focus-ring rounded border border-slate-300 px-3 py-2"
+            defaultValue=""
+          >
             <option value="" disabled>
               Timeline
             </option>
