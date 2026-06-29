@@ -4,6 +4,12 @@ const nextConfig: NextConfig = {
   output: "standalone",
   reactStrictMode: true,
   productionBrowserSourceMaps: false,
+  experimental: {
+    cpus: Number(process.env.NEXT_BUILD_CPUS || 2),
+    staticGenerationMaxConcurrency: Number(process.env.NEXT_STATIC_GENERATION_MAX_CONCURRENCY || 2),
+    staticGenerationMinPagesPerWorker: Number(process.env.NEXT_STATIC_GENERATION_MIN_PAGES_PER_WORKER || 25),
+    workerThreads: true,
+  },
 
   async headers() {
     const hstsEnabled = process.env.HSTS_ENABLE === "true";
