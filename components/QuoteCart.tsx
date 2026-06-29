@@ -13,11 +13,25 @@ const allowedAttachmentTypes = [
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
   "application/vnd.ms-excel",
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  "text/csv",
   "image/png",
   "image/jpeg",
+  "application/zip",
+  "application/x-zip-compressed",
 ];
 
 const maxAttachmentSize = 10 * 1024 * 1024;
+
+const allowedAttachmentExtensions = [".pdf", ".doc", ".docx", ".xls", ".xlsx", ".csv", ".png", ".jpg", ".jpeg", ".zip"];
+
+const intakePaths = [
+  "Describe requirements",
+  "Upload BOQ",
+  "Upload government specifications",
+  "Upload existing supplier quote",
+  "Upload file / image / ZIP",
+  "Use RFQ cart",
+];
 
 export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   const { items, updateQuantity, removeItem, clearCart } = useQuoteCart();
@@ -43,6 +57,11 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
     if (startedAtInputRef.current) startedAtInputRef.current.value = "";
   }
 
+  function isAllowedAttachment(file: File) {
+    const lowerName = file.name.toLowerCase();
+    return allowedAttachmentTypes.includes(file.type) || allowedAttachmentExtensions.some((extension) => lowerName.endsWith(extension));
+  }
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     markFormStarted();
@@ -55,13 +74,24 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
 
     const itemLines = items.map((item) => `${item.product.id} — ${item.product.name} x${item.quantity}`);
     const file = data.get("attachment") as File | null;
+    const notes = String(data.get("notes") || "").trim();
     const submittedAttachmentInfo =
       file && file.size > 0
-        ? `${file.name} (${Math.round(file.size / 1024)} KB) — uploaded through RFQ form`
+        ? `${file.name} (${Math.round(file.size / 1024)} KB, ${file.type || "unknown type"}) — uploaded through RFQ form`
         : "No attachment selected";
+    const hasAttachment = Boolean(file && file.size > 0);
+    const hasCartItems = items.length > 0;
+
+    if (!hasCartItems && !notes && !hasAttachment) {
+      setStatus("error");
+      setErrorMessage("Describe the requirement, add a file, or select catalog items before submitting.");
+      setTurnstileResetSignal((value) => value + 1);
+      resetFormTiming();
+      return;
+    }
 
     const payload: Record<string, unknown> = {
-      type: "RFQ Cart Submission",
+      type: "Universal RFQ Gateway Submission",
       website: data.get("_website"),
       formStartedAt: data.get("formStartedAt"),
       turnstileToken: data.get("cf-turnstile-response"),
@@ -69,15 +99,21 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
       company: data.get("company"),
       email: data.get("email"),
       phone: data.get("phone"),
+      intakePath: data.get("intakePath"),
       procurementType: data.get("procurementType"),
       location: data.get("location"),
       targetDate: data.get("targetDate"),
       budgetRange: data.get("budgetRange"),
-      notes: data.get("notes"),
+      notes,
       items: itemLines.join("\n"),
+      cartItemCount: items.length,
       attachmentInfo: submittedAttachmentInfo,
+      attachmentName: hasAttachment ? file?.name : "",
+      attachmentType: hasAttachment ? file?.type : "",
+      attachmentSizeKb: hasAttachment ? Math.round((file?.size || 0) / 1024) : 0,
+      acceptsZeroCatalogProducts: true,
       procurementNote:
-        "HACIEN will review availability, equivalent options, warranty, delivery terms, and supplier quotations before issuing a formal quote.",
+        "HACIEN accepts RFQs with or without catalog products. Gateway review comes before Opportunity creation.",
       submittedAt: new Date().toISOString(),
     };
 
@@ -153,14 +189,17 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr]">
       <div className="surface rounded-lg p-6">
-        <h2 className="text-xl font-bold text-slate-950">RFQ cart</h2>
+        <h2 className="text-xl font-bold text-slate-950">Universal RFQ intake</h2>
+        <p className="mt-2 text-sm leading-6 text-slate-600">
+          Start with a product, a BOQ, a supplier quote, a government specification, an image, a ZIP file, or a plain description. Catalog products are optional.
+        </p>
         <div className="mt-5 grid gap-3 sm:grid-cols-5">
           {[
-            "Select Requirements",
-            "Add Specifications",
-            "Upload RFQ/BOQ",
+            "Describe or Upload",
+            "Optional Catalog",
+            "Gateway Reference",
             "HACIEN Reviews",
-            "Formal Quote",
+            "Opportunity if Ready",
           ].map((stepText, index) => (
             <div
               key={stepText}
@@ -179,11 +218,10 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
               RFQ
             </div>
             <p className="mt-4 font-semibold text-slate-800">
-              Your RFQ cart is ready for requirements.
+              Your RFQ can start without catalog products.
             </p>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              Add product requirements from the catalog and HACIEN will review availability,
-              equivalent options, warranty, delivery terms, and supplier quotations.
+              Describe the requirement or upload a BOQ, specification, supplier quote, image, or ZIP file. The product catalog is a convenience, not a gate.
             </p>
             <Link
               href="/products"
@@ -247,8 +285,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
       >
         <h2 className="text-xl font-bold text-slate-950">Request quotation, not checkout</h2>
         <p className="mt-2 text-sm text-slate-600">
-          No online payment will be collected. HACIEN will review availability, equivalent options,
-          warranty, delivery terms, and supplier quotations before issuing a formal quote.
+          No online payment will be collected. Every request enters the Gateway first, receives a reference number, and is reviewed before it becomes an Opportunity.
         </p>
 
         {/* Honeypot */}
@@ -261,6 +298,15 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         <input ref={startedAtInputRef} type="hidden" name="formStartedAt" />
 
         <div className="mt-6 grid gap-4">
+          <label className="grid gap-2 text-sm font-semibold text-slate-700">
+            Intake path
+            <select required name="intakePath" className="rounded border border-slate-300 px-3 py-2 font-normal" defaultValue="">
+              <option value="" disabled>Select how this RFQ is starting</option>
+              {intakePaths.map((path) => (
+                <option key={path}>{path}</option>
+              ))}
+            </select>
+          </label>
           {[
             ["name", "Contact name", "text"],
             ["company", "Company / agency", "text"],
@@ -312,28 +358,29 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
             </select>
           </label>
           <label className="grid gap-2 text-sm font-semibold text-slate-700">
-            Notes / specifications
+            Requirement details <span className="font-normal text-slate-500">(required unless a file or cart item is included)</span>
             <textarea
               name="notes"
               rows={5}
               aria-label="Notes or specifications"
+              placeholder="Describe the product, outcome, quantity, model, equivalent options, delivery location, deadline, BOQ context, or anything HACIEN should review."
               className="rounded border border-slate-300 px-3 py-2 font-normal"
             />
           </label>
           <label className="grid gap-2 text-sm font-semibold text-slate-700">
-            Attachment <span className="font-normal text-slate-500">(RFQ document, BOQ, specs, PR, or bid document)</span>
+            Attachment <span className="font-normal text-slate-500">(BOQ, government specs, supplier quote, PDF, Excel, image, or ZIP)</span>
             <input
               name="attachment"
               type="file"
-              accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg"
+              accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg,.zip"
               className="rounded border border-dashed border-slate-300 bg-slate-50 px-3 py-3 text-sm font-normal"
               onChange={(event) => {
                 const file = event.currentTarget.files?.[0];
                 setFileError("");
                 setAttachmentInfo("");
                 if (!file) return;
-                if (!allowedAttachmentTypes.includes(file.type)) {
-                  setFileError("Unsupported file type. Please use PDF, DOC, DOCX, XLS, XLSX, PNG, or JPG.");
+                if (!isAllowedAttachment(file)) {
+                  setFileError("Unsupported file type. Please use PDF, DOC, DOCX, XLS, XLSX, CSV, PNG, JPG, or ZIP.");
                   event.currentTarget.value = "";
                   return;
                 }
@@ -349,7 +396,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           {fileError ? <p className="text-sm font-semibold text-red-600">{fileError}</p> : null}
           {attachmentInfo ? <p className="text-sm font-semibold text-emerald-700">{attachmentInfo}</p> : null}
           <p className="rounded border border-blue-100 bg-blue-50 p-3 text-xs leading-5 text-slate-600">
-            Attachment upload will be included in the inquiry if supported. Accepted files: PDF, DOC, DOCX, XLS, XLSX, PNG, JPG. Maximum size: 10MB.
+            Attachment metadata will enter the Gateway with the request. Accepted files: PDF, DOC, DOCX, XLS, XLSX, CSV, PNG, JPG, ZIP. Maximum size: 10MB.
           </p>
 
           <p className="text-xs text-slate-500">
@@ -367,7 +414,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
 
           <button
             type="submit"
-            disabled={items.length === 0 || status === "sending" || Boolean(fileError)}
+            disabled={status === "sending" || Boolean(fileError)}
             className="button-glow rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-300"
           >
             {status === "sending" ? "Sending..." : "Submit RFQ"}
