@@ -23,6 +23,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   const { items, updateQuantity, removeItem, clearCart } = useQuoteCart();
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [referenceNumber, setReferenceNumber] = useState("");
   const [fileError, setFileError] = useState("");
   const [attachmentInfo, setAttachmentInfo] = useState("");
   const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
@@ -84,6 +85,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
     const result = await sendInquiryEmail(payload);
 
     if (result.success) {
+      setReferenceNumber(result.referenceNumber || "");
       setStatus("success");
       clearCart();
       setTurnstileResetSignal((value) => value + 1);
@@ -108,6 +110,14 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         <p className="mt-4 text-slate-600">
           HACIEN will review availability, equivalent options, warranty, delivery terms, and supplier quotation context before preparing a formal response.
         </p>
+        {referenceNumber ? (
+          <div className="mx-auto mt-6 max-w-sm rounded border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
+            Reference: <span className="font-bold">{referenceNumber}</span>
+            <Link href={`/track/${referenceNumber}`} className="ml-3 font-bold text-[#1457d9] hover:underline">
+              Track request
+            </Link>
+          </div>
+        ) : null}
         <Link
           href="/products"
           className="mt-6 inline-flex rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white"

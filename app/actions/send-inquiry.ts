@@ -1,12 +1,10 @@
 "use server";
 
 import { headers } from "next/headers";
-import nodemailer from "nodemailer";
 
 const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
 const RATE_LIMIT_MAX = 5; // max submissions per window per IP
 const EMAIL_RATE_LIMIT_MAX = 3;
-const EMAIL_SEND_TIMEOUT_MS = 15_000;
 const MIN_SUBMIT_TIME_MS = 3_000;
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 const emailRateLimitMap = new Map<string, { count: number; resetAt: number }>();
@@ -66,34 +64,6 @@ function getString(value: unknown): string {
   return typeof value === "string" ? value : "";
 }
 
-async function verifyTurnstileToken(token: string, ip: string): Promise<boolean> {
-  const secret = process.env.TURNSTILE_SECRET_KEY;
-  if (!secret || !token) return false;
-
-  const body = new URLSearchParams({
-    secret,
-    response: token,
-  });
-
-  if (ip !== "unknown") {
-    body.set("remoteip", ip);
-  }
-
-  try {
-    const response = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-      method: "POST",
-      body,
-    });
-
-    if (!response.ok) return false;
-
-    const result = (await response.json()) as { success?: boolean };
-    return result.success === true;
-  } catch {
-    return false;
-  }
-}
-
 async function validateSubmissionSecurity(
   formData: Record<string, unknown>,
 ): Promise<{ allowed: boolean; error?: string; ip: string; retryAfterSec?: number }> {
@@ -131,114 +101,17 @@ async function validateSubmissionSecurity(
     };
   }
 
-  const tokenValid = await verifyTurnstileToken(getString(formData.turnstileToken), ip);
-  if (!tokenValid) {
-    console.warn("RFQ: Turnstile verification failed.", { ip });
+  if (!getString(formData.turnstileToken)) {
+    console.warn("RFQ: Turnstile token missing.", { ip });
     return {
       allowed: false,
-      error: "Security verification could not be completed. Please refresh and try again.",
+      error:
+        "Security verification could not be completed. Please refresh and try again.",
       ip,
     };
   }
 
   return { allowed: true, ip };
-}
-
-// ── Transporter: SMTP-first, sendmail fallback ─────────────────
-
-function getSmtpConfig() {
-  const host = process.env.SMTP_HOST;
-  const portValue = process.env.SMTP_PORT;
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
-  const from = process.env.SMTP_FROM;
-  const to = process.env.SALES_TO_EMAIL;
-
-  const missing = [
-    ["SMTP_HOST", host],
-    ["SMTP_PORT", portValue],
-    ["SMTP_USER", user],
-    ["SMTP_PASS", pass],
-    ["SMTP_FROM", from],
-    ["SALES_TO_EMAIL", to],
-  ]
-    .filter(([, value]) => !value)
-    .map(([name]) => name);
-
-  if (missing.length > 0) return null; // fall back to sendmail
-
-  const port = Number(portValue);
-  if (!Number.isInteger(port) || port <= 0) return null;
-
-  return {
-    host: host as string,
-    port,
-    user: user as string,
-    pass: pass as string,
-    from: from as string,
-    to: to as string,
-  };
-}
-
-function createTransporter() {
-  const config = getSmtpConfig();
-
-  if (config) {
-    console.info("RFQ: Using SMTP transport.", {
-      host: config.host,
-      port: config.port,
-      secure: config.port === 465,
-    });
-    return {
-      transport: nodemailer.createTransport({
-        host: config.host,
-        port: config.port,
-        secure: config.port === 465,
-        auth: { user: config.user, pass: config.pass },
-        connectionTimeout: EMAIL_SEND_TIMEOUT_MS,
-        greetingTimeout: EMAIL_SEND_TIMEOUT_MS,
-        socketTimeout: EMAIL_SEND_TIMEOUT_MS,
-      }),
-      from: config.from,
-      to: config.to,
-      mode: "smtp" as const,
-    };
-  }
-
-  // Fallback: sendmail (works on Hostinger with local MTA)
-  console.info("RFQ: SMTP not fully configured. Using sendmail fallback.");
-  return {
-    transport: nodemailer.createTransport({
-      sendmail: true,
-      newline: "unix",
-      path: "/usr/sbin/sendmail",
-    }),
-    from: process.env.SMTP_FROM || "noreply@localhost",
-    to: process.env.SALES_TO_EMAIL || process.env.SMTP_FROM || "noreply@localhost",
-    mode: "sendmail" as const,
-  };
-}
-
-// ── Send with timeout ──────────────────────────────────────────
-
-async function sendMailWithTimeout(
-  transporter: nodemailer.Transporter,
-  message: nodemailer.SendMailOptions,
-) {
-  let timeout: ReturnType<typeof setTimeout> | undefined;
-  try {
-    return await Promise.race([
-      transporter.sendMail(message),
-      new Promise<never>((_, reject) => {
-        timeout = setTimeout(() => {
-          reject(new Error("Email delivery timed out before SMTP confirmation."));
-        }, EMAIL_SEND_TIMEOUT_MS);
-      }),
-    ]);
-  } finally {
-    if (timeout) clearTimeout(timeout);
-    transporter.close();
-  }
 }
 
 // ── Public API ─────────────────────────────────────────────────
@@ -247,7 +120,87 @@ export type EmailResult = {
   success: boolean;
   error?: string;
   retryAfterSec?: number;
+  referenceNumber?: string;
+  status?: string;
+  trackingUrl?: string;
 };
+
+function getGatewaySubmissionType(formType: string) {
+  const normalized = formType.toLowerCase();
+  if (normalized.includes("government")) return "GOVERNMENT_PROCUREMENT";
+  if (normalized.includes("support")) return "SUPPORT";
+  if (normalized.includes("rfq") || normalized.includes("quote")) return "RFQ";
+  return "CONTACT";
+}
+
+function getGatewayUrl() {
+  return (
+    process.env.HACIEN_GATEWAY_API_URL ||
+    process.env.HACIEN_API_PUBLIC_URL ||
+    "http://localhost:4101/api/v1"
+  ).replace(/\/$/, "");
+}
+
+async function submitToGateway(formData: Record<string, unknown>, ip: string) {
+  const formType = getString(formData.type) || "Website Inquiry";
+  const gatewayUrl = getGatewayUrl();
+  const response = await fetch(`${gatewayUrl}/gateway/submissions`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify({
+      submissionType: getGatewaySubmissionType(formType),
+      payload: {
+        ...formData,
+        turnstileToken: undefined,
+        website: undefined,
+        formStartedAt: undefined,
+      },
+      sourceSurface: "WEBSITE",
+      sourceUrl: getString(formData.sourceUrl),
+      turnstileToken: getString(formData.turnstileToken),
+      antiSpamVerification: {
+        passed: true,
+        source: "website-server-action",
+        verifiedAt: new Date().toISOString(),
+      },
+      submitterContext: {
+        ip,
+        formType,
+      },
+      clientMetadata: {
+        userAgent: getString(formData.userAgent),
+      },
+    }),
+  });
+
+  const body = (await response.json().catch(() => null)) as {
+    referenceNumber?: string;
+    tracking?: { status?: string };
+    error?: string;
+    message?: string;
+  } | null;
+
+  if (!response.ok || !body?.referenceNumber) {
+    console.error("Gateway: Submission failed.", {
+      status: response.status,
+      hasReference: Boolean(body?.referenceNumber),
+      message: body?.message || body?.error || "Gateway submission failed",
+    });
+    return {
+      success: false,
+      error: "Unable to receive the request. Please try again later.",
+    };
+  }
+
+  return {
+    success: true,
+    referenceNumber: body.referenceNumber,
+    status: body.tracking?.status || "RECEIVED",
+    trackingUrl: `/track/${encodeURIComponent(body.referenceNumber)}`,
+  };
+}
 
 export async function sendInquiryEmail(
   formData: Record<string, unknown>,
@@ -275,79 +228,22 @@ export async function sendInquiryEmail(
   });
 
   try {
-    const { transport, from, to, mode } = createTransporter();
-
-    // ── Build email ──
-    const fields = Object.entries(formData)
-      .filter(([k, v]) => !["website", "formStartedAt", "turnstileToken"].includes(k) && v !== undefined && v !== null && v !== "")
-      .map(([k, v]) => `${k}: ${v}`)
-      .join("\n");
-
-    const htmlFields = Object.entries(formData)
-      .filter(([k, v]) => !["website", "formStartedAt", "turnstileToken"].includes(k) && v !== undefined && v !== null && v !== "")
-      .map(
-        ([k, v]) =>
-          `<tr><td style="padding:4px 12px 4px 0;font-weight:600;vertical-align:top;white-space:nowrap">${k}</td><td style="padding:4px 0">${v}</td></tr>`,
-      )
-      .join("");
-
-    const rawSubject =
-      (formData.subject as string) ||
-      (formData.type
-        ? `HACIEN Website — ${formData.type} Inquiry`
-        : "HACIEN Website — New Inquiry");
-    const subject = rawSubject.replace(/[\r\n]/g, "");
-
-    // ── Log: SMTP attempt ──
-    console.info("RFQ: SMTP send attempt.", { mode, to, subject });
-
-    const info = await sendMailWithTimeout(transport, {
-      from,
-      to,
-      replyTo: (formData.email as string) || undefined,
-      subject,
-      text: `New inquiry from haciensolutions.com\n\n${fields}`,
-      html: `<!DOCTYPE html><html><body style="font-family:sans-serif;font-size:14px;color:#1a1a1a"><h2 style="color:#1457d9">HACIEN Website Inquiry</h2><table style="border-collapse:collapse">${htmlFields}</table><hr style="margin-top:24px;border:none;border-top:1px solid #e2e8f0"><p style="color:#64748b;font-size:12px">Submitted via haciensolutions.com</p></body></html>`,
-    });
-
-    // ── Check acceptance ──
-    const accepted = Array.isArray(info.accepted) ? info.accepted.length : 0;
-    const rejected = Array.isArray(info.rejected) ? info.rejected.length : 0;
-
-    if (rejected > 0 && accepted === 0) {
-      console.error("RFQ: SMTP send failure — rejected by provider.", {
-        accepted,
-        rejected,
-        mode,
+    const result = await submitToGateway(formData, ip);
+    if (result.success) {
+      console.info("Gateway: Submission received.", {
+        referenceNumber: result.referenceNumber,
+        status: result.status,
       });
-      return {
-        success: false,
-        error: "Email delivery was rejected by the SMTP provider. Please try again later.",
-      };
     }
-
-    // ── Log: success ──
-    console.info("RFQ: SMTP send success.", {
-      accepted,
-      rejected,
-      mode,
-      messageId: info.messageId,
-    });
-
-    return { success: true };
+    return result;
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Failed to send email";
 
     // ── Log: failure (safe — no secrets) ──
-    console.error("RFQ: SMTP send failure.", {
+    console.error("Gateway: Submission failure.", {
       errorName: err instanceof Error ? err.name : "UnknownError",
       errorMessage: message,
-      smtpHostConfigured: Boolean(process.env.SMTP_HOST),
-      smtpPortConfigured: Boolean(process.env.SMTP_PORT),
-      smtpUserConfigured: Boolean(process.env.SMTP_USER),
-      smtpPassConfigured: Boolean(process.env.SMTP_PASS),
-      smtpFromConfigured: Boolean(process.env.SMTP_FROM),
-      salesToEmailConfigured: Boolean(process.env.SALES_TO_EMAIL),
+      gatewayConfigured: Boolean(process.env.HACIEN_GATEWAY_API_URL),
     });
 
     return {
