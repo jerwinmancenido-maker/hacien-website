@@ -3,9 +3,9 @@ import { QuoteCart } from "@/components/QuoteCart";
 import { SectionHeading } from "@/components/SectionHeading";
 
 export const metadata: Metadata = {
-  title: "RFQ Cart",
+  title: "Universal RFQ Gateway",
   description:
-    "Submit an RFQ procurement request to HACIEN. No online payment is collected.",
+    "Submit an RFQ procurement request to HACIEN with or without catalog products. No online payment is collected.",
 };
 
 export default function QuotePage() {
@@ -15,10 +15,10 @@ export default function QuotePage() {
     <section className="px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
-          eyebrow="Quote Checkout"
+          eyebrow="Universal Gateway Intake"
           as="h1"
-          title="Request quotation, not checkout."
-          description="This RFQ flow is designed for corporate, government, education, reseller, and project-based IT buying where final specifications, equivalent models, supplier availability, warranty, and delivery terms must be verified."
+          title="Start with the requirement. Catalog is optional."
+          description="Describe the need, upload a BOQ, send government specifications, attach an existing supplier quote, use catalog items, or simply explain the outcome. Every path enters HACIEN through the Gateway before any Opportunity is created."
         />
         <div className="mt-10">
           <QuoteCart turnstileSiteKey={turnstileSiteKey} />

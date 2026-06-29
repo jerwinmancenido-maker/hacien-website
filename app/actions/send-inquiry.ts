@@ -156,6 +156,8 @@ async function submitToGateway(formData: Record<string, unknown>, ip: string) {
         turnstileToken: undefined,
         website: undefined,
         formStartedAt: undefined,
+        gatewayPrinciple:
+          "Universal intake: catalog products are optional; Gateway review is mandatory before Opportunity creation.",
       },
       sourceSurface: "WEBSITE",
       sourceUrl: getString(formData.sourceUrl),
