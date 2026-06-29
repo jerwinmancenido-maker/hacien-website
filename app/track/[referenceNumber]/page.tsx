@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ClarificationReplyForm } from "@/components/ClarificationReplyForm";
 import { SectionHeading } from "@/components/SectionHeading";
 
 type TrackingPageProps = {
@@ -103,6 +104,9 @@ export default async function TrackReferencePage({ params }: TrackingPageProps) 
               <div className="mt-4 text-sm text-slate-500">
                 Received: {new Date(tracking.gateway.receivedAt).toLocaleString()}
               </div>
+              {tracking.gateway.status === "NEEDS_CLARIFICATION" ? (
+                <ClarificationReplyForm referenceNumber={tracking.gateway.referenceNumber} />
+              ) : null}
             </div>
 
             <div className="surface rounded-lg p-6">
