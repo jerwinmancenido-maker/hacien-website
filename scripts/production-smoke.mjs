@@ -25,6 +25,18 @@ const REQUIRED_ROUTES = [
 ];
 
 const TURNSTILE_ROUTES = ["/quote", "/contact", "/support", "/government-procurement"];
+const QUOTE_REQUIRED_MARKERS = [
+  "Universal RFQ Gateway",
+  "Universal Gateway Intake",
+  "Start with the requirement. Catalog is optional.",
+  "Your RFQ can start without catalog products.",
+];
+const QUOTE_REJECTED_MARKERS = [
+  "RFQ Cart",
+  "Quote Checkout",
+  "Your RFQ cart is ready",
+  "Select Requirements",
+];
 const REQUIRED_SECURITY_HEADERS = [
   "content-security-policy",
   "x-content-type-options",
@@ -117,6 +129,29 @@ async function checkTurnstileMarkers() {
   return results;
 }
 
+async function checkUniversalGatewayIntake() {
+  const res = await fetchWithTimeout(routeUrl("/quote"));
+  const html = await res.text();
+  const missing = QUOTE_REQUIRED_MARKERS.filter((marker) => !html.includes(marker));
+  const stale = QUOTE_REJECTED_MARKERS.filter((marker) => html.includes(marker));
+  const ok = res.ok && missing.length === 0 && stale.length === 0;
+
+  if (ok) {
+    console.log(`PASS ${res.status} Universal Gateway Intake /quote`);
+    return true;
+  }
+
+  const details = [
+    missing.length > 0 ? `missing: ${missing.join(", ")}` : "",
+    stale.length > 0 ? `stale: ${stale.join(", ")}` : "",
+  ]
+    .filter(Boolean)
+    .join("; ");
+
+  console.log(`FAIL ${res.status} Universal Gateway Intake /quote${details ? ` (${details})` : ""}`);
+  return false;
+}
+
 async function main() {
   console.log(`HACIEN production smoke test: ${BASE_URL}`);
 
@@ -130,6 +165,7 @@ async function main() {
   checks.push(await checkSitemapAndRobots());
   checks.push(await checkNotFound());
   checks.push(...(await checkTurnstileMarkers()));
+  checks.push(await checkUniversalGatewayIntake());
 
   const failed = checks.filter((ok) => !ok).length;
   console.log(`Result: ${checks.length - failed} passed, ${failed} failed`);
