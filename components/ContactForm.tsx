@@ -16,6 +16,7 @@ export function ContactForm({
 }) {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [referenceNumber, setReferenceNumber] = useState("");
   const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
   const startedAtInputRef = useRef<HTMLInputElement>(null);
@@ -63,6 +64,7 @@ export function ContactForm({
     const result = await sendInquiryEmail(payload);
 
     if (result.success) {
+      setReferenceNumber(result.referenceNumber || "");
       setStatus("success");
       form.reset();
       setTurnstileResetSignal((value) => value + 1);
@@ -81,8 +83,16 @@ export function ContactForm({
         <div className="motion-slide-up rounded border border-emerald-200 bg-emerald-50 p-5">
           <div className="text-sm font-bold text-emerald-800">Inquiry sent</div>
           <p className="mt-2 text-sm leading-6 text-emerald-700">
-            Thank you. Your {type.toLowerCase()} inquiry has been queued for HACIEN review. Keep your submitted context available for follow-up.
+            Thank you. Your {type.toLowerCase()} inquiry has been received and is under HACIEN review.
           </p>
+          {referenceNumber ? (
+            <div className="mt-4 rounded border border-emerald-200 bg-white p-3 text-sm text-emerald-800">
+              Reference: <span className="font-bold">{referenceNumber}</span>
+              <Link href={`/track/${referenceNumber}`} className="ml-3 font-bold text-[#1457d9] hover:underline">
+                Track request
+              </Link>
+            </div>
+          ) : null}
         </div>
       </div>
     );
