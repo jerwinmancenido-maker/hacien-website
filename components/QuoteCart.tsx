@@ -209,7 +209,8 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Gateway Package</div>
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-950">Universal RFQ intake</h2>
         <p className="mt-2 text-sm leading-6 text-slate-600">
-          Start with a requirement, BOQ, supplier quote, government specification, image, ZIP file, technology area, or plain description.
+          Your RFQ can start without catalog products. Start with a requirement, BOQ, supplier quote,
+          government specification, image, ZIP file, technology area, or plain description.
         </p>
         <div className="mt-6 grid gap-3 sm:grid-cols-5">
           {[
