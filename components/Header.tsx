@@ -24,7 +24,8 @@ const companyItems = [
 
 const futureCompanyItems = ["Careers", "Partner Area"];
 
-const erpUrl = process.env.NEXT_PUBLIC_ERP_URL?.trim() || "/login";
+const erpUrl =
+  process.env.NEXT_PUBLIC_ERP_URL?.trim() || "https://erp.haciensolutions.com/login";
 const isErpExternal = erpUrl.startsWith("http");
 
 export function Header() {
