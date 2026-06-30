@@ -55,7 +55,7 @@ export function PremiumPageHero({
               {primaryAction.label}
             </Link>
             {secondaryAction ? (
-              <Link href={secondaryAction.href} className="interactive-link rounded-full border border-white/25 bg-white/8 px-6 py-3 text-center text-sm font-bold text-white backdrop-blur hover:border-blue-200">
+              <Link href={secondaryAction.href} className="interactive-link glass-control-dark rounded-full px-6 py-3 text-center text-sm font-bold text-white hover:border-blue-200">
                 {secondaryAction.label}
               </Link>
             ) : null}

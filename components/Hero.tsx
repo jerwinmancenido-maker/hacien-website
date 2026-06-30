@@ -36,7 +36,7 @@ export function Hero() {
               <Link href="/quote" className="button-glow rounded-full bg-white px-6 py-3 text-center text-sm font-bold text-[#071426] shadow-xl shadow-blue-950/30">
                 Request Quote
               </Link>
-              <Link href="/technology" className="interactive-link rounded-full border border-white/25 bg-white/8 px-6 py-3 text-center text-sm font-bold text-white backdrop-blur hover:border-blue-200">
+              <Link href="/technology" className="interactive-link glass-control-dark rounded-full px-6 py-3 text-center text-sm font-bold text-white hover:border-blue-200">
                 Explore Technology
               </Link>
             </div>

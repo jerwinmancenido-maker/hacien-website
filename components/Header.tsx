@@ -41,15 +41,15 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-1 rounded-full border border-slate-200 bg-slate-50/80 p-1 text-sm font-semibold text-slate-700 shadow-inner shadow-white lg:flex">
+        <nav className="glass-control hidden items-center gap-1 rounded-full p-1 text-sm font-semibold text-slate-700 lg:flex">
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={`rounded-full px-3 py-2 transition-colors ${
                 isActive(item.href)
-                  ? "bg-white text-[#071426] shadow-sm shadow-slate-950/8"
-                  : "text-slate-600 hover:bg-white/80 hover:text-[#071426]"
+                  ? "bg-white/90 text-[#071426] shadow-sm shadow-slate-950/8"
+                  : "text-slate-600 hover:bg-white/70 hover:text-[#071426]"
               }`}
             >
               {item.label}
@@ -62,8 +62,8 @@ export function Header() {
             href="/access"
             className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
               pathname === "/access"
-                ? "border-[#1457d9] text-[#1457d9]"
-                : "border-slate-300 text-slate-900 hover:border-[#1457d9] hover:text-[#1457d9]"
+                ? "glass-control border-[#1457d9]/50 text-[#1457d9]"
+                : "glass-control text-slate-900 hover:border-[#1457d9]/50 hover:text-[#1457d9]"
             }`}
           >
             Access HACIEN
