@@ -5,7 +5,7 @@ import { companyContact } from "@/data/companyContact";
 export function Footer() {
   return (
     <footer className="border-t border-slate-200 bg-[#071426] text-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.25fr_0.85fr_0.9fr_0.9fr_1fr_0.85fr] lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.35fr_0.9fr_0.9fr_0.9fr_0.85fr] lg:px-8">
         <div>
           <Image
             src="/brand/hacien-wordmark-light.png"
@@ -46,19 +46,20 @@ export function Footer() {
           </div>
         </div>
         <div>
-          <div className="text-sm font-semibold text-slate-100">Solutions</div>
+          <div className="text-sm font-semibold text-slate-100">Explore</div>
           <div className="mt-4 grid gap-3 text-sm text-slate-300">
             <Link href="/solutions">Solutions</Link>
-            <Link href="/government-procurement">Government Procurement</Link>
+            <Link href="/technology">Technology</Link>
+            <Link href="/platform">Platform</Link>
             <Link href="/insights">Insights</Link>
           </div>
         </div>
         <div>
-          <div className="text-sm font-semibold text-slate-100">Technology</div>
+          <div className="text-sm font-semibold text-slate-100">Start</div>
           <div className="mt-4 grid gap-3 text-sm text-slate-300">
-            <Link href="/technology">Technology Domains</Link>
-            <Link href="/products">Representative Categories</Link>
-            <Link href="/platform">Platform</Link>
+            <Link href="/quote">Request Quote</Link>
+            <Link href="/products">Technology RFQ Builder</Link>
+            <Link href="/support">Support</Link>
           </div>
         </div>
         <div>
@@ -66,14 +67,12 @@ export function Footer() {
           <div className="mt-4 grid gap-3 text-sm text-slate-300">
             <Link href="/access">Access HACIEN</Link>
             <Link href="/customer-workspace">Customer Workspace</Link>
-            <Link href="/support">Support</Link>
+            <Link href="/search">Search</Link>
           </div>
         </div>
         <div>
-          <div className="text-sm font-semibold text-slate-100">Start</div>
+          <div className="text-sm font-semibold text-slate-100">Legal</div>
           <div className="mt-4 grid gap-3 text-sm text-slate-300">
-            <Link href="/quote">Request Quote</Link>
-            <Link href="/search">Search</Link>
             <Link href="/privacy">Privacy Policy</Link>
             <Link href="/terms">Terms</Link>
             <Link href="/legal">Legal</Link>

@@ -25,7 +25,6 @@ const howItWorks = [
   ["Delivery", "Align delivery coordination, handover needs, and follow-up support."],
 ];
 
-const erpFlow = ["Lead", "Opportunity", "Supplier Canvass", "Quotation", "Award", "PO", "Delivery", "Invoice"];
 const govFlow = ["RFQ", "Specification Matching", "Equivalent Review", "Supplier Availability", "Quotation Support", "Delivery Coordination"];
 
 const solutionImages: Record<string, keyof typeof enterpriseImages> = {
@@ -119,7 +118,7 @@ export function SolutionsV3() {
           description="Solutions answer the problems HACIEN helps organizations solve across infrastructure, workplace, cybersecurity, cloud, procurement, and managed services."
         />
         <StaggerContainer className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {solutions.map((solution) => (
+          {solutions.slice(0, 6).map((solution) => (
             <Link key={solution.slug} href={`/solutions/${solution.slug}`} className="group block">
               <AnimatedCard className="surface lift h-full overflow-hidden rounded-xl">
                 <div
@@ -141,6 +140,11 @@ export function SolutionsV3() {
             </Link>
           ))}
         </StaggerContainer>
+        <div className="mt-10">
+          <Link href="/solutions" className="interactive-link text-sm font-bold text-[#1457d9] hover:underline">
+            View all solutions →
+          </Link>
+        </div>
       </div>
     </AnimatedSection>
   );
@@ -183,6 +187,13 @@ export function ProductCatalogV3() {
 }
 
 export function ErpPreviewV3() {
+  const platformLayers = [
+    ["Workspace", "Secure internal operations"],
+    ["Timeline", "Relationship memory"],
+    ["Guardian", "Operational guidance"],
+    ["Customer Workspace", "Future customer continuity"],
+  ];
+
   return (
     <AnimatedSection className="bg-[#0b1220] px-4 py-20 text-white sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -197,11 +208,12 @@ export function ErpPreviewV3() {
               Explore Platform
             </Link>
           </div>
-          <StaggerContainer className="grid gap-3 sm:grid-cols-4">
-            {erpFlow.map((step, index) => (
-              <div key={step} className="rounded border border-white/12 bg-white/[0.07] p-4">
+          <StaggerContainer className="grid gap-4 sm:grid-cols-2">
+            {platformLayers.map(([title, text], index) => (
+              <div key={title} className="rounded-lg border border-white/12 bg-white/[0.07] p-5">
                 <div className="text-xs font-bold text-blue-200">0{index + 1}</div>
-                <div className="mt-2 font-bold">{step}</div>
+                <div className="mt-3 text-lg font-bold">{title}</div>
+                <p className="mt-2 text-sm leading-6 text-slate-300">{text}</p>
               </div>
             ))}
           </StaggerContainer>
@@ -242,12 +254,9 @@ export function GovernmentV3() {
 
 export function TrustV3() {
   const trustCards = [
-    ["Procurement-first approach", "HACIEN starts with the requirement, buyer context, deadline, delivery location, and documentation needs before treating a request as ready to quote."],
-    ["Technical validation before quotation", "Specifications, equivalents, compatibility, warranty, lead time, and practical constraints are reviewed before formal quotation support."],
-    ["Transparent RFQ process", "The RFQ path is designed to clarify what is known, what needs supplier confirmation, and what assumptions affect the final offer."],
-    ["Long-term customer partnership", "Customer value should continue after delivery through warranty, renewal, replacement, and support follow-through."],
-    ["Project documentation discipline", "Quotations, supplier inputs, delivery context, and handover needs are treated as part of one procurement record."],
-    ["Connected operating discipline", "Inquiry, quotation, sourcing, delivery, support, and customer history should remain part of one relationship."],
+    ["Verified identity", "DTI and BIR registration facts are available through the company profile and Trust & Compliance pages."],
+    ["Quotation discipline", "Pricing, warranty, delivery, payment, and tax treatment are confirmed through formal quotation and written communication."],
+    ["Relationship continuity", "Inquiries, quotations, delivery, support, and follow-up are treated as one continuing customer relationship."],
   ];
 
   return (
@@ -255,8 +264,8 @@ export function TrustV3() {
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="Trust & Confidence"
-          title="Why Organizations Trust HACIEN"
-          description="HACIEN builds confidence through practical procurement discipline, not inflated claims. Every trust signal should be visible in how requirements are reviewed, sourced, quoted, delivered, and supported."
+          title="Trust without overstatement."
+          description="HACIEN keeps public claims bounded, formal terms document-controlled, and customer communication clear."
         />
         <StaggerContainer className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {trustCards.map(([title, detail]) => (
