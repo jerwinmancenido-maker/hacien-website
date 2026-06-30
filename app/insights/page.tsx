@@ -172,10 +172,10 @@ export default function InsightsPage() {
                 <BorderGlow className="rounded-lg bg-white p-5 shadow-sm">
                   <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Platform Direction</div>
                   <h3 className="mt-3 text-lg font-bold text-slate-950 group-hover:text-[#1457d9]">
-                    HACIEN ERP, portal, marketplace, and procurement workflow roadmap
+                    HACIEN operating platform and procurement continuity
                   </h3>
                   <p className="mt-2 text-sm leading-6 text-slate-600">
-                    The ERP platform page explains current roadmap direction while dedicated platform articles are prepared.
+                    The operating platform page explains how HACIEN keeps inquiry, quotation, sourcing, delivery, and support connected.
                   </p>
                 </BorderGlow>
               </Link>

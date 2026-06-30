@@ -269,21 +269,20 @@ export default function AboutPage() {
         <GradientBackground className="opacity-40" />
         <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Future HACIEN ERP</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Connected Operations</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              Our vision is a connected digital procurement ecosystem.
+              HACIEN is designed to keep procurement work connected.
             </h2>
             <p className="mt-5 max-w-3xl leading-7 text-slate-300">
-              In the future, every quotation request submitted through the website will flow into
-              HACIEN ERP as a structured business opportunity. That means better tracking, cleaner
-              supplier canvass, faster quotation management, clearer delivery records, and stronger
-              accountability from first inquiry to collection.
+              Every quotation request should keep its context: customer need, supplier inputs,
+              commercial assumptions, delivery requirements, documents, and follow-up. That is how
+              HACIEN protects continuity from first inquiry to support.
             </p>
             <Link
               href="/erp-platform"
               className="button-glow focus-ring mt-8 inline-flex rounded bg-white px-5 py-3 text-sm font-bold text-[#071426]"
             >
-              Preview ERP roadmap
+              Learn how HACIEN works
             </Link>
           </AnimatedContent>
           <AnimatedContent delay={120} direction="left">

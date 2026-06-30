@@ -20,7 +20,7 @@ const supportPaths = [
 
 const expectations = [
   "Support starts with clear context, not a ticket number promise.",
-  "No unsupported SLA is published while operating policies are still being verified.",
+  "Response expectations are confirmed through the active support conversation or formal business communication.",
   "Payment, warranty, delivery, and return commitments must come from formal documents or verified policies.",
   "Use RFQ for new requirements and Contact for follow-up context.",
 ];
@@ -45,10 +45,10 @@ export default function SupportPage() {
             </p>
           </div>
           <BorderGlow tone="dark" className="rounded-lg bg-white/[0.07] p-6">
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">Current Support Status</div>
-            <h2 className="mt-4 text-2xl font-bold">Inquiry routing is available. SLA claims are not published yet.</h2>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">Support Routing</div>
+            <h2 className="mt-4 text-2xl font-bold">Route the question, preserve the context, continue the relationship.</h2>
             <p className="mt-4 text-sm leading-6 text-slate-300">
-              Use this page to choose the correct path. Formal response times, warranty terms, and escalation commitments will be published only after policy verification.
+              Use this page to choose the correct path. Formal response times, warranty terms, and escalation commitments are confirmed through written business communication.
             </p>
           </BorderGlow>
         </div>

@@ -27,8 +27,8 @@ const sourcingPrinciples = [
     text: "A laptop, switch, firewall, UPS, license, or CCTV package is only useful when the site, users, compatibility, and delivery conditions are understood.",
   },
   {
-    title: "Marketplace direction stays honest.",
-    text: "Future checkout and subscription management are roadmap items. Today, HACIEN keeps product buying quote-first for procurement accuracy.",
+    title: "Quote-first buying protects accuracy.",
+    text: "HACIEN keeps product buying quote-first so pricing, stock, warranty, lead time, and delivery terms are confirmed before commitment.",
   },
 ];
 
@@ -196,14 +196,14 @@ export default function ProductsPage() {
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
-                  Marketplace Roadmap
+                  Quote-first Commerce
                 </div>
                 <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
-                  Future marketplace and subscription flows will not replace RFQ discipline.
+                  Product discovery should lead to a better RFQ, not unsupported checkout.
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
-                  Direct checkout, supplier API inventory, account dashboards, and subscription self-service
-                  are not live today. They remain future capabilities for clearly scoped products and licenses.
+                  Browse representative products, describe the requirement, attach files when needed,
+                  and let HACIEN confirm the commercial details before a formal offer.
                 </p>
               </div>
               <Link

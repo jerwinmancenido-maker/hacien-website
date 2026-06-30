@@ -138,13 +138,13 @@ export function ErpPreviewV3() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Future HACIEN ERP</div>
-            <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">A procurement and project operations platform is being built behind the scenes.</h2>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">HACIEN Operations</div>
+            <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">Procurement work should stay connected from inquiry to follow-through.</h2>
             <p className="mt-5 leading-7 text-slate-300">
-              HACIEN ERP is not marketed as production-ready software yet. It is the future operations backbone for lead tracking, supplier canvass, quotation, awards, purchase orders, delivery, billing, and collections.
+              HACIEN is organized around one operating path: capture the requirement, review the context, quote responsibly, coordinate fulfillment, and keep customer follow-up connected.
             </p>
             <Link href="/erp-platform" className="button-glow mt-8 inline-flex rounded bg-white px-5 py-3 text-sm font-bold text-[#071426]">
-              Preview ERP roadmap
+              Learn how HACIEN works
             </Link>
           </div>
           <StaggerContainer className="grid gap-3 sm:grid-cols-4">
@@ -195,9 +195,9 @@ export function TrustV3() {
     ["Procurement-first approach", "HACIEN starts with the requirement, buyer context, deadline, delivery location, and documentation needs before treating a request as ready to quote."],
     ["Technical validation before quotation", "Specifications, equivalents, compatibility, warranty, lead time, and practical constraints are reviewed before formal quotation support."],
     ["Transparent RFQ process", "The RFQ path is designed to clarify what is known, what needs supplier confirmation, and what assumptions affect the final offer."],
-    ["Long-term customer partnership", "Customer value should continue after delivery through warranty, renewal, replacement, support, and future portal visibility."],
+    ["Long-term customer partnership", "Customer value should continue after delivery through warranty, renewal, replacement, and support follow-through."],
     ["Project documentation discipline", "Quotations, supplier inputs, delivery context, and handover needs are treated as part of one procurement record."],
-    ["ERP-driven operational vision", "The future ERP and portal roadmap is intended to improve tracking, accountability, and customer continuity without claiming live capability today."],
+    ["Connected operating discipline", "Inquiry, quotation, sourcing, delivery, support, and customer history should remain part of one relationship."],
   ];
 
   return (
@@ -239,13 +239,12 @@ export function ExistingCustomerV3() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Customer Workspace</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Existing Customers</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
               Already working with HACIEN?
             </h2>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">
-              Existing customers will soon have access to a secure workspace for quotations,
-              procurement, order tracking, invoices, subscriptions, and support.
+              Existing customers can continue through RFQ, tracking, clarification, contact, and support paths while private account access is prepared.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
@@ -258,10 +257,10 @@ export function ExistingCustomerV3() {
               Sign In
             </Link>
             <Link
-              href="/signup"
+              href="/contact"
               className="button-glow rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
             >
-              Request Portal Access
+              Contact HACIEN
             </Link>
           </div>
         </div>

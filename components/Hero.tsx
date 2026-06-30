@@ -19,7 +19,7 @@ export function Hero() {
           </SlideUp>
           <SlideUp delay={170}>
             <p className="mt-6 max-w-2xl text-xl leading-8 text-slate-200">
-              A calm entry point for RFQs, solutions consulting, technology sourcing, procurement coordination, and future customer visibility. HACIEN publishes verified DTI and BIR registration facts while keeping tax-readiness, permit, bank, and payment claims pending.
+              A calm entry point for RFQs, solutions consulting, technology sourcing, procurement coordination, and customer follow-through. HACIEN publishes supported company facts and confirms commercial commitments through formal quotation review.
             </p>
           </SlideUp>
           <SlideUp delay={260}>
@@ -52,12 +52,12 @@ export function Hero() {
             <div className="absolute left-1/2 top-6 h-[calc(100%-3rem)] w-px bg-gradient-to-b from-transparent via-violet-300/50 to-transparent" />
             <div className="relative grid h-full grid-cols-2 gap-4">
               {[
-                ["RFQ Desk", "Need, timeline, location"],
-                ["Solutions Room", "Requirement and option review"],
-                ["Trust Center", "Verified and pending status"],
-                ["Support Desk", "Clear follow-up path"],
-                ["Portal Roadmap", "Planned customer visibility"],
-                ["Company Foundation", "Evidence before claims"],
+              ["RFQ Desk", "Need, timeline, location"],
+              ["Solutions Room", "Requirement and option review"],
+              ["Trust Center", "Public verification boundary"],
+              ["Support Desk", "Clear follow-up path"],
+              ["Customer Workspace", "Prepared for future visibility"],
+              ["Company Foundation", "Evidence before claims"],
               ].map(([title, text], index) => (
                 <div key={title} className="rounded-lg border border-white/14 bg-white/10 p-5 backdrop-blur transition-transform duration-200 hover:-translate-y-1">
                   <div className="flex items-start gap-4">

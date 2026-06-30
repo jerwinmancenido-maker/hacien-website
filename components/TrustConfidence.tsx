@@ -8,15 +8,15 @@ const commitments = [
   ["Procurement accountability", "HACIEN keeps the discussion tied to documents, specifications, supplier inputs, and practical handover needs."],
   ["Practical recommendations", "Recommendations should fit the buyer's environment, not simply push a product class or brand preference."],
   ["Long-term support", "Delivery, warranty, renewal, replacement, and support conversations should remain connected after the first transaction."],
-  ["Continuous improvement", "The ERP and portal roadmap is intended to make procurement records clearer and customer follow-up easier over time."],
+  ["Continuous improvement", "Customer follow-up should become clearer every time HACIEN learns from real procurement work."],
 ];
 
 const resources = [
-  ["Company Profile", "Coming Soon", "A downloadable overview of HACIEN's company information, positioning, services, and contact details."],
-  ["Capability Statement", "Coming Soon", "A concise buyer-facing summary of service coverage, procurement support, and operating focus."],
-  ["Service Brochure", "Planned", "A future service overview for IT infrastructure, integration, sourcing, delivery, and support."],
+  ["Company Profile", "Available", "A public overview of HACIEN's company information, positioning, services, and contact details."],
+  ["Capability Statement", "Upon request", "A concise buyer-facing summary of service coverage, procurement support, and operating focus."],
+  ["Service Overview", "Upon request", "A service overview for IT infrastructure, integration, sourcing, delivery, and support."],
   ["Product Catalog", "Planned", "A structured product category reference. Final pricing, stock, warranty, and models remain RFQ-based."],
-  ["Government Procurement Guide", "Planned", "A future guide for specification review, equivalent matching, documentation, and quotation preparation."],
+  ["Government Procurement Support", "Available", "Guidance for specification review, equivalent matching, documentation, and quotation preparation."],
 ];
 
 const journey = [
@@ -67,10 +67,10 @@ export function CapabilityResources({ inverse = false }: { inverse?: boolean }) 
             Capability Resources
           </div>
           <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-            Buyer resources are being prepared without implying documents exist today.
+            Buyer resources are handled with the same discipline as quotations.
           </h2>
           <p className={`mt-4 text-base leading-7 ${inverse ? "text-slate-300" : "text-slate-600"}`}>
-            These resources are placeholders for future downloadable materials. They should only become downloads when approved files are available.
+            Public resources stay concise. More detailed materials can be shared directly when they match the buyer, supplier, or procurement context.
           </p>
         </div>
         <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
