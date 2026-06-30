@@ -7,6 +7,7 @@ import {
   ExistingCustomerV3,
   GovernmentV3,
   HowHacienWorks,
+  PremiumStatementBand,
   ProductCatalogV3,
   SolutionsV3,
   TechnologyEcosystem,
@@ -23,6 +24,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <PremiumStatementBand />
       <TechnologyEcosystem />
       <HowHacienWorks />
       <CustomerJourneyConfidence />

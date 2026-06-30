@@ -1,18 +1,18 @@
 import Link from "next/link";
 import { CTABand } from "@/components/CTABand";
-import { ProductGrid } from "@/components/ProductGrid";
+import { EnterprisePhotoPanel, PremiumStatementBand } from "@/components/EnterpriseImagery";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
-import { products } from "@/data/products";
+import { categories } from "@/data/products";
 import { solutions } from "@/data/solutions";
 
 const ecosystem = [
-  ["End User Computing", "Dell Latitude, Lenovo ThinkPad, HP ProDesk class devices"],
-  ["Servers & Storage", "Synology NAS, tower/rack servers, backup storage"],
-  ["Networking", "Cisco-class switching, WiFi, routing, structured connectivity"],
-  ["Security", "Fortinet-class firewall options, CCTV, endpoint protection"],
-  ["Cloud & Software", "Microsoft 365, productivity, security, business apps"],
-  ["Power & Infrastructure", "UPS, racks, cabling, peripherals, consumables"],
+  ["Enterprise Computing", "Workstations and infrastructure for serious operating environments."],
+  ["Data Platforms", "Servers, storage, backup, and continuity foundations."],
+  ["Networking", "Reliable connectivity for offices, campuses, and institutions."],
+  ["Cybersecurity", "Protection for business and government technology environments."],
+  ["Cloud & Software", "Productivity, collaboration, security, and licensed platforms."],
+  ["Power & Edge", "UPS, structured infrastructure, edge sites, and deployment materials."],
 ];
 
 const howItWorks = [
@@ -30,29 +30,29 @@ const govFlow = ["RFQ", "Specification Matching", "Equivalent Review", "Supplier
 
 export function TechnologyEcosystem() {
   return (
-    <AnimatedSection className="bg-[#071426] px-4 py-20 text-white sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.85fr_1.15fr]">
+    <AnimatedSection className="bg-[#071426] px-4 py-24 text-white sm:px-6 lg:px-8">
+      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div>
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Technology Ecosystem</div>
-          <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">Sourced technologies for real IT environments.</h2>
-          <p className="mt-5 max-w-2xl leading-7 text-slate-300">
-            HACIEN presents representative technologies as sourcing categories, not partner badges or reseller claims.
-            Brand and model availability are confirmed during quotation.
+          <h2 className="mt-5 text-5xl font-bold tracking-tight sm:text-6xl">Infrastructure, security, software, and continuity.</h2>
+          <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
+            HACIEN frames technology as operating capability. Products, suppliers, pricing, and warranties are confirmed only after requirements are understood.
           </p>
+          <StaggerContainer className="mt-10 grid gap-3 sm:grid-cols-2">
+            {ecosystem.map(([title, detail]) => (
+              <AnimatedCard key={title} className="group rounded-lg border border-white/12 bg-white/[0.06] p-5 backdrop-blur">
+                <div className="text-base font-bold">{title}</div>
+                <p className="mt-2 text-sm leading-6 text-slate-300">{detail}</p>
+              </AnimatedCard>
+            ))}
+          </StaggerContainer>
         </div>
-        <StaggerContainer className="grid gap-4 sm:grid-cols-2">
-          {ecosystem.map(([title, detail]) => (
-            <AnimatedCard key={title} className="group rounded-lg border border-white/12 bg-white/[0.06] p-5 backdrop-blur">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <div className="text-lg font-bold">{title}</div>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">{detail}</p>
-                </div>
-                <div className="h-9 w-9 rounded-full border border-blue-300/40 bg-blue-300/10 transition-transform group-hover:scale-110" />
-              </div>
-            </AnimatedCard>
-          ))}
-        </StaggerContainer>
+        <EnterprisePhotoPanel
+          image="silicon"
+          eyebrow="Capability Layer"
+          title="Technology decisions should support the business, not distract from it."
+          caption="HACIEN keeps the buyer focused on requirements, outcomes, delivery context, and formal review."
+        />
       </div>
     </AnimatedSection>
   );
@@ -117,15 +117,24 @@ export function SolutionsV3() {
 
 export function ProductCatalogV3() {
   return (
-    <AnimatedSection className="bg-white px-4 py-20 sm:px-6 lg:px-8">
+    <AnimatedSection className="bg-white px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
-          eyebrow="RFQ Catalog"
-          title="Procurement-style product presentation."
-          description="Products are shown as representative sourcing classes. Final quotation confirms brand, model, stock, warranty, and lead time."
+          eyebrow="Capabilities"
+          title="Technology categories presented as business outcomes."
+          description="HACIEN does not lead with model numbers or prices. The public catalog helps buyers describe the capability they need before formal review."
         />
-        <div className="mt-10">
-          <ProductGrid products={products.filter((product) => product.featured || product.availability !== "Project order").slice(0, 6)} />
+        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {categories.slice(0, 6).map((category) => (
+            <Link key={category.slug} href={`/products/${category.slug}`} className="group block">
+              <AnimatedCard className="h-full rounded-lg border border-slate-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-950/10">
+                <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Capability</div>
+                <h3 className="mt-5 text-2xl font-bold tracking-tight text-slate-950 group-hover:text-[#1457d9]">{category.name}</h3>
+                <p className="mt-4 text-sm leading-7 text-slate-600">{category.summary}</p>
+                <div className="mt-8 text-sm font-bold text-[#1457d9]">Review category</div>
+              </AnimatedCard>
+            </Link>
+          ))}
         </div>
       </div>
     </AnimatedSection>
@@ -228,6 +237,8 @@ export function TrustV3() {
     </AnimatedSection>
   );
 }
+
+export { PremiumStatementBand };
 
 export function ExistingCustomerV3() {
   const erpUrl =

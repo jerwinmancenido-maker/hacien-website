@@ -94,7 +94,7 @@ export default function SignupPage() {
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Relationship-first access</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
-              Customer accounts should support procurement relationships, not anonymous checkout.
+              Customer accounts should support procurement relationships and controlled continuity.
             </h2>
           </AnimatedContent>
           <div className="mt-10 grid gap-5 lg:grid-cols-3">

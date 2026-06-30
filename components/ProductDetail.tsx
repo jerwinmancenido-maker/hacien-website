@@ -23,7 +23,7 @@ export function ProductDetail({ product }: { product: Product }) {
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
                 {category?.name}
               </div>
-              <div className="mt-4 text-3xl font-bold text-slate-950">{product.id}</div>
+              <div className="mt-4 text-3xl font-bold text-slate-950">Capability review</div>
               <p className="mt-3 text-sm text-slate-600">{product.availability}</p>
             </div>
           </div>
@@ -59,8 +59,8 @@ export function ProductDetail({ product }: { product: Product }) {
                 <input className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case" placeholder="Optional" />
               </label>
               <label className="text-xs font-semibold uppercase text-slate-500">
-                Target specs
-                <input className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case" placeholder="CPU, RAM, storage, ports, license count..." />
+                Target capability
+                <input className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case" placeholder="Performance, users, workload, ports, license count..." />
               </label>
               <label className="text-xs font-semibold uppercase text-slate-500">
                 Warranty requirement
@@ -82,7 +82,7 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
 
           <div className="mt-8">
-            <h2 className="font-bold text-slate-950">Key specifications</h2>
+            <h2 className="font-bold text-slate-950">Typical sourcing targets</h2>
             <StaggerContainer className="mt-4 grid gap-3 text-sm text-slate-700">
               {product.specs.map((spec) => (
                 <li key={spec} className="flex gap-3">
