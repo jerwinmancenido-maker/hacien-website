@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -26,9 +27,14 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/88 shadow-sm shadow-slate-950/4 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <Link href="/" className="flex shrink-0 items-center gap-3">
-          <span className="grid h-9 w-9 place-items-center rounded bg-[#071426] text-sm font-bold text-white shadow-sm shadow-slate-950/10">
-            H
-          </span>
+          <Image
+            src="/brand/hacien-mark.png"
+            alt="HACIEN logo"
+            width={42}
+            height={42}
+            priority
+            className="h-10 w-10 rounded-sm object-contain"
+          />
           <span>
             <span className="block text-sm font-bold tracking-wide text-slate-950">HACIEN</span>
             <span className="hidden text-xs text-slate-500 sm:block">Information Technology Solutions</span>
