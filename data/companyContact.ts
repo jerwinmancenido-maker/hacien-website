@@ -1,4 +1,5 @@
 export const companyContact = {
+  legalName: "HACIEN Information Technology Solutions",
   email: "sales@haciensolutions.com",
   addressLabel: "Registered office",
   addressLines: [
