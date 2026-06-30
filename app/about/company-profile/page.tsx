@@ -5,14 +5,14 @@ import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/rea
 export const metadata: Metadata = {
   title: "Company Profile",
   description:
-    "Truth-safe HACIEN company profile with verified DTI business name registration and pending tax, permit, bank, signatory, and payment verification.",
+    "Truth-safe HACIEN company profile with verified DTI and BIR registration facts and pending tax, permit, bank, signatory, and payment verification.",
 };
 
 const profileItems = [
   ["What HACIEN does", "Solutions consulting, RFQ review, technology sourcing coordination, procurement support, and customer-success oriented follow-through."],
   ["What HACIEN is preparing", "A verified operating foundation for public documents, supplier accreditation, Trust Center policies, ERP records, and future customer portal visibility."],
-  ["What is verified", "DTI business name registration for HACIEN INFORMATION TECHNOLOGY SOLUTIONS, Business Name No. 8278010, National scope, valid June 17, 2026 to June 17, 2031."],
-  ["What is not published yet", "BIR, TIN, RDO, LGU permit, bank, payment instruction, signatory, tax profile, certification, and accreditation claims."],
+  ["What is verified", "DTI business name registration for HACIEN INFORMATION TECHNOLOGY SOLUTIONS and BIR registration facts including TIN/branch, RDO, and registered address."],
+  ["What is not published yet", "LGU permit, bank, payment instruction, signatory, tax-readiness, certification, and accreditation claims."],
   ["Why this matters", "Customers and suppliers should not need to guess which claims are verified and which are still being prepared."],
 ];
 
@@ -20,7 +20,8 @@ const verification = [
   ["DTI business name", "Verified"],
   ["Business Name No.", "8278010"],
   ["Validity", "Jun 17 2026 - Jun 17 2031"],
-  ["Tax identity", "Not published"],
+  ["BIR registration", "Verified facts"],
+  ["Tax readiness", "Pending CPA review"],
   ["Office location", "Lease evidence verified"],
   ["Bank/payment", "Not published"],
   ["Public RFQ", "Available"],
@@ -37,10 +38,10 @@ export default function CompanyProfilePage() {
               Company Profile
             </AnimatedContent>
             <h1 className="mt-5 max-w-5xl text-5xl font-bold tracking-tight sm:text-6xl">
-              HACIEN has verified its DTI business name registration.
+              HACIEN publishes only the company facts it can support.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-              HACIEN INFORMATION TECHNOLOGY SOLUTIONS is registered with DTI as a business name. Tax, permit, bank, payment, and signatory details remain unpublished until separately verified.
+              HACIEN INFORMATION TECHNOLOGY SOLUTIONS has verified DTI business name registration and BIR registration facts. Tax interpretation, permit, bank, payment, and signatory details remain unpublished until separately verified.
             </p>
           </div>
           <BorderGlow tone="dark" className="rounded-lg bg-white/[0.07] p-6">
@@ -84,7 +85,7 @@ export default function CompanyProfilePage() {
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Next public action</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">Send a requirement for review.</h2>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">
-              The RFQ channel is the safest current way to engage HACIEN while remaining tax, payment, supplier, and policy verification continues.
+              The RFQ channel is the safest current way to engage HACIEN while payment, supplier, policy, and tax-readiness verification continues.
             </p>
           </div>
           <Link href="/quote" className="button-glow rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white">
