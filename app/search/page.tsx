@@ -12,13 +12,13 @@ const searchable = [
   { title: "Products", href: "/products", group: "RFQ", text: "Representative product sourcing categories for quotation review." },
   { title: "Industries", href: "/industries", group: "Solutions", text: "Buyer contexts for business, government, education, healthcare, construction, and enterprise." },
   { title: "Insights", href: "/insights", group: "Resources", text: "Educational content and procurement thinking." },
-  { title: "Trust Center", href: "/trust-center", group: "Trust", text: "Policy status, verification boundaries, payment status, privacy, and support expectations." },
+  { title: "Trust Center", href: "/trust-center", group: "Trust", text: "Company identity, verification boundaries, formal payment handling, privacy, and support expectations." },
   { title: "Support", href: "/support", group: "Support", text: "RFQ follow-up, delivery, warranty questions, policy routing, and supplier inquiries." },
   { title: "Submit RFQ", href: "/quote", group: "RFQ", text: "Request quotation review without online payment or checkout." },
   { title: "About HACIEN", href: "/about", group: "Company", text: "Procurement-first story, workflow, and operating philosophy." },
-  { title: "Company Profile", href: "/about/company-profile", group: "Company", text: "Truth-safe company profile while legal verification is underway." },
-  { title: "Customer Portal", href: "/portal", group: "Future", text: "Roadmap preview only. Portal access is not live." },
-  { title: "ERP Platform", href: "/erp-platform", group: "Future", text: "ERP operating direction and roadmap context." },
+  { title: "Company Profile", href: "/about/company-profile", group: "Company", text: "Supported company profile, public identity facts, and RFQ engagement path." },
+  { title: "Customer Workspace", href: "/portal", group: "Customer", text: "Private customer workspace direction and controlled access boundary." },
+  { title: "Operating Platform", href: "/erp-platform", group: "Company", text: "How HACIEN keeps inquiry, quotation, sourcing, delivery, support, and follow-through connected." },
 ];
 
 export default async function SearchPage({

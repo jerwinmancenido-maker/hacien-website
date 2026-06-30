@@ -10,9 +10,9 @@ import {
 } from "@/app/components/reactbits";
 
 export const metadata: Metadata = {
-  title: "Request Customer Access | HACIEN",
+  title: "Contact HACIEN | Customer Access",
   description:
-    "Request future HACIEN customer portal access for procurement management, quotation history, software subscriptions, support tickets, order visibility, and account management.",
+    "Contact HACIEN about customer access, RFQ follow-up, software subscriptions, support coordination, and account context.",
 };
 
 const accountBenefits = [
@@ -39,13 +39,13 @@ export default function SignupPage() {
             </AnimatedContent>
             <SplitText
               as="h1"
-              text="Create your HACIEN customer account."
+                text="Request the right HACIEN access path."
               className="mt-5 max-w-5xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
             />
             <BlurReveal delay={160}>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                Signup previews future customer onboarding for procurement records, quotations,
-                software subscriptions, support, and company account management.
+                HACIEN starts with the relationship and the requirement. Use RFQ for new needs,
+                support for follow-up, and contact for customer access questions.
               </p>
             </BlurReveal>
             <AnimatedContent delay={260} className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -61,7 +61,7 @@ export default function SignupPage() {
                 rel={isErpExternal ? "noopener noreferrer" : undefined}
                 className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
               >
-                Login Roadmap
+                Authorized ERP Sign In
               </Link>
             </AnimatedContent>
           </div>
@@ -69,43 +69,20 @@ export default function SignupPage() {
           <AnimatedContent delay={140} direction="left">
             <BorderGlow className="rounded-lg bg-white/[0.86] p-6 shadow-2xl shadow-slate-950/10">
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-                Early Access Preview
+                Access Inquiry
               </div>
               <h2 className="mt-3 text-xl font-bold text-slate-950 sm:text-2xl">
-                Request access is planned, not active.
+                Customer access is handled by conversation.
               </h2>
-              <form className="mt-7 grid gap-4" aria-describedby="signup-status">
-                <label className="grid gap-2 text-sm font-bold text-slate-800">
-                  Company name
-                  <input disabled placeholder="Company Inc." className="rounded border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-500" />
-                </label>
-                <label className="grid gap-2 text-sm font-bold text-slate-800">
-                  Contact person
-                  <input disabled placeholder="Full name" className="rounded border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-500" />
-                </label>
-                <label className="grid gap-2 text-sm font-bold text-slate-800">
-                  Work email
-                  <input disabled type="email" placeholder="name@company.com" className="rounded border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-500" />
-                </label>
-                <label className="grid gap-2 text-sm font-bold text-slate-800">
-                  Phone
-                  <input disabled placeholder="+63" className="rounded border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-500" />
-                </label>
-                <label className="grid gap-2 text-sm font-bold text-slate-800">
-                  Inquiry type
-                  <select disabled className="rounded border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-500" defaultValue="">
-                    <option value="">Select inquiry type</option>
-                    {inquiryTypes.map((type) => (
-                      <option key={type}>{type}</option>
-                    ))}
-                  </select>
-                </label>
-                <button disabled type="button" className="rounded bg-slate-300 px-5 py-3 text-sm font-bold text-slate-600">
-                  Request early access
-                </button>
-              </form>
+              <div className="mt-7 grid gap-3" aria-describedby="signup-status">
+                {inquiryTypes.map((type) => (
+                  <div key={type} className="rounded border border-slate-200 bg-slate-50 px-4 py-3 text-sm font-bold text-slate-800">
+                    {type}
+                  </div>
+                ))}
+              </div>
               <p id="signup-status" className="mt-4 text-sm leading-6 text-slate-600">
-                This preview does not submit requests, create accounts, or store customer data.
+                Submit an RFQ or contact HACIEN so the correct access path can be reviewed.
               </p>
             </BorderGlow>
           </AnimatedContent>
@@ -115,7 +92,7 @@ export default function SignupPage() {
       <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Future Onboarding</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Relationship-first access</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
               Customer accounts should support procurement relationships, not anonymous checkout.
             </h2>

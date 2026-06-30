@@ -11,30 +11,30 @@ import {
 import { PlannedWorkspacePreview } from "@/components/TrustConfidence";
 
 export const metadata: Metadata = {
-  title: "Customer Portal Roadmap | HACIEN",
+  title: "Customer Workspace | HACIEN",
   description:
-    "Explore the HACIEN customer portal roadmap for future RFQ tracking, quotations, orders, invoices, subscriptions, support tickets, company profile management, and customer account access.",
+    "Understand HACIEN's customer workspace direction for RFQ tracking, quotations, support, documents, and procurement continuity.",
 };
 
 const portalModules = [
-  ["RFQs", "Coming Soon", "Review submitted requirements and continue procurement conversations without starting from zero."],
-  ["Quotations", "Planned", "See quotation history, status, and document context when supported."],
-  ["Orders", "Planned", "Monitor procurement, fulfillment, delivery, and handover milestones."],
-  ["Invoices", "Coming Soon", "Access invoice and procurement document downloads in a future verified account area."],
-  ["Software Licenses", "In Development", "Track licenses, renewals, seats, subscriptions, and subscription-related support."],
-  ["Support Tickets", "Planned", "Request help for warranty, delivery, implementation, or renewal concerns."],
-  ["Company Profile", "Planned", "Maintain organization details, contacts, billing context, and purchasing preferences."],
-  ["Procurement History", "Coming Soon", "See a connected record of RFQs, quotations, orders, documents, and follow-up."],
+  ["RFQs", "Private access", "Review submitted requirements and continue procurement conversations without starting from zero."],
+  ["Quotations", "Private access", "See quotation history, status, and document context when supported."],
+  ["Orders", "Private access", "Monitor procurement, fulfillment, delivery, and handover milestones."],
+  ["Invoices", "Controlled documents", "Access invoice and procurement document downloads in a verified account area."],
+  ["Software Licenses", "Relationship-based", "Track licenses, renewals, seats, subscriptions, and subscription-related support."],
+  ["Support Tickets", "Relationship-based", "Request help for warranty, delivery, implementation, or renewal concerns."],
+  ["Company Profile", "Controlled records", "Maintain organization details, contacts, billing context, and purchasing preferences."],
+  ["Procurement History", "Relationship memory", "See a connected record of RFQs, quotations, orders, documents, and follow-up."],
 ];
 
 const previewModules: Array<[string, string, string, string]> = [
-  ["RFQs", "Coming Soon", "Requirement review", "Track submitted RFQ context and follow-up notes."],
-  ["Quotations", "Planned", "Commercial review", "View quotation history and supporting document context."],
-  ["Orders", "Planned", "Fulfillment visibility", "Monitor procurement, delivery, and handover milestones."],
-  ["Invoices", "Coming Soon", "Document access", "Access future invoice and procurement document records."],
-  ["Software Licenses", "In Development", "Renewal planning", "Track seats, renewals, subscriptions, and support context."],
-  ["Support Tickets", "Planned", "Post-delivery support", "Request assistance for warranty, delivery, renewal, or replacement concerns."],
-  ["Company Profile", "Planned", "Account details", "Maintain organization, contact, billing, and purchasing details."],
+  ["RFQs", "Private access", "Requirement review", "Track submitted RFQ context and follow-up notes."],
+  ["Quotations", "Private access", "Commercial review", "View quotation history and supporting document context."],
+  ["Orders", "Private access", "Fulfillment visibility", "Monitor procurement, delivery, and handover milestones."],
+  ["Invoices", "Controlled documents", "Document access", "Access invoice and procurement document records when authorized."],
+  ["Software Licenses", "Relationship-based", "Renewal planning", "Track seats, renewals, subscriptions, and support context."],
+  ["Support Tickets", "Relationship-based", "Post-delivery support", "Request assistance for warranty, delivery, renewal, or replacement concerns."],
+  ["Company Profile", "Controlled records", "Account details", "Maintain organization, contact, billing, and purchasing details."],
 ];
 
 const ecosystem = [
@@ -53,17 +53,17 @@ export default function PortalPage() {
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
             <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-              Customer Portal
+              Customer Workspace
             </AnimatedContent>
             <SplitText
               as="h1"
-              text="The future dashboard for HACIEN customers."
+              text="A private workspace for customer continuity."
               className="mt-5 max-w-5xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
             />
             <BlurReveal delay={160}>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                Portal previews the future account layer for RFQs, quotations, orders, invoices,
-                subscriptions, support tickets, and company profile management.
+                The customer workspace direction is simple: continue RFQs, quotations,
+                documents, subscriptions, and support without restarting the relationship.
               </p>
             </BlurReveal>
             <AnimatedContent delay={260} className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -74,10 +74,10 @@ export default function PortalPage() {
                 Request a Quote
               </Link>
               <Link
-                href="/signup"
+              href="/contact"
                 className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
               >
-                Request Portal Access
+                Contact HACIEN
               </Link>
             </AnimatedContent>
           </div>
@@ -85,17 +85,17 @@ export default function PortalPage() {
           <AnimatedContent delay={140} direction="left">
             <BorderGlow className="rounded-lg bg-white/[0.86] p-6 shadow-2xl shadow-slate-950/10">
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-                Current Status
+                Access Boundary
               </div>
               <h2 className="mt-3 text-xl font-bold text-slate-950 sm:text-2xl">
-                The customer portal is in development.
+                Private customer access is invitation-based.
               </h2>
               <p className="mt-4 text-sm leading-6 text-slate-600">
-                The live website currently supports RFQ submission, product discovery, public content,
-                and contact inquiries. Protected customer records are not live yet.
+                Public visitors can submit RFQs, track references, send clarifications, and contact HACIEN.
+                Protected records are shared only through controlled access.
               </p>
               <div className="mt-6 rounded border border-amber-200 bg-amber-50 p-3 text-xs font-bold uppercase tracking-[0.14em] text-amber-800">
-                Planned, not active
+                Controlled access
               </div>
             </BorderGlow>
           </AnimatedContent>
@@ -104,9 +104,9 @@ export default function PortalPage() {
 
       <PlannedWorkspacePreview
         eyebrow="Portal Preview"
-        title="A non-functional preview of the planned customer workspace."
-        description="This preview explains the intended customer experience. It does not indicate that protected accounts, records, invoice downloads, subscriptions, or support tickets are live today."
-        statusNote="Current status: roadmap preview only. Customers should use RFQ and contact channels until portal access is formally launched."
+        title="A bounded preview of the customer workspace."
+        description="This preview explains the intended customer experience without implying that protected accounts, records, invoice downloads, subscriptions, or support tickets are publicly available."
+        statusNote="Customers should use RFQ, tracking, clarification, contact, and support channels unless HACIEN grants private access."
         dashboardTitle="Planned module overview"
         modules={previewModules}
       />
@@ -119,7 +119,7 @@ export default function PortalPage() {
               A self-service layer for procurement continuity.
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
-              The future portal should help customers understand status, retrieve documents,
+              The customer workspace should help customers understand status, retrieve documents,
               request support, manage renewals, and continue procurement conversations.
             </p>
           </AnimatedContent>
@@ -140,12 +140,12 @@ export default function PortalPage() {
       <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Ecosystem Direction</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Connected Relationship</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
-              Website to Customer Account to Portal to ERP to Support.
+              Website to customer access to operations to support.
             </h2>
             <p className="mt-5 max-w-3xl text-sm leading-7 text-slate-300">
-              This is the intended ecosystem path. It is a roadmap direction, not a claim that the complete workflow is active today.
+              The customer should experience one relationship, even when work moves between inquiry, review, fulfillment, documents, and support.
             </p>
           </AnimatedContent>
           <div className="progress-line mt-12 grid gap-4">

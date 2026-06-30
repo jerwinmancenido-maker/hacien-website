@@ -5,15 +5,15 @@ import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/rea
 export const metadata: Metadata = {
   title: "Company Profile",
   description:
-    "Truth-safe HACIEN company profile with verified DTI and BIR registration facts and pending tax, permit, bank, signatory, and payment verification.",
+    "HACIEN company profile with supported company identity facts, RFQ intake, and professional procurement coordination context.",
 };
 
 const profileItems = [
   ["What HACIEN does", "Solutions consulting, RFQ review, technology sourcing coordination, procurement support, and customer-success oriented follow-through."],
-  ["What HACIEN is preparing", "A verified operating foundation for public documents, supplier accreditation, Trust Center policies, ERP records, and future customer portal visibility."],
-  ["What is verified", "DTI business name registration for HACIEN INFORMATION TECHNOLOGY SOLUTIONS and BIR registration facts including TIN/branch, RDO, and registered address."],
-  ["What is not published yet", "LGU permit, bank, payment instruction, signatory, tax-readiness, certification, and accreditation claims."],
-  ["Why this matters", "Customers and suppliers should not need to guess which claims are verified and which are still being prepared."],
+  ["How HACIEN works", "Every request enters a review path before quotation, sourcing, delivery, warranty, or payment commitments are made."],
+  ["Published company facts", "HACIEN INFORMATION TECHNOLOGY SOLUTIONS publishes supported DTI and BIR registration facts for customer and supplier confidence."],
+  ["Commercial commitments", "Pricing, delivery, warranty, and payment terms are confirmed through formal quotation and written business communication."],
+  ["Why this matters", "Customers and suppliers should know which information is public, which commitments are formal, and how to begin safely."],
 ];
 
 const verification = [
@@ -21,9 +21,7 @@ const verification = [
   ["Business Name No.", "8278010"],
   ["Validity", "Jun 17 2026 - Jun 17 2031"],
   ["BIR registration", "Verified facts"],
-  ["Tax readiness", "Pending CPA review"],
   ["Office location", "Lease evidence verified"],
-  ["Bank/payment", "Not published"],
   ["Public RFQ", "Available"],
 ];
 
@@ -41,7 +39,7 @@ export default function CompanyProfilePage() {
               HACIEN publishes only the company facts it can support.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-              HACIEN INFORMATION TECHNOLOGY SOLUTIONS has verified DTI business name registration and BIR registration facts. Tax interpretation, permit, bank, payment, and signatory details remain unpublished until separately verified.
+              HACIEN INFORMATION TECHNOLOGY SOLUTIONS publishes supported company identity facts and keeps commercial commitments inside formal review, quotation, and written communication.
             </p>
           </div>
           <BorderGlow tone="dark" className="rounded-lg bg-white/[0.07] p-6">
@@ -85,7 +83,7 @@ export default function CompanyProfilePage() {
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Next public action</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">Send a requirement for review.</h2>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">
-              The RFQ channel is the safest current way to engage HACIEN while payment, supplier, policy, and tax-readiness verification continues.
+              The RFQ channel is the safest way to start: describe the requirement, attach supporting files, receive a reference number, and continue through review.
             </p>
           </div>
           <Link href="/quote" className="button-glow rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white">

@@ -5,25 +5,25 @@ import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/rea
 export const metadata: Metadata = {
   title: "Trust Center",
   description:
-    "HACIEN Trust Center framework for company verification, RFQ terms, support expectations, privacy, security, and policy status while verification is underway.",
+    "HACIEN Trust Center for company identity, RFQ terms, support expectations, privacy, security, and commercial verification boundaries.",
 };
 
 const policyGroups = [
-  ["Company verification", "DTI and BIR facts verified", "HACIEN INFORMATION TECHNOLOGY SOLUTIONS has verified DTI business name registration and BIR registration facts. Permit, signatory, bank, payment, and tax-readiness details remain unpublished until separately verified."],
-  ["RFQ and quotation", "Draft framework", "RFQ submission starts review only. Formal quotation depends on supplier availability, warranty, lead time, and delivery context."],
-  ["Payment instructions", "Blocked", "No public bank account or payment instruction is published until founder and finance verification is complete."],
-  ["Warranty and returns", "Pending policy", "Warranty, replacement, and return terms depend on verified supplier and policy evidence."],
-  ["Delivery expectations", "Pending policy", "Delivery commitments are confirmed only in formal quotation or project communication."],
+  ["Company identity", "Supported facts", "HACIEN INFORMATION TECHNOLOGY SOLUTIONS publishes supported DTI and BIR registration facts for customer and supplier confidence."],
+  ["RFQ and quotation", "Review first", "RFQ submission starts review only. Formal quotation depends on supplier availability, warranty, lead time, and delivery context."],
+  ["Payment instructions", "Formal documents only", "Payment details are shared through appropriate formal documents and verified business communication."],
+  ["Warranty and returns", "Quote-specific terms", "Warranty, replacement, and return terms depend on the product, supplier basis, and formal quotation context."],
+  ["Delivery expectations", "Confirmed per order", "Delivery commitments are confirmed in formal quotation, order, or project communication."],
   ["Support", "Available as inquiry path", "Support requests can be routed, but no unsupported SLA is claimed."],
   ["Privacy", "Website policy available", "Public forms collect voluntarily submitted inquiry and RFQ context only."],
-  ["Security", "Framework pending", "Security statements remain conservative until production operations are verified."],
+  ["Security", "Conservative claims", "Security statements remain bounded to implemented controls and verified operating evidence."],
 ];
 
 const documentRules = [
-  "DTI and BIR registration facts may appear here because they are verified; tax-readiness, permit, bank, payment, and certification claims remain unpublished without separate verification.",
-  "Every future policy should show owner, version, effective date, review date, and status.",
+  "Public company facts should be supported by evidence before they appear on customer-facing pages.",
+  "Customer-facing policies should show owner, version, effective date, review date, and status when published.",
   "ERP documents should reference the policy version that applied when issued.",
-  "Public pages should explain pending status instead of hiding it.",
+  "Commercial commitments should be made through formal quotations, orders, and written business communication.",
 ];
 
 export default function TrustCenterPage() {
@@ -37,10 +37,10 @@ export default function TrustCenterPage() {
               Trust Center
             </AnimatedContent>
             <h1 className="mt-5 max-w-5xl text-5xl font-bold tracking-tight sm:text-6xl">
-              Trust begins with what HACIEN refuses to claim too early.
+              Trust begins with clear boundaries.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-              This is the public framework for commercial clarity, company verification, customer commitments, and policy status. Verification is underway, so pending facts remain visibly pending.
+              The Trust Center explains how HACIEN handles company identity, RFQ review, customer commitments, privacy, security, and support expectations without overstating commercial readiness.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/quote" className="button-glow rounded bg-white px-5 py-3 text-center text-sm font-bold text-[#071426]">
@@ -58,9 +58,8 @@ export default function TrustCenterPage() {
                 ["DTI business name", "Verified"],
                 ["Business Name No.", "8278010"],
                 ["BIR registration facts", "Verified"],
-                ["Tax readiness", "Pending CPA review"],
-                ["Bank/payment instructions", "Not public"],
-                ["Portal", "Planned only"],
+                ["Payment details", "Formal documents"],
+                ["Customer workspace", "Prepared"],
                 ["RFQ intake", "Available"],
               ].map(([label, status]) => (
                 <div key={label} className="flex items-center justify-between gap-4 rounded border border-white/12 bg-white/[0.06] px-4 py-3">
@@ -78,10 +77,10 @@ export default function TrustCenterPage() {
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Policy Registry</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              A paper-first policy framework.
+              Policies grouped by customer decisions.
             </h2>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">
-              Policies are grouped by customer decision value. Pending policies are displayed as pending, not disguised as completed commitments.
+              Public policies focus on the questions customers actually need answered before sending an inquiry, RFQ, or follow-up.
             </p>
           </AnimatedContent>
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">

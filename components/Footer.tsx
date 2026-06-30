@@ -10,7 +10,7 @@ export function Footer() {
             Procurement-first IT sourcing, solutions consulting, and customer-success oriented technology coordination for Philippine organizations.
           </p>
           <p className="mt-4 max-w-md rounded border border-white/10 bg-white/[0.05] p-3 text-xs leading-5 text-slate-300">
-            DTI and BIR registration facts are verified. HACIEN does not publish permit, bank, payment, signatory, or tax-readiness claims until separately verified.
+            Company identity facts are published from supported records. Pricing, delivery, warranty, and payment terms are confirmed through formal quotation and written communication.
           </p>
         </div>
         <div>
@@ -43,7 +43,7 @@ export function Footer() {
           <div className="mt-4 grid gap-3 text-sm text-slate-300">
             <Link href="/quote">Submit RFQ</Link>
             <Link href="/portal">
-              Customer Portal <span className="text-xs text-blue-200">(Coming Soon)</span>
+              Customer Workspace
             </Link>
             <Link href="/trust-center">Trust Center</Link>
           </div>
