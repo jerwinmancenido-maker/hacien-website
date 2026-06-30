@@ -230,6 +230,9 @@ export function TrustV3() {
 }
 
 export function ExistingCustomerV3() {
+  const erpUrl = process.env.NEXT_PUBLIC_ERP_URL?.trim() || "/login";
+  const isErpExternal = erpUrl.startsWith("http");
+
   return (
     <AnimatedSection className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
@@ -246,7 +249,9 @@ export function ExistingCustomerV3() {
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
-              href="/login"
+              href={erpUrl}
+              target={isErpExternal ? "_blank" : undefined}
+              rel={isErpExternal ? "noopener noreferrer" : undefined}
               className="interactive-link rounded border border-slate-300 bg-white px-5 py-3 text-center text-sm font-bold text-slate-900 hover:border-[#1457d9] hover:text-[#1457d9]"
             >
               Sign In
