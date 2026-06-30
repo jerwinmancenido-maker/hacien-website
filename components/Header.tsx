@@ -34,13 +34,14 @@ export function Header() {
     return pathname === href || pathname.startsWith(`${href}/`);
   }
 
+  const activeNavIndex = Math.max(navItems.findIndex((item) => isActive(item.href)), 0);
+
   return (
     <header
       className={`sticky top-0 z-50 border-b border-slate-200/70 bg-white/82 backdrop-blur-2xl transition-all duration-300 ${
         scrolled ? "shadow-lg shadow-slate-950/8" : "shadow-sm shadow-slate-950/3"
       }`}
     >
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#1457d9]/30 to-transparent" />
       <div className={`mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 transition-all duration-300 sm:px-6 lg:px-8 ${scrolled ? "py-2" : "py-3"}`}>
         <Link href="/" className="group flex shrink-0 items-center gap-3 rounded-full pr-3 transition hover:bg-slate-50/70">
           <span className="relative grid h-11 w-11 place-items-center overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-sm shadow-slate-950/5 transition duration-300 group-hover:-translate-y-0.5 group-hover:border-[#1457d9]/35 group-hover:shadow-lg group-hover:shadow-blue-900/10">
@@ -60,15 +61,20 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className="glass-control hidden items-center gap-1 rounded-full p-1 text-sm font-semibold text-slate-700 lg:flex">
+        <nav className="glass-control relative hidden w-[540px] grid-cols-6 overflow-hidden rounded-full p-1 text-center text-sm font-semibold text-slate-700 lg:grid">
+          <span
+            className="pointer-events-none absolute left-1 top-1 h-[calc(100%-0.5rem)] w-[calc((100%-0.5rem)/6)] rounded-full border border-white/80 bg-white/95 shadow-md shadow-slate-950/10 transition-transform duration-300 ease-out"
+            style={{ transform: `translateX(${activeNavIndex * 100}%)` }}
+            aria-hidden="true"
+          />
           {navItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`relative rounded-full border px-3.5 py-2 transition-all duration-200 ${
+              className={`relative z-10 rounded-full px-3.5 py-2 transition-all duration-200 ${
                 isActive(item.href)
-                  ? "border-white/80 bg-white/95 text-[#071426] shadow-md shadow-slate-950/10"
-                  : "border-transparent text-slate-600 hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/60 hover:text-[#071426] hover:shadow-sm hover:shadow-slate-950/6"
+                  ? "text-[#071426]"
+                  : "text-slate-600 hover:-translate-y-0.5 hover:bg-white/45 hover:text-[#071426]"
               }`}
             >
               {item.label}
