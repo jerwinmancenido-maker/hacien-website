@@ -357,9 +357,9 @@ export default function LegalPage() {
             {legalSections.map((section) => (
               <section key={section.title} className="rounded-lg border border-slate-200 bg-white p-5">
                 <h2 className="text-xl font-bold tracking-tight text-slate-950">{section.title}</h2>
-                <div className="mt-5 grid gap-5">
+                <div className="mt-5 grid gap-3">
                   {section.items.map((item) => (
-                    <div key={item.heading}>
+                    <div key={item.heading} className="rounded-lg border border-slate-100 bg-slate-50/70 p-4">
                       <h3 className="font-bold text-slate-950">{item.heading}</h3>
                       {item.paragraphs?.map((paragraph) => (
                         <p key={paragraph} className="mt-2">

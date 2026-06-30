@@ -312,23 +312,36 @@ export default function TermsPage() {
           </div>
 
           <div className="mt-8 grid gap-6">
-            {terms.map((term) => (
+            {terms.map((term, termIndex) => (
               <section key={term.title} className="rounded-lg border border-slate-200 bg-white p-5">
                 <h2 className="text-lg font-bold text-slate-950">{term.title}</h2>
-                {term.paragraphs?.map((paragraph) => (
-                  <p key={paragraph} className="mt-3">
-                    {paragraph}
-                  </p>
-                ))}
-                {term.bullets ? (
-                  <ul className="mt-3 list-disc space-y-2 pl-5">
-                    {term.bullets.map((bullet) => (
-                      <li key={`${bullet.label ?? ""}${bullet.text}`}>
-                        {bullet.label ? <strong className="text-slate-950">{bullet.label}: </strong> : null}
-                        {bullet.text}
-                      </li>
+                {term.paragraphs ? (
+                  <div className="mt-4 rounded-lg border border-slate-100 bg-slate-50/70 p-4">
+                    <h3 className="font-bold text-slate-950">
+                      {termIndex + 1}.1 General Provisions
+                    </h3>
+                    {term.paragraphs.map((paragraph) => (
+                      <p key={paragraph} className="mt-2">
+                        {paragraph}
+                      </p>
                     ))}
-                  </ul>
+                  </div>
+                ) : null}
+                {term.bullets ? (
+                  <div className="mt-4 grid gap-3">
+                    {term.bullets.map((bullet, bulletIndex) => (
+                      <div
+                        key={`${bullet.label ?? ""}${bullet.text}`}
+                        className="rounded-lg border border-slate-100 bg-slate-50/70 p-4"
+                      >
+                        <h3 className="font-bold text-slate-950">
+                          {termIndex + 1}.{term.paragraphs ? bulletIndex + 2 : bulletIndex + 1}{" "}
+                          {bullet.label ?? "Clause"}
+                        </h3>
+                        <p className="mt-2">{bullet.text}</p>
+                      </div>
+                    ))}
+                  </div>
                 ) : null}
               </section>
             ))}
