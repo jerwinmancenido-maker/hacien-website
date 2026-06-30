@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -16,7 +16,18 @@ const navItems = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    function updateScrolled() {
+      setScrolled(window.scrollY > 8);
+    }
+
+    updateScrolled();
+    window.addEventListener("scroll", updateScrolled, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrolled);
+  }, []);
 
   function isActive(href: string) {
     if (href === "/") return pathname === "/";
@@ -24,19 +35,27 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/88 shadow-sm shadow-slate-950/4 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
-        <Link href="/" className="flex shrink-0 items-center gap-3">
-          <Image
-            src="/brand/hacien-mark.png"
-            alt="HACIEN logo"
-            width={42}
-            height={42}
-            priority
-            className="h-10 w-10 rounded-sm object-contain"
-          />
+    <header
+      className={`sticky top-0 z-50 border-b border-slate-200/70 bg-white/82 backdrop-blur-2xl transition-all duration-300 ${
+        scrolled ? "shadow-lg shadow-slate-950/8" : "shadow-sm shadow-slate-950/3"
+      }`}
+    >
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#1457d9]/30 to-transparent" />
+      <div className={`mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 transition-all duration-300 sm:px-6 lg:px-8 ${scrolled ? "py-2" : "py-3"}`}>
+        <Link href="/" className="group flex shrink-0 items-center gap-3 rounded-full pr-3 transition hover:bg-slate-50/70">
+          <span className="relative grid h-11 w-11 place-items-center overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-sm shadow-slate-950/5 transition duration-300 group-hover:-translate-y-0.5 group-hover:border-[#1457d9]/35 group-hover:shadow-lg group-hover:shadow-blue-900/10">
+            <span className="absolute inset-0 bg-gradient-to-br from-cyan-100/50 via-white to-blue-100/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+            <Image
+              src="/brand/hacien-mark.png"
+              alt="HACIEN logo"
+              width={42}
+              height={42}
+              priority
+              className="relative h-9 w-9 object-contain"
+            />
+          </span>
           <span>
-            <span className="block text-sm font-bold tracking-wide text-slate-950">HACIEN</span>
+            <span className="block text-sm font-bold tracking-wide text-slate-950 transition-colors group-hover:text-[#1457d9]">HACIEN</span>
             <span className="hidden text-xs text-slate-500 sm:block">Information Technology Solutions</span>
           </span>
         </Link>
@@ -46,13 +65,17 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className={`rounded-full px-3 py-2 transition-colors ${
+              className={`group/nav relative overflow-hidden rounded-full px-3.5 py-2 transition-all duration-200 ${
                 isActive(item.href)
-                  ? "bg-white/90 text-[#071426] shadow-sm shadow-slate-950/8"
-                  : "text-slate-600 hover:bg-white/70 hover:text-[#071426]"
+                  ? "bg-white/95 text-[#071426] shadow-sm shadow-slate-950/8"
+                  : "text-slate-600 hover:-translate-y-0.5 hover:bg-white/70 hover:text-[#071426]"
               }`}
             >
-              {item.label}
+              <span className="relative z-10">{item.label}</span>
+              <span className="absolute inset-x-3 bottom-1 h-0.5 origin-left scale-x-0 rounded-full bg-[#1457d9] transition-transform duration-200 group-hover/nav:scale-x-100" />
+              {isActive(item.href) ? (
+                <span className="absolute inset-x-3 bottom-1 h-0.5 rounded-full bg-[#1457d9]" />
+              ) : null}
             </Link>
           ))}
         </nav>
@@ -60,24 +83,24 @@ export function Header() {
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
           <Link
             href="/access"
-            className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
+            className={`rounded-full border px-4 py-2 text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 ${
               pathname === "/access"
                 ? "glass-control border-[#1457d9]/50 text-[#1457d9]"
-                : "glass-control text-slate-900 hover:border-[#1457d9]/50 hover:text-[#1457d9]"
+                : "glass-control text-slate-900 hover:border-[#1457d9]/50 hover:text-[#1457d9] hover:shadow-lg hover:shadow-blue-950/10"
             }`}
           >
             Access HACIEN
           </Link>
           <Link
             href="/quote"
-            className="button-glow rounded-full bg-[#1457d9] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-700/20 hover:bg-[#0f46b4]"
+            className="button-glow rounded-full bg-[#1457d9] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-700/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#0f46b4] hover:shadow-xl hover:shadow-blue-700/25"
           >
             Request Quote
           </Link>
         </div>
 
         <button
-          className="grid h-10 w-10 place-items-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm shadow-slate-950/5 transition-colors hover:border-[#1457d9] lg:hidden"
+          className="grid h-10 w-10 place-items-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm shadow-slate-950/5 transition-all hover:-translate-y-0.5 hover:border-[#1457d9] hover:shadow-lg hover:shadow-blue-950/10 lg:hidden"
           onClick={() => setOpen((value) => !value)}
           aria-expanded={open}
           aria-label="Toggle navigation"
@@ -98,8 +121,8 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className={`rounded-lg px-3 py-3 ${
-                  isActive(item.href) ? "bg-slate-50 text-[#1457d9]" : "hover:bg-slate-50 hover:text-[#071426]"
+                className={`rounded-xl px-3 py-3 transition ${
+                  isActive(item.href) ? "bg-blue-50 text-[#1457d9]" : "hover:bg-slate-50 hover:text-[#071426]"
                 }`}
               >
                 {item.label}
