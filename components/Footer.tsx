@@ -7,10 +7,10 @@ export function Footer() {
         <div>
           <div className="text-lg font-bold">HACIEN Information Technology Solutions</div>
           <p className="mt-4 max-w-md text-sm leading-6 text-slate-300">
-            Procurement-first IT sourcing, solutions consulting, and customer-success oriented technology coordination for Philippine organizations.
+            Enterprise technology with operational clarity. HACIEN helps organizations move from requirement to review, quotation, delivery, and relationship continuity.
           </p>
           <p className="mt-4 max-w-md rounded border border-white/10 bg-white/[0.05] p-3 text-xs leading-5 text-slate-300">
-            Company identity facts are published from supported records. Pricing, delivery, warranty, and payment terms are confirmed through formal quotation and written communication.
+            Registered company identity and professional inquiry intake are supported. Verification documents may be made available upon request to qualified customers, suppliers, partners, and procurement entities.
           </p>
         </div>
         <div>
@@ -18,8 +18,8 @@ export function Footer() {
           <div className="mt-4 grid gap-3 text-sm text-slate-300">
             <Link href="/about">About</Link>
             <Link href="/about/company-profile">Company Profile</Link>
+            <Link href="/trust-center">Trust & Compliance</Link>
             <Link href="/contact">Contact</Link>
-            <Link href="/support">Support</Link>
           </div>
         </div>
         <div>
@@ -27,29 +27,29 @@ export function Footer() {
           <div className="mt-4 grid gap-3 text-sm text-slate-300">
             <Link href="/solutions">Solutions</Link>
             <Link href="/government-procurement">Government Procurement</Link>
-            <Link href="/erp-platform">ERP Platform</Link>
-            <Link href="/industries">Industries</Link>
-          </div>
-        </div>
-        <div>
-          <div className="text-sm font-semibold text-slate-100">Products</div>
-          <div className="mt-4 grid gap-3 text-sm text-slate-300">
-            <Link href="/products">Product Categories</Link>
-            <Link href="/quote">Request Quote</Link>
-          </div>
-        </div>
-        <div>
-          <div className="text-sm font-semibold text-slate-100">Customer</div>
-          <div className="mt-4 grid gap-3 text-sm text-slate-300">
-            <Link href="/quote">Submit RFQ</Link>
-            <Link href="/support">Support</Link>
-            <Link href="/trust-center">Trust Center</Link>
-          </div>
-        </div>
-        <div>
-          <div className="text-sm font-semibold text-slate-100">Resources</div>
-          <div className="mt-4 grid gap-3 text-sm text-slate-300">
             <Link href="/insights">Insights</Link>
+          </div>
+        </div>
+        <div>
+          <div className="text-sm font-semibold text-slate-100">Technology</div>
+          <div className="mt-4 grid gap-3 text-sm text-slate-300">
+            <Link href="/technology">Technology Domains</Link>
+            <Link href="/products">Representative Categories</Link>
+            <Link href="/platform">Platform</Link>
+          </div>
+        </div>
+        <div>
+          <div className="text-sm font-semibold text-slate-100">Access</div>
+          <div className="mt-4 grid gap-3 text-sm text-slate-300">
+            <Link href="/access">Access HACIEN</Link>
+            <Link href="/customer-workspace">Customer Workspace</Link>
+            <Link href="/support">Support</Link>
+          </div>
+        </div>
+        <div>
+          <div className="text-sm font-semibold text-slate-100">Start</div>
+          <div className="mt-4 grid gap-3 text-sm text-slate-300">
+            <Link href="/quote">Request Quote</Link>
             <Link href="/search">Search</Link>
             <Link href="/privacy">Privacy Policy</Link>
             <Link href="/terms">Terms</Link>

@@ -11,15 +11,15 @@ import {
 import { insights } from "@/data/insights";
 
 export const metadata: Metadata = {
-  title: "IT Procurement Guides Philippines | HACIEN Insights",
+  title: "Enterprise Technology Knowledge Center | HACIEN Insights",
   description:
-    "Read HACIEN insights for Philippine IT procurement guides, RFQ preparation, buyer checklists, government procurement resources, technology sourcing, and ERP platform education.",
+    "Read HACIEN insights for enterprise technology, RFQ preparation, buyer checklists, government procurement, infrastructure, cybersecurity, cloud, and best practices.",
 };
 
 const knowledgeAreas = [
-  ["Buying Guides", "Practical preparation for RFQs, products, supplier comparison, and technical requirements."],
+  ["Enterprise Technology", "Practical preparation for RFQs, technology domains, supplier comparison, and technical requirements."],
   ["Government Procurement", "Resources for specification review, approved equivalents, documentation, and institutional buying."],
-  ["Platform Thinking", "Education around HACIEN ERP, customer portal direction, marketplace readiness, and procurement workflows."],
+  ["Best Practices", "Decision guidance for infrastructure, cybersecurity, cloud, digital transformation, and operational continuity."],
 ];
 
 const featured = insights.slice(0, 3);
@@ -69,7 +69,7 @@ export default function InsightsPage() {
                 Content Library
               </div>
               <h2 className="mt-3 text-xl font-bold text-slate-950 sm:text-2xl">
-                Education that supports sourcing, quotations, and platform readiness.
+                Education that supports better technology decisions, stronger RFQs, and more confident procurement.
               </h2>
               <div className="mt-8 grid gap-3">
                 {knowledgeAreas.map(([title], index) => (

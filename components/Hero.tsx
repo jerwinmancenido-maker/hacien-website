@@ -18,26 +18,26 @@ export function Hero() {
         <div className="flex flex-col justify-center">
           <FadeIn>
             <div className="mb-6 inline-flex w-fit rounded border border-blue-300/30 bg-white/8 px-4 py-2 text-sm font-semibold text-blue-100 backdrop-blur">
-              Enterprise technology headquarters
+              Enterprise technology
             </div>
           </FadeIn>
           <SlideUp delay={80}>
             <h1 className="max-w-5xl text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl">
-              Technology sourcing with enterprise discipline.
+              Enterprise technology with operational clarity.
             </h1>
           </SlideUp>
           <SlideUp delay={170}>
             <p className="mt-7 max-w-2xl text-xl leading-8 text-slate-200">
-              HACIEN helps organizations turn infrastructure, security, software, and procurement requirements into clear, supplier-ready RFQ work.
+              HACIEN helps organizations plan, source, deploy, and support infrastructure, software, cybersecurity, cloud, and managed services through one connected relationship.
             </p>
           </SlideUp>
           <SlideUp delay={260}>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/quote" className="button-glow rounded-full bg-white px-6 py-3 text-center text-sm font-bold text-[#071426] shadow-xl shadow-blue-950/30">
-                Submit an RFQ
+                Request Quote
               </Link>
-              <Link href="/solutions" className="interactive-link rounded-full border border-white/25 bg-white/8 px-6 py-3 text-center text-sm font-bold text-white backdrop-blur hover:border-blue-200">
-                Explore capabilities
+              <Link href="/technology" className="interactive-link rounded-full border border-white/25 bg-white/8 px-6 py-3 text-center text-sm font-bold text-white backdrop-blur hover:border-blue-200">
+                Explore Technology
               </Link>
             </div>
           </SlideUp>
@@ -65,7 +65,7 @@ export function Hero() {
               ["Cybersecurity", "Protected operating environments"],
               ["Cloud & Software", "Licensing and productivity platforms"],
               ["Government Support", "Documentation-aware sourcing"],
-              ["RFQ Gateway", "One clear intake path"],
+              ["HACIEN Platform", "Workspace, Timeline, Guardian"],
               ].map(([title, text], index) => (
                 <div key={title} className="rounded-lg border border-white/12 bg-white/10 p-5 backdrop-blur transition-transform duration-200 hover:-translate-y-1">
                   <div className="text-xs font-bold text-blue-200">{String(index + 1).padStart(2, "0")}</div>

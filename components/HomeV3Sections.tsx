@@ -64,8 +64,8 @@ export function HowHacienWorks() {
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="How HACIEN Works"
-          title="A procurement workflow, not a generic contact form."
-          description="The public RFQ experience mirrors how IT requirements really move: from specifications to supplier canvass, quotation support, award, procurement, and delivery coordination."
+          title="A relationship workflow, not a generic contact form."
+          description="The public RFQ experience mirrors how technology requirements really move: from description or files to review, clarification, quotation support, fulfillment, and continuity."
         />
         <div className="mt-12 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
           <div className="grid divide-y divide-slate-200 lg:grid-cols-7 lg:divide-x lg:divide-y-0">
@@ -92,7 +92,7 @@ export function SolutionsV3() {
         <SectionHeading
           eyebrow="Solutions"
           title="Built around sourcing, deployment, and operational handover."
-          description="Every solution path leads to a real page with procurement workflow context."
+          description="Solutions answer the problems HACIEN helps organizations solve across infrastructure, workplace, cybersecurity, cloud, procurement, and managed services."
         />
         <StaggerContainer className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {solutions.map((solution) => (
@@ -119,19 +119,19 @@ export function ProductCatalogV3() {
   return (
     <AnimatedSection className="bg-white px-4 py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <SectionHeading
-          eyebrow="Capabilities"
-          title="Technology categories presented as business outcomes."
-          description="HACIEN does not lead with model numbers or prices. The public catalog helps buyers describe the capability they need before formal review."
+          <SectionHeading
+          eyebrow="Technology"
+          title="Enterprise technology domains presented as operating needs."
+          description="HACIEN does not lead with model numbers or prices. Technology pages help buyers describe the domain they need before formal review."
         />
         <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {categories.slice(0, 6).map((category) => (
             <Link key={category.slug} href={`/products/${category.slug}`} className="group block">
               <AnimatedCard className="h-full rounded-lg border border-slate-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-950/10">
-                <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Capability</div>
+                <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Technology</div>
                 <h3 className="mt-5 text-2xl font-bold tracking-tight text-slate-950 group-hover:text-[#1457d9]">{category.name}</h3>
                 <p className="mt-4 text-sm leading-7 text-slate-600">{category.summary}</p>
-                <div className="mt-8 text-sm font-bold text-[#1457d9]">Review category</div>
+                <div className="mt-8 text-sm font-bold text-[#1457d9]">Review representative category</div>
               </AnimatedCard>
             </Link>
           ))}
@@ -147,13 +147,13 @@ export function ErpPreviewV3() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">HACIEN Operations</div>
-            <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">Procurement work should stay connected from inquiry to follow-through.</h2>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">HACIEN Platform</div>
+            <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">HACIEN operates through its own connected platform.</h2>
             <p className="mt-5 leading-7 text-slate-300">
-              HACIEN is organized around one operating path: capture the requirement, review the context, quote responsibly, coordinate fulfillment, and keep customer follow-up connected.
+              Workspace, Timeline, Guardian, and Customer Workspace exist to keep requests, operations, and relationship history connected. Future commercial availability will be announced only when mature.
             </p>
-            <Link href="/erp-platform" className="button-glow mt-8 inline-flex rounded bg-white px-5 py-3 text-sm font-bold text-[#071426]">
-              Learn how HACIEN works
+            <Link href="/platform" className="button-glow mt-8 inline-flex rounded bg-white px-5 py-3 text-sm font-bold text-[#071426]">
+              Explore Platform
             </Link>
           </div>
           <StaggerContainer className="grid gap-3 sm:grid-cols-4">
@@ -241,31 +241,25 @@ export function TrustV3() {
 export { PremiumStatementBand };
 
 export function ExistingCustomerV3() {
-  const erpUrl =
-    process.env.NEXT_PUBLIC_ERP_URL?.trim() || "https://erp.haciensolutions.com/login";
-  const isErpExternal = erpUrl.startsWith("http");
-
   return (
     <AnimatedSection className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Existing Customers</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Access HACIEN</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              Already working with HACIEN?
+              Continue through one connected access point.
             </h2>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">
-              Existing customers can continue through RFQ, tracking, clarification, contact, support, and authorized ERP access where applicable.
+              Internal personnel can open Workspace. Customers can track requests, learn about the future Customer Workspace, or contact HACIEN for support.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
-              href={erpUrl}
-              target={isErpExternal ? "_blank" : undefined}
-              rel={isErpExternal ? "noopener noreferrer" : undefined}
+              href="/access"
               className="interactive-link rounded border border-slate-300 bg-white px-5 py-3 text-center text-sm font-bold text-slate-900 hover:border-[#1457d9] hover:text-[#1457d9]"
             >
-              Sign In
+              Access HACIEN
             </Link>
             <Link
               href="/contact"

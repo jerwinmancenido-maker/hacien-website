@@ -258,7 +258,7 @@ export function ControlledAccessPreview({
             <div className="rounded border border-slate-200 bg-[#071426] p-4 text-white">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue-200">HACIEN Customer Access</div>
+                  <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue-200">HACIEN Customer Workspace</div>
                   <div className="mt-1 text-lg font-bold">{dashboardTitle}</div>
                 </div>
                 <span className="rounded-full border border-amber-200/40 bg-amber-300/12 px-3 py-1 text-xs font-bold text-amber-100">

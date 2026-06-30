@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const { category: categorySlug } = await params;
   const category = getCategory(categorySlug);
   return {
-    title: category ? category.seoTitle : "Product Category | HACIEN",
-    description: category?.seoDescription ?? "Browse HACIEN product categories and request a quotation.",
+    title: category ? category.seoTitle.replace("Products", "Technology") : "Technology Category | HACIEN",
+    description: category?.seoDescription ?? "Review HACIEN technology categories and request a quotation.",
   };
 }
 
@@ -31,9 +31,9 @@ export default async function ProductCategoryPage({ params }: { params: Promise<
     <>
       <section className="px-4 py-16 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <Breadcrumb items={[{ label: "Products", href: "/products" }, { label: category.name }]} />
+          <Breadcrumb items={[{ label: "Technology", href: "/technology" }, { label: category.name }]} />
           <SectionHeading
-            eyebrow="Product Category"
+            eyebrow="Technology Category"
             as="h1"
             title={category.name}
             description={category.heroCopy}

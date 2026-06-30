@@ -11,9 +11,9 @@ import {
 import { ControlledAccessPreview } from "@/components/TrustConfidence";
 
 export const metadata: Metadata = {
-  title: "Customer Access | HACIEN",
+  title: "Customer Workspace | HACIEN",
   description:
-    "Understand HACIEN's controlled customer access boundary for RFQ tracking, quotations, support, documents, and procurement continuity.",
+    "Understand HACIEN's future Customer Workspace for RFQ tracking, quotations, support, documents, and relationship continuity.",
 };
 
 const portalModules = [
@@ -40,8 +40,8 @@ const previewModules: Array<[string, string, string, string]> = [
 const ecosystem = [
   ["Website", "Public RFQ, product, insight, and company entry points."],
   ["Customer Account", "Verified access for approved customer records."],
-  ["Customer Access", "Controlled visibility for procurement history and support."],
-  ["ERP", "Internal operating core for quotation, procurement, delivery, and finance."],
+  ["Customer Workspace", "Controlled visibility for procurement history and support."],
+  ["Workspace", "Internal operating core for quotation, procurement, delivery, and finance."],
   ["Support", "Follow-up, warranty, renewals, and post-delivery coordination."],
 ];
 
@@ -53,17 +53,17 @@ export default function PortalPage() {
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
             <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-              Customer Access
+              Customer Workspace
             </AnimatedContent>
             <SplitText
               as="h1"
-              text="Controlled access for customer continuity."
+              text="Future customer continuity with HACIEN."
               className="mt-5 max-w-5xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
             />
             <BlurReveal delay={160}>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                The customer access model is simple: continue RFQs, quotations,
-                documents, subscriptions, and support without restarting the relationship.
+                Customer Workspace is HACIEN&apos;s future continuity layer for tracking requests,
+                viewing quotations, accessing documents, and continuing support without restarting the relationship.
               </p>
             </BlurReveal>
             <AnimatedContent delay={260} className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -92,7 +92,7 @@ export default function PortalPage() {
               </h2>
               <p className="mt-4 text-sm leading-6 text-slate-600">
                 Public visitors can submit RFQs, track references, send clarifications, and contact HACIEN.
-                Protected records are shared only through controlled access.
+                Protected records will be shared only through controlled access when Customer Workspace is available.
               </p>
               <div className="mt-6 rounded border border-amber-200 bg-amber-50 p-3 text-xs font-bold uppercase tracking-[0.14em] text-amber-800">
                 Controlled access
@@ -105,22 +105,22 @@ export default function PortalPage() {
       <ControlledAccessPreview
         eyebrow="Controlled Access"
         title="A bounded view of customer continuity."
-        description="This page explains the customer experience boundary without implying that protected accounts, records, invoice downloads, subscriptions, or support tickets are publicly available."
-        statusNote="Customers should use RFQ, tracking, clarification, contact, and support channels unless HACIEN grants private access."
-        dashboardTitle="Customer access overview"
+        description="This page explains the Customer Workspace direction without implying that protected accounts, records, invoice downloads, subscriptions, or support tickets are publicly available today."
+        statusNote="Customers should use RFQ, tracking, clarification, contact, and support channels until HACIEN grants private access."
+        dashboardTitle="Customer Workspace overview"
         modules={previewModules}
       />
 
       <section className="px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Portal Overview</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Customer Workspace</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              A self-service layer for procurement continuity.
+              A future workspace for customer continuity.
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
-              Controlled customer access should help customers understand status, retrieve documents,
-              request support, manage renewals, and continue procurement conversations.
+              Customer Workspace will help customers understand status, retrieve documents,
+              request support, manage renewals, and continue procurement conversations when access is available.
             </p>
           </AnimatedContent>
           <div className="grid gap-5 md:grid-cols-2">
@@ -142,7 +142,7 @@ export default function PortalPage() {
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Connected Relationship</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
-              Website to customer access to operations to support.
+              Website to Customer Workspace to operations to support.
             </h2>
             <p className="mt-5 max-w-3xl text-sm leading-7 text-slate-300">
               The customer should experience one relationship, even when work moves between inquiry, review, fulfillment, documents, and support.
@@ -178,10 +178,10 @@ export default function PortalPage() {
                   Available now
                 </div>
                 <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
-                  Need procurement support before portal launch?
+                  Need procurement support now?
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
-                  Use the RFQ cart or contact HACIEN. Current requests move through direct review and formal quotation follow-up.
+                  Use Request Quote, tracking, clarification, or Contact HACIEN. Current requests move through professional review and formal quotation follow-up.
                 </p>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row">
