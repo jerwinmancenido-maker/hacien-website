@@ -27,15 +27,25 @@ const remaining = insights.slice(3);
 const categories = Array.from(new Set(insights.map((insight) => insight.category)));
 
 const insightImages: Record<string, keyof typeof enterpriseImages> = {
-  "Procurement Basics": "documentation",
-  "Government Procurement": "workspace",
+  "Procurement Basics": "strategy",
+  "Government Procurement": "documentation",
   "Technology Sourcing": "dataCenter",
   "ERP & Platform": "network",
-  "Platform Direction": "network",
+  "Platform Direction": "workspace",
 };
 
-function insightImage(category: string) {
-  return enterpriseImages[insightImages[category] || "documentation"];
+const insightImageOverrides: Record<string, keyof typeof enterpriseImages> = {
+  "it-procurement-guide": "strategy",
+  "how-to-prepare-rfq": "documentation",
+  "approved-equivalent-explained": "workspace",
+  "server-vs-nas-storage": "storage",
+  "network-equipment-buying-guide": "network",
+  "business-laptop-procurement-guide": "workstation",
+  "government-procurement-it-checklist": "commandCenter",
+};
+
+function insightImage(category: string, slug?: string) {
+  return enterpriseImages[(slug && insightImageOverrides[slug]) || insightImages[category] || "knowledge"];
 }
 
 export default function InsightsPage() {
@@ -45,7 +55,7 @@ export default function InsightsPage() {
         eyebrow="Insights"
         title="Procurement knowledge for better technology buying."
         description="Insights help buyers prepare clearer requirements, compare options, understand RFQs, and navigate technology decisions with more confidence."
-        image="documentation"
+        image="knowledge"
         primaryAction={{ href: "/quote", label: "Prepare an RFQ" }}
         secondaryAction={{ href: "/government-procurement", label: "Government Resources" }}
         highlights={[
@@ -96,7 +106,7 @@ export default function InsightsPage() {
                     <div
                       className="h-40 bg-slate-900"
                       style={{
-                        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.76)), url(${insightImage(insight.category)})`,
+                        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.76)), url(${insightImage(insight.category, insight.slug)})`,
                         backgroundPosition: "center",
                         backgroundSize: "cover",
                       }}
@@ -147,7 +157,7 @@ export default function InsightsPage() {
                       <div
                         className="min-h-32 bg-slate-950"
                         style={{
-                          backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.72)), url(${insightImage(insight.category)})`,
+                          backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.72)), url(${insightImage(insight.category, insight.slug)})`,
                           backgroundPosition: "center",
                           backgroundSize: "cover",
                         }}
@@ -169,7 +179,7 @@ export default function InsightsPage() {
                     <div
                       className="min-h-32 bg-slate-950"
                       style={{
-                        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.72)), url(${enterpriseImages.network})`,
+                        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.72)), url(${enterpriseImages.workspace})`,
                         backgroundPosition: "center",
                         backgroundSize: "cover",
                       }}
