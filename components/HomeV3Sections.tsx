@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { CTABand } from "@/components/CTABand";
-import { EnterprisePhotoPanel, PremiumStatementBand } from "@/components/EnterpriseImagery";
+import { EnterprisePhotoPanel, PremiumStatementBand, enterpriseImages } from "@/components/EnterpriseImagery";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
 import { categories } from "@/data/products";
@@ -27,6 +27,30 @@ const howItWorks = [
 
 const erpFlow = ["Lead", "Opportunity", "Supplier Canvass", "Quotation", "Award", "PO", "Delivery", "Invoice"];
 const govFlow = ["RFQ", "Specification Matching", "Equivalent Review", "Supplier Availability", "Quotation Support", "Delivery Coordination"];
+
+const solutionImages: Record<string, keyof typeof enterpriseImages> = {
+  "it-infrastructure": "dataCenter",
+  "hardware-software-procurement": "workstation",
+  "systems-integration": "commandCenter",
+  "managed-it-support": "office",
+  "network-connectivity": "network",
+  "servers-storage": "storage",
+  "cloud-productivity": "cloud",
+  cybersecurity: "cybersecurity",
+  "security-surveillance": "cabling",
+  "software-licensing": "silicon",
+  "general-merchandise-procurement": "documentation",
+  "project-delivery-support": "workspace",
+};
+
+const categoryImages: Record<string, keyof typeof enterpriseImages> = {
+  "computers-laptops": "workstation",
+  "servers-storage": "storage",
+  "network-equipment": "network",
+  "printers-peripherals": "office",
+  "licensed-software": "silicon",
+  "security-surveillance": "cybersecurity",
+};
 
 export function TechnologyEcosystem() {
   return (
@@ -98,13 +122,20 @@ export function SolutionsV3() {
           {solutions.map((solution) => (
             <Link key={solution.slug} href={`/solutions/${solution.slug}`} className="group block">
               <AnimatedCard className="surface lift h-full overflow-hidden rounded-xl">
-                <div className="animated-grid h-32 border-b border-slate-200 p-5">
-                  <div className="grid h-12 w-12 place-items-center rounded bg-[#071426] text-xs font-bold text-white">{solution.icon}</div>
+                <div
+                  className="relative h-40 border-b border-slate-200 bg-slate-950 p-5"
+                  style={{
+                    backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.04), rgba(7, 20, 38, 0.76)), url(${enterpriseImages[solutionImages[solution.slug] || "network"]})`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                  }}
+                >
+                  <div className="grid h-12 w-12 place-items-center rounded bg-white/90 text-xs font-bold text-[#071426] shadow-lg shadow-slate-950/20">{solution.icon}</div>
                 </div>
                 <div className="p-6">
                   <div className="text-xl font-bold text-slate-950 group-hover:text-[#1457d9]">{solution.title}</div>
                   <p className="mt-3 text-sm leading-6 text-slate-600">{solution.summary}</p>
-                  <div className="mt-5 text-sm font-bold text-[#1457d9]">View workflow</div>
+                  <div className="mt-5 text-sm font-bold text-[#1457d9]">Explore solution</div>
                 </div>
               </AnimatedCard>
             </Link>
@@ -127,11 +158,21 @@ export function ProductCatalogV3() {
         <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {categories.slice(0, 6).map((category) => (
             <Link key={category.slug} href={`/products/${category.slug}`} className="group block">
-              <AnimatedCard className="h-full rounded-lg border border-slate-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-950/10">
+              <AnimatedCard className="h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-950/10">
+                <div
+                  className="h-32 bg-slate-950"
+                  style={{
+                    backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.7)), url(${enterpriseImages[categoryImages[category.slug] || "dataCenter"]})`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                  }}
+                />
+                <div className="p-7">
                 <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Technology</div>
                 <h3 className="mt-5 text-2xl font-bold tracking-tight text-slate-950 group-hover:text-[#1457d9]">{category.name}</h3>
                 <p className="mt-4 text-sm leading-7 text-slate-600">{category.summary}</p>
-                <div className="mt-8 text-sm font-bold text-[#1457d9]">Review representative category</div>
+                <div className="mt-8 text-sm font-bold text-[#1457d9]">Build this requirement</div>
+                </div>
               </AnimatedCard>
             </Link>
           ))}

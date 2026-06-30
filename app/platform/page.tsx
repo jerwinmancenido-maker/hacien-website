@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -23,6 +24,14 @@ const operatingPrinciples = [
   ["Customer-safe clarity", "Customers should see meaningful progress, not internal approvals, supplier negotiations, or audit detail."],
   ["One connected company", "Website, Gateway, Workspace, Timeline, and Customer Workspace should feel like one continuous experience."],
 ];
+
+const platformImages: Record<string, keyof typeof enterpriseImages> = {
+  Workspace: "workspace",
+  Timeline: "documentation",
+  Guardian: "cybersecurity",
+  "Customer Workspace": "office",
+  "Relationship Continuity": "network",
+};
 
 export default function PlatformPage() {
   return (
@@ -51,10 +60,20 @@ export default function PlatformPage() {
           />
           <StaggerContainer className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {platformLayers.map(([title, text]) => (
-              <AnimatedCard key={title} className="h-full rounded-lg border border-slate-200 bg-slate-50 p-7">
+              <AnimatedCard key={title} className="h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
+                <div
+                  className="h-32 bg-slate-950"
+                  style={{
+                    backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.04), rgba(7, 20, 38, 0.74)), url(${enterpriseImages[platformImages[String(title)] || "network"]})`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                  }}
+                />
+                <div className="p-7">
                 <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">HACIEN Platform</div>
                 <h2 className="mt-5 text-2xl font-bold tracking-tight text-slate-950">{title}</h2>
                 <p className="mt-4 text-sm leading-7 text-slate-600">{text}</p>
+                </div>
               </AnimatedCard>
             ))}
           </StaggerContainer>
