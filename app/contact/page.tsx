@@ -1,36 +1,45 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  AnimatedContent,
-  BlurReveal,
-  BorderGlow,
-  GradientBackground,
-  SplitText,
-  SpotlightCard,
-} from "@/app/components/reactbits";
+import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/reactbits";
 import { ContactForm } from "@/components/ContactForm";
+import { enterpriseImages } from "@/components/EnterpriseImagery";
+import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { companyContact } from "@/data/companyContact";
 
 export const metadata: Metadata = {
-  title: "Contact HACIEN | Request a Quote",
+  title: "Contact HACIEN",
   description:
-    "Contact HACIEN for request for quotation support, government procurement, supplier and partnership inquiries, support coordination, and IT sourcing in the Philippines.",
+    "Contact HACIEN Information Technology Solutions for business inquiries, RFQ direction, support routing, supplier introductions, and formal communication.",
 };
 
-const inquiryRoutes = [
-  ["Quotation", "Use Request Quote for product lists, BOQs, specifications, deadlines, files, and formal RFQ review.", "/quote"],
-  ["Government", "Ask about specification review, equivalent matching, documentation support, and institutional procurement.", "/government-procurement"],
-  ["Supplier / Partner", "Introduce authorized supply, implementation, fulfillment, warranty, delivery support, or collaboration capability.", "/support"],
-  ["General Business", "Ask about company information, project coordination, recurring sourcing, or business communication.", "/support"],
-  ["Existing Customer Support", "Request follow-up for procurement, delivery, warranty, replacement, or post-delivery coordination.", "/support"],
+const contactPaths = [
+  {
+    title: "Request a quotation",
+    text: "For BOQs, product lists, specifications, files, government requirements, or procurement review.",
+    href: "/quote",
+    action: "Start RFQ",
+    image: "documentation",
+  },
+  {
+    title: "Ask for support",
+    text: "For follow-up, delivery coordination, warranty questions, replacement context, or an existing request.",
+    href: "/support",
+    action: "Open Support",
+    image: "workspace",
+  },
+  {
+    title: "Send a business inquiry",
+    text: "For supplier introductions, partnership questions, company communication, and general coordination.",
+    href: "#contact-form",
+    action: "Use Contact Form",
+    image: "office",
+  },
 ];
 
-const responseSignals = [
-  "Clear product or service requirement",
-  "Quantity, timeline, and delivery location",
-  "Warranty or support expectations",
-  "Government or institutional documentation needs",
-  "Existing BOQ, technical specification, or attachment context",
+const communicationStandards = [
+  "Use Request Quote when the inquiry needs pricing, sourcing, BOQ review, or files.",
+  "Use Support when the inquiry continues an existing request, delivery, warranty, or follow-up.",
+  "Use Contact for business communication that does not yet belong to a formal RFQ or support path.",
 ];
 
 export default function ContactPage() {
@@ -38,83 +47,52 @@ export default function ContactPage() {
 
   return (
     <>
-      <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-        <GradientBackground />
-        <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div>
-            <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-              Contact HACIEN
-            </AnimatedContent>
-            <SplitText
-              as="h1"
-              text="Start the right procurement conversation."
-              className="mt-5 max-w-5xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
-            />
-            <BlurReveal delay={160}>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                Contact converts interest into a clear next step: quotation, government procurement,
-                supplier inquiry, partnership, or support direction.
-              </p>
-            </BlurReveal>
-            <AnimatedContent delay={260} className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/quote"
-                className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
-              >
-                Start an RFQ
-              </Link>
-              <Link
-                href="/support"
-                className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
-              >
-                Support desk
-              </Link>
-            </AnimatedContent>
-          </div>
-
-          <AnimatedContent delay={140} direction="left">
-            <BorderGlow className="rounded-lg bg-white/[0.86] p-6 shadow-2xl shadow-slate-950/10">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-                Faster Response
-              </div>
-              <h2 className="mt-3 text-xl font-bold text-slate-950 sm:text-2xl">
-                The more complete the context, the cleaner the sourcing and quotation path.
-              </h2>
-              <div className="mt-8 grid gap-3">
-                {responseSignals.map((signal, index) => (
-                  <div key={signal} className="flex items-center gap-3 rounded border border-slate-200 bg-slate-50 px-4 py-3">
-                    <span className="grid h-7 w-7 place-items-center rounded-full bg-[#071426] text-xs font-bold text-white">
-                      {index + 1}
-                    </span>
-                    <span className="text-sm font-bold text-slate-800">{signal}</span>
-                  </div>
-                ))}
-              </div>
-            </BorderGlow>
-          </AnimatedContent>
-        </div>
-      </section>
+      <PremiumPageHero
+        eyebrow="Contact"
+        title="Reach HACIEN through the right business path."
+        description="HACIEN keeps communication structured so inquiries, RFQs, supplier introductions, and support questions move into the right review process."
+        image="office"
+        primaryAction={{ href: "/quote", label: "Request Quote" }}
+        secondaryAction={{ href: "#contact-form", label: "Send Inquiry" }}
+        highlights={[
+          { label: "Business Contact", text: "Official communication through HACIEN's public contact channel." },
+          { label: "RFQ Direction", text: "Requirements and files move through the Gateway intake path." },
+          { label: "Support Routing", text: "Follow-ups are routed with context and reference details." },
+          { label: "Formal Notices", text: "Legal notices follow the published legal address and terms." },
+        ]}
+      />
 
       <section className="px-4 py-18 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
+        <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Inquiry Routing</div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              Choose the path that matches the work.
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Contact Paths</div>
+            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+              Choose the route that matches the work.
             </h2>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
-              HACIEN keeps inquiry routing structured because each path requires different review,
-              documentation, supplier coordination, and follow-up.
-            </p>
           </AnimatedContent>
-          <div className="grid gap-5 md:grid-cols-2">
-            {inquiryRoutes.map(([title, text, href], index) => (
-              <AnimatedContent key={title} delay={index * 60}>
-                <Link href={href} className="group block h-full">
-                  <SpotlightCard className="h-full rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-                    <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#1457d9]">{title}</h3>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
-                    <div className="mt-5 text-sm font-bold text-[#1457d9]">Continue</div>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-3">
+            {contactPaths.map((path, index) => (
+              <AnimatedContent key={path.title} delay={index * 70}>
+                <Link href={path.href} className="group block h-full">
+                  <SpotlightCard className="h-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
+                    <div
+                      className="relative min-h-[190px]"
+                      style={{
+                        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.02), rgba(7, 20, 38, 0.74)), url(${enterpriseImages[path.image as keyof typeof enterpriseImages]})`,
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                      }}
+                    >
+                      <div className="absolute bottom-4 left-4 rounded-full border border-white/16 bg-white/12 px-3 py-2 text-xs font-bold uppercase tracking-[0.14em] text-white backdrop-blur">
+                        {String(index + 1).padStart(2, "0")}
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#1457d9]">{path.title}</h3>
+                      <p className="mt-3 text-sm leading-6 text-slate-600">{path.text}</p>
+                      <div className="mt-5 text-sm font-bold text-[#1457d9]">{path.action}</div>
+                    </div>
                   </SpotlightCard>
                 </Link>
               </AnimatedContent>
@@ -123,26 +101,57 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="px-4 py-18 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-          <ContactForm turnstileSiteKey={turnstileSiteKey} />
+      <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <AnimatedContent>
-            <BorderGlow className="rounded-lg bg-white p-6 shadow-sm">
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
+              Communication Standard
+            </div>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+              Clear context helps HACIEN respond with the right next step.
+            </h2>
+          </AnimatedContent>
+          <div className="grid gap-4">
+            {communicationStandards.map((standard, index) => (
+              <AnimatedContent key={standard} delay={index * 70}>
+                <div className="rounded-2xl border border-white/12 bg-white/[0.07] p-5 backdrop-blur">
+                  <div className="flex gap-4">
+                    <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-sm font-bold text-[#071426]">
+                      {index + 1}
+                    </div>
+                    <p className="text-sm leading-6 text-slate-200">{standard}</p>
+                  </div>
+                </div>
+              </AnimatedContent>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="contact-form" className="px-4 py-18 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
+          <AnimatedContent>
+            <BorderGlow className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-                Direct Contact
+                Official Contact
               </div>
               <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">
-                For general inquiries, start here.
+                Send a business inquiry.
               </h2>
-              <div className="mt-6 grid gap-5 text-sm leading-7 text-slate-700">
-                <div>
+              <p className="mt-4 text-sm leading-7 text-slate-600">
+                Use this channel for general business communication, supplier introductions, partnership
+                questions, company information, and inquiries that do not yet need a formal RFQ.
+              </p>
+
+              <div className="mt-8 grid gap-5 text-sm leading-7 text-slate-700">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
                   <div className="font-bold text-slate-950">Email</div>
                   <a className="font-semibold text-[#1457d9]" href={`mailto:${companyContact.email}`}>
                     {companyContact.email}
                   </a>
-                  <p className="mt-2">Use this channel for general business questions, supplier introductions, support routing, and company communication.</p>
                 </div>
-                <div>
+
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
                   <div className="font-bold text-slate-950">{companyContact.addressLabel}</div>
                   <address className="mt-2 not-italic text-slate-700">
                     {companyContact.addressLines.map((line) => (
@@ -152,16 +161,21 @@ export default function ContactPage() {
                     ))}
                   </address>
                 </div>
-                <div>
-                  <div className="font-bold text-slate-950">Need a quotation?</div>
-                  <p>Use Request Quote for product lists, BOQs, specifications, existing quotes, files, or project requirements.</p>
-                  <Link href="/quote" className="mt-3 inline-flex rounded bg-[#1457d9] px-4 py-2 text-sm font-bold text-white">
-                    Request Quote
+
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                  <div className="font-bold text-slate-950">Formal legal notices</div>
+                  <p className="mt-2">
+                    Formal legal notices must follow the published Legal page requirements.
+                  </p>
+                  <Link href="/legal" className="mt-3 inline-flex text-sm font-bold text-[#1457d9]">
+                    Review Legal Information
                   </Link>
                 </div>
               </div>
             </BorderGlow>
           </AnimatedContent>
+
+          <ContactForm turnstileSiteKey={turnstileSiteKey} />
         </div>
       </section>
     </>
