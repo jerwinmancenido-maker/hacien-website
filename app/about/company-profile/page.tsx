@@ -61,7 +61,7 @@ export default function CompanyProfilePage() {
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Public Profile</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              Useful information without unsupported claims.
+              Useful information with clear public boundaries.
             </h2>
           </AnimatedContent>
           <div className="mt-10 grid gap-5 md:grid-cols-2">

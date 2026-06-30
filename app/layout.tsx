@@ -56,7 +56,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     url: "https://haciensolutions.com",
     areaServed: "Philippines",
     description:
-      "HACIEN is preparing a procurement-first technology solutions headquarters for RFQ review, solutions consulting, sourcing coordination, and customer success.",
+      "HACIEN is a procurement-first technology solutions headquarters for RFQ review, solutions consulting, sourcing coordination, and customer success.",
   };
 
   return (

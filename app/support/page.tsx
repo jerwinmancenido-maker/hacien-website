@@ -13,7 +13,7 @@ const supportPaths = [
   ["RFQ follow-up", "Clarify submitted requirements, quantities, deadlines, or product context.", "/quote"],
   ["Procurement question", "Ask about supplier availability, equivalent options, or quotation assumptions.", "/contact"],
   ["Delivery coordination", "Share delivery context or handover requirements for review.", "/contact"],
-  ["Warranty or replacement", "Route post-delivery questions for review without assuming a published warranty policy.", "/contact"],
+  ["Warranty or replacement", "Route post-delivery questions with product, quotation, and delivery context.", "/contact"],
   ["Supplier or partner", "Introduce supply, fulfillment, implementation, or service capability.", "/contact"],
   ["Policy question", "Review the Trust Center status before relying on a commercial term.", "/trust-center"],
 ];
@@ -83,7 +83,7 @@ export default function SupportPage() {
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Expectations</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              Clear support is better than unsupported promises.
+              Clear support keeps each request moving with the right context.
             </h2>
           </AnimatedContent>
           <div className="grid gap-4">

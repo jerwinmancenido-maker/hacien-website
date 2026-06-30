@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 };
 
 const accountBenefits = [
-  ["Company-first access", "Future accounts should be tied to verified customer organizations and purchasing context."],
+  ["Company-first access", "Customer accounts should be tied to verified customer organizations and purchasing context."],
   ["Procurement continuity", "RFQs, quotations, orders, invoices, subscriptions, and support should stay connected."],
   ["Support without restarting", "Customers should be able to continue conversations from existing procurement history."],
 ];

@@ -244,7 +244,7 @@ export function ExistingCustomerV3() {
               Already working with HACIEN?
             </h2>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">
-              Existing customers can continue through RFQ, tracking, clarification, contact, and support paths while private account access is prepared.
+              Existing customers can continue through RFQ, tracking, clarification, contact, support, and authorized ERP access where applicable.
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">

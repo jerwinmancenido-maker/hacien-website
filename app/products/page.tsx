@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 const sourcingPrinciples = [
   {
-    title: "Representative categories, not live inventory.",
+    title: "Representative categories for RFQ review.",
     text: "The catalog helps buyers describe requirements. Stock, exact model, warranty, lead time, and pricing are confirmed during RFQ review.",
   },
   {
@@ -199,7 +199,7 @@ export default function ProductsPage() {
                   Quote-first Commerce
                 </div>
                 <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
-                  Product discovery should lead to a better RFQ, not unsupported checkout.
+                  Product discovery should lead to a better RFQ, not premature checkout.
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
                   Browse representative products, describe the requirement, attach files when needed,

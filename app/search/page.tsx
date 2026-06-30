@@ -17,7 +17,6 @@ const searchable = [
   { title: "Submit RFQ", href: "/quote", group: "RFQ", text: "Request quotation review without online payment or checkout." },
   { title: "About HACIEN", href: "/about", group: "Company", text: "Procurement-first story, workflow, and operating philosophy." },
   { title: "Company Profile", href: "/about/company-profile", group: "Company", text: "Supported company profile, public identity facts, and RFQ engagement path." },
-  { title: "Customer Workspace", href: "/portal", group: "Customer", text: "Private customer workspace direction and controlled access boundary." },
   { title: "Operating Platform", href: "/erp-platform", group: "Company", text: "How HACIEN keeps inquiry, quotation, sourcing, delivery, support, and follow-through connected." },
 ];
 
@@ -89,7 +88,7 @@ export default async function SearchPage({
             <div className="rounded-lg border border-slate-200 bg-white p-6">
               <h2 className="text-xl font-bold text-slate-950">No matching headquarters page</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">
-                Try a simpler term like RFQ, Trust Center, support, solutions, products, portal, or company profile.
+                Try a simpler term like RFQ, Trust Center, support, solutions, products, or company profile.
               </p>
               <div className="mt-5 flex flex-col gap-3 sm:flex-row">
                 <Link href="/support" className="button-glow focus-ring inline-flex rounded bg-[#071426] px-5 py-3 text-sm font-bold text-white">

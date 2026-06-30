@@ -8,12 +8,12 @@ import {
   SplitText,
   SpotlightCard,
 } from "@/app/components/reactbits";
-import { PlannedWorkspacePreview } from "@/components/TrustConfidence";
+import { ControlledAccessPreview } from "@/components/TrustConfidence";
 
 export const metadata: Metadata = {
-  title: "Customer Workspace | HACIEN",
+  title: "Customer Access | HACIEN",
   description:
-    "Understand HACIEN's customer workspace direction for RFQ tracking, quotations, support, documents, and procurement continuity.",
+    "Understand HACIEN's controlled customer access boundary for RFQ tracking, quotations, support, documents, and procurement continuity.",
 };
 
 const portalModules = [
@@ -39,8 +39,8 @@ const previewModules: Array<[string, string, string, string]> = [
 
 const ecosystem = [
   ["Website", "Public RFQ, product, insight, and company entry points."],
-  ["Customer Account", "Verified access for future customer records."],
-  ["Portal", "Self-service visibility for procurement history and support."],
+  ["Customer Account", "Verified access for approved customer records."],
+  ["Customer Access", "Controlled visibility for procurement history and support."],
   ["ERP", "Internal operating core for quotation, procurement, delivery, and finance."],
   ["Support", "Follow-up, warranty, renewals, and post-delivery coordination."],
 ];
@@ -53,16 +53,16 @@ export default function PortalPage() {
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
             <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-              Customer Workspace
+              Customer Access
             </AnimatedContent>
             <SplitText
               as="h1"
-              text="A private workspace for customer continuity."
+              text="Controlled access for customer continuity."
               className="mt-5 max-w-5xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
             />
             <BlurReveal delay={160}>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                The customer workspace direction is simple: continue RFQs, quotations,
+                The customer access model is simple: continue RFQs, quotations,
                 documents, subscriptions, and support without restarting the relationship.
               </p>
             </BlurReveal>
@@ -102,12 +102,12 @@ export default function PortalPage() {
         </div>
       </section>
 
-      <PlannedWorkspacePreview
-        eyebrow="Portal Preview"
-        title="A bounded preview of the customer workspace."
-        description="This preview explains the intended customer experience without implying that protected accounts, records, invoice downloads, subscriptions, or support tickets are publicly available."
+      <ControlledAccessPreview
+        eyebrow="Controlled Access"
+        title="A bounded view of customer continuity."
+        description="This page explains the customer experience boundary without implying that protected accounts, records, invoice downloads, subscriptions, or support tickets are publicly available."
         statusNote="Customers should use RFQ, tracking, clarification, contact, and support channels unless HACIEN grants private access."
-        dashboardTitle="Planned module overview"
+        dashboardTitle="Customer access overview"
         modules={previewModules}
       />
 
@@ -119,7 +119,7 @@ export default function PortalPage() {
               A self-service layer for procurement continuity.
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
-              The customer workspace should help customers understand status, retrieve documents,
+              Controlled customer access should help customers understand status, retrieve documents,
               request support, manage renewals, and continue procurement conversations.
             </p>
           </AnimatedContent>

@@ -9,7 +9,7 @@ export default function NotFoundPage() {
         </div>
         <h1 className="mt-6 text-3xl font-bold text-slate-950">This room is not available.</h1>
         <p className="mt-4 text-sm leading-6 text-slate-600">
-          The page may have moved, or it may be part of a future HACIEN capability that is not public yet.
+          The page may have moved, or the address may not be part of the public HACIEN headquarters.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Link
