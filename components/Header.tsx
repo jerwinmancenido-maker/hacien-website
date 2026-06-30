@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { useQuoteCart } from "@/components/QuoteCartProvider";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -16,7 +15,6 @@ const navItems = [
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const { totalQuantity } = useQuoteCart();
   const pathname = usePathname();
 
   function isActive(href: string) {
@@ -68,7 +66,7 @@ export function Header() {
             href="/quote"
             className="button-glow rounded-full bg-[#1457d9] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-700/20 hover:bg-[#0f46b4]"
           >
-            Request Quote{totalQuantity ? ` (${totalQuantity})` : ""}
+            Request Quote
           </Link>
         </div>
 
@@ -116,7 +114,7 @@ export function Header() {
               onClick={() => setOpen(false)}
               className="button-glow mt-1 rounded-full bg-[#1457d9] px-4 py-3 text-center font-bold text-white"
             >
-              Request Quote{totalQuantity ? ` (${totalQuantity})` : ""}
+              Request Quote
             </Link>
           </nav>
         </div>

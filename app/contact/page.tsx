@@ -9,7 +9,6 @@ import {
   SpotlightCard,
 } from "@/app/components/reactbits";
 import { ContactForm } from "@/components/ContactForm";
-import { QuoteRequestForm } from "@/components/QuoteRequestForm";
 
 export const metadata: Metadata = {
   title: "Contact HACIEN | Request a Quote",
@@ -18,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 const inquiryRoutes = [
-  ["Quotation", "Send a product list, BOQ, technical specification, deadline, or delivery context for RFQ review.", "/quote"],
+  ["Quotation", "Use Request Quote for product lists, BOQs, specifications, deadlines, files, and formal RFQ review.", "/quote"],
   ["Government", "Ask about specification review, equivalent matching, documentation support, and institutional procurement.", "/government-procurement"],
   ["Supplier / Partner", "Introduce authorized supply, implementation, fulfillment, warranty, delivery support, or collaboration capability.", "/support"],
   ["General Business", "Ask about company information, project coordination, recurring sourcing, or business communication.", "/support"],
@@ -123,25 +122,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr]">
-          <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Formal RFQ</div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              Send a structured requirement for review.
-            </h2>
-            <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-300">
-              Use this for product sourcing, software licensing, infrastructure projects,
-              CCTV/security requirements, government procurement support, and project delivery coordination.
-            </p>
-            <p className="mt-5 max-w-2xl rounded border border-white/12 bg-white/[0.06] p-4 text-sm leading-6 text-slate-300">
-              Current requests move through RFQ review, direct communication, and formal quotation follow-up.
-            </p>
-          </AnimatedContent>
-          <QuoteRequestForm turnstileSiteKey={turnstileSiteKey} />
-        </div>
-      </section>
-
       <section className="px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.05fr_0.95fr]">
           <ContactForm turnstileSiteKey={turnstileSiteKey} />
@@ -156,11 +136,14 @@ export default function ContactPage() {
               <div className="mt-6 grid gap-5 text-sm leading-7 text-slate-700">
                 <div>
                   <div className="font-bold text-slate-950">Current contact channel</div>
-                  <p>Use the RFQ or contact forms so HACIEN can route the inquiry with the right commercial context.</p>
+                  <p>Use this page for general business questions, supplier introductions, support routing, and company communication.</p>
                 </div>
                 <div>
-                  <div className="font-bold text-slate-950">Current website behavior</div>
-                  <p>No online payment is collected through Contact. Product requests move through RFQ review and formal quotation.</p>
+                  <div className="font-bold text-slate-950">Need a quotation?</div>
+                  <p>Use Request Quote for product lists, BOQs, specifications, existing quotes, files, or project requirements.</p>
+                  <Link href="/quote" className="mt-3 inline-flex rounded bg-[#1457d9] px-4 py-2 text-sm font-bold text-white">
+                    Request Quote
+                  </Link>
                 </div>
               </div>
             </BorderGlow>

@@ -1,43 +1,32 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import {
-  AnimatedContent,
-  BlurReveal,
-  BorderGlow,
-  GradientBackground,
-  SplitText,
-  SpotlightCard,
-} from "@/app/components/reactbits";
+import { AnimatedContent, BorderGlow, GradientBackground, SplitText, SpotlightCard } from "@/app/components/reactbits";
 import { EnterprisePhotoPanel } from "@/components/EnterpriseImagery";
-import { ProductGrid } from "@/components/ProductGrid";
-import { categories, products } from "@/data/products";
+import { categories } from "@/data/products";
 
 export const metadata: Metadata = {
-  title: "Representative Technology Categories | HACIEN",
+  title: "Technology HACIEN Can Support",
   description:
-    "Review representative HACIEN technology categories for enterprise computing, networking, software, security, storage, power, and RFQ preparation.",
+    "Review the technology areas HACIEN can support, including computing, networking, software, security, storage, power, peripherals, and procurement-related requirements.",
 };
 
-const sourcingPrinciples = [
-  {
-    title: "Representative categories for RFQ review.",
-    text: "The catalog helps buyers describe requirements. Stock, exact model, warranty, lead time, and pricing are confirmed during RFQ review.",
-  },
-  {
-    title: "Technology choices are evaluated in context.",
-    text: "A laptop, switch, firewall, UPS, license, or CCTV package is only useful when the site, users, compatibility, and delivery conditions are understood.",
-  },
-  {
-    title: "Quote-first buying protects accuracy.",
-    text: "HACIEN keeps product buying quote-first so pricing, stock, warranty, lead time, and delivery terms are confirmed before commitment.",
-  },
+const supportNotes = [
+  ["Not an online store", "This page explains the kinds of technology HACIEN can help source or coordinate. It does not publish prices or guarantee stock."],
+  ["Quote-first review", "Exact models, quantities, warranty, lead time, delivery conditions, and commercial terms are confirmed through formal quotation."],
+  ["Open-ended requirements", "Customers may send a product name, BOQ, specification, existing quote, picture, spreadsheet, or a plain description of the need."],
 ];
 
-const sourcingFlow = [
-  ["Select", "Choose representative products or categories that match the requirement."],
-  ["Describe", "Add specifications, quantity, warranty, delivery site, and deadline context."],
-  ["Validate", "HACIEN reviews availability, equivalent options, supplier terms, and fit."],
-  ["Quote", "A formal quotation is prepared after supplier inputs are confirmed."],
+const serviceExamples = [
+  "Office laptops and desktops",
+  "Workstations and business endpoints",
+  "Servers, NAS, and storage",
+  "Switches, routers, firewalls, and wireless",
+  "Productivity and security software",
+  "UPS and power protection",
+  "Printers, scanners, monitors, and peripherals",
+  "CCTV, access control, and site security",
+  "Structured cabling and network room materials",
+  "Mixed procurement packages",
 ];
 
 export default function ProductsPage() {
@@ -48,20 +37,18 @@ export default function ProductsPage() {
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
             <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-              Technology References
+              Technology Support
             </AnimatedContent>
             <SplitText
               as="h1"
-              text="Representative technology categories for RFQ review."
+              text="Technology HACIEN can help you source, review, and coordinate."
               className="mt-5 max-w-5xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
             />
-            <BlurReveal delay={160}>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                These categories help customers describe technology needs. They are not a public price list,
-                online store, or commitment of stock. HACIEN confirms commercial details through RFQ review.
-              </p>
-            </BlurReveal>
-            <AnimatedContent delay={260} className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+              HACIEN can support many enterprise, office, institutional, and project technology requirements.
+              You do not need to know the exact model before sending a request.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/quote"
                 className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
@@ -74,57 +61,39 @@ export default function ProductsPage() {
               >
                 Explore Technology
               </Link>
-            </AnimatedContent>
+            </div>
           </div>
 
-          <AnimatedContent delay={140} direction="left">
-            <EnterprisePhotoPanel
-              image="workstation"
-              eyebrow="Technology Reference"
-              title="Categories that help buyers define capability."
-              caption="HACIEN uses the catalog to clarify the business need before supplier availability, warranty, lead time, and final commercial terms are confirmed."
-            />
-          </AnimatedContent>
+          <EnterprisePhotoPanel
+            image="workstation"
+            eyebrow="Technology Areas"
+            title="Tell HACIEN what you need to accomplish."
+            caption="Products, brands, equivalents, lead times, warranty, and delivery details are reviewed after the requirement is understood."
+          />
         </div>
       </section>
 
       <section className="px-4 py-18 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
-          <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Technology Philosophy</div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              A catalog should help buyers ask better questions.
-            </h2>
-          </AnimatedContent>
-          <div className="grid gap-5">
-            {sourcingPrinciples.map((item, index) => (
-              <AnimatedContent key={item.title} delay={index * 80}>
-                <SpotlightCard className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-                  <h3 className="text-lg font-bold text-slate-950">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
-                </SpotlightCard>
-              </AnimatedContent>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Technology Classes</div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
-              Representative categories for business, project, institutional, and government requirements.
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Technology Areas</div>
+            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+              Common categories HACIEN can discuss with customers.
             </h2>
+            <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">
+              These categories are examples of supported technology areas. They are not a complete catalog and do not limit what customers may request.
+            </p>
           </AnimatedContent>
-          <div className="mt-10 flex flex-wrap gap-3">
+          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {categories.map((category, index) => (
-              <AnimatedContent key={category.slug} delay={index * 40}>
-                <Link
-                  href={`/products/${category.slug}`}
-                  className="interactive-link inline-flex rounded border border-white/12 bg-white/[0.06] px-4 py-3 text-sm font-bold text-slate-100 hover:border-blue-300"
-                >
-                  {category.name}
+              <AnimatedContent key={category.slug} delay={index * 45}>
+                <Link href={`/products/${category.slug}`} className="group block h-full">
+                  <SpotlightCard className="h-full rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+                    <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Supported Area</div>
+                    <h3 className="mt-4 text-xl font-bold text-slate-950 group-hover:text-[#1457d9]">{category.name}</h3>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{category.summary}</p>
+                    <div className="mt-5 text-sm font-bold text-[#1457d9]">See example context</div>
+                  </SpotlightCard>
                 </Link>
               </AnimatedContent>
             ))}
@@ -132,47 +101,22 @@ export default function ProductsPage() {
         </div>
       </section>
 
-      <section className="px-4 py-18 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+      <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.86fr_1.14fr]">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">RFQ Starting Points</div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              Start from a representative item, then refine the requirement.
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Examples</div>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+              If it belongs in an organization&apos;s technology environment, HACIEN can review the request.
             </h2>
-            <p className="mt-4 max-w-3xl text-base leading-7 text-slate-600">
-              Product cards support sourcing conversations. Exact specifications, supplier availability,
-              warranty terms, and delivery conditions are confirmed before formal quotation.
+            <p className="mt-5 text-sm leading-7 text-slate-300">
+              Send whatever context you have. HACIEN will clarify the requirement before formal quotation.
             </p>
           </AnimatedContent>
-          <div className="mt-10">
-            <ProductGrid products={products} />
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">RFQ Workflow</div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              Buying starts with clarity and formal review.
-            </h2>
-          </AnimatedContent>
-          <div className="progress-line mt-12 grid gap-4">
-            {sourcingFlow.map(([step, text], index) => (
-              <AnimatedContent key={step} delay={index * 70}>
-                <BorderGlow className="rounded-lg bg-white p-5 shadow-sm">
-                  <div className="flex gap-4">
-                    <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#1457d9] text-sm font-bold text-white">
-                      {String(index + 1).padStart(2, "0")}
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-slate-950">{step}</h3>
-                      <p className="mt-1 text-sm leading-6 text-slate-600">{text}</p>
-                    </div>
-                  </div>
-                </BorderGlow>
-              </AnimatedContent>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {serviceExamples.map((item) => (
+              <div key={item} className="rounded border border-white/12 bg-white/[0.06] p-4 text-sm font-bold text-slate-100">
+                {item}
+              </div>
             ))}
           </div>
         </div>
@@ -180,26 +124,29 @@ export default function ProductsPage() {
 
       <section className="px-4 py-16 sm:px-6 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
-          <BorderGlow className="relative overflow-hidden rounded-lg bg-[#071426] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
-            <GradientBackground className="opacity-[0.36]" />
-            <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
+          <BorderGlow className="relative overflow-hidden rounded-lg bg-white p-8 shadow-sm sm:p-10">
+            <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
-                <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
-                  Quote-first Commerce
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
+                  How to start
                 </div>
-                <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
-                  Technology discovery should lead to a better RFQ and a more accurate formal offer.
+                <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+                  You can request help even if the exact product is not listed.
                 </h2>
-                <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
-                  Browse representative products, describe the requirement, attach files when needed,
-                  and let HACIEN confirm the commercial details before a formal offer.
-                </p>
+                <div className="mt-6 grid gap-4 md:grid-cols-3">
+                  {supportNotes.map(([title, text]) => (
+                    <div key={title} className="rounded border border-slate-200 bg-slate-50 p-4">
+                      <div className="font-bold text-slate-950">{title}</div>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
               <Link
                 href="/quote"
-                className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#071426]"
+                className="button-glow focus-ring rounded bg-[#1457d9] px-6 py-3 text-center text-sm font-bold text-white"
               >
-                Submit RFQ
+                Send a Requirement
               </Link>
             </div>
           </BorderGlow>

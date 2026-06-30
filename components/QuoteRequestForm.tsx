@@ -119,7 +119,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
         onChangeCapture={markFormStarted}
         onSubmit={handleSubmit}
       >
-        <h3 className="text-xl font-bold text-slate-950">Quick Request for Quotation</h3>
+        <h3 className="text-xl font-bold text-slate-950">Request for Quotation</h3>
         <p className="mt-2 text-sm leading-6 text-slate-600">
           No fixed prices are published. HACIEN will review availability, equivalent options,
           warranty, delivery terms, and supplier quotations before issuing a formal quote.
