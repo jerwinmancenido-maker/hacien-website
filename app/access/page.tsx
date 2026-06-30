@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
+import { PremiumPageHero } from "@/components/PremiumPageHero";
 
 export const metadata: Metadata = {
   title: "Access HACIEN",
@@ -41,17 +42,20 @@ const accessOptions = [
 export default function AccessPage() {
   return (
     <>
-      <section className="bg-[#071426] px-4 py-24 text-white sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-5xl text-center">
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Access HACIEN</div>
-          <h1 className="mt-5 text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
-            One access point for HACIEN’s connected ecosystem.
-          </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-            Open the internal Workspace, learn about the future Customer Workspace, or contact HACIEN for support.
-          </p>
-        </div>
-      </section>
+      <PremiumPageHero
+        eyebrow="Access HACIEN"
+        title="One access point for HACIEN’s connected ecosystem."
+        description="Open the internal Workspace, learn about the future Customer Workspace, or contact HACIEN for support."
+        image="workspace"
+        primaryAction={{ href: erpUrl, label: "Open Workspace" }}
+        secondaryAction={{ href: "/contact", label: "Contact HACIEN" }}
+        highlights={[
+          { label: "Internal Workspace", text: "Secure access for authorized HACIEN personnel." },
+          { label: "Customer Workspace", text: "Future continuity for tracking, documents, and support." },
+          { label: "Support", text: "Help with inquiry, quotation, reference, or follow-up context." },
+          { label: "Relationship Access", text: "One connected path for public, internal, and future customer use." },
+        ]}
+      />
 
       <AnimatedSection className="bg-slate-50 px-4 py-20 sm:px-6 lg:px-8">
         <StaggerContainer className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-3">

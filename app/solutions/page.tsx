@@ -2,13 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   AnimatedContent,
-  BlurReveal,
   BorderGlow,
   GradientBackground,
-  SplitText,
   SpotlightCard,
 } from "@/app/components/reactbits";
-import { EnterprisePhotoPanel, enterpriseImages } from "@/components/EnterpriseImagery";
+import { enterpriseImages } from "@/components/EnterpriseImagery";
+import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { solutions } from "@/data/solutions";
 
 export const metadata: Metadata = {
@@ -69,50 +68,20 @@ const solutionImages: Record<string, keyof typeof enterpriseImages> = {
 export default function SolutionsPage() {
   return (
     <>
-      <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-        <GradientBackground />
-        <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div>
-            <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-              Solutions
-            </AnimatedContent>
-            <SplitText
-              as="h1"
-              text="How HACIEN turns technology requirements into workable procurement."
-              className="mt-5 max-w-5xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
-            />
-            <BlurReveal delay={160}>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                Solutions explain how HACIEN supports infrastructure, integration, sourcing,
-                delivery, and lifecycle needs without repeating the company story.
-              </p>
-            </BlurReveal>
-            <AnimatedContent delay={260} className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/quote"
-                className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
-              >
-                Start an RFQ
-              </Link>
-              <Link
-                href="/technology"
-                className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
-              >
-                Explore Technology
-              </Link>
-            </AnimatedContent>
-          </div>
-
-          <AnimatedContent delay={140} direction="left">
-            <EnterprisePhotoPanel
-              image="commandCenter"
-              eyebrow="Capability Flow"
-              title="From requirement to deployment, every capability is tied to procurement clarity."
-              caption="Solutions describe how HACIEN turns technical needs into supplier-ready, delivery-aware work."
-            />
-          </AnimatedContent>
-        </div>
-      </section>
+      <PremiumPageHero
+        eyebrow="Solutions"
+        title="Technology solutions shaped around real procurement work."
+        description="HACIEN supports infrastructure, integration, sourcing, delivery, and lifecycle needs by turning technical requirements into supplier-ready work."
+        image="commandCenter"
+        primaryAction={{ href: "/quote", label: "Start an RFQ" }}
+        secondaryAction={{ href: "/technology", label: "Explore Technology" }}
+        highlights={[
+          { label: "Infrastructure", text: "Endpoints, servers, networks, power, and site connectivity." },
+          { label: "Integration", text: "Deployment context, materials, setup, and handover planning." },
+          { label: "Procurement", text: "Supplier-ready requirements, quotation support, and equivalent review." },
+          { label: "Lifecycle", text: "Delivery, support, renewals, replacements, and continuity." },
+        ]}
+      />
 
       <section className="px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
