@@ -38,7 +38,7 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b border-slate-200/70 bg-white/82 backdrop-blur-2xl transition-all duration-300 ${
+      className={`sticky top-0 z-50 border-b border-transparent bg-white/82 backdrop-blur-2xl transition-all duration-300 ${
         scrolled ? "shadow-lg shadow-slate-950/8" : "shadow-sm shadow-slate-950/3"
       }`}
     >
@@ -61,26 +61,44 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className="glass-control relative hidden w-[540px] grid-cols-6 overflow-hidden rounded-full p-1 text-center text-sm font-semibold text-slate-700 lg:grid">
+        <div className="relative hidden lg:block">
+          <nav className="glass-control relative grid w-[540px] grid-cols-6 overflow-hidden rounded-full p-1 text-center text-sm font-semibold text-slate-700">
+            <span
+              className="pointer-events-none absolute left-1 top-1 h-[calc(100%-0.5rem)] w-[calc((100%-0.5rem)/6)] rounded-full border border-white/80 bg-white/95 shadow-md shadow-slate-950/10 transition-transform duration-300 ease-out"
+              style={{ transform: `translateX(${activeNavIndex * 100}%)` }}
+              aria-hidden="true"
+            />
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`relative z-10 rounded-full px-3.5 py-2 transition-all duration-200 ${
+                  isActive(item.href)
+                    ? "text-[#071426]"
+                    : "text-slate-600 hover:-translate-y-0.5 hover:bg-white/45 hover:text-[#071426]"
+                }`}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
           <span
-            className="pointer-events-none absolute left-1 top-1 h-[calc(100%-0.5rem)] w-[calc((100%-0.5rem)/6)] rounded-full border border-white/80 bg-white/95 shadow-md shadow-slate-950/10 transition-transform duration-300 ease-out"
-            style={{ transform: `translateX(${activeNavIndex * 100}%)` }}
+            className="pointer-events-none absolute top-[calc(100%+6px)] h-6 w-[90px] bg-[radial-gradient(ellipse_at_center,rgba(20,87,217,0.32),rgba(45,212,255,0.14)_42%,transparent_72%)] blur-md transition-transform duration-500 ease-out"
+            style={{
+              borderRadius: "48% 52% 58% 42% / 54% 44% 56% 46%",
+              transform: `translateX(${activeNavIndex * 90}px)`,
+            }}
             aria-hidden="true"
           />
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`relative z-10 rounded-full px-3.5 py-2 transition-all duration-200 ${
-                isActive(item.href)
-                  ? "text-[#071426]"
-                  : "text-slate-600 hover:-translate-y-0.5 hover:bg-white/45 hover:text-[#071426]"
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+          <span
+            className="pointer-events-none absolute top-[calc(100%+10px)] h-2 w-[90px] bg-[linear-gradient(90deg,transparent,rgba(20,87,217,0.32),rgba(45,212,255,0.18),transparent)] transition-transform duration-500 ease-out"
+            style={{
+              borderRadius: "55% 45% 50% 50% / 60% 35% 65% 40%",
+              transform: `translateX(${activeNavIndex * 90}px)`,
+            }}
+            aria-hidden="true"
+          />
+        </div>
 
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
           <Link
