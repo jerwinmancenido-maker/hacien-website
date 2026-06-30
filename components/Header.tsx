@@ -65,17 +65,13 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className={`group/nav relative overflow-hidden rounded-full px-3.5 py-2 transition-all duration-200 ${
+              className={`relative rounded-full border px-3.5 py-2 transition-all duration-200 ${
                 isActive(item.href)
-                  ? "bg-white/95 text-[#071426] shadow-sm shadow-slate-950/8"
-                  : "text-slate-600 hover:-translate-y-0.5 hover:bg-white/70 hover:text-[#071426]"
+                  ? "border-white/80 bg-white/95 text-[#071426] shadow-md shadow-slate-950/10"
+                  : "border-transparent text-slate-600 hover:-translate-y-0.5 hover:border-white/70 hover:bg-white/60 hover:text-[#071426] hover:shadow-sm hover:shadow-slate-950/6"
               }`}
             >
-              <span className="relative z-10">{item.label}</span>
-              <span className="absolute inset-x-3 bottom-1 h-0.5 origin-left scale-x-0 rounded-full bg-[#1457d9] transition-transform duration-200 group-hover/nav:scale-x-100" />
-              {isActive(item.href) ? (
-                <span className="absolute inset-x-3 bottom-1 h-0.5 rounded-full bg-[#1457d9]" />
-              ) : null}
+              {item.label}
             </Link>
           ))}
         </nav>
