@@ -7,12 +7,12 @@ import { categories } from "@/data/products";
 import { solutions } from "@/data/solutions";
 
 const ecosystem = [
-  ["Enterprise Computing", "Workstations and infrastructure for serious operating environments."],
-  ["Data Platforms", "Servers, storage, backup, and continuity foundations."],
-  ["Networking", "Reliable connectivity for offices, campuses, and institutions."],
-  ["Cybersecurity", "Protection for business and government technology environments."],
-  ["Cloud & Software", "Productivity, collaboration, security, and licensed platforms."],
-  ["Power & Edge", "UPS, structured infrastructure, edge sites, and deployment materials."],
+  ["Requirement context", "Business need, site conditions, users, quantities, deadline, and approval path."],
+  ["Specification review", "Performance needs, compatibility, equivalent options, and missing details."],
+  ["Supplier readiness", "Availability, warranty, lead time, commercial assumptions, and delivery constraints."],
+  ["Quotation package", "Clear item context, assumptions, exclusions, validity, and next steps."],
+  ["Delivery planning", "Receiving needs, handover records, schedule expectations, and follow-up context."],
+  ["Relationship continuity", "Each request remains part of one customer relationship, not a forgotten email thread."],
 ];
 
 const howItWorks = [
@@ -33,10 +33,10 @@ export function TechnologyEcosystem() {
     <AnimatedSection className="bg-[#071426] px-4 py-24 text-white sm:px-6 lg:px-8">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div>
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Technology Ecosystem</div>
-          <h2 className="mt-5 text-5xl font-bold tracking-tight sm:text-6xl">Infrastructure, security, software, and continuity.</h2>
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">RFQ Readiness</div>
+          <h2 className="mt-5 text-5xl font-bold tracking-tight sm:text-6xl">From rough requirement to supplier-ready request.</h2>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-            HACIEN frames technology as operating capability. Products, suppliers, pricing, and warranties are confirmed only after requirements are understood.
+            The first job is not to sell a model. It is to make the request clear enough for accurate review, responsible sourcing, and formal quotation.
           </p>
           <StaggerContainer className="mt-10 grid gap-3 sm:grid-cols-2">
             {ecosystem.map(([title, detail]) => (
@@ -49,9 +49,9 @@ export function TechnologyEcosystem() {
         </div>
         <EnterprisePhotoPanel
           image="silicon"
-          eyebrow="Capability Layer"
-          title="Technology decisions should support the business, not distract from it."
-          caption="HACIEN keeps the buyer focused on requirements, outcomes, delivery context, and formal review."
+          eyebrow="Procurement Clarity"
+          title="Better quotations start with better requirements."
+          caption="HACIEN keeps the buyer focused on context, assumptions, equivalents, supplier readiness, and the next practical step."
         />
       </div>
     </AnimatedSection>
