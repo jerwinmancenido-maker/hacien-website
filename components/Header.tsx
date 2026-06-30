@@ -64,7 +64,18 @@ export function Header() {
         <div className="relative hidden lg:block">
           <nav className="glass-control relative grid w-[540px] grid-cols-6 overflow-hidden rounded-full p-1 text-center text-sm font-semibold text-slate-700">
             <span
-              className="pointer-events-none absolute left-1 top-1 h-[calc(100%-0.5rem)] w-[calc((100%-0.5rem)/6)] rounded-full border border-white/80 bg-white/95 shadow-md shadow-slate-950/10 transition-transform duration-300 ease-out"
+              className="pointer-events-none absolute left-1 top-1 h-[calc(100%-0.5rem)] w-[calc((100%-0.5rem)/6)] overflow-hidden border border-white/80 bg-white/95 shadow-md shadow-slate-950/10 transition-transform duration-300 ease-out"
+              style={{
+                borderRadius: "46% 54% 48% 52% / 58% 42% 58% 42%",
+                transform: `translateX(${activeNavIndex * 100}%)`,
+              }}
+              aria-hidden="true"
+            >
+              <span className="absolute -inset-x-5 bottom-[-11px] h-8 rounded-[55%_45%_50%_50%/70%_38%_62%_30%] bg-gradient-to-r from-[#1457d9]/18 via-cyan-300/26 to-[#5b4bff]/16" />
+              <span className="absolute -left-4 top-[-10px] h-7 w-20 rounded-[44%_56%_40%_60%/55%_42%_58%_45%] bg-cyan-200/18 blur-sm" />
+            </span>
+            <span
+              className="pointer-events-none absolute -bottom-3 left-1 h-8 w-[calc((100%-0.5rem)/6)] bg-[radial-gradient(ellipse_at_center,rgba(20,87,217,0.42),rgba(45,212,255,0.22)_42%,transparent_73%)] blur-lg transition-transform duration-500 ease-out"
               style={{ transform: `translateX(${activeNavIndex * 100}%)` }}
               aria-hidden="true"
             />
@@ -82,22 +93,6 @@ export function Header() {
               </Link>
             ))}
           </nav>
-          <span
-            className="pointer-events-none absolute top-[calc(100%+6px)] h-6 w-[90px] bg-[radial-gradient(ellipse_at_center,rgba(20,87,217,0.32),rgba(45,212,255,0.14)_42%,transparent_72%)] blur-md transition-transform duration-500 ease-out"
-            style={{
-              borderRadius: "48% 52% 58% 42% / 54% 44% 56% 46%",
-              transform: `translateX(${activeNavIndex * 90}px)`,
-            }}
-            aria-hidden="true"
-          />
-          <span
-            className="pointer-events-none absolute top-[calc(100%+10px)] h-2 w-[90px] bg-[linear-gradient(90deg,transparent,rgba(20,87,217,0.32),rgba(45,212,255,0.18),transparent)] transition-transform duration-500 ease-out"
-            style={{
-              borderRadius: "55% 45% 50% 50% / 60% 35% 65% 40%",
-              transform: `translateX(${activeNavIndex * 90}px)`,
-            }}
-            aria-hidden="true"
-          />
         </div>
 
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
