@@ -23,26 +23,30 @@ const terms: TermSection[] = [
     bullets: [
       {
         label: "HACIEN",
-        text: "refers to HACIEN Information Technology Solutions, with registered office at Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, San Antonio, Pasig City, Philippines 1605.",
+        text: "Refers to HACIEN Information Technology Solutions, a legally registered sole proprietorship/business entity operating under the laws of the Republic of the Philippines, with registered office address at Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, San Antonio, Pasig City, Metro Manila, Philippines 1605.",
       },
       {
         label: "Website",
-        text: "refers to haciensolutions.com, its subdomains, and related electronic portal services.",
+        text: "Refers to the public portal haciensolutions.com, including all its subdomains, page layouts, underlying source code, media assets, forms, and digital directories.",
       },
       {
         label: "User or Visitor",
-        text: "refers to any individual, business entity, or government/institutional representative accessing this website.",
+        text: "Refers to any individual, corporate representative, procurement officer, supplier, partner, or institutional agent who accesses, browses, or interacts with the Website.",
       },
       {
         label: "RFQ Gateway",
-        text: "refers to the online Request-For-Quotation, Bill of Quantities upload, and requirement submission tools hosted on the Website.",
+        text: "Refers to the collection of online forms, upload modules, Bill of Quantities ingest systems, and requirements intake channels hosted on the Website.",
+      },
+      {
+        label: "Official Quotation",
+        text: "Refers to a formally numbered, dated, and signed commercial proposal issued by an authorized representative of HACIEN through the @haciensolutions.com domain.",
       },
     ],
   },
   {
     title: "2. Website Purpose and Limitations",
     paragraphs: [
-      "The HACIEN website serves solely as a professional technology showcase, business inquiry portal, customer support directory, and Request-For-Quotation intake channel. It does not operate as an online checkout, public marketplace, or payment portal. No direct commercial purchases or financial transactions can be finalized directly on this Website.",
+      "The HACIEN website serves solely as a professional enterprise technology showcase, business inquiry portal, support ticket routing channel, and Request-For-Quotation intake path. The Website does not support instant online checkouts, public e-commerce transactions, or direct payment gateway integrations. No binding commercial purchase, credit agreement, or delivery obligation can be created or finalized directly on this Website. All transactions require subsequent offline validation, formal document exchange, and bilateral agreement.",
     ],
   },
   {
@@ -50,11 +54,11 @@ const terms: TermSection[] = [
     bullets: [
       {
         label: "Informational Purpose",
-        text: "Technology categories, example items, specifications, diagrams, and product descriptions are published on this Website for reference and requirement identification purposes only.",
+        text: "Technology categories, specifications, sheets, diagrams, product descriptions, and brand logos displayed on the Website are provided for general reference only to help visitors describe their technical requirements.",
       },
       {
-        label: "Availability and Pricing",
-        text: "These listings do not guarantee stock, manufacturer models, pricing, warranty coverage, delivery dates, or supplier commitments. Product specifications and availability are subject to rapid change due to IT lifecycle changes and vendor allocations.",
+        label: "Availability and Customization",
+        text: "Product listings do not guarantee immediate stock availability, specific local unit pricing, manufacturer lead times, or distributor allocations. Due to the rapid lifecycle of enterprise IT hardware, software-as-a-service tiers, and cloud platforms, HACIEN reserves the right to propose equivalent, updated, or customized configurations during the formal quotation process.",
       },
     ],
   },
@@ -63,34 +67,34 @@ const terms: TermSection[] = [
     bullets: [
       {
         label: "No Contract Created",
-        text: "Submitting a request, BOQ, file, specification sheet, existing supplier quote, or message through the RFQ Gateway starts HACIEN's review process only. It does not create a purchase order, sales contract, payment obligation, or official commercial quotation.",
+        text: "The submission of a request, Bill of Quantities, product specification, network diagram, competitor quotation, or text message through the RFQ Gateway serves as an invitation to treat. It does not establish a sales contract, purchase order, credit line, payment obligation, or binding service agreement.",
       },
       {
-        label: "Verification and Security",
-        text: "HACIEN reserves the right to reject, filter, or ignore submissions that contain incomplete contact information, invalid email domains, or look-alike credentials.",
+        label: "Submission Integrity",
+        text: "Visitors represent that all uploaded files and contact details are accurate, legitimate, and secure. HACIEN reserves the right to reject, flag, or delete submissions that contain incomplete information, burner email domains, or metadata indicative of malicious uploads.",
       },
     ],
   },
   {
     title: "5. Formal Quotations and Commitments",
     paragraphs: [
-      "Binding commercial commitments are made only through a formal, numbered quotation, proforma invoice, sales contract, or official written business communication issued directly by authorized HACIEN representatives via @haciensolutions.com.",
+      "HACIEN is bound only by commercial commitments issued through formal, numbered written documents, such as official quotations, proforma invoices, sales invoices, or master services agreements. These documents must be signed or approved by authorized HACIEN personnel and sent via official corporate communication paths, specifically using email addresses ending in @haciensolutions.com. Verbal communications, website content, and automated form acknowledgments do not constitute binding commitments.",
     ],
   },
   {
     title: "6. Quotation Validity, Equivalents, and Price Fluctuations",
     bullets: [
       {
-        label: "Validity",
-        text: "Unless a HACIEN quotation states otherwise, quotations are generally valid for fifteen calendar days from the date of issue.",
+        label: "Default Validity",
+        text: "Unless a HACIEN quotation explicitly indicates a different period, all quotations are valid for fifteen calendar days from the date of issuance.",
       },
       {
-        label: "Price Movements",
-        text: "Prices, availability, delivery dates, and equivalent items are subject to change because of supplier inventory status, foreign exchange movement, product lifecycle transitions, seller discretion, or other commercial constraints.",
+        label: "Price Volatility",
+        text: "Prior to the Customer's formal acceptance and HACIEN's confirmation, unit prices, delivery timelines, and availability remain subject to change due to international supply chain disruptions, vendor price adjustments, or foreign exchange rate movements such as USD/PHP.",
       },
       {
         label: "Equivalents",
-        text: "Equivalent items may be proposed by HACIEN and will be processed upon approval by the customer.",
+        text: "If a requested component, model, or license becomes unavailable or reaches End-of-Life, HACIEN may propose equivalent or superior alternatives. Such equivalent items will only be delivered upon written acceptance by the Customer.",
       },
     ],
   },
@@ -99,11 +103,11 @@ const terms: TermSection[] = [
     bullets: [
       {
         label: "Pass-Through Warranty",
-        text: "Unless a quotation states a separate, local service warranty provided by HACIEN, all product warranties follow the terms of the applicable supplier, distributor, or manufacturer.",
+        text: "Unless the Customer purchases a separate local support or maintenance package directly from HACIEN, all product warranties are provided strictly by the original equipment manufacturer, software vendor, or principal distributor.",
       },
       {
-        label: "Claims Handling",
-        text: "Customer warranty claims are normally handled directly with the brand, supplier, or authorized warranty channel. HACIEN will make reasonable efforts to assist the customer with warranty coordination when possible.",
+        label: "Liaison Support",
+        text: "HACIEN will act as a reasonable commercial liaison to help the Customer coordinate warranty claims, check return merchandise authorization eligibility, and locate authorized service centers. HACIEN does not assume primary warranty liability for third-party hardware failures.",
       },
     ],
   },
@@ -111,51 +115,68 @@ const terms: TermSection[] = [
     title: "8. Warranty Exclusions and Verification",
     bullets: [
       {
-        label: "Exclusions",
-        text: "Consumables, software licenses, installation labor, physical damage, misuse, unauthorized repair, and other exclusions depend on the applicable supplier, distributor, manufacturer, license, or service terms.",
+        label: "Standard Exclusions",
+        text: "Warranties do not cover consumable parts, batteries, software errors, configuration losses, on-site labor fees, or damages caused by power surges, physical drops, water intrusion, natural disasters, unauthorized alterations, or improper technical environments.",
       },
       {
-        label: "Customer Verification",
-        text: "If warranty coverage is not explicitly stated in the quotation or supporting supplier documents, the customer is responsible for verifying coverage details before order acceptance.",
+        label: "Verification Duty",
+        text: "The Customer must verify the specific warranty parameters, terms, and service centers for all products prior to accepting HACIEN's commercial quotation.",
       },
     ],
   },
   {
     title: "9. Returns, Replacements, and Refunds",
-    paragraphs: [
-      "Return, replacement, and refund handling follows applicable Philippine government guidelines, such as the Consumer Act of the Philippines, supplier or manufacturer terms, and the formal quotation or written agreement for the transaction.",
-      "Missing, damaged, incorrect, or defective items must be reported to HACIEN in writing within twenty-four to forty-eight hours of delivery to initiate review and proper investigation.",
+    bullets: [
+      {
+        label: "Compliance Framework",
+        text: "Returns and replacements are governed by the Consumer Act of the Philippines, Republic Act No. 7394, the specific return policies of the vendor/manufacturer, and the final terms of the transaction.",
+      },
+      {
+        label: "Inspection and Reporting",
+        text: "The Customer must inspect all shipments immediately upon delivery. Any missing, damaged, incorrect, or defective items must be reported to HACIEN in writing within twenty-four to forty-eight hours of receipt to qualify for return or replacement reviews.",
+      },
+      {
+        label: "Custom Orders",
+        text: "Activated software licenses, cloud subscriptions, and custom-built or special-order hardware systems are non-cancelable and non-refundable once the procurement process begins.",
+      },
     ],
   },
   {
     title: "10. Payment Terms, Invoices, and Credit",
     bullets: [
       {
-        label: "Terms",
-        text: "Payment due dates and partial payment requirements depend on the customer terms, quotation, invoice, purchase order, or written agreement.",
+        label: "Contractual Payment Terms",
+        text: "Payment terms, down payments, progress billing milestones, and due dates are governed strictly by the formal quotation, proforma invoice, or contract.",
       },
       {
-        label: "Methods",
-        text: "Accepted payment methods include cash, bank transfer, or cheque, subject to clearing and confirmation in formal business communication.",
+        label: "Verification",
+        text: "Payment is considered finalized only when check deposits clear HACIEN's bank account, typically three to five banking days for local checks, or when bank transfers are confirmed as cleared by HACIEN's finance department.",
       },
     ],
   },
   {
     title: "11. Late Payment Charges",
-    paragraphs: [
-      "Overdue balances may be subject to a late payment charge of three percent per month when stated in the quotation, invoice, contract, purchase order acceptance, or written agreement. HACIEN reserves the right to suspend additional procurement, licensing, or delivery work for accounts with outstanding overdue balances.",
+    bullets: [
+      {
+        label: "Interest Accrual",
+        text: "Overdue accounts are subject to a late payment interest charge of three percent per month, calculated daily on the outstanding balance, from the day following the payment due date until the balance is paid in full.",
+      },
+      {
+        label: "Work Suspension",
+        text: "HACIEN reserves the right to suspend deliveries, pause technical support, deactivate cloud subscriptions, and halt ongoing procurement actions for any Customer account with an outstanding overdue balance.",
+      },
     ],
   },
   {
     title: "12. Tax Treatment and BIR Form 2307",
     bullets: [
       {
-        label: "VAT",
-        text: "Prices, VAT treatment, and other tax-related billing depend on the customer status, HACIEN tax status, applicable law, and the formal quotation or invoice.",
+        label: "VAT Invoicing",
+        text: "All transaction prices are subject to the standard twelve percent Value Added Tax in the Philippines, unless the Customer provides valid tax exemption or zero-rated certificates, such as PEZA or BOI certifications, at the time of quotation.",
       },
       {
-        label: "Withholding Taxes",
-        text: "Corporate customers deducting Creditable Withholding Tax must provide HACIEN with a completed and signed BIR Form 2307 at the time of payment. Failure to provide Form 2307 will require the customer to settle the gross invoiced amount in full.",
+        label: "Creditable Withholding Tax",
+        text: "B2B corporate customers deducting Creditable Withholding Tax must submit a completed and signed BIR Form 2307 stating the correct withholding tax rate of 1% or 2% before or at the time of check release or bank transfer. If Form 2307 is not submitted, the Customer must pay the gross invoiced amount in full.",
       },
     ],
   },
@@ -163,47 +184,54 @@ const terms: TermSection[] = [
     title: "13. Delivery, Logistics, and Site Access",
     bullets: [
       {
-        label: "Charges",
-        text: "Delivery charges are normally paid by the customer unless the quotation states that HACIEN will handle delivery. HACIEN may coordinate delivery through internal logistics or third-party carriers.",
+        label: "Logistics Costs",
+        text: "Delivery fees are billed to the Customer unless the formal quotation specifies that HACIEN will handle transport costs.",
       },
       {
-        label: "Risk and Acceptance",
-        text: "Items are generally considered received or accepted when delivered to and received by the customer or authorized representative.",
+        label: "Delivery Authorization",
+        text: "The Customer is responsible for coordinating loading dock access, receiving schedules, local permits, and building gate passes before delivery.",
       },
       {
-        label: "Access Coordination",
-        text: "If the customer is unavailable to receive items, the customer must advise HACIEN or the assigned account manager in advance regarding the authorized receiver. Gate passes, receiving schedules, site access requirements, and special delivery instructions must be processed by the customer before delivery.",
+        label: "Authorized Receivers",
+        text: "The Customer must notify HACIEN in writing if a specific authorized representative is assigned to receive the delivery. Delivery signatures by security guards, receptionist desks, or building representatives at the Customer's address constitute valid proof of delivery.",
       },
     ],
   },
   {
     title: "14. Government and Institutional Procurement",
-    paragraphs: [
-      "Government procurement content is informational and support-oriented. HACIEN may help with specification review, equivalent matching, quotation preparation, and documentation organization. However, buyer-side compliance decisions remain with the buyer's authorized procurement office, BAC, or responsible authority under the Government Procurement Reform Act, Republic Act No. 9184.",
+    bullets: [
+      {
+        label: "Procurement Reform Act Compliance",
+        text: "HACIEN supports PhilGEPS-registered buyers and government entities under the Government Procurement Reform Act, Republic Act No. 9184.",
+      },
+      {
+        label: "Specification Decisions",
+        text: "While HACIEN assists with market research, technical spec comparisons, and document organization, the final responsibility for bid compliance, specifications verification, and award decisions remains solely with the procuring agency's Bids and Awards Committee or head of the procuring entity.",
+      },
     ],
   },
   {
     title: "15. Verification and Corporate Documents",
     paragraphs: [
-      "Company verification documents, such as BIR Form 2303, DTI/SEC registrations, and Mayor's Permits, may be made available upon request to qualified customers, suppliers, partners, and procurement entities. Public pages should not be interpreted as a complete legal, tax, finance, accreditation, or permitting file.",
+      "Company verification documents, including DTI/SEC registrations, BIR Form 2303, Mayor's Permits, and PhilGEPS registration certificates, are available upon request only to qualified prospective buyers, procurement entities, and suppliers. The Website's public pages do not serve as a public repository for corporate compliance audits, financial reports, or licensing directories.",
     ],
   },
   {
     title: "16. Intellectual Property",
     paragraphs: [
-      "All website designs, text, code, graphics, quotation structures, templates, and corporate assets are the property of HACIEN or its licensors. No content may be copied, distributed, reused, or shared outside a transaction without HACIEN's prior written approval.",
+      "All content, page headers, custom graphics, source code, data layouts, templates, logo designs, and system architectures displayed on this Website are the exclusive intellectual property of HACIEN or its technology licensors. Unauthorized copying, scraping, hosting, distributing, or commercial reuse of this intellectual property without HACIEN's express written approval is strictly prohibited.",
     ],
   },
   {
     title: "17. Data Privacy and Operational Sharing",
     bullets: [
       {
-        label: "Privacy",
-        text: "HACIEN complies with the Data Privacy Act of 2012, Republic Act No. 10173. Any personal information collected through contact forms or the RFQ Gateway will be processed solely for legitimate business purposes.",
+        label: "Privacy Compliance",
+        text: "HACIEN processes all personal information in accordance with the Data Privacy Act of 2012, Republic Act No. 10173. Submitting information through the Website constitutes consent to process data for commercial inquiry purposes.",
       },
       {
-        label: "Operational Sharing",
-        text: "HACIEN may share transaction details with suppliers, manufacturers, distributors, logistics providers, software vendors, and warranty channels when needed for quotation preparation, deal registration, procurement, fulfillment, delivery, warranty coordination, support, or lawful business operations.",
+        label: "Necessary Disclosures",
+        text: "To complete quotes, register deals with IT manufacturers, provision cloud licenses, and arrange shipping, HACIEN may share transaction details such as contact name, company name, address, and equipment list with authorized distributors, logistics partners, and hardware manufacturers.",
       },
     ],
   },
@@ -211,12 +239,12 @@ const terms: TermSection[] = [
     title: "18. Acceptable Use and Security",
     bullets: [
       {
-        label: "Prohibitions",
-        text: "Visitors must not submit false information, abusive requests, malicious files, spam, unauthorized credentials, or content unrelated to legitimate business inquiry, support, or quotation review.",
+        label: "Prohibited Use",
+        text: "Visitors are prohibited from uploading files containing malware, trying to bypass site authentication, scanning HACIEN networks for vulnerabilities, or using the contact forms for spam or unrelated advertisements.",
       },
       {
-        label: "Cybercrime Laws",
-        text: "Unauthorized access, scraping, security penetration testing, or system disruption attempts are prohibited and may be prosecuted under the Cybercrime Prevention Act of 2012, Republic Act No. 10175.",
+        label: "Legal Prosecutions",
+        text: "Unauthorized access, security penetration, and system disruption are prohibited and will be prosecuted under the Cybercrime Prevention Act of 2012, Republic Act No. 10175.",
       },
     ],
   },
@@ -225,18 +253,18 @@ const terms: TermSection[] = [
     bullets: [
       {
         label: "Liability Cap",
-        text: "HACIEN's total liability for a transaction is limited to the amount paid by the customer for the affected transaction.",
+        text: "To the maximum extent permitted by Philippine law, HACIEN's total liability for any claim arising out of a transaction or website interaction is limited to the actual amount paid by the Customer to HACIEN for that specific transaction.",
       },
       {
         label: "Excluded Losses",
-        text: "HACIEN is not liable for indirect, incidental, special, consequential, or punitive losses, including lost profits, downtime, data loss, business interruption, lost opportunity, or loss caused by third-party products, services, logistics, supplier decisions, customer delay, or customer-provided information.",
+        text: "HACIEN is not liable for indirect, incidental, special, consequential, or punitive damages, including lost profits, network downtime, business interruption, data loss, or losses resulting from delivery delays, supplier allocations, or force majeure events.",
       },
     ],
   },
   {
     title: "20. Changes and Policy Updates",
     paragraphs: [
-      "HACIEN may update website content, public terms, RFQ paths, technology categories, and inquiry processes as operations mature, provided public claims remain truthful and supported.",
+      "HACIEN reserves the right to modify, amend, or update these Terms of Use at any time. Changes become effective immediately upon being published on this page. Visitors are responsible for reviewing these terms periodically.",
     ],
   },
 ];
@@ -269,8 +297,10 @@ export default function TermsPage() {
               ))}
             </div>
             <p className="mt-4">
-              Use of this website indicates that the visitor understands that public content supports
-              business review and does not replace formal written documents.
+              These terms explain how visitors should understand HACIEN&apos;s public website,
+              technology information, RFQ Gateway, and inquiry paths. Use of this website indicates
+              that the visitor understands that public content supports business review and does not
+              replace formal written documents.
             </p>
             <p className="mt-4">
               For formal business communication, contact HACIEN at{" "}
