@@ -153,7 +153,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
 
   if (status === "success") {
     return (
-      <div className="surface motion-slide-up mx-auto max-w-3xl rounded-lg p-8 text-center">
+      <div className="surface motion-slide-up mx-auto max-w-3xl rounded-2xl p-8 text-center">
         <div className="text-sm font-bold uppercase tracking-[0.18em] text-[#1457d9]">
           RFQ request received
         </div>
@@ -173,7 +173,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         ) : null}
         <Link
           href="/technology"
-          className="mt-6 inline-flex rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white"
+          className="button-glow mt-6 inline-flex rounded-full bg-[#1457d9] px-5 py-3 text-sm font-bold text-white"
         >
           Review technology areas
         </Link>
@@ -183,7 +183,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
 
   if (status === "error") {
     return (
-      <div className="surface motion-slide-up mx-auto max-w-3xl rounded-lg p-8 text-center">
+      <div className="surface motion-slide-up mx-auto max-w-3xl rounded-2xl p-8 text-center">
         <div className="text-sm font-bold uppercase tracking-[0.18em] text-red-600">
           Unable to send
         </div>
@@ -195,7 +195,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         </p>
         <button
           onClick={() => setStatus("idle")}
-          className="mt-6 rounded border border-red-300 px-5 py-3 text-sm font-semibold text-red-700 hover:bg-red-100"
+          className="mt-6 rounded-full border border-red-300 px-5 py-3 text-sm font-semibold text-red-700 hover:bg-red-100"
         >
           Try again
         </button>
@@ -205,12 +205,13 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr]">
-      <div className="surface rounded-lg p-6">
-        <h2 className="text-xl font-bold text-slate-950">Universal RFQ intake</h2>
+      <div className="surface rounded-2xl p-6 sm:p-8">
+        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Gateway Package</div>
+        <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-950">Universal RFQ intake</h2>
         <p className="mt-2 text-sm leading-6 text-slate-600">
           Start with a requirement, BOQ, supplier quote, government specification, image, ZIP file, technology area, or plain description.
         </p>
-        <div className="mt-5 grid gap-3 sm:grid-cols-5">
+        <div className="mt-6 grid gap-3 sm:grid-cols-5">
           {[
             "Describe or Upload",
             "Optional Reference",
@@ -220,7 +221,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           ].map((stepText, index) => (
             <div
               key={stepText}
-              className="rounded border border-slate-200 bg-white p-3 text-sm"
+              className="rounded-xl border border-slate-200 bg-white/80 p-3 text-sm shadow-sm"
             >
               <div className="grid h-8 w-8 place-items-center rounded-full bg-[#071426] text-xs font-bold text-white">
                 {index + 1}
@@ -230,8 +231,8 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           ))}
         </div>
         {requirements.length === 0 ? (
-          <div className="mt-6 rounded border border-dashed border-blue-200 bg-blue-50/60 p-8 text-center">
-            <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-white text-lg font-bold text-[#1457d9] shadow-sm">
+          <div className="mt-6 rounded-2xl border border-dashed border-blue-200 bg-blue-50/60 p-8 text-center">
+            <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-white text-lg font-bold text-[#1457d9] shadow-sm">
               RFQ
             </div>
             <p className="mt-4 font-semibold text-slate-800">
@@ -242,7 +243,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
             </p>
             <Link
               href="/products"
-              className="button-glow mt-5 inline-flex rounded bg-[#071426] px-4 py-2 text-sm font-bold text-white"
+              className="button-glow mt-5 inline-flex rounded-full bg-[#071426] px-5 py-3 text-sm font-bold text-white"
             >
               Build a requirement
             </Link>
@@ -252,7 +253,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
             {requirements.map((requirement) => (
               <AnimatedCard
                 key={requirement.id}
-                className="rounded border border-slate-200 bg-white p-4"
+                className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
               >
                 <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div>
@@ -293,7 +294,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
                     <button
                       type="button"
                       onClick={() => removeRequirement(requirement.id)}
-                      className="rounded border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-red-300 hover:text-red-600"
+                      className="rounded-full border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-red-300 hover:text-red-600"
                     >
                       Remove
                     </button>
@@ -301,7 +302,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
                 </div>
               </AnimatedCard>
             ))}
-            <div className="rounded bg-slate-950 p-5 text-white">
+            <div className="rounded-2xl bg-slate-950 p-5 text-white">
               <div className="text-sm text-slate-300">RFQ package note</div>
               <div className="mt-1 text-lg font-bold">Each block stays inside one Gateway submission.</div>
               <p className="mt-2 text-sm leading-6 text-slate-300">
@@ -320,9 +321,10 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         onFocusCapture={markFormStarted}
         onChangeCapture={markFormStarted}
         onSubmit={handleSubmit}
-        className="surface rounded-lg p-6"
+        className="surface rounded-2xl p-6 sm:p-8"
       >
-        <h2 className="text-xl font-bold text-slate-950">Request a formal quotation review</h2>
+        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Customer Details</div>
+        <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-950">Request a formal quotation review</h2>
         <p className="mt-2 text-sm text-slate-600">
           No online payment will be collected. Every request enters the Gateway first, receives a reference number, and is reviewed before it becomes an Opportunity.
         </p>
@@ -339,7 +341,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         <div className="mt-6 grid gap-4">
           <label className="grid gap-2 text-sm font-semibold text-slate-700">
             Intake path
-            <select required name="intakePath" className="rounded border border-slate-300 px-3 py-2 font-normal" defaultValue="">
+            <select required name="intakePath" className="focus-ring min-h-12 rounded-xl border border-slate-300 bg-white px-4 font-normal" defaultValue="">
               <option value="" disabled>Select how this RFQ is starting</option>
               {intakePaths.map((path) => (
                 <option key={path}>{path}</option>
@@ -371,13 +373,13 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
                           ? "tel"
                           : undefined
                 }
-                className="rounded border border-slate-300 px-3 py-2 font-normal"
+                className="focus-ring min-h-12 rounded-xl border border-slate-300 bg-white px-4 font-normal"
               />
             </label>
           ))}
           <label className="grid gap-2 text-sm font-semibold text-slate-700">
             Procurement type
-            <select required name="procurementType" className="rounded border border-slate-300 px-3 py-2 font-normal" defaultValue="">
+            <select required name="procurementType" className="focus-ring min-h-12 rounded-xl border border-slate-300 bg-white px-4 font-normal" defaultValue="">
               <option value="" disabled>Select procurement type</option>
               <option>Corporate</option>
               <option>Government</option>
@@ -388,7 +390,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           </label>
           <label className="grid gap-2 text-sm font-semibold text-slate-700">
             Budget range <span className="font-normal text-slate-500">(optional)</span>
-            <select name="budgetRange" className="rounded border border-slate-300 px-3 py-2 font-normal" defaultValue="">
+            <select name="budgetRange" className="focus-ring min-h-12 rounded-xl border border-slate-300 bg-white px-4 font-normal" defaultValue="">
               <option value="">Not specified</option>
               <option>Under PHP 50,000</option>
               <option>PHP 50,000 - PHP 250,000</option>
@@ -403,7 +405,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
               rows={5}
               aria-label="Notes or specifications"
               placeholder="Describe the product, outcome, quantity, model, equivalent options, delivery location, deadline, BOQ context, or anything HACIEN should review."
-              className="rounded border border-slate-300 px-3 py-2 font-normal"
+              className="focus-ring rounded-xl border border-slate-300 bg-white px-4 py-3 font-normal"
             />
           </label>
           <label className="grid gap-2 text-sm font-semibold text-slate-700">
@@ -412,7 +414,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
               name="attachment"
               type="file"
               accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg,.zip"
-              className="rounded border border-dashed border-slate-300 bg-slate-50 px-3 py-3 text-sm font-normal"
+              className="focus-ring rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-4 text-sm font-normal"
               onChange={(event) => {
                 const file = event.currentTarget.files?.[0];
                 setFileError("");
@@ -434,7 +436,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           </label>
           {fileError ? <p className="text-sm font-semibold text-red-600">{fileError}</p> : null}
           {attachmentInfo ? <p className="text-sm font-semibold text-emerald-700">{attachmentInfo}</p> : null}
-          <p className="rounded border border-blue-100 bg-blue-50 p-3 text-xs leading-5 text-slate-600">
+          <p className="rounded-xl border border-blue-100 bg-blue-50 p-3 text-xs leading-5 text-slate-600">
             Attachment metadata will enter the Gateway with the request. Accepted files: PDF, DOC, DOCX, XLS, XLSX, CSV, PNG, JPG, ZIP. Maximum size: 10MB.
           </p>
 
@@ -454,7 +456,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           <button
             type="submit"
             disabled={status === "sending" || Boolean(fileError)}
-            className="button-glow rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-300"
+            className="button-glow rounded-full bg-[#1457d9] px-6 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-300"
           >
             {status === "sending" ? "Sending..." : "Submit RFQ"}
           </button>
