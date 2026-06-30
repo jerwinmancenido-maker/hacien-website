@@ -76,6 +76,7 @@ export function Footer() {
             <Link href="/search">Search</Link>
             <Link href="/privacy">Privacy Policy</Link>
             <Link href="/terms">Terms</Link>
+            <Link href="/legal">Legal</Link>
           </div>
         </div>
       </div>
