@@ -34,7 +34,7 @@ const intakePaths = [
 ];
 
 export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
-  const { items, updateQuantity, removeItem, clearCart } = useQuoteCart();
+  const { requirements, removeRequirement, clearRequirements } = useQuoteCart();
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [referenceNumber, setReferenceNumber] = useState("");
@@ -72,7 +72,23 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
     const honeypot = data.get("_website") as string;
     if (honeypot) return;
 
-    const itemLines = items.map((item) => `${item.product.id} — ${item.product.name} x${item.quantity}`);
+    const requirementLines = requirements.map((requirement, index) => {
+      const fieldLines = Object.entries(requirement.fields)
+        .filter(([, value]) => value)
+        .map(([key, value]) => `  - ${key}: ${value}`);
+
+      return [
+        `${index + 1}. ${requirement.categoryLabel} — quantity/scope: ${requirement.quantity}`,
+        `  - Preferred brand/vendor: ${requirement.brandPreference}${requirement.otherBrand ? ` (${requirement.otherBrand})` : ""}`,
+        `  - Equivalent options: ${requirement.equivalentAccepted}`,
+        requirement.deadline ? `  - Deadline: ${requirement.deadline}` : "",
+        requirement.deliveryLocation ? `  - Delivery location: ${requirement.deliveryLocation}` : "",
+        ...fieldLines,
+        requirement.notes ? `  - Notes: ${requirement.notes}` : "",
+      ]
+        .filter(Boolean)
+        .join("\n");
+    });
     const file = data.get("attachment") as File | null;
     const notes = String(data.get("notes") || "").trim();
     const submittedAttachmentInfo =
@@ -80,11 +96,11 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         ? `${file.name} (${Math.round(file.size / 1024)} KB, ${file.type || "unknown type"}) — uploaded through RFQ form`
         : "No attachment selected";
     const hasAttachment = Boolean(file && file.size > 0);
-    const hasCartItems = items.length > 0;
+    const hasRequirements = requirements.length > 0;
 
-    if (!hasCartItems && !notes && !hasAttachment) {
+    if (!hasRequirements && !notes && !hasAttachment) {
       setStatus("error");
-      setErrorMessage("Describe the requirement, add a file, or select catalog items before submitting.");
+      setErrorMessage("Describe the requirement, add a requirement block, or attach a file before submitting.");
       setTurnstileResetSignal((value) => value + 1);
       resetFormTiming();
       return;
@@ -105,15 +121,16 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
       targetDate: data.get("targetDate"),
       budgetRange: data.get("budgetRange"),
       notes,
-      items: itemLines.join("\n"),
-      cartItemCount: items.length,
+      requirements: requirementLines.join("\n\n"),
+      requirementBlocks: requirements,
+      requirementCount: requirements.length,
       attachmentInfo: submittedAttachmentInfo,
       attachmentName: hasAttachment ? file?.name : "",
       attachmentType: hasAttachment ? file?.type : "",
       attachmentSizeKb: hasAttachment ? Math.round((file?.size || 0) / 1024) : 0,
       acceptsZeroCatalogProducts: true,
       procurementNote:
-        "HACIEN accepts RFQs with or without catalog products. Gateway review comes before Opportunity creation.",
+        "HACIEN accepts RFQs with or without listed technology. Gateway review comes before Opportunity creation.",
       submittedAt: new Date().toISOString(),
     };
 
@@ -123,7 +140,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
     if (result.success) {
       setReferenceNumber(result.referenceNumber || "");
       setStatus("success");
-      clearCart();
+      clearRequirements();
       setTurnstileResetSignal((value) => value + 1);
       resetFormTiming();
     } else {
@@ -212,51 +229,70 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
             </div>
           ))}
         </div>
-        {items.length === 0 ? (
+        {requirements.length === 0 ? (
           <div className="mt-6 rounded border border-dashed border-blue-200 bg-blue-50/60 p-8 text-center">
             <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-white text-lg font-bold text-[#1457d9] shadow-sm">
               RFQ
             </div>
             <p className="mt-4 font-semibold text-slate-800">
-              Your RFQ can start with any requirement.
+              Your RFQ package can start with any requirement.
             </p>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              Describe the requirement or upload a BOQ, specification, supplier quote, image, or ZIP file. Technology pages are only guidance; they are not required.
+              Build one or more requirement blocks, describe the requirement, or upload a BOQ, specification, supplier quote, image, or ZIP file.
             </p>
             <Link
-              href="/technology"
+              href="/products"
               className="button-glow mt-5 inline-flex rounded bg-[#071426] px-4 py-2 text-sm font-bold text-white"
             >
-              View technology areas
+              Build a requirement
             </Link>
           </div>
         ) : (
           <StaggerContainer className="mt-6 grid gap-4">
-            {items.map((item) => (
+            {requirements.map((requirement) => (
               <AnimatedCard
-                key={item.product.id}
+                key={requirement.id}
                 className="rounded border border-slate-200 bg-white p-4"
               >
-                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                   <div>
-                    <div className="font-bold text-slate-950">{item.product.name}</div>
+                    <div className="font-bold text-slate-950">{requirement.categoryLabel}</div>
                     <div className="mt-1 text-sm text-slate-500">
-                      {item.product.id} — For quotation. Subject to brand/model availability.
+                      Quantity/scope: {requirement.quantity}
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-2 text-xs font-semibold text-slate-600">
+                      <span className="rounded-full bg-slate-100 px-3 py-1">
+                        {requirement.brandPreference}
+                        {requirement.otherBrand ? `: ${requirement.otherBrand}` : ""}
+                      </span>
+                      <span className="rounded-full bg-blue-50 px-3 py-1 text-[#1457d9]">
+                        {requirement.equivalentAccepted}
+                      </span>
+                    </div>
+                    {Object.values(requirement.fields).some(Boolean) ? (
+                      <div className="mt-3 grid gap-1 text-sm text-slate-600">
+                        {Object.entries(requirement.fields)
+                          .filter(([, value]) => value)
+                          .slice(0, 4)
+                          .map(([key, value]) => (
+                            <div key={key}>
+                              <span className="font-semibold text-slate-800">{key}:</span> {value}
+                            </div>
+                          ))}
+                      </div>
+                    ) : null}
+                    {requirement.notes ? (
+                      <p className="mt-3 text-sm leading-6 text-slate-600">{requirement.notes}</p>
+                    ) : null}
+                    <div className="mt-3 flex flex-wrap gap-2 text-xs text-slate-500">
+                      {requirement.deadline ? <span>Deadline: {requirement.deadline}</span> : null}
+                      {requirement.deliveryLocation ? <span>Delivery: {requirement.deliveryLocation}</span> : null}
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <input
-                      type="number"
-                      min={1}
-                      value={item.quantity}
-                      onChange={(event) =>
-                        updateQuantity(item.product.id, Number(event.target.value))
-                      }
-                      className="w-20 rounded border border-slate-300 px-3 py-2"
-                      aria-label={`Quantity for ${item.product.name}`}
-                    />
                     <button
-                      onClick={() => removeItem(item.product.id)}
+                      type="button"
+                      onClick={() => removeRequirement(requirement.id)}
                       className="rounded border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 hover:border-red-300 hover:text-red-600"
                     >
                       Remove
@@ -266,11 +302,14 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
               </AnimatedCard>
             ))}
             <div className="rounded bg-slate-950 p-5 text-white">
-              <div className="text-sm text-slate-300">RFQ pricing note</div>
-              <div className="mt-1 text-lg font-bold">Final pricing will be confirmed through formal quotation.</div>
+              <div className="text-sm text-slate-300">RFQ package note</div>
+              <div className="mt-1 text-lg font-bold">Each block stays inside one Gateway submission.</div>
               <p className="mt-2 text-sm leading-6 text-slate-300">
-                Equivalent models may be recommended based on stock, warranty, and specification requirements.
+                HACIEN reviews the complete package, recommends suitable options, and clarifies details before preparing a formal quotation.
               </p>
+              <Link href="/products" className="mt-4 inline-flex text-sm font-bold text-blue-200 hover:text-white">
+                Add another requirement
+              </Link>
             </div>
           </StaggerContainer>
         )}

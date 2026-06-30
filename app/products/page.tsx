@@ -2,12 +2,13 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { AnimatedContent, BorderGlow, GradientBackground, SplitText, SpotlightCard } from "@/app/components/reactbits";
 import { EnterprisePhotoPanel } from "@/components/EnterpriseImagery";
+import { RequirementBuilder } from "@/components/RequirementBuilder";
 import { categories } from "@/data/products";
 
 export const metadata: Metadata = {
-  title: "Technology HACIEN Can Support",
+  title: "Technology RFQ Builder | HACIEN",
   description:
-    "Review the technology areas HACIEN can support, including computing, networking, software, security, storage, power, peripherals, and procurement-related requirements.",
+    "Build one RFQ package with multiple technology requirements, optional brand preferences, and supporting context before sending it to HACIEN.",
 };
 
 const supportNotes = [
@@ -37,39 +38,44 @@ export default function ProductsPage() {
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
             <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-              Technology Support
+              Technology RFQ Builder
             </AnimatedContent>
             <SplitText
               as="h1"
-              text="Technology HACIEN can help you source, review, and coordinate."
+              text="Build one request from many technology requirements."
               className="mt-5 max-w-5xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
             />
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-              HACIEN can support many enterprise, office, institutional, and project technology requirements.
-              You do not need to know the exact model before sending a request.
+              Add laptops, servers, networking, software, power, cabling, services, or anything not listed into one RFQ package. Exact brands and models are optional.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/quote"
                 className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
               >
-                Request Quote
+                Submit RFQ Package
               </Link>
               <Link
                 href="/technology"
                 className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
               >
-                Explore Technology
+                Explore Technology Story
               </Link>
             </div>
           </div>
 
           <EnterprisePhotoPanel
             image="workstation"
-            eyebrow="Technology Areas"
-            title="Tell HACIEN what you need to accomplish."
-            caption="Products, brands, equivalents, lead times, warranty, and delivery details are reviewed after the requirement is understood."
+            eyebrow="Universal Intake"
+            title="Start with specs, brands, files, or a plain business need."
+            caption="HACIEN reviews the complete requirement package before preparing a formal quotation."
           />
+        </div>
+      </section>
+
+      <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <RequirementBuilder initialCategory="computers-laptops" />
         </div>
       </section>
 
