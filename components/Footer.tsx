@@ -42,9 +42,7 @@ export function Footer() {
           <div className="text-sm font-semibold text-slate-100">Customer</div>
           <div className="mt-4 grid gap-3 text-sm text-slate-300">
             <Link href="/quote">Submit RFQ</Link>
-            <Link href="/portal">
-              Customer Workspace
-            </Link>
+            <Link href="/support">Support</Link>
             <Link href="/trust-center">Trust Center</Link>
           </div>
         </div>

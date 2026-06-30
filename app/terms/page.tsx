@@ -23,10 +23,10 @@ export default function TermsPage() {
             and delivery requirements.
           </p>
           <p>
-            HACIEN uses legal-safe government procurement support language. This website does not claim PhilGEPS,
-            ISO, mayor&apos;s permit, tax-readiness, or other accreditation status unless such status is explicitly
-            finalized and published by HACIEN. BIR registration facts may be published separately from tax or
-            accounting readiness claims.
+            HACIEN uses careful government procurement support language. This website does not claim PhilGEPS,
+            ISO, mayor&apos;s permit, certification, permit, or accreditation status unless such status is explicitly
+            finalized and published by HACIEN. BIR registration facts may be published separately from commercial
+            terms that require formal quotation, order, or written business communication.
           </p>
           <p>
             Submitting an RFQ or inquiry does not create a purchase order, sales contract, payment obligation, or

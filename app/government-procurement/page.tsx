@@ -27,7 +27,7 @@ const supportProcess = [
 
 const safeguards = [
   "No guaranteed award claims",
-  "No unsupported accreditation claims",
+  "Careful accreditation language",
   "Equivalent options require buyer review",
   "Availability and pricing are confirmed per RFQ",
   "Documentation support is stated carefully",

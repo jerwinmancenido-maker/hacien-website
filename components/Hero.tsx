@@ -56,7 +56,7 @@ export function Hero() {
               ["Solutions Room", "Requirement and option review"],
               ["Trust Center", "Public verification boundary"],
               ["Support Desk", "Clear follow-up path"],
-              ["Customer Workspace", "Prepared for future visibility"],
+              ["Customer Continuity", "Reference, status, follow-up"],
               ["Company Foundation", "Evidence before claims"],
               ].map(([title, text], index) => (
                 <div key={title} className="rounded-lg border border-white/14 bg-white/10 p-5 backdrop-blur transition-transform duration-200 hover:-translate-y-1">

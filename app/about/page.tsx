@@ -164,7 +164,7 @@ export default function AboutPage() {
             <BlurReveal delay={120}>
               <p className="text-base leading-8 text-slate-600">
                 HACIEN was built to improve that experience. We combine technical review, supplier
-                coordination, quotation discipline, project tracking, and future ERP automation so
+                coordination, quotation discipline, project tracking, and connected operating workflows so
                 customers can move from requirement to delivery with greater clarity.
               </p>
             </BlurReveal>

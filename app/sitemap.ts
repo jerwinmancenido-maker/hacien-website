@@ -22,7 +22,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/trust-center",
     "/erp-platform",
     "/insights",
-    "/portal",
     "/privacy",
     "/terms",
   ];

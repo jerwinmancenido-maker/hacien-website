@@ -15,7 +15,7 @@ const resources = [
   ["Company Profile", "Available", "A public overview of HACIEN's company information, positioning, services, and contact details."],
   ["Capability Statement", "Upon request", "A concise buyer-facing summary of service coverage, procurement support, and operating focus."],
   ["Service Overview", "Upon request", "A service overview for IT infrastructure, integration, sourcing, delivery, and support."],
-  ["Product Catalog", "Planned", "A structured product category reference. Final pricing, stock, warranty, and models remain RFQ-based."],
+  ["Product Catalog", "RFQ-based", "A structured product category reference. Final pricing, stock, warranty, and models are confirmed through quotation review."],
   ["Government Procurement Support", "Available", "Guidance for specification review, equivalent matching, documentation, and quotation preparation."],
 ];
 
@@ -195,7 +195,7 @@ export function CompanyCredentials() {
     ["Core expertise", "IT infrastructure sourcing, systems integration support, software licensing, networking, security, project delivery, and procurement coordination."],
     ["Service coverage", "Requirement review, supplier canvass, quotation support, procurement coordination, delivery planning, and post-delivery follow-up."],
     ["Procurement methodology", "RFQ-first workflow that prioritizes documented requirements, technical validation, supplier confirmation, and clear assumptions."],
-    ["Transparency commitment", "Future registrations, permits, memberships, certifications, and downloadable credentials should be added only when verified."],
+    ["Transparency commitment", "Registrations, permits, memberships, certifications, and downloadable credentials are published only when verified and approved for release."],
   ];
 
   return (
@@ -223,7 +223,7 @@ export function CompanyCredentials() {
   );
 }
 
-export function PlannedWorkspacePreview({
+export function ControlledAccessPreview({
   eyebrow,
   title,
   description,
@@ -258,7 +258,7 @@ export function PlannedWorkspacePreview({
             <div className="rounded border border-slate-200 bg-[#071426] p-4 text-white">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue-200">HACIEN Customer Workspace</div>
+                  <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue-200">HACIEN Customer Access</div>
                   <div className="mt-1 text-lg font-bold">{dashboardTitle}</div>
                 </div>
                 <span className="rounded-full border border-amber-200/40 bg-amber-300/12 px-3 py-1 text-xs font-bold text-amber-100">

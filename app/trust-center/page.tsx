@@ -14,9 +14,9 @@ const policyGroups = [
   ["Payment instructions", "Formal documents only", "Payment details are shared through appropriate formal documents and verified business communication."],
   ["Warranty and returns", "Quote-specific terms", "Warranty, replacement, and return terms depend on the product, supplier basis, and formal quotation context."],
   ["Delivery expectations", "Confirmed per order", "Delivery commitments are confirmed in formal quotation, order, or project communication."],
-  ["Support", "Available as inquiry path", "Support requests can be routed, but no unsupported SLA is claimed."],
+  ["Support", "Available as inquiry path", "Support requests are routed through the appropriate inquiry, RFQ, or follow-up channel."],
   ["Privacy", "Website policy available", "Public forms collect voluntarily submitted inquiry and RFQ context only."],
-  ["Security", "Conservative claims", "Security statements remain bounded to implemented controls and verified operating evidence."],
+  ["Security", "Bounded statements", "Security statements remain tied to implemented controls and verified operating evidence."],
 ];
 
 const documentRules = [
@@ -40,7 +40,7 @@ export default function TrustCenterPage() {
               Trust begins with clear boundaries.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-              The Trust Center explains how HACIEN handles company identity, RFQ review, customer commitments, privacy, security, and support expectations without overstating commercial readiness.
+              The Trust Center explains how HACIEN handles company identity, RFQ review, customer commitments, privacy, security, and support expectations with clear public boundaries.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/quote" className="button-glow rounded bg-white px-5 py-3 text-center text-sm font-bold text-[#071426]">
@@ -59,7 +59,6 @@ export default function TrustCenterPage() {
                 ["Business Name No.", "8278010"],
                 ["BIR registration facts", "Verified"],
                 ["Payment details", "Formal documents"],
-                ["Customer workspace", "Prepared"],
                 ["RFQ intake", "Available"],
               ].map(([label, status]) => (
                 <div key={label} className="flex items-center justify-between gap-4 rounded border border-white/12 bg-white/[0.06] px-4 py-3">
