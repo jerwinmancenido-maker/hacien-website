@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import { companyContact } from "@/data/companyContact";
 
 export function Footer() {
   return (
@@ -21,6 +22,21 @@ export function Footer() {
           <p className="mt-4 max-w-md rounded border border-white/10 bg-white/[0.05] p-3 text-xs leading-5 text-slate-300">
             Registered company identity and professional inquiry intake are supported. Verification documents may be made available upon request to qualified customers, suppliers, partners, and procurement entities.
           </p>
+          <div className="mt-5 grid gap-3 text-sm text-slate-300">
+            <a className="font-semibold text-white hover:text-blue-200" href={`mailto:${companyContact.email}`}>
+              {companyContact.email}
+            </a>
+            <address className="not-italic leading-6">
+              <span className="block text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
+                {companyContact.addressLabel}
+              </span>
+              {companyContact.addressLines.map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
+            </address>
+          </div>
         </div>
         <div>
           <div className="text-sm font-semibold text-slate-100">Company</div>

@@ -9,6 +9,7 @@ import {
   SpotlightCard,
 } from "@/app/components/reactbits";
 import { ContactForm } from "@/components/ContactForm";
+import { companyContact } from "@/data/companyContact";
 
 export const metadata: Metadata = {
   title: "Contact HACIEN | Request a Quote",
@@ -135,8 +136,21 @@ export default function ContactPage() {
               </h2>
               <div className="mt-6 grid gap-5 text-sm leading-7 text-slate-700">
                 <div>
-                  <div className="font-bold text-slate-950">Current contact channel</div>
-                  <p>Use this page for general business questions, supplier introductions, support routing, and company communication.</p>
+                  <div className="font-bold text-slate-950">Email</div>
+                  <a className="font-semibold text-[#1457d9]" href={`mailto:${companyContact.email}`}>
+                    {companyContact.email}
+                  </a>
+                  <p className="mt-2">Use this channel for general business questions, supplier introductions, support routing, and company communication.</p>
+                </div>
+                <div>
+                  <div className="font-bold text-slate-950">{companyContact.addressLabel}</div>
+                  <address className="mt-2 not-italic text-slate-700">
+                    {companyContact.addressLines.map((line) => (
+                      <span key={line} className="block">
+                        {line}
+                      </span>
+                    ))}
+                  </address>
                 </div>
                 <div>
                   <div className="font-bold text-slate-950">Need a quotation?</div>
