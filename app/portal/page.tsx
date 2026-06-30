@@ -1,135 +1,135 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  AnimatedContent,
-  BlurReveal,
-  BorderGlow,
-  GradientBackground,
-  SplitText,
-  SpotlightCard,
-} from "@/app/components/reactbits";
-import { ControlledAccessPreview } from "@/components/TrustConfidence";
+import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/reactbits";
+import { enterpriseImages } from "@/components/EnterpriseImagery";
+import { PremiumPageHero } from "@/components/PremiumPageHero";
 
 export const metadata: Metadata = {
   title: "Customer Workspace | HACIEN",
   description:
-    "Understand HACIEN's future Customer Workspace for RFQ tracking, quotations, support, documents, and relationship continuity.",
+    "HACIEN Customer Workspace direction for future RFQ tracking, quotation visibility, documents, support, and relationship continuity.",
 };
 
-const portalModules = [
-  ["RFQs", "Private access", "Review submitted requirements and continue procurement conversations without starting from zero."],
-  ["Quotations", "Private access", "See quotation history, status, and document context when supported."],
-  ["Orders", "Private access", "Monitor procurement, fulfillment, delivery, and handover milestones."],
-  ["Invoices", "Controlled documents", "Access invoice and procurement document downloads in a verified account area."],
-  ["Software Licenses", "Relationship-based", "Track licenses, renewals, seats, subscriptions, and subscription-related support."],
-  ["Support Tickets", "Relationship-based", "Request help for warranty, delivery, implementation, or renewal concerns."],
-  ["Company Profile", "Controlled records", "Maintain organization details, contacts, billing context, and purchasing preferences."],
-  ["Procurement History", "Relationship memory", "See a connected record of RFQs, quotations, orders, documents, and follow-up."],
+const availableNow = [
+  ["Request Quote", "Submit requirements, BOQs, files, existing quotes, or project context through the Gateway.", "/quote"],
+  ["Track Reference", "Use a reference number to view request status and continue the inquiry path.", "/track/RFQ-2026-000009"],
+  ["Contact Support", "Send follow-up context for quotation, delivery, warranty, or company communication.", "/support"],
 ];
 
-const previewModules: Array<[string, string, string, string]> = [
-  ["RFQs", "Private access", "Requirement review", "Track submitted RFQ context and follow-up notes."],
-  ["Quotations", "Private access", "Commercial review", "View quotation history and supporting document context."],
-  ["Orders", "Private access", "Fulfillment visibility", "Monitor procurement, delivery, and handover milestones."],
-  ["Invoices", "Controlled documents", "Document access", "Access invoice and procurement document records when authorized."],
-  ["Software Licenses", "Relationship-based", "Renewal planning", "Track seats, renewals, subscriptions, and support context."],
-  ["Support Tickets", "Relationship-based", "Post-delivery support", "Request assistance for warranty, delivery, renewal, or replacement concerns."],
-  ["Company Profile", "Controlled records", "Account details", "Maintain organization, contact, billing, and purchasing details."],
+const futureCapabilities = [
+  {
+    title: "Request Tracking",
+    text: "Customers will see meaningful milestones for RFQs, clarifications, quotations, delivery, and support.",
+    image: "documentation",
+  },
+  {
+    title: "Quotation Continuity",
+    text: "Formal quotation context, supporting notes, and customer approvals will stay attached to the relationship.",
+    image: "workspace",
+  },
+  {
+    title: "Document Access",
+    text: "Approved customers will access controlled documents only when visibility rules allow it.",
+    image: "storage",
+  },
+  {
+    title: "Support History",
+    text: "Warranty, replacement, renewal, and post-delivery support will continue from the same customer record.",
+    image: "network",
+  },
 ];
 
-const ecosystem = [
-  ["Website", "Public RFQ, product, insight, and company entry points."],
-  ["Customer Account", "Verified access for approved customer records."],
-  ["Customer Workspace", "Controlled visibility for procurement history and support."],
-  ["Workspace", "Internal operating core for quotation, procurement, delivery, and finance."],
-  ["Support", "Follow-up, warranty, renewals, and post-delivery coordination."],
+const relationshipPath = [
+  ["Discover", "Customer learns what HACIEN can support."],
+  ["Request", "Requirement enters the Gateway with a reference."],
+  ["Review", "HACIEN clarifies, sources, and prepares the next step."],
+  ["Continue", "Customer follows status, documents, and support through one relationship."],
 ];
 
 export default function PortalPage() {
   return (
     <>
-      <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-        <GradientBackground />
-        <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div>
-            <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-              Customer Workspace
-            </AnimatedContent>
-            <SplitText
-              as="h1"
-              text="Future customer continuity with HACIEN."
-              className="mt-5 max-w-5xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
-            />
-            <BlurReveal delay={160}>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                Customer Workspace is HACIEN&apos;s future continuity layer for tracking requests,
-                viewing quotations, accessing documents, and continuing support without restarting the relationship.
-              </p>
-            </BlurReveal>
-            <AnimatedContent delay={260} className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/quote"
-                className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
-              >
-                Request a Quote
-              </Link>
-              <Link
-              href="/contact"
-                className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
-              >
-                Contact HACIEN
-              </Link>
-            </AnimatedContent>
-          </div>
-
-          <AnimatedContent delay={140} direction="left">
-            <BorderGlow className="rounded-lg bg-white/[0.86] p-6 shadow-2xl shadow-slate-950/10">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-                Access Boundary
-              </div>
-              <h2 className="mt-3 text-xl font-bold text-slate-950 sm:text-2xl">
-                Private customer access is invitation-based.
-              </h2>
-              <p className="mt-4 text-sm leading-6 text-slate-600">
-                Public visitors can submit RFQs, track references, send clarifications, and contact HACIEN.
-                Protected records will be shared only through controlled access when Customer Workspace is available.
-              </p>
-              <div className="mt-6 rounded border border-amber-200 bg-amber-50 p-3 text-xs font-bold uppercase tracking-[0.14em] text-amber-800">
-                Controlled access
-              </div>
-            </BorderGlow>
-          </AnimatedContent>
-        </div>
-      </section>
-
-      <ControlledAccessPreview
-        eyebrow="Controlled Access"
-        title="A bounded view of customer continuity."
-        description="This page explains the Customer Workspace direction without implying that protected accounts, records, invoice downloads, subscriptions, or support tickets are publicly available today."
-        statusNote="Customers should use RFQ, tracking, clarification, contact, and support channels until HACIEN grants private access."
-        dashboardTitle="Customer Workspace overview"
-        modules={previewModules}
+      <PremiumPageHero
+        eyebrow="Customer Workspace"
+        title="A future workspace for customer continuity."
+        description="Customer Workspace is HACIEN's planned customer relationship layer for tracking requests, viewing approved documents, continuing support, and preserving procurement history."
+        image="workspace"
+        primaryAction={{ href: "/quote", label: "Request Quote" }}
+        secondaryAction={{ href: "/access", label: "Access HACIEN" }}
+        highlights={[
+          { label: "Coming Soon", text: "Private customer access will be introduced when ready." },
+          { label: "Controlled Visibility", text: "Customer-facing records will follow approved visibility rules." },
+          { label: "Relationship Memory", text: "Requests, quotes, documents, and support belong to one history." },
+          { label: "Available Now", text: "RFQ, tracking, clarification, contact, and support paths are active." },
+        ]}
       />
 
       <section className="px-4 py-18 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Customer Workspace</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
+              Available Now
+            </div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              A future workspace for customer continuity.
+              Customers can already begin and continue a relationship.
             </h2>
-            <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
-              Customer Workspace will help customers understand status, retrieve documents,
-              request support, manage renewals, and continue procurement conversations when access is available.
+            <p className="mt-4 text-sm leading-7 text-slate-600">
+              Customer Workspace is not publicly open yet. Until private access is introduced, customers
+              should use the active public paths for requests, tracking, clarification, and support.
             </p>
           </AnimatedContent>
-          <div className="grid gap-5 md:grid-cols-2">
-            {portalModules.map(([title, status, text], index) => (
-              <AnimatedContent key={title} delay={index * 50}>
-                <SpotlightCard className="h-full rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-                  <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">{status}</div>
-                  <h3 className="mt-4 text-lg font-bold text-slate-950">{title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {availableNow.map(([title, text, href], index) => (
+              <AnimatedContent key={title} delay={index * 70}>
+                <Link href={href} className="group block h-full">
+                  <SpotlightCard className="flex h-full flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
+                    <div className="grid h-11 w-11 place-items-center rounded-full bg-[#071426] text-sm font-bold text-white">
+                      {String(index + 1).padStart(2, "0")}
+                    </div>
+                    <h3 className="mt-5 text-lg font-bold text-slate-950 group-hover:text-[#1457d9]">
+                      {title}
+                    </h3>
+                    <p className="mt-3 flex-1 text-sm leading-6 text-slate-600">{text}</p>
+                    <div className="mt-5 text-sm font-bold text-[#1457d9]">Continue</div>
+                  </SpotlightCard>
+                </Link>
+              </AnimatedContent>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <AnimatedContent>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
+              Planned Workspace
+            </div>
+            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+              Private access will be useful only when it protects the relationship.
+            </h2>
+          </AnimatedContent>
+
+          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+            {futureCapabilities.map((capability, index) => (
+              <AnimatedContent key={capability.title} delay={index * 60}>
+                <SpotlightCard className="h-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-950/10">
+                  <div
+                    className="h-44 bg-slate-950"
+                    style={{
+                      backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.02), rgba(7, 20, 38, 0.76)), url(${enterpriseImages[capability.image as keyof typeof enterpriseImages]})`,
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                    }}
+                  />
+                  <div className="p-6">
+                    <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">
+                      Customer Workspace
+                    </div>
+                    <h3 className="mt-4 text-lg font-bold text-slate-950">{capability.title}</h3>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{capability.text}</p>
+                  </div>
                 </SpotlightCard>
               </AnimatedContent>
             ))}
@@ -138,20 +138,24 @@ export default function PortalPage() {
       </section>
 
       <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Connected Relationship</div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
-              Website to Customer Workspace to operations to support.
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
+              Relationship Continuity
+            </div>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+              The customer should never feel they entered another system.
             </h2>
-            <p className="mt-5 max-w-3xl text-sm leading-7 text-slate-300">
-              The customer should experience one relationship, even when work moves between inquiry, review, fulfillment, documents, and support.
+            <p className="mt-5 text-sm leading-7 text-slate-300">
+              The public website begins the relationship. Gateway preserves it. Workspace operates it.
+              Customer Workspace will eventually continue it with controlled visibility.
             </p>
           </AnimatedContent>
-          <div className="progress-line mt-12 grid gap-4">
-            {ecosystem.map(([title, text], index) => (
+
+          <div className="grid gap-4">
+            {relationshipPath.map(([title, text], index) => (
               <AnimatedContent key={title} delay={index * 70}>
-                <BorderGlow tone="dark" className="rounded-lg bg-white/[0.07] p-5">
+                <BorderGlow tone="dark" className="rounded-2xl bg-white/[0.07] p-5">
                   <div className="flex gap-4">
                     <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-white text-sm font-bold text-[#071426]">
                       {String(index + 1).padStart(2, "0")}
@@ -170,30 +174,30 @@ export default function PortalPage() {
 
       <section className="px-4 py-16 sm:px-6 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
-          <BorderGlow className="relative overflow-hidden rounded-lg bg-[#071426] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
-            <GradientBackground className="opacity-[0.36]" />
+          <BorderGlow className="relative overflow-hidden rounded-2xl bg-[#071426] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
-                  Available now
+                  Start now
                 </div>
                 <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
-                  Need procurement support now?
+                  Need HACIEN to review a requirement today?
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
-                  Use Request Quote, tracking, clarification, or Contact HACIEN. Current requests move through professional review and formal quotation follow-up.
+                  Submit the requirement through RFQ intake. HACIEN will keep the request connected through
+                  review, clarification, quotation, and follow-up.
                 </p>
               </div>
               <div className="flex flex-col gap-3 sm:flex-row">
                 <Link
                   href="/quote"
-                  className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#071426]"
+                  className="button-glow focus-ring rounded-full bg-white px-6 py-3 text-center text-sm font-bold text-[#071426]"
                 >
-                  Request a Quote
+                  Request Quote
                 </Link>
                 <Link
                   href="/contact"
-                  className="interactive-link focus-ring rounded border border-white/25 bg-white/8 px-6 py-3 text-center text-sm font-bold text-white"
+                  className="interactive-link focus-ring glass-control-dark rounded-full px-6 py-3 text-center text-sm font-bold text-white"
                 >
                   Contact HACIEN
                 </Link>
