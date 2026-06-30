@@ -23,6 +23,10 @@ export const enterpriseImages = {
     "https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&w=2400&q=90",
   documentation:
     "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=2400&q=90",
+  knowledge:
+    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2400&q=90",
+  strategy:
+    "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=2400&q=90",
   workspace:
     "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2400&q=90",
 };
