@@ -1,77 +1,64 @@
 "use client";
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import type { Product } from "@/data/products";
 
-export type QuoteCartItem = {
-  product: Product;
-  quantity: number;
+export type RequirementBlock = {
+  id: string;
+  category: string;
+  categoryLabel: string;
+  quantity: string;
+  brandPreference: string;
+  otherBrand?: string;
+  equivalentAccepted: string;
+  deadline?: string;
+  deliveryLocation?: string;
+  notes?: string;
+  fields: Record<string, string>;
 };
 
 type QuoteCartContextValue = {
-  items: QuoteCartItem[];
-  totalQuantity: number;
-  addItem: (product: Product, quantity?: number) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
-  removeItem: (productId: string) => void;
-  clearCart: () => void;
+  requirements: RequirementBlock[];
+  totalRequirements: number;
+  addRequirement: (requirement: Omit<RequirementBlock, "id">) => void;
+  removeRequirement: (requirementId: string) => void;
+  clearRequirements: () => void;
 };
 
 const QuoteCartContext = createContext<QuoteCartContextValue | null>(null);
 
-const storageKey = "hacien_quote_cart_v1";
+const storageKey = "hacien_rfq_package_v1";
+const legacyStorageKey = "hacien_quote_cart_v1";
 
 export function QuoteCartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<QuoteCartItem[]>(() => {
+  const [requirements, setRequirements] = useState<RequirementBlock[]>(() => {
     if (typeof window === "undefined") return [];
     try {
       const saved = window.localStorage.getItem(storageKey);
-      return saved ? (JSON.parse(saved) as QuoteCartItem[]) : [];
+      return saved ? (JSON.parse(saved) as RequirementBlock[]) : [];
     } catch {
       return [];
     }
   });
 
   useEffect(() => {
-    window.localStorage.setItem(storageKey, JSON.stringify(items));
-  }, [items]);
+    window.localStorage.setItem(storageKey, JSON.stringify(requirements));
+    window.localStorage.removeItem(legacyStorageKey);
+  }, [requirements]);
 
   const value = useMemo<QuoteCartContextValue>(() => {
-    const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0);
-
     return {
-      items,
-      totalQuantity,
-      addItem: (product, quantity = 1) => {
-        setItems((current) => {
-          const existing = current.find((item) => item.product.id === product.id);
-          if (existing) {
-            return current.map((item) =>
-              item.product.id === product.id
-                ? { ...item, quantity: item.quantity + quantity }
-                : item,
-            );
-          }
-          return [...current, { product, quantity }];
-        });
+      requirements,
+      totalRequirements: requirements.length,
+      addRequirement: (requirement) => {
+        const id = `REQ-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+        setRequirements((current) => [...current, { ...requirement, id }]);
       },
-      updateQuantity: (productId, quantity) => {
-        setItems((current) =>
-          current
-            .map((item) =>
-              item.product.id === productId
-                ? { ...item, quantity: Math.max(1, quantity) }
-                : item,
-            )
-            .filter((item) => item.quantity > 0),
-        );
+      removeRequirement: (requirementId) => {
+        setRequirements((current) => current.filter((requirement) => requirement.id !== requirementId));
       },
-      removeItem: (productId) => {
-        setItems((current) => current.filter((item) => item.product.id !== productId));
-      },
-      clearCart: () => setItems([]),
+      clearRequirements: () => setRequirements([]),
     };
-  }, [items]);
+  }, [requirements]);
 
   return <QuoteCartContext.Provider value={value}>{children}</QuoteCartContext.Provider>;
 }
