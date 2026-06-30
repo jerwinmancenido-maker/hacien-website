@@ -10,12 +10,12 @@ export const metadata: Metadata = {
 
 const policyGroups = [
   ["Company identity", "Supported facts", "HACIEN INFORMATION TECHNOLOGY SOLUTIONS publishes supported DTI and BIR registration facts for customer and supplier confidence."],
-  ["RFQ and quotation", "Review first", "RFQ submission starts review only. Formal quotation depends on supplier availability, warranty, lead time, and delivery context."],
-  ["Payment instructions", "Formal documents only", "Payment details are shared through appropriate formal documents and verified business communication."],
-  ["Warranty and returns", "Quote-specific terms", "Warranty, replacement, and return terms depend on the product, supplier basis, and formal quotation context."],
-  ["Delivery expectations", "Confirmed per order", "Delivery commitments are confirmed in formal quotation, order, or project communication."],
+  ["RFQ and quotation", "Review first", "RFQ submission starts review only. Formal quotation depends on supplier availability, warranty, lead time, delivery context, and customer acceptance."],
+  ["Payment and invoices", "Document-controlled", "Payment due dates, accepted methods, partial payments, tax treatment, and late charges are controlled by formal quotation, invoice, or written agreement."],
+  ["Warranty and returns", "Supplier basis", "Warranty normally follows supplier, distributor, or manufacturer terms unless a quotation states a separate HACIEN service warranty."],
+  ["Delivery and acceptance", "Confirmed per order", "Delivery charges, receiving requirements, acceptance, and damage reporting are confirmed in formal quotation, order, or project communication."],
   ["Support", "Available as inquiry path", "Support requests are routed through the appropriate inquiry, RFQ, or follow-up channel."],
-  ["Privacy", "Website policy available", "Public forms collect voluntarily submitted inquiry and RFQ context only."],
+  ["Privacy", "Website policy available", "Public forms collect voluntarily submitted inquiry and RFQ context. Supplier sharing may occur for quotation preparation or deal registration."],
   ["Security", "Bounded statements", "Security statements remain tied to implemented controls and verified operating evidence."],
 ];
 

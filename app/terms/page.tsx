@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SectionHeading } from "@/components/SectionHeading";
+import { companyContact } from "@/data/companyContact";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
@@ -22,6 +23,42 @@ const terms = [
   {
     title: "Formal quotations and commitments",
     body: "Commercial commitments are made only through formal quotation, order, invoice, receipt, contract, or written business communication issued through authorized HACIEN channels.",
+  },
+  {
+    title: "Quotation validity and equivalent items",
+    body: "Unless a quotation states otherwise, quotations are generally valid for 15 days. Prices, availability, delivery dates, and equivalent items may change because of supplier availability, foreign exchange movement, product lifecycle, seller discretion, or other commercial constraints. Equivalent items may be proposed when accepted by the customer.",
+  },
+  {
+    title: "Warranty basis",
+    body: "Unless a quotation states a separate HACIEN service warranty, product warranty follows the applicable supplier, distributor, or manufacturer warranty. Customer warranty claims are normally handled directly with the brand, supplier, or authorized warranty channel, while HACIEN will make reasonable efforts to assist the customer with warranty coordination when possible.",
+  },
+  {
+    title: "Warranty exclusions and verification",
+    body: "Consumables, software licenses, installation labor, physical damage, misuse, unauthorized repair, and other exclusions depend on the applicable supplier, distributor, manufacturer, license, or service terms. If warranty coverage is not stated in the quotation or supporting supplier document, the customer should verify coverage before acceptance.",
+  },
+  {
+    title: "Returns and replacements",
+    body: "Return, replacement, and refund handling follows applicable Philippine government guidelines, supplier or manufacturer terms, and the formal quotation or written agreement for the transaction. Missing, damaged, incorrect, or defective items should be reported immediately for review and proper investigation.",
+  },
+  {
+    title: "Payment and invoices",
+    body: "Payment due dates and partial payment requirements depend on the customer terms, quotation, invoice, purchase order, or written agreement. Accepted payment methods may include cash, bank transfer, or cheque, subject to confirmation in formal business communication.",
+  },
+  {
+    title: "Late payment",
+    body: "Overdue balances may be subject to a late payment charge of 3% per month when stated in the quotation, invoice, contract, purchase order acceptance, or written agreement. HACIEN may require account review before continuing additional procurement or delivery work for accounts with outstanding balances.",
+  },
+  {
+    title: "Tax treatment",
+    body: "Prices, VAT treatment, withholding, official receipts, sales invoices, and other tax-related treatment depend on the customer status, HACIEN tax status, applicable law, and the formal quotation or invoice issued for the transaction.",
+  },
+  {
+    title: "Delivery and acceptance",
+    body: "Delivery charges are normally paid by the customer unless the quotation states that HACIEN will handle delivery. HACIEN may coordinate delivery through third-party logistics or other delivery channels. Items are generally considered received or accepted when delivered to and received by the customer or authorized representative.",
+  },
+  {
+    title: "Receiving requirements",
+    body: "If the customer is unavailable to receive items, the customer should advise HACIEN or the assigned account manager in advance regarding the authorized receiver. Gate passes, receiving schedules, site access requirements, and special delivery instructions should be processed before delivery whenever required.",
   },
   {
     title: "Government and institutional procurement",
@@ -56,6 +93,13 @@ export default function TermsPage() {
             HACIEN INFORMATION TECHNOLOGY SOLUTIONS operates this website as a professional information,
             inquiry, support, and request-for-quotation channel. Use of this website means the visitor
             understands that public content supports business review and does not replace formal written documents.
+          </p>
+          <p className="mt-4">
+            For formal business communication, contact HACIEN at{" "}
+            <a className="font-semibold text-[#1457d9]" href={`mailto:${companyContact.email}`}>
+              {companyContact.email}
+            </a>
+            .
           </p>
           <div className="mt-8 grid gap-6">
             {terms.map((term) => (
