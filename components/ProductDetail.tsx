@@ -1,15 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 import type { Product } from "@/data/products";
 import { getCategory } from "@/data/products";
-import { useQuoteCart } from "@/components/QuoteCartProvider";
 import { SlideUp, StaggerContainer } from "@/components/motion";
 
 export function ProductDetail({ product }: { product: Product }) {
-  const [quantity, setQuantity] = useState(1);
-  const [added, setAdded] = useState(false);
-  const { addItem } = useQuoteCart();
   const category = getCategory(product.categorySlug);
 
   return (
@@ -37,47 +33,24 @@ export function ProductDetail({ product }: { product: Product }) {
           <p className="mt-5 text-lg leading-8 text-slate-600">{product.shortDescription}</p>
 
           <div className="mt-8 rounded-lg border border-slate-200 bg-slate-50 p-5">
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">RFQ requirement panel</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Quotation context</div>
             <p className="mt-3 text-sm leading-6 text-slate-600">
-              Final pricing will be confirmed through formal quotation. Equivalent models may be recommended
-              based on stock, warranty, and specification requirements.
+              This page explains a technology type HACIEN can review. Final model, quantity, pricing,
+              warranty, supplier availability, and delivery terms are confirmed only through formal quotation.
             </p>
-            <div className="mt-5 grid gap-4 sm:grid-cols-2">
-              <label className="text-xs font-semibold uppercase text-slate-500" htmlFor="quantity">
-                Quantity
-                <input
-                  id="quantity"
-                  type="number"
-                  min={1}
-                  value={quantity}
-                  onChange={(event) => setQuantity(Math.max(1, Number(event.target.value)))}
-                  className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case"
-                />
-              </label>
-              <label className="text-xs font-semibold uppercase text-slate-500">
-                Preferred brand/model
-                <input className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case" placeholder="Optional" />
-              </label>
-              <label className="text-xs font-semibold uppercase text-slate-500">
-                Target capability
-                <input className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case" placeholder="Performance, users, workload, ports, license count..." />
-              </label>
-              <label className="text-xs font-semibold uppercase text-slate-500">
-                Warranty requirement
-                <input className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case" placeholder="1 year, 3 years, onsite, carry-in..." />
-              </label>
-              <label className="text-xs font-semibold uppercase text-slate-500">
-                Delivery location
-                <input className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case" placeholder="City / site location" />
-              </label>
-              <label className="text-xs font-semibold uppercase text-slate-500">
-                Target delivery date
-                <input type="date" className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case" />
-              </label>
-              <label className="text-xs font-semibold uppercase text-slate-500 sm:col-span-2">
-                Notes
-                <textarea rows={3} className="mt-2 w-full rounded border border-slate-300 bg-white px-3 py-2 normal-case" placeholder="BOQ line, bid requirement, equivalent rules, accessories, or installation notes" />
-              </label>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              {[
+                "Quantity and deployment size",
+                "Preferred brand or equivalent rules",
+                "Performance or compatibility needs",
+                "Warranty and support expectations",
+                "Delivery location and deadline",
+                "BOQ, specification, image, or existing quote",
+              ].map((item) => (
+                <div key={item} className="rounded border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700">
+                  {item}
+                </div>
+              ))}
             </div>
           </div>
 
@@ -98,20 +71,18 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <button
-              onClick={() => {
-                addItem(product, quantity);
-                setAdded(true);
-              }}
+            <Link
+              href="/quote"
               className="button-glow rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white hover:bg-[#0f46b4]"
             >
-              Add to RFQ
-            </button>
-            {added ? (
-              <span className="rounded border border-emerald-200 bg-emerald-50 px-5 py-3 text-sm font-semibold text-emerald-700">
-                Added to RFQ request.
-              </span>
-            ) : null}
+              Request this technology
+            </Link>
+            <Link
+              href="/products"
+              className="interactive-link rounded border border-slate-300 px-5 py-3 text-sm font-bold text-slate-900"
+            >
+              View technology areas
+            </Link>
           </div>
         </div>
         </SlideUp>

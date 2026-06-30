@@ -54,17 +54,18 @@ export default function GovernmentProcurementPage() {
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
             <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-              Government Procurement
+              Government & Institutional Procurement
             </AnimatedContent>
             <SplitText
               as="h1"
-              text="Procurement expertise for public-sector IT requirements."
+              text="Support for formal, specification-driven technology buying."
               className="mt-5 max-w-5xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
             />
             <BlurReveal delay={160}>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                HACIEN helps institutional and government buyers move from specifications to supplier-ready
-                quotation support with careful documentation, equivalent matching, and delivery coordination.
+                This page exists for buyers and organizations working with formal specifications, BOQs,
+                approved equivalents, documentation requirements, and delivery expectations. It explains
+                how HACIEN can support the quotation-preparation side of that work.
               </p>
             </BlurReveal>
             <AnimatedContent delay={260} className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -72,13 +73,13 @@ export default function GovernmentProcurementPage() {
                 href="/contact"
                 className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
               >
-                Discuss Requirement
+                Contact HACIEN
               </Link>
               <Link
                 href="/quote"
                 className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
               >
-                Submit RFQ
+                Request Quote
               </Link>
             </AnimatedContent>
           </div>
@@ -135,7 +136,7 @@ export default function GovernmentProcurementPage() {
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Procurement-Safe Language</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
-              Trust comes from being precise about what support means.
+              This is support for procurement preparation, not a claim of buyer-side authority.
             </h2>
           </AnimatedContent>
           <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">

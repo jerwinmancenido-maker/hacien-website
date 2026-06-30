@@ -30,7 +30,7 @@ const intakePaths = [
   "Upload government specifications",
   "Upload existing supplier quote",
   "Upload file / image / ZIP",
-  "Use RFQ cart",
+  "Reference a technology area",
 ];
 
 export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
@@ -155,10 +155,10 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           </div>
         ) : null}
         <Link
-          href="/products"
+          href="/technology"
           className="mt-6 inline-flex rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white"
         >
-          Continue browsing
+          Review technology areas
         </Link>
       </div>
     );
@@ -191,12 +191,12 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
       <div className="surface rounded-lg p-6">
         <h2 className="text-xl font-bold text-slate-950">Universal RFQ intake</h2>
         <p className="mt-2 text-sm leading-6 text-slate-600">
-          Start with a product, a BOQ, a supplier quote, a government specification, an image, a ZIP file, or a plain description. Catalog products are optional.
+          Start with a requirement, BOQ, supplier quote, government specification, image, ZIP file, technology area, or plain description.
         </p>
         <div className="mt-5 grid gap-3 sm:grid-cols-5">
           {[
             "Describe or Upload",
-            "Optional Catalog",
+            "Optional Reference",
             "Gateway Reference",
             "HACIEN Reviews",
             "Opportunity if Ready",
@@ -218,16 +218,16 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
               RFQ
             </div>
             <p className="mt-4 font-semibold text-slate-800">
-              Your RFQ can start without catalog products.
+              Your RFQ can start with any requirement.
             </p>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              Describe the requirement or upload a BOQ, specification, supplier quote, image, or ZIP file. The product catalog is a convenience, not a gate.
+              Describe the requirement or upload a BOQ, specification, supplier quote, image, or ZIP file. Technology pages are only guidance; they are not required.
             </p>
             <Link
-              href="/products"
+              href="/technology"
               className="button-glow mt-5 inline-flex rounded bg-[#071426] px-4 py-2 text-sm font-bold text-white"
             >
-              Browse products
+              View technology areas
             </Link>
           </div>
         ) : (
@@ -358,7 +358,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
             </select>
           </label>
           <label className="grid gap-2 text-sm font-semibold text-slate-700">
-            Requirement details <span className="font-normal text-slate-500">(required unless a file or cart item is included)</span>
+            Requirement details <span className="font-normal text-slate-500">(required unless a file is included)</span>
             <textarea
               name="notes"
               rows={5}

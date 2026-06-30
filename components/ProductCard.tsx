@@ -1,15 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import type { Product } from "@/data/products";
 import { categories } from "@/data/products";
-import { useQuoteCart } from "@/components/QuoteCartProvider";
 import { AnimatedCard } from "@/components/motion";
 
 export function ProductCard({ product }: { product: Product }) {
-  const { addItem } = useQuoteCart();
-  const [justAdded, setJustAdded] = useState(false);
   const category = categories.find((item) => item.slug === product.categorySlug);
 
   return (
@@ -35,18 +31,12 @@ export function ProductCard({ product }: { product: Product }) {
             <div className="font-bold text-slate-950">Formal RFQ review</div>
             <div className="mt-1 text-xs text-slate-500">Availability confirmed before quotation</div>
           </div>
-          <button
-            onClick={() => {
-              addItem(product);
-              setJustAdded(true);
-              window.setTimeout(() => setJustAdded(false), 1200);
-            }}
-            className={`button-glow rounded px-4 py-2 text-sm font-bold text-white ${
-              justAdded ? "bg-emerald-600" : "bg-[#071426] hover:bg-[#1457d9]"
-            }`}
+          <Link
+            href="/quote"
+            className="button-glow rounded px-4 py-2 text-sm font-bold text-white bg-[#071426] hover:bg-[#1457d9]"
           >
-            {justAdded ? "Added" : "Add to RFQ"}
-          </button>
+            Request this type
+          </Link>
         </div>
         <Link
           href={`/products/${product.categorySlug}`}
