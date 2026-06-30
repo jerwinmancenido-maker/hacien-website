@@ -8,6 +8,7 @@ import {
   SplitText,
   SpotlightCard,
 } from "@/app/components/reactbits";
+import { EnterprisePhotoPanel } from "@/components/EnterpriseImagery";
 import { insights } from "@/data/insights";
 
 export const metadata: Metadata = {
@@ -64,24 +65,12 @@ export default function InsightsPage() {
           </div>
 
           <AnimatedContent delay={140} direction="left">
-            <BorderGlow className="rounded-lg bg-white/[0.86] p-6 shadow-2xl shadow-slate-950/10">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-                Content Library
-              </div>
-              <h2 className="mt-3 text-xl font-bold text-slate-950 sm:text-2xl">
-                Education that supports better technology decisions, stronger RFQs, and more confident procurement.
-              </h2>
-              <div className="mt-8 grid gap-3">
-                {knowledgeAreas.map(([title], index) => (
-                  <div key={title} className="flex items-center gap-3 rounded border border-slate-200 bg-slate-50 px-4 py-3">
-                    <span className="grid h-7 w-7 place-items-center rounded-full bg-[#071426] text-xs font-bold text-white">
-                      {index + 1}
-                    </span>
-                    <span className="text-sm font-bold text-slate-800">{title}</span>
-                  </div>
-                ))}
-              </div>
-            </BorderGlow>
+            <EnterprisePhotoPanel
+              image="documentation"
+              eyebrow="Content Library"
+              title="Education that supports clearer RFQs and more confident technology buying."
+              caption="Insights are organized around buyer decisions: requirements, procurement readiness, infrastructure, cloud, cybersecurity, and best practices."
+            />
           </AnimatedContent>
         </div>
       </section>

@@ -11,6 +11,20 @@ export const enterpriseImages = {
     "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=2400&q=90",
   network:
     "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=2400&q=90",
+  commandCenter:
+    "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=2400&q=90",
+  cybersecurity:
+    "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=2400&q=90",
+  cloud:
+    "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2400&q=90",
+  cabling:
+    "https://images.unsplash.com/photo-1600267185393-e158a98703de?auto=format&fit=crop&w=2400&q=90",
+  storage:
+    "https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&w=2400&q=90",
+  documentation:
+    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=2400&q=90",
+  workspace:
+    "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2400&q=90",
 };
 
 export function EnterprisePhotoPanel({

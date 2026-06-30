@@ -8,6 +8,7 @@ import {
   SplitText,
   SpotlightCard,
 } from "@/app/components/reactbits";
+import { EnterprisePhotoPanel, enterpriseImages } from "@/components/EnterpriseImagery";
 import { solutions } from "@/data/solutions";
 
 export const metadata: Metadata = {
@@ -50,6 +51,21 @@ const workflow = [
   ["Deliver", "Support quotation, procurement, delivery coordination, handover, and follow-up."],
 ];
 
+const solutionImages: Record<string, keyof typeof enterpriseImages> = {
+  "it-infrastructure": "dataCenter",
+  "hardware-software-procurement": "workstation",
+  "systems-integration": "commandCenter",
+  "managed-it-support": "office",
+  "network-connectivity": "network",
+  "servers-storage": "storage",
+  "cloud-productivity": "cloud",
+  cybersecurity: "cybersecurity",
+  "security-surveillance": "cabling",
+  "software-licensing": "silicon",
+  "general-merchandise-procurement": "documentation",
+  "project-delivery-support": "workspace",
+};
+
 export default function SolutionsPage() {
   return (
     <>
@@ -88,24 +104,12 @@ export default function SolutionsPage() {
           </div>
 
           <AnimatedContent delay={140} direction="left">
-            <BorderGlow className="rounded-lg bg-white/[0.86] p-6 shadow-2xl shadow-slate-950/10">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-                Capability Flow
-              </div>
-              <h2 className="mt-3 text-xl font-bold text-slate-950 sm:text-2xl">
-                From requirement to deployment, every capability is tied to procurement clarity.
-              </h2>
-              <div className="mt-8 grid gap-3">
-                {["Infrastructure", "Integration", "Licensing", "Delivery", "Support"].map((step, index) => (
-                  <div key={step} className="flex items-center gap-3 rounded border border-slate-200 bg-slate-50 px-4 py-3">
-                    <span className="grid h-7 w-7 place-items-center rounded-full bg-[#071426] text-xs font-bold text-white">
-                      {index + 1}
-                    </span>
-                    <span className="text-sm font-bold text-slate-800">{step}</span>
-                  </div>
-                ))}
-              </div>
-            </BorderGlow>
+            <EnterprisePhotoPanel
+              image="commandCenter"
+              eyebrow="Capability Flow"
+              title="From requirement to deployment, every capability is tied to procurement clarity."
+              caption="Solutions describe how HACIEN turns technical needs into supplier-ready, delivery-aware work."
+            />
           </AnimatedContent>
         </div>
       </section>
@@ -163,13 +167,23 @@ export default function SolutionsPage() {
             {solutions.map((solution, index) => (
               <AnimatedContent key={solution.slug} delay={index * 45}>
                 <Link href={`/solutions/${solution.slug}`} className="group block h-full">
-                  <SpotlightCard className="h-full rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+                  <SpotlightCard className="h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
+                    <div
+                      className="h-44 bg-slate-950"
+                      style={{
+                        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.04), rgba(7, 20, 38, 0.72)), url(${enterpriseImages[solutionImages[solution.slug] || "network"]})`,
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                      }}
+                    />
+                    <div className="p-6">
                     <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">{solution.category}</div>
                     <h3 className="mt-4 text-lg font-bold text-slate-950 group-hover:text-[#1457d9]">
                       {solution.title}
                     </h3>
                     <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{solution.summary}</p>
                     <div className="mt-5 text-sm font-bold text-[#1457d9]">View capability</div>
+                    </div>
                   </SpotlightCard>
                 </Link>
               </AnimatedContent>
@@ -186,22 +200,24 @@ export default function SolutionsPage() {
               A simple path from technical need to supported delivery.
             </h2>
           </AnimatedContent>
-          <div className="progress-line mt-12 grid gap-4">
+          <div className="mt-12 overflow-x-auto pb-4">
+            <div className="grid min-w-[760px] grid-cols-4 gap-4 lg:min-w-0">
             {workflow.map(([step, text], index) => (
               <AnimatedContent key={step} delay={index * 70}>
-                <BorderGlow className="rounded-lg bg-white p-5 shadow-sm">
-                  <div className="flex gap-4">
+                <BorderGlow className="h-full rounded-lg bg-white p-5 shadow-sm">
+                  <div className="flex h-full flex-col">
                     <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#1457d9] text-sm font-bold text-white">
                       {String(index + 1).padStart(2, "0")}
                     </div>
-                    <div>
+                    <div className="mt-5">
                       <h3 className="font-bold text-slate-950">{step}</h3>
-                      <p className="mt-1 text-sm leading-6 text-slate-600">{text}</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
                     </div>
                   </div>
                 </BorderGlow>
               </AnimatedContent>
             ))}
+            </div>
           </div>
         </div>
       </section>
