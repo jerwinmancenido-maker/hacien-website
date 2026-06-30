@@ -24,6 +24,9 @@ const companyItems = [
 
 const futureCompanyItems = ["Careers", "Partner Area"];
 
+const erpUrl = process.env.NEXT_PUBLIC_ERP_URL?.trim() || "/login";
+const isErpExternal = erpUrl.startsWith("http");
+
 export function Header() {
   const [open, setOpen] = useState(false);
   const [companyOpen, setCompanyOpen] = useState(false);
@@ -103,9 +106,11 @@ export function Header() {
 
         <div className="hidden shrink-0 items-center gap-2 xl:flex">
           <Link
-            href="/login"
+            href={erpUrl}
+            target={isErpExternal ? "_blank" : undefined}
+            rel={isErpExternal ? "noopener noreferrer" : undefined}
             className={`interactive-link rounded border px-4 py-2 text-sm font-semibold ${
-              pathname === "/login"
+              pathname === "/login" && !isErpExternal
                 ? "border-[#1457d9] text-[#1457d9]"
                 : "border-slate-300 text-slate-900 hover:border-[#1457d9] hover:text-[#1457d9]"
             }`}
@@ -154,7 +159,13 @@ export function Header() {
             <div className="mt-2 border-t border-slate-100 pt-3 text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
               Customer
             </div>
-            <Link href="/login" onClick={() => setOpen(false)} className={pathname === "/login" ? "font-bold text-[#1457d9]" : ""}>
+            <Link
+              href={erpUrl}
+              target={isErpExternal ? "_blank" : undefined}
+              rel={isErpExternal ? "noopener noreferrer" : undefined}
+              onClick={() => setOpen(false)}
+              className={pathname === "/login" && !isErpExternal ? "font-bold text-[#1457d9]" : ""}
+            >
               Sign In
             </Link>
             <Link href="/quote" onClick={() => setOpen(false)} className="font-semibold text-[#1457d9]">

@@ -24,6 +24,9 @@ const accountBenefits = [
 const inquiryTypes = ["Customer portal access", "RFQ follow-up", "Software subscriptions", "Support coordination"];
 
 export default function SignupPage() {
+  const erpUrl = process.env.NEXT_PUBLIC_ERP_URL?.trim() || "/login";
+  const isErpExternal = erpUrl.startsWith("http");
+
   return (
     <>
       <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
@@ -52,7 +55,9 @@ export default function SignupPage() {
                 Contact HACIEN
               </Link>
               <Link
-                href="/login"
+                href={erpUrl}
+                target={isErpExternal ? "_blank" : undefined}
+                rel={isErpExternal ? "noopener noreferrer" : undefined}
                 className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
               >
                 Login Roadmap
