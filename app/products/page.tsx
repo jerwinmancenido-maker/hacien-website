@@ -1,7 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { AnimatedContent, BorderGlow, GradientBackground, SplitText, SpotlightCard } from "@/app/components/reactbits";
-import { EnterprisePhotoPanel } from "@/components/EnterpriseImagery";
+import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/reactbits";
+import { enterpriseImages } from "@/components/EnterpriseImagery";
+import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { RequirementBuilder } from "@/components/RequirementBuilder";
 import { categories } from "@/data/products";
 
@@ -30,48 +31,35 @@ const serviceExamples = [
   "Mixed procurement packages",
 ];
 
+const categoryImages: Record<string, keyof typeof enterpriseImages> = {
+  "computers-laptops": "workstation",
+  "servers-storage": "storage",
+  "network-equipment": "network",
+  "printers-peripherals": "office",
+  "licensed-software": "cloud",
+  "security-surveillance": "cybersecurity",
+  "accessories-consumables": "cabling",
+  "power-ups": "dataCenter",
+  "general-merchandise": "documentation",
+};
+
 export default function ProductsPage() {
   return (
     <>
-      <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-        <GradientBackground />
-        <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div>
-            <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-              Technology RFQ Builder
-            </AnimatedContent>
-            <SplitText
-              as="h1"
-              text="Build one request from many technology requirements."
-              className="mt-5 max-w-5xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
-            />
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-              Add laptops, servers, networking, software, power, cabling, services, or anything not listed into one RFQ package. Exact brands and models are optional.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/quote"
-                className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
-              >
-                Submit RFQ Package
-              </Link>
-              <Link
-                href="/technology"
-                className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
-              >
-                Explore Technology Story
-              </Link>
-            </div>
-          </div>
-
-          <EnterprisePhotoPanel
-            image="workstation"
-            eyebrow="Universal Intake"
-            title="Start with specs, brands, files, or a plain business need."
-            caption="HACIEN reviews the complete requirement package before preparing a formal quotation."
-          />
-        </div>
-      </section>
+      <PremiumPageHero
+        eyebrow="Technology RFQ Builder"
+        title="Build one request from many technology needs."
+        description="Add endpoints, servers, networking, software, power, cabling, services, files, or anything not listed into one RFQ package. HACIEN reviews the requirement before formal quotation."
+        image="workstation"
+        primaryAction={{ href: "/quote", label: "Submit RFQ Package" }}
+        secondaryAction={{ href: "/technology", label: "Explore Technology" }}
+        highlights={[
+          { label: "Multiple Blocks", text: "Combine different requirements into one request." },
+          { label: "Optional Brands", text: "Choose a preference or keep HACIEN flexible." },
+          { label: "Files Welcome", text: "Attach BOQ, specs, images, Excel, or PDF." },
+          { label: "Not Listed", text: "Describe the need even when no category fits." },
+        ]}
+      />
 
       <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
@@ -94,11 +82,24 @@ export default function ProductsPage() {
             {categories.map((category, index) => (
               <AnimatedContent key={category.slug} delay={index * 45}>
                 <Link href={`/products/${category.slug}`} className="group block h-full">
-                  <SpotlightCard className="h-full rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-                    <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Supported Area</div>
-                    <h3 className="mt-4 text-xl font-bold text-slate-950 group-hover:text-[#1457d9]">{category.name}</h3>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{category.summary}</p>
-                    <div className="mt-5 text-sm font-bold text-[#1457d9]">See example context</div>
+                  <SpotlightCard className="h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
+                    <div
+                      className="relative min-h-[190px]"
+                      style={{
+                        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.03), rgba(7, 20, 38, 0.78)), url(${enterpriseImages[categoryImages[category.slug] || "dataCenter"]})`,
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                      }}
+                    >
+                      <div className="absolute bottom-4 left-4 rounded border border-white/16 bg-white/12 px-3 py-2 text-xs font-bold uppercase tracking-[0.14em] text-white backdrop-blur">
+                        Supported Area
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-xl font-bold text-slate-950 group-hover:text-[#1457d9]">{category.name}</h3>
+                      <p className="mt-3 text-sm leading-6 text-slate-600">{category.summary}</p>
+                      <div className="mt-5 text-sm font-bold text-[#1457d9]">See example context</div>
+                    </div>
                   </SpotlightCard>
                 </Link>
               </AnimatedContent>
