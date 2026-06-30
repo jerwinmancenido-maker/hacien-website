@@ -8,6 +8,7 @@ import {
   SplitText,
   SpotlightCard,
 } from "@/app/components/reactbits";
+import { EnterprisePhotoPanel } from "@/components/EnterpriseImagery";
 import { ProductGrid } from "@/components/ProductGrid";
 import { categories, products } from "@/data/products";
 
@@ -77,24 +78,12 @@ export default function ProductsPage() {
           </div>
 
           <AnimatedContent delay={140} direction="left">
-            <BorderGlow className="rounded-lg bg-white/[0.86] p-6 shadow-2xl shadow-slate-950/10">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-                RFQ Catalog
-              </div>
-              <h2 className="mt-3 text-xl font-bold text-slate-950 sm:text-2xl">
-                No fake checkout. No unverified stock claims. Just a clearer way to start sourcing.
-              </h2>
-              <div className="mt-8 grid gap-3">
-                {["Browse", "Add to RFQ", "Describe Need", "Validate", "Quote"].map((step, index) => (
-                  <div key={step} className="flex items-center gap-3 rounded border border-slate-200 bg-slate-50 px-4 py-3">
-                    <span className="grid h-7 w-7 place-items-center rounded-full bg-[#071426] text-xs font-bold text-white">
-                      {index + 1}
-                    </span>
-                    <span className="text-sm font-bold text-slate-800">{step}</span>
-                  </div>
-                ))}
-              </div>
-            </BorderGlow>
+            <EnterprisePhotoPanel
+              image="workstation"
+              eyebrow="RFQ Catalog"
+              title="Categories that help buyers define capability."
+              caption="HACIEN uses the catalog to clarify the business need before supplier availability, warranty, lead time, and final commercial terms are confirmed."
+            />
           </AnimatedContent>
         </div>
       </section>
@@ -166,7 +155,7 @@ export default function ProductsPage() {
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">RFQ Workflow</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              Buying starts with clarity, not a checkout button.
+              Buying starts with clarity and formal review.
             </h2>
           </AnimatedContent>
           <div className="progress-line mt-12 grid gap-4">
@@ -199,7 +188,7 @@ export default function ProductsPage() {
                   Quote-first Commerce
                 </div>
                 <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
-                  Product discovery should lead to a better RFQ, not premature checkout.
+                  Product discovery should lead to a better RFQ and a more accurate formal offer.
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
                   Browse representative products, describe the requirement, attach files when needed,

@@ -156,7 +156,7 @@ export default function ContactPage() {
               <div className="mt-6 grid gap-5 text-sm leading-7 text-slate-700">
                 <div>
                   <div className="font-bold text-slate-950">Current contact channel</div>
-                  <p>Use the RFQ or contact forms while HACIEN verifies public email, phone, and address details.</p>
+                  <p>Use the RFQ or contact forms so HACIEN can route the inquiry with the right commercial context.</p>
                 </div>
                 <div>
                   <div className="font-bold text-slate-950">Current website behavior</div>

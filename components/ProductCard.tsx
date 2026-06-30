@@ -19,7 +19,7 @@ export function ProductCard({ product }: { product: Product }) {
           <div className="absolute inset-0 animated-grid" />
           <div className="absolute inset-x-5 bottom-5 rounded border border-white/70 bg-white/85 p-4 backdrop-blur">
             <div className="text-xs font-semibold uppercase text-slate-500">{category?.name}</div>
-            <div className="mt-1 text-sm font-bold text-slate-950">{product.id}</div>
+            <div className="mt-1 text-sm font-bold text-slate-950">RFQ-ready capability</div>
           </div>
         </div>
       </Link>
@@ -31,9 +31,9 @@ export function ProductCard({ product }: { product: Product }) {
         <p className="mt-3 flex-1 text-sm leading-6 text-slate-600">{product.shortDescription}</p>
         <div className="mt-5 flex items-end justify-between gap-4">
           <div>
-            <div className="text-xs text-slate-500">Pricing status</div>
-            <div className="font-bold text-slate-950">Price upon request</div>
-            <div className="mt-1 text-xs text-slate-500">Subject to brand/model availability</div>
+            <div className="text-xs text-slate-500">Commercial path</div>
+            <div className="font-bold text-slate-950">Formal RFQ review</div>
+            <div className="mt-1 text-xs text-slate-500">Availability confirmed before quotation</div>
           </div>
           <button
             onClick={() => {
@@ -52,7 +52,7 @@ export function ProductCard({ product }: { product: Product }) {
           href={`/products/${product.categorySlug}`}
           className="interactive-link mt-4 inline-flex text-sm font-bold text-[#1457d9]"
         >
-          View details and specs
+          Review sourcing context
         </Link>
       </div>
     </AnimatedCard>

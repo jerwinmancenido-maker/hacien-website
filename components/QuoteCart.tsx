@@ -283,7 +283,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         onSubmit={handleSubmit}
         className="surface rounded-lg p-6"
       >
-        <h2 className="text-xl font-bold text-slate-950">Request quotation, not checkout</h2>
+        <h2 className="text-xl font-bold text-slate-950">Request a formal quotation review</h2>
         <p className="mt-2 text-sm text-slate-600">
           No online payment will be collected. Every request enters the Gateway first, receives a reference number, and is reviewed before it becomes an Opportunity.
         </p>
