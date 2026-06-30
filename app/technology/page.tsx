@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -22,6 +23,18 @@ const technologyDomains = [
   ["Professional Services", "Specification review, procurement support, deployment coordination, and lifecycle assistance.", null],
 ];
 
+const technologyImages: Record<string, keyof typeof enterpriseImages> = {
+  "Enterprise Computing": "workstation",
+  Networking: "network",
+  Cybersecurity: "cybersecurity",
+  Cloud: "cloud",
+  Software: "silicon",
+  Storage: "storage",
+  Power: "dataCenter",
+  "Structured Cabling": "cabling",
+  "Professional Services": "documentation",
+};
+
 export default function TechnologyPage() {
   return (
     <>
@@ -29,7 +42,7 @@ export default function TechnologyPage() {
         eyebrow="Technology"
         title="Enterprise technology domains, not an online catalog."
         description="HACIEN helps organizations define, source, and coordinate technology requirements across infrastructure, software, security, cloud, and operating environments."
-        image="dataCenter"
+        image="silicon"
         primaryAction={{ href: "/quote", label: "Request Quote" }}
         secondaryAction={{ href: "/solutions", label: "View Solutions" }}
         highlights={[
@@ -49,19 +62,29 @@ export default function TechnologyPage() {
           />
           <StaggerContainer className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {technologyDomains.map(([title, text, categorySlug]) => (
-              <AnimatedCard key={title} className="h-full rounded-lg border border-slate-200 bg-white p-7 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-950/10">
+              <AnimatedCard key={title} className="h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-950/10">
+                <div
+                  className="h-36 bg-slate-950"
+                  style={{
+                    backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.04), rgba(7, 20, 38, 0.72)), url(${enterpriseImages[technologyImages[String(title)] || "dataCenter"]})`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                  }}
+                />
+                <div className="p-7">
                 <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Technology Domain</div>
                 <h2 className="mt-5 text-2xl font-bold tracking-tight text-slate-950">{title}</h2>
                 <p className="mt-4 text-sm leading-7 text-slate-600">{text}</p>
                 {categorySlug ? (
                   <Link href={`/products/${categorySlug}`} className="mt-7 inline-flex text-sm font-bold text-[#1457d9] hover:underline">
-                    View representative category
+                    Build this requirement
                   </Link>
                 ) : (
                   <Link href="/quote" className="mt-7 inline-flex text-sm font-bold text-[#1457d9] hover:underline">
                     Describe a service requirement
                   </Link>
                 )}
+                </div>
               </AnimatedCard>
             ))}
           </StaggerContainer>

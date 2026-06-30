@@ -6,6 +6,7 @@ import {
   GradientBackground,
   SpotlightCard,
 } from "@/app/components/reactbits";
+import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { insights } from "@/data/insights";
 
@@ -24,6 +25,18 @@ const knowledgeAreas = [
 const featured = insights.slice(0, 3);
 const remaining = insights.slice(3);
 const categories = Array.from(new Set(insights.map((insight) => insight.category)));
+
+const insightImages: Record<string, keyof typeof enterpriseImages> = {
+  "Procurement Basics": "documentation",
+  "Government Procurement": "workspace",
+  "Technology Sourcing": "dataCenter",
+  "ERP & Platform": "network",
+  "Platform Direction": "network",
+};
+
+function insightImage(category: string) {
+  return enterpriseImages[insightImages[category] || "documentation"];
+}
 
 export default function InsightsPage() {
   return (
@@ -77,14 +90,24 @@ export default function InsightsPage() {
               <AnimatedContent key={insight.slug} delay={index * 80}>
                 <Link href={`/insights/${insight.slug}`} className="group block h-full">
                   <SpotlightCard
-                    className="h-full rounded-lg border border-white/12 bg-white/[0.06] p-6"
+                    className="h-full overflow-hidden rounded-lg border border-white/12 bg-white/[0.06]"
                     spotlightColor="rgba(96, 165, 250, 0.14)"
                   >
+                    <div
+                      className="h-40 bg-slate-900"
+                      style={{
+                        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.76)), url(${insightImage(insight.category)})`,
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                      }}
+                    />
+                    <div className="p-6">
                     <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue-200">{insight.category}</div>
                     <h3 className="mt-4 text-xl font-bold text-white group-hover:text-blue-200">{insight.title}</h3>
                     <p className="mt-3 line-clamp-4 text-sm leading-6 text-slate-300">{insight.summary}</p>
                     <div className="mt-5 text-xs font-bold text-blue-200">
                       {insight.publishedAt} / {insight.readingTime}
+                    </div>
                     </div>
                   </SpotlightCard>
                 </Link>
@@ -101,14 +124,17 @@ export default function InsightsPage() {
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
               Articles grouped by buying intent.
             </h2>
+            <p className="mt-4 max-w-md text-sm leading-6 text-slate-600">
+              Topics are shown as reading categories. Choose an article card to continue.
+            </p>
             <div className="mt-6 flex flex-wrap gap-2">
               {categories.map((category) => (
-                <span key={category} className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-700">
+                <span key={category} className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-500">
                   {category}
                 </span>
               ))}
-              <span className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1.5 text-xs font-bold text-[#1457d9]">
-                ERP & Platform
+              <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-500">
+                Platform
               </span>
             </div>
           </AnimatedContent>
@@ -116,24 +142,48 @@ export default function InsightsPage() {
             {remaining.map((insight, index) => (
               <AnimatedContent key={insight.slug} delay={index * 60}>
                 <Link href={`/insights/${insight.slug}`} className="group block">
-                  <BorderGlow className="rounded-lg bg-white p-5 shadow-sm">
-                    <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">{insight.category}</div>
-                    <h3 className="mt-3 text-lg font-bold text-slate-950 group-hover:text-[#1457d9]">{insight.title}</h3>
-                    <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">{insight.summary}</p>
+                  <BorderGlow className="overflow-hidden rounded-lg bg-white shadow-sm">
+                    <div className="grid md:grid-cols-[168px_1fr]">
+                      <div
+                        className="min-h-32 bg-slate-950"
+                        style={{
+                          backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.72)), url(${insightImage(insight.category)})`,
+                          backgroundPosition: "center",
+                          backgroundSize: "cover",
+                        }}
+                      />
+                      <div className="p-5">
+                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">{insight.category}</div>
+                        <h3 className="mt-3 text-lg font-bold text-slate-950 group-hover:text-[#1457d9]">{insight.title}</h3>
+                        <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">{insight.summary}</p>
+                      </div>
+                    </div>
                   </BorderGlow>
                 </Link>
               </AnimatedContent>
             ))}
             <AnimatedContent delay={260}>
               <Link href="/erp-platform" className="group block">
-                <BorderGlow className="rounded-lg bg-white p-5 shadow-sm">
-                  <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Platform Direction</div>
-                  <h3 className="mt-3 text-lg font-bold text-slate-950 group-hover:text-[#1457d9]">
-                    HACIEN operating platform and procurement continuity
-                  </h3>
-                  <p className="mt-2 text-sm leading-6 text-slate-600">
-                    The operating platform page explains how HACIEN keeps inquiry, quotation, sourcing, delivery, and support connected.
-                  </p>
+                <BorderGlow className="overflow-hidden rounded-lg bg-white shadow-sm">
+                  <div className="grid md:grid-cols-[168px_1fr]">
+                    <div
+                      className="min-h-32 bg-slate-950"
+                      style={{
+                        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.72)), url(${enterpriseImages.network})`,
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                      }}
+                    />
+                    <div className="p-5">
+                      <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Platform Direction</div>
+                      <h3 className="mt-3 text-lg font-bold text-slate-950 group-hover:text-[#1457d9]">
+                        HACIEN operating platform and procurement continuity
+                      </h3>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">
+                        The operating platform page explains how HACIEN keeps inquiry, quotation, sourcing, delivery, and support connected.
+                      </p>
+                    </div>
+                  </div>
                 </BorderGlow>
               </Link>
             </AnimatedContent>
