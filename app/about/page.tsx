@@ -4,12 +4,12 @@ import {
   AnimatedContent,
   BlurReveal,
   BorderGlow,
-  CircularText,
   GradientBackground,
   Marquee,
   SplitText,
   SpotlightCard,
 } from "@/app/components/reactbits";
+import { EnterprisePhotoPanel } from "@/components/EnterpriseImagery";
 import { CapabilityResources, CompanyCredentials, FutureProofAssets, OurCommitment } from "@/components/TrustConfidence";
 
 export const metadata: Metadata = {
@@ -114,32 +114,12 @@ export default function AboutPage() {
           </div>
 
           <AnimatedContent delay={140} direction="left">
-            <BorderGlow className="rounded-lg bg-white/[0.86] p-6 shadow-2xl shadow-slate-950/10">
-              <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-                <div>
-                  <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-                    Procurement Workflow
-                  </div>
-                  <h2 className="mt-3 text-xl font-bold text-slate-950 sm:text-2xl">
-                    From requirement to delivery, every step is coordinated.
-                  </h2>
-                </div>
-                <div className="relative grid h-28 w-28 shrink-0 place-items-center rounded-full border border-slate-200 bg-slate-950 text-white">
-                  <CircularText text="RFQ TO DELIVERY " size={112} />
-                  <span className="text-sm font-bold">H</span>
-                </div>
-              </div>
-              <div className="mt-8 grid gap-3">
-                {["Clarify", "Source", "Validate", "Quote", "Deliver"].map((step, index) => (
-                  <div key={step} className="flex items-center gap-3 rounded border border-slate-200 bg-slate-50 px-4 py-3">
-                    <span className="grid h-7 w-7 place-items-center rounded-full bg-[#071426] text-xs font-bold text-white">
-                      {index + 1}
-                    </span>
-                    <span className="text-sm font-bold text-slate-800">{step}</span>
-                  </div>
-                ))}
-              </div>
-            </BorderGlow>
+            <EnterprisePhotoPanel
+              image="workspace"
+              eyebrow="Procurement Workflow"
+              title="From requirement to delivery, every step stays coordinated."
+              caption="HACIEN keeps buyer context, supplier inputs, quotation assumptions, and handover needs connected across the relationship."
+            />
           </AnimatedContent>
         </div>
       </section>
@@ -218,17 +198,18 @@ export default function AboutPage() {
               A procurement lifecycle designed for accuracy, accountability, and handover.
             </h2>
           </AnimatedContent>
-          <div className="progress-line mt-12 grid gap-4">
+          <div className="mt-12 overflow-x-auto pb-4">
+            <div className="grid min-w-[980px] grid-cols-9 gap-3 lg:min-w-0">
             {workflow.map((step, index) => (
               <AnimatedContent key={step} delay={Math.min(index * 55, 360)} distance={14}>
-                <BorderGlow className="rounded-lg bg-white p-5 shadow-sm">
-                  <div className="flex gap-4">
-                    <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#1457d9] text-sm font-bold text-white">
+                <BorderGlow className="h-full rounded-lg bg-white p-4 shadow-sm">
+                  <div className="flex h-full flex-col">
+                    <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#1457d9] text-xs font-bold text-white">
                       {String(index + 1).padStart(2, "0")}
                     </div>
-                    <div>
-                      <h3 className="font-bold text-slate-950">{step}</h3>
-                      <p className="mt-1 text-sm leading-6 text-slate-600">
+                    <div className="mt-4">
+                      <h3 className="text-sm font-bold text-slate-950">{step}</h3>
+                      <p className="mt-2 text-xs leading-5 text-slate-600">
                         {workflowCopy(step)}
                       </p>
                     </div>
@@ -236,6 +217,7 @@ export default function AboutPage() {
                 </BorderGlow>
               </AnimatedContent>
             ))}
+            </div>
           </div>
         </div>
       </section>
@@ -320,10 +302,6 @@ export default function AboutPage() {
                 </p>
               </div>
               <div className="flex items-center gap-4">
-                <div className="hidden h-28 w-28 place-items-center rounded-full border border-white/15 text-blue-100 sm:grid">
-                  <CircularText text="SUBMIT RFQ TODAY " size={112} />
-                  <span className="text-sm font-bold">RFQ</span>
-                </div>
                 <Link
                   href="/quote"
                   className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#071426]"
