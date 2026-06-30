@@ -49,6 +49,20 @@ export default function PrivacyPage() {
           description="This policy explains how HACIEN handles information submitted through the public website, RFQ Gateway, contact forms, support forms, and related inquiry paths."
         />
         <div className="surface mt-10 rounded-lg p-6 text-sm leading-7 text-slate-700">
+          <div className="mb-6 grid gap-3 rounded-lg border border-slate-200 bg-slate-50 p-5 sm:grid-cols-3">
+            {[
+              ["Document Version", "1.0"],
+              ["Effective Date", "July 1, 2026"],
+              ["Last Updated", "July 1, 2026"],
+            ].map(([label, value]) => (
+              <div key={label} className="rounded border border-slate-200 bg-white p-3">
+                <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">
+                  {label}
+                </div>
+                <div className="mt-1 font-semibold text-slate-950">{value}</div>
+              </div>
+            ))}
+          </div>
           <p>
             HACIEN INFORMATION TECHNOLOGY SOLUTIONS respects the privacy of customers, suppliers,
             partners, and visitors who communicate through this website. The site is used for inquiry,

@@ -254,7 +254,21 @@ export default function TermsPage() {
 
         <div className="surface mt-10 rounded-lg p-6 text-sm leading-7 text-slate-700 sm:p-8">
           <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
-            <p>
+            <div className="grid gap-3 sm:grid-cols-3">
+              {[
+                ["Document Version", "1.0"],
+                ["Effective Date", "July 1, 2026"],
+                ["Last Updated", "July 1, 2026"],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded border border-slate-200 bg-white p-3">
+                  <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">
+                    {label}
+                  </div>
+                  <div className="mt-1 font-semibold text-slate-950">{value}</div>
+                </div>
+              ))}
+            </div>
+            <p className="mt-4">
               Use of this website indicates that the visitor understands that public content supports
               business review and does not replace formal written documents.
             </p>

@@ -316,10 +316,20 @@ export default function LegalPage() {
         <div className="surface mt-10 rounded-lg p-6 text-sm leading-7 text-slate-700 sm:p-8">
           <div className="grid gap-4 rounded-lg border border-slate-200 bg-slate-50 p-5 lg:grid-cols-[1fr_0.9fr]">
             <div>
-              <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">
-                Last Updated
+              <div className="grid gap-3 sm:grid-cols-3">
+                {[
+                  ["Document Version", "1.0"],
+                  ["Effective Date", "June 30, 2026"],
+                  ["Last Updated", "June 30, 2026"],
+                ].map(([label, value]) => (
+                  <div key={label} className="rounded border border-slate-200 bg-white p-3">
+                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">
+                      {label}
+                    </div>
+                    <div className="mt-1 font-semibold text-slate-950">{value}</div>
+                  </div>
+                ))}
               </div>
-              <p className="mt-2 font-semibold text-slate-950">June 30, 2026</p>
               <p className="mt-4">
                 By accessing this website, submitting inquiries, requesting quotations, or engaging in
                 business communications with HACIEN, the User, Customer, or Counterparty agrees to be
