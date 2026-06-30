@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { FadeIn, SlideUp, StaggerContainer } from "@/components/motion";
@@ -14,6 +15,18 @@ export function Hero() {
         }}
       />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(42,120,255,0.28),transparent_32%)]" />
+      <div className="pointer-events-none absolute -right-[18vw] top-12 hidden h-[720px] w-[720px] opacity-[0.16] mix-blend-screen lg:block xl:-right-[10vw] xl:h-[820px] xl:w-[820px]">
+        <Image
+          src="/brand/hacien-mark-4k.png"
+          alt=""
+          fill
+          priority
+          sizes="820px"
+          className="object-contain drop-shadow-[0_0_70px_rgba(45,212,255,0.28)]"
+          aria-hidden="true"
+        />
+      </div>
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#071426] to-transparent" />
       <div className="relative mx-auto grid min-h-[760px] max-w-7xl items-center gap-12 px-4 py-18 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-24">
         <div className="flex flex-col justify-center">
           <FadeIn>
