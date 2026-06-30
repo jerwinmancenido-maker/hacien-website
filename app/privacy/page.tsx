@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SectionHeading } from "@/components/SectionHeading";
+import { companyContact } from "@/data/companyContact";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -17,7 +18,7 @@ const sections = [
   },
   {
     title: "Files and attachments",
-    body: "Customers may upload BOQs, specifications, spreadsheets, images, PDFs, or other supported files through designated RFQ paths. Sensitive documents should only be submitted when relevant to the request and through an appropriate business channel.",
+    body: "Customers may upload BOQs, specifications, spreadsheets, images, PDFs, or other supported files through designated RFQ paths. Uploaded files and related metadata may be stored in HACIEN's website, API, ERP, email, or operational systems as needed to review and continue the request. Sensitive documents should only be submitted when relevant to the request and through an appropriate business channel.",
   },
   {
     title: "Security and anti-spam controls",
@@ -25,15 +26,15 @@ const sections = [
   },
   {
     title: "Sharing and disclosure",
-    body: "HACIEN does not sell submitted inquiry information. Information may be shared only as needed to respond to a request, coordinate supplier or service context, comply with lawful obligations, or support formal business communication.",
+    body: "HACIEN does not sell submitted inquiry information. Information may be shared only as needed to respond to a request, coordinate supplier or service context, support quotation preparation, perform supplier deal registration, comply with lawful obligations, or support formal business communication.",
   },
   {
     title: "Retention",
-    body: "Inquiry and RFQ records may be retained as part of HACIEN's business relationship history, quotation preparation, support follow-up, and operational records unless deletion is required by applicable law or approved business process.",
+    body: "Inquiry, RFQ, uploaded file, quotation, support, and customer relationship records may be retained as part of HACIEN's business relationship history, quotation preparation, support follow-up, and operational records for as long as reasonably needed, unless a shorter or longer period is required by law, formal agreement, or approved business process.",
   },
   {
     title: "Customer requests",
-    body: "Privacy-related questions, correction requests, or access concerns should be sent through HACIEN's Contact or Support channels while official privacy contact procedures continue to mature with operations.",
+    body: `Privacy-related questions, correction requests, access concerns, or data handling questions may be sent to ${companyContact.email}. HACIEN may need to verify the requester's identity or relationship to the relevant organization before acting on a request.`,
   },
 ];
 
@@ -52,6 +53,13 @@ export default function PrivacyPage() {
             HACIEN INFORMATION TECHNOLOGY SOLUTIONS respects the privacy of customers, suppliers,
             partners, and visitors who communicate through this website. The site is used for inquiry,
             quotation, support, and business communication. It does not process online payments.
+          </p>
+          <p className="mt-4">
+            The official public contact for privacy and inquiry-related communication is{" "}
+            <a className="font-semibold text-[#1457d9]" href={`mailto:${companyContact.email}`}>
+              {companyContact.email}
+            </a>
+            .
           </p>
           <div className="mt-8 grid gap-6">
             {sections.map((section) => (
