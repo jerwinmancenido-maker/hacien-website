@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/reactbits";
+import { companyContact } from "@/data/companyContact";
 
 export const metadata: Metadata = {
   title: "Company Profile",
@@ -22,6 +23,7 @@ const verification = [
   ["Validity", "Jun 17 2026 - Jun 17 2031"],
   ["BIR registration", "Verified facts"],
   ["Office location", "Lease evidence verified"],
+  ["Contact email", companyContact.email],
   ["Public RFQ", "Available"],
 ];
 
@@ -74,6 +76,38 @@ export default function CompanyProfilePage() {
               </AnimatedContent>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-2">
+          <AnimatedContent>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Contact Details</div>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">Public business contact.</h2>
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-600">
+              Customers, suppliers, partners, and procurement offices may use these details to begin formal communication with HACIEN.
+            </p>
+          </AnimatedContent>
+          <AnimatedContent delay={100}>
+            <div className="grid gap-5 text-sm leading-7 text-slate-700">
+              <div>
+                <div className="font-bold text-slate-950">Email</div>
+                <a className="font-semibold text-[#1457d9]" href={`mailto:${companyContact.email}`}>
+                  {companyContact.email}
+                </a>
+              </div>
+              <div>
+                <div className="font-bold text-slate-950">{companyContact.addressLabel}</div>
+                <address className="mt-2 not-italic text-slate-700">
+                  {companyContact.addressLines.map((line) => (
+                    <span key={line} className="block">
+                      {line}
+                    </span>
+                  ))}
+                </address>
+              </div>
+            </div>
+          </AnimatedContent>
         </div>
       </section>
 

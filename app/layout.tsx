@@ -3,6 +3,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { QuoteCartProvider } from "@/components/QuoteCartProvider";
+import { companyContact } from "@/data/companyContact";
 
 export const revalidate = 300;
 
@@ -56,6 +57,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     name: "HACIEN",
     alternateName: "HACIEN",
     url: "https://haciensolutions.com",
+    email: companyContact.email,
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, San Antonio",
+      addressLocality: "City of Pasig",
+      addressRegion: "NCR",
+      postalCode: "1605",
+      addressCountry: "PH",
+    },
     areaServed: "Philippines",
     description:
       "HACIEN is a procurement-first technology solutions headquarters for RFQ review, solutions consulting, sourcing coordination, and customer success.",
