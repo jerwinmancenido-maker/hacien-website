@@ -291,23 +291,36 @@ export default function PrivacyPage() {
           </div>
 
           <div className="mt-8 grid gap-6">
-            {sections.map((section) => (
+            {sections.map((section, sectionIndex) => (
               <section key={section.title} className="rounded-lg border border-slate-200 bg-white p-5">
                 <h2 className="text-lg font-bold text-slate-950">{section.title}</h2>
-                {section.paragraphs?.map((paragraph) => (
-                  <p key={paragraph} className="mt-3">
-                    {paragraph}
-                  </p>
-                ))}
-                {section.bullets ? (
-                  <ul className="mt-3 list-disc space-y-2 pl-5">
-                    {section.bullets.map((bullet) => (
-                      <li key={`${bullet.label ?? ""}${bullet.text}`}>
-                        {bullet.label ? <strong className="text-slate-950">{bullet.label}: </strong> : null}
-                        {bullet.text}
-                      </li>
+                {section.paragraphs ? (
+                  <div className="mt-4 rounded-lg border border-slate-100 bg-slate-50/70 p-4">
+                    <h3 className="font-bold text-slate-950">
+                      {sectionIndex + 1}.1 General Provisions
+                    </h3>
+                    {section.paragraphs.map((paragraph) => (
+                      <p key={paragraph} className="mt-2">
+                        {paragraph}
+                      </p>
                     ))}
-                  </ul>
+                  </div>
+                ) : null}
+                {section.bullets ? (
+                  <div className="mt-4 grid gap-3">
+                    {section.bullets.map((bullet, bulletIndex) => (
+                      <div
+                        key={`${bullet.label ?? ""}${bullet.text}`}
+                        className="rounded-lg border border-slate-100 bg-slate-50/70 p-4"
+                      >
+                        <h3 className="font-bold text-slate-950">
+                          {sectionIndex + 1}.{section.paragraphs ? bulletIndex + 2 : bulletIndex + 1}{" "}
+                          {bullet.label ?? "Clause"}
+                        </h3>
+                        <p className="mt-2">{bullet.text}</p>
+                      </div>
+                    ))}
+                  </div>
                 ) : null}
               </section>
             ))}
