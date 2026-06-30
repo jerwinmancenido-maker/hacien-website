@@ -52,16 +52,16 @@ export function PremiumStatementBand() {
         <div className="max-w-2xl">
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Enterprise Technology</div>
           <h2 className="mt-5 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl">
-            Capability first. Products second.
+            Technology first. Products only when useful.
           </h2>
           <p className="mt-5 text-base leading-8 text-slate-600">
-            HACIEN presents technology as business capability: infrastructure, security, connectivity,
+            HACIEN presents technology as business context: infrastructure, security, connectivity,
             continuity, and operating confidence. Exact brands, models, pricing, and commercial terms
             are confirmed through RFQ review.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link href="/solutions" className="button-glow rounded-full bg-[#071426] px-5 py-3 text-center text-sm font-bold text-white">
-              Explore capabilities
+            <Link href="/technology" className="button-glow rounded-full bg-[#071426] px-5 py-3 text-center text-sm font-bold text-white">
+              Explore Technology
             </Link>
             <Link href="/quote" className="interactive-link rounded-full border border-slate-300 px-5 py-3 text-center text-sm font-bold text-slate-900">
               Submit an RFQ

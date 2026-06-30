@@ -15,9 +15,9 @@ import {
 } from "@/components/HomeV3Sections";
 
 export const metadata: Metadata = {
-  title: "IT Infrastructure and Procurement Solutions",
+  title: "Enterprise Technology With Operational Clarity",
   description:
-    "HACIEN provides IT procurement, infrastructure, systems integration, and government procurement support for Philippine organizations.",
+    "HACIEN provides enterprise technology, infrastructure, software, government procurement support, managed services, and a connected operating model for Philippine organizations.",
 };
 
 export default function Home() {

@@ -6,29 +6,16 @@ import { useState } from "react";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
 
 const navItems = [
-  { href: "/", label: "Headquarters" },
+  { href: "/", label: "Home" },
   { href: "/solutions", label: "Solutions" },
-  { href: "/products", label: "Products" },
-  { href: "/industries", label: "Industries" },
+  { href: "/technology", label: "Technology" },
+  { href: "/platform", label: "Platform" },
   { href: "/insights", label: "Insights" },
-  { href: "/trust-center", label: "Trust" },
+  { href: "/about", label: "Company" },
 ];
-
-const companyItems = [
-  { href: "/about", label: "About HACIEN" },
-  { href: "/about/company-profile", label: "Company Profile" },
-  { href: "/contact", label: "Contact" },
-  { href: "/support", label: "Support" },
-  { href: "/search", label: "Search" },
-];
-
-const erpUrl =
-  process.env.NEXT_PUBLIC_ERP_URL?.trim() || "https://erp.haciensolutions.com/login";
-const isErpExternal = erpUrl.startsWith("http");
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const [companyOpen, setCompanyOpen] = useState(false);
   const { totalQuantity } = useQuoteCart();
   const pathname = usePathname();
 
@@ -64,52 +51,18 @@ export function Header() {
               {item.label}
             </Link>
           ))}
-
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setCompanyOpen((value) => !value)}
-              className={`rounded-full px-3 py-2 text-sm font-semibold transition-colors ${
-                pathname.startsWith("/about") || pathname === "/contact"
-                  ? "bg-white text-[#071426] shadow-sm shadow-slate-950/8"
-                  : "text-slate-600 hover:bg-white/80 hover:text-[#071426]"
-              }`}
-              aria-expanded={companyOpen}
-              aria-haspopup="menu"
-            >
-              Company
-            </button>
-            {companyOpen ? (
-              <div className="absolute right-0 top-9 w-72 rounded-lg border border-slate-200 bg-white p-3 shadow-2xl shadow-slate-950/12">
-                <div className="grid gap-1">
-                  {companyItems.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      onClick={() => setCompanyOpen(false)}
-                      className="rounded px-3 py-2 text-sm font-semibold text-slate-800 hover:bg-slate-50 hover:text-[#1457d9]"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            ) : null}
-          </div>
         </nav>
 
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
           <Link
-            href={erpUrl}
-            target={isErpExternal ? "_blank" : undefined}
-            rel={isErpExternal ? "noopener noreferrer" : undefined}
+            href="/access"
             className={`rounded-full border px-4 py-2 text-sm font-semibold transition-colors ${
-              pathname === "/login" && !isErpExternal
+              pathname === "/access"
                 ? "border-[#1457d9] text-[#1457d9]"
                 : "border-slate-300 text-slate-900 hover:border-[#1457d9] hover:text-[#1457d9]"
             }`}
           >
-            Sign In
+            Access HACIEN
           </Link>
           <Link
             href="/quote"
@@ -149,29 +102,14 @@ export function Header() {
               </Link>
             ))}
             <div className="mt-3 border-t border-slate-100 pt-4 text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
-              Company
-            </div>
-            {companyItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-3 hover:bg-slate-50 hover:text-[#071426]"
-              >
-                {item.label}
-              </Link>
-            ))}
-            <div className="mt-2 border-t border-slate-100 pt-3 text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
-              Customer
+              Access
             </div>
             <Link
-              href={erpUrl}
-              target={isErpExternal ? "_blank" : undefined}
-              rel={isErpExternal ? "noopener noreferrer" : undefined}
+              href="/access"
               onClick={() => setOpen(false)}
               className="rounded-lg px-3 py-3 hover:bg-slate-50 hover:text-[#071426]"
             >
-              Sign In
+              Access HACIEN
             </Link>
             <Link
               href="/quote"

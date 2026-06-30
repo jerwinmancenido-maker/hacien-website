@@ -28,7 +28,7 @@ export const categories: ProductCategory[] = [
     summary: "Business desktops, notebooks, workstations, and endpoint packages.",
     heroCopy: "Source business-grade computers and laptops for office, field, and institutional deployments.",
     accent: "#1457d9",
-    seoTitle: "Computers & Laptops | HACIEN Products",
+    seoTitle: "Computers & Laptops | HACIEN Technology",
     seoDescription: "HACIEN sources business desktops, notebooks, and workstations for Philippine organizations. RFQ-ready procurement with approved equivalent matching.",
   },
   {
@@ -37,7 +37,7 @@ export const categories: ProductCategory[] = [
     summary: "Entry to midrange servers, NAS, backup, and storage expansion.",
     heroCopy: "Right-sized server and NAS storage procurement for your workload and budget.",
     accent: "#0f766e",
-    seoTitle: "Servers & Storage | HACIEN Products",
+    seoTitle: "Servers & Storage | HACIEN Technology",
     seoDescription: "HACIEN sources servers, NAS appliances, and backup storage for Philippine organizations. Workload sizing and warranty planning included.",
   },
   {
@@ -46,7 +46,7 @@ export const categories: ProductCategory[] = [
     summary: "Switching, routing, access points, firewalls, and structured connectivity.",
     heroCopy: "Network infrastructure procurement — from access layer switches to firewall appliances.",
     accent: "#5b4bff",
-    seoTitle: "Network Equipment | HACIEN Products",
+    seoTitle: "Network Equipment | HACIEN Technology",
     seoDescription: "HACIEN sources managed switches, wireless access points, firewalls, and network infrastructure for Philippine organizations.",
   },
   {
@@ -55,7 +55,7 @@ export const categories: ProductCategory[] = [
     summary: "Printers, scanners, monitors, UPS, and office IT devices.",
     heroCopy: "Office peripherals and printing solutions sourced for business and institutional buyers.",
     accent: "#b45309",
-    seoTitle: "Printers & Peripherals | HACIEN Products",
+    seoTitle: "Printers & Peripherals | HACIEN Technology",
     seoDescription: "HACIEN sources printers, scanners, monitors, UPS units, and office peripherals for Philippine organizations.",
   },
   {
@@ -64,7 +64,7 @@ export const categories: ProductCategory[] = [
     summary: "Productivity, endpoint security, operating systems, and business apps.",
     heroCopy: "Software licensing sourced through appropriate vendor channels for your organization.",
     accent: "#2563eb",
-    seoTitle: "Licensed Software | HACIEN Products",
+    seoTitle: "Licensed Software | HACIEN Technology",
     seoDescription: "HACIEN sources productivity software, endpoint security, and operating system licenses for Philippine organizations.",
   },
   {
@@ -73,7 +73,7 @@ export const categories: ProductCategory[] = [
     summary: "CCTV, access control, monitoring, and security infrastructure.",
     heroCopy: "Site security technology procurement — cameras, access control, and monitoring systems.",
     accent: "#be123c",
-    seoTitle: "Security & Surveillance | HACIEN Products",
+    seoTitle: "Security & Surveillance | HACIEN Technology",
     seoDescription: "HACIEN sources CCTV systems, access control, NVR/DVR equipment, and site security technology for Philippine organizations.",
   },
   {
@@ -82,7 +82,7 @@ export const categories: ProductCategory[] = [
     summary: "Cables, printer supplies, storage media, and deployment essentials.",
     heroCopy: "Deployment accessories and consumables — everything needed alongside your primary IT equipment.",
     accent: "#475569",
-    seoTitle: "Accessories & Consumables | HACIEN Products",
+    seoTitle: "Accessories & Consumables | HACIEN Technology",
     seoDescription: "HACIEN sources cables, printer supplies, storage media, and deployment accessories for Philippine organizations.",
   },
   {
@@ -91,7 +91,7 @@ export const categories: ProductCategory[] = [
     summary: "UPS units, voltage regulators, PDUs, and power protection equipment.",
     heroCopy: "Power protection and UPS sourcing for offices, server rooms, and critical equipment.",
     accent: "#ca8a04",
-    seoTitle: "Power & UPS | HACIEN Products",
+    seoTitle: "Power & UPS | HACIEN Technology",
     seoDescription: "HACIEN sources UPS units, voltage regulators, and power distribution equipment for Philippine organizations.",
   },
   {
@@ -100,7 +100,7 @@ export const categories: ProductCategory[] = [
     summary: "Non-IT goods, office supplies, and general items for institutional procurement packages.",
     heroCopy: "General merchandise procurement for organizations with mixed IT and non-IT requirements.",
     accent: "#64748b",
-    seoTitle: "General Merchandise | HACIEN Products",
+    seoTitle: "General Merchandise | HACIEN Technology",
     seoDescription: "HACIEN sources general merchandise and office supplies for Philippine organizations with mixed procurement requirements.",
   },
 ];

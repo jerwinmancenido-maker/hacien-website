@@ -79,10 +79,10 @@ export default function SolutionsPage() {
                 Start an RFQ
               </Link>
               <Link
-                href="/products"
+                href="/technology"
                 className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
               >
-                Browse Products
+                Explore Technology
               </Link>
             </AnimatedContent>
           </div>
@@ -134,7 +134,7 @@ export default function SolutionsPage() {
       <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Capabilities</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Technology Layers</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
               HACIEN supports the operational layers behind modern IT environments.
             </h2>

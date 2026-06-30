@@ -3,7 +3,7 @@ import Link from "next/link";
 import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/reactbits";
 
 export const metadata: Metadata = {
-  title: "Trust Center",
+  title: "Trust & Compliance",
   description:
     "HACIEN Trust Center for company identity, RFQ terms, support expectations, privacy, security, and commercial verification boundaries.",
 };
@@ -34,13 +34,13 @@ export default function TrustCenterPage() {
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
           <div>
             <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
-              Trust Center
+              Trust & Compliance
             </AnimatedContent>
             <h1 className="mt-5 max-w-5xl text-5xl font-bold tracking-tight sm:text-6xl">
               Trust begins with clear boundaries.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-              The Trust Center explains how HACIEN handles company identity, RFQ review, customer commitments, privacy, security, and support expectations with clear public boundaries.
+              Trust & Compliance explains how HACIEN handles company identity, RFQ review, customer commitments, privacy, security, and support expectations with clear public boundaries.
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link href="/quote" className="button-glow rounded bg-white px-5 py-3 text-center text-sm font-bold text-[#071426]">

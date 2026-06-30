@@ -10,9 +10,9 @@ import {
 } from "@/app/components/reactbits";
 
 export const metadata: Metadata = {
-  title: "Contact HACIEN | Customer Access",
+  title: "Contact HACIEN | Customer Workspace Access",
   description:
-    "Contact HACIEN about customer access, RFQ follow-up, software subscriptions, support coordination, and account context.",
+    "Contact HACIEN about Customer Workspace access, RFQ follow-up, software subscriptions, support coordination, and account context.",
 };
 
 const accountBenefits = [
@@ -21,7 +21,7 @@ const accountBenefits = [
   ["Support without restarting", "Customers should be able to continue conversations from existing procurement history."],
 ];
 
-const inquiryTypes = ["Customer portal access", "RFQ follow-up", "Software subscriptions", "Support coordination"];
+const inquiryTypes = ["Customer Workspace access", "RFQ follow-up", "Software subscriptions", "Support coordination"];
 
 export default function SignupPage() {
   const erpUrl =
@@ -61,7 +61,7 @@ export default function SignupPage() {
                 rel={isErpExternal ? "noopener noreferrer" : undefined}
                 className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
               >
-                Authorized ERP Sign In
+                Authorized Workspace Access
               </Link>
             </AnimatedContent>
           </div>

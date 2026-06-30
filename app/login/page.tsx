@@ -10,9 +10,9 @@ import {
 } from "@/app/components/reactbits";
 
 export const metadata: Metadata = {
-  title: "ERP Sign In | HACIEN",
+  title: "Workspace Access | HACIEN",
   description:
-    "Authorized HACIEN ERP sign-in entry point for internal operations and approved account access.",
+    "Authorized HACIEN Workspace access entry point for internal operations and approved account access.",
 };
 
 const workspaceFeatures = [
@@ -45,7 +45,7 @@ export default function LoginPage() {
             />
             <BlurReveal delay={160}>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                Authorized users sign in through the HACIEN ERP. Public visitors can start with RFQ,
+              Authorized users sign in through HACIEN Workspace. Public visitors can start with RFQ,
                 tracking, clarification, contact, and support.
               </p>
             </BlurReveal>
@@ -56,7 +56,7 @@ export default function LoginPage() {
                 rel={isErpExternal ? "noopener noreferrer" : undefined}
                 className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
               >
-                Sign in to ERP
+                Open Workspace
               </Link>
               <Link
                 href="/contact"
@@ -73,7 +73,7 @@ export default function LoginPage() {
                 Authorized access
               </div>
               <h2 className="mt-3 text-xl font-bold text-slate-950 sm:text-2xl">
-                HACIEN ERP access is controlled.
+                HACIEN Workspace access is controlled.
               </h2>
               <div className="mt-7 grid gap-3" aria-describedby="login-status">
                 <Link
@@ -82,7 +82,7 @@ export default function LoginPage() {
                   rel={isErpExternal ? "noopener noreferrer" : undefined}
                   className="button-glow rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white"
                 >
-                  Open ERP Login
+                  Open Workspace Login
                 </Link>
                 <Link href="/support" className="interactive-link rounded border border-slate-300 px-5 py-3 text-center text-sm font-bold text-slate-900">
                   Contact support

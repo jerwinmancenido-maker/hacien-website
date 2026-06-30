@@ -13,9 +13,9 @@ import { ProductGrid } from "@/components/ProductGrid";
 import { categories, products } from "@/data/products";
 
 export const metadata: Metadata = {
-  title: "IT Product Sourcing and RFQ Catalog Philippines | HACIEN",
+  title: "Representative Technology Categories | HACIEN",
   description:
-    "Browse HACIEN's RFQ-first IT product sourcing catalog for computers, servers, networking, licensed software, security, peripherals, UPS, accessories, and general merchandise in the Philippines.",
+    "Review representative HACIEN technology categories for enterprise computing, networking, software, security, storage, power, and RFQ preparation.",
 };
 
 const sourcingPrinciples = [
@@ -24,7 +24,7 @@ const sourcingPrinciples = [
     text: "The catalog helps buyers describe requirements. Stock, exact model, warranty, lead time, and pricing are confirmed during RFQ review.",
   },
   {
-    title: "Products are evaluated in context.",
+    title: "Technology choices are evaluated in context.",
     text: "A laptop, switch, firewall, UPS, license, or CCTV package is only useful when the site, users, compatibility, and delivery conditions are understood.",
   },
   {
@@ -48,17 +48,17 @@ export default function ProductsPage() {
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
             <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-              Products
+              Technology References
             </AnimatedContent>
             <SplitText
               as="h1"
-              text="What can be sourced through HACIEN."
+              text="Representative technology categories for RFQ review."
               className="mt-5 max-w-5xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
             />
             <BlurReveal delay={160}>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                Products are organized as a quote-first procurement catalog. Browse the classes,
-                build an RFQ, and let HACIEN validate supplier availability before any formal offer.
+                These categories help customers describe technology needs. They are not a public price list,
+                online store, or commitment of stock. HACIEN confirms commercial details through RFQ review.
               </p>
             </BlurReveal>
             <AnimatedContent delay={260} className="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -66,13 +66,13 @@ export default function ProductsPage() {
                 href="/quote"
                 className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
               >
-                Open RFQ Cart
+                Request Quote
               </Link>
               <Link
-                href="/solutions"
+                href="/technology"
                 className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
               >
-                Explore Solutions
+                Explore Technology
               </Link>
             </AnimatedContent>
           </div>
@@ -80,7 +80,7 @@ export default function ProductsPage() {
           <AnimatedContent delay={140} direction="left">
             <EnterprisePhotoPanel
               image="workstation"
-              eyebrow="RFQ Catalog"
+              eyebrow="Technology Reference"
               title="Categories that help buyers define capability."
               caption="HACIEN uses the catalog to clarify the business need before supplier availability, warranty, lead time, and final commercial terms are confirmed."
             />
@@ -91,7 +91,7 @@ export default function ProductsPage() {
       <section className="px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Sourcing Philosophy</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Technology Philosophy</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
               A catalog should help buyers ask better questions.
             </h2>
@@ -112,7 +112,7 @@ export default function ProductsPage() {
       <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Product Classes</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Technology Classes</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
               Representative categories for business, project, institutional, and government requirements.
             </h2>
@@ -188,7 +188,7 @@ export default function ProductsPage() {
                   Quote-first Commerce
                 </div>
                 <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
-                  Product discovery should lead to a better RFQ and a more accurate formal offer.
+                  Technology discovery should lead to a better RFQ and a more accurate formal offer.
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
                   Browse representative products, describe the requirement, attach files when needed,
