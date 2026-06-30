@@ -4,6 +4,8 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { QuoteCartProvider } from "@/components/QuoteCartProvider";
 
+export const revalidate = 300;
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://haciensolutions.com"),
   title: {
