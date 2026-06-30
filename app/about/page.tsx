@@ -6,10 +6,9 @@ import {
   BorderGlow,
   GradientBackground,
   Marquee,
-  SplitText,
   SpotlightCard,
 } from "@/app/components/reactbits";
-import { EnterprisePhotoPanel } from "@/components/EnterpriseImagery";
+import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { CapabilityResources, CompanyCredentials, FutureProofAssets, OurCommitment } from "@/components/TrustConfidence";
 
 export const metadata: Metadata = {
@@ -79,50 +78,20 @@ const focusAreas = [
 export default function AboutPage() {
   return (
     <>
-      <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-        <GradientBackground />
-        <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div>
-            <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-              About HACIEN
-            </AnimatedContent>
-            <SplitText
-              as="h1"
-              text="Building Better IT Procurement."
-              className="mt-5 max-w-4xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
-            />
-            <BlurReveal delay={160}>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                HACIEN Information Technology Solutions helps organizations plan, source, procure,
-                implement, and support technology projects through one organized workflow.
-              </p>
-            </BlurReveal>
-            <AnimatedContent delay={260} className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/quote"
-                className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
-              >
-                Start an RFQ
-              </Link>
-              <Link
-                href="/solutions"
-                className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
-              >
-                Explore Solutions
-              </Link>
-            </AnimatedContent>
-          </div>
-
-          <AnimatedContent delay={140} direction="left">
-            <EnterprisePhotoPanel
-              image="workspace"
-              eyebrow="Procurement Workflow"
-              title="From requirement to delivery, every step stays coordinated."
-              caption="HACIEN keeps buyer context, supplier inputs, quotation assumptions, and handover needs connected across the relationship."
-            />
-          </AnimatedContent>
-        </div>
-      </section>
+      <PremiumPageHero
+        eyebrow="Company"
+        title="Building better IT procurement."
+        description="HACIEN Information Technology Solutions helps organizations plan, source, procure, implement, and support technology projects through one organized workflow."
+        image="workspace"
+        primaryAction={{ href: "/quote", label: "Start an RFQ" }}
+        secondaryAction={{ href: "/solutions", label: "Explore Solutions" }}
+        highlights={[
+          { label: "Registered Identity", text: "Company identity is published only where supported by verified facts." },
+          { label: "Procurement Discipline", text: "Requirements, supplier inputs, assumptions, and handover stay connected." },
+          { label: "Customer Trust", text: "Every inquiry should make the next step clearer for the buyer." },
+          { label: "Operating Platform", text: "HACIEN uses its own Workspace, Timeline, and Guardian discipline." },
+        ]}
+      />
 
       <section className="px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">

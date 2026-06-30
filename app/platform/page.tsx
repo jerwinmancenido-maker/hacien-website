@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { EnterprisePhotoPanel } from "@/components/EnterpriseImagery";
 import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
+import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { SectionHeading } from "@/components/SectionHeading";
 
 export const metadata: Metadata = {
@@ -28,35 +27,20 @@ const operatingPrinciples = [
 export default function PlatformPage() {
   return (
     <>
-      <section className="bg-[#071426] px-4 py-24 text-white sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1fr] lg:items-center">
-          <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Platform</div>
-            <h1 className="mt-5 max-w-5xl text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
-              The operating platform behind HACIEN.
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-              HACIEN operates through its own enterprise platform for request intake, relationship memory,
-              operational guidance, and customer continuity. Future commercial availability will be announced
-              only when the platform has matured through real operations.
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/access" className="button-glow rounded-full bg-white px-6 py-3 text-center text-sm font-bold text-[#071426]">
-                Access HACIEN
-              </Link>
-              <Link href="/quote" className="interactive-link rounded-full border border-white/25 px-6 py-3 text-center text-sm font-bold text-white">
-                Request Quote
-              </Link>
-            </div>
-          </div>
-          <EnterprisePhotoPanel
-            image="network"
-            eyebrow="Connected Operations"
-            title="HACIEN is operated through the same platform discipline it is building."
-            caption="Workspace, Timeline, Guardian, and Customer Workspace exist to keep work connected, clear, and relationship-centered."
-          />
-        </div>
-      </section>
+      <PremiumPageHero
+        eyebrow="Platform"
+        title="The operating platform behind HACIEN."
+        description="HACIEN operates through its own enterprise platform for request intake, relationship memory, operational guidance, and future customer continuity."
+        image="network"
+        primaryAction={{ href: "/access", label: "Access HACIEN" }}
+        secondaryAction={{ href: "/quote", label: "Request Quote" }}
+        highlights={[
+          { label: "Workspace", text: "Secure internal operations for requests, reviews, and follow-up." },
+          { label: "Timeline", text: "Relationship memory for meaningful customer milestones." },
+          { label: "Guardian", text: "Operational guidance that helps prevent missed details." },
+          { label: "Customer Workspace", text: "Future continuity for tracking, documents, and support." },
+        ]}
+      />
 
       <AnimatedSection className="bg-white px-4 py-20 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">

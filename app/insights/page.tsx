@@ -2,13 +2,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   AnimatedContent,
-  BlurReveal,
   BorderGlow,
   GradientBackground,
-  SplitText,
   SpotlightCard,
 } from "@/app/components/reactbits";
-import { EnterprisePhotoPanel } from "@/components/EnterpriseImagery";
+import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { insights } from "@/data/insights";
 
 export const metadata: Metadata = {
@@ -30,50 +28,20 @@ const categories = Array.from(new Set(insights.map((insight) => insight.category
 export default function InsightsPage() {
   return (
     <>
-      <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
-        <GradientBackground />
-        <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
-          <div>
-            <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-              Insights
-            </AnimatedContent>
-            <SplitText
-              as="h1"
-              text="Procurement knowledge for better technology buying."
-              className="mt-5 max-w-5xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
-            />
-            <BlurReveal delay={160}>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-                Insights teach buyers how to prepare clearer requirements, compare options,
-                understand RFQs, and navigate procurement decisions with more confidence.
-              </p>
-            </BlurReveal>
-            <AnimatedContent delay={260} className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/quote"
-                className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
-              >
-                Prepare an RFQ
-              </Link>
-              <Link
-                href="/government-procurement"
-                className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
-              >
-                Government Resources
-              </Link>
-            </AnimatedContent>
-          </div>
-
-          <AnimatedContent delay={140} direction="left">
-            <EnterprisePhotoPanel
-              image="documentation"
-              eyebrow="Content Library"
-              title="Education that supports clearer RFQs and more confident technology buying."
-              caption="Insights are organized around buyer decisions: requirements, procurement readiness, infrastructure, cloud, cybersecurity, and best practices."
-            />
-          </AnimatedContent>
-        </div>
-      </section>
+      <PremiumPageHero
+        eyebrow="Insights"
+        title="Procurement knowledge for better technology buying."
+        description="Insights help buyers prepare clearer requirements, compare options, understand RFQs, and navigate technology decisions with more confidence."
+        image="documentation"
+        primaryAction={{ href: "/quote", label: "Prepare an RFQ" }}
+        secondaryAction={{ href: "/government-procurement", label: "Government Resources" }}
+        highlights={[
+          { label: "RFQ Preparation", text: "Practical guidance for clearer requirements and supplier review." },
+          { label: "Government Procurement", text: "Specification, equivalent, documentation, and quotation context." },
+          { label: "Infrastructure", text: "Technology foundations explained for better buying decisions." },
+          { label: "Best Practices", text: "Operational clarity for security, cloud, continuity, and support." },
+        ]}
+      />
 
       <section className="px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
