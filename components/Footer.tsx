@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export function Footer() {
@@ -5,7 +6,15 @@ export function Footer() {
     <footer className="border-t border-slate-200 bg-[#071426] text-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[1.25fr_0.85fr_0.9fr_0.9fr_1fr_0.85fr] lg:px-8">
         <div>
-          <div className="text-lg font-bold">HACIEN Information Technology Solutions</div>
+          <div className="inline-flex rounded bg-white px-3 py-2">
+            <Image
+              src="/brand/hacien-wordmark.png"
+              alt="HACIEN Information Technology Solutions"
+              width={300}
+              height={93}
+              className="h-auto w-[220px] object-contain sm:w-[260px]"
+            />
+          </div>
           <p className="mt-4 max-w-md text-sm leading-6 text-slate-300">
             Enterprise technology with operational clarity. HACIEN helps organizations move from requirement to review, quotation, delivery, and relationship continuity.
           </p>
