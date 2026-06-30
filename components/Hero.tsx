@@ -9,7 +9,7 @@ export function Hero() {
         <div className="flex flex-col justify-center">
           <FadeIn>
             <div className="mb-6 inline-flex w-fit rounded border border-blue-300/30 bg-white/8 px-4 py-2 text-sm font-semibold text-blue-100 backdrop-blur">
-              Public Headquarters · DTI verified
+              Public Headquarters · Verified company facts
             </div>
           </FadeIn>
           <SlideUp delay={80}>
@@ -19,7 +19,7 @@ export function Hero() {
           </SlideUp>
           <SlideUp delay={170}>
             <p className="mt-6 max-w-2xl text-xl leading-8 text-slate-200">
-              A calm entry point for RFQs, solutions consulting, technology sourcing, procurement coordination, and future customer visibility. HACIEN publishes verified DTI identity while keeping tax, permit, bank, and payment claims pending.
+              A calm entry point for RFQs, solutions consulting, technology sourcing, procurement coordination, and future customer visibility. HACIEN publishes verified DTI and BIR registration facts while keeping tax-readiness, permit, bank, and payment claims pending.
             </p>
           </SlideUp>
           <SlideUp delay={260}>
@@ -35,8 +35,8 @@ export function Hero() {
           <StaggerContainer className="mt-10 grid gap-3 sm:grid-cols-3">
             {[
               ["DTI identity", "Verified"],
+              ["BIR registration", "Verified facts"],
               ["RFQ path", "Available"],
-              ["Customer portal", "Planned only"],
             ].map(([label, value]) => (
               <div key={label} className="rounded border border-white/12 bg-white/[0.07] p-4 backdrop-blur">
                 <div className="text-xs font-bold uppercase tracking-[0.14em] text-blue-200">{label}</div>

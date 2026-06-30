@@ -10,7 +10,7 @@ export function Footer() {
             Procurement-first IT sourcing, solutions consulting, and customer-success oriented technology coordination for Philippine organizations.
           </p>
           <p className="mt-4 max-w-md rounded border border-white/10 bg-white/[0.05] p-3 text-xs leading-5 text-slate-300">
-            DTI business name registration is verified. HACIEN does not publish BIR, permit, bank, payment, or signatory claims until separately verified.
+            DTI and BIR registration facts are verified. HACIEN does not publish permit, bank, payment, signatory, or tax-readiness claims until separately verified.
           </p>
         </div>
         <div>

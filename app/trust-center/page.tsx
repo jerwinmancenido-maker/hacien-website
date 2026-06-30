@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const policyGroups = [
-  ["Company verification", "DTI verified", "HACIEN INFORMATION TECHNOLOGY SOLUTIONS is DTI-registered as a business name. BIR, permit, signatory, bank, and payment details remain unpublished until separately verified."],
+  ["Company verification", "DTI and BIR facts verified", "HACIEN INFORMATION TECHNOLOGY SOLUTIONS has verified DTI business name registration and BIR registration facts. Permit, signatory, bank, payment, and tax-readiness details remain unpublished until separately verified."],
   ["RFQ and quotation", "Draft framework", "RFQ submission starts review only. Formal quotation depends on supplier availability, warranty, lead time, and delivery context."],
   ["Payment instructions", "Blocked", "No public bank account or payment instruction is published until founder and finance verification is complete."],
   ["Warranty and returns", "Pending policy", "Warranty, replacement, and return terms depend on verified supplier and policy evidence."],
@@ -20,7 +20,7 @@ const policyGroups = [
 ];
 
 const documentRules = [
-  "DTI registration may appear here because it is verified; tax, permit, bank, payment, and certification claims remain unpublished without separate verification.",
+  "DTI and BIR registration facts may appear here because they are verified; tax-readiness, permit, bank, payment, and certification claims remain unpublished without separate verification.",
   "Every future policy should show owner, version, effective date, review date, and status.",
   "ERP documents should reference the policy version that applied when issued.",
   "Public pages should explain pending status instead of hiding it.",
@@ -57,6 +57,8 @@ export default function TrustCenterPage() {
               {[
                 ["DTI business name", "Verified"],
                 ["Business Name No.", "8278010"],
+                ["BIR registration facts", "Verified"],
+                ["Tax readiness", "Pending CPA review"],
                 ["Bank/payment instructions", "Not public"],
                 ["Portal", "Planned only"],
                 ["RFQ intake", "Available"],
