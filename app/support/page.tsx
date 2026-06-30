@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/reactbits";
+import { AnimatedContent, SpotlightCard } from "@/app/components/reactbits";
 import { ContactForm } from "@/components/ContactForm";
+import { enterpriseImages } from "@/components/EnterpriseImagery";
+import { PremiumPageHero } from "@/components/PremiumPageHero";
 
 export const metadata: Metadata = {
   title: "Support",
@@ -10,12 +12,12 @@ export const metadata: Metadata = {
 };
 
 const supportPaths = [
-  ["RFQ follow-up", "Clarify submitted requirements, quantities, deadlines, or product context.", "/quote"],
-  ["Procurement question", "Ask about supplier availability, equivalent options, or quotation assumptions.", "/contact"],
-  ["Delivery coordination", "Share delivery context or handover requirements for review.", "/contact"],
-  ["Warranty or replacement", "Route post-delivery questions with product, quotation, and delivery context.", "/contact"],
-  ["Supplier or partner", "Introduce supply, fulfillment, implementation, or service capability.", "/contact"],
-  ["Policy question", "Review the Trust Center status before relying on a commercial term.", "/trust-center"],
+  ["RFQ follow-up", "Clarify submitted requirements, quantities, deadlines, or product context.", "/quote", "documentation"],
+  ["Procurement question", "Ask about supplier availability, equivalent options, or quotation assumptions.", "/contact", "network"],
+  ["Delivery coordination", "Share delivery context or handover requirements for review.", "/contact", "cabling"],
+  ["Warranty or replacement", "Route post-delivery questions with product, quotation, and delivery context.", "/contact", "storage"],
+  ["Supplier or partner", "Introduce supply, fulfillment, implementation, or service capability.", "/contact", "workspace"],
+  ["Policy question", "Review Trust & Compliance before relying on a commercial term.", "/trust-center", "cybersecurity"],
 ];
 
 const expectations = [
@@ -30,29 +32,20 @@ export default function SupportPage() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8 lg:py-24">
-        <div className="absolute inset-0 hq-grid opacity-80" />
-        <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div>
-            <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
-              Support Desk
-            </AnimatedContent>
-            <h1 className="mt-5 max-w-5xl text-5xl font-bold tracking-tight sm:text-6xl">
-              Support begins by routing the question correctly.
-            </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-              HACIEN support is designed around procurement context: RFQ review, quotation assumptions, delivery coordination, warranty questions, and post-delivery follow-up.
-            </p>
-          </div>
-          <BorderGlow tone="dark" className="rounded-lg bg-white/[0.07] p-6">
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">Support Routing</div>
-            <h2 className="mt-4 text-2xl font-bold">Route the question, preserve the context, continue the relationship.</h2>
-            <p className="mt-4 text-sm leading-6 text-slate-300">
-              Use this page to choose the correct path. Formal response times, warranty terms, and escalation commitments are confirmed through written business communication.
-            </p>
-          </BorderGlow>
-        </div>
-      </section>
+      <PremiumPageHero
+        eyebrow="Support Desk"
+        title="Support begins by routing the question correctly."
+        description="HACIEN support is designed around procurement context: RFQ review, quotation assumptions, delivery coordination, warranty questions, and post-delivery follow-up."
+        image="workspace"
+        primaryAction={{ href: "#support-form", label: "Contact Support" }}
+        secondaryAction={{ href: "/quote", label: "Request Quote" }}
+        highlights={[
+          { label: "RFQ Follow-Up", text: "Continue from a reference or submitted requirement." },
+          { label: "Delivery", text: "Share handover, receiver, and site access context." },
+          { label: "Warranty", text: "Route warranty questions with product and quote context." },
+          { label: "Supplier", text: "Introduce capability through the right business channel." },
+        ]}
+      />
 
       <section className="px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
@@ -63,13 +56,27 @@ export default function SupportPage() {
             </h2>
           </AnimatedContent>
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {supportPaths.map(([title, text, href], index) => (
+            {supportPaths.map(([title, text, href, image], index) => (
               <AnimatedContent key={title} delay={index * 55}>
                 <Link href={href} className="group block h-full">
-                  <SpotlightCard className="h-full rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-                    <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#1457d9]">{title}</h3>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
-                    <div className="mt-5 text-sm font-bold text-[#1457d9]">Continue</div>
+                  <SpotlightCard className="h-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
+                    <div
+                      className="relative min-h-[170px]"
+                      style={{
+                        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.05), rgba(7, 20, 38, 0.76)), url(${enterpriseImages[image as keyof typeof enterpriseImages]})`,
+                        backgroundPosition: "center",
+                        backgroundSize: "cover",
+                      }}
+                    >
+                      <div className="absolute bottom-4 left-4 rounded border border-white/16 bg-white/12 px-3 py-2 text-xs font-bold uppercase tracking-[0.14em] text-white backdrop-blur">
+                        Support Path
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#1457d9]">{title}</h3>
+                      <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
+                      <div className="mt-5 text-sm font-bold text-[#1457d9]">Continue</div>
+                    </div>
                   </SpotlightCard>
                 </Link>
               </AnimatedContent>
@@ -89,7 +96,7 @@ export default function SupportPage() {
           <div className="grid gap-4">
             {expectations.map((expectation, index) => (
               <AnimatedContent key={expectation} delay={index * 70}>
-                <div className="rounded-lg border border-slate-200 bg-white p-5 shadow-sm">
+                <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
                   <div className="flex gap-4">
                     <div className="grid h-9 w-9 shrink-0 place-items-center rounded bg-[#071426] text-sm font-bold text-white">
                       {index + 1}
@@ -103,7 +110,7 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section className="px-4 py-18 sm:px-6 lg:px-8">
+      <section id="support-form" className="px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Contact Form</div>
