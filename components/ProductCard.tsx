@@ -3,6 +3,7 @@
 import Link from "next/link";
 import type { Product } from "@/data/products";
 import { categories } from "@/data/products";
+import { canCheckout, canRequestQuote } from "@/lib/products/purchase-mode";
 import { AnimatedCard } from "@/components/motion";
 
 export function ProductCard({ product }: { product: Product }) {
@@ -10,6 +11,10 @@ export function ProductCard({ product }: { product: Product }) {
   const productHref = category
     ? `/products/${category.slug}/${product.slug}`
     : `/product/${product.slug}`;
+  const modes = [
+    canRequestQuote(product) ? "RFQ" : null,
+    canCheckout(product) ? "Cart/Checkout" : null,
+  ].filter(Boolean) as string[];
 
   return (
     <AnimatedCard className="surface lift flex h-full flex-col overflow-hidden rounded-lg">
@@ -18,12 +23,15 @@ export function ProductCard({ product }: { product: Product }) {
           <div className="absolute inset-0 animated-grid" />
           <div className="absolute inset-x-5 bottom-5 rounded border border-white/70 bg-white/85 p-4 backdrop-blur">
             <div className="text-xs font-semibold uppercase text-slate-500">{category?.name}</div>
-            <div className="mt-1 text-sm font-bold text-slate-950">RFQ-ready capability</div>
+            <div className="mt-1 text-sm font-bold text-slate-950">{modes.length > 0 ? modes.join(" / ") : "RFQ-ready"}</div>
           </div>
         </div>
       </Link>
       <div className="flex flex-1 flex-col p-5">
-        <div className="text-xs font-semibold text-[#1457d9]">{product.availability}</div>
+          <div className="flex items-center justify-between gap-2 text-xs font-semibold text-[#1457d9]">
+            <span>{product.availability}</span>
+            <span>{modes.length > 0 ? modes.join(" + ") : "RFQ"}</span>
+          </div>
         <Link href={productHref}>
           <h3 className="mt-2 text-lg font-bold text-slate-950 hover:text-[#1457d9]">{product.name}</h3>
         </Link>
@@ -31,8 +39,8 @@ export function ProductCard({ product }: { product: Product }) {
         <div className="mt-5 flex items-end justify-between gap-4">
           <div>
             <div className="text-xs text-slate-500">Commercial path</div>
-            <div className="font-bold text-slate-950">Formal RFQ review</div>
-            <div className="mt-1 text-xs text-slate-500">Availability confirmed before quotation</div>
+            <div className="font-bold text-slate-950">{modes.length > 0 ? modes.join(" + ") : "RFQ"}</div>
+            <div className="mt-1 text-xs text-slate-500">Availability and terms confirmed before quotation</div>
           </div>
           <Link
             href={productHref}

@@ -1,12 +1,41 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import type { Product } from "@/data/products";
 import { getCategory } from "@/data/products";
-import { SlideUp, StaggerContainer } from "@/components/motion";
+import { SlideUp } from "@/components/motion";
+import { canCheckout, canRequestQuote, formatPrice } from "@/lib/products/purchase-mode";
+import { useQuoteCart } from "@/components/QuoteCartProvider";
 
 export function ProductDetail({ product }: { product: Product }) {
   const category = getCategory(product.categorySlug);
+  const { addRequirement } = useQuoteCart();
+  const [added, setAdded] = useState(false);
+  const [cartNotice, setCartNotice] = useState("");
+  const priceText = formatPrice(product);
+
+  function handleAddToRfq() {
+    addRequirement({
+      category: product.categorySlug,
+      categoryLabel: category?.name ?? "Technology",
+      quantity: "1",
+      brandPreference: "Any suitable option",
+      equivalentAccepted: "Yes, equivalent options may be reviewed",
+      notes: `${product.name} (${product.id}) - ${product.shortDescription}`,
+      fields: {
+        "Reference product": product.name,
+        "Product ID": product.id,
+        Unit: product.unit,
+        Availability: product.availability,
+      },
+    });
+    setAdded(true);
+  }
+
+  function handleAddToCart() {
+    setCartNotice("Cart checkout is being prepared. Please request quote while checkout remains disabled.");
+  }
 
   return (
     <section className="bg-white">
@@ -30,7 +59,7 @@ export function ProductDetail({ product }: { product: Product }) {
         <div>
           <div className="text-sm font-semibold text-[#1457d9]">{category?.name}</div>
           <h1 className="mt-3 text-4xl font-bold tracking-tight text-slate-950">{product.name}</h1>
-          <p className="mt-5 text-lg leading-8 text-slate-600">{product.shortDescription}</p>
+          <p className="mt-5 text-lg leading-8 text-slate-600">{product.longDescription}</p>
 
           <div className="mt-8 rounded-lg border border-slate-200 bg-slate-50 p-5">
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Quotation context</div>
@@ -56,14 +85,47 @@ export function ProductDetail({ product }: { product: Product }) {
 
           <div className="mt-8">
             <h2 className="font-bold text-slate-950">Typical sourcing targets</h2>
-            <StaggerContainer className="mt-4 grid gap-3 text-sm text-slate-700">
+            <ul className="mt-4 grid gap-3 text-sm text-slate-700">
               {product.specs.map((spec) => (
                 <li key={spec} className="flex gap-3">
                   <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#1457d9]" />
                   <span>{spec}</span>
                 </li>
               ))}
-            </StaggerContainer>
+            </ul>
+          </div>
+
+          <div className="mt-8 overflow-hidden rounded-lg border border-slate-200">
+            <div className="border-b border-slate-200 bg-slate-50 px-5 py-4">
+              <h2 className="font-bold text-slate-950">Technical specification table</h2>
+              <p className="mt-1 text-sm leading-6 text-slate-600">
+                These are RFQ planning targets, not guaranteed stock, pricing, or final model commitments.
+              </p>
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[520px] border-collapse text-left text-sm">
+                <thead className="bg-white text-xs uppercase tracking-[0.12em] text-slate-500">
+                  <tr>
+                    <th scope="col" className="border-b border-slate-200 px-5 py-3 font-bold">
+                      Field
+                    </th>
+                    <th scope="col" className="border-b border-slate-200 px-5 py-3 font-bold">
+                      RFQ target
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 bg-white">
+                  {product.technicalSpecs.map((spec) => (
+                    <tr key={spec.label}>
+                      <th scope="row" className="w-48 px-5 py-4 align-top font-semibold text-slate-950">
+                        {spec.label}
+                      </th>
+                      <td className="px-5 py-4 leading-6 text-slate-600">{spec.value}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           <div className="mt-8 rounded border border-blue-100 bg-blue-50 p-5 text-sm leading-6 text-slate-700">
@@ -71,19 +133,48 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            {canRequestQuote(product) ? (
+              <button
+                type="button"
+                onClick={handleAddToRfq}
+                className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white hover:bg-[#0f46b4]"
+              >
+                Add to RFQ
+              </button>
+            ) : null}
+            {canCheckout(product) ? (
+              <button
+                type="button"
+                onClick={handleAddToCart}
+                className="interactive-link focus-ring rounded border border-emerald-200 bg-emerald-50 px-5 py-3 text-sm font-bold text-[#1457d9]"
+              >
+                Add to Cart
+              </button>
+            ) : null}
             <Link
               href="/quote"
-              className="button-glow rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white hover:bg-[#0f46b4]"
+              className="interactive-link focus-ring rounded border border-slate-300 px-5 py-3 text-sm font-bold text-slate-900"
             >
-              Request this technology
+              Continue to RFQ
             </Link>
             <Link
               href="/products"
-              className="interactive-link rounded border border-slate-300 px-5 py-3 text-sm font-bold text-slate-900"
+              className="interactive-link focus-ring rounded border border-slate-300 px-5 py-3 text-sm font-bold text-slate-900"
             >
               View technology areas
             </Link>
           </div>
+          {priceText ? <p className="mt-4 text-sm font-semibold text-slate-900">Starting at {priceText}</p> : null}
+          {added ? (
+            <p className="mt-4 rounded border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700">
+              Added to the RFQ package. Continue to RFQ when ready to submit.
+            </p>
+          ) : null}
+          {cartNotice ? (
+            <p className="mt-4 rounded border border-blue-200 bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-800">
+              {cartNotice}
+            </p>
+          ) : null}
         </div>
         </SlideUp>
       </div>
