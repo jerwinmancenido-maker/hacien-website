@@ -153,7 +153,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
 
   if (status === "success") {
     return (
-      <div className="surface motion-slide-up mx-auto max-w-3xl rounded-2xl p-8 text-center">
+      <div className="surface min-w-0 motion-slide-up mx-auto max-w-3xl rounded-2xl p-8 text-center">
         <div className="text-sm font-bold uppercase tracking-[0.18em] text-[#1457d9]">
           RFQ request received
         </div>
@@ -183,7 +183,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
 
   if (status === "error") {
     return (
-      <div className="surface motion-slide-up mx-auto max-w-3xl rounded-2xl p-8 text-center">
+      <div className="surface min-w-0 motion-slide-up mx-auto max-w-3xl rounded-2xl p-8 text-center">
         <div className="text-sm font-bold uppercase tracking-[0.18em] text-red-600">
           Unable to send
         </div>
@@ -205,7 +205,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr]">
-      <div className="surface rounded-2xl p-6 sm:p-8">
+      <div className="surface min-w-0 rounded-2xl p-6 sm:p-8">
         <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Gateway Package</div>
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-950">Universal RFQ intake</h2>
         <p className="mt-2 text-sm leading-6 text-slate-600">
@@ -322,7 +322,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         onFocusCapture={markFormStarted}
         onChangeCapture={markFormStarted}
         onSubmit={handleSubmit}
-        className="surface rounded-2xl p-6 sm:p-8"
+        className="surface min-w-0 rounded-2xl p-6 sm:p-8"
       >
         <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Customer Details</div>
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-950">Request a formal quotation review</h2>
