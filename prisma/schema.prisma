@@ -1,0 +1,386 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PurchaseMode {
+  rfq
+  checkout
+  hybrid
+}
+
+enum ProductStatus {
+  draft
+  published
+  archived
+}
+
+enum FulfillmentType {
+  manual
+  digital
+  license
+  shipment
+  service
+}
+
+enum InventoryPolicy {
+  not_tracked
+  track_stock
+  preorder
+  rfq_required
+}
+
+enum OrderStatus {
+  draft
+  pending_payment
+  payment_review
+  paid
+  processing
+  fulfilled
+  cancelled
+  refunded
+}
+
+enum CustomerRole {
+  owner
+  buyer
+  viewer
+}
+
+enum AdminRole {
+  admin
+  operations
+  catalog_manager
+}
+
+enum TaxMode {
+  not_configured
+  included
+  exclusive
+}
+
+enum PaymentStatus {
+  pending
+  pending_review
+  succeeded
+  failed
+  cancelled
+}
+
+enum PaymentMethod {
+  manual
+  sandbox_gateway
+  manual_bank_transfer
+}
+
+enum SubscriptionStatus {
+  active
+  paused
+  cancelled
+  expired
+}
+
+enum SupportPriority {
+  low
+  medium
+  high
+  urgent
+}
+
+model User {
+  id               String          @id @default(cuid())
+  email            String          @unique
+  name             String
+  phone            String?
+  isActive         Boolean         @default(true)
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+  memberships      OrganizationMember[]
+  customerProfiles CustomerProfile[]
+  carts            Cart[]
+  orders           Order[]
+  auditEvents      AuditEvent[]    @relation("AuditActor")
+  paymentRecords   Payment[]
+  subscriptions    Subscription[]
+  supportTickets   SupportTicket[]
+}
+
+model Organization {
+  id            String            @id @default(cuid())
+  name          String
+  legalName     String?
+  phone         String?
+  email         String?
+  address       String?
+  taxReference  String?
+  isActive      Boolean           @default(true)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  members       OrganizationMember[]
+  profiles      CustomerProfile[]
+  carts         Cart[]
+  orders        Order[]
+  subscriptions Subscription[]
+  invoices      InvoiceRecord[]
+  supportTickets SupportTicket[]
+  rfqReferences RfqReference[]
+}
+
+model OrganizationMember {
+  id             String         @id @default(cuid())
+  organization   Organization   @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId         String
+  role           CustomerRole   @default(buyer)
+  isPrimary      Boolean        @default(false)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  @@unique([organizationId, userId])
+}
+
+model CustomerProfile {
+  id              String       @id @default(cuid())
+  userId          String       @unique
+  user            User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationId  String
+  organization    Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationName String?
+  jobTitle        String?
+  department      String?
+  source          String?
+  status          String       @default("pending_verification")
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+}
+
+model ProductCategory {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  summary     String
+  heroCopy    String
+  accent      String?
+  seoTitle    String
+  seoDescription String
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[]
+}
+
+model Product {
+  id               String         @id @default(cuid())
+  slug             String         @unique
+  categoryId       String
+  category         ProductCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  name             String
+  shortDescription String
+  longDescription  String
+  specs            String         @default("[]")
+  technicalSpecs   String         @default("[]")
+  procurementNotes String
+  purchaseMode     PurchaseMode    @default(rfq)
+  status           ProductStatus   @default(draft)
+  fulfillmentType   FulfillmentType @default(manual)
+  inventoryPolicy   InventoryPolicy @default(rfq_required)
+  priceCents       Int?
+  currency         String         @default("PHP")
+  taxMode          TaxMode        @default(not_configured)
+  rfqRequiredReason String?
+  unit             String
+  availability     String
+  sourceProductId   String         @unique
+  publishedAt      DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  variants         ProductVariant[]
+  orderItems       OrderItem[]
+}
+
+model ProductVariant {
+  id             String         @id @default(cuid())
+  product        Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId      String
+  sku            String         @unique
+  name           String
+  imageUrl       String?
+  isDefault      Boolean        @default(false)
+  isActive       Boolean        @default(true)
+  priceCents     Int?
+  unitPriceCents Int?
+  currency       String         @default("PHP")
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  cartItems      CartItem[]
+  orderItems     OrderItem[]
+  @@index([productId])
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationId String
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  status    String     @default("active")
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  items     CartItem[]
+}
+
+model CartItem {
+  id        String    @id @default(cuid())
+  cartId    String
+  cart      Cart      @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  variantId String
+  variant   ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  quantity  Int
+  notes     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  @@unique([cartId, variantId])
+}
+
+model Order {
+  id            String      @id @default(cuid())
+  organization  Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  user          User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId        String?
+  paymentMode   String      @default("manual")
+  status        OrderStatus @default(draft)
+  subtotalCents Int
+  discountCents Int         @default(0)
+  taxCents      Int         @default(0)
+  totalCents    Int
+  currency      String      @default("PHP")
+  externalReference String?
+  sourceUrl     String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  items         OrderItem[]
+  payments      Payment[]
+  rfqReferences RfqReference[]
+  auditEvents   AuditEvent[]
+  invoices      InvoiceRecord[]
+}
+
+model OrderItem {
+  id            String   @id @default(cuid())
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId       String
+  productId     String?
+  product       Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  variantId     String?
+  variant       ProductVariant? @relation(fields: [variantId], references: [id], onDelete: SetNull)
+  snapshotName  String
+  snapshotSku   String
+  snapshotUnitPriceCents Int
+  quantity      Int
+  taxMode       TaxMode
+  createdAt     DateTime @default(now())
+}
+
+model Payment {
+  id          String       @id @default(cuid())
+  order       Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId     String
+  user        User?        @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId      String?
+  method      PaymentMethod
+  status      PaymentStatus @default(pending)
+  amountCents Int
+  currency    String        @default("PHP")
+  gatewayRef  String?
+  gatewayName String?
+  referenceNumber String?
+  requestData Json?
+  responseData Json?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+}
+
+model InvoiceRecord {
+  id           String    @id @default(cuid())
+  order        Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  orderId      String
+  @@unique([orderId])
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  invoiceNumber String? @unique
+  status       String    @default("pending")
+  issueDate    DateTime?
+  dueDate      DateTime?
+  totalCents   Int
+  currency     String    @default("PHP")
+  remarks      String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Subscription {
+  id            String    @id @default(cuid())
+  organization  Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String
+  name          String
+  status        SubscriptionStatus @default(active)
+  startsAt      DateTime?
+  endsAt        DateTime?
+  renewalCycle  String?
+  amountCents   Int?
+  currency      String      @default("PHP")
+  metadata      Json?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
+
+model RfqReference {
+  id                 String    @id @default(cuid())
+  organization       Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId     String
+  order              Order?    @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  orderId            String?
+  externalReference   String    @unique
+  status             String    @default("received")
+  requestPayload      Json
+  responsePayload     Json?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+}
+
+model SupportTicket {
+  id                 String   @id @default(cuid())
+  organization       Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  organizationId     String
+  user               User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userId             String?
+  subject            String
+  description        String
+  priority           SupportPriority @default(medium)
+  status             String    @default("open")
+  source             String?
+  channel            String?
+  externalReference   String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model AuditEvent {
+  id         String   @id @default(cuid())
+  actor      User?    @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+  actorId    String?
+  order      Order?   @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  orderId    String?
+  action     String
+  entity     String
+  entityId   String
+  details    Json?
+  createdAt  DateTime @default(now())
+}

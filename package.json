@@ -12,6 +12,10 @@
     "prebuild": "npm run validate",
     "crawl": "node scripts/crawl-routes.mjs",
     "smoke:production": "node scripts/production-smoke.mjs",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:seed": "tsx scripts/seed-ecommerce-products.ts",
+    "db:studio": "prisma studio",
     "teammate:doctor": "node tools/teammate-doctor.js",
     "visual:audit": "node tools/visual-audit.js",
     "visual:audit:update": "node tools/visual-audit.js --update-baselines",
@@ -23,6 +27,7 @@
   "dependencies": {
     "next": "16.2.9",
     "nodemailer": "^9.0.1",
+    "@prisma/client": "^6.16.0",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
@@ -33,6 +38,7 @@
     "@types/nodemailer": "^8.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "prisma": "^6.16.0",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
     "tailwindcss": "^4",
