@@ -4,10 +4,10 @@ import { BorderGlow, SpotlightCard } from "@/app/components/reactbits";
 
 const commitments = [
   ["Clear communication", "Requirements, timelines, assumptions, and open questions should be visible before quotation work moves forward."],
-  ["Transparent quotations", "Quoted items should be backed by supplier-confirmed availability, warranty, lead time, and delivery context where applicable."],
-  ["Procurement accountability", "HACIEN keeps the discussion tied to documents, specifications, supplier inputs, and practical handover needs."],
+  ["Transparent quotations", "Quoted items should be backed by request-specific supplier inputs, warranty evidence, lead time, and delivery context where applicable."],
+  ["Procurement accountability", "HACIEN keeps the discussion tied to documents, specifications, supplier inputs, and practical handover needs without treating unverified inputs as final."],
   ["Practical recommendations", "Recommendations should fit the buyer's environment, not simply push a product class or brand preference."],
-  ["Long-term support", "Delivery, warranty, renewal, replacement, and support conversations should remain connected after the first transaction."],
+  ["Long-term support", "Delivery, warranty, renewal, replacement, and support conversations should remain connected when formal transaction context exists."],
   ["Continuous improvement", "Customer follow-up should become clearer every time HACIEN learns from real procurement work."],
 ];
 
@@ -15,7 +15,7 @@ const resources = [
   ["Company Profile", "Available", "A public overview of HACIEN's company information, positioning, services, and contact details."],
   ["Capability Statement", "Upon request", "A concise buyer-facing summary of service coverage, procurement support, and operating focus."],
   ["Service Overview", "Upon request", "A service overview for IT infrastructure, integration, sourcing, delivery, and support."],
-  ["Product Catalog", "RFQ-based", "A structured product category reference. Final pricing, stock, warranty, and models are confirmed through quotation review."],
+  ["Product Catalog", "RFQ-based", "A structured product category reference. Final pricing, stock, warranty, and models require request-specific supplier evidence and quotation review."],
   ["Government Procurement Support", "Available", "Guidance for specification review, equivalent matching, documentation, and quotation preparation."],
 ];
 
@@ -23,12 +23,12 @@ const journey = [
   ["Initial discussion", "Confirm buyer context, urgency, location, and procurement path."],
   ["Requirement gathering", "Collect product list, BOQ, specifications, quantities, constraints, and target delivery needs."],
   ["Technical review", "Check completeness, compatibility, equivalents, and questions that may affect quotation quality."],
-  ["Supplier sourcing", "Coordinate supplier availability, warranty, lead time, and commercial conditions."],
-  ["Quotation", "Prepare formal quotation support using verified inputs and stated assumptions."],
+  ["Supplier sourcing", "Review supplier availability, warranty, lead time, and commercial-condition inputs where available."],
+  ["Quotation", "Prepare quotation support using reviewed inputs and stated assumptions."],
   ["Approval", "Support buyer review, clarification, and selected offer confirmation."],
-  ["Procurement", "Coordinate ordering, documentation, supplier communication, and fulfillment readiness."],
-  ["Delivery", "Align logistics, receiving requirements, handover details, and implementation context."],
-  ["Ongoing support", "Keep warranty, renewal, replacement, and follow-up needs visible after delivery."],
+  ["Procurement", "Coordinate ordering and documentation only when formal transaction terms support it."],
+  ["Delivery", "Align logistics, receiving requirements, handover details, and implementation context when delivery is in scope."],
+  ["Ongoing support", "Keep warranty, renewal, replacement, and follow-up needs visible when post-delivery context exists."],
 ];
 
 export function OurCommitment({ className = "" }: { className?: string }) {
@@ -175,7 +175,7 @@ export function TrustCta() {
                 Have a requirement that needs careful review before quotation?
               </h2>
               <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
-                Send the requirement, specification, quantity, deadline, and delivery context. HACIEN will help organize the next supplier-ready step.
+                Send the requirement, specification, quantity, deadline, and delivery context. HACIEN will help organize the next review-ready step.
               </p>
             </div>
             <Link href="/quote" className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#071426]">

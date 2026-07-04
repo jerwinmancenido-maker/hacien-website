@@ -74,7 +74,7 @@ export function TechnologyEcosystem() {
           image="silicon"
           eyebrow="Procurement Clarity"
           title="Better quotations start with better requirements."
-          caption="HACIEN keeps the buyer focused on context, assumptions, equivalents, supplier readiness, and the next practical step."
+          caption="HACIEN keeps the buyer focused on context, assumptions, equivalents, supplier-input review, and the next practical step."
         />
       </div>
     </AnimatedSection>

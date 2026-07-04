@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { SectionHeading } from "@/components/SectionHeading";
-import { companyContact } from "@/data/companyContact";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -20,7 +19,7 @@ const sections: PrivacySection[] = [
   {
     title: "1. Core Privacy Principles",
     paragraphs: [
-      "In compliance with the Data Privacy Act of 2012, HACIEN adheres to the following fundamental data privacy principles:",
+      "This policy describes how HACIEN intends to handle public website, inquiry, RFQ, and support data under the principles of transparency, legitimate purpose, and proportionality.",
     ],
     bullets: [
       {
@@ -87,7 +86,7 @@ const sections: PrivacySection[] = [
     bullets: [
       {
         label: "Direct Interactions",
-        text: "You fill out forms on our Website, upload files through the RFQ Gateway, send emails to @haciensolutions.com addresses, or communicate with HACIEN's sales team via phone or chat.",
+        text: "You fill out forms on our Website, upload files through the RFQ Gateway, or communicate through a public HACIEN inquiry path.",
       },
       {
         label: "Automated Technologies",
@@ -104,7 +103,7 @@ const sections: PrivacySection[] = [
     bullets: [
       {
         label: "Performance of a Contract or Pre-Contractual Steps",
-        text: "Reviewing BOQs, specification sheets, and project scopes; checking inventory and pricing; formulating quotations; preparing delivery receipts, packing lists, and sales invoices; arranging transport; activating warranties; and managing returned merchandise authorizations.",
+        text: "Reviewing BOQs, specification sheets, and project scopes; preparing RFQ context; routing clarification; and preparing request-specific quotation or support communication where appropriate.",
       },
       {
         label: "Legitimate Business Interests",
@@ -112,7 +111,7 @@ const sections: PrivacySection[] = [
       },
       {
         label: "Compliance with Legal and Tax Obligations",
-        text: "Recording corporate buyer details, tax identification numbers, and BIR Form 2307 certificates for BIR reporting and audit regulations, reporting security incidents or cyber-attacks, and complying with lawful warrants issued by Philippine courts or the National Privacy Commission.",
+        text: "Handling records, security incidents, lawful requests, and regulatory obligations when applicable to a specific inquiry, transaction, or legal requirement.",
       },
     ],
   },
@@ -121,11 +120,11 @@ const sections: PrivacySection[] = [
     bullets: [
       {
         label: "Secure Storage",
-        text: "Files uploaded through the RFQ Gateway, such as Excel files, PDFs, Word documents, and CAD diagrams, are stored in secure cloud systems or private server directories. Access is restricted to HACIEN's technical estimators, sales managers, and designated engineers.",
+        text: "Files uploaded through the RFQ Gateway, such as Excel files, PDFs, Word documents, and CAD diagrams, are stored in website/RFQ systems or private working systems used for request review. Access should be limited to personnel involved in the inquiry or quotation review.",
       },
       {
         label: "Confidentiality",
-        text: "Documents containing proprietary network designs, infrastructure plans, or project specifications are treated as strictly confidential and will not be disclosed to competitors or third parties, except for authorized distributors or OEMs required to price the proposal.",
+        text: "Documents containing proprietary network designs, infrastructure plans, or project specifications should be handled as confidential inquiry material and shared only when needed for request review, quotation preparation, supplier coordination, or legal requirements.",
       },
       {
         label: "Prohibited Uploads",
@@ -199,15 +198,15 @@ const sections: PrivacySection[] = [
     bullets: [
       {
         label: "Active Retention",
-        text: "We retain client records and communication history as long as the corporate relationship is active or as long as needed to fulfill warranties, service agreements, and support histories.",
+        text: "HACIEN retains inquiry, RFQ, support, and relationship records only as long as needed for the relevant business, legal, operational, or support purpose.",
       },
       {
         label: "Tax Retention",
-        text: "In compliance with Philippine tax laws, accounting invoices, transaction ledgers, and matching client data are retained for up to ten years.",
+        text: "Where a formal transaction creates accounting, tax, or legal records, retention requirements are handled according to the applicable law, formal document, and finance/accounting review.",
       },
       {
         label: "Secure Disposal",
-        text: "Physical files are disposed of through secure shredding. Digital records are permanently purged, deleted, or anonymized from active databases using secure deletion protocols.",
+        text: "Records that no longer need to be retained should be deleted, anonymized, or disposed of using an appropriate method for the record type.",
       },
     ],
   },
@@ -230,15 +229,15 @@ const sections: PrivacySection[] = [
   {
     title: "12. How to Exercise Your Rights",
     paragraphs: [
-      `To exercise any data subject right, submit a written request to HACIEN at ${companyContact.email}.`,
-      "To protect privacy and security, HACIEN will verify the requester's identity by requesting a government-issued ID or official corporate authorization letter. HACIEN will respond to valid requests within thirty calendar days from receipt unless the complexity of the request requires an extension.",
+      "To exercise any data subject right, submit a request through HACIEN's public contact path and clearly identify the privacy request.",
+      "To protect privacy and security, HACIEN may verify the requester's identity before acting on the request. Response timing depends on the nature of the request and applicable law.",
     ],
   },
   {
     title: "13. Data Breach and Security Incident Protocol",
     paragraphs: [
-      "In the event of a security incident or data breach involving personal information, HACIEN will immediately contain the breach and assess the impact.",
-      "If the breach involves sensitive personal information that may pose a risk to the rights of affected data subjects, HACIEN will notify the National Privacy Commission and affected individuals within seventy-two hours of discovery, in compliance with applicable NPC circulars.",
+      "In the event of a security incident or data breach involving personal information, HACIEN will assess the incident, take appropriate containment steps, and handle notifications required by applicable law.",
+      "Public privacy statements remain bounded to the website and inquiry paths and do not replace any specific agreement, legal requirement, or regulator instruction.",
     ],
   },
   {
@@ -276,17 +275,12 @@ export default function PrivacyPage() {
               ))}
             </div>
             <p className="mt-4">
-              HACIEN is committed to protecting the privacy of customers, suppliers, partners, and
-              website visitors in compliance with the Data Privacy Act of 2012, Republic Act No.
-              10173, its Implementing Rules and Regulations, and applicable circulars and advisories
-              issued by the National Privacy Commission of the Republic of the Philippines.
+              HACIEN handles public inquiry, RFQ, support, and website data with care and keeps
+              public privacy statements tied to website and inquiry use.
             </p>
             <p className="mt-4">
-              The official contact for privacy and data protection queries is{" "}
-              <a className="font-semibold text-[#1457d9]" href={`mailto:${companyContact.email}`}>
-                {companyContact.email}
-              </a>
-              .
+              For privacy and data protection questions, use the public contact path so the request can
+              be routed for review.
             </p>
           </div>
 
@@ -329,7 +323,7 @@ export default function PrivacyPage() {
             This public policy is intended for website and inquiry use. Specific customer contracts,
             master service agreements, non-disclosure agreements, supplier agreements, or formal
             government procurement projects may contain additional privacy, confidentiality, and data
-            handling clauses. In the event of a conflict, the terms of the specific signed agreement
+            handling clauses. In the event of a conflict, the terms of the specific written agreement
             shall supersede this online policy.
           </p>
         </div>
