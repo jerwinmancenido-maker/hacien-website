@@ -11,8 +11,8 @@ export function Footer() {
             <Image
               src="/brand/hacien-wordmark-light.png"
               alt="HACIEN Information Technology Solutions"
-              width={4096}
-              height={1289}
+              width={280}
+              height={88}
               className="h-auto w-[230px] object-contain sm:w-[280px]"
             />
             <p className="mt-4 max-w-lg text-sm leading-6 text-slate-300">
