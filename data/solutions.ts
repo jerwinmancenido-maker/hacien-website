@@ -29,7 +29,7 @@ export const solutions: Solution[] = [
     shortTitle: "Infrastructure",
     category: "Core",
     summary: "Infrastructure RFQ review for endpoints, servers, networking, power, and site connectivity.",
-    heroCopy: "Prepare reliable IT infrastructure requirements for supplier-ready review with HACIEN.",
+    heroCopy: "Prepare reliable IT infrastructure requirements for supplier-input review with HACIEN.",
     detail:
       "HACIEN supports IT infrastructure RFQ preparation from bill-of-materials review through supplier-input review and delivery planning. Whether you are upgrading a branch office network, planning a server room, or refreshing workstations across a facility, we help translate requirements into quotation-ready context.",
     outcomes: [
@@ -39,7 +39,7 @@ export const solutions: Solution[] = [
       "Power and UPS planning",
       "Cabling and structured connectivity context",
     ],
-    workflow: ["Assess requirements", "Map equipment", "Source suppliers", "Coordinate delivery"],
+    workflow: ["Assess requirements", "Map equipment", "Review inputs", "Plan delivery context"],
     sections: [
       {
         heading: "What infrastructure procurement covers",
@@ -68,9 +68,9 @@ export const solutions: Solution[] = [
     shortTitle: "Procurement",
     category: "Core",
     summary: "RFQ-ready review for hardware, software, accessories, warranties, and project materials.",
-    heroCopy: "Turn your IT requirements list into a supplier-ready procurement package.",
+    heroCopy: "Turn your IT requirements list into a review-ready procurement package.",
     detail:
-      "HACIEN helps buyers translate technical requirements into supplier-ready requests, compare available options when evidence is available, and organize quotation inputs for business and institutional purchasing.",
+      "HACIEN helps buyers translate technical requirements into review-ready requests, compare available options when evidence is available, and organize quotation inputs for business and institutional purchasing.",
     outcomes: [
       "Supplier availability review",
       "Approved equivalent matching",
@@ -78,7 +78,7 @@ export const solutions: Solution[] = [
       "Quotation input preparation",
       "Multi-item RFQ coordination",
     ],
-    workflow: ["Clarify specs", "Source suppliers", "Compare options", "Prepare quotation"],
+    workflow: ["Clarify specs", "Review inputs", "Compare options", "Prepare quotation"],
     sections: [
       {
         heading: "Hardware sourcing",
@@ -117,7 +117,7 @@ export const solutions: Solution[] = [
       "Handover planning",
       "Rollout sequencing",
     ],
-    workflow: ["Plan rollout", "Prepare materials", "Coordinate setup", "Document handover"],
+    workflow: ["Plan rollout", "Prepare materials", "Review setup context", "Document handover"],
     sections: [
       {
         heading: "What systems integration means for procurement",
@@ -156,7 +156,7 @@ export const solutions: Solution[] = [
       "Replacement sourcing",
       "Recurring requirement review",
     ],
-    workflow: ["Log requirements", "Prioritize needs", "Source items", "Coordinate fulfillment"],
+    workflow: ["Log requirements", "Prioritize needs", "Review item context", "Route fulfillment context"],
     sections: [
       {
         heading: "Lifecycle procurement support",
@@ -195,7 +195,7 @@ export const solutions: Solution[] = [
       "Structured cabling materials",
       "PoE and power planning",
     ],
-    workflow: ["Review site needs", "Map equipment", "Validate specs", "Coordinate delivery"],
+    workflow: ["Review site needs", "Map equipment", "Validate specs", "Plan delivery context"],
     sections: [
       {
         heading: "Switching and access layer",
@@ -312,7 +312,7 @@ export const solutions: Solution[] = [
       "Security software licensing",
       "Cybersecurity accessory planning",
     ],
-    workflow: ["Assess threat profile", "Identify solutions", "Source products", "Prepare quotation"],
+    workflow: ["Assess threat profile", "Identify solutions", "Review product context", "Prepare quotation"],
     sections: [
       {
         heading: "Endpoint protection",
@@ -343,7 +343,7 @@ export const solutions: Solution[] = [
     summary: "CCTV, access control, endpoint protection, and site security technology RFQ review.",
     heroCopy: "Site security technology requirements, from cameras to access control.",
     detail:
-      "Security and surveillance projects need clear retention, coverage, cabling, and warranty assumptions. HACIEN helps convert site security needs into supplier-ready request context covering CCTV cameras, NVR/DVR systems, access control hardware, and monitoring infrastructure.",
+      "Security and surveillance projects need clear retention, coverage, cabling, and warranty assumptions. HACIEN helps convert site security needs into review-ready request context covering CCTV cameras, NVR/DVR systems, access control hardware, and monitoring infrastructure.",
     outcomes: [
       "CCTV package planning",
       "NVR/DVR requirement review",
@@ -351,7 +351,7 @@ export const solutions: Solution[] = [
       "Storage and retention sizing",
       "Installation accessory list",
     ],
-    workflow: ["Assess coverage", "Size equipment", "Check stock", "Prepare quotation"],
+    workflow: ["Assess coverage", "Size equipment", "Review availability context", "Prepare quotation"],
     sections: [
       {
         heading: "CCTV and surveillance systems",
@@ -390,7 +390,7 @@ export const solutions: Solution[] = [
       "Volume license guidance",
       "OS and productivity software",
     ],
-    workflow: ["Identify software needs", "Validate license type", "Source through channels", "Prepare quotation"],
+    workflow: ["Identify software needs", "Validate license type", "Review channel context", "Prepare quotation"],
     sections: [
       {
         heading: "Types of software licenses",
@@ -429,7 +429,7 @@ export const solutions: Solution[] = [
       "Supplier-input review for general goods",
       "Quotation support for institutional buyers",
     ],
-    workflow: ["Identify goods", "Source suppliers", "Validate availability", "Prepare quotation"],
+    workflow: ["Identify goods", "Review supplier inputs", "Review availability context", "Prepare quotation"],
     sections: [
       {
         heading: "What general merchandise covers",
@@ -468,7 +468,7 @@ export const solutions: Solution[] = [
       "Serial number and warranty documentation context",
       "Project closeout support",
     ],
-    workflow: ["Confirm delivery schedule", "Coordinate logistics", "Support acceptance", "Document closeout"],
+    workflow: ["Review delivery schedule", "Plan logistics context", "Support acceptance context", "Document closeout"],
     sections: [
       {
         heading: "Delivery coordination",

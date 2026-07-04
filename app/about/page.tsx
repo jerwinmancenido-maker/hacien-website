@@ -267,7 +267,7 @@ export default function AboutPage() {
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
                   Send your requirement list, deadline, delivery location, and supporting
-                  specifications. HACIEN will help turn it into a supplier-ready RFQ.
+                  specifications. HACIEN will help turn it into a review-ready RFQ.
                 </p>
               </div>
               <div className="flex items-center gap-4">

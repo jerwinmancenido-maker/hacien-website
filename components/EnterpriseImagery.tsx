@@ -1,34 +1,22 @@
 import Link from "next/link";
 
+const hacienVisual = "/brand/hacien-mark-4k.png";
+
 export const enterpriseImages = {
-  dataCenter:
-    "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=2400&q=90",
-  silicon:
-    "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=2400&q=90",
-  office:
-    "https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=2400&q=90",
-  workstation:
-    "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=2400&q=90",
-  network:
-    "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=2400&q=90",
-  commandCenter:
-    "https://images.unsplash.com/photo-1518709268805-4e9042af2176?auto=format&fit=crop&w=2400&q=90",
-  cybersecurity:
-    "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=2400&q=90",
-  cloud:
-    "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2400&q=90",
-  cabling:
-    "https://images.unsplash.com/photo-1600267185393-e158a98703de?auto=format&fit=crop&w=2400&q=90",
-  storage:
-    "https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&w=2400&q=90",
-  documentation:
-    "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&w=2400&q=90",
-  knowledge:
-    "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=2400&q=90",
-  strategy:
-    "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=2400&q=90",
-  workspace:
-    "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=2400&q=90",
+  dataCenter: hacienVisual,
+  silicon: hacienVisual,
+  office: hacienVisual,
+  workstation: hacienVisual,
+  network: hacienVisual,
+  commandCenter: hacienVisual,
+  cybersecurity: hacienVisual,
+  cloud: hacienVisual,
+  cabling: hacienVisual,
+  storage: hacienVisual,
+  documentation: hacienVisual,
+  knowledge: hacienVisual,
+  strategy: hacienVisual,
+  workspace: hacienVisual,
 };
 
 export function EnterprisePhotoPanel({
@@ -90,7 +78,7 @@ export function PremiumStatementBand() {
           image="network"
           eyebrow="Connected Infrastructure"
           title="Modern organizations need dependable technology foundations."
-          caption="From workstations to networks, storage, security, and software, HACIEN helps translate requirements into supplier-ready sourcing work."
+          caption="From workstations to networks, storage, security, and software, HACIEN helps translate requirements into review-ready sourcing context."
         />
       </div>
     </section>

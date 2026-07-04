@@ -126,7 +126,7 @@ export default function IndustriesPage() {
                   Have a requirement with site, compliance, or delivery constraints?
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
-                  Send the requirement details, and HACIEN will help shape the supplier-ready RFQ path.
+                  Send the requirement details, and HACIEN will help shape the review-ready RFQ path.
                 </p>
               </div>
               <Link

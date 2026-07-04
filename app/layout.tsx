@@ -57,7 +57,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     name: "HACIEN",
     alternateName: "HACIEN",
     url: "https://haciensolutions.com",
-    email: companyContact.email,
+    ...(companyContact.email ? { email: companyContact.email } : {}),
     address: {
       "@type": "PostalAddress",
       streetAddress: "Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, San Antonio",

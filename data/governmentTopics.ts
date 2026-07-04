@@ -81,7 +81,7 @@ export const governmentTopics: GovTopic[] = [
     checklist: [
       "Review original specification line by line",
       "Identify key technical parameters (not brand-specific features)",
-      "Source products meeting or exceeding each parameter",
+      "Identify products meeting or exceeding each parameter",
       "Document brand, model, and spec comparison",
       "Provide supplier certification or product data sheet",
       "Submit for buyer technical review and acceptance",
@@ -104,7 +104,7 @@ export const governmentTopics: GovTopic[] = [
     sections: [
       {
         heading: "Why supplier coordination is critical",
-        body: "Submitting a quotation for items that are unavailable, out of stock, or beyond a supplier's delivery capacity is a common procurement failure. Supplier readiness should be evidenced before a quotation is relied on.",
+        body: "Submitting a quotation for items that are unavailable, out of stock, or beyond a supplier's delivery capacity is a common procurement failure. Supplier availability, warranty, and lead-time inputs should be evidenced before a quotation is relied on.",
       },
       {
         heading: "What HACIEN coordinates",
