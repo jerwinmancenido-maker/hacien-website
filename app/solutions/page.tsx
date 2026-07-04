@@ -46,7 +46,7 @@ const capabilityMap = [
 const workflow = [
   ["Clarify", "Understand the requirement, site, deadline, budget context, and approval path."],
   ["Specify", "Translate the need into products, services, installation materials, and support scope."],
-  ["Source", "Coordinate supplier options, warranty terms, stock, lead time, and approved equivalents."],
+  ["Review", "Review supplier options, warranty terms, stock, lead time, and approved equivalents where inputs are available."],
   ["Deliver", "Support quotation, procurement, delivery coordination, handover, and follow-up."],
 ];
 
@@ -71,14 +71,14 @@ export default function SolutionsPage() {
       <PremiumPageHero
         eyebrow="Solutions"
         title="Technology solutions shaped around real procurement work."
-        description="HACIEN supports infrastructure, integration, sourcing, delivery, and lifecycle needs by turning technical requirements into supplier-ready work."
+        description="HACIEN supports infrastructure, integration, sourcing, delivery, and lifecycle needs by turning technical requirements into review-ready work."
         image="commandCenter"
         primaryAction={{ href: "/quote", label: "Start an RFQ" }}
         secondaryAction={{ href: "/technology", label: "Explore Technology" }}
         highlights={[
           { label: "Infrastructure", text: "Endpoints, servers, networks, power, and site connectivity." },
           { label: "Integration", text: "Deployment context, materials, setup, and handover planning." },
-          { label: "Procurement", text: "Supplier-ready requirements, quotation support, and equivalent review." },
+          { label: "Procurement", text: "Review-ready requirements, quotation support, and equivalent review." },
           { label: "Lifecycle", text: "Delivery, support, renewals, replacements, and continuity." },
         ]}
       />
@@ -204,7 +204,7 @@ export default function SolutionsPage() {
                   Have a requirement that needs sourcing, validation, and quotation support?
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
-                  Send HACIEN your requirement list and context. We will help shape the next supplier-ready RFQ step.
+                  Send HACIEN your requirement list and context. We will help shape the next review-ready RFQ step.
                 </p>
               </div>
               <Link

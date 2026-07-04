@@ -9,7 +9,7 @@ import { solutions } from "@/data/solutions";
 const ecosystem = [
   ["Requirement context", "Business need, site conditions, users, quantities, deadline, and approval path."],
   ["Specification review", "Performance needs, compatibility, equivalent options, and missing details."],
-  ["Supplier readiness", "Availability, warranty, lead time, commercial assumptions, and delivery constraints."],
+  ["Supplier-input review", "Availability, warranty, lead time, commercial assumptions, and delivery constraints where supplier evidence is available."],
   ["Quotation package", "Clear item context, assumptions, exclusions, validity, and next steps."],
   ["Delivery planning", "Receiving needs, handover records, schedule expectations, and follow-up context."],
   ["Relationship continuity", "Each request remains part of one customer relationship, not a forgotten email thread."],
@@ -18,14 +18,14 @@ const ecosystem = [
 const howItWorks = [
   ["Requirements Gathering", "Capture business need, site context, specs, quantity, budget range, and target delivery timeline."],
   ["Product Matching", "Translate buyer requirements into viable branded or equivalent technology options."],
-  ["Supplier Canvass", "Coordinate availability, warranty, lead time, and procurement constraints across suppliers."],
-  ["Quotation", "Prepare formal quotation support with supplier-validated conditions and delivery assumptions."],
+  ["Supplier Input Review", "Review availability, warranty, lead time, and procurement constraints where supplier inputs are available."],
+  ["Quotation", "Prepare quotation support with reviewed inputs and stated delivery assumptions."],
   ["Award", "Support buyer-side comparison and selected offer documentation without claiming accreditation."],
-  ["Procurement", "Coordinate ordering, fulfillment readiness, and project delivery materials."],
-  ["Delivery", "Align delivery coordination, handover needs, and follow-up support."],
+  ["Procurement", "Coordinate ordering and fulfillment readiness only when formal transaction terms support it."],
+  ["Delivery", "Align delivery context, handover needs, and follow-up support when delivery is in scope."],
 ];
 
-const govFlow = ["RFQ", "Specification Matching", "Equivalent Review", "Supplier Availability", "Quotation Support", "Delivery Coordination"];
+const govFlow = ["RFQ", "Specification Matching", "Equivalent Review", "Supplier Input Review", "Quotation Support", "Delivery Context"];
 
 const solutionImages: Record<string, keyof typeof enterpriseImages> = {
   "it-infrastructure": "dataCenter",
@@ -57,7 +57,7 @@ export function TechnologyEcosystem() {
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div>
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">RFQ Readiness</div>
-          <h2 className="mt-5 text-5xl font-bold tracking-tight sm:text-6xl">From rough requirement to supplier-ready request.</h2>
+          <h2 className="mt-5 text-5xl font-bold tracking-tight sm:text-6xl">From rough requirement to review-ready request.</h2>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
             The first job is not to sell a model. It is to make the request clear enough for accurate review, responsible sourcing, and formal quotation.
           </p>
@@ -231,7 +231,7 @@ export function GovernmentV3() {
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Government Procurement Support</div>
           <h2 className="mt-4 text-4xl font-bold tracking-tight">Documentation-aware sourcing for bid-driven IT needs.</h2>
           <p className="mt-5 leading-7 text-slate-300">
-            HACIEN supports requirements review, equivalent matching, supplier availability checks, formal quotation support, and delivery coordination.
+            HACIEN supports requirements review, equivalent matching, supplier-input review, quotation support, and delivery-context review.
           </p>
           <Link href="/government-procurement" className="interactive-link mt-8 inline-flex rounded border border-white/30 px-5 py-3 text-sm font-bold text-white">
             View government support

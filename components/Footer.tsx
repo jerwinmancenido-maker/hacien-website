@@ -23,9 +23,7 @@ export function Footer() {
           <div className="grid gap-4 rounded-lg border border-white/10 bg-white/[0.04] p-5 text-sm text-slate-300 md:grid-cols-[0.9fr_1.1fr]">
             <div>
               <div className="text-xs font-bold uppercase tracking-[0.14em] text-slate-400">Contact</div>
-              <a className="mt-2 block font-semibold text-white hover:text-blue-200" href={`mailto:${companyContact.email}`}>
-                {companyContact.email}
-              </a>
+              <p className="mt-2 font-semibold leading-6 text-white">{companyContact.contactInstruction}</p>
             </div>
             <address className="not-italic leading-6">
               <span className="block text-xs font-bold uppercase tracking-[0.14em] text-slate-400">

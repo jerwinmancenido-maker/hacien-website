@@ -214,7 +214,7 @@ export default function GovernmentProcurementPage() {
               Send the requirement, schedule, location, and specification files.
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
-              HACIEN will review the context and identify the next supplier-ready quotation step.
+              HACIEN will review the context and identify the next review-ready quotation step.
             </p>
           </AnimatedContent>
           <ContactForm type="Government" turnstileSiteKey={turnstileSiteKey} />

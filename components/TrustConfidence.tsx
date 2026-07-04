@@ -192,9 +192,9 @@ export function CompanyCredentials() {
   const credentials = [
     ["Company information", "HACIEN Information Technology Solutions operates as a Philippine IT procurement, sourcing, and technology solutions business."],
     ["Industries served", "Business, government, education, healthcare, construction, enterprise, and institutional buyers."],
-    ["Core expertise", "IT infrastructure sourcing, systems integration support, software licensing, networking, security, project delivery, and procurement coordination."],
-    ["Service coverage", "Requirement review, supplier canvass, quotation support, procurement coordination, delivery planning, and post-delivery follow-up."],
-    ["Procurement methodology", "RFQ-first workflow that prioritizes documented requirements, technical validation, supplier confirmation, and clear assumptions."],
+    ["Core expertise", "IT infrastructure requirement review, systems integration support, software licensing context, networking, security, project delivery, and procurement coordination."],
+    ["Service coverage", "Requirement review, supplier-input review, quotation support, procurement coordination, delivery-context review, and post-delivery follow-up when transaction context exists."],
+    ["Procurement methodology", "RFQ-first workflow that prioritizes documented requirements, technical validation, reviewed supplier inputs, and clear assumptions."],
     ["Transparency commitment", "Registrations, permits, memberships, certifications, and downloadable credentials are published only when verified and approved for release."],
   ];
 

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { SectionHeading } from "@/components/SectionHeading";
-import { companyContact } from "@/data/companyContact";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
@@ -303,11 +302,11 @@ export default function TermsPage() {
               replace formal written documents.
             </p>
             <p className="mt-4">
-              For formal business communication, contact HACIEN at{" "}
-              <a className="font-semibold text-[#1457d9]" href={`mailto:${companyContact.email}`}>
-                {companyContact.email}
+              For formal business communication, use HACIEN&apos;s{" "}
+              <a className="font-semibold text-[#1457d9]" href="/contact">
+                public inquiry paths
               </a>
-              .
+              {" "}so the request can be routed through the correct review path.
             </p>
           </div>
 
