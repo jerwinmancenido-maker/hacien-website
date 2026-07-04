@@ -11,7 +11,11 @@
     "validate": "tsx scripts/validate-data.ts",
     "prebuild": "npm run validate",
     "crawl": "node scripts/crawl-routes.mjs",
-    "smoke:production": "node scripts/production-smoke.mjs"
+    "smoke:production": "node scripts/production-smoke.mjs",
+    "teammate:doctor": "node tools/teammate-doctor.js",
+    "visual:audit": "node tools/visual-audit.js",
+    "visual:audit:update": "node tools/visual-audit.js --update-baselines",
+    "linear:sync": "node tools/linear-sync.js"
   },
   "engines": {
     "node": ">=20.9.0"
@@ -23,6 +27,7 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/nodemailer": "^8.0.1",

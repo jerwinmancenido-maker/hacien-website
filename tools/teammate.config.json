@@ -1,0 +1,74 @@
+{
+  "path": "/Users/jerwinmancenido/hacien-website",
+  "name": "HACIEN website",
+  "ports": [
+    3000
+  ],
+  "envFiles": [
+    ".env.example"
+  ],
+  "visualAuditBaseUrl": "http://127.0.0.1:3000",
+  "visualResultsDir": "tools/visual-results",
+  "visualAuditViewports": [
+    {
+      "name": "desktop",
+      "width": 1440,
+      "height": 1100
+    },
+    {
+      "name": "mobile",
+      "width": 390,
+      "height": 844
+    }
+  ],
+  "visualAuditViews": [
+    {
+      "name": "01-home",
+      "path": "/"
+    },
+    {
+      "name": "02-about",
+      "path": "/about"
+    },
+    {
+      "name": "03-solutions",
+      "path": "/solutions"
+    },
+    {
+      "name": "04-products",
+      "path": "/products"
+    },
+    {
+      "name": "05-industries",
+      "path": "/industries"
+    },
+    {
+      "name": "06-government-procurement",
+      "path": "/government-procurement"
+    },
+    {
+      "name": "07-quote",
+      "path": "/quote"
+    },
+    {
+      "name": "08-contact",
+      "path": "/contact"
+    },
+    {
+      "name": "09-support",
+      "path": "/support"
+    },
+    {
+      "name": "10-trust-center",
+      "path": "/trust-center"
+    },
+    {
+      "name": "11-customer-workspace",
+      "path": "/customer-workspace"
+    },
+    {
+      "name": "12-access",
+      "path": "/access"
+    }
+  ]
+}
