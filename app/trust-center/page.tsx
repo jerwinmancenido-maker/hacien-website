@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 };
 
 const policyGroups = [
-  ["Company identity", "Supported facts", "HACIEN INFORMATION TECHNOLOGY SOLUTIONS publishes supported DTI and BIR registration facts for customer and supplier confidence."],
-  ["RFQ and quotation", "Review first", "RFQ submission starts review only. Formal quotation depends on supplier availability, warranty, lead time, delivery context, and customer acceptance."],
-  ["Payment and invoices", "Document-controlled", "Payment due dates, accepted methods, partial payments, tax treatment, and late charges are controlled by formal quotation, invoice, or written agreement."],
-  ["Warranty and returns", "Supplier basis", "Warranty normally follows supplier, distributor, or manufacturer terms unless a quotation states a separate HACIEN service warranty."],
-  ["Delivery and acceptance", "Confirmed per order", "Delivery charges, receiving requirements, acceptance, and damage reporting are confirmed in formal quotation, order, or project communication."],
+  ["Company identity", "Supported facts", "HACIEN INFORMATION TECHNOLOGY SOLUTIONS publishes supported DTI and BIR registration facts with clear public boundaries."],
+  ["RFQ and quotation", "Review first", "RFQ submission starts review only. Formal quotation depends on request-specific supplier availability, warranty, lead time, delivery context, payment terms, tax treatment, and customer acceptance."],
+  ["Payment and invoices", "Not published", "The website does not publish bank details, payment instructions, default payment terms, invoice treatment, tax treatment, or late charges."],
+  ["Warranty and returns", "Request-specific", "Warranty, return, replacement, and refund handling must be confirmed through supplier, distributor, manufacturer, vendor, or formal HACIEN transaction evidence."],
+  ["Delivery and acceptance", "Confirmed per request", "Delivery charges, receiving requirements, acceptance, and damage reporting are confirmed through request-specific formal documents or written communication."],
   ["Support", "Available as inquiry path", "Support requests are routed through the appropriate inquiry, RFQ, or follow-up channel."],
   ["Privacy", "Website policy available", "Public forms collect voluntarily submitted inquiry and RFQ context. Supplier sharing may occur for quotation preparation or deal registration."],
   ["Security", "Bounded statements", "Security statements remain tied to implemented controls and verified operating evidence."],
@@ -58,8 +58,8 @@ export default function TrustCenterPage() {
                 ["DTI business name", "Verified"],
                 ["Business Name No.", "8278010"],
                 ["BIR registration facts", "Verified"],
-                ["Payment details", "Formal documents"],
-                ["RFQ intake", "Available"],
+                ["Payment details", "Not published"],
+                ["RFQ intake", "Review path available"],
               ].map(([label, status]) => (
                 <div key={label} className="flex items-center justify-between gap-4 rounded border border-white/12 bg-white/[0.06] px-4 py-3">
                   <span className="text-sm font-semibold text-slate-200">{label}</span>
@@ -74,12 +74,12 @@ export default function TrustCenterPage() {
       <section className="px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Policy Registry</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Public Boundaries</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              Policies grouped by customer decisions.
+              Customer questions grouped by evidence status.
             </h2>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">
-              Public policies focus on the questions customers actually need answered before sending an inquiry, RFQ, or follow-up.
+              Public pages explain how to start safely. Commercial, payment, warranty, tax, and delivery terms remain controlled by verified formal documents.
             </p>
           </AnimatedContent>
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">

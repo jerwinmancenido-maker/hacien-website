@@ -50,7 +50,7 @@ export const insights: Insight[] = [
       },
       {
         heading: "Step 5: Manage delivery and acceptance",
-        body: "Procurement does not end at purchase order issuance. Equipment must arrive on time, match specifications, and be accepted by an authorized representative. Serial numbers, warranty activations, and delivery receipts should be recorded at acceptance.",
+        body: "Procurement does not end at purchase order issuance. Equipment should be checked against specifications, accepted by the buyer's designated receiver, and documented according to the buyer's own process. Serial numbers, warranty documents, and delivery receipts should be recorded when available.",
       },
     ],
     checklist: [
@@ -60,7 +60,7 @@ export const insights: Insight[] = [
       "Request itemized quotations with specs, not just totals",
       "Compare lead time and warranty, not just price",
       "Confirm stock availability before award",
-      "Record serial numbers and warranties at delivery",
+      "Record serial numbers and warranty documents at delivery when available",
     ],
     procurementNotes:
       "For government procurement, requirements must follow applicable laws and regulations including RA 9184 and its implementing rules. Private procurement varies by organization policy. HACIEN recommends consulting your procurement office for compliance requirements specific to your organization.",
@@ -116,7 +116,7 @@ export const insights: Insight[] = [
       "Send to at least three qualified suppliers",
     ],
     procurementNotes:
-      "For PhilGEPS-registered procurement, RFQ requirements follow specific formats and posting requirements. Private procurement RFQs are simpler but should still include complete specifications. HACIEN can help prepare RFQ documentation as part of quotation support.",
+      "Government procurement RFQ requirements may follow specific formats and posting requirements. Private procurement RFQs are simpler but should still include complete specifications. HACIEN can help organize RFQ documentation as part of quotation support without claiming buyer-side compliance approval.",
     disclaimer:
       "RFQ requirements vary by organization type, procurement mode, and applicable regulations. This guide is for general reference. Confirm specific RFQ requirements with your procurement office before submission.",
     relatedSlugs: ["it-procurement-guide", "approved-equivalent-explained", "government-procurement-it-checklist"],
@@ -164,7 +164,7 @@ export const insights: Insight[] = [
       "Document acceptance in procurement record",
     ],
     procurementNotes:
-      "Approved equivalent acceptance is the buyer's prerogative. Suppliers cannot force acceptance of an equivalent. HACIEN helps prepare the comparison documentation and supports the technical review process — acceptance remains with the buyer's authorized representatives.",
+      "Approved equivalent acceptance is the buyer's prerogative. Suppliers cannot force acceptance of an equivalent. HACIEN can help organize comparison documentation and support the technical review process; acceptance remains with the buyer.",
     disclaimer:
       "Approved equivalent provisions vary by procurement mode, agency policy, and applicable regulations. This article is for general information. Consult your procurement office or legal counsel for specific compliance requirements.",
     relatedSlugs: ["it-procurement-guide", "how-to-prepare-rfq", "government-procurement-it-checklist"],
@@ -356,7 +356,7 @@ export const insights: Insight[] = [
       },
       {
         heading: "At delivery",
-        body: "Inspect all delivered items against specifications and purchase order. Record serial numbers for all equipment. Verify that accessories and documentation are included. Have an authorized representative sign the delivery receipt. File warranty documentation immediately after delivery.",
+        body: "Inspect all delivered items against specifications and purchase order. Record serial numbers for equipment. Verify that accessories and documentation are included. Follow the buyer's receiver and delivery-receipt process. File warranty documentation when available.",
       },
     ],
     checklist: [
@@ -370,7 +370,7 @@ export const insights: Insight[] = [
       "Award documented with supporting records",
       "Physical inspection at delivery",
       "Serial numbers recorded for all equipment",
-      "Delivery receipt signed by authorized representative",
+      "Delivery receipt or acceptance record completed under the buyer's process",
       "Warranty documents filed",
       "Asset tags applied and recorded",
     ],

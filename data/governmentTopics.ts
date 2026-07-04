@@ -98,21 +98,21 @@ export const governmentTopics: GovTopic[] = [
     title: "Supplier Coordination",
     category: "Government Procurement",
     summary:
-      "Coordinating with suppliers to validate availability, lead times, warranty coverage, and formal quotation readiness.",
+      "Reviewing supplier inputs for availability, lead times, warranty coverage, and formal quotation readiness when supplier evidence is available.",
     heroCopy:
-      "Government procurement requires verified supplier readiness. HACIEN coordinates with suppliers to confirm stock, lead time, warranty, and formal offer capability before submitting quotations.",
+      "Government procurement benefits from supplier evidence. HACIEN can help review supplier inputs for stock, lead time, warranty, and formal offer capability before a quotation is relied on.",
     sections: [
       {
         heading: "Why supplier coordination is critical",
-        body: "Submitting a quotation for items that are unavailable, out of stock, or beyond your supplier's delivery capacity is a common procurement failure. HACIEN verifies supplier readiness before quotation submission to prevent delivery failures.",
+        body: "Submitting a quotation for items that are unavailable, out of stock, or beyond a supplier's delivery capacity is a common procurement failure. Supplier readiness should be evidenced before a quotation is relied on.",
       },
       {
         heading: "What HACIEN coordinates",
-        body: "HACIEN confirms product availability with suppliers, validates lead time against delivery deadlines, verifies warranty terms match specifications, and confirms that suppliers can provide the required documentation for procurement compliance.",
+        body: "HACIEN can help review supplier-provided availability, lead time, warranty terms, and documentation capability for the specific request. Final reliance should be based on the relevant supplier evidence and formal quotation.",
       },
       {
         heading: "Supplier documentation support",
-        body: "Government procurement often requires supplier certifications, product data sheets, and warranty certificates. HACIEN supports collection of required supplier documentation as part of quotation preparation.",
+        body: "Government procurement often requires supplier certifications, product data sheets, and warranty certificates. HACIEN can help organize required supplier documentation as part of quotation preparation when those materials are available.",
       },
     ],
     checklist: [
@@ -128,7 +128,7 @@ export const governmentTopics: GovTopic[] = [
     ctaUrl: "/contact",
     seoTitle: "Supplier Coordination | HACIEN Government Procurement",
     seoDescription:
-      "HACIEN coordinates with suppliers to verify availability, lead times, warranty coverage, and quotation readiness for government procurement.",
+      "HACIEN helps review supplier inputs for availability, lead times, warranty coverage, and quotation readiness for government procurement.",
   },
   {
     slug: "quotation-support",
@@ -137,15 +137,15 @@ export const governmentTopics: GovTopic[] = [
     summary:
       "Preparing structured quotation packages for government and institutional procurement submissions.",
     heroCopy:
-      "A well-prepared quotation is the foundation of successful procurement. HACIEN helps prepare complete, compliant quotation packages for government and institutional buyers.",
+      "A well-prepared quotation is the foundation of successful procurement. HACIEN helps organize quotation inputs for government and institutional buyers without claiming buyer-side compliance approval.",
     sections: [
       {
         heading: "What a procurement quotation includes",
-        body: "A complete procurement quotation includes item descriptions, technical specifications, unit pricing, total pricing, delivery terms, warranty coverage, validity period, and supplier information. Government procurement may require additional certifications and documentary requirements.",
+        body: "A procurement quotation may include item descriptions, technical specifications, unit pricing, total pricing, delivery terms, warranty coverage, validity period, and supplier information. The exact requirements depend on the buyer, supplier evidence, and formal procurement context.",
       },
       {
         heading: "HACIEN quotation preparation support",
-        body: "HACIEN prepares quotation packages that match buyer specifications, include all required line items, and present pricing clearly. We do not file quotations on behalf of buyers—we prepare the supporting documentation for buyer submission.",
+        body: "HACIEN can help organize quotation packages against buyer specifications, required line items, and pricing context. We do not file quotations on behalf of buyers or claim buyer-side compliance approval.",
       },
       {
         heading: "Common quotation issues",
@@ -156,9 +156,9 @@ export const governmentTopics: GovTopic[] = [
       "Match quotation items to procurement specification line by line",
       "Include complete technical specifications per item",
       "State unit and total pricing clearly",
-      "Include warranty terms and coverage period",
-      "State delivery timeline and location",
-      "Include validity period (minimum 30 days recommended)",
+      "Include warranty terms and coverage period when verified",
+      "State delivery timeline and location when confirmed",
+      "Include the validity period stated by the quotation source",
       "Attach required certifications and data sheets",
     ],
     relatedInsights: ["how-to-prepare-rfq", "it-procurement-guide", "government-procurement-it-checklist"],
@@ -166,16 +166,16 @@ export const governmentTopics: GovTopic[] = [
     ctaUrl: "/quote",
     seoTitle: "Quotation Support | HACIEN Government Procurement",
     seoDescription:
-      "HACIEN prepares complete quotation packages for government and institutional procurement including specifications, pricing, warranty, and delivery terms.",
+      "HACIEN helps organize quotation inputs for government and institutional procurement including specifications, pricing, warranty, and delivery terms where verified.",
   },
   {
     slug: "delivery-coordination",
     title: "Delivery Coordination",
     category: "Government Procurement",
     summary:
-      "Coordinating delivery schedules, logistics, acceptance inspection, and handover documentation for government procurement.",
+      "Reviewing delivery schedules, logistics, acceptance inspection, and handover documentation needs for government procurement.",
     heroCopy:
-      "Government procurement delivery requires more than shipping. HACIEN coordinates logistics, acceptance inspection, and handover documentation for compliant delivery.",
+      "Government procurement delivery requires more than shipping. HACIEN can help review logistics, acceptance inspection, and handover documentation needs before fulfillment proceeds.",
     sections: [
       {
         heading: "Government delivery requirements",
@@ -183,37 +183,37 @@ export const governmentTopics: GovTopic[] = [
       },
       {
         heading: "HACIEN delivery coordination",
-        body: "HACIEN works with suppliers to schedule compliant deliveries, prepare delivery documentation, support acceptance inspection, and collect required post-delivery paperwork including warranties and manuals.",
+        body: "HACIEN can help align suppliers and buyers around delivery schedule, documentation needs, acceptance inspection, and post-delivery paperwork when those items are part of the formal request.",
       },
       {
         heading: "After delivery",
-        body: "Post-delivery tasks include warranty registration, asset tagging coordination, and submission of delivery receipts for payment processing. HACIEN supports these follow-through tasks as part of project delivery.",
+        body: "Post-delivery tasks may include warranty registration, asset tagging coordination, and delivery receipt handling. These tasks should be confirmed through the formal quotation or project communication.",
       },
     ],
     checklist: [
-      "Confirm delivery date with supplier and buyer",
+      "Confirm delivery date with supplier and buyer when available",
       "Prepare delivery documentation (packing list, invoice)",
       "Notify buyer's receiving office in advance",
       "Support physical inspection upon delivery",
       "Record serial numbers and asset details",
-      "Collect signed acceptance/receipt document",
-      "File warranty documentation",
+      "Collect acceptance/receipt documentation when applicable",
+      "File warranty documentation when available",
     ],
     relatedInsights: ["government-procurement-it-checklist", "it-procurement-guide", "how-to-prepare-rfq"],
     ctaLabel: "Coordinate Your Delivery",
     ctaUrl: "/contact",
     seoTitle: "Delivery Coordination | HACIEN Government Procurement",
     seoDescription:
-      "HACIEN coordinates delivery scheduling, acceptance inspection, and handover documentation for government and institutional procurement.",
+      "HACIEN helps review delivery scheduling, acceptance inspection, and handover documentation needs for government and institutional procurement.",
   },
   {
     slug: "documentation-support",
     title: "Documentation Support",
     category: "Government Procurement",
     summary:
-      "Preparing procurement documentation including quotation packages, delivery receipts, warranty certificates, and compliance records.",
+      "Organizing procurement documentation inputs such as quotation packages, delivery receipts, warranty certificates, and compliance records when available.",
     heroCopy:
-      "Procurement documentation is as important as the products themselves. HACIEN helps prepare and organize the paperwork that keeps procurement compliant.",
+      "Procurement documentation is as important as the products themselves. HACIEN helps organize available paperwork and identify missing documentation for buyer review.",
     sections: [
       {
         heading: "Why documentation matters in government procurement",
@@ -221,7 +221,7 @@ export const governmentTopics: GovTopic[] = [
       },
       {
         heading: "Documents HACIEN helps prepare",
-        body: "HACIEN assists with preparation of: supplier quotation packages, technical specifications, product data sheets, warranty certificates, delivery documentation, and post-delivery acceptance records. We do not prepare legal or notarial documents.",
+        body: "HACIEN can assist with organizing supplier quotation packages, technical specifications, product data sheets, warranty certificates, delivery documentation, and post-delivery acceptance records when available. We do not prepare legal or notarial documents.",
       },
       {
         heading: "Documentation compliance notes",
@@ -231,18 +231,18 @@ export const governmentTopics: GovTopic[] = [
     checklist: [
       "Quotation package with complete specifications",
       "Product data sheets for all line items",
-      "Warranty certificates from manufacturer or distributor",
-      "Delivery receipt signed by authorized representative",
+      "Warranty certificates from manufacturer or distributor when available",
+      "Delivery receipt or acceptance record when applicable",
       "Serial number and asset log",
-      "Warranty registration confirmation",
-      "Post-delivery acceptance certificate",
+      "Warranty registration confirmation when applicable",
+      "Post-delivery acceptance record when applicable",
     ],
     relatedInsights: ["government-procurement-it-checklist", "how-to-prepare-rfq", "approved-equivalent-explained"],
     ctaLabel: "Get Documentation Support",
     ctaUrl: "/quote",
     seoTitle: "Documentation Support | HACIEN Government Procurement",
     seoDescription:
-      "HACIEN helps prepare procurement documentation including quotation packages, delivery receipts, warranty certificates, and compliance records.",
+      "HACIEN helps organize procurement documentation inputs including quotation packages, delivery receipts, warranty certificates, and compliance records when available.",
   },
 ];
 

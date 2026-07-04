@@ -9,7 +9,7 @@ import { companyContact } from "@/data/companyContact";
 export const metadata: Metadata = {
   title: "Contact HACIEN",
   description:
-    "Contact HACIEN Information Technology Solutions for business inquiries, RFQ direction, support routing, supplier introductions, and formal communication.",
+    "Contact HACIEN Information Technology Solutions for business inquiries, RFQ direction, support routing, supplier introductions, and review-first communication.",
 };
 
 const contactPaths = [
@@ -22,7 +22,7 @@ const contactPaths = [
   },
   {
     title: "Ask for support",
-    text: "For follow-up, delivery coordination, warranty questions, replacement context, or an existing request.",
+    text: "For follow-up, delivery context, warranty questions tied to formal documents, replacement context, or an existing request.",
     href: "/support",
     action: "Open Support",
     image: "workspace",
@@ -38,7 +38,7 @@ const contactPaths = [
 
 const communicationStandards = [
   "Use Request Quote when the inquiry needs pricing, sourcing, BOQ review, or files.",
-  "Use Support when the inquiry continues an existing request, delivery, warranty, or follow-up.",
+  "Use Support when the inquiry continues an existing request, delivery context, warranty question, or follow-up.",
   "Use Contact for business communication that does not yet belong to a formal RFQ or support path.",
 ];
 
@@ -55,10 +55,10 @@ export default function ContactPage() {
         primaryAction={{ href: "/quote", label: "Request Quote" }}
         secondaryAction={{ href: "#contact-form", label: "Send Inquiry" }}
         highlights={[
-          { label: "Business Contact", text: "Official communication through HACIEN's public contact channel." },
+          { label: "Business Contact", text: "Public inquiry routing through HACIEN's contact channel." },
           { label: "RFQ Direction", text: "Requirements and files move through the Gateway intake path." },
           { label: "Support Routing", text: "Follow-ups are routed with context and reference details." },
-          { label: "Formal Notices", text: "Legal notices follow the published legal address and terms." },
+          { label: "Formal Notices", text: "Legal notice handling must be confirmed through written communication." },
         ]}
       />
 
@@ -133,22 +133,20 @@ export default function ContactPage() {
           <AnimatedContent>
             <BorderGlow className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-                Official Contact
+                Public Inquiry
               </div>
               <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">
                 Send a business inquiry.
               </h2>
               <p className="mt-4 text-sm leading-7 text-slate-600">
                 Use this channel for general business communication, supplier introductions, partnership
-                questions, company information, and inquiries that do not yet need a formal RFQ.
+                questions, company information, and inquiries that do not yet need an RFQ review.
               </p>
 
               <div className="mt-8 grid gap-5 text-sm leading-7 text-slate-700">
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
-                  <div className="font-bold text-slate-950">Email</div>
-                  <a className="font-semibold text-[#1457d9]" href={`mailto:${companyContact.email}`}>
-                    {companyContact.email}
-                  </a>
+                  <div className="font-bold text-slate-950">Inquiry routing</div>
+                  <p className="mt-2">{companyContact.contactInstruction}</p>
                 </div>
 
                 <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">

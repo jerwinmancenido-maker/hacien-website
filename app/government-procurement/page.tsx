@@ -15,14 +15,14 @@ import { governmentTopics } from "@/data/governmentTopics";
 export const metadata: Metadata = {
   title: "Government IT Procurement Support Philippines | HACIEN",
   description:
-    "HACIEN supports government and institutional IT procurement through specification review, approved equivalent matching, supplier coordination, quotation support, documentation support, and delivery coordination.",
+    "HACIEN supports government and institutional IT procurement preparation through specification review, approved equivalent matching, supplier-input review, quotation support, documentation support, and delivery-context review.",
 };
 
 const supportProcess = [
   ["Review", "Check specifications, compatibility, quantities, deadline, delivery site, and procurement context."],
   ["Match", "Identify compliant options or approved equivalents subject to supplier availability and buyer requirements."],
-  ["Coordinate", "Validate lead time, warranty, pricing conditions, documentation, and quotation readiness."],
-  ["Support", "Help prepare structured quotation inputs and delivery coordination without overstating accreditation or approval."],
+  ["Coordinate", "Review supplier-provided lead time, warranty, pricing conditions, documentation, and quotation readiness where available."],
+  ["Support", "Help organize structured quotation inputs and delivery context without overstating accreditation or approval."],
 ];
 
 const safeguards = [
@@ -38,7 +38,7 @@ const confidenceAreas = [
   ["RFQ handling", "Requirements are reviewed for quantities, delivery context, deadline, supporting files, and unanswered questions before supplier coordination."],
   ["Technical specification review", "Specifications are checked for completeness, compatibility, model clarity, equivalent language, and procurement-ready detail."],
   ["Equivalent product evaluation", "Equivalent options are treated as buyer-review items, not automatic replacements or guaranteed approvals."],
-  ["Supplier coordination", "Availability, warranty, lead time, documentation, and pricing conditions are confirmed per request where supplier inputs are available."],
+  ["Supplier coordination", "Availability, warranty, lead time, documentation, and pricing conditions are reviewed per request where supplier inputs are available."],
   ["Documentation assistance", "HACIEN can help organize quotation details and supporting information without claiming buyer-side compliance authority."],
   ["Quotation discipline", "Formal quotation support should state assumptions, validity, availability, warranty, delivery conditions, and exclusions clearly."],
   ["Delivery planning", "Delivery site, schedule, receiving needs, and handover expectations are considered before fulfillment proceeds."],
@@ -90,7 +90,7 @@ export default function GovernmentProcurementPage() {
                 Support Scope
               </div>
               <h2 className="mt-3 text-xl font-bold text-slate-950 sm:text-2xl">
-                Specification review, equivalent matching, quotation support, and delivery readiness.
+                Specification review, equivalent matching, quotation support, and delivery-context review.
               </h2>
               <div className="mt-8 grid gap-3">
                 {["Specifications", "Equivalents", "Suppliers", "Quotation", "Delivery"].map((step, index) => (
@@ -214,7 +214,7 @@ export default function GovernmentProcurementPage() {
               Send the requirement, schedule, location, and specification files.
             </h2>
             <p className="mt-4 max-w-2xl text-base leading-7 text-slate-600">
-              HACIEN will review the context and coordinate the next supplier-ready quotation step.
+              HACIEN will review the context and identify the next supplier-ready quotation step.
             </p>
           </AnimatedContent>
           <ContactForm type="Government" turnstileSiteKey={turnstileSiteKey} />
