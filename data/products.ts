@@ -24,6 +24,11 @@ export type Product = {
   unit: string;
   availability: "For quotation";
   featured?: boolean;
+  sku?: string;
+  erpPublicationId?: string;
+  isErpPublished?: boolean;
+  manualPaymentEnabled?: boolean;
+  sandboxPaymentEnabled?: boolean;
   purchaseMode: "rfq" | "checkout" | "hybrid";
   priceCents?: number;
   currency: "PHP";

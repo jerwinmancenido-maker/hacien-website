@@ -3,8 +3,11 @@ import type { Metadata } from "next";
 import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/reactbits";
 import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
+import { ProductGrid } from "@/components/ProductGrid";
 import { RequirementBuilder } from "@/components/RequirementBuilder";
 import { categories } from "@/data/products";
+import { listErpCatalog } from "@/lib/erp/ecommerce-client";
+import { erpCatalogToWebsiteProducts } from "@/lib/erp/catalog-products";
 
 export const metadata: Metadata = {
   title: "Technology RFQ Builder | HACIEN",
@@ -43,7 +46,18 @@ const categoryImages: Record<string, keyof typeof enterpriseImages> = {
   "general-merchandise": "documentation",
 };
 
-export default function ProductsPage() {
+async function getErpProducts() {
+  try {
+    const catalog = await listErpCatalog();
+    return erpCatalogToWebsiteProducts(catalog.items || []);
+  } catch {
+    return [];
+  }
+}
+
+export default async function ProductsPage() {
+  const erpProducts = await getErpProducts();
+
   return (
     <>
       <PremiumPageHero
@@ -63,6 +77,22 @@ export default function ProductsPage() {
 
       <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
+          {erpProducts.length > 0 ? (
+            <div className="mb-12">
+              <AnimatedContent>
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">ERP-published catalog</div>
+                <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+                  Products currently published from HACIEN ERP.
+                </h2>
+                <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">
+                  These items come from ERP publication settings. RFQ, order intent, manual payment review, and sandbox signals appear only when enabled in ERP.
+                </p>
+              </AnimatedContent>
+              <div className="mt-8">
+                <ProductGrid products={erpProducts} />
+              </div>
+            </div>
+          ) : null}
           <RequirementBuilder initialCategory="computers-laptops" />
         </div>
       </section>

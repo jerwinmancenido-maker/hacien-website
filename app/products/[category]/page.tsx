@@ -4,11 +4,23 @@ import { CTABand } from "@/components/CTABand";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { AnimatedSection } from "@/components/motion";
+import { ProductGrid } from "@/components/ProductGrid";
 import { RequirementBuilder } from "@/components/RequirementBuilder";
-import { categories, getCategory } from "@/data/products";
+import { categories, getCategory, getProductsByCategory } from "@/data/products";
+import { listErpCatalog } from "@/lib/erp/ecommerce-client";
+import { erpCatalogToWebsiteProducts } from "@/lib/erp/catalog-products";
 
 export function generateStaticParams() {
   return categories.map((category) => ({ category: category.slug }));
+}
+
+async function getErpProducts() {
+  try {
+    const catalog = await listErpCatalog();
+    return erpCatalogToWebsiteProducts(catalog.items || []);
+  } catch {
+    return [];
+  }
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
@@ -24,6 +36,12 @@ export default async function ProductCategoryPage({ params }: { params: Promise<
   const { category: categorySlug } = await params;
   const category = getCategory(categorySlug);
   if (!category) notFound();
+  const erpProducts = await getErpProducts();
+  const categoryProducts =
+    erpProducts.length > 0
+      ? erpProducts.filter((product) => product.categorySlug === category.slug)
+      : getProductsByCategory(category.slug);
+  const isErpCatalog = erpProducts.length > 0;
 
   return (
     <>
@@ -36,6 +54,28 @@ export default async function ProductCategoryPage({ params }: { params: Promise<
             title={category.name}
             description={category.heroCopy}
           />
+          {categoryProducts.length > 0 ? (
+            <div className="mt-10">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold tracking-tight text-slate-950">
+                    {isErpCatalog ? "ERP-published products" : "Example RFQ-ready profiles"}
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
+                    {isErpCatalog
+                      ? "These items come from ERP publication settings. Manual payment review and sandbox signals appear only when enabled in ERP."
+                      : "These examples show the kind of sourcing targets HACIEN can review. Final brand, model, warranty, lead time, and commercial terms are confirmed through formal quotation."}
+                  </p>
+                </div>
+                <div className="rounded border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-bold text-[#1457d9]">
+                  {categoryProducts.length} profile{categoryProducts.length === 1 ? "" : "s"}
+                </div>
+              </div>
+              <div className="mt-6">
+                <ProductGrid products={categoryProducts} />
+              </div>
+            </div>
+          ) : null}
           <div className="mt-10">
             <RequirementBuilder initialCategory={category.slug} />
           </div>

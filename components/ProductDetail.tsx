@@ -6,19 +6,26 @@ import type { Product } from "@/data/products";
 import { getCategory } from "@/data/products";
 import { SlideUp } from "@/components/motion";
 import { canCheckout, canRequestQuote, formatPrice } from "@/lib/products/purchase-mode";
+import { ManualPaymentIntentForm } from "@/components/checkout/ManualPaymentIntentForm";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
 
 export function ProductDetail({ product }: { product: Product }) {
   const category = getCategory(product.categorySlug);
   const { addRequirement } = useQuoteCart();
   const [added, setAdded] = useState(false);
-  const [cartNotice, setCartNotice] = useState("");
   const priceText = formatPrice(product);
+  const categoryLabel = category?.name ?? "ERP Catalog";
+  const showManualPaymentIntent =
+    product.isErpPublished === true &&
+    product.manualPaymentEnabled === true &&
+    Boolean(product.erpPublicationId);
+  const showSandboxPaymentNotice =
+    product.isErpPublished === true && product.sandboxPaymentEnabled === true;
 
   function handleAddToRfq() {
     addRequirement({
       category: product.categorySlug,
-      categoryLabel: category?.name ?? "Technology",
+      categoryLabel,
       quantity: "1",
       brandPreference: "Any suitable option",
       equivalentAccepted: "Yes, equivalent options may be reviewed",
@@ -33,10 +40,6 @@ export function ProductDetail({ product }: { product: Product }) {
     setAdded(true);
   }
 
-  function handleAddToCart() {
-    setCartNotice("Cart checkout is being prepared. Please request quote while checkout remains disabled.");
-  }
-
   return (
     <section className="bg-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-16">
@@ -46,7 +49,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <div className="relative flex h-full flex-col justify-end">
             <div className="rounded border border-white/70 bg-white/90 p-6 backdrop-blur">
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
-                {category?.name}
+                {categoryLabel}
               </div>
               <div className="mt-4 text-3xl font-bold text-slate-950">Capability review</div>
               <p className="mt-3 text-sm text-slate-600">{product.availability}</p>
@@ -57,7 +60,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
         <SlideUp delay={120}>
         <div>
-          <div className="text-sm font-semibold text-[#1457d9]">{category?.name}</div>
+          <div className="text-sm font-semibold text-[#1457d9]">{categoryLabel}</div>
           <h1 className="mt-3 text-4xl font-bold tracking-tight text-slate-950">{product.name}</h1>
           <p className="mt-5 text-lg leading-8 text-slate-600">{product.longDescription}</p>
 
@@ -65,7 +68,8 @@ export function ProductDetail({ product }: { product: Product }) {
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Quotation context</div>
             <p className="mt-3 text-sm leading-6 text-slate-600">
               This page explains a technology type HACIEN can review. Final model, quantity, pricing,
-              warranty, supplier availability, and delivery terms are confirmed only through formal quotation.
+              warranty, supplier availability, delivery terms, and payment review are confirmed before any
+              official order or invoice step.
             </p>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {[
@@ -142,15 +146,6 @@ export function ProductDetail({ product }: { product: Product }) {
                 Add to RFQ
               </button>
             ) : null}
-            {canCheckout(product) ? (
-              <button
-                type="button"
-                onClick={handleAddToCart}
-                className="interactive-link focus-ring rounded border border-emerald-200 bg-emerald-50 px-5 py-3 text-sm font-bold text-[#1457d9]"
-              >
-                Add to Cart
-              </button>
-            ) : null}
             <Link
               href="/quote"
               className="interactive-link focus-ring rounded border border-slate-300 px-5 py-3 text-sm font-bold text-slate-900"
@@ -165,14 +160,34 @@ export function ProductDetail({ product }: { product: Product }) {
             </Link>
           </div>
           {priceText ? <p className="mt-4 text-sm font-semibold text-slate-900">Starting at {priceText}</p> : null}
+          {showManualPaymentIntent ? (
+            <div className="mt-8">
+              <div className="mb-3 text-sm font-bold text-slate-950">Manual payment review</div>
+              <ManualPaymentIntentForm
+                productId={product.id}
+                publicationId={product.erpPublicationId || ""}
+                sku={product.sku}
+                name={product.name}
+                sourceUrl={`/product/${product.slug}`}
+              />
+              <p className="mt-3 text-xs leading-5 text-slate-500">
+                This creates an ERP order intent for review. It does not create an official order, invoice,
+                receipt, or paid transaction.
+              </p>
+            </div>
+          ) : canCheckout(product) ? (
+            <p className="mt-4 rounded border border-blue-200 bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-800">
+              Order intent is available only after ERP publication settings enable manual payment review.
+            </p>
+          ) : null}
+          {showSandboxPaymentNotice ? (
+            <p className="mt-4 rounded border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">
+              Sandbox payment testing is enabled for this ERP publication. Live payment collection is not enabled.
+            </p>
+          ) : null}
           {added ? (
             <p className="mt-4 rounded border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700">
               Added to the RFQ package. Continue to RFQ when ready to submit.
-            </p>
-          ) : null}
-          {cartNotice ? (
-            <p className="mt-4 rounded border border-blue-200 bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-800">
-              {cartNotice}
             </p>
           ) : null}
         </div>

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
-import { SignupForm } from "@/components/auth/SignupForm";
+import { SignupForm } from "@/components/account/SignupForm";
 import { GradientBackground } from "@/app/components/reactbits";
 
 export const metadata: Metadata = {
@@ -18,8 +18,8 @@ export default function SignupPage() {
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Open Account</p>
           <h1 className="mt-5 max-w-2xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl">Create your customer account request</h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-            HACIEN uses a relationship-first flow. Submit an account request first, then we verify and enable the right workspace access.
+          <p className="mt-4 text-sm leading-6 text-slate-600">
+            Create a HACIEN customer access request. Signup is open, and sensitive account records become visible only after email and organization verification.
           </p>
           <div className="mt-8">
             <Link
@@ -36,4 +36,3 @@ export default function SignupPage() {
     </section>
   );
 }
-

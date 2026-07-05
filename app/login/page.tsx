@@ -20,9 +20,9 @@ export default function LoginPage() {
       <div className="mx-auto grid max-w-4xl gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Customer Access</p>
-          <h1 className="mt-5 max-w-2xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl">Sign in to your account</h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
-            Customer sign-in is currently in preparation. Use this form to request access, or continue using RFQ and support channels.
+          <h1 className="mt-5 max-w-2xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl">Customer access is being prepared</h1>
+          <p id="login-status" className="mt-4 text-sm leading-6 text-slate-600">
+            Customer account login will use HACIEN ERP-backed access after account verification. Existing workspace users should use the workspace login.
           </p>
           <div className="mt-8 grid gap-3 sm:flex">
             <Link
@@ -47,4 +47,3 @@ export default function LoginPage() {
     </section>
   );
 }
-

@@ -2,6 +2,8 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ProductDetail } from "@/components/ProductDetail";
 import { getCategory, getProduct, products } from "@/data/products";
+import { getErpCatalogProduct } from "@/lib/erp/ecommerce-client";
+import { erpCatalogProductToWebsiteProduct } from "@/lib/erp/catalog-products";
 
 export function generateStaticParams() {
   return products.flatMap((product) => {
@@ -11,6 +13,15 @@ export function generateStaticParams() {
   });
 }
 
+async function resolveErpProduct(slug: string) {
+  try {
+    const erpProduct = await getErpCatalogProduct(slug);
+    return erpCatalogProductToWebsiteProduct(erpProduct.item);
+  } catch {
+    return null;
+  }
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -18,6 +29,14 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { category: categorySlug, product: productSlug } = await params;
   const category = getCategory(categorySlug);
+  const erpProduct = await resolveErpProduct(productSlug);
+  if (erpProduct?.categorySlug === categorySlug) {
+    return {
+      title: `${erpProduct.name} | HACIEN`,
+      description: erpProduct.shortDescription,
+    };
+  }
+
   const product = getProduct(productSlug);
 
   if (!category || !product) {
@@ -47,6 +66,11 @@ export default async function ProductCategoryProductPage({
 }) {
   const { category: categorySlug, product: productSlug } = await params;
   const category = getCategory(categorySlug);
+  const erpProduct = await resolveErpProduct(productSlug);
+  if (erpProduct?.categorySlug === categorySlug) {
+    return <ProductDetail product={erpProduct} />;
+  }
+
   const product = getProduct(productSlug);
 
   if (!category || !product || product.categorySlug !== category.slug) {
@@ -55,4 +79,3 @@ export default async function ProductCategoryProductPage({
 
   return <ProductDetail product={product} />;
 }
-

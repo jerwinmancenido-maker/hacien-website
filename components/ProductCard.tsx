@@ -13,7 +13,7 @@ export function ProductCard({ product }: { product: Product }) {
     : `/product/${product.slug}`;
   const modes = [
     canRequestQuote(product) ? "RFQ" : null,
-    canCheckout(product) ? "Cart/Checkout" : null,
+    canCheckout(product) ? "Order intent" : null,
   ].filter(Boolean) as string[];
 
   return (
