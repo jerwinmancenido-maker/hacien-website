@@ -22,6 +22,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/government-procurement",
     "/contact",
     "/support",
+    "/faq",
+    "/help",
     "/search",
     "/trust-center",
     "/erp-platform",
