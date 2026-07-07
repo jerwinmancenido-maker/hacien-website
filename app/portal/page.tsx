@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/reactbits";
-import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
-import { InteractivePortalPreview } from "@/components/InteractivePortalPreview";
 
 export const metadata: Metadata = {
   title: "Customer Workspace | HACIEN",
@@ -15,29 +13,6 @@ const availableNow = [
   ["Request Quote", "Submit requirements, BOQs, files, existing quotes, or project context through the Gateway.", "/quote"],
   ["Track Reference", "Use a reference number to view request status and continue the inquiry path.", "/track/RFQ-2026-000009"],
   ["Contact Support", "Send follow-up context for quotation, fulfillment questions, or company communication.", "/support"],
-];
-
-const futureCapabilities = [
-  {
-    title: "Request Tracking",
-    text: "Customers will see meaningful milestones for RFQs, clarifications, quotations, fulfillment planning, and support.",
-    image: "documentation",
-  },
-  {
-    title: "Quotation Continuity",
-    text: "Formal quotation context, supporting notes, and customer approvals will stay attached to the relationship.",
-    image: "workspace",
-  },
-  {
-    title: "Document Access",
-    text: "Approved customers will access controlled documents only when visibility rules allow it.",
-    image: "storage",
-  },
-  {
-    title: "Support History",
-    text: "Support, renewal, and service context will continue from the same customer record when evidence and visibility rules allow it.",
-    image: "network",
-  },
 ];
 
 const relationshipPath = [
@@ -64,12 +39,6 @@ export default function PortalPage() {
           { label: "Available Now", text: "RFQ, tracking, clarification, contact, and support paths are active." },
         ]}
       />
-
-      <section className="px-4 py-12 sm:px-6 lg:px-8 bg-slate-50/50">
-        <div className="mx-auto max-w-7xl">
-          <InteractivePortalPreview />
-        </div>
-      </section>
 
       <section className="px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
@@ -107,8 +76,8 @@ export default function PortalPage() {
         </div>
       </section>
 
-      <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+      <section className="bg-[linear-gradient(180deg,#f8fbff_0%,#eef7f8_100%)] px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
               Planned Workspace
@@ -116,27 +85,22 @@ export default function PortalPage() {
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
               Private access will be useful only when it protects the relationship.
             </h2>
+            <p className="mt-4 text-sm leading-6 text-slate-600">
+              Phase 3 shows the direction without implying the customer portal is live.
+            </p>
           </AnimatedContent>
-
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
-            {futureCapabilities.map((capability, index) => (
-              <AnimatedContent key={capability.title} delay={index * 60}>
-                <SpotlightCard className="h-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-950/10">
-                  <div
-                    className="h-44 bg-slate-950"
-                    style={{
-                      backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.02), rgba(7, 20, 38, 0.76)), url(${enterpriseImages[capability.image as keyof typeof enterpriseImages]})`,
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
-                    }}
-                  />
-                  <div className="p-6">
-                    <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">
-                      Customer Workspace
-                    </div>
-                    <h3 className="mt-4 text-lg font-bold text-slate-950">{capability.title}</h3>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{capability.text}</p>
-                  </div>
+          <div className="grid gap-3 md:grid-cols-2">
+            {[
+              ["Request Tracking", "Milestones for RFQs, clarifications, quotation context, and support."],
+              ["Controlled Documents", "Document access only when visibility rules allow it."],
+              ["Support History", "Follow-up context connected to the same customer record."],
+              ["Relationship Memory", "Requests, quotes, and support stay tied to one history."],
+            ].map(([title, text], index) => (
+              <AnimatedContent key={title} delay={index * 60}>
+                <SpotlightCard className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                  <div className="text-xs font-bold text-[#1457d9]">{String(index + 1).padStart(2, "0")}</div>
+                  <h3 className="mt-2 text-base font-bold text-slate-950">{title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
                 </SpotlightCard>
               </AnimatedContent>
             ))}

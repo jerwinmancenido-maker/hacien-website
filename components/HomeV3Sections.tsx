@@ -46,7 +46,7 @@ const categoryImages: Record<string, keyof typeof enterpriseImages> = {
 
 export function TechnologyEcosystem() {
   return (
-    <AnimatedSection className="bg-[#071426] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
+    <AnimatedSection className="bg-[linear-gradient(135deg,#05101c_0%,#08263a_58%,#123730_100%)] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div>
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">RFQ Readiness</div>
@@ -103,7 +103,7 @@ export function HowHacienWorks() {
 
 export function SolutionsV3() {
   return (
-    <AnimatedSection className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
+    <AnimatedSection className="bg-[linear-gradient(180deg,#f8fbff_0%,#eef7f8_100%)] px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="Solutions"
@@ -228,7 +228,7 @@ export function TrustV3() {
   ];
 
   return (
-    <AnimatedSection className="bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
+    <AnimatedSection className="bg-[linear-gradient(180deg,#ffffff_0%,#fbfaf7_100%)] px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="Trust & Confidence"

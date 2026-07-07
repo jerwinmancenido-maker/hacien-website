@@ -142,7 +142,7 @@ export default function SolutionsPage() {
 
       <section className="px-4 py-16 sm:px-6 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
-          <BorderGlow className="relative overflow-hidden rounded-lg bg-[#071426] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
+          <BorderGlow className="relative overflow-hidden rounded-lg bg-[linear-gradient(135deg,#071426_0%,#0b3142_58%,#123730_100%)] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
             <GradientBackground className="opacity-[0.36]" />
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>

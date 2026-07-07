@@ -21,19 +21,6 @@ const supportNotes = [
   ["Open-ended requirements", "Customers may send a product name, BOQ, specification, existing quote, picture, spreadsheet, or a plain description of the need."],
 ];
 
-const serviceExamples = [
-  "Office laptops and desktops",
-  "Workstations and business endpoints",
-  "Servers, NAS, and storage",
-  "Switches, routers, firewalls, and wireless",
-  "Productivity and security software",
-  "UPS and power protection",
-  "Printers, scanners, monitors, and peripherals",
-  "CCTV, access control, and site security",
-  "Structured cabling and network room materials",
-  "Mixed procurement packages",
-];
-
 const categoryImages: Record<string, keyof typeof enterpriseImages> = {
   "computers-laptops": "workstation",
   "servers-storage": "storage",
@@ -109,7 +96,7 @@ export default async function ProductsPage() {
             </p>
           </AnimatedContent>
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {categories.map((category, index) => (
+            {categories.slice(0, 6).map((category, index) => (
               <AnimatedContent key={category.slug} delay={index * 45}>
                 <Link href={`/products/${category.slug}`} className="group block h-full">
                   <SpotlightCard className="h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
@@ -135,26 +122,14 @@ export default async function ProductsPage() {
               </AnimatedContent>
             ))}
           </div>
-        </div>
-      </section>
-
-      <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.86fr_1.14fr]">
-          <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Examples</div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              If it belongs in an organization&apos;s technology environment, HACIEN can review the request.
-            </h2>
-            <p className="mt-5 text-sm leading-7 text-slate-300">
-              Send whatever context you have. HACIEN will clarify the requirement before formal quotation.
+          <div className="mt-8 rounded-lg border border-slate-200 bg-slate-50 p-5">
+            <h3 className="text-lg font-bold text-slate-950">Need a different category?</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              Use the RFQ form and describe the outcome. HACIEN can review mixed requirements without making this page a full catalog.
             </p>
-          </AnimatedContent>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {serviceExamples.map((item) => (
-              <div key={item} className="rounded border border-white/12 bg-white/[0.06] p-4 text-sm font-bold text-slate-100">
-                {item}
-              </div>
-            ))}
+            <Link href="/quote" className="mt-3 inline-flex text-sm font-bold text-[#1457d9]">
+              Describe the requirement
+            </Link>
           </div>
         </div>
       </section>

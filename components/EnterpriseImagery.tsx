@@ -70,7 +70,7 @@ export function EnterprisePhotoPanel({
 
 export function PremiumStatementBand() {
   return (
-    <section className="bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
+    <section className="bg-[linear-gradient(180deg,#ffffff_0%,#f5fbfc_100%)] px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div className="max-w-2xl">
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Enterprise Technology</div>
