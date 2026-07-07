@@ -46,7 +46,7 @@ export function ProductDetail({ product }: { product: Product }) {
   return (
     <section className="bg-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-16">
-        <SlideUp>
+        <SlideUp className="min-w-0">
         <div className="surface lift relative min-h-[420px] overflow-hidden rounded-lg p-6">
           <div className="absolute inset-0 animated-grid" />
           <div className="relative flex h-full flex-col justify-end">
@@ -61,8 +61,8 @@ export function ProductDetail({ product }: { product: Product }) {
         </div>
         </SlideUp>
 
-        <SlideUp delay={120}>
-        <div>
+        <SlideUp delay={120} className="min-w-0">
+        <div className="min-w-0">
           <div className="text-sm font-semibold text-[#1457d9]">{categoryLabel}</div>
           <h1 className="mt-3 text-4xl font-bold tracking-tight text-slate-950">{product.name}</h1>
           <p className="mt-5 text-lg leading-8 text-slate-600">{product.longDescription}</p>
@@ -117,7 +117,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 These are RFQ planning targets, not guaranteed stock, pricing, or final model commitments.
               </p>
             </div>
-            <div className="overflow-x-auto">
+            <div className="max-w-full overflow-x-auto">
               <table className="w-full min-w-[520px] border-collapse text-left text-sm">
                 <thead className="bg-white text-xs uppercase tracking-[0.12em] text-slate-500">
                   <tr>
