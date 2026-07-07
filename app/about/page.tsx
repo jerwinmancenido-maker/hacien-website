@@ -10,7 +10,7 @@ import {
 } from "@/app/components/reactbits";
 import { EnterprisePhotoPanel } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
-import { CapabilityResources, CompanyCredentials, FutureProofAssets, OurCommitment } from "@/components/TrustConfidence";
+import { CapabilityResources, CompanyCredentials, OurCommitment } from "@/components/TrustConfidence";
 
 export const metadata: Metadata = {
   title: "About HACIEN | IT Procurement & Technology Solutions",
@@ -19,38 +19,33 @@ export const metadata: Metadata = {
 };
 
 const storySignals = [
-  "Multiple suppliers with different formats",
-  "Manual follow-ups across calls and email",
-  "Inconsistent product specifications",
-  "Unclear stock, lead time, and warranty details",
-  "Delivery and implementation gaps",
+  "Supplier quotes arrive in different formats",
+  "Specs are incomplete or hard to compare",
+  "Follow-ups disappear across inboxes",
+  "Assumptions are not written down early enough",
 ];
 
 const philosophy = [
   {
-    title: "Requirements should be documented first.",
-    text: "We begin by clarifying the product, technical, delivery, and deadline context before supplier coordination starts.",
+    title: "Start with the real operating need.",
+    text: "The request should explain who will use the technology, where it will operate, and what would make the outcome successful.",
   },
   {
-    title: "Quotations should be technically useful.",
-    text: "Model numbers, approved equivalents, warranty conditions, and availability details are treated as decision inputs, not afterthoughts.",
+    title: "Make uncertainty visible.",
+    text: "Equivalents, missing specifications, assumptions, warranty context, and lead-time questions should be clear before decisions harden.",
   },
   {
-    title: "Procurement should stay visible.",
-    text: "Customers need to know what has been reviewed, what is being sourced, and what still needs confirmation.",
+    title: "Keep follow-up connected.",
+    text: "A customer should not need to restart the story every time the request moves from inquiry to review to support.",
   },
 ];
 
 const workflow = [
   "Requirement",
-  "Technical Review",
-  "Supplier Canvass",
-  "Quotation",
-  "Award",
-  "Procurement",
-  "Delivery",
-  "Implementation",
-  "Support",
+  "Review",
+  "Supplier Input",
+  "Quote Context",
+  "Follow-up",
 ];
 
 const industries = [
@@ -81,41 +76,39 @@ export default function AboutPage() {
     <>
       <PremiumPageHero
         eyebrow="Company"
-        title="Building better IT procurement."
-        description="HACIEN Information Technology Solutions helps organizations plan, source, procure, implement, and support technology projects through one organized workflow."
+        title="A technology partner for requests that need structure."
+        description="HACIEN helps organizations turn rough requirements, product lists, and project context into clearer RFQ conversations."
         image="workspace"
         primaryAction={{ href: "/quote", label: "Start an RFQ" }}
         secondaryAction={{ href: "/solutions", label: "Explore Solutions" }}
         highlights={[
-          { label: "Registered Identity", text: "Company identity is published only where supported by verified facts." },
-          { label: "Procurement Discipline", text: "Requirements, supplier inputs, assumptions, and handover stay connected." },
-          { label: "Customer Trust", text: "Every inquiry should make the next step clearer for the buyer." },
-          { label: "Operating Platform", text: "HACIEN uses its own Workspace, Timeline, and Guardian discipline." },
+          { label: "RFQ-first", text: "The website captures context before formal quotation work." },
+          { label: "Review discipline", text: "Missing details and assumptions stay visible." },
+          { label: "Continuity", text: "Requests stay connected through follow-up." },
+          { label: "Bounded claims", text: "Public pages avoid unsupported commercial promises." },
         ]}
       />
 
-      <section className="px-4 py-18 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Why HACIEN Exists</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              IT procurement often breaks before the purchase order is even issued.
+              Technology buying often gets messy before the first quote is useful.
             </h2>
           </AnimatedContent>
           <div className="space-y-6">
             <BlurReveal>
               <p className="text-base leading-8 text-slate-600">
-                Many organizations do not struggle because they lack intent. They struggle because
-                procurement becomes fragmented. Different suppliers send different details,
-                specifications are hard to compare, and project teams spend too much time asking
-                for clarification that should have been included from the start.
+                Many teams already know what they need in practical terms: faster devices, a stable
+                network, licensed software, better security, or a project handover that will not fall apart.
+                The hard part is turning that need into a request suppliers can answer clearly.
               </p>
             </BlurReveal>
             <BlurReveal delay={120}>
               <p className="text-base leading-8 text-slate-600">
-                HACIEN was built to improve that experience. We combine technical review, supplier
-                coordination, quotation discipline, project tracking, and connected operating workflows so
-                customers can move from requirement to delivery with greater clarity.
+                HACIEN was built around that gap. We help collect the context, surface the missing
+                details, and keep the request organized before commercial terms are treated as final.
               </p>
             </BlurReveal>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -133,12 +126,12 @@ export default function AboutPage() {
 
       <CompanyCredentials />
 
-      <section className="overflow-hidden bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
+      <section className="overflow-hidden bg-[#071426] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Planning Context</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              Regional planning needs visible assumptions.
+              Planning works better when assumptions are visible.
             </h2>
             <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-300">
               HACIEN treats delivery, handover, and site constraints as planning details to be clarified during RFQ review.
@@ -156,12 +149,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
+      <section className="bg-[#071426] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Our Philosophy</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
-              Technology should not be difficult to procure.
+              Good sourcing is calm, specific, and written down.
             </h2>
           </AnimatedContent>
           <div className="mt-10 grid gap-5 lg:grid-cols-3">
@@ -183,16 +176,16 @@ export default function AboutPage() {
 
       <OurCommitment />
 
-      <section className="px-4 py-18 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Our Workflow</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              A procurement lifecycle designed for accuracy, accountability, and handover.
+              A compact workflow for turning loose requests into usable next steps.
             </h2>
           </AnimatedContent>
-          <div className="mt-12 max-w-full overflow-x-auto pb-4">
-            <div className="grid min-w-[980px] grid-cols-9 gap-3 lg:min-w-0">
+          <div className="mt-8 max-w-full overflow-x-auto pb-4">
+            <div className="grid min-w-[640px] grid-cols-5 gap-3 lg:min-w-0">
             {workflow.map((step, index) => (
               <AnimatedContent key={step} delay={Math.min(index * 55, 360)} distance={14}>
                 <BorderGlow className="h-full rounded-lg bg-white p-4 shadow-sm">
@@ -215,12 +208,12 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
+      <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Who We Support</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              Built for buyers who need organized technology sourcing, not a generic catalog.
+              Useful for teams that need clarity before they commit.
             </h2>
           </AnimatedContent>
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -238,18 +231,17 @@ export default function AboutPage() {
       </section>
 
       <CapabilityResources />
-      <FutureProofAssets />
 
-      <section className="relative overflow-hidden bg-[#0b1220] px-4 py-18 text-white sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden bg-[#0b1220] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
         <GradientBackground className="opacity-40" />
         <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Connected Operations</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              HACIEN is designed to keep procurement work connected.
+              HACIEN is designed to keep request work connected.
             </h2>
             <p className="mt-5 max-w-3xl leading-7 text-slate-300">
-              Every quotation request should keep its context: customer need, supplier inputs,
+              Every RFQ should keep its context: customer need, supplier inputs,
               commercial assumptions, delivery requirements, documents, and follow-up. That is how
               HACIEN protects continuity from first inquiry to support.
             </p>
@@ -312,15 +304,11 @@ export default function AboutPage() {
 
 function workflowCopy(step: string) {
   const copy: Record<string, string> = {
-    Requirement: "Customer needs, timelines, budget context, and delivery location are clarified.",
-    "Technical Review": "Specifications are checked for completeness, compatibility, and practical alternatives.",
-    "Supplier Canvass": "Availability, lead time, warranty terms, and price conditions are validated.",
-    Quotation: "Supplier inputs are organized into a clear quotation package for review.",
-    Award: "Approved items, quantities, pricing, and conditions are confirmed before procurement.",
-    Procurement: "Orders, supplier coordination, and documentation are tracked through fulfillment.",
-    Delivery: "Logistics, receiving requirements, and handover documents are coordinated.",
-    Implementation: "Setup, deployment materials, and project support needs are aligned where applicable.",
-    Support: "Warranty, acceptance, and closeout details are kept visible after delivery.",
+    Requirement: "Need, quantity, location, timeline, and decision context are clarified.",
+    Review: "Missing details, compatibility questions, and practical alternatives are surfaced.",
+    "Supplier Input": "Supplier-provided details are reviewed when available and relevant.",
+    "Quote Context": "Assumptions and exclusions are made visible before formal terms are relied on.",
+    "Follow-up": "The request reference keeps the next conversation connected.",
   };
 
   return copy[step];

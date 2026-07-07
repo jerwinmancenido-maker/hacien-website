@@ -124,6 +124,23 @@ select {
     repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 44px);
 }
 
+.cinematic-photo {
+  transform-origin: center;
+}
+
+.cinematic-lines {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.1) 0 1px, transparent 1px 100%),
+    linear-gradient(0deg, rgba(255, 255, 255, 0.075) 0 1px, transparent 1px 100%);
+  background-size: 72px 72px;
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0.75), transparent 78%);
+}
+
+.cinematic-sweep {
+  background: linear-gradient(105deg, transparent 18%, rgba(125, 211, 252, 0.2), transparent 54%);
+  transform: translateX(-60%);
+}
+
 .motion-fade,
 .motion-slide-up,
 .motion-card,
@@ -422,6 +439,18 @@ select {
   .page-dissolve {
     animation: page-dissolve-in 720ms var(--ease-premium-in-out) both;
   }
+
+  .cinematic-photo {
+    animation: cinematic-photo-pan 22s var(--ease-premium-in-out) infinite alternate;
+  }
+
+  .cinematic-sweep {
+    animation: cinematic-sweep 9s ease-in-out infinite;
+  }
+
+  .cinematic-lines {
+    animation: cinematic-grid-drift 18s linear infinite;
+  }
 }
 
 @keyframes fade-in {
@@ -492,6 +521,36 @@ select {
 @keyframes rb-marquee {
   to {
     transform: translateX(-50%);
+  }
+}
+
+@keyframes cinematic-photo-pan {
+  from {
+    transform: scale(1.02) translate3d(-0.6rem, 0, 0);
+  }
+  to {
+    transform: scale(1.09) translate3d(0.8rem, -0.4rem, 0);
+  }
+}
+
+@keyframes cinematic-sweep {
+  0%,
+  38% {
+    transform: translateX(-70%);
+    opacity: 0;
+  }
+  52% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(80%);
+    opacity: 0;
+  }
+}
+
+@keyframes cinematic-grid-drift {
+  to {
+    background-position: 72px 72px;
   }
 }
 

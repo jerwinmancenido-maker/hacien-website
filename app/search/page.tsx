@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const searchable = [
-  { title: "Home", href: "/", group: "Company", text: "Enterprise technology with operational clarity." },
+  { title: "Home", href: "/", group: "Company", text: "Technology sourcing that stays clear from request to handover." },
   { title: "Solutions", href: "/solutions", group: "Solutions", text: "Infrastructure, workplace, cybersecurity, cloud, procurement, and managed services." },
   { title: "Technology", href: "/technology", group: "Technology", text: "Enterprise computing, networking, cybersecurity, cloud, software, storage, power, cabling, and services." },
   { title: "Technology RFQ Builder", href: "/products", group: "Technology", text: "Build one RFQ package from multiple technology requirements." },

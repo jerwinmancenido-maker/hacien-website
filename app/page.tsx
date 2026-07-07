@@ -11,9 +11,9 @@ import {
 } from "@/components/HomeV3Sections";
 
 export const metadata: Metadata = {
-  title: "Enterprise Technology With Operational Clarity",
+  title: "Technology Sourcing From Request to Handover",
   description:
-    "HACIEN provides enterprise technology, infrastructure, software, managed services, RFQ review, and a connected operating model for Philippine organizations.",
+    "HACIEN helps organizations turn IT requirements, BOQs, supplier quotes, and rough ideas into review-ready RFQ conversations.",
 };
 
 export default function Home() {

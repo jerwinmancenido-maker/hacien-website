@@ -20,14 +20,14 @@ const sourcePhotos = {
 
 export const enterpriseImages = {
   dataCenter: sourcePhotos.serverRack,
-  silicon: sourcePhotos.workstation,
+  silicon: sourcePhotos.officeDesk,
   office: sourcePhotos.modernOffice,
   workstation: sourcePhotos.workstation,
-  network: sourcePhotos.serverRack,
+  network: sourcePhotos.modernOffice,
   commandCenter: sourcePhotos.modernOffice,
-  cybersecurity: sourcePhotos.serverRack,
+  cybersecurity: sourcePhotos.officeDesk,
   cloud: sourcePhotos.officeDesk,
-  cabling: sourcePhotos.serverRack,
+  cabling: sourcePhotos.documents,
   storage: sourcePhotos.serverRack,
   documentation: sourcePhotos.documents,
   knowledge: sourcePhotos.officeDesk,
@@ -50,7 +50,7 @@ export function EnterprisePhotoPanel({
 }) {
   return (
     <div
-      className={`relative min-h-[320px] overflow-hidden rounded-lg bg-slate-950 shadow-2xl shadow-slate-950/18 sm:min-h-[380px] ${className}`}
+      className={`relative min-h-[260px] overflow-hidden rounded-lg bg-slate-950 shadow-2xl shadow-slate-950/18 sm:min-h-[320px] ${className}`}
       style={{
         backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.08), rgba(7, 20, 38, 0.74)), url(${enterpriseImages[image]})`,
         backgroundPosition: "center",
@@ -58,9 +58,10 @@ export function EnterprisePhotoPanel({
       }}
     >
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,20,38,0.72),transparent_54%)]" />
-      <div className="relative flex min-h-[320px] flex-col justify-end p-5 text-white sm:min-h-[380px] sm:p-7">
+      <div className="cinematic-lines pointer-events-none absolute inset-0 opacity-25" />
+      <div className="relative flex min-h-[260px] flex-col justify-end p-5 text-white sm:min-h-[320px] sm:p-6">
         <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">{eyebrow}</div>
-        <h3 className="mt-3 max-w-xl text-2xl font-bold tracking-tight sm:text-3xl">{title}</h3>
+        <h3 className="mt-3 max-w-xl text-2xl font-bold tracking-tight">{title}</h3>
         <p className="mt-3 max-w-lg text-sm leading-6 text-slate-200">{caption}</p>
       </div>
     </div>
@@ -69,17 +70,16 @@ export function EnterprisePhotoPanel({
 
 export function PremiumStatementBand() {
   return (
-    <section className="bg-white px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+    <section className="bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div className="max-w-2xl">
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Enterprise Technology</div>
-          <h2 className="mt-5 text-4xl font-bold tracking-tight text-slate-950 sm:text-5xl">
-            Technology first. Products only when useful.
+          <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            Start with the operating need, then choose the right technology.
           </h2>
-          <p className="mt-5 text-base leading-8 text-slate-600">
-            HACIEN presents technology as business context: infrastructure, security, connectivity,
-            continuity, and operating confidence. Exact brands, models, pricing, and commercial terms
-            are confirmed through RFQ review.
+          <p className="mt-4 text-base leading-7 text-slate-600">
+            HACIEN keeps the public site useful without pretending it is a checkout or price list.
+            Brands, models, pricing, and commercial terms are confirmed only after RFQ review.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link href="/technology" className="button-glow rounded-full bg-[#071426] px-5 py-3 text-center text-sm font-bold text-white">
@@ -92,9 +92,9 @@ export function PremiumStatementBand() {
         </div>
         <EnterprisePhotoPanel
           image="network"
-          eyebrow="Connected Infrastructure"
-          title="Modern organizations need dependable technology foundations."
-          caption="From workstations to networks, storage, security, and software, HACIEN helps translate requirements into review-ready sourcing context."
+          eyebrow="Review-ready context"
+          title="Clear requests make better supplier conversations possible."
+          caption="A short requirement, a BOQ, or even a rough description can become useful when the assumptions and missing details are visible."
         />
       </div>
     </section>
