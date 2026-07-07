@@ -10,6 +10,8 @@
   --blue: #1457d9;
   --violet: #5b4bff;
   --motion-delay: 0ms;
+  --ease-clinical-out: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-premium-in-out: cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 * {
@@ -18,6 +20,19 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 body {
