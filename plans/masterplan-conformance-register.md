@@ -81,17 +81,19 @@ Verified base before this register update: `2d5cfa573f1d12060b59a51b343f6100eb28
 
 ## Website Creation Quality Guidelines
 
-These are internal build standards for HACIEN website work. They are not public ISO, WCAG, security, privacy, tax, or compliance certification claims on the storefront, but they define the formal standards the code must conform to during the build.
+These are internal build standards for HACIEN website work. They are not public certification, compliance, accreditation, legal, security, privacy, tax, or audit claims. The team follows strong engineering and design best practices silently, then proves quality through screenshots, builds, tests, and claim-safety review.
 
-| Guideline | Target ISO / Standard | Required Practice | Evidence Gate |
-|---|---|---|---|
-| Source-of-truth alignment | **ISO 9001:2015** (Quality Management) | Public copy must follow the masterplan, Terms, Trust Center, and evidence-gated posture | Search scoped copy for risky claims before commit |
-| Responsive quality | **ISO/IEC 25010:2011** (Portability) | Desktop, tablet, and mobile layouts must be visually checked for first-viewport usefulness, text fit, overlap, and horizontal overflow | Playwright/browser screenshots across affected routes |
-| Accessibility-minded UI | **ISO/IEC 40500:2012** (Web Accessibility) | Use semantic links/buttons, readable contrast, stable focus treatment, and mobile-friendly tap targets where practical | Focused review plus lint/build; do not claim formal WCAG certification |
-| Security-conscious delivery | **ISO/IEC 27001** (Information Security) | Maintain conservative headers, Content Security Policies (CSP), and only allow remote asset domains that are actually needed | CSP/header diff review and production build |
-| Asset traceability | **ISO 9001:2015** (Source Traceability) | External photos must have reviewed source/license context and avoid unnecessary recognizable people, logos, or unsupported product implications | Source URL recorded in code comments or sprint report |
-| Performance discipline | **ISO/IEC 25010:2011** (Performance Efficiency) | Avoid making video/WebGL/rendered objects the default public identity unless explicitly approved; prefer lighter photography and static design where appropriate | Screenshot review plus console check for relevant runtime warnings |
-| Claim safety | **ISO 9001:2015** (Risk Management) | Do not add stock, SLA, payment, tax, warranty, delivery, invoice, receipt, price-match, or production-readiness claims without explicit evidence/approval | Blocked-claim search and Founder Gate register |
+| Guideline | Required Practice | Evidence Gate |
+|---|---|---|
+| Source-of-truth alignment | Public copy must follow the masterplan, Terms, Trust Center, and evidence-gated posture | Search scoped copy for risky claims before commit |
+| Responsive layout quality | Desktop, tablet, and mobile layouts must be visually checked for first-viewport usefulness, text fit, overlap, and horizontal overflow | Local and live Playwright/browser screenshots across affected routes |
+| Typography and information density | Avoid oversized text blocks and over-tall sections. Mobile first viewports must show practical context, actions, or service cards, not only a headline. Desktop hero titles should stay compact unless explicitly approved. | Viewport-height check, local-vs-live screenshot comparison, and scroll-height review |
+| Accessibility-minded UI | Use semantic links/buttons, readable contrast, stable focus treatment, and mobile-friendly tap targets where practical | Focused review plus lint/build; do not claim formal accessibility certification |
+| Security-conscious delivery | Maintain conservative headers, Content Security Policies, and only allow remote asset domains that are actually needed | Header diff review and production build |
+| Asset traceability | External photos must have reviewed source/license context and avoid unnecessary recognizable people, logos, or unsupported product implications | Source URL recorded in code comments or sprint report |
+| Performance discipline | Avoid making video/WebGL/rendered objects the default public identity unless explicitly approved; prefer lighter photography and static design where appropriate | Screenshot review plus console check for relevant runtime warnings |
+| Claim safety | Do not add stock, SLA, payment, tax, warranty, delivery, invoice, receipt, price-match, or production-readiness claims without explicit evidence/approval | Blocked-claim search and Founder Gate register |
+| Live-vs-local visual QA | For design work, compare the local build against the current live website before committing. If local shows less useful information per screen than live, treat that as a design regression unless intentionally approved. | Screenshot manifest and comparison notes |
 
 ## Screenshot Evidence
 

@@ -41,30 +41,30 @@ export function PremiumPageHero({
       />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_14%,rgba(42,120,255,0.26),transparent_32%)]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#071426] to-transparent" />
-      <div className="relative mx-auto grid min-h-[660px] max-w-7xl items-center gap-12 px-4 py-18 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-24">
+      <div className="relative mx-auto grid min-h-[560px] max-w-7xl items-center gap-6 px-4 py-8 sm:min-h-[620px] sm:gap-8 sm:px-6 sm:py-12 lg:min-h-[640px] lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-16">
         <div className="flex flex-col justify-center">
           <FadeIn>
-            <div className="mb-6 inline-flex w-fit rounded border border-blue-300/30 bg-white/8 px-4 py-2 text-sm font-semibold text-blue-100 backdrop-blur">
+            <div className="mb-4 inline-flex w-fit rounded border border-blue-300/30 bg-white/8 px-3 py-1.5 text-xs font-semibold text-blue-100 backdrop-blur sm:mb-5 sm:px-4 sm:py-2 sm:text-sm">
               {eyebrow}
             </div>
           </FadeIn>
           <SlideUp delay={80}>
-            <h1 className="max-w-5xl text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
+            <h1 className="max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl">
               {title}
             </h1>
           </SlideUp>
           <SlideUp delay={170}>
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-200">
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-200 sm:mt-5 sm:text-base sm:leading-7 lg:text-lg">
               {description}
             </p>
           </SlideUp>
           <SlideUp delay={260}>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href={primaryAction.href} className="button-glow rounded-full bg-white px-6 py-3 text-center text-sm font-bold text-[#071426] shadow-xl shadow-blue-950/30">
+            <div className="mt-5 flex flex-col gap-2 sm:mt-7 sm:flex-row sm:gap-3">
+              <Link href={primaryAction.href} className="button-glow rounded-full bg-white px-5 py-2.5 text-center text-sm font-bold text-[#071426] shadow-xl shadow-blue-950/30 sm:px-6 sm:py-3">
                 {primaryAction.label}
               </Link>
               {secondaryAction ? (
-                <Link href={secondaryAction.href} className="interactive-link glass-control-dark rounded-full px-6 py-3 text-center text-sm font-bold text-white hover:border-blue-200">
+                <Link href={secondaryAction.href} className="interactive-link glass-control-dark rounded-full px-5 py-2.5 text-center text-sm font-bold text-white hover:border-blue-200 sm:px-6 sm:py-3">
                   {secondaryAction.label}
                 </Link>
               ) : null}
@@ -73,14 +73,14 @@ export function PremiumPageHero({
         </div>
 
         <SlideUp delay={220} className="h-full">
-          <div className="relative min-h-[440px] overflow-hidden rounded-lg border border-white/15 bg-white/[0.08] p-5 shadow-2xl shadow-black/20 backdrop-blur-xl">
+          <div className="relative min-h-0 overflow-hidden rounded-lg border border-white/15 bg-white/[0.08] p-3 shadow-2xl shadow-black/20 backdrop-blur-xl sm:min-h-[340px] sm:p-4 lg:min-h-[380px]">
             <div className="absolute inset-0 bg-gradient-to-br from-white/12 via-transparent to-blue-500/10" />
             <StaggerContainer className="relative grid h-full grid-cols-2 gap-3">
               {highlights.map((item, index) => (
-                <div key={item.label} className="rounded-lg border border-white/12 bg-white/10 p-5 backdrop-blur transition-transform duration-200 hover:-translate-y-1">
+                <div key={item.label} className="rounded-lg border border-white/12 bg-white/10 p-3 backdrop-blur transition-transform duration-200 hover:-translate-y-1 sm:p-4">
                   <div className="text-xs font-bold text-blue-200">{String(index + 1).padStart(2, "0")}</div>
-                  <div className="mt-8 font-bold text-white">{item.label}</div>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">{item.text}</p>
+                  <div className="mt-3 font-bold text-white sm:mt-5">{item.label}</div>
+                  <p className="mt-2 text-xs leading-5 text-slate-300 sm:text-sm sm:leading-6">{item.text}</p>
                 </div>
               ))}
             </StaggerContainer>

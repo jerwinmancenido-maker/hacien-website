@@ -50,7 +50,7 @@ export function EnterprisePhotoPanel({
 }) {
   return (
     <div
-      className={`relative min-h-[420px] overflow-hidden rounded-lg bg-slate-950 shadow-2xl shadow-slate-950/18 ${className}`}
+      className={`relative min-h-[320px] overflow-hidden rounded-lg bg-slate-950 shadow-2xl shadow-slate-950/18 sm:min-h-[380px] ${className}`}
       style={{
         backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.08), rgba(7, 20, 38, 0.74)), url(${enterpriseImages[image]})`,
         backgroundPosition: "center",
@@ -58,10 +58,10 @@ export function EnterprisePhotoPanel({
       }}
     >
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,20,38,0.72),transparent_54%)]" />
-      <div className="relative flex min-h-[420px] flex-col justify-end p-6 text-white sm:p-8">
+      <div className="relative flex min-h-[320px] flex-col justify-end p-5 text-white sm:min-h-[380px] sm:p-7">
         <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">{eyebrow}</div>
-        <h3 className="mt-3 max-w-xl text-3xl font-bold tracking-tight sm:text-4xl">{title}</h3>
-        <p className="mt-4 max-w-lg text-sm leading-6 text-slate-200">{caption}</p>
+        <h3 className="mt-3 max-w-xl text-2xl font-bold tracking-tight sm:text-3xl">{title}</h3>
+        <p className="mt-3 max-w-lg text-sm leading-6 text-slate-200">{caption}</p>
       </div>
     </div>
   );
@@ -69,7 +69,7 @@ export function EnterprisePhotoPanel({
 
 export function PremiumStatementBand() {
   return (
-    <section className="bg-white px-4 py-20 sm:px-6 lg:px-8">
+    <section className="bg-white px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div className="max-w-2xl">
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Enterprise Technology</div>
