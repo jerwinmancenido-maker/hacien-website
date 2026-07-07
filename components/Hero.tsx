@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { enterpriseImages } from "@/components/EnterpriseImagery";
-import { FadeIn, SlideUp, StaggerContainer } from "@/components/motion";
+import { FadeIn, SlideUp } from "@/components/motion";
 
 export function Hero() {
   return (
@@ -54,18 +54,6 @@ export function Hero() {
               </Link>
             </div>
           </SlideUp>
-          <StaggerContainer className="mt-10 hidden gap-3 sm:grid sm:grid-cols-3">
-            {[
-              ["DTI identity", "Verified"],
-              ["BIR registration", "Verified facts"],
-              ["RFQ path", "Available"],
-            ].map(([label, value]) => (
-              <div key={label} className="rounded border border-white/12 bg-white/[0.07] p-4 backdrop-blur">
-                <div className="text-xs font-bold uppercase tracking-[0.14em] text-blue-200">{label}</div>
-                <div className="mt-2 text-sm font-bold text-white">{value}</div>
-              </div>
-            ))}
-          </StaggerContainer>
         </div>
 
         <SlideUp delay={220} className="h-full">
@@ -77,7 +65,7 @@ export function Hero() {
               ["Networking", "Reliable organizational connectivity"],
               ["Cybersecurity", "Protected operating environments"],
               ["Cloud & Software", "Licensing and productivity platforms"],
-              ["Government Support", "Documentation-aware sourcing"],
+              ["Institutional RFQs", "Documentation-aware sourcing"],
               ["HACIEN Platform", "Workspace, Timeline, Guardian"],
               ].map(([title, text], index) => (
                 <div key={title} className="rounded-lg border border-white/12 bg-white/10 p-3 backdrop-blur transition-transform duration-200 hover:-translate-y-1 sm:p-4">

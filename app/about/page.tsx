@@ -55,7 +55,7 @@ const workflow = [
 
 const industries = [
   ["Business", "Workstations, network upgrades, licensed software, and recurring office technology procurement."],
-  ["Government", "Specification review, equivalent matching, quotation support, and documentation-aware delivery."],
+  ["Institutional", "Specification review, equivalent matching, quotation support, and documentation-aware delivery."],
   ["Education", "Classroom devices, connectivity equipment, security systems, and institutional purchasing support."],
   ["Healthcare", "Reliable endpoint, network, power, storage, and support materials for operational environments."],
   ["Construction", "Site connectivity, surveillance, project office equipment, and deployment materials."],

@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 const contactPaths = [
   {
     title: "Request a quotation",
-    text: "For BOQs, product lists, specifications, files, government requirements, or procurement review.",
+    text: "For BOQs, product lists, specifications, files, institutional requirements, or procurement review.",
     href: "/quote",
     action: "Start RFQ",
     image: "documentation",

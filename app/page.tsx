@@ -13,7 +13,7 @@ import {
 export const metadata: Metadata = {
   title: "Enterprise Technology With Operational Clarity",
   description:
-    "HACIEN provides enterprise technology, infrastructure, software, government procurement support, managed services, and a connected operating model for Philippine organizations.",
+    "HACIEN provides enterprise technology, infrastructure, software, managed services, RFQ review, and a connected operating model for Philippine organizations.",
 };
 
 export default function Home() {

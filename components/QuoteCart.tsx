@@ -28,7 +28,7 @@ const allowedAttachmentExtensions = [".pdf", ".doc", ".docx", ".xls", ".xlsx", "
 const intakePaths = [
   "Describe requirements",
   "Upload BOQ",
-  "Upload government specifications",
+  "Upload formal specifications",
   "Upload existing supplier quote",
   "Upload file / image / ZIP",
   "Reference a technology area",
@@ -211,7 +211,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-950">Universal RFQ intake</h2>
         <p className="mt-2 text-sm leading-6 text-slate-600">
           Your RFQ can start without catalog products. Start with a requirement, BOQ, supplier quote,
-          government specification, image, ZIP file, technology area, or plain description.
+          formal specification, image, ZIP file, technology area, or plain description.
         </p>
         <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4">
           <div className="text-xs font-bold uppercase tracking-[0.16em] text-amber-800">
@@ -391,7 +391,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
             <select required name="procurementType" className="focus-ring min-h-12 rounded-xl border border-slate-300 bg-white px-4 font-normal" defaultValue="">
               <option value="" disabled>Select procurement type</option>
               <option>Corporate</option>
-              <option>Government</option>
+              <option>Institutional</option>
               <option>Education</option>
               <option>Project-based</option>
               <option>Reseller / integrator</option>
@@ -418,7 +418,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
             />
           </label>
           <label className="grid gap-2 text-sm font-semibold text-slate-700">
-            Attachment <span className="font-normal text-slate-500">(BOQ, government specs, supplier quote, PDF, Excel, image, or ZIP)</span>
+            Attachment <span className="font-normal text-slate-500">(BOQ, formal specs, supplier quote, PDF, Excel, image, or ZIP)</span>
             <input
               name="attachment"
               type="file"

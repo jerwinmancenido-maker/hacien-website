@@ -25,8 +25,6 @@ const howItWorks = [
   ["Delivery", "Align delivery context, handover needs, and follow-up support when delivery is in scope."],
 ];
 
-const govFlow = ["RFQ", "Specification Matching", "Equivalent Review", "Supplier Input Review", "Quotation Support", "Delivery Context"];
-
 const solutionImages: Record<string, keyof typeof enterpriseImages> = {
   "it-infrastructure": "dataCenter",
   "hardware-software-procurement": "workstation",
@@ -223,38 +221,9 @@ export function ErpPreviewV3() {
   );
 }
 
-export function GovernmentV3() {
-  return (
-    <AnimatedSection className="bg-slate-950 px-4 py-14 text-white sm:px-6 lg:px-8 lg:py-16">
-      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_1fr]">
-        <div>
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Government Procurement Support</div>
-          <h2 className="mt-4 text-4xl font-bold tracking-tight">Documentation-aware sourcing for bid-driven IT needs.</h2>
-          <p className="mt-5 leading-7 text-slate-300">
-            HACIEN supports requirements review, equivalent matching, supplier-input review, quotation support, and delivery-context review.
-          </p>
-          <Link href="/government-procurement" className="interactive-link mt-8 inline-flex rounded border border-white/30 px-5 py-3 text-sm font-bold text-white">
-            View government support
-          </Link>
-        </div>
-        <div className="progress-line grid gap-4">
-          {govFlow.map((step, index) => (
-            <div key={step} className="relative rounded border border-white/12 bg-white/[0.07] p-5">
-              <div className="flex gap-4">
-                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-blue-500 text-sm font-bold text-white">{index + 1}</div>
-                <div className="font-bold">{step}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </AnimatedSection>
-  );
-}
-
 export function TrustV3() {
   const trustCards = [
-    ["Verified identity", "DTI and BIR registration facts are available through the company profile and Trust & Compliance pages."],
+    ["Bounded identity", "Public company information stays limited to what is appropriate for public review."],
     ["Quotation discipline", "Pricing, warranty, delivery, payment, and tax treatment are confirmed through formal quotation and written communication."],
     ["Relationship continuity", "Inquiries, quotations, delivery, support, and follow-up are treated as one continuing customer relationship."],
   ];

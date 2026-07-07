@@ -16,7 +16,7 @@ export default function QuotePage() {
       <PremiumPageHero
         eyebrow="Universal Gateway Intake"
         title="Start with the requirement. Catalog is optional."
-        description="Describe the need, upload a BOQ, send government specifications, attach an existing supplier quote, use catalog items, or simply explain the outcome. Every path enters HACIEN through the Gateway before any Opportunity is created."
+        description="Describe the need, upload a BOQ, send formal specifications, attach an existing supplier quote, use catalog items, or simply explain the outcome. Every path enters HACIEN through the Gateway before any Opportunity is created."
         image="commandCenter"
         primaryAction={{ href: "#rfq-form", label: "Start RFQ" }}
         secondaryAction={{ href: "/products", label: "Use RFQ Builder" }}

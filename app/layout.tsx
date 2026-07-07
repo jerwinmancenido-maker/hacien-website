@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "IT infrastructure Philippines",
     "IT procurement Philippines",
     "systems integrator Philippines",
-    "government procurement support",
+    "institutional procurement support",
     "technology solutions provider",
   ],
   openGraph: {

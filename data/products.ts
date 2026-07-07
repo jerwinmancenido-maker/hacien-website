@@ -146,7 +146,7 @@ const rawProducts: RawProduct[] = [
     slug: "business-laptop-i5-16gb",
     categorySlug: "computers-laptops",
     name: "Business Laptop Class",
-    shortDescription: "Business notebook sourcing for office, field, and government end-user computing requirements.",
+    shortDescription: "Business notebook sourcing for office, field, and institutional end-user computing requirements.",
     longDescription:
       "A business notebook requirement profile for teams that need reliable office, field, or institutional computing without locking the RFQ to a single brand before availability is reviewed.",
     specs: ["Intel Core i5 class processor", "16GB memory target", "512GB SSD target", "Windows-ready deployment"],
@@ -339,7 +339,7 @@ const rawProducts: RawProduct[] = [
     slug: "productivity-license-package",
     categorySlug: "licensed-software",
     name: "Productivity License Package",
-    shortDescription: "Productivity and collaboration license sourcing for business and government users.",
+    shortDescription: "Productivity and collaboration license sourcing for business and institutional users.",
     longDescription:
       "A productivity license requirement profile for organizations reviewing user counts, license terms, admin setup, renewals, and channel availability before procurement.",
     specs: ["User-based licensing", "Annual or monthly options", "Admin setup guidance", "Renewal tracking"],

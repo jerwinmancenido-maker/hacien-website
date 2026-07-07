@@ -90,10 +90,10 @@ export const solutions: Solution[] = [
       },
       {
         heading: "RFQ and quotation support",
-        body: "HACIEN can help organize structured quotation inputs for business purchasing, government procurement, and institutional buying, including item descriptions, unit pricing, lead time, and warranty notes where verified.",
+        body: "HACIEN can help organize structured quotation inputs for business purchasing and institutional buying, including item descriptions, unit pricing, lead time, and warranty notes where verified.",
       },
     ],
-    relatedSlugs: ["software-licensing", "it-infrastructure", "government-procurement"],
+    relatedSlugs: ["software-licensing", "it-infrastructure", "project-delivery-support"],
     ctaLabel: "Submit Procurement RFQ",
     ctaUrl: "/quote",
     icon: "RFQ",
@@ -437,7 +437,7 @@ export const solutions: Solution[] = [
       },
       {
         heading: "Mixed IT and non-IT packages",
-        body: "Government and institutional buyers often issue combined procurement packages that include both IT equipment and general goods. HACIEN can help organize sourcing questions for mixed packages to simplify quotation review.",
+        body: "Institutional buyers often issue combined procurement packages that include both IT equipment and general goods. HACIEN can help organize sourcing questions for mixed packages to simplify quotation review.",
       },
       {
         heading: "Procurement notes",
