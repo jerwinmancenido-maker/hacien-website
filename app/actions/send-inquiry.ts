@@ -1,17 +1,49 @@
 "use server";
 
 import { headers } from "next/headers";
+import { Ratelimit } from "@upstash/ratelimit";
+import { redis } from "@/lib/redis/upstash";
 
 const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
-const RATE_LIMIT_MAX = 5; // max submissions per window per IP
+const RATE_LIMIT_MAX = 10; // max submissions per window per IP (updated to 10 per 360-degree audit)
 const EMAIL_RATE_LIMIT_MAX = 3;
 const MIN_SUBMIT_TIME_MS = 3_000;
+
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 const emailRateLimitMap = new Map<string, { count: number; resetAt: number }>();
 
+// Initialize Upstash Ratelimiters if Redis is available
+const ipRateLimiter = redis
+  ? new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(RATE_LIMIT_MAX, "60 s"),
+      analytics: true,
+      prefix: "@upstash/ratelimit/ip",
+    })
+  : null;
+
+const emailRateLimiter = redis
+  ? new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(EMAIL_RATE_LIMIT_MAX, "60 s"),
+      analytics: true,
+      prefix: "@upstash/ratelimit/email",
+    })
+  : null;
+
 // ── Rate Limiting ──────────────────────────────────────────────
 
-function getRateLimitInfo(ip: string): { allowed: boolean; retryAfterSec: number } {
+async function getRateLimitInfo(ip: string): Promise<{ allowed: boolean; retryAfterSec: number }> {
+  if (ipRateLimiter) {
+    try {
+      const result = await ipRateLimiter.limit(ip);
+      const retryAfterSec = Math.ceil((result.reset - Date.now()) / 1000);
+      return { allowed: result.success, retryAfterSec };
+    } catch (err) {
+      console.warn("Upstash IP rate limit failed, falling back to memory.", err);
+    }
+  }
+
   const now = Date.now();
   const entry = rateLimitMap.get(ip);
 
@@ -39,9 +71,19 @@ function getClientIp(headerList: Headers): string {
   );
 }
 
-function getEmailRateLimitInfo(email: string): { allowed: boolean; retryAfterSec: number } {
+async function getEmailRateLimitInfo(email: string): Promise<{ allowed: boolean; retryAfterSec: number }> {
   const key = email.trim().toLowerCase();
   if (!key) return { allowed: true, retryAfterSec: 0 };
+
+  if (emailRateLimiter) {
+    try {
+      const result = await emailRateLimiter.limit(key);
+      const retryAfterSec = Math.ceil((result.reset - Date.now()) / 1000);
+      return { allowed: result.success, retryAfterSec };
+    } catch (err) {
+      console.warn("Upstash Email rate limit failed, falling back to memory.", err);
+    }
+  }
 
   const now = Date.now();
   const entry = emailRateLimitMap.get(key);
@@ -79,7 +121,7 @@ async function validateSubmissionSecurity(
     return { allowed: false, error: "Please review your message and try again.", ip };
   }
 
-  const { allowed, retryAfterSec } = getRateLimitInfo(ip);
+  const { allowed, retryAfterSec } = await getRateLimitInfo(ip);
   if (!allowed) {
     console.warn("RFQ: Rate limited.", { ip });
     return {
@@ -90,7 +132,7 @@ async function validateSubmissionSecurity(
     };
   }
 
-  const emailLimit = getEmailRateLimitInfo(getString(formData.email));
+  const emailLimit = await getEmailRateLimitInfo(getString(formData.email));
   if (!emailLimit.allowed) {
     console.warn("RFQ: Email rate limited.", { ip });
     return {
@@ -101,14 +143,20 @@ async function validateSubmissionSecurity(
     };
   }
 
-  if (!getString(formData.turnstileToken)) {
-    console.warn("RFQ: Turnstile token missing.", { ip });
-    return {
-      allowed: false,
-      error:
-        "Security verification could not be completed. Please refresh and try again.",
-      ip,
-    };
+  const hasTurnstileKey = Boolean(process.env.TURNSTILE_SITE_KEY);
+  const isDev = process.env.NODE_ENV === "development";
+  const token = getString(formData.turnstileToken);
+
+  if (hasTurnstileKey && !isDev) {
+    if (!token) {
+      console.warn("RFQ: Turnstile token missing.", { ip });
+      return {
+        allowed: false,
+        error:
+          "Security verification could not be completed. Please refresh and try again.",
+        ip,
+      };
+    }
   }
 
   return { allowed: true, ip };
@@ -134,11 +182,16 @@ function getGatewaySubmissionType(formType: string) {
 }
 
 function getGatewayUrl() {
-  return (
+  let url = (
     process.env.HACIEN_GATEWAY_API_URL ||
     process.env.HACIEN_API_PUBLIC_URL ||
     "http://localhost:4101/api/v1"
-  ).replace(/\/$/, "");
+  ).replace(/\/+$/, "");
+
+  if (!url.endsWith("/api/v1")) {
+    url = `${url}/api/v1`;
+  }
+  return url;
 }
 
 async function submitToGateway(formData: Record<string, unknown>, ip: string) {
