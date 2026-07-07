@@ -1,15 +1,19 @@
 # HACIEN Masterplan Conformance Register
 
-Last updated: 2026-07-07 20:12 PST
+Last updated: 2026-07-08
 Repository: `/Users/jerwinmancenido/hacien-website`
-Branch: `audit/website-production-readiness-hardening`
-Verified base before this register update: `2d5cfa573f1d12060b59a51b343f6100eb28eede`
+Branch: `main`
+Verified base before this register update: `43dd204` (`Merge pull request #2 from jerwinmancenido-maker/audit/website-production-readiness-hardening`)
 
 ## Source Freeze
 
 | Source | Path | Role |
 |---|---|---|
-| Master task inventory | `/Users/jerwinmancenido/.gemini/antigravity-ide/brain/ff46cf60-2182-49b7-8d63-2423ffa4f544/task.md` | Masterplan SSOT and phase checklist |
+| Repo-local masterplan index | `/Users/jerwinmancenido/hacien-website/plans/hacien-website-masterplan-index.md` | Current entry point and conflict-precedence rule |
+| Main Antigravity website blueprint | `/Users/jerwinmancenido/.gemini/antigravity-ide/brain/ff46cf60-2182-49b7-8d63-2423ffa4f544/website_execution_plan_audit.md` | Strategic HACIEN Website master plan |
+| Executive guide | `/Users/jerwinmancenido/.gemini/antigravity-ide/brain/ff46cf60-2182-49b7-8d63-2423ffa4f544/HACIEN_MASTER_PLAN_EXECUTIVE_DOCUMENTATION.md` | Roadmap and executive summary |
+| Motion plan | `/Users/jerwinmancenido/.gemini/antigravity-ide/brain/ff46cf60-2182-49b7-8d63-2423ffa4f544/HACIEN_CINEMATIC_VIDEO_PLAN.md` | Supporting cinematic plan, superseded where Founder design correction applies |
+| Master task inventory | `/Users/jerwinmancenido/.gemini/antigravity-ide/brain/ff46cf60-2182-49b7-8d63-2423ffa4f544/task.md` | Historical task checklist; stale where it conflicts with this register |
 | Sprint 2 Phase 3 implementation plan | `/Users/jerwinmancenido/.gemini/antigravity-ide/brain/ff46cf60-2182-49b7-8d63-2423ffa4f544/implementation_plan.md` | Phase 3 implementation detail |
 | Team operating system | `/Users/jerwinmancenido/.agents/skills/team-operating-system/SKILL.md` | Execution and reporting workflow |
 
@@ -22,6 +26,7 @@ Verified base before this register update: `2d5cfa573f1d12060b59a51b343f6100eb28
 | Missing | Not implemented |
 | Blocked | Requires Founder, legal, tax, supplier, payment, deployment, migration, or production evidence before implementation |
 | Approved Deviation | Explicitly approved departure from masterplan wording |
+| Stale Plan Record | Historical plan text that no longer matches Founder decisions, live evidence, or repo execution truth |
 
 ## Phase Tracker
 
@@ -29,9 +34,9 @@ Verified base before this register update: `2d5cfa573f1d12060b59a51b343f6100eb28
 |---|---|---|---|
 | Phase 0 - Workplace Preparation | Green / Complete | Master task inventory marks complete | No action in this register |
 | Phase 1 - Foundation & Build Verification | Green / Complete | Master task inventory marks complete | Current build also passes |
-| Phase 2 - Intake Readiness | Green / Complete | Master task inventory marks complete | No production deploy implied |
-| Phase 3 - Visual Recovery, Remotion, WebGL | Green / Closed with gates | Commits `b032403` through `80959fb`; Founder Gate and final visual review recorded below | Safe implementation is complete; blocked business-claim items remain evidence-gated |
-| Phase 4 - CMS Flexibility | Blue / Pending | Master task inventory | Do not start until Phase 3 drift gate is accepted |
+| Phase 2 - Intake Readiness | Green / Complete | PR #2 deployed; live RFQ path returned `RFQ-2026-000001`; `/track/RFQ-2026-000001` returns 200 | Gateway, Turnstile, website Gateway URL, Gateway tables, and timeline tables are production-verified |
+| Phase 3 - Visual Recovery, Remotion, WebGL | Yellow / Partial / Reopened for Design Recovery | Technical artifacts exist in commits `b032403` through `80959fb`; honest live screenshot audit in `/tmp/hacien-phase3-honest-audit-20260708/manifest.json` found no live canvas/video on core routes, excessive mobile height, repetitive copy, and unacceptable render-heavy direction | Phase 3 is not accepted as public design-complete. Rework before Phase 4 |
+| Phase 4 - CMS Flexibility | Red / Blocked Until Phase 3 Recovery | Master task inventory | Do not start until Phase 3 design/content recovery passes visual/content QA |
 | Phase 5 - Portal/Admin/AI Concierge | Blue / Pending | Master task inventory | Contains legal/tax/payment-risk items requiring gates |
 | Phase 6 - Quote PDF, Payments & Logistics | Blue / Pending | Master task inventory | Contains payment/logistics/tax commitments requiring gates |
 | Phase 7 - Supplier Integration | Blue / Pending | Master task inventory | Supplier/API credentials and evidence required |
@@ -41,11 +46,11 @@ Verified base before this register update: `2d5cfa573f1d12060b59a51b343f6100eb28
 
 | Requirement | Status | Evidence | Blocker / Next Action |
 |---|---|---|---|
-| Remotion Cinematic Video Compositions: `HeroReel`, `ExplodedHardware`, `AiScannerDemo`, `LogisticsMap`, `PortalAssetDashboard` | Complete | `remotion/Root.tsx`, `remotion/compositions/*.tsx`; commit `b032403`, reconciled by `80959fb` | None for local implementation |
+| Remotion Cinematic Video Compositions: `HeroReel`, `ExplodedHardware`, `AiScannerDemo`, `LogisticsMap`, `PortalAssetDashboard` | Partial | `remotion/Root.tsx`, `remotion/compositions/*.tsx`; commit `b032403`, reconciled by `80959fb` | Files exist, but the public website does not yet deliver the intended cinematic moving-background/text experience |
 | Hyperframes orchestration | Approved Deviation | Founder Gate: Remotion-only orchestration is accepted for Phase 3; `CinematicSequence` composes the five scenes | Do not add Hyperframes in Phase 3 unless a later explicit decision reverses this gate |
 | Whole-Website Cinematic UX: Lenis, ambient lighting, App Router dissolve | Complete | `components/motion/LenisProvider.tsx`, `app/layout.tsx`, `app/template.tsx`, `components/motion/PageTransition.tsx`, `app/globals.css`; commits `b032403`, `80959fb` | None for local implementation |
 | PepStack motion standards: `clinicalOut`, `premiumInOut`, `OVERLAP_FRAMES = 18` | Complete | `lib/motion/timing.ts`, `app/globals.css`, `remotion/compositions/CinematicSequence.tsx`; commit `80959fb` | None |
-| Scroll-bound 3D WebGL assembly | Complete | `components/visual/ScrollServerAssembly.tsx`, `components/visual/ScrollServerAssemblyWrapper.tsx`, surfaced in `app/solutions/[slug]/page.tsx`; commits `34382d7`, `80959fb` | None for local implementation |
+| Scroll-bound 3D WebGL assembly | Stale Plan Record / Not Accepted Public Direction | `components/visual/ScrollServerAssembly.tsx`, `components/visual/ScrollServerAssemblyWrapper.tsx`; commits `34382d7`, `80959fb` | Founder correction: public cinematic direction should not be cheap product/server renders. Remove, archive, or de-emphasize in Phase 3 recovery |
 | Dynamic CMS video text overlays from JSON catalog/config | Deferred to Phase 4 | Founder Gate: JSON config satisfies Phase 3 proof; CMS-managed overlays move to Phase 4 | Carry into Phase 4 zero-hardcoding/CMS refactor |
 | Quote Expiry Auto-Ping daily cron | Partial | `cron/quote-expiry-monitor.ts`, `package.json` script `cron:quote-expiry`; commit `6a8cc89` | Production PM2/VPS scheduling, Resend/SMS runtime proof, and customer notification approval remain blocked |
 | AI Document Parser component | Complete | `app/actions/parse-document.ts`, `components/AiDocumentParser.tsx`; commit `c763d0c` | No production document processing claim implied |
@@ -53,10 +58,10 @@ Verified base before this register update: `2d5cfa573f1d12060b59a51b343f6100eb28
 | Dual Inventory Availability Badging with literal stock/SLA claims | Blocked | Masterplan wording requires `In Stock - Manila Hub` and `Direct Distributor Channel`; current ProductDetail uses evidence-safe review language | Requires supplier inventory evidence, stock data source, SLA approval, and business decision before public literal claims |
 | 15-Day Quote Validity Badge / price guarantee countdown | Blocked | Current `config/billing-compliance-settings.json` says formal quote validity is set by document; commit `7d894f3` | Terms say website does not set default validity. Requires explicit Founder/legal/commercial approval before literal implementation |
 | Price Match Guarantee Badge | Blocked | No safe public guarantee implemented | Requires written price-match policy, exclusions, approval path, and supplier margin evidence |
-| 3D Interactive Server Chassis | Complete | `components/visual/InteractiveServerChassis.tsx`, wrapper, `app/solutions/[slug]/page.tsx`; commits `b032403`, `7c2dbfb`, `34382d7` | None for local implementation |
-| Interactive WebGL Philippines Delivery Globe | Complete | `components/visual/DeliveryGlobe.tsx`, wrapper, `app/about/page.tsx`; commit `b032403` | Copy states it is illustrative, not a delivery commitment |
+| 3D Interactive Server Chassis | Stale Plan Record / Not Accepted Public Direction | `components/visual/InteractiveServerChassis.tsx`, wrapper; commits `b032403`, `7c2dbfb`, `34382d7` | Founder correction rejects cheap render-heavy product/server direction as the public cinematic identity |
+| Interactive WebGL Philippines Delivery Globe | Partial / De-emphasized | `components/visual/DeliveryGlobe.tsx`, wrapper; commit `b032403` | It is illustrative only. Do not use as proof of delivery/logistics readiness or as dominant public design |
 | Glassmorphic Skeleton Suspense | Complete | `components/visual/GlassmorphicSkeleton.tsx`, dynamic wrappers with `ssr: false`; commit `b032403` | None |
-| Multi-Viewport Visual Screenshot Verification | Complete for local production preview | `/tmp/hacien-20260707-final-phase3-reviewed/manifest.json`; 21 screenshots across desktop/tablet/mobile, 7 routes, no console/page errors, no horizontal overflow, no blocked-claim hits | Screenshots are temporary `/tmp` evidence, not durable repo artifacts |
+| Multi-Viewport Visual Screenshot Verification | Partial / Reopened | Prior local evidence: `/tmp/hacien-20260707-final-phase3-reviewed/manifest.json`. Honest live audit: `/tmp/hacien-phase3-honest-audit-20260708/manifest.json` | Earlier QA proved "not broken"; it did not prove "premium, meaningful, cinematic, and useful." Phase 3 needs design recovery |
 | Required checks: `npm run validate`, `npm test`, `npm run build` | Complete | `npm run validate` passed; `npm run build` passed; `npx vitest run` passed | `npm test` equivalent in this repo is `npx vitest run`; no `test` script is defined in `package.json` |
 
 ## Founder Gate Decisions
@@ -69,7 +74,7 @@ Verified base before this register update: `2d5cfa573f1d12060b59a51b343f6100eb28
 | 15-day quote guarantee | Blocked | Do not publish default validity or price guarantee claims while Terms state validity is set by the formal document |
 | Price match guarantee | Blocked | Do not publish price-match triggers without written policy, exclusions, and margin guardrails |
 | Tax/payment/receipt claims | Blocked | Do not publish payment collection, official invoice, official receipt, BIR/tax readiness, or cashier approval claims without approved evidence |
-| Phase 3 closure | Closed with gates | Final visual review passed; blocked business claims remain evidence-gated |
+| Phase 3 closure | Reopened | Technical implementation exists, but public design/content quality is not accepted | Phase 4 is blocked until Phase 3 design recovery passes visual/content QA |
 
 ## Design Direction Override
 
@@ -78,6 +83,7 @@ Verified base before this register update: `2d5cfa573f1d12060b59a51b343f6100eb28
 | Public website visual identity | Founder direction update on 2026-07-07 | The main website experience should emphasize premium website design and real-world sourced photography, not product/computer/server fantasy renders |
 | Remotion/WebGL public prominence | De-emphasized after Phase 3 closure | Remotion and WebGL remain local implementation proof from Phase 3, but should not dominate the public website identity unless explicitly re-approved |
 | Internet photography | Allowed with source review | Use licensing-safe real-world business, infrastructure, office, procurement, operations, or technology environment photography; avoid unsupported product, stock, delivery, payment, tax, or warranty claims |
+| Cinematic website direction | Founder correction on 2026-07-08 | Cinematic means premium moving backgrounds, text motion, scroll rhythm, ambient/parallax layers, and curated photography. It does not mean cheap 3D product/server renders |
 
 ## Website Creation Quality Guidelines
 
@@ -108,6 +114,26 @@ Final production-preview screenshots were captured from `http://localhost:3055`.
 
 Note: `http://localhost:3037` returned page HTML with status `200`, but previously produced stale static asset MIME/500 console errors during capture. Final evidence uses a clean temporary production preview on port `3055`.
 
+## Production Website Evidence After PR #2
+
+| Evidence | Result | Notes |
+|---|---|---|
+| PR #2 deployment | Complete | Public website hardening branch merged and deployed from `main` |
+| Public government credential cleanup | Complete | Live pages scanned without public DTI/BIR/Mayor/PhilGEPS/government-procurement matches |
+| `/government-procurement` | 404 | Public route is no longer discoverable as a live page |
+| RFQ submission | Complete | Live `/quote` submitted successfully with reference `RFQ-2026-000001` |
+| RFQ tracking | Complete | `/track/RFQ-2026-000001` returns 200 |
+
+## Phase 3 Design Recovery Findings
+
+| Finding | Severity | Evidence | Required Correction |
+|---|---|---|---|
+| Public cinematic effect is not visible on core live routes | High | Honest audit found `canvas=0` and `video=0` on audited core live routes | Build website-level motion: moving backgrounds, text choreography, scroll rhythm, ambient/parallax layers |
+| Render-heavy server/globe direction is not accepted | High | Existing `components/visual/*Server*`, `DeliveryGlobe`, and Remotion hardware scenes | Remove, archive, or de-emphasize as public identity; use curated photography and subtle motion |
+| Mobile pages are too long and low-density | High | Honest audit: mobile home about 15 screens, about about 18 screens, solutions about 13 screens | Reduce oversized sections, repeated cards, and low-value blocks |
+| Copy reads repetitive and AI-generated | High | Repeated "procurement", "clarity", "workflow", "relationship", "operational" framing across pages | Rewrite page copy so each section has a distinct purpose and business meaning |
+| Photography is repetitive | Medium | Multiple sections reuse the same server/office imagery | Curate fewer, stronger, more intentional real-world images with source traceability |
+
 ## Verification Record
 
 | Command | Result | Notes |
@@ -129,8 +155,9 @@ Note: `http://localhost:3037` returned page HTML with status `200`, but previous
 
 ## Recommended Next Decision
 
-Phase 3 is locally implementation-ready except for blocked/deviation items:
+Phase 3 must be recovered before Phase 4 starts:
 
-- Decide whether Remotion-only orchestration is acceptable, or whether Hyperframes must be added literally.
-- Decide whether JSON file-driven Remotion text overlays satisfy the current masterplan, or whether admin/CMS-managed overlays move to Phase 4.
+- Keep safe technical foundations that still help: RFQ, Gateway, tracking, help/FAQ, parser, motion utilities, claim safety, photography source tracking.
+- Rework public design and copy so the site feels premium, meaningful, cinematic, and useful on mobile.
+- Remove or de-emphasize cheap 3D server/product render direction from public pages.
 - Keep stock SLA, 15-day quote guarantee, price-match, payment, invoice, receipt, and BIR/tax claims blocked unless explicitly approved with business evidence.
