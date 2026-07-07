@@ -4,9 +4,8 @@ import Link from "next/link";
 import { CTABand } from "@/components/CTABand";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Breadcrumb } from "@/components/Breadcrumb";
+import { EnterprisePhotoPanel } from "@/components/EnterpriseImagery";
 import { StaggerContainer } from "@/components/motion";
-import { InteractiveServerChassisWrapper } from "@/components/visual/InteractiveServerChassisWrapper";
-import { ScrollServerAssemblyWrapper } from "@/components/visual/ScrollServerAssemblyWrapper";
 import { getSolution, solutions } from "@/data/solutions";
 
 export function generateStaticParams() {
@@ -71,30 +70,13 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
             </div>
           </div>
           {["it-infrastructure", "servers-storage"].includes(solution.slug) ? (
-            <div className="mt-10 space-y-6 rounded-lg bg-[#071426] p-5 text-white">
-              <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-                <div className="p-3">
-                  <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">3D Preview</div>
-                  <h2 className="mt-3 text-2xl font-bold">Server component review model</h2>
-                  <p className="mt-3 text-sm leading-6 text-slate-300">
-                    A browser-rendered visual aid for discussing compute, memory, power, and chassis context.
-                    Final specifications remain subject to RFQ review and verified supplier input.
-                  </p>
-                </div>
-                <InteractiveServerChassisWrapper />
-              </div>
-              <div className="grid gap-6 border-t border-white/10 pt-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
-                <ScrollServerAssemblyWrapper />
-                <div className="p-3">
-                  <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Scroll-Bound Assembly</div>
-                  <h2 className="mt-3 text-2xl font-bold">Parts separate as the page moves.</h2>
-                  <p className="mt-3 text-sm leading-6 text-slate-300">
-                    This visualizes how requirements can be broken into reviewable context. It is a planning aid,
-                    not a final configuration, inventory, or delivery commitment.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <EnterprisePhotoPanel
+              className="mt-10"
+              image={solution.slug === "servers-storage" ? "storage" : "dataCenter"}
+              eyebrow="Infrastructure Review"
+              title="Infrastructure decisions need real operating context."
+              caption="HACIEN uses this page to frame requirement review, supplier-input context, and quotation preparation. Final configuration, availability, delivery, and terms remain subject to formal RFQ review."
+            />
           ) : null}
         </div>
       </section>

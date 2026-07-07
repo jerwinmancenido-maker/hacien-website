@@ -162,8 +162,8 @@ select {
 }
 
 .motion-section {
-  opacity: 0;
-  transform: translateY(20px);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .motion-section.is-visible {
@@ -213,7 +213,9 @@ select {
 
 .rb-animated-content,
 .rb-blur-reveal {
-  opacity: 0;
+  opacity: 1;
+  filter: none;
+  transform: none;
   transition-delay: var(--rb-delay, 0ms);
   transition-duration: 720ms;
   transition-property: opacity, filter, transform;
@@ -222,12 +224,12 @@ select {
 }
 
 .rb-animated-content {
-  transform: translate3d(var(--rb-x, 0), var(--rb-y, 18px), 0);
+  transform: translate3d(0, 0, 0);
 }
 
 .rb-blur-reveal {
-  filter: blur(14px);
-  transform: translateY(14px);
+  filter: none;
+  transform: translateY(0);
 }
 
 .rb-animated-content.is-visible,
