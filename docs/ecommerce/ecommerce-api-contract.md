@@ -153,4 +153,3 @@ Creates a customer-safe ecommerce order intent in Gateway. It does not create of
 - `slug` is normalized to lower-case hyphen form and unique per company/website.
 - Only published products for `VERIFIED` ERP products are exposed.
 - `RFQ-first` is the default, checkout-enabled products require explicit publication controls.
-

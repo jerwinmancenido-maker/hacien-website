@@ -69,4 +69,3 @@ export function SignupForm() {
     </form>
   );
 }
-
