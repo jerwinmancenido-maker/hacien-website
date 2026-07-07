@@ -3,6 +3,7 @@ import Link from "next/link";
 import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/reactbits";
 import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
+import { InteractivePortalPreview } from "@/components/InteractivePortalPreview";
 
 export const metadata: Metadata = {
   title: "Customer Workspace | HACIEN",
@@ -13,13 +14,13 @@ export const metadata: Metadata = {
 const availableNow = [
   ["Request Quote", "Submit requirements, BOQs, files, existing quotes, or project context through the Gateway.", "/quote"],
   ["Track Reference", "Use a reference number to view request status and continue the inquiry path.", "/track/RFQ-2026-000009"],
-  ["Contact Support", "Send follow-up context for quotation, delivery, warranty, or company communication.", "/support"],
+  ["Contact Support", "Send follow-up context for quotation, fulfillment questions, or company communication.", "/support"],
 ];
 
 const futureCapabilities = [
   {
     title: "Request Tracking",
-    text: "Customers will see meaningful milestones for RFQs, clarifications, quotations, delivery, and support.",
+    text: "Customers will see meaningful milestones for RFQs, clarifications, quotations, fulfillment planning, and support.",
     image: "documentation",
   },
   {
@@ -34,7 +35,7 @@ const futureCapabilities = [
   },
   {
     title: "Support History",
-    text: "Warranty, replacement, renewal, and post-delivery support will continue from the same customer record.",
+    text: "Support, renewal, and service context will continue from the same customer record when evidence and visibility rules allow it.",
     image: "network",
   },
 ];
@@ -63,6 +64,12 @@ export default function PortalPage() {
           { label: "Available Now", text: "RFQ, tracking, clarification, contact, and support paths are active." },
         ]}
       />
+
+      <section className="px-4 py-12 sm:px-6 lg:px-8 bg-slate-50/50">
+        <div className="mx-auto max-w-7xl">
+          <InteractivePortalPreview />
+        </div>
+      </section>
 
       <section className="px-4 py-18 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
 import { TurnstileField } from "@/components/TurnstileField";
 
-type ContactFormType = "Contact" | "Supplier" | "Government";
+type ContactFormType = "Contact" | "Supplier" | "Institutional";
 
 export function ContactForm({
   type = "Contact",
@@ -181,7 +181,7 @@ export function ContactForm({
           </option>
           <option>Request a quote</option>
           <option>Supplier partnership</option>
-          <option>Government procurement</option>
+          <option>Institutional procurement</option>
           <option>Systems integration project</option>
         </select>
         <div className="grid gap-4 sm:grid-cols-2">

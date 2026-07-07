@@ -11,20 +11,19 @@ export const metadata: Metadata = {
 
 const profileItems = [
   ["What HACIEN does", "Solutions consulting, RFQ review, technology sourcing coordination, procurement support, and customer-success oriented follow-through."],
-  ["How HACIEN works", "Every request enters a review path before quotation, sourcing, delivery, warranty, or payment commitments are made."],
-  ["Published company facts", "HACIEN INFORMATION TECHNOLOGY SOLUTIONS publishes supported DTI and BIR registration facts for customer and supplier confidence."],
-  ["Commercial commitments", "Pricing, delivery, warranty, and payment terms are confirmed through formal quotation and written business communication."],
+  ["How HACIEN works", "Every request enters a review path before quotation, sourcing, delivery, warranty, payment, or tax commitments are made."],
+  ["Published company facts", "HACIEN INFORMATION TECHNOLOGY SOLUTIONS publishes bounded company information with clear public limits."],
+  ["Commercial commitments", "Pricing, delivery, warranty, payment, and tax terms are confirmed only through request-specific formal documents or written business communication."],
   ["Why this matters", "Customers and suppliers should know which information is public, which commitments are formal, and how to begin safely."],
 ];
 
 const verification = [
-  ["DTI business name", "Verified"],
-  ["Business Name No.", "8278010"],
-  ["Validity", "Jun 17 2026 - Jun 17 2031"],
-  ["BIR registration", "Verified facts"],
-  ["Office location", "Lease evidence verified"],
-  ["Contact email", companyContact.email],
-  ["Public RFQ", "Available"],
+  ["Company name", "Published"],
+  ["Business communication", "Review path"],
+  ["Formal documents", "Upon approved request"],
+  ["Office location", "Published"],
+  ["Public contact", "Form-based inquiry path"],
+  ["Public RFQ", "Review intake available"],
 ];
 
 export default function CompanyProfilePage() {
@@ -85,16 +84,14 @@ export default function CompanyProfilePage() {
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Contact Details</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">Public business contact.</h2>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-600">
-              Customers, suppliers, partners, and procurement offices may use these details to begin formal communication with HACIEN.
+              Customers, suppliers, partners, and organization buyers may use these public paths to begin review-first communication with HACIEN.
             </p>
           </AnimatedContent>
           <AnimatedContent delay={100}>
             <div className="grid gap-5 text-sm leading-7 text-slate-700">
               <div>
-                <div className="font-bold text-slate-950">Email</div>
-                <a className="font-semibold text-[#1457d9]" href={`mailto:${companyContact.email}`}>
-                  {companyContact.email}
-                </a>
+                <div className="font-bold text-slate-950">Inquiry routing</div>
+                <p className="mt-1">{companyContact.contactInstruction}</p>
               </div>
               <div>
                 <div className="font-bold text-slate-950">{companyContact.addressLabel}</div>

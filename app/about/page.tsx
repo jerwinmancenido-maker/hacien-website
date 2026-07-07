@@ -8,6 +8,7 @@ import {
   Marquee,
   SpotlightCard,
 } from "@/app/components/reactbits";
+import { EnterprisePhotoPanel } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { CapabilityResources, CompanyCredentials, FutureProofAssets, OurCommitment } from "@/components/TrustConfidence";
 
@@ -54,7 +55,7 @@ const workflow = [
 
 const industries = [
   ["Business", "Workstations, network upgrades, licensed software, and recurring office technology procurement."],
-  ["Government", "Specification review, equivalent matching, quotation support, and documentation-aware delivery."],
+  ["Institutional", "Specification review, equivalent matching, quotation support, and documentation-aware delivery."],
   ["Education", "Classroom devices, connectivity equipment, security systems, and institutional purchasing support."],
   ["Healthcare", "Reliable endpoint, network, power, storage, and support materials for operational environments."],
   ["Construction", "Site connectivity, surveillance, project office equipment, and deployment materials."],
@@ -132,6 +133,29 @@ export default function AboutPage() {
 
       <CompanyCredentials />
 
+      <section className="overflow-hidden bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <AnimatedContent>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Planning Context</div>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+              Regional planning needs visible assumptions.
+            </h2>
+            <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-300">
+              HACIEN treats delivery, handover, and site constraints as planning details to be clarified during RFQ review.
+              This is not a delivery commitment, coverage guarantee, or live logistics tracker.
+            </p>
+          </AnimatedContent>
+          <AnimatedContent delay={120} direction="left">
+            <EnterprisePhotoPanel
+              image="strategy"
+              eyebrow="Operations Review"
+              title="Planning details stay visible before commitments are made."
+              caption="Requirements, delivery assumptions, handover needs, and support context are reviewed before final commercial terms are confirmed."
+            />
+          </AnimatedContent>
+        </div>
+      </section>
+
       <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
@@ -167,7 +191,7 @@ export default function AboutPage() {
               A procurement lifecycle designed for accuracy, accountability, and handover.
             </h2>
           </AnimatedContent>
-          <div className="mt-12 overflow-x-auto pb-4">
+          <div className="mt-12 max-w-full overflow-x-auto pb-4">
             <div className="grid min-w-[980px] grid-cols-9 gap-3 lg:min-w-0">
             {workflow.map((step, index) => (
               <AnimatedContent key={step} delay={Math.min(index * 55, 360)} distance={14}>
@@ -267,7 +291,7 @@ export default function AboutPage() {
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
                   Send your requirement list, deadline, delivery location, and supporting
-                  specifications. HACIEN will help turn it into a supplier-ready RFQ.
+                  specifications. HACIEN will help turn it into a review-ready RFQ.
                 </p>
               </div>
               <div className="flex items-center gap-4">

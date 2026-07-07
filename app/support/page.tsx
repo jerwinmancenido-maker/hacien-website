@@ -8,14 +8,14 @@ import { PremiumPageHero } from "@/components/PremiumPageHero";
 export const metadata: Metadata = {
   title: "Support",
   description:
-    "HACIEN support entry point for RFQ follow-up, procurement coordination, warranty questions, delivery questions, supplier inquiries, and general business support.",
+    "HACIEN support entry point for RFQ follow-up, procurement context, warranty questions tied to formal documents, delivery context, supplier inquiries, and general business support.",
 };
 
 const supportPaths = [
   ["RFQ follow-up", "Clarify submitted requirements, quantities, deadlines, or product context.", "/quote", "documentation"],
-  ["Procurement question", "Ask about supplier availability, equivalent options, or quotation assumptions.", "/contact", "network"],
+  ["Procurement question", "Ask about supplier availability, equivalent options, or quotation assumptions for review.", "/contact", "network"],
   ["Delivery coordination", "Share delivery context or handover requirements for review.", "/contact", "cabling"],
-  ["Warranty or replacement", "Route post-delivery questions with product, quotation, and delivery context.", "/contact", "storage"],
+  ["Warranty or replacement", "Route questions with the product, quotation, supplier, and delivery context available for review.", "/contact", "storage"],
   ["Supplier or partner", "Introduce supply, fulfillment, implementation, or service capability.", "/contact", "workspace"],
   ["Policy question", "Review Trust & Compliance before relying on a commercial term.", "/trust-center", "cybersecurity"],
 ];
@@ -23,7 +23,7 @@ const supportPaths = [
 const expectations = [
   "Support starts with clear context, not a ticket number promise.",
   "Response expectations are confirmed through the active support conversation or formal business communication.",
-  "Payment, warranty, delivery, and return commitments must come from formal documents or verified policies.",
+  "Payment, warranty, delivery, tax, and return commitments must come from formal documents or verified policies.",
   "Use RFQ for new requirements and Contact for follow-up context.",
 ];
 
@@ -35,14 +35,14 @@ export default function SupportPage() {
       <PremiumPageHero
         eyebrow="Support Desk"
         title="Support begins by routing the question correctly."
-        description="HACIEN support is designed around procurement context: RFQ review, quotation assumptions, delivery coordination, warranty questions, and post-delivery follow-up."
+        description="HACIEN support is designed around procurement context: RFQ review, quotation assumptions, delivery context, warranty questions tied to documents, and follow-up."
         image="workspace"
         primaryAction={{ href: "#support-form", label: "Contact Support" }}
         secondaryAction={{ href: "/quote", label: "Request Quote" }}
         highlights={[
           { label: "RFQ Follow-Up", text: "Continue from a reference or submitted requirement." },
           { label: "Delivery", text: "Share handover, receiver, and site access context." },
-          { label: "Warranty", text: "Route warranty questions with product and quote context." },
+          { label: "Warranty", text: "Route warranty questions with product, supplier, and quote context." },
           { label: "Supplier", text: "Introduce capability through the right business channel." },
         ]}
       />

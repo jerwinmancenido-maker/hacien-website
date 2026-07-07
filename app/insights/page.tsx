@@ -13,12 +13,12 @@ import { insights } from "@/data/insights";
 export const metadata: Metadata = {
   title: "Enterprise Technology Knowledge Center | HACIEN Insights",
   description:
-    "Read HACIEN insights for enterprise technology, RFQ preparation, buyer checklists, government procurement, infrastructure, cybersecurity, cloud, and best practices.",
+    "Read HACIEN insights for enterprise technology, RFQ preparation, buyer checklists, infrastructure, cybersecurity, cloud, and best practices.",
 };
 
 const knowledgeAreas = [
   ["Enterprise Technology", "Practical preparation for RFQs, technology domains, supplier comparison, and technical requirements."],
-  ["Government Procurement", "Resources for specification review, approved equivalents, documentation, and institutional buying."],
+  ["Institutional Procurement", "Resources for specification review, approved equivalents, documentation, and organizational buying."],
   ["Best Practices", "Decision guidance for infrastructure, cybersecurity, cloud, digital transformation, and operational continuity."],
 ];
 
@@ -28,7 +28,7 @@ const categories = Array.from(new Set(insights.map((insight) => insight.category
 
 const insightImages: Record<string, keyof typeof enterpriseImages> = {
   "Procurement Basics": "strategy",
-  "Government Procurement": "documentation",
+  "Institutional Procurement": "documentation",
   "Technology Sourcing": "dataCenter",
   "ERP & Platform": "network",
   "Platform Direction": "workspace",
@@ -41,7 +41,6 @@ const insightImageOverrides: Record<string, keyof typeof enterpriseImages> = {
   "server-vs-nas-storage": "storage",
   "network-equipment-buying-guide": "network",
   "business-laptop-procurement-guide": "workstation",
-  "government-procurement-it-checklist": "commandCenter",
 };
 
 function insightImage(category: string, slug?: string) {
@@ -57,10 +56,10 @@ export default function InsightsPage() {
         description="Insights help buyers prepare clearer requirements, compare options, understand RFQs, and navigate technology decisions with more confidence."
         image="knowledge"
         primaryAction={{ href: "/quote", label: "Prepare an RFQ" }}
-        secondaryAction={{ href: "/government-procurement", label: "Government Resources" }}
+        secondaryAction={{ href: "/solutions", label: "Explore Solutions" }}
         highlights={[
           { label: "RFQ Preparation", text: "Practical guidance for clearer requirements and supplier review." },
-          { label: "Government Procurement", text: "Specification, equivalent, documentation, and quotation context." },
+          { label: "Institutional Procurement", text: "Specification, equivalent, documentation, and quotation context." },
           { label: "Infrastructure", text: "Technology foundations explained for better buying decisions." },
           { label: "Best Practices", text: "Operational clarity for security, cloud, continuity, and support." },
         ]}

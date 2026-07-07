@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { CSSProperties, ElementType } from "react";
+import type { CSSProperties } from "react";
+
+type SplitTag = "span" | "h1" | "h2" | "p";
 
 export function SplitText({
   text,
@@ -10,7 +12,7 @@ export function SplitText({
   delay = 34,
 }: {
   text: string;
-  as?: ElementType;
+  as?: SplitTag;
   className?: string;
   delay?: number;
 }) {
@@ -38,9 +40,10 @@ export function SplitText({
     return () => observer.disconnect();
   }, []);
 
-  return (
-    <Tag ref={ref} className={`rb-split-text ${visible ? "is-visible" : ""} ${className}`}>
-      {words.map((word, index) => (
+  const setRef = (node: HTMLElement | null) => {
+    ref.current = node;
+  };
+  const content = words.map((word, index) => (
         <span
           className="rb-split-word"
           key={`${word}-${index}`}
@@ -49,7 +52,36 @@ export function SplitText({
           {word}
           {index < words.length - 1 ? " " : ""}
         </span>
-      ))}
-    </Tag>
+  ));
+  const classes = `rb-split-text ${visible ? "is-visible" : ""} ${className}`;
+
+  if (Tag === "h1") {
+    return (
+      <h1 ref={setRef} className={classes}>
+        {content}
+      </h1>
+    );
+  }
+
+  if (Tag === "h2") {
+    return (
+      <h2 ref={setRef} className={classes}>
+        {content}
+      </h2>
+    );
+  }
+
+  if (Tag === "p") {
+    return (
+      <p ref={setRef} className={classes}>
+        {content}
+      </p>
+    );
+  }
+
+  return (
+    <span ref={setRef} className={classes}>
+      {content}
+    </span>
   );
 }
