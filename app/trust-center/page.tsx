@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const policyGroups = [
-  ["Company identity", "Supported facts", "HACIEN INFORMATION TECHNOLOGY SOLUTIONS publishes supported DTI and BIR registration facts with clear public boundaries."],
+  ["Company identity", "Bounded facts", "HACIEN INFORMATION TECHNOLOGY SOLUTIONS publishes only bounded company information suitable for public review."],
   ["RFQ and quotation", "Review first", "RFQ submission starts review only. Formal quotation depends on request-specific supplier availability, warranty, lead time, delivery context, payment terms, tax treatment, and customer acceptance."],
   ["Payment and invoices", "Not published", "The website does not publish bank details, payment instructions, default payment terms, invoice treatment, tax treatment, or late charges."],
   ["Warranty and returns", "Request-specific", "Warranty, return, replacement, and refund handling must be confirmed through supplier, distributor, manufacturer, vendor, or formal HACIEN transaction evidence."],
@@ -55,9 +55,9 @@ export default function TrustCenterPage() {
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">Current Verification Status</div>
             <div className="mt-6 grid gap-3">
               {[
-                ["DTI business name", "Verified"],
-                ["Business Name No.", "8278010"],
-                ["BIR registration facts", "Verified"],
+                ["Company information", "Bounded"],
+                ["Business communication", "Review path"],
+                ["Formal documents", "Upon approved request"],
                 ["Payment details", "Not published"],
                 ["RFQ intake", "Review path available"],
               ].map(([label, status]) => (

@@ -16,7 +16,7 @@ const resources = [
   ["Capability Statement", "Upon request", "A concise buyer-facing summary of service coverage, procurement support, and operating focus."],
   ["Service Overview", "Upon request", "A service overview for IT infrastructure, integration, sourcing, delivery, and support."],
   ["Product Catalog", "RFQ-based", "A structured product category reference. Final pricing, stock, warranty, and models require request-specific supplier evidence and quotation review."],
-  ["Government Procurement Support", "Available", "Guidance for specification review, equivalent matching, documentation, and quotation preparation."],
+  ["Institutional RFQ Support", "Available", "Guidance for specification review, equivalent matching, documentation, and quotation preparation."],
 ];
 
 const journey = [
@@ -191,11 +191,11 @@ export function TrustCta() {
 export function CompanyCredentials() {
   const credentials = [
     ["Company information", "HACIEN Information Technology Solutions operates as a Philippine IT procurement, sourcing, and technology solutions business."],
-    ["Industries served", "Business, government, education, healthcare, construction, enterprise, and institutional buyers."],
+    ["Industries served", "Business, education, healthcare, construction, enterprise, and institutional buyers."],
     ["Core expertise", "IT infrastructure requirement review, systems integration support, software licensing context, networking, security, project delivery, and procurement coordination."],
     ["Service coverage", "Requirement review, supplier-input review, quotation support, procurement coordination, delivery-context review, and post-delivery follow-up when transaction context exists."],
     ["Procurement methodology", "RFQ-first workflow that prioritizes documented requirements, technical validation, reviewed supplier inputs, and clear assumptions."],
-    ["Transparency commitment", "Registrations, permits, memberships, certifications, and downloadable credentials are published only when verified and approved for release."],
+    ["Transparency commitment", "Company details and downloadable materials are shared only when verified, approved for release, and relevant to the business request."],
   ];
 
   return (
@@ -207,7 +207,7 @@ export function CompanyCredentials() {
             Trust is presented as verifiable operating context, not inflated credentials.
           </h2>
           <p className="mt-4 text-base leading-7 text-slate-600">
-            HACIEN should publish official documents and registrations only when approved copies are available. Until then, the website explains what the company does and how it operates.
+            HACIEN shares formal business details through approved communication when relevant. The public website focuses on what the company does and how it operates.
           </p>
         </div>
         <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">

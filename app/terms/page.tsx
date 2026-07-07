@@ -22,7 +22,7 @@ const terms: TermSection[] = [
     bullets: [
       {
         label: "HACIEN",
-        text: "Refers to HACIEN Information Technology Solutions, the HACIEN brand and DTI-registered business name used for this public website. Public company identity statements are limited to supported DTI and BIR registration facts and the published BIR registered address / office location.",
+        text: "Refers to HACIEN Information Technology Solutions and the HACIEN brand used for this public website. Public company identity statements are limited to bounded company information suitable for public review.",
       },
       {
         label: "Website",
@@ -167,11 +167,11 @@ const terms: TermSection[] = [
     ],
   },
   {
-    title: "12. Tax Treatment and BIR Form 2307",
+    title: "12. Tax Treatment",
     bullets: [
       {
         label: "Tax Boundary",
-        text: "Public BIR registration facts identify HACIEN's registration context only. VAT, withholding tax, BIR Form 2307, receipt, invoice, exemption, and other tax treatment must be confirmed through finance/accounting review and the applicable formal transaction document.",
+        text: "VAT, withholding tax, receipt, invoice, exemption, and other tax treatment must be confirmed through finance/accounting review and the applicable formal transaction document.",
       },
       {
         label: "No Tax Advice",
@@ -197,22 +197,22 @@ const terms: TermSection[] = [
     ],
   },
   {
-    title: "14. Government and Institutional Procurement",
+    title: "14. Institutional Procurement",
     bullets: [
       {
         label: "Preparation Support",
-        text: "HACIEN may support government and institutional procurement preparation by reviewing buyer-provided specifications, RFQ context, equivalent options, quotation inputs, and documentation requirements.",
+        text: "HACIEN may support institutional procurement preparation by reviewing buyer-provided specifications, RFQ context, equivalent options, quotation inputs, and documentation requirements.",
       },
       {
         label: "Specification Decisions",
-        text: "HACIEN does not claim buyer-side authority, award authority, accreditation, PhilGEPS status, or legal compliance approval through this website. Final procurement, specification, compliance, and award decisions remain with the buyer or procuring entity.",
+        text: "HACIEN does not claim buyer-side authority, award authority, accreditation, or approval authority through this website. Final procurement, specification, compliance, and award decisions remain with the buyer or purchasing organization.",
       },
     ],
   },
   {
     title: "15. Verification and Corporate Documents",
     paragraphs: [
-      "Public company verification statements are limited to supported DTI and BIR facts and the published BIR registered address / office location. Additional documents, permits, signatory details, bank/payment information, supplier accreditation materials, or tax interpretations are shared only when verified, approved for release, and relevant to a qualified business request.",
+      "Public company verification statements are limited to bounded company information suitable for public review. Additional documents, signatory details, bank/payment information, supplier accreditation materials, or tax interpretations are shared only when verified, approved for release, and relevant to a qualified business request.",
     ],
   },
   {

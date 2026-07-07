@@ -45,7 +45,7 @@ const sections: PrivacySection[] = [
       },
       {
         label: "Sensitive Personal Information",
-        text: "Personal information about an individual's race, ethnic origin, marital status, age, color, religious/philosophical/political affiliations, health, education, genetic or sexual life, government-issued identification numbers, or any information specifically established by law to be kept confidential.",
+        text: "Personal information about an individual's race, ethnic origin, marital status, age, color, religious/philosophical/political affiliations, health, education, genetic or sexual life, regulated identification numbers, or any information specifically established by law to be kept confidential.",
       },
       {
         label: "Data Subject",
@@ -69,7 +69,7 @@ const sections: PrivacySection[] = [
     bullets: [
       {
         label: "Voluntarily Submitted Identity and Contact Data",
-        text: "Full name and salutation, corporate/business/government agency name, official job title or department, business email address and alternative contact emails, landline number, mobile number, fax number, and physical office, billing, and delivery addresses.",
+        text: "Full name and salutation, corporate/business organization name, official job title or department, business email address and alternative contact emails, landline number, mobile number, fax number, and physical office, billing, and delivery addresses.",
       },
       {
         label: "Commercial and Transactional Inquiry Data",
@@ -322,7 +322,7 @@ export default function PrivacyPage() {
           <p className="mt-8 rounded border border-slate-200 bg-slate-50 p-4 text-xs leading-6 text-slate-600">
             This public policy is intended for website and inquiry use. Specific customer contracts,
             master service agreements, non-disclosure agreements, supplier agreements, or formal
-            government procurement projects may contain additional privacy, confidentiality, and data
+            institutional procurement projects may contain additional privacy, confidentiality, and data
             handling clauses. In the event of a conflict, the terms of the specific written agreement
             shall supersede this online policy.
           </p>

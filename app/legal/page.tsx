@@ -25,14 +25,14 @@ const legalSections: LegalSection[] = [
       {
         heading: "1.1 Corporate Identity",
         paragraphs: [
-          "HACIEN Information Technology Solutions is the DTI-registered business name and HACIEN brand used for this public website. Public identity statements are limited to supported DTI and BIR registration facts.",
-          "Additional credentials, permits, signatory details, payment information, supplier accreditation materials, or tax interpretations are shared only when verified, approved for release, and relevant to a qualified business request.",
+          "HACIEN Information Technology Solutions is the company name and HACIEN brand used for this public website. Public identity statements are limited to bounded company information suitable for public review.",
+          "Additional company details, signatory details, payment information, supplier accreditation materials, or tax interpretations are shared only when verified, approved for release, and relevant to a qualified business request.",
         ],
       },
       {
         heading: "1.2 Published Office Location",
         paragraphs: [
-          "The published address is HACIEN's BIR registered address and verified office location: Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, San Antonio, City of Pasig, Metro Manila, Philippines 1605.",
+          "The published office location is Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, San Antonio, City of Pasig, Metro Manila, Philippines 1605.",
         ],
       },
       {
@@ -85,7 +85,7 @@ const legalSections: LegalSection[] = [
           "Data scraping and extraction, including use of automated systems, spiders, robots, scrapers, or scripts to harvest data, product listings, pricing, specifications, or contact information from the website.",
           "System abuse, including spam, chain letters, unsolicited bulk communications, flooding, mail-bombing, or attempts to crash HACIEN's communications infrastructure.",
           "Malicious software, including viruses, trojan horses, worms, logic bombs, keyloggers, or other destructive or technologically harmful material.",
-          "Fraudulent transactions, including false RFQs, fraudulent purchase orders, impersonation, or misrepresentation of affiliation with a business or government agency.",
+          "Fraudulent transactions, including false RFQs, fraudulent purchase orders, impersonation, or misrepresentation of affiliation with a business or organization.",
           "Security penetration, including probing, scanning, vulnerability testing, or breaching security or authentication measures without express written authorization.",
         ],
       },
@@ -202,7 +202,7 @@ const legalSections: LegalSection[] = [
           "Business interruption, network downtime, or system unavailability.",
           "Loss of goodwill, reputation, or anticipated savings.",
           "Damage, delay, or failure caused by third-party logistics carriers, port clearance delays, customs inspections, or supplier allocation limits.",
-          "Delays caused by force majeure events, natural disasters, typhoons, floods, earthquakes, labor strikes, civil unrest, or governmental restrictions.",
+          "Delays caused by force majeure events, natural disasters, typhoons, floods, earthquakes, labor strikes, civil unrest, or external restrictions.",
         ],
       },
     ],
@@ -338,7 +338,7 @@ export default function LegalPage() {
             <div>
               <div className="font-bold text-slate-950">Registered office for formal notices</div>
               <p className="mt-2 text-xs leading-5 text-slate-500">
-                Published BIR registered address and verified office location.
+                Published office location and approved business communication path.
               </p>
               <address className="mt-2 not-italic">
                 {companyContact.addressLines.map((line) => (

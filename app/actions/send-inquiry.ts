@@ -175,7 +175,6 @@ export type EmailResult = {
 
 function getGatewaySubmissionType(formType: string) {
   const normalized = formType.toLowerCase();
-  if (normalized.includes("government")) return "GOVERNMENT_PROCUREMENT";
   if (normalized.includes("support")) return "SUPPORT";
   if (normalized.includes("rfq") || normalized.includes("quote")) return "RFQ";
   return "CONTACT";
