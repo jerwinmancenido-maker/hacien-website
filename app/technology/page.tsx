@@ -35,6 +35,8 @@ const technologyImages: Record<string, keyof typeof enterpriseImages> = {
   "Professional Services": "documentation",
 };
 
+const priorityTechnologyDomains = technologyDomains.slice(0, 6);
+
 export default function TechnologyPage() {
   return (
     <>
@@ -61,7 +63,7 @@ export default function TechnologyPage() {
             description="You do not need a perfect specification to start. Choose the category that fits, then add the context HACIEN should review."
           />
           <StaggerContainer className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {technologyDomains.map(([title, text, categorySlug]) => (
+            {priorityTechnologyDomains.map(([title, text, categorySlug]) => (
               <AnimatedCard key={title} className="h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-950/10">
                 <div
                   className="h-36 bg-slate-950"
@@ -88,6 +90,15 @@ export default function TechnologyPage() {
               </AnimatedCard>
             ))}
           </StaggerContainer>
+          <div className="mt-8 rounded-lg border border-slate-200 bg-slate-50 p-5">
+            <h2 className="text-lg font-bold text-slate-950">Need cabling, power, services, or something not listed?</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              Use the RFQ path and describe the outcome. HACIEN reviews the context before treating any product or service path as final.
+            </p>
+            <Link href="/quote" className="mt-3 inline-flex text-sm font-bold text-[#1457d9] hover:underline">
+              Describe the requirement
+            </Link>
+          </div>
         </div>
       </AnimatedSection>
 

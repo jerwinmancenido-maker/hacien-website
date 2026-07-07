@@ -15,12 +15,12 @@ export function Hero() {
       <div
         className="cinematic-photo absolute inset-0 opacity-80"
         style={{
-          backgroundImage: `linear-gradient(90deg, rgba(7, 20, 38, 0.96), rgba(7, 20, 38, 0.7), rgba(7, 20, 38, 0.18)), url(${enterpriseImages.commandCenter})`,
+          backgroundImage: `linear-gradient(105deg, rgba(5, 16, 28, 0.98), rgba(8, 45, 62, 0.76) 48%, rgba(132, 91, 44, 0.22)), url(${enterpriseImages.commandCenter})`,
           backgroundPosition: "center",
           backgroundSize: "cover",
         }}
       />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(42,120,255,0.28),transparent_32%)]" />
+      <div className="cinematic-aurora pointer-events-none absolute inset-0" />
       <div className="cinematic-lines pointer-events-none absolute inset-0 opacity-30" />
       <div className="cinematic-sweep pointer-events-none absolute inset-y-0 left-0 w-[74%] opacity-0" />
       <div className="pointer-events-none absolute -right-[18vw] top-12 hidden h-[720px] w-[720px] opacity-[0.16] mix-blend-screen lg:block xl:-right-[10vw] xl:h-[820px] xl:w-[820px]">
