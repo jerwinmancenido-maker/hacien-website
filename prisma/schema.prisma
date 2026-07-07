@@ -107,6 +107,7 @@ model User {
   paymentRecords   Payment[]
   subscriptions    Subscription[]
   supportTickets   SupportTicket[]
+  @@index([createdAt])
 }
 
 model Organization {
@@ -115,7 +116,7 @@ model Organization {
   legalName     String?
   phone         String?
   email         String?
-  address       String?
+  address       String?           @db.Text
   taxReference  String?
   isActive      Boolean           @default(true)
   createdAt     DateTime          @default(now())
@@ -128,6 +129,8 @@ model Organization {
   invoices      InvoiceRecord[]
   supportTickets SupportTicket[]
   rfqReferences RfqReference[]
+  @@index([email])
+  @@index([createdAt])
 }
 
 model OrganizationMember {
@@ -156,21 +159,23 @@ model CustomerProfile {
   status          String       @default("pending_verification")
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
+  @@index([organizationId, status])
 }
 
 model ProductCategory {
   id          String    @id @default(cuid())
   slug        String    @unique
   name        String
-  summary     String
-  heroCopy    String
+  summary     String    @db.Text
+  heroCopy    String    @db.Text
   accent      String?
   seoTitle    String
-  seoDescription String
+  seoDescription String  @db.Text
   isActive    Boolean   @default(true)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   products    Product[]
+  @@index([isActive])
 }
 
 model Product {
@@ -179,11 +184,11 @@ model Product {
   categoryId       String
   category         ProductCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   name             String
-  shortDescription String
-  longDescription  String
-  specs            String         @default("[]")
-  technicalSpecs   String         @default("[]")
-  procurementNotes String
+  shortDescription String         @db.Text
+  longDescription  String         @db.Text
+  specs            String         @default("[]") @db.Text
+  technicalSpecs   String         @default("[]") @db.Text
+  procurementNotes String         @db.Text
   purchaseMode     PurchaseMode    @default(rfq)
   status           ProductStatus   @default(draft)
   fulfillmentType   FulfillmentType @default(manual)
@@ -191,9 +196,9 @@ model Product {
   priceCents       Int?
   currency         String         @default("PHP")
   taxMode          TaxMode        @default(not_configured)
-  rfqRequiredReason String?
+  rfqRequiredReason String?       @db.Text
   unit             String
-  availability     String
+  availability     String         @db.Text
   sourceSystem      String         @default("website_seed")
   sourceProductId   String         @unique
   sourcePublicationId String?      @unique
@@ -203,6 +208,9 @@ model Product {
   updatedAt        DateTime       @updatedAt
   variants         ProductVariant[]
   orderItems       OrderItem[]
+  @@index([categoryId, status])
+  @@index([purchaseMode, status])
+  @@index([sourceSystem])
 }
 
 model ProductVariant {
@@ -211,7 +219,7 @@ model ProductVariant {
   productId      String
   sku            String         @unique
   name           String
-  imageUrl       String?
+  imageUrl       String?        @db.Text
   isDefault      Boolean        @default(false)
   isActive       Boolean        @default(true)
   priceCents     Int?
@@ -234,6 +242,8 @@ model Cart {
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   items     CartItem[]
+  @@index([userId, status])
+  @@index([organizationId, status])
 }
 
 model CartItem {
@@ -243,7 +253,7 @@ model CartItem {
   variantId String
   variant   ProductVariant @relation(fields: [variantId], references: [id], onDelete: Cascade)
   quantity  Int
-  notes     String?
+  notes     String?   @db.Text
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   @@unique([cartId, variantId])
@@ -263,7 +273,7 @@ model Order {
   totalCents    Int
   currency      String      @default("PHP")
   externalReference String?
-  sourceUrl     String?
+  sourceUrl     String?     @db.Text
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   items         OrderItem[]
@@ -271,6 +281,9 @@ model Order {
   rfqReferences RfqReference[]
   auditEvents   AuditEvent[]
   invoices      InvoiceRecord[]
+  @@index([organizationId, status, createdAt])
+  @@index([userId, createdAt])
+  @@index([externalReference])
 }
 
 model OrderItem {
@@ -306,6 +319,8 @@ model Payment {
   responseData Json?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
+  @@index([orderId, status])
+  @@index([referenceNumber])
 }
 
 model InvoiceRecord {
@@ -321,9 +336,10 @@ model InvoiceRecord {
   dueDate      DateTime?
   totalCents   Int
   currency     String    @default("PHP")
-  remarks      String?
+  remarks      String?   @db.Text
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
+  @@index([organizationId, status])
 }
 
 model Subscription {
@@ -342,6 +358,8 @@ model Subscription {
   metadata      Json?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+  @@index([organizationId, status])
+  @@index([userId, status])
 }
 
 model RfqReference {
@@ -356,6 +374,8 @@ model RfqReference {
   responsePayload     Json?
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
+  @@index([organizationId, status])
+  @@index([orderId])
 }
 
 model SupportTicket {
@@ -365,7 +385,7 @@ model SupportTicket {
   user               User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
   userId             String?
   subject            String
-  description        String
+  description        String   @db.Text
   priority           SupportPriority @default(medium)
   status             String    @default("open")
   source             String?
@@ -373,6 +393,8 @@ model SupportTicket {
   externalReference   String?
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+  @@index([organizationId, status, createdAt])
+  @@index([userId, status])
 }
 
 model AuditEvent {
@@ -386,4 +408,7 @@ model AuditEvent {
   entityId   String
   details    Json?
   createdAt  DateTime @default(now())
+  @@index([entity, entityId])
+  @@index([actorId, createdAt])
+  @@index([orderId, createdAt])
 }
