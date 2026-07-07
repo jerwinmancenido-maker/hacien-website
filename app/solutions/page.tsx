@@ -31,25 +31,6 @@ const capabilityGroups = [
   },
 ];
 
-const capabilityMap = [
-  "IT Infrastructure",
-  "Systems Integration",
-  "Structured Cabling",
-  "Networking",
-  "CCTV & Security",
-  "Servers & Storage",
-  "Cloud & Software Licensing",
-  "Managed IT",
-  "Project Delivery",
-];
-
-const workflow = [
-  ["Clarify", "Understand the requirement, site, deadline, budget context, and approval path."],
-  ["Specify", "Translate the need into products, services, installation materials, and support scope."],
-  ["Review", "Review supplier options, warranty terms, stock, lead time, and approved equivalents where inputs are available."],
-  ["Deliver", "Support quotation, procurement, delivery coordination, handover, and follow-up."],
-];
-
 const solutionImages: Record<string, keyof typeof enterpriseImages> = {
   "it-infrastructure": "dataCenter",
   "hardware-software-procurement": "workstation",
@@ -104,89 +85,44 @@ export default function SolutionsPage() {
         </div>
       </section>
 
-      <section className="bg-[#071426] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
-        <div className="mx-auto max-w-7xl">
-          <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Technology Layers</div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
-              HACIEN supports the operational layers behind modern IT environments.
-            </h2>
-          </AnimatedContent>
-          <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {capabilityMap.map((item, index) => (
-              <AnimatedContent key={item} delay={index * 55}>
-                <div className="rounded border border-white/12 bg-white/[0.06] p-4 text-sm font-bold text-slate-100">
-                  {item}
-                </div>
-              </AnimatedContent>
-            ))}
-          </div>
-        </div>
-      </section>
-
       <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
-        <div className="mx-auto max-w-7xl">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Active Solution Areas</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
               Pick the closest area, then describe the requirement.
             </h2>
+            <p className="mt-4 text-sm leading-6 text-slate-600">
+              The list is a starting language for the RFQ, not a claim that every item is available, priced, or ready for immediate fulfillment.
+            </p>
           </AnimatedContent>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-3 md:grid-cols-2">
             {solutions.map((solution, index) => (
               <AnimatedContent key={solution.slug} delay={index * 45}>
                 <Link href={`/solutions/${solution.slug}`} className="group block h-full">
-                  <SpotlightCard className="h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
-                    <div
-                      className="h-44 bg-slate-950"
-                      style={{
-                        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.04), rgba(7, 20, 38, 0.72)), url(${enterpriseImages[solutionImages[solution.slug] || "network"]})`,
-                        backgroundPosition: "center",
-                        backgroundSize: "cover",
-                      }}
-                    />
-                    <div className="p-6">
-                    <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">{solution.category}</div>
-                    <h3 className="mt-4 text-lg font-bold text-slate-950 group-hover:text-[#1457d9]">
-                      {solution.title}
-                    </h3>
-                    <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-600">{solution.summary}</p>
-                    <div className="mt-5 text-sm font-bold text-[#1457d9]">View capability</div>
+                  <SpotlightCard className="h-full rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
+                    <div className="flex gap-3">
+                      <div
+                        className="h-16 w-20 shrink-0 rounded bg-slate-950"
+                        style={{
+                          backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.04), rgba(7, 20, 38, 0.72)), url(${enterpriseImages[solutionImages[solution.slug] || "network"]})`,
+                          backgroundPosition: "center",
+                          backgroundSize: "cover",
+                        }}
+                      />
+                      <div className="min-w-0">
+                        <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">{solution.category}</div>
+                        <h3 className="mt-1 text-base font-bold text-slate-950 group-hover:text-[#1457d9]">
+                          {solution.title}
+                        </h3>
+                        <p className="mt-1 line-clamp-2 text-sm leading-5 text-slate-600">{solution.summary}</p>
+                        <div className="mt-3 text-sm font-bold text-[#1457d9]">View capability</div>
+                      </div>
                     </div>
                   </SpotlightCard>
                 </Link>
               </AnimatedContent>
             ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
-        <div className="mx-auto max-w-7xl">
-          <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">How Work Moves</div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              A simple path from technical need to reviewed next step.
-            </h2>
-          </AnimatedContent>
-          <div className="mt-12 overflow-x-auto pb-4">
-            <div className="grid min-w-[760px] grid-cols-4 gap-4 lg:min-w-0">
-            {workflow.map(([step, text], index) => (
-              <AnimatedContent key={step} delay={index * 70}>
-                <BorderGlow className="h-full rounded-lg bg-white p-5 shadow-sm">
-                  <div className="flex h-full flex-col">
-                    <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#1457d9] text-sm font-bold text-white">
-                      {String(index + 1).padStart(2, "0")}
-                    </div>
-                    <div className="mt-5">
-                      <h3 className="font-bold text-slate-950">{step}</h3>
-                      <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
-                    </div>
-                  </div>
-                </BorderGlow>
-              </AnimatedContent>
-            ))}
-            </div>
           </div>
         </div>
       </section>
