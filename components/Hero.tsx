@@ -27,34 +27,34 @@ export function Hero() {
         />
       </div>
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#071426] to-transparent" />
-      <div className="relative mx-auto grid min-h-[760px] max-w-7xl items-center gap-12 px-4 py-18 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-24">
+      <div className="relative mx-auto grid min-h-[620px] max-w-7xl items-center gap-6 px-4 py-8 sm:min-h-[720px] sm:gap-10 sm:px-6 sm:py-14 lg:min-h-[760px] lg:grid-cols-[0.9fr_1.1fr] lg:gap-12 lg:px-8 lg:py-24">
         <div className="flex flex-col justify-center">
           <FadeIn>
-            <div className="mb-6 inline-flex w-fit rounded border border-blue-300/30 bg-white/8 px-4 py-2 text-sm font-semibold text-blue-100 backdrop-blur">
+            <div className="mb-4 inline-flex w-fit rounded border border-blue-300/30 bg-white/8 px-3 py-1.5 text-xs font-semibold text-blue-100 backdrop-blur sm:mb-6 sm:px-4 sm:py-2 sm:text-sm">
               Enterprise technology
             </div>
           </FadeIn>
           <SlideUp delay={80}>
-            <h1 className="max-w-5xl text-6xl font-bold tracking-tight sm:text-7xl lg:text-8xl">
+            <h1 className="max-w-5xl text-4xl font-bold tracking-tight sm:text-6xl lg:text-8xl">
               Enterprise technology with operational clarity.
             </h1>
           </SlideUp>
           <SlideUp delay={170}>
-            <p className="mt-7 max-w-2xl text-xl leading-8 text-slate-200">
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-200 sm:mt-7 sm:text-xl sm:leading-8">
               HACIEN helps organizations plan, source, deploy, and support infrastructure, software, cybersecurity, cloud, and managed services through one connected relationship.
             </p>
           </SlideUp>
           <SlideUp delay={260}>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/quote" className="button-glow rounded-full bg-white px-6 py-3 text-center text-sm font-bold text-[#071426] shadow-xl shadow-blue-950/30">
+            <div className="mt-5 flex flex-col gap-2 sm:mt-8 sm:flex-row sm:gap-3">
+              <Link href="/quote" className="button-glow rounded-full bg-white px-5 py-2.5 text-center text-sm font-bold text-[#071426] shadow-xl shadow-blue-950/30 sm:px-6 sm:py-3">
                 Request Quote
               </Link>
-              <Link href="/technology" className="interactive-link glass-control-dark rounded-full px-6 py-3 text-center text-sm font-bold text-white hover:border-blue-200">
+              <Link href="/technology" className="interactive-link glass-control-dark rounded-full px-5 py-2.5 text-center text-sm font-bold text-white hover:border-blue-200 sm:px-6 sm:py-3">
                 Explore Technology
               </Link>
             </div>
           </SlideUp>
-          <StaggerContainer className="mt-10 grid gap-3 sm:grid-cols-3">
+          <StaggerContainer className="mt-10 hidden gap-3 sm:grid sm:grid-cols-3">
             {[
               ["DTI identity", "Verified"],
               ["BIR registration", "Verified facts"],
@@ -69,7 +69,7 @@ export function Hero() {
         </div>
 
         <SlideUp delay={220} className="h-full">
-          <div className="relative min-h-[520px] overflow-hidden rounded-lg border border-white/15 bg-white/[0.08] p-5 shadow-2xl shadow-black/20 backdrop-blur-xl">
+          <div className="relative min-h-0 overflow-hidden rounded-lg border border-white/15 bg-white/[0.08] p-3 shadow-2xl shadow-black/20 backdrop-blur-xl sm:min-h-[420px] sm:p-5 lg:min-h-[520px]">
             <div className="absolute inset-0 bg-gradient-to-br from-white/12 via-transparent to-blue-500/10" />
             <div className="relative grid h-full grid-cols-2 gap-3">
               {[
@@ -80,10 +80,10 @@ export function Hero() {
               ["Government Support", "Documentation-aware sourcing"],
               ["HACIEN Platform", "Workspace, Timeline, Guardian"],
               ].map(([title, text], index) => (
-                <div key={title} className="rounded-lg border border-white/12 bg-white/10 p-5 backdrop-blur transition-transform duration-200 hover:-translate-y-1">
+                <div key={title} className="rounded-lg border border-white/12 bg-white/10 p-3 backdrop-blur transition-transform duration-200 hover:-translate-y-1 sm:p-5">
                   <div className="text-xs font-bold text-blue-200">{String(index + 1).padStart(2, "0")}</div>
-                  <div className="mt-8 font-bold text-white">{title}</div>
-                  <p className="mt-2 text-sm leading-6 text-slate-300">{text}</p>
+                  <div className="mt-2 text-sm font-bold text-white sm:mt-8 sm:text-base">{title}</div>
+                  <p className="mt-2 hidden text-sm leading-6 text-slate-300 sm:block">{text}</p>
                 </div>
               ))}
             </div>
