@@ -8,12 +8,17 @@ import type {
 } from "./ecommerce-types";
 
 function getErpApiUrl() {
-  return (
+  let url = (
     process.env.HACIEN_ECOMMERCE_API_URL ||
     process.env.HACIEN_API_PUBLIC_URL ||
     process.env.HACIEN_GATEWAY_API_URL ||
     "http://localhost:4101/api/v1"
   ).replace(/\/+$/, "");
+
+  if (!url.endsWith("/api/v1")) {
+    url = `${url}/api/v1`;
+  }
+  return url;
 }
 
 async function erpFetch<T>(path: string, init?: RequestInit): Promise<T> {
