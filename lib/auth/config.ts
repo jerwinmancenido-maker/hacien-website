@@ -5,4 +5,3 @@ export const authConfig = {
   workspaceRoute: "/access",
   isAuthReady: false,
 } as const;
-

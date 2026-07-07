@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { 
-  FileText, 
-  Truck, 
-  HelpCircle, 
-  ShieldCheck, 
-  CheckCircle2, 
-  Download, 
-  Eye, 
+import {
+  FileText,
+  Truck,
+  HelpCircle,
+  ShieldCheck,
+  CheckCircle2,
+  Download,
+  Eye,
   ChevronRight,
   FileCheck
 } from "lucide-react";

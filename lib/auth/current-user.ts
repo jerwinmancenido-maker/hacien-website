@@ -24,4 +24,3 @@ export async function requireCurrentUser(): Promise<CurrentUser> {
 
   return user;
 }
-

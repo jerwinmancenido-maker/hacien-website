@@ -38,6 +38,6 @@
 ## Product Rule
 
 HACIEN should preserve RFQ-first procurement behavior for variable, hardware,
-custom services, and project-scoped needs.  
+custom services, and project-scoped needs.
 Direct purchase should be added only for products with explicit clear-price, fulfillment,
 and policy controls (`checkout`-eligible) in a later phase.

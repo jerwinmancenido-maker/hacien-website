@@ -1,5 +1,0 @@
-{
-  "default_commission_rate_percentage": 0,
-  "margin_shield_threshold_percentage": 5,
-  "internal_review_note": "Prototype only. Do not calculate, approve, or communicate commissions from website-local payment review data."
-}

@@ -1,8 +1,8 @@
 # HACIEN Masterplan Conformance Register
 
 Last updated: 2026-07-07 20:12 PST
-Repository: `/Users/jerwinmancenido/hacien-website`  
-Branch: `audit/website-production-readiness-hardening`  
+Repository: `/Users/jerwinmancenido/hacien-website`
+Branch: `audit/website-production-readiness-hardening`
 Verified base before this register update: `2d5cfa573f1d12060b59a51b343f6100eb28eede`
 
 ## Source Freeze

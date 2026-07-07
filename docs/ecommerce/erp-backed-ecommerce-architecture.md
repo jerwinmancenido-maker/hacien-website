@@ -72,4 +72,3 @@ HACIEN ERP is the sole source of truth for ecommerce operations. The standalone 
 - Any implementation that introduces direct product mutation on the website must be rejected.
 - Any implementation that auto-creates official financial artifacts from public storefront actions must be rejected.
 - Any checkout path that bypasses manual payment review and ERP order-intent intent is considered non-compliant for MVP.
-

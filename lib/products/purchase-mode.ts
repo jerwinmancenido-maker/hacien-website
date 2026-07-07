@@ -18,4 +18,3 @@ export function formatPrice(product: Product) {
     currency: product.currency,
   }).format(product.priceCents / 100);
 }
-

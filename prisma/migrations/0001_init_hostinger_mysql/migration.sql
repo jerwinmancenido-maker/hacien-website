@@ -406,4 +406,3 @@ ALTER TABLE `AuditEvent` ADD CONSTRAINT `AuditEvent_actorId_fkey` FOREIGN KEY (`
 
 -- AddForeignKey
 ALTER TABLE `AuditEvent` ADD CONSTRAINT `AuditEvent_orderId_fkey` FOREIGN KEY (`orderId`) REFERENCES `Order`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
