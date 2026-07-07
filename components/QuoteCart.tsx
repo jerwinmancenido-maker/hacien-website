@@ -6,6 +6,7 @@ import { useQuoteCart } from "@/components/QuoteCartProvider";
 import { AnimatedCard, StaggerContainer } from "@/components/motion";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
 import { TurnstileField } from "@/components/TurnstileField";
+import billingSettings from "@/config/billing-compliance-settings.json";
 
 const allowedAttachmentTypes = [
   "application/pdf",
@@ -212,6 +213,13 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           Your RFQ can start without catalog products. Start with a requirement, BOQ, supplier quote,
           government specification, image, ZIP file, technology area, or plain description.
         </p>
+        <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4">
+          <div className="text-xs font-bold uppercase tracking-[0.16em] text-amber-800">
+            {billingSettings.quote_validity_badge_label}
+          </div>
+          <p className="mt-2 text-xs leading-5 text-slate-700">{billingSettings.quote_validity_disclaimer}</p>
+          <p className="mt-2 text-xs leading-5 text-slate-600">{billingSettings.compliance_disclaimer}</p>
+        </div>
         <div className="mt-6 grid gap-3 sm:grid-cols-5">
           {[
             "Describe or Upload",
@@ -439,6 +447,10 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           {attachmentInfo ? <p className="text-sm font-semibold text-emerald-700">{attachmentInfo}</p> : null}
           <p className="rounded-xl border border-blue-100 bg-blue-50 p-3 text-xs leading-5 text-slate-600">
             Attachment metadata will enter the Gateway with the request. Accepted files: PDF, DOC, DOCX, XLS, XLSX, CSV, PNG, JPG, ZIP. Maximum size: 10MB.
+          </p>
+          <p className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-600">
+            <span className="font-bold text-slate-800">{billingSettings.quote_summary_label}:</span>{" "}
+            {billingSettings.review_notice}
           </p>
 
           <p className="text-xs text-slate-500">
