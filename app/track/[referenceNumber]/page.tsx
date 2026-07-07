@@ -32,11 +32,16 @@ type TimelineTracking = {
 };
 
 function getGatewayUrl() {
-  return (
+  let url = (
     process.env.HACIEN_GATEWAY_API_URL ||
     process.env.HACIEN_API_PUBLIC_URL ||
     "http://localhost:4101/api/v1"
-  ).replace(/\/$/, "");
+  ).replace(/\/+$/, "");
+
+  if (!url.endsWith("/api/v1")) {
+    url = `${url}/api/v1`;
+  }
+  return url;
 }
 
 async function getTracking(referenceNumber: string) {
