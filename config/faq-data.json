@@ -1,0 +1,52 @@
+{
+  "updated": "2026-07-07",
+  "sections": [
+    {
+      "title": "RFQ and procurement",
+      "items": [
+        {
+          "question": "Can HACIEN quote without a catalog product?",
+          "answer": "Yes. Customers may submit a requirement, BOQ, supplier quote, image, spreadsheet, or plain description. HACIEN reviews the request before any formal quotation or business record step."
+        },
+        {
+          "question": "Does the website confirm final pricing or stock?",
+          "answer": "No. Website product pages are planning and intake surfaces. Final pricing, availability, warranty, lead time, and delivery terms require verified supplier input."
+        },
+        {
+          "question": "Can government specifications be reviewed?",
+          "answer": "HACIEN can review specification context and possible equivalent requirements through the RFQ path, subject to buyer approval and evidence provided with the request."
+        }
+      ]
+    },
+    {
+      "title": "Payments and documents",
+      "items": [
+        {
+          "question": "Does HACIEN collect online payment on this website?",
+          "answer": "No live checkout or online payment collection is claimed by the public website. Manual payment and order-intent surfaces are review-only unless separately confirmed through approved business records."
+        },
+        {
+          "question": "Does the website issue invoices, official receipts, or tax documents?",
+          "answer": "No. The public website does not issue official invoices, official receipts, tax documents, payment confirmations, or collection approvals."
+        },
+        {
+          "question": "Is the document parser official OCR?",
+          "answer": "No. The parser playground is a prototype aid for summarizing attachments. Extracted data requires manual review before use."
+        }
+      ]
+    },
+    {
+      "title": "Support and tracking",
+      "items": [
+        {
+          "question": "How can I follow up on a request?",
+          "answer": "Use the tracking reference returned after a successful inquiry, or contact HACIEN with the submitted company, email, and request context."
+        },
+        {
+          "question": "Are warranty or returns guaranteed from website content?",
+          "answer": "No. Warranty, returns, replacement, and support terms depend on verified supplier terms and the final accepted quotation or business record."
+        }
+      ]
+    }
+  ]
+}
