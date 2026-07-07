@@ -5,7 +5,6 @@ import {
   BlurReveal,
   BorderGlow,
   GradientBackground,
-  Marquee,
   SpotlightCard,
 } from "@/app/components/reactbits";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
@@ -45,29 +44,6 @@ const workflow = [
   "Supplier Input",
   "Quote Context",
   "Follow-up",
-];
-
-const industries = [
-  ["Business", "Workstations, network upgrades, licensed software, and recurring office technology procurement."],
-  ["Institutional", "Specification review, equivalent matching, quotation support, and documentation-aware delivery."],
-  ["Education", "Classroom devices, connectivity equipment, security systems, and institutional purchasing support."],
-  ["Healthcare", "Reliable endpoint, network, power, storage, and support materials for operational environments."],
-  ["Construction", "Site connectivity, surveillance, project office equipment, and deployment materials."],
-  ["Enterprise", "Multi-supplier coordination for infrastructure refreshes, rollout planning, and handover records."],
-];
-
-const focusAreas = [
-  "Computers & Laptops",
-  "Servers & Storage",
-  "Network Equipment",
-  "Printers & Peripherals",
-  "Licensed Software",
-  "Security & Surveillance",
-  "Power & UPS",
-  "Accessories & Consumables",
-  "General Merchandise",
-  "Project Materials",
-  "IT Service Coordination",
 ];
 
 export default function AboutPage() {
@@ -149,28 +125,6 @@ export default function AboutPage() {
               ))}
             </div>
           </div>
-        </div>
-      </section>
-
-      <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
-        <div className="mx-auto max-w-7xl">
-          <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Who We Support</div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              Useful for teams that need clarity before they commit.
-            </h2>
-          </AnimatedContent>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {industries.map(([title, text], index) => (
-              <AnimatedContent key={title} delay={index * 65}>
-                <SpotlightCard className="h-full rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-                  <h3 className="text-lg font-bold text-slate-950">{title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
-                </SpotlightCard>
-              </AnimatedContent>
-            ))}
-          </div>
-          <Marquee className="mt-10" items={focusAreas} />
         </div>
       </section>
 
