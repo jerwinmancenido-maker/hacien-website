@@ -53,15 +53,15 @@ const categoryImages: Record<string, keyof typeof enterpriseImages> = {
 
 export function TechnologyEcosystem() {
   return (
-    <AnimatedSection className="bg-[#071426] px-4 py-24 text-white sm:px-6 lg:px-8">
-      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+    <AnimatedSection className="bg-[#071426] px-4 py-14 text-white sm:px-6 lg:px-8 lg:py-16">
+      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div>
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">RFQ Readiness</div>
-          <h2 className="mt-5 text-5xl font-bold tracking-tight sm:text-6xl">From rough requirement to review-ready request.</h2>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
+          <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">From rough requirement to review-ready request.</h2>
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-300 sm:text-base sm:leading-7">
             The first job is not to sell a model. It is to make the request clear enough for accurate review, responsible sourcing, and formal quotation.
           </p>
-          <StaggerContainer className="mt-10 grid gap-3 sm:grid-cols-2">
+          <StaggerContainer className="mt-7 grid gap-3 sm:grid-cols-2">
             {ecosystem.map(([title, detail]) => (
               <AnimatedCard key={title} className="group rounded-lg border border-white/12 bg-white/[0.06] p-5 backdrop-blur">
                 <div className="text-base font-bold">{title}</div>
@@ -83,14 +83,14 @@ export function TechnologyEcosystem() {
 
 export function HowHacienWorks() {
   return (
-    <AnimatedSection className="bg-white px-4 py-20 sm:px-6 lg:px-8">
+    <AnimatedSection className="bg-white px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="How HACIEN Works"
           title="A relationship workflow, not a generic contact form."
           description="The public RFQ experience mirrors how technology requirements really move: from description or files to review, clarification, quotation support, fulfillment, and continuity."
         />
-        <div className="mt-12 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+        <div className="mt-8 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
           <div className="grid divide-y divide-slate-200 lg:grid-cols-7 lg:divide-x lg:divide-y-0">
             {howItWorks.map(([title, text], index) => (
               <details key={title} className="group p-5 open:bg-white">
@@ -110,14 +110,14 @@ export function HowHacienWorks() {
 
 export function SolutionsV3() {
   return (
-    <AnimatedSection className="bg-slate-50 px-4 py-20 sm:px-6 lg:px-8">
+    <AnimatedSection className="bg-slate-50 px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="Solutions"
           title="Built around sourcing, deployment, and operational handover."
           description="Solutions answer the problems HACIEN helps organizations solve across infrastructure, workplace, cybersecurity, cloud, procurement, and managed services."
         />
-        <StaggerContainer className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <StaggerContainer className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {solutions.slice(0, 6).map((solution) => (
             <Link key={solution.slug} href={`/solutions/${solution.slug}`} className="group block">
               <AnimatedCard className="surface lift h-full overflow-hidden rounded-xl">
@@ -152,14 +152,14 @@ export function SolutionsV3() {
 
 export function ProductCatalogV3() {
   return (
-    <AnimatedSection className="bg-white px-4 py-24 sm:px-6 lg:px-8">
+    <AnimatedSection className="bg-white px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
       <div className="mx-auto max-w-7xl">
           <SectionHeading
           eyebrow="Technology"
           title="Enterprise technology domains presented as operating needs."
           description="HACIEN does not lead with model numbers or prices. Technology pages help buyers describe the domain they need before formal review."
         />
-        <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {categories.slice(0, 6).map((category) => (
             <Link key={category.slug} href={`/products/${category.slug}`} className="group block">
               <AnimatedCard className="h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-950/10">
@@ -171,11 +171,11 @@ export function ProductCatalogV3() {
                     backgroundSize: "cover",
                   }}
                 />
-                <div className="p-7">
+                <div className="p-5 sm:p-6">
                 <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Technology</div>
-                <h3 className="mt-5 text-2xl font-bold tracking-tight text-slate-950 group-hover:text-[#1457d9]">{category.name}</h3>
-                <p className="mt-4 text-sm leading-7 text-slate-600">{category.summary}</p>
-                <div className="mt-8 text-sm font-bold text-[#1457d9]">Build this requirement</div>
+                <h3 className="mt-4 text-xl font-bold tracking-tight text-slate-950 group-hover:text-[#1457d9] sm:text-2xl">{category.name}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{category.summary}</p>
+                <div className="mt-6 text-sm font-bold text-[#1457d9]">Build this requirement</div>
                 </div>
               </AnimatedCard>
             </Link>
@@ -195,7 +195,7 @@ export function ErpPreviewV3() {
   ];
 
   return (
-    <AnimatedSection className="bg-[#0b1220] px-4 py-20 text-white sm:px-6 lg:px-8">
+    <AnimatedSection className="bg-[#0b1220] px-4 py-14 text-white sm:px-6 lg:px-8 lg:py-16">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <div>
@@ -225,7 +225,7 @@ export function ErpPreviewV3() {
 
 export function GovernmentV3() {
   return (
-    <AnimatedSection className="bg-slate-950 px-4 py-20 text-white sm:px-6 lg:px-8">
+    <AnimatedSection className="bg-slate-950 px-4 py-14 text-white sm:px-6 lg:px-8 lg:py-16">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_1fr]">
         <div>
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Government Procurement Support</div>
@@ -260,7 +260,7 @@ export function TrustV3() {
   ];
 
   return (
-    <AnimatedSection className="bg-white px-4 py-20 sm:px-6 lg:px-8">
+    <AnimatedSection className="bg-white px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="Trust & Confidence"

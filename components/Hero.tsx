@@ -27,7 +27,7 @@ export function Hero() {
         />
       </div>
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#071426] to-transparent" />
-      <div className="relative mx-auto grid min-h-[620px] max-w-7xl items-center gap-6 px-4 py-8 sm:min-h-[720px] sm:gap-10 sm:px-6 sm:py-14 lg:min-h-[760px] lg:grid-cols-[0.9fr_1.1fr] lg:gap-12 lg:px-8 lg:py-24">
+      <div className="relative mx-auto grid min-h-[600px] max-w-7xl items-center gap-6 px-4 py-8 sm:min-h-[660px] sm:gap-8 sm:px-6 sm:py-12 lg:min-h-[680px] lg:grid-cols-[0.9fr_1.1fr] lg:gap-10 lg:px-8 lg:py-16">
         <div className="flex flex-col justify-center">
           <FadeIn>
             <div className="mb-4 inline-flex w-fit rounded border border-blue-300/30 bg-white/8 px-3 py-1.5 text-xs font-semibold text-blue-100 backdrop-blur sm:mb-6 sm:px-4 sm:py-2 sm:text-sm">
@@ -35,12 +35,12 @@ export function Hero() {
             </div>
           </FadeIn>
           <SlideUp delay={80}>
-            <h1 className="max-w-5xl text-4xl font-bold tracking-tight sm:text-6xl lg:text-8xl">
+            <h1 className="max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl">
               Enterprise technology with operational clarity.
             </h1>
           </SlideUp>
           <SlideUp delay={170}>
-            <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-200 sm:mt-7 sm:text-xl sm:leading-8">
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-200 sm:mt-5 sm:text-base sm:leading-7 lg:text-lg">
               HACIEN helps organizations plan, source, deploy, and support infrastructure, software, cybersecurity, cloud, and managed services through one connected relationship.
             </p>
           </SlideUp>
@@ -69,7 +69,7 @@ export function Hero() {
         </div>
 
         <SlideUp delay={220} className="h-full">
-          <div className="relative min-h-0 overflow-hidden rounded-lg border border-white/15 bg-white/[0.08] p-3 shadow-2xl shadow-black/20 backdrop-blur-xl sm:min-h-[420px] sm:p-5 lg:min-h-[520px]">
+          <div className="relative min-h-0 overflow-hidden rounded-lg border border-white/15 bg-white/[0.08] p-3 shadow-2xl shadow-black/20 backdrop-blur-xl sm:min-h-[360px] sm:p-4 lg:min-h-[420px]">
             <div className="absolute inset-0 bg-gradient-to-br from-white/12 via-transparent to-blue-500/10" />
             <div className="relative grid h-full grid-cols-2 gap-3">
               {[
@@ -80,9 +80,9 @@ export function Hero() {
               ["Government Support", "Documentation-aware sourcing"],
               ["HACIEN Platform", "Workspace, Timeline, Guardian"],
               ].map(([title, text], index) => (
-                <div key={title} className="rounded-lg border border-white/12 bg-white/10 p-3 backdrop-blur transition-transform duration-200 hover:-translate-y-1 sm:p-5">
+                <div key={title} className="rounded-lg border border-white/12 bg-white/10 p-3 backdrop-blur transition-transform duration-200 hover:-translate-y-1 sm:p-4">
                   <div className="text-xs font-bold text-blue-200">{String(index + 1).padStart(2, "0")}</div>
-                  <div className="mt-2 text-sm font-bold text-white sm:mt-8 sm:text-base">{title}</div>
+                  <div className="mt-2 text-sm font-bold text-white sm:mt-5 sm:text-base">{title}</div>
                   <p className="mt-2 hidden text-sm leading-6 text-slate-300 sm:block">{text}</p>
                 </div>
               ))}
