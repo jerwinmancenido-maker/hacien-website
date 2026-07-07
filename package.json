@@ -9,7 +9,7 @@
     "start": "node .next/standalone/server.js",
     "lint": "eslint",
     "validate": "tsx scripts/validate-data.ts",
-    "prebuild": "npm run validate",
+    "prebuild": "node -e \"require('node:fs').rmSync('.next',{recursive:true,force:true})\" && npm run validate",
     "crawl": "node scripts/crawl-routes.mjs",
     "smoke:production": "node scripts/production-smoke.mjs",
     "db:generate": "prisma generate",

@@ -38,7 +38,7 @@ function GlobeScene() {
 
 export function DeliveryGlobe() {
   return (
-    <div className="min-h-[380px] overflow-hidden rounded-lg border border-white/15 bg-[#071426]">
+    <div className="h-[320px] overflow-hidden rounded-lg border border-white/15 bg-[#071426] sm:h-[380px]">
       <Canvas camera={{ position: [0, 0, 4.8], fov: 44 }}>
         <ambientLight intensity={0.75} />
         <directionalLight position={[3, 4, 3]} intensity={1.3} />
