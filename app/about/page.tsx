@@ -133,7 +133,7 @@ export default function AboutPage() {
 
       <CompanyCredentials />
 
-      <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
+      <section className="overflow-hidden bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Logistics Preview</div>
@@ -186,7 +186,7 @@ export default function AboutPage() {
               A procurement lifecycle designed for accuracy, accountability, and handover.
             </h2>
           </AnimatedContent>
-          <div className="mt-12 overflow-x-auto pb-4">
+          <div className="mt-12 max-w-full overflow-x-auto pb-4">
             <div className="grid min-w-[980px] grid-cols-9 gap-3 lg:min-w-0">
             {workflow.map((step, index) => (
               <AnimatedContent key={step} delay={Math.min(index * 55, 360)} distance={14}>
