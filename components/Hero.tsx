@@ -22,7 +22,7 @@ export function Hero() {
       />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(42,120,255,0.28),transparent_32%)]" />
       <div className="cinematic-lines pointer-events-none absolute inset-0 opacity-30" />
-      <div className="cinematic-sweep pointer-events-none absolute inset-y-0 left-0 hidden w-[70%] opacity-0 lg:block" />
+      <div className="cinematic-sweep pointer-events-none absolute inset-y-0 left-0 w-[74%] opacity-0" />
       <div className="pointer-events-none absolute -right-[18vw] top-12 hidden h-[720px] w-[720px] opacity-[0.16] mix-blend-screen lg:block xl:-right-[10vw] xl:h-[820px] xl:w-[820px]">
         <Image
           src="/brand/hacien-mark-4k.png"

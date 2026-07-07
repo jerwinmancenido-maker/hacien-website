@@ -46,6 +46,8 @@ const solutionImages: Record<string, keyof typeof enterpriseImages> = {
   "project-delivery-support": "workspace",
 };
 
+const prioritySolutions = solutions.slice(0, 6);
+
 export default function SolutionsPage() {
   return (
     <>
@@ -93,11 +95,11 @@ export default function SolutionsPage() {
               Pick the closest area, then describe the requirement.
             </h2>
             <p className="mt-4 text-sm leading-6 text-slate-600">
-              The list is a starting language for the RFQ, not a claim that every item is available, priced, or ready for immediate fulfillment.
+              Start with the closest area. If the request is unusual, describe it in the RFQ instead of searching through every possible category.
             </p>
           </AnimatedContent>
           <div className="grid gap-3 md:grid-cols-2">
-            {solutions.map((solution, index) => (
+            {prioritySolutions.map((solution, index) => (
               <AnimatedContent key={solution.slug} delay={index * 45}>
                 <Link href={`/solutions/${solution.slug}`} className="group block h-full">
                   <SpotlightCard className="h-full rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
@@ -123,6 +125,17 @@ export default function SolutionsPage() {
                 </Link>
               </AnimatedContent>
             ))}
+            <AnimatedContent delay={320} className="md:col-span-2">
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                <h3 className="text-base font-bold text-slate-950">Do not see the exact area?</h3>
+                <p className="mt-2 text-sm leading-6 text-slate-600">
+                  Use the RFQ form. HACIEN reviews the requirement context before treating any solution path as final.
+                </p>
+                <Link href="/quote" className="mt-3 inline-flex text-sm font-bold text-[#1457d9]">
+                  Describe the requirement
+                </Link>
+              </div>
+            </AnimatedContent>
           </div>
         </div>
       </section>

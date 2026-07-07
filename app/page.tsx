@@ -2,9 +2,7 @@ import type { Metadata } from "next";
 import { Hero } from "@/components/Hero";
 import {
   CTABand,
-  ErpPreviewV3,
   PremiumStatementBand,
-  ProductCatalogV3,
   SolutionsV3,
   TechnologyEcosystem,
   TrustV3,
@@ -23,8 +21,6 @@ export default function Home() {
       <PremiumStatementBand />
       <TechnologyEcosystem />
       <SolutionsV3 />
-      <ProductCatalogV3 />
-      <ErpPreviewV3 />
       <TrustV3 />
       <CTABand />
     </>

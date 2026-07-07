@@ -41,7 +41,7 @@ export function PremiumPageHero({
       />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_16%_14%,rgba(42,120,255,0.26),transparent_32%)]" />
       <div className="cinematic-lines pointer-events-none absolute inset-0 opacity-25" />
-      <div className="cinematic-sweep pointer-events-none absolute inset-y-0 left-0 hidden w-[68%] opacity-0 lg:block" />
+      <div className="cinematic-sweep pointer-events-none absolute inset-y-0 left-0 w-[72%] opacity-0" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#071426] to-transparent" />
       <div className="relative mx-auto grid min-h-[470px] max-w-7xl items-center gap-5 px-4 py-7 sm:min-h-[540px] sm:gap-8 sm:px-6 sm:py-10 lg:min-h-[590px] lg:grid-cols-[1fr_0.88fr] lg:px-8 lg:py-14">
         <div className="flex flex-col justify-center">

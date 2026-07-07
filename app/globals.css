@@ -126,6 +126,7 @@ select {
 
 .cinematic-photo {
   transform-origin: center;
+  will-change: transform;
 }
 
 .cinematic-lines {
@@ -137,8 +138,10 @@ select {
 }
 
 .cinematic-sweep {
-  background: linear-gradient(105deg, transparent 18%, rgba(125, 211, 252, 0.2), transparent 54%);
-  transform: translateX(-60%);
+  background: linear-gradient(105deg, transparent 12%, rgba(125, 211, 252, 0.32), rgba(255, 255, 255, 0.18), transparent 62%);
+  mix-blend-mode: screen;
+  transform: translateX(-76%);
+  will-change: opacity, transform;
 }
 
 .motion-fade,
@@ -441,11 +444,11 @@ select {
   }
 
   .cinematic-photo {
-    animation: cinematic-photo-pan 22s var(--ease-premium-in-out) infinite alternate;
+    animation: cinematic-photo-pan 18s var(--ease-premium-in-out) infinite alternate;
   }
 
   .cinematic-sweep {
-    animation: cinematic-sweep 9s ease-in-out infinite;
+    animation: cinematic-sweep 7s ease-in-out infinite;
   }
 
   .cinematic-lines {
@@ -526,24 +529,24 @@ select {
 
 @keyframes cinematic-photo-pan {
   from {
-    transform: scale(1.02) translate3d(-0.6rem, 0, 0);
+    transform: scale(1.04) translate3d(-1rem, 0, 0);
   }
   to {
-    transform: scale(1.09) translate3d(0.8rem, -0.4rem, 0);
+    transform: scale(1.12) translate3d(1rem, -0.7rem, 0);
   }
 }
 
 @keyframes cinematic-sweep {
   0%,
-  38% {
-    transform: translateX(-70%);
+  30% {
+    transform: translateX(-82%);
     opacity: 0;
   }
-  52% {
-    opacity: 1;
+  46% {
+    opacity: 0.92;
   }
   100% {
-    transform: translateX(80%);
+    transform: translateX(96%);
     opacity: 0;
   }
 }
