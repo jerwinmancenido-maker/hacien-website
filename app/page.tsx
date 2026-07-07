@@ -8,6 +8,7 @@ import {
   SolutionsV3,
   TrustV3,
 } from "@/components/HomeV3Sections";
+import { RemotionCinematicPreviewWrapper } from "@/components/visual/RemotionCinematicPreviewWrapper";
 
 export const metadata: Metadata = {
   title: "Enterprise Technology With Operational Clarity",
@@ -20,6 +21,11 @@ export default function Home() {
     <>
       <Hero />
       <PremiumStatementBand />
+      <section className="bg-[#071426] px-4 py-18 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <RemotionCinematicPreviewWrapper />
+        </div>
+      </section>
       <SolutionsV3 />
       <ProductCatalogV3 />
       <ErpPreviewV3 />

@@ -1,9 +1,11 @@
 import { AbsoluteFill, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { colors, Label, Panel, Stage, useEase } from "./shared";
+import { remotionScenes } from "./scene-data";
 
 export function HeroReel() {
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
+  const scene = remotionScenes.heroReel;
   const sweep = interpolate(frame, [0, durationInFrames], [-520, 1920]);
   const enter = useEase(0.2, 1.4);
 
@@ -27,8 +29,8 @@ export function HeroReel() {
         ))}
       </AbsoluteFill>
       <Panel style={{ position: "absolute", right: 110, top: 130, width: 560, padding: 34, opacity: enter }}>
-        <div style={{ color: colors.amber, fontSize: 18, fontWeight: 800, letterSpacing: 3 }}>RFQ-FIRST OPERATING SURFACE</div>
-        {["Requirement", "Supplier Input", "Quotation Context", "Handover Record"].map((item, index) => (
+        <div style={{ color: colors.amber, fontSize: 18, fontWeight: 800, letterSpacing: 3 }}>{scene.panelEyebrow}</div>
+        {scene.steps.map((item, index) => (
           <div key={item} style={{ marginTop: 24, display: "flex", alignItems: "center", gap: 18 }}>
             <div style={{ width: 46, height: 46, borderRadius: 999, background: colors.blue, display: "grid", placeItems: "center", fontWeight: 900 }}>
               {index + 1}
@@ -38,7 +40,7 @@ export function HeroReel() {
         ))}
       </Panel>
       <div style={{ position: "absolute", left: sweep, top: 0, width: 240, height: 1080, background: "linear-gradient(90deg, transparent, rgba(56,189,248,0.22), transparent)" }} />
-      <Label eyebrow="HACIEN Cinematic System" title="Technology sourcing with traceable context." />
+      <Label eyebrow={scene.eyebrow} title={scene.title} />
     </Stage>
   );
 }

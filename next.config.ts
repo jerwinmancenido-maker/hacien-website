@@ -23,6 +23,7 @@ const nextConfig: NextConfig = {
       scriptSrc,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data:",
+      "media-src 'self' data:",
       "font-src 'self'",
       "connect-src 'self' https://challenges.cloudflare.com",
       "frame-src https://challenges.cloudflare.com",

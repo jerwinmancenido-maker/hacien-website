@@ -1,0 +1,40 @@
+{
+  "meta": {
+    "fps": 30,
+    "sceneFrames": 150,
+    "overlapFrames": 18
+  },
+  "scenes": {
+    "heroReel": {
+      "eyebrow": "HACIEN Cinematic System",
+      "title": "Technology sourcing with traceable context.",
+      "panelEyebrow": "RFQ-FIRST OPERATING SURFACE",
+      "steps": ["Requirement", "Supplier Input", "Quotation Context", "Handover Record"]
+    },
+    "explodedHardware": {
+      "eyebrow": "Hardware Review",
+      "title": "Assemblies separated into reviewable sourcing context.",
+      "parts": ["CPU Board", "Memory Channel", "Storage Bay", "Power Unit", "Cooling Path", "Chassis Frame"]
+    },
+    "aiScannerDemo": {
+      "eyebrow": "AI Scanner Demo",
+      "title": "Extracted fields remain review-only until verified.",
+      "documentLabel": "RFQ Specification",
+      "fields": ["Line items", "Model class", "Quantity", "Delivery area", "Warranty notes"],
+      "reviewStates": ["Document accepted", "Fields extracted", "Manual review required", "Gateway-ready summary"]
+    },
+    "logisticsMap": {
+      "eyebrow": "Logistics Map",
+      "title": "Regional handoffs need visible assumptions.",
+      "panelTitle": "Logistics planning preview",
+      "panelText": "Routes are planning context, not delivery commitments.",
+      "nodes": ["Metro Manila", "Cebu", "Davao"]
+    },
+    "portalAssetDashboard": {
+      "eyebrow": "Portal Preview",
+      "title": "Customer workspace signals without overclaiming readiness.",
+      "headings": ["Workspace", "Review State", "Next Action"],
+      "rows": ["RFQ references", "Quotation drafts", "Asset notes", "Support follow-ups", "Document checklist"]
+    }
+  }
+}
