@@ -1,9 +1,9 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { BrandMark } from "@/components/BrandMark";
 
 const navItems = [
   { href: "/", label: "Home" },
@@ -42,27 +42,20 @@ export function Header() {
         scrolled ? "shadow-lg shadow-slate-950/8" : "shadow-sm shadow-slate-950/3"
       }`}
     >
-      <div className={`mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 transition-all duration-300 sm:px-6 lg:px-8 ${scrolled ? "py-2" : "py-3"}`}>
+      <div className={`mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 sm:px-5 lg:gap-4 lg:px-8 ${scrolled ? "py-2" : "py-3"}`}>
         <Link href="/" className="group flex shrink-0 items-center gap-3 rounded-full pr-3 transition hover:bg-slate-50/70">
           <span className="relative grid h-11 w-11 place-items-center overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-sm shadow-slate-950/5 transition duration-300 group-hover:-translate-y-0.5 group-hover:border-[#1457d9]/35 group-hover:shadow-lg group-hover:shadow-blue-900/10">
             <span className="absolute inset-0 bg-gradient-to-br from-cyan-100/50 via-white to-blue-100/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            <Image
-              src="/brand/hacien-mark.png"
-              alt="HACIEN logo"
-              width={42}
-              height={42}
-              priority
-              className="relative h-9 w-9 object-contain"
-            />
+            <BrandMark size={36} className="relative z-10" />
           </span>
           <span>
             <span className="block text-sm font-bold tracking-wide text-slate-950 transition-colors group-hover:text-[#1457d9]">HACIEN</span>
-            <span className="hidden text-xs text-slate-500 sm:block">Information Technology Solutions</span>
+            <span className="hidden text-xs text-slate-500 xl:block">Information Technology Solutions</span>
           </span>
         </Link>
 
         <div className="relative hidden lg:block">
-          <nav className="glass-control relative grid w-[540px] grid-cols-6 overflow-hidden rounded-full p-1 text-center text-sm font-semibold text-slate-700">
+          <nav className="glass-control relative grid w-[480px] xl:w-[540px] grid-cols-6 overflow-hidden rounded-full p-1 text-center text-sm font-semibold text-slate-700">
             <span
               className="pointer-events-none absolute left-1 top-1 h-[calc(100%-0.5rem)] w-[calc((100%-0.5rem)/6)] overflow-hidden border border-white/80 bg-white/95 shadow-md shadow-slate-950/10 transition-transform duration-300 ease-out"
               style={{
@@ -83,7 +76,7 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative z-10 rounded-full px-3.5 py-2 transition-all duration-200 ${
+                className={`relative z-10 rounded-full px-2 py-2 transition-all duration-200 ${
                   isActive(item.href)
                     ? "text-[#071426]"
                     : "text-slate-600 hover:-translate-y-0.5 hover:bg-white/45 hover:text-[#071426]"
@@ -95,10 +88,10 @@ export function Header() {
           </nav>
         </div>
 
-        <div className="hidden shrink-0 items-center gap-2 lg:flex">
+        <div className="hidden shrink-0 items-center gap-1.5 lg:flex">
           <Link
             href="/access"
-            className={`rounded-full border px-4 py-2 text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 ${
+            className={`rounded-full border px-3 py-1.5 text-xs xl:px-4 xl:py-2 xl:text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 ${
               pathname === "/access"
                 ? "glass-control border-[#1457d9]/50 text-[#1457d9]"
                 : "glass-control text-slate-900 hover:border-[#1457d9]/50 hover:text-[#1457d9] hover:shadow-lg hover:shadow-blue-950/10"
@@ -108,7 +101,7 @@ export function Header() {
           </Link>
           <Link
             href="/quote"
-            className="button-glow rounded-full bg-[#1457d9] px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-700/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#0f46b4] hover:shadow-xl hover:shadow-blue-700/25"
+            className="button-glow rounded-full bg-[#1457d9] px-3 py-1.5 text-xs xl:px-4 xl:py-2 xl:text-sm font-semibold text-white shadow-lg shadow-blue-700/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#0f46b4] hover:shadow-xl hover:shadow-blue-700/25"
           >
             Request Quote
           </Link>
