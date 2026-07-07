@@ -29,6 +29,8 @@ export type EcommerceOrderIntentInput = {
   customerEmail: string;
   organizationName: string;
   paymentMode: "manual" | "sandbox";
+  turnstileToken?: string;
+  antiSpamVerification?: Record<string, unknown>;
   items: Array<{
     productId: string;
     publicationId: string;

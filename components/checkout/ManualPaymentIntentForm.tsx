@@ -11,15 +11,22 @@ export function ManualPaymentIntentForm({
   sku,
   name,
   sourceUrl,
+  turnstileToken,
+  antiSpamVerification,
 }: {
   productId: string;
   publicationId: string;
   sku?: string;
   name: string;
   sourceUrl: string;
+  turnstileToken?: string;
+  antiSpamVerification?: Record<string, unknown>;
 }) {
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<IntentStatus>("idle");
+  const antiSpamVerificationPayload = antiSpamVerification
+    ? JSON.stringify(antiSpamVerification)
+    : "";
 
   async function handleSubmit(formData: FormData) {
     setStatus("submitting");
@@ -36,6 +43,16 @@ export function ManualPaymentIntentForm({
       <input type="hidden" name="name" value={name} />
       <input type="hidden" name="quantity" value="1" />
       <input type="hidden" name="sourceUrl" value={sourceUrl} />
+      {turnstileToken ? (
+        <input type="hidden" name="turnstileToken" value={turnstileToken} />
+      ) : null}
+      {antiSpamVerificationPayload ? (
+        <input
+          type="hidden"
+          name="antiSpamVerification"
+          value={antiSpamVerificationPayload}
+        />
+      ) : null}
       <label className="grid gap-2 text-sm font-semibold text-slate-700">
         Work email
         <input

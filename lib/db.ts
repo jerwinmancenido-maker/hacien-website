@@ -6,7 +6,9 @@ const globalCache = globalThis as typeof globalThis & {
 
 export function assertDatabaseConfigured() {
   if (!process.env.DATABASE_URL) {
-    throw new Error("DATABASE_URL is required for ecommerce account features.");
+    throw new Error(
+      "DATABASE_URL is required for website-local ecommerce account features. Use the Hostinger MySQL connection string, not the ERP Neon PostgreSQL URL.",
+    );
   }
 }
 
