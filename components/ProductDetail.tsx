@@ -47,14 +47,14 @@ export function ProductDetail({ product }: { product: Product }) {
     <section className="bg-white">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-16">
         <SlideUp className="min-w-0">
-        <div className="surface lift relative min-h-[420px] overflow-hidden rounded-lg p-6">
+        <div className="surface lift relative min-h-[300px] overflow-hidden rounded-lg p-4 sm:min-h-[420px] sm:p-6">
           <div className="absolute inset-0 animated-grid" />
           <div className="relative flex h-full flex-col justify-end">
-            <div className="rounded border border-white/70 bg-white/90 p-6 backdrop-blur">
+            <div className="rounded border border-white/70 bg-white/90 p-5 backdrop-blur sm:p-6">
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
                 {categoryLabel}
               </div>
-              <div className="mt-4 text-3xl font-bold text-slate-950">Capability review</div>
+              <div className="mt-4 text-2xl font-bold text-slate-950 sm:text-3xl">Capability review</div>
               <p className="mt-3 text-sm text-slate-600">{product.availability}</p>
             </div>
           </div>
