@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { AbsoluteFill, Easing, interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { CLINICAL_OUT_BEZIER } from "../../lib/motion/timing";
 
 export const colors = {
   obsidian: "#071426",
@@ -16,7 +17,7 @@ export function useEase(startSeconds: number, durationSeconds: number) {
   const frame = useCurrentFrame();
   const { fps } = useVideoConfig();
   return interpolate(frame, [startSeconds * fps, (startSeconds + durationSeconds) * fps], [0, 1], {
-    easing: Easing.bezier(0.16, 1, 0.3, 1),
+    easing: Easing.bezier(...CLINICAL_OUT_BEZIER),
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
   });

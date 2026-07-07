@@ -1,13 +1,14 @@
 import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 import { colors, Label, Panel, Stage } from "./shared";
+import { remotionScenes } from "./scene-data";
 
 const parts = [
-  ["CPU Board", -360, -150, 0],
-  ["Memory Channel", -120, -250, 8],
-  ["Storage Bay", 160, -190, 16],
-  ["Power Unit", 360, 0, 24],
-  ["Cooling Path", 120, 210, 32],
-  ["Chassis Frame", -260, 180, 40],
+  [-360, -150, 0],
+  [-120, -250, 8],
+  [160, -190, 16],
+  [360, 0, 24],
+  [120, 210, 32],
+  [-260, 180, 40],
 ] as const;
 
 export function ExplodedHardware() {
@@ -21,7 +22,8 @@ export function ExplodedHardware() {
   return (
     <Stage>
       <div style={{ position: "absolute", inset: 0, display: "grid", placeItems: "center", perspective: 1200 }}>
-        {parts.map(([label, x, y, delay]) => {
+        {parts.map(([x, y, delay], index) => {
+          const label = remotionScenes.explodedHardware.parts[index] ?? `Part ${index + 1}`;
           const local = interpolate(frame - delay, [0, 90], [0, progress], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
           return (
             <Panel
@@ -41,7 +43,7 @@ export function ExplodedHardware() {
           );
         })}
       </div>
-      <Label eyebrow="Hardware Review" title="Assemblies separated into reviewable sourcing context." />
+      <Label eyebrow={remotionScenes.explodedHardware.eyebrow} title={remotionScenes.explodedHardware.title} />
     </Stage>
   );
 }
