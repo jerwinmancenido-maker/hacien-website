@@ -7,22 +7,17 @@ import { categories } from "@/data/products";
 import { solutions } from "@/data/solutions";
 
 const ecosystem = [
-  ["Requirement context", "Business need, site conditions, users, quantities, deadline, and approval path."],
-  ["Specification review", "Performance needs, compatibility, equivalent options, and missing details."],
-  ["Supplier-input review", "Availability, warranty, lead time, commercial assumptions, and delivery constraints where supplier evidence is available."],
-  ["Quotation package", "Clear item context, assumptions, exclusions, validity, and next steps."],
-  ["Delivery planning", "Receiving needs, handover records, schedule expectations, and follow-up context."],
-  ["Relationship continuity", "Each request remains part of one customer relationship, not a forgotten email thread."],
+  ["What is needed", "Users, quantity, site, deadline, and the business reason behind the request."],
+  ["What is unclear", "Missing specs, compatibility questions, equivalents, and assumptions that affect review."],
+  ["What can be checked", "Supplier inputs, warranty context, lead time, and commercial conditions when evidence is available."],
+  ["What happens next", "A clearer RFQ path with reference tracking and written follow-up context."],
 ];
 
 const howItWorks = [
-  ["Requirements Gathering", "Capture business need, site context, specs, quantity, budget range, and target delivery timeline."],
-  ["Product Matching", "Translate buyer requirements into viable branded or equivalent technology options."],
-  ["Supplier Input Review", "Review availability, warranty, lead time, and procurement constraints where supplier inputs are available."],
-  ["Quotation", "Prepare quotation support with reviewed inputs and stated delivery assumptions."],
-  ["Award", "Support buyer-side comparison and selected offer documentation without claiming accreditation."],
-  ["Procurement", "Coordinate ordering and fulfillment readiness only when formal transaction terms support it."],
-  ["Delivery", "Align delivery context, handover needs, and follow-up support when delivery is in scope."],
+  ["Send", "Share a list, BOQ, photo, supplier quote, or plain description."],
+  ["Clarify", "HACIEN checks what is missing or risky before quotation work begins."],
+  ["Review", "Supplier and technical inputs are organized when available."],
+  ["Respond", "You receive the next practical step with the request context preserved."],
 ];
 
 const solutionImages: Record<string, keyof typeof enterpriseImages> = {
@@ -51,13 +46,13 @@ const categoryImages: Record<string, keyof typeof enterpriseImages> = {
 
 export function TechnologyEcosystem() {
   return (
-    <AnimatedSection className="bg-[#071426] px-4 py-14 text-white sm:px-6 lg:px-8 lg:py-16">
+    <AnimatedSection className="bg-[#071426] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div>
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">RFQ Readiness</div>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl lg:text-5xl">From rough requirement to review-ready request.</h2>
+          <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">Turn incomplete specs into a usable request.</h2>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-300 sm:text-base sm:leading-7">
-            The first job is not to sell a model. It is to make the request clear enough for accurate review, responsible sourcing, and formal quotation.
+            The first job is not to sell a model. It is to make the request clear enough for responsible review and practical follow-up.
           </p>
           <StaggerContainer className="mt-7 grid gap-3 sm:grid-cols-2">
             {ecosystem.map(([title, detail]) => (
@@ -70,9 +65,9 @@ export function TechnologyEcosystem() {
         </div>
         <EnterprisePhotoPanel
           image="silicon"
-          eyebrow="Procurement Clarity"
-          title="Better quotations start with better requirements."
-          caption="HACIEN keeps the buyer focused on context, assumptions, equivalents, supplier-input review, and the next practical step."
+          eyebrow="Context before quote"
+          title="The useful detail is usually hidden in the first conversation."
+          caption="HACIEN helps surface the assumptions, options, and missing details before a formal quotation path is treated as ready."
         />
       </div>
     </AnimatedSection>
@@ -81,15 +76,15 @@ export function TechnologyEcosystem() {
 
 export function HowHacienWorks() {
   return (
-    <AnimatedSection className="bg-white px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+    <AnimatedSection className="bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="How HACIEN Works"
-          title="A relationship workflow, not a generic contact form."
-          description="The public RFQ experience mirrors how technology requirements really move: from description or files to review, clarification, quotation support, fulfillment, and continuity."
+          title="A short path for requests that are not yet perfect."
+          description="The public RFQ experience is designed for real buyers: sometimes you have a BOQ, sometimes a model, and sometimes only the outcome you need."
         />
         <div className="mt-8 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
-          <div className="grid divide-y divide-slate-200 lg:grid-cols-7 lg:divide-x lg:divide-y-0">
+          <div className="grid divide-y divide-slate-200 md:grid-cols-4 md:divide-x md:divide-y-0">
             {howItWorks.map(([title, text], index) => (
               <details key={title} className="group p-5 open:bg-white">
                 <summary className="cursor-pointer list-none">
@@ -108,12 +103,12 @@ export function HowHacienWorks() {
 
 export function SolutionsV3() {
   return (
-    <AnimatedSection className="bg-slate-50 px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+    <AnimatedSection className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="Solutions"
-          title="Built around sourcing, deployment, and operational handover."
-          description="Solutions answer the problems HACIEN helps organizations solve across infrastructure, workplace, cybersecurity, cloud, procurement, and managed services."
+          title="Common IT needs, organized for review."
+          description="These solution areas help buyers describe work across infrastructure, workplace technology, cybersecurity, cloud, and support without needing perfect specifications first."
         />
         <StaggerContainer className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {solutions.slice(0, 6).map((solution) => (
@@ -150,34 +145,38 @@ export function SolutionsV3() {
 
 export function ProductCatalogV3() {
   return (
-    <AnimatedSection className="bg-white px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+    <AnimatedSection className="bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
+        <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
           <SectionHeading
           eyebrow="Technology"
-          title="Enterprise technology domains presented as operating needs."
-          description="HACIEN does not lead with model numbers or prices. Technology pages help buyers describe the domain they need before formal review."
+          title="Technology categories without fake certainty."
+          description="Use product categories as a language for the request. Final models, prices, and commercial terms still require RFQ review."
         />
-        <div className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2">
           {categories.slice(0, 6).map((category) => (
             <Link key={category.slug} href={`/products/${category.slug}`} className="group block">
-              <AnimatedCard className="h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-950/10">
-                <div
-                  className="h-32 bg-slate-950"
-                  style={{
-                    backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.7)), url(${enterpriseImages[categoryImages[category.slug] || "dataCenter"]})`,
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                  }}
-                />
-                <div className="p-5 sm:p-6">
-                <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Technology</div>
-                <h3 className="mt-4 text-xl font-bold tracking-tight text-slate-950 group-hover:text-[#1457d9] sm:text-2xl">{category.name}</h3>
-                <p className="mt-3 text-sm leading-6 text-slate-600">{category.summary}</p>
-                <div className="mt-6 text-sm font-bold text-[#1457d9]">Build this requirement</div>
+              <AnimatedCard className="h-full rounded-lg border border-slate-200 bg-slate-50 p-4 shadow-sm transition hover:-translate-y-1 hover:bg-white hover:shadow-xl hover:shadow-slate-950/10">
+                <div className="flex gap-3">
+                  <div
+                    className="h-14 w-16 shrink-0 rounded bg-slate-950"
+                    style={{
+                      backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.7)), url(${enterpriseImages[categoryImages[category.slug] || "dataCenter"]})`,
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                    }}
+                  />
+                  <div className="min-w-0">
+                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">Technology</div>
+                    <h3 className="mt-1 text-base font-bold tracking-tight text-slate-950 group-hover:text-[#1457d9]">{category.name}</h3>
+                    <p className="mt-1 line-clamp-2 text-sm leading-5 text-slate-600">{category.summary}</p>
+                    <div className="mt-3 text-sm font-bold text-[#1457d9]">Build this requirement</div>
+                  </div>
                 </div>
               </AnimatedCard>
             </Link>
           ))}
+        </div>
         </div>
       </div>
     </AnimatedSection>
@@ -193,14 +192,14 @@ export function ErpPreviewV3() {
   ];
 
   return (
-    <AnimatedSection className="bg-[#0b1220] px-4 py-14 text-white sm:px-6 lg:px-8 lg:py-16">
+    <AnimatedSection className="bg-[#0b1220] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">HACIEN Platform</div>
-            <h2 className="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">HACIEN operates through its own connected platform.</h2>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">HACIEN keeps request context connected behind the scenes.</h2>
             <p className="mt-5 leading-7 text-slate-300">
-              Workspace, Timeline, Guardian, and Customer Workspace exist to keep requests, operations, and relationship history connected. Future commercial availability will be announced only when mature.
+              Workspace, Timeline, Guardian, and Customer Workspace help keep inquiries, operations, and relationship history connected. Public availability is announced only when mature.
             </p>
             <Link href="/platform" className="button-glow mt-8 inline-flex rounded bg-white px-5 py-3 text-sm font-bold text-[#071426]">
               Explore Platform
@@ -229,7 +228,7 @@ export function TrustV3() {
   ];
 
   return (
-    <AnimatedSection className="bg-white px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+    <AnimatedSection className="bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="Trust & Confidence"
@@ -261,7 +260,7 @@ export { PremiumStatementBand };
 
 export function ExistingCustomerV3() {
   return (
-    <AnimatedSection className="bg-slate-50 px-4 py-16 sm:px-6 lg:px-8">
+    <AnimatedSection className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-[1fr_auto] lg:items-center">
           <div>

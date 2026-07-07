@@ -40,25 +40,25 @@ export default function TechnologyPage() {
     <>
       <PremiumPageHero
         eyebrow="Technology"
-        title="Enterprise technology domains, not an online catalog."
-        description="HACIEN helps organizations define, source, and coordinate technology requirements across infrastructure, software, security, cloud, and operating environments."
+        title="Technology categories for describing the work."
+        description="Use this page to frame the request. HACIEN reviews the context before any model, price, delivery, or commercial term is treated as confirmed."
         image="silicon"
         primaryAction={{ href: "/quote", label: "Request Quote" }}
         secondaryAction={{ href: "/solutions", label: "View Solutions" }}
         highlights={[
-          { label: "Computing", text: "Endpoints, workstations, servers, and operating environments." },
-          { label: "Networking", text: "Reliable connectivity for offices, facilities, and campuses." },
-          { label: "Cybersecurity", text: "Protection for users, devices, networks, and critical operations." },
-          { label: "Cloud & Software", text: "Licensing, backup, SaaS, and hybrid technology needs." },
+          { label: "Computing", text: "Endpoints, workstations, servers, and user needs." },
+          { label: "Networking", text: "Connectivity, site layout, and reliability context." },
+          { label: "Cybersecurity", text: "Protection requirements and operating risk." },
+          { label: "Cloud & Software", text: "Licensing, backup, SaaS, and hybrid needs." },
         ]}
       />
 
-      <AnimatedSection className="bg-white px-4 py-14 sm:px-6 lg:px-8 lg:py-16">
+      <AnimatedSection className="bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="Domains"
-            title="Technology presented by operating need."
-            description="These domains help customers describe what they need without forcing them to know model numbers, prices, or exact specifications before HACIEN reviews the requirement."
+            title="Choose the language closest to your requirement."
+            description="You do not need a perfect specification to start. Choose the category that fits, then add the context HACIEN should review."
           />
           <StaggerContainer className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {technologyDomains.map(([title, text, categorySlug]) => (
@@ -91,15 +91,15 @@ export default function TechnologyPage() {
         </div>
       </AnimatedSection>
 
-      <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-10 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-[1fr_auto] lg:items-center">
+      <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
+        <div className="mx-auto grid max-w-7xl gap-6 rounded-lg border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Product references remain optional</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950">
-              Customers may submit a product, a category, a specification, a BOQ, an image, or only an idea.
+              Start with a product, a category, a BOQ, a photo, or only the outcome.
             </h2>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">
-              HACIEN’s Gateway reviews the requirement first. The product catalog helps describe context; it never limits the relationship.
+              HACIEN&apos;s Gateway reviews the requirement first. The catalog helps describe context; it does not limit what you can ask.
             </p>
           </div>
           <Link href="/quote" className="button-glow rounded-full bg-[#1457d9] px-6 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15">

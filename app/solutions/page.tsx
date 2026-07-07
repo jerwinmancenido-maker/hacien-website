@@ -18,16 +18,16 @@ export const metadata: Metadata = {
 
 const capabilityGroups = [
   {
-    title: "Infrastructure should be specified before it is sourced.",
-    text: "Workstations, servers, storage, network devices, UPS, and deployment materials need clear usage context before supplier canvass starts.",
+    title: "Infrastructure requests need context.",
+    text: "Devices, servers, storage, network equipment, and power needs are easier to review when usage, site, and scale are clear.",
   },
   {
-    title: "Integration should connect products to outcomes.",
-    text: "Systems integration, structured cabling, CCTV, networking, cloud, and cybersecurity work better when equipment, scope, and handover are planned together.",
+    title: "Integration is more than equipment.",
+    text: "Cabling, network, security, cloud, and software work better when scope and handover assumptions are visible early.",
   },
   {
-    title: "Support should continue after delivery.",
-    text: "Managed IT, project delivery, renewals, replacements, and warranty follow-up keep procurement from becoming a one-time transaction.",
+    title: "Follow-up should not restart the story.",
+    text: "Renewals, replacements, warranty context, and support questions should stay connected to the original request.",
   },
 ];
 
@@ -70,25 +70,25 @@ export default function SolutionsPage() {
     <>
       <PremiumPageHero
         eyebrow="Solutions"
-        title="Technology solutions shaped around real procurement work."
-        description="HACIEN supports infrastructure, integration, sourcing, delivery, and lifecycle needs by turning technical requirements into review-ready work."
+        title="IT solution areas for clearer requests."
+        description="Use these pages to describe the work HACIEN should review: infrastructure, integration, workplace technology, software, security, and support context."
         image="commandCenter"
         primaryAction={{ href: "/quote", label: "Start an RFQ" }}
         secondaryAction={{ href: "/technology", label: "Explore Technology" }}
         highlights={[
-          { label: "Infrastructure", text: "Endpoints, servers, networks, power, and site connectivity." },
-          { label: "Integration", text: "Deployment context, materials, setup, and handover planning." },
-          { label: "Procurement", text: "Review-ready requirements, quotation support, and equivalent review." },
-          { label: "Lifecycle", text: "Delivery, support, renewals, replacements, and continuity." },
+          { label: "Infrastructure", text: "Endpoints, servers, networks, power, and site context." },
+          { label: "Integration", text: "Materials, setup needs, and handover assumptions." },
+          { label: "Sourcing", text: "Requirements, equivalents, and supplier inputs when available." },
+          { label: "Continuity", text: "Follow-up, renewal, replacement, and support context." },
         ]}
       />
 
-      <section className="px-4 py-18 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">What Solutions Mean</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              Not just services. A structured way to move IT work forward.
+              Not a menu of promises. A way to describe work clearly.
             </h2>
           </AnimatedContent>
           <div className="grid gap-5">
@@ -104,7 +104,7 @@ export default function SolutionsPage() {
         </div>
       </section>
 
-      <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
+      <section className="bg-[#071426] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Technology Layers</div>
@@ -124,12 +124,12 @@ export default function SolutionsPage() {
         </div>
       </section>
 
-      <section className="px-4 py-18 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Active Solution Areas</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              Each solution has its own procurement context.
+              Pick the closest area, then describe the requirement.
             </h2>
           </AnimatedContent>
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -161,12 +161,12 @@ export default function SolutionsPage() {
         </div>
       </section>
 
-      <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
+      <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">How Work Moves</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              A simple path from technical need to supported delivery.
+              A simple path from technical need to reviewed next step.
             </h2>
           </AnimatedContent>
           <div className="mt-12 overflow-x-auto pb-4">

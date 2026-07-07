@@ -16,7 +16,7 @@ export function Footer() {
               </div>
             </div>
             <p className="mt-4 max-w-lg text-sm leading-6 text-slate-300">
-              Enterprise technology with operational clarity.
+              Technology sourcing that stays clear from request to handover.
             </p>
           </div>
 

@@ -205,22 +205,22 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr]">
-      <div className="surface min-w-0 rounded-2xl p-6 sm:p-8">
+    <div className="grid gap-6 lg:grid-cols-[1fr_0.88fr]">
+      <div className="surface min-w-0 rounded-xl p-5 sm:p-6">
         <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Gateway Package</div>
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-950">Universal RFQ intake</h2>
         <p className="mt-2 text-sm leading-6 text-slate-600">
           Your RFQ can start without catalog products. Start with a requirement, BOQ, supplier quote,
           formal specification, image, ZIP file, technology area, or plain description.
         </p>
-        <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4">
+        <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4">
           <div className="text-xs font-bold uppercase tracking-[0.16em] text-amber-800">
             {billingSettings.quote_validity_badge_label}
           </div>
           <p className="mt-2 text-xs leading-5 text-slate-700">{billingSettings.quote_validity_disclaimer}</p>
           <p className="mt-2 text-xs leading-5 text-slate-600">{billingSettings.compliance_disclaimer}</p>
         </div>
-        <div className="mt-6 grid gap-3 sm:grid-cols-5">
+        <div className="mt-5 grid gap-3 sm:grid-cols-5">
           {[
             "Describe or Upload",
             "Optional Reference",
@@ -230,7 +230,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           ].map((stepText, index) => (
             <div
               key={stepText}
-              className="rounded-xl border border-slate-200 bg-white/80 p-3 text-sm shadow-sm"
+              className="rounded-lg border border-slate-200 bg-white/80 p-3 text-sm shadow-sm"
             >
               <div className="grid h-8 w-8 place-items-center rounded-full bg-[#071426] text-xs font-bold text-white">
                 {index + 1}
@@ -240,8 +240,8 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           ))}
         </div>
         {requirements.length === 0 ? (
-          <div className="mt-6 rounded-2xl border border-dashed border-blue-200 bg-blue-50/60 p-8 text-center">
-            <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-white text-lg font-bold text-[#1457d9] shadow-sm">
+          <div className="mt-5 rounded-xl border border-dashed border-blue-200 bg-blue-50/60 p-5 text-center sm:p-6">
+            <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-white text-base font-bold text-[#1457d9] shadow-sm">
               RFQ
             </div>
             <p className="mt-4 font-semibold text-slate-800">

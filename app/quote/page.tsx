@@ -15,20 +15,20 @@ export default function QuotePage() {
     <>
       <PremiumPageHero
         eyebrow="Universal Gateway Intake"
-        title="Start with the requirement. Catalog is optional."
-        description="Describe the need, upload a BOQ, send formal specifications, attach an existing supplier quote, use catalog items, or simply explain the outcome. Every path enters HACIEN through the Gateway before any Opportunity is created."
+        title="Send the requirement in whatever form you have."
+        description="Use a BOQ, supplier quote, photo, spreadsheet, product link, or plain description. HACIEN reviews the context before any formal quote or business record is treated as ready."
         image="commandCenter"
         primaryAction={{ href: "#rfq-form", label: "Start RFQ" }}
         secondaryAction={{ href: "/products", label: "Use RFQ Builder" }}
         highlights={[
-          { label: "Free Text", text: "Describe the business need in plain language." },
-          { label: "Files", text: "Attach BOQ, supplier quote, specs, image, Excel, PDF, or ZIP." },
+          { label: "Plain language", text: "Describe the need without perfect specs." },
+          { label: "Files", text: "Attach BOQ, quote, image, spreadsheet, PDF, or ZIP." },
           { label: "Reference", text: "Receive a tracking reference after submission." },
-          { label: "Review First", text: "HACIEN reviews before creating an Opportunity." },
+          { label: "Review first", text: "HACIEN reviews before formal next steps." },
         ]}
       />
 
-      <section id="rfq-form" className="px-4 py-18 sm:px-6 lg:px-8">
+      <section id="rfq-form" className="px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto max-w-7xl">
           <QuoteCart turnstileSiteKey={turnstileSiteKey} />
         </div>

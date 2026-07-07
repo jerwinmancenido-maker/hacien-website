@@ -45,16 +45,16 @@ export function ProductDetail({ product }: { product: Product }) {
 
   return (
     <section className="bg-white">
-      <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:px-8 lg:py-16">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[0.82fr_1.18fr] lg:px-8 lg:py-14">
         <SlideUp className="min-w-0">
-        <div className="surface lift relative min-h-[300px] overflow-hidden rounded-lg p-4 sm:min-h-[420px] sm:p-6">
+        <div className="surface lift relative min-h-[240px] overflow-hidden rounded-lg p-4 sm:min-h-[320px] sm:p-5">
           <div className="absolute inset-0 animated-grid" />
           <div className="relative flex h-full flex-col justify-end">
-            <div className="rounded border border-white/70 bg-white/90 p-5 backdrop-blur sm:p-6">
+            <div className="rounded border border-white/70 bg-white/90 p-4 backdrop-blur sm:p-5">
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
                 {categoryLabel}
               </div>
-              <div className="mt-4 text-2xl font-bold text-slate-950 sm:text-3xl">Capability review</div>
+              <div className="mt-3 text-2xl font-bold text-slate-950">Requirement review</div>
               <p className="mt-3 text-sm text-slate-600">{product.availability}</p>
             </div>
           </div>
@@ -64,10 +64,10 @@ export function ProductDetail({ product }: { product: Product }) {
         <SlideUp delay={120} className="min-w-0">
         <div className="min-w-0">
           <div className="text-sm font-semibold text-[#1457d9]">{categoryLabel}</div>
-          <h1 className="mt-3 text-4xl font-bold tracking-tight text-slate-950">{product.name}</h1>
-          <p className="mt-5 text-lg leading-8 text-slate-600">{product.longDescription}</p>
+          <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">{product.name}</h1>
+          <p className="mt-4 text-base leading-7 text-slate-600">{product.longDescription}</p>
 
-          <div className="mt-8 rounded-lg border border-slate-200 bg-slate-50 p-5">
+          <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-5">
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Quotation context</div>
             <p className="mt-3 text-sm leading-6 text-slate-600">
               This page explains a technology type HACIEN can review. Final model, quantity, pricing,
@@ -98,7 +98,7 @@ export function ProductDetail({ product }: { product: Product }) {
             </div>
           </div>
 
-          <div className="mt-8">
+          <div className="mt-6">
             <h2 className="font-bold text-slate-950">Typical sourcing targets</h2>
             <ul className="mt-4 grid gap-3 text-sm text-slate-700">
               {product.specs.map((spec) => (
@@ -110,7 +110,7 @@ export function ProductDetail({ product }: { product: Product }) {
             </ul>
           </div>
 
-          <div className="mt-8 overflow-hidden rounded-lg border border-slate-200">
+          <div className="mt-6 overflow-hidden rounded-lg border border-slate-200">
             <div className="border-b border-slate-200 bg-slate-50 px-5 py-4">
               <h2 className="font-bold text-slate-950">Technical specification table</h2>
               <p className="mt-1 text-sm leading-6 text-slate-600">
@@ -143,11 +143,11 @@ export function ProductDetail({ product }: { product: Product }) {
             </div>
           </div>
 
-          <div className="mt-8 rounded border border-blue-100 bg-blue-50 p-5 text-sm leading-6 text-slate-700">
+          <div className="mt-6 rounded border border-blue-100 bg-blue-50 p-5 text-sm leading-6 text-slate-700">
             <strong className="text-slate-950">Procurement note:</strong> {product.procurementNotes}
           </div>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             {canRequestQuote(product) ? (
               <button
                 type="button"
