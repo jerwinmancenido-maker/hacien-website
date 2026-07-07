@@ -19,6 +19,7 @@
 }
 
 html {
+  overflow-x: clip;
   scroll-behavior: smooth;
 }
 
@@ -37,6 +38,7 @@ html.lenis body {
 
 body {
   margin: 0;
+  overflow-x: clip;
   background:
     linear-gradient(90deg, rgba(20, 87, 217, 0.04), transparent 24%, rgba(7, 20, 38, 0.03)),
     linear-gradient(180deg, #ffffff 0%, var(--background) 54%, #ffffff 100%);
