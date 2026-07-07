@@ -4,6 +4,7 @@ import Link from "next/link";
 import { CTABand } from "@/components/CTABand";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Breadcrumb } from "@/components/Breadcrumb";
+import { EnterprisePhotoPanel } from "@/components/EnterpriseImagery";
 import { StaggerContainer } from "@/components/motion";
 import { getSolution, solutions } from "@/data/solutions";
 
@@ -68,6 +69,15 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
               </div>
             </div>
           </div>
+          {["it-infrastructure", "servers-storage"].includes(solution.slug) ? (
+            <EnterprisePhotoPanel
+              className="mt-10"
+              image={solution.slug === "servers-storage" ? "storage" : "dataCenter"}
+              eyebrow="Infrastructure Review"
+              title="Infrastructure decisions need real operating context."
+              caption="HACIEN uses this page to frame requirement review, supplier-input context, and quotation preparation. Final configuration, availability, delivery, and terms remain subject to formal RFQ review."
+            />
+          ) : null}
         </div>
       </section>
 

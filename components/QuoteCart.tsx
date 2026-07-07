@@ -6,6 +6,7 @@ import { useQuoteCart } from "@/components/QuoteCartProvider";
 import { AnimatedCard, StaggerContainer } from "@/components/motion";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
 import { TurnstileField } from "@/components/TurnstileField";
+import billingSettings from "@/config/billing-compliance-settings.json";
 
 const allowedAttachmentTypes = [
   "application/pdf",
@@ -27,7 +28,7 @@ const allowedAttachmentExtensions = [".pdf", ".doc", ".docx", ".xls", ".xlsx", "
 const intakePaths = [
   "Describe requirements",
   "Upload BOQ",
-  "Upload government specifications",
+  "Upload formal specifications",
   "Upload existing supplier quote",
   "Upload file / image / ZIP",
   "Reference a technology area",
@@ -153,7 +154,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
 
   if (status === "success") {
     return (
-      <div className="surface motion-slide-up mx-auto max-w-3xl rounded-2xl p-8 text-center">
+      <div className="surface min-w-0 motion-slide-up mx-auto max-w-3xl rounded-2xl p-8 text-center">
         <div className="text-sm font-bold uppercase tracking-[0.18em] text-[#1457d9]">
           RFQ request received
         </div>
@@ -183,7 +184,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
 
   if (status === "error") {
     return (
-      <div className="surface motion-slide-up mx-auto max-w-3xl rounded-2xl p-8 text-center">
+      <div className="surface min-w-0 motion-slide-up mx-auto max-w-3xl rounded-2xl p-8 text-center">
         <div className="text-sm font-bold uppercase tracking-[0.18em] text-red-600">
           Unable to send
         </div>
@@ -205,13 +206,20 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1fr_0.9fr]">
-      <div className="surface rounded-2xl p-6 sm:p-8">
+      <div className="surface min-w-0 rounded-2xl p-6 sm:p-8">
         <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Gateway Package</div>
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-950">Universal RFQ intake</h2>
         <p className="mt-2 text-sm leading-6 text-slate-600">
           Your RFQ can start without catalog products. Start with a requirement, BOQ, supplier quote,
-          government specification, image, ZIP file, technology area, or plain description.
+          formal specification, image, ZIP file, technology area, or plain description.
         </p>
+        <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4">
+          <div className="text-xs font-bold uppercase tracking-[0.16em] text-amber-800">
+            {billingSettings.quote_validity_badge_label}
+          </div>
+          <p className="mt-2 text-xs leading-5 text-slate-700">{billingSettings.quote_validity_disclaimer}</p>
+          <p className="mt-2 text-xs leading-5 text-slate-600">{billingSettings.compliance_disclaimer}</p>
+        </div>
         <div className="mt-6 grid gap-3 sm:grid-cols-5">
           {[
             "Describe or Upload",
@@ -322,7 +330,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         onFocusCapture={markFormStarted}
         onChangeCapture={markFormStarted}
         onSubmit={handleSubmit}
-        className="surface rounded-2xl p-6 sm:p-8"
+        className="surface min-w-0 rounded-2xl p-6 sm:p-8"
       >
         <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Customer Details</div>
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-slate-950">Request a formal quotation review</h2>
@@ -383,7 +391,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
             <select required name="procurementType" className="focus-ring min-h-12 rounded-xl border border-slate-300 bg-white px-4 font-normal" defaultValue="">
               <option value="" disabled>Select procurement type</option>
               <option>Corporate</option>
-              <option>Government</option>
+              <option>Institutional</option>
               <option>Education</option>
               <option>Project-based</option>
               <option>Reseller / integrator</option>
@@ -410,7 +418,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
             />
           </label>
           <label className="grid gap-2 text-sm font-semibold text-slate-700">
-            Attachment <span className="font-normal text-slate-500">(BOQ, government specs, supplier quote, PDF, Excel, image, or ZIP)</span>
+            Attachment <span className="font-normal text-slate-500">(BOQ, formal specs, supplier quote, PDF, Excel, image, or ZIP)</span>
             <input
               name="attachment"
               type="file"
@@ -439,6 +447,10 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           {attachmentInfo ? <p className="text-sm font-semibold text-emerald-700">{attachmentInfo}</p> : null}
           <p className="rounded-xl border border-blue-100 bg-blue-50 p-3 text-xs leading-5 text-slate-600">
             Attachment metadata will enter the Gateway with the request. Accepted files: PDF, DOC, DOCX, XLS, XLSX, CSV, PNG, JPG, ZIP. Maximum size: 10MB.
+          </p>
+          <p className="rounded-xl border border-slate-200 bg-slate-50 p-3 text-xs leading-5 text-slate-600">
+            <span className="font-bold text-slate-800">{billingSettings.quote_summary_label}:</span>{" "}
+            {billingSettings.review_notice}
           </p>
 
           <p className="text-xs text-slate-500">

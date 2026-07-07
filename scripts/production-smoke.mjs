@@ -26,7 +26,7 @@ const REQUIRED_ROUTES = [
   "/terms",
 ];
 
-const TURNSTILE_ROUTES = ["/quote", "/contact", "/support", "/government-procurement"];
+const TURNSTILE_ROUTES = ["/quote", "/contact", "/support"];
 const QUOTE_REQUIRED_MARKERS = [
   "Universal RFQ Gateway",
   "Universal Gateway Intake",

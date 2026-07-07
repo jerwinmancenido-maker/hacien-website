@@ -10,6 +10,9 @@
   --blue: #1457d9;
   --violet: #5b4bff;
   --motion-delay: 0ms;
+  --motion-overlap-frames: 18;
+  --ease-clinical-out: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-premium-in-out: cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 * {
@@ -17,11 +20,26 @@
 }
 
 html {
+  overflow-x: clip;
   scroll-behavior: smooth;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 body {
   margin: 0;
+  overflow-x: clip;
   background:
     linear-gradient(90deg, rgba(20, 87, 217, 0.04), transparent 24%, rgba(7, 20, 38, 0.03)),
     linear-gradient(180deg, #ffffff 0%, var(--background) 54%, #ffffff 100%);
@@ -117,14 +135,14 @@ select {
 .motion-fade {
   animation-name: fade-in;
   animation-duration: 620ms;
-  animation-timing-function: ease-out;
+  animation-timing-function: var(--ease-clinical-out);
 }
 
 .motion-slide-up,
 .motion-stagger > * {
   animation-name: slide-up;
   animation-duration: 680ms;
-  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation-timing-function: var(--ease-clinical-out);
 }
 
 .motion-stagger > *:nth-child(1) { --motion-delay: 0ms; }
@@ -140,18 +158,22 @@ select {
 .motion-card {
   animation-name: slide-up;
   animation-duration: 620ms;
-  animation-timing-function: cubic-bezier(0.2, 0.8, 0.2, 1);
+  animation-timing-function: var(--ease-clinical-out);
 }
 
 .motion-section {
-  opacity: 0;
-  transform: translateY(20px);
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .motion-section.is-visible {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 720ms ease, transform 720ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: opacity 720ms var(--ease-clinical-out), transform 720ms var(--ease-clinical-out);
+}
+
+.page-dissolve {
+  min-height: 100%;
 }
 
 .floating-card {
@@ -191,7 +213,9 @@ select {
 
 .rb-animated-content,
 .rb-blur-reveal {
-  opacity: 0;
+  opacity: 1;
+  filter: none;
+  transform: none;
   transition-delay: var(--rb-delay, 0ms);
   transition-duration: 720ms;
   transition-property: opacity, filter, transform;
@@ -200,12 +224,12 @@ select {
 }
 
 .rb-animated-content {
-  transform: translate3d(var(--rb-x, 0), var(--rb-y, 18px), 0);
+  transform: translate3d(0, 0, 0);
 }
 
 .rb-blur-reveal {
-  filter: blur(14px);
-  transform: translateY(14px);
+  filter: none;
+  transform: translateY(0);
 }
 
 .rb-animated-content.is-visible,
@@ -394,6 +418,10 @@ select {
       inset 0 1px 0 rgba(255, 255, 255, 0.7),
       0 16px 44px rgba(15, 23, 42, 0.12);
   }
+
+  .page-dissolve {
+    animation: page-dissolve-in 720ms var(--ease-premium-in-out) both;
+  }
 }
 
 @keyframes fade-in {
@@ -412,6 +440,19 @@ select {
   }
   to {
     opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes page-dissolve-in {
+  from {
+    opacity: 0.01;
+    filter: blur(10px);
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
     transform: translateY(0);
   }
 }

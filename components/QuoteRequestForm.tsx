@@ -167,7 +167,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 <option>Software licensing</option>
                 <option>Network / infrastructure project</option>
                 <option>Security / surveillance project</option>
-                <option>Government procurement support</option>
+                <option>Institutional procurement support</option>
               </select>
               <select
                 required
@@ -221,9 +221,9 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
               <input
                 required
                 name="company"
-                aria-label="Company or agency"
+                aria-label="Company or organization"
                 autoComplete="organization"
-                placeholder="Company / agency"
+                placeholder="Company / organization"
                 className="focus-ring rounded border border-slate-300 px-3 py-2"
               />
               <input

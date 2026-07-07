@@ -3,6 +3,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { QuoteCartProvider } from "@/components/QuoteCartProvider";
+import { LenisProvider } from "@/components/motion/LenisProvider";
 import { companyContact } from "@/data/companyContact";
 
 export const revalidate = 300;
@@ -21,7 +22,7 @@ export const metadata: Metadata = {
     "IT infrastructure Philippines",
     "IT procurement Philippines",
     "systems integrator Philippines",
-    "government procurement support",
+    "institutional procurement support",
     "technology solutions provider",
   ],
   openGraph: {
@@ -57,7 +58,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     name: "HACIEN",
     alternateName: "HACIEN",
     url: "https://haciensolutions.com",
-    email: companyContact.email,
+    ...(companyContact.email ? { email: companyContact.email } : {}),
     address: {
       "@type": "PostalAddress",
       streetAddress: "Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, San Antonio",
@@ -78,11 +79,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
-        <QuoteCartProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </QuoteCartProvider>
+        <LenisProvider>
+          <QuoteCartProvider>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </QuoteCartProvider>
+        </LenisProvider>
       </body>
     </html>
   );

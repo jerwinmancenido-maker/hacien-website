@@ -12,12 +12,12 @@ import {
 export const metadata: Metadata = {
   title: "Industries Served | HACIEN",
   description:
-    "Explore how HACIEN supports business, government, education, healthcare, construction, enterprise, and institutional buyers with procurement-first technology sourcing.",
+    "Explore how HACIEN supports business, education, healthcare, construction, enterprise, and institutional buyers with procurement-first technology sourcing.",
 };
 
 const industries = [
   ["Business", "Workstations, software, network upgrades, peripherals, power protection, and recurring office technology procurement."],
-  ["Government", "Specification review, approved equivalent matching, quotation support, documentation-aware sourcing, and delivery coordination."],
+  ["Institutional", "Specification review, approved equivalent matching, quotation support, documentation-aware sourcing, and delivery coordination."],
   ["Education", "Classroom devices, WiFi, printing, security systems, productivity licenses, and institutional purchasing support."],
   ["Healthcare", "Reliable endpoint, network, storage, power, security, and support materials for operational environments."],
   ["Construction", "Project office equipment, site connectivity, CCTV, access control, consumables, and deployment materials."],
@@ -61,10 +61,10 @@ export default function IndustriesPage() {
                 Explore Solutions
               </Link>
               <Link
-                href="/government-procurement"
+                href="/quote"
                 className="interactive-link focus-ring rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900"
               >
-                Government Support
+                Start RFQ
               </Link>
             </AnimatedContent>
           </div>
@@ -126,7 +126,7 @@ export default function IndustriesPage() {
                   Have a requirement with site, compliance, or delivery constraints?
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
-                  Send the requirement details, and HACIEN will help shape the supplier-ready RFQ path.
+                  Send the requirement details, and HACIEN will help shape the review-ready RFQ path.
                 </p>
               </div>
               <Link

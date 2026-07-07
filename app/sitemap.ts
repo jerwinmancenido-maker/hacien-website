@@ -1,7 +1,6 @@
 import type { MetadataRoute } from "next";
 import { categories, products } from "@/data/products";
 import { solutions } from "@/data/solutions";
-import { governmentTopics } from "@/data/governmentTopics";
 import { insights } from "@/data/insights";
 
 const baseUrl = "https://haciensolutions.com";
@@ -19,9 +18,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/quote",
     "/access",
     "/customer-workspace",
-    "/government-procurement",
     "/contact",
     "/support",
+    "/faq",
+    "/help",
     "/search",
     "/trust-center",
     "/erp-platform",
@@ -55,12 +55,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
       priority: 0.6,
-    })),
-    ...governmentTopics.map((topic) => ({
-      url: `${baseUrl}/government-procurement/${topic.slug}`,
-      lastModified: new Date(),
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
     })),
     ...insights.map((insight) => ({
       url: `${baseUrl}/insights/${insight.slug}`,
