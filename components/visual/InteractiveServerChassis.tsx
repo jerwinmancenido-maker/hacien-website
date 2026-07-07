@@ -1,11 +1,11 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
-import { Environment, Float, Html, OrbitControls } from "@react-three/drei";
+import { Float, Html, OrbitControls } from "@react-three/drei";
 
 function ChassisModel() {
   return (
-    <group>
+    <group scale={1.55} position={[0, -0.1, 0]}>
       <mesh position={[0, -0.1, 0]}>
         <boxGeometry args={[4.2, 0.22, 2.4]} />
         <meshStandardMaterial color="#111827" metalness={0.58} roughness={0.28} />
@@ -42,13 +42,12 @@ function ChassisModel() {
 export function InteractiveServerChassis() {
   return (
     <div className="min-h-[420px] overflow-hidden rounded-lg border border-slate-800 bg-[#071426]">
-      <Canvas camera={{ position: [0, 3.2, 5.2], fov: 42 }}>
+      <Canvas camera={{ position: [0, 3.0, 4.4], fov: 38 }}>
         <ambientLight intensity={0.76} />
         <directionalLight position={[4, 5, 3]} intensity={1.45} />
         <Float speed={1.1} rotationIntensity={0.2} floatIntensity={0.22}>
           <ChassisModel />
         </Float>
-        <Environment preset="warehouse" />
         <OrbitControls enablePan={false} minDistance={4.2} maxDistance={6.2} />
       </Canvas>
     </div>

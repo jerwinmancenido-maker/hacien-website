@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { Environment, Float, OrbitControls } from "@react-three/drei";
+import { Float, OrbitControls } from "@react-three/drei";
 import { useEffect, useRef, useState } from "react";
 import type { Group } from "three";
 
@@ -65,7 +65,6 @@ export function ScrollServerAssembly() {
         <Float speed={1.2} rotationIntensity={0.24} floatIntensity={0.32}>
           <AssemblyParts />
         </Float>
-        <Environment preset="city" />
         <OrbitControls enablePan={false} enableZoom={false} autoRotate autoRotateSpeed={0.35} />
       </Canvas>
     </div>
