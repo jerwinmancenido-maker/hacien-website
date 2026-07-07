@@ -10,6 +10,7 @@ import {
 } from "@/app/components/reactbits";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { CapabilityResources, CompanyCredentials, FutureProofAssets, OurCommitment } from "@/components/TrustConfidence";
+import { DeliveryGlobeWrapper } from "@/components/visual/DeliveryGlobeWrapper";
 
 export const metadata: Metadata = {
   title: "About HACIEN | IT Procurement & Technology Solutions",
@@ -131,6 +132,24 @@ export default function AboutPage() {
       </section>
 
       <CompanyCredentials />
+
+      <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+          <AnimatedContent>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Logistics Preview</div>
+            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+              Regional planning needs visible assumptions.
+            </h2>
+            <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-300">
+              This illustrative map shows how HACIEN thinks about route context for technology delivery planning.
+              It is not a delivery commitment, coverage guarantee, or live logistics tracker.
+            </p>
+          </AnimatedContent>
+          <AnimatedContent delay={120} direction="left">
+            <DeliveryGlobeWrapper />
+          </AnimatedContent>
+        </div>
+      </section>
 
       <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">

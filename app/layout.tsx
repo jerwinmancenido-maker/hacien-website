@@ -3,6 +3,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { QuoteCartProvider } from "@/components/QuoteCartProvider";
+import { LenisProvider } from "@/components/motion/LenisProvider";
 import { companyContact } from "@/data/companyContact";
 
 export const revalidate = 300;
@@ -78,11 +79,13 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
-        <QuoteCartProvider>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-        </QuoteCartProvider>
+        <LenisProvider>
+          <QuoteCartProvider>
+            <Header />
+            <main>{children}</main>
+            <Footer />
+          </QuoteCartProvider>
+        </LenisProvider>
       </body>
     </html>
   );

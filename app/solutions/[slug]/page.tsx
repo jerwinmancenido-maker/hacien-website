@@ -5,6 +5,7 @@ import { CTABand } from "@/components/CTABand";
 import { SectionHeading } from "@/components/SectionHeading";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { StaggerContainer } from "@/components/motion";
+import { InteractiveServerChassisWrapper } from "@/components/visual/InteractiveServerChassisWrapper";
 import { getSolution, solutions } from "@/data/solutions";
 
 export function generateStaticParams() {
@@ -68,6 +69,19 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
               </div>
             </div>
           </div>
+          {["it-infrastructure", "servers-storage"].includes(solution.slug) ? (
+            <div className="mt-10 grid gap-6 rounded-lg bg-[#071426] p-5 text-white lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+              <div className="p-3">
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">3D Preview</div>
+                <h2 className="mt-3 text-2xl font-bold">Server component review model</h2>
+                <p className="mt-3 text-sm leading-6 text-slate-300">
+                  A browser-rendered visual aid for discussing compute, memory, power, and chassis context.
+                  Final specifications remain subject to RFQ review and verified supplier input.
+                </p>
+              </div>
+              <InteractiveServerChassisWrapper />
+            </div>
+          ) : null}
         </div>
       </section>
 
