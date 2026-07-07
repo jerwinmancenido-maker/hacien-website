@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { companyContact } from "@/data/companyContact";
+import { BrandMark } from "@/components/BrandMark";
 
 export function Footer() {
   return (
@@ -8,13 +8,13 @@ export function Footer() {
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
         <div className="grid gap-8 border-b border-white/10 pb-8 lg:grid-cols-[1.05fr_1.6fr] lg:items-start">
           <div>
-            <Image
-              src="/brand/hacien-wordmark-light.png"
-              alt="HACIEN Information Technology Solutions"
-              width={280}
-              height={88}
-              className="h-auto w-[230px] object-contain sm:w-[280px]"
-            />
+            <div className="flex items-center gap-3">
+              <BrandMark size={44} light={true} />
+              <div>
+                <span className="block text-lg font-bold tracking-wider text-white">HACIEN</span>
+                <span className="block text-xs tracking-wide text-slate-400">Information Technology Solutions</span>
+              </div>
+            </div>
             <p className="mt-4 max-w-lg text-sm leading-6 text-slate-300">
               Enterprise technology with operational clarity.
             </p>
