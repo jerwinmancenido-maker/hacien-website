@@ -8,6 +8,7 @@ import { SlideUp } from "@/components/motion";
 import { canCheckout, canRequestQuote, formatPrice } from "@/lib/products/purchase-mode";
 import { ManualPaymentIntentForm } from "@/components/checkout/ManualPaymentIntentForm";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
+import billingSettings from "@/config/billing-compliance-settings.json";
 
 export function ProductDetail({ product }: { product: Product }) {
   const category = getCategory(product.categorySlug);
@@ -21,6 +22,8 @@ export function ProductDetail({ product }: { product: Product }) {
     Boolean(product.erpPublicationId);
   const showSandboxPaymentNotice =
     product.isErpPublished === true && product.sandboxPaymentEnabled === true;
+  const stockBadges = billingSettings.stock_badges as Record<string, string>;
+  const stockBadgeLabel = stockBadges[product.inventoryPolicy] || "Availability requires review";
 
   function handleAddToRfq() {
     addRequirement({
@@ -71,6 +74,14 @@ export function ProductDetail({ product }: { product: Product }) {
               warranty, supplier availability, delivery terms, and payment review are confirmed before any
               official order or invoice step.
             </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <span className="rounded-full border border-blue-200 bg-white px-3 py-1 text-xs font-bold text-blue-800">
+                {stockBadgeLabel}
+              </span>
+              <span className="rounded-full border border-amber-200 bg-white px-3 py-1 text-xs font-bold text-amber-800">
+                Price context review available
+              </span>
+            </div>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {[
                 "Quantity and deployment size",
@@ -157,6 +168,12 @@ export function ProductDetail({ product }: { product: Product }) {
               className="interactive-link focus-ring rounded border border-slate-300 px-5 py-3 text-sm font-bold text-slate-900"
             >
               View technology areas
+            </Link>
+            <Link
+              href={`/quote?product=${encodeURIComponent(product.slug)}&context=price-review`}
+              className="interactive-link focus-ring rounded border border-amber-300 bg-amber-50 px-5 py-3 text-sm font-bold text-amber-900"
+            >
+              Request price context review
             </Link>
           </div>
           {priceText ? <p className="mt-4 text-sm font-semibold text-slate-900">Starting at {priceText}</p> : null}
