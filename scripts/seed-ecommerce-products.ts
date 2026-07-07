@@ -55,7 +55,10 @@ async function main() {
         taxMode: "not_configured",
         unit: product.unit,
         availability: product.availability,
+        sourceSystem: "website_seed",
         sourceProductId: product.id,
+        sourcePublicationId: null,
+        sourceSyncedAt: null,
         category: { connect: { id: category.id } },
       },
       update: {
@@ -68,6 +71,8 @@ async function main() {
         status: "published",
         unit: product.unit,
         availability: product.availability,
+        sourceSystem: "website_seed",
+        sourcePublicationId: null,
       },
     });
 

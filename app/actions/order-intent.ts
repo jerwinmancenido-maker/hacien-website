@@ -13,6 +13,34 @@ export async function submitOrderIntent(formData: FormData) {
   const name = String(formData.get("name") || "").trim();
   const quantity = Number(formData.get("quantity") || 1);
   const sourceUrl = String(formData.get("sourceUrl") || "").trim();
+  const turnstileToken = String(formData.get("turnstileToken") || "").trim();
+  const antiSpamVerificationRaw = String(
+    formData.get("antiSpamVerification") || "",
+  ).trim();
+
+  let antiSpamVerification: Record<string, unknown> | undefined;
+  if (antiSpamVerificationRaw) {
+    try {
+      const parsed = JSON.parse(antiSpamVerificationRaw);
+      if (
+        parsed &&
+        typeof parsed === "object" &&
+        !Array.isArray(parsed)
+      ) {
+        antiSpamVerification = parsed as Record<string, unknown>;
+      } else {
+        return {
+          success: false,
+          message: "Anti-spam metadata format is invalid.",
+        };
+      }
+    } catch {
+      return {
+        success: false,
+        message: "Anti-spam metadata format is invalid.",
+      };
+    }
+  }
 
   if (!customerEmail || !organizationName || !productId || !publicationId || !name) {
     return {
@@ -30,6 +58,8 @@ export async function submitOrderIntent(formData: FormData) {
       customerEmail,
       organizationName,
       paymentMode: "manual",
+      turnstileToken: turnstileToken || undefined,
+      antiSpamVerification: antiSpamVerification,
       items: [
         {
           productId,
