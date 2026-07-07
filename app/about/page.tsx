@@ -8,9 +8,8 @@ import {
   Marquee,
   SpotlightCard,
 } from "@/app/components/reactbits";
-import { EnterprisePhotoPanel } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
-import { CapabilityResources, CompanyCredentials, OurCommitment } from "@/components/TrustConfidence";
+import { CompanyCredentials } from "@/components/TrustConfidence";
 
 export const metadata: Metadata = {
   title: "About HACIEN | IT Procurement & Technology Solutions",
@@ -126,83 +125,28 @@ export default function AboutPage() {
 
       <CompanyCredentials />
 
-      <section className="overflow-hidden bg-[#071426] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-          <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Planning Context</div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              Planning works better when assumptions are visible.
-            </h2>
-            <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-300">
-              HACIEN treats delivery, handover, and site constraints as planning details to be clarified during RFQ review.
-              This is not a delivery commitment, coverage guarantee, or live logistics tracker.
-            </p>
-          </AnimatedContent>
-          <AnimatedContent delay={120} direction="left">
-            <EnterprisePhotoPanel
-              image="strategy"
-              eyebrow="Operations Review"
-              title="Planning details stay visible before commitments are made."
-              caption="Requirements, delivery assumptions, handover needs, and support context are reviewed before final commercial terms are confirmed."
-            />
-          </AnimatedContent>
-        </div>
-      </section>
-
-      <section className="bg-[#071426] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
-        <div className="mx-auto max-w-7xl">
-          <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Our Philosophy</div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
-              Good sourcing is calm, specific, and written down.
-            </h2>
-          </AnimatedContent>
-          <div className="mt-10 grid gap-5 lg:grid-cols-3">
-            {philosophy.map((item, index) => (
-              <AnimatedContent key={item.title} delay={index * 90}>
-                <SpotlightCard
-                  className="h-full rounded-lg border border-white/12 bg-white/[0.06] p-6"
-                  spotlightColor="rgba(96, 165, 250, 0.14)"
-                >
-                  <div className="text-xs font-bold text-blue-200">0{index + 1}</div>
-                  <h3 className="mt-4 text-xl font-bold">{item.title}</h3>
-                  <p className="mt-3 text-sm leading-6 text-slate-300">{item.text}</p>
-                </SpotlightCard>
-              </AnimatedContent>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <OurCommitment />
-
       <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto max-w-7xl">
-          <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Our Workflow</div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
-              A compact workflow for turning loose requests into usable next steps.
-            </h2>
-          </AnimatedContent>
-          <div className="mt-8 max-w-full overflow-x-auto pb-4">
-            <div className="grid min-w-[640px] grid-cols-5 gap-3 lg:min-w-0">
-            {workflow.map((step, index) => (
-              <AnimatedContent key={step} delay={Math.min(index * 55, 360)} distance={14}>
-                <BorderGlow className="h-full rounded-lg bg-white p-4 shadow-sm">
-                  <div className="flex h-full flex-col">
-                    <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#1457d9] text-xs font-bold text-white">
-                      {String(index + 1).padStart(2, "0")}
-                    </div>
-                    <div className="mt-4">
-                      <h3 className="text-sm font-bold text-slate-950">{step}</h3>
-                      <p className="mt-2 text-xs leading-5 text-slate-600">
-                        {workflowCopy(step)}
-                      </p>
-                    </div>
-                  </div>
-                </BorderGlow>
-              </AnimatedContent>
-            ))}
+          <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+            <AnimatedContent>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Working Standard</div>
+              <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+                Good sourcing is calm, specific, and written down.
+              </h2>
+              <p className="mt-4 text-sm leading-6 text-slate-600">
+                HACIEN keeps the request grounded in visible details: what is known, what is missing, what needs supplier input, and what should happen next.
+              </p>
+            </AnimatedContent>
+            <div className="grid gap-3 md:grid-cols-2">
+              {[...philosophy.map((item) => [item.title, item.text]), ...workflow.map((step) => [step, workflowCopy(step)])].map(([title, text], index) => (
+                <AnimatedContent key={title} delay={Math.min(index * 45, 320)}>
+                  <BorderGlow className="h-full rounded-lg bg-white p-4 shadow-sm">
+                    <div className="text-xs font-bold text-[#1457d9]">{String(index + 1).padStart(2, "0")}</div>
+                    <h3 className="mt-2 text-sm font-bold text-slate-950">{title}</h3>
+                    <p className="mt-2 text-xs leading-5 text-slate-600">{text}</p>
+                  </BorderGlow>
+                </AnimatedContent>
+              ))}
             </div>
           </div>
         </div>
@@ -227,45 +171,6 @@ export default function AboutPage() {
             ))}
           </div>
           <Marquee className="mt-10" items={focusAreas} />
-        </div>
-      </section>
-
-      <CapabilityResources />
-
-      <section className="relative overflow-hidden bg-[#0b1220] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
-        <GradientBackground className="opacity-40" />
-        <div className="relative mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_0.9fr] lg:items-center">
-          <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Connected Operations</div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
-              HACIEN is designed to keep request work connected.
-            </h2>
-            <p className="mt-5 max-w-3xl leading-7 text-slate-300">
-              Every RFQ should keep its context: customer need, supplier inputs,
-              commercial assumptions, delivery requirements, documents, and follow-up. That is how
-              HACIEN protects continuity from first inquiry to support.
-            </p>
-            <Link
-              href="/erp-platform"
-              className="button-glow focus-ring mt-8 inline-flex rounded bg-white px-5 py-3 text-sm font-bold text-[#071426]"
-            >
-              Learn how HACIEN works
-            </Link>
-          </AnimatedContent>
-          <AnimatedContent delay={120} direction="left">
-            <BorderGlow tone="dark" className="rounded-lg bg-white/[0.07] p-5">
-              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-                {["Lead", "Canvass", "Quote", "Award", "PO", "Delivery", "Billing", "Inventory", "Reports"].map(
-                  (item, index) => (
-                    <div key={item} className="rounded border border-white/12 bg-white/[0.06] p-4">
-                      <div className="text-xs font-bold text-blue-200">0{index + 1}</div>
-                      <div className="mt-2 text-sm font-bold">{item}</div>
-                    </div>
-                  ),
-                )}
-              </div>
-            </BorderGlow>
-          </AnimatedContent>
         </div>
       </section>
 
