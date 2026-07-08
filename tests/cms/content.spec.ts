@@ -495,6 +495,39 @@ describe("CMS read layer", () => {
     });
   });
 
+  it("creates a dry-run apply plan for ready header navigation drafts", () => {
+    const draft = createCmsDraft({
+      id: "ready-header-navigation",
+      contentKey: "navigation.header",
+      status: "ready",
+      fields: {
+        title: "Header navigation",
+        links: [
+          { label: "Home", href: "/" },
+          { label: "Solutions", href: "/solutions" },
+          { label: "Technology", href: "/technology" },
+          { label: "Platform", href: "/platform" },
+          { label: "Insights", href: "/insights" },
+          { label: "Company", href: "/about" },
+          { label: "Access HACIEN", href: "/access" },
+          { label: "Request Quote", href: "/quote" },
+        ],
+        reviewNotes: "Route crawl before apply.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+
+    expect(plan).toMatchObject({
+      applySupported: true,
+      contentKey: "navigation.header",
+      filePath: "lib/cms/content.ts",
+      mode: "dry-run",
+      recordKey: "header",
+      errors: [],
+    });
+  });
+
   it("rejects non-ready drafts before repo application", () => {
     const draft = createCmsDraft({
       id: "review-seo-homepage",
@@ -504,6 +537,33 @@ describe("CMS read layer", () => {
         route: "/",
         title: "Updated homepage title",
         description: "Updated homepage description for local review.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+
+    expect(plan.applySupported).toBe(false);
+    expect(plan.errors).toContain("Only drafts marked ready can be applied to repo-backed CMS content.");
+  });
+
+  it("rejects non-ready header navigation drafts before repo application", () => {
+    const draft = createCmsDraft({
+      id: "review-header-navigation",
+      contentKey: "navigation.header",
+      status: "needs-review",
+      fields: {
+        title: "Header navigation",
+        links: [
+          { label: "Home", href: "/" },
+          { label: "Solutions", href: "/solutions" },
+          { label: "Technology", href: "/technology" },
+          { label: "Platform", href: "/platform" },
+          { label: "Insights", href: "/insights" },
+          { label: "Company", href: "/about" },
+          { label: "Access HACIEN", href: "/access" },
+          { label: "Request Quote", href: "/quote" },
+        ],
+        reviewNotes: "Route crawl before apply.",
       },
       updatedAt: "2026-07-09T00:00:00.000Z",
     });
@@ -530,6 +590,53 @@ describe("CMS read layer", () => {
 
     expect(plan.applySupported).toBe(false);
     expect(plan.errors).toContain("Draft contentKey homepage is not supported by the apply script yet.");
+  });
+
+  it("stops footer navigation drafts until grouped draft support exists", () => {
+    const draft = createCmsDraft({
+      id: "ready-footer-navigation",
+      contentKey: "navigation.footer",
+      status: "ready",
+      fields: {
+        title: "Footer navigation",
+        links: [{ label: "Company: About", href: "/about" }],
+        reviewNotes: "Route crawl before apply.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+
+    expect(plan.applySupported).toBe(false);
+    expect(plan.errors).toContain("Footer navigation apply requires grouped draft support before it can safely preserve footer columns.");
+  });
+
+  it("rejects header navigation drafts that point to blocked routes", () => {
+    const draft = {
+      id: "ready-blocked-header-navigation",
+      contentKey: "navigation.header",
+      ownerType: "cms",
+      riskLevel: 3,
+      status: "ready",
+      updatedAt: "2026-07-09T00:00:00.000Z",
+      fields: {
+        title: "Header navigation",
+        links: [
+          { label: "Home", href: "/" },
+          { label: "Solutions", href: "/solutions" },
+          { label: "Technology", href: "/technology" },
+          { label: "Platform", href: "/platform" },
+          { label: "Insights", href: "/insights" },
+          { label: "Company", href: "/about" },
+          { label: "Government", href: "/government-procurement" },
+          { label: "Request Quote", href: "/quote" },
+        ],
+        reviewNotes: "Route crawl before apply.",
+      },
+    };
+    const plan = validateCmsDraftApplyPlan(draft as never);
+
+    expect(plan.applySupported).toBe(false);
+    expect(plan.errors).toEqual(expect.arrayContaining(["Draft contains blocked public claims.", "Navigation link 7 uses a blocked public route."]));
   });
 
   it("rejects blocked claims before repo application", () => {
@@ -570,5 +677,35 @@ describe("CMS read layer", () => {
 
     expect(nextSource).toContain('title: "New title",');
     expect(nextSource).toContain('description: "New description.",');
+  });
+
+  it("updates header navigation source snippets without writing during dry-run", () => {
+    const draft = createCmsDraft({
+      id: "ready-header-navigation-source",
+      contentKey: "navigation.header",
+      status: "ready",
+      fields: {
+        title: "Header navigation",
+        links: [
+          { label: "Home", href: "/" },
+          { label: "Solutions", href: "/solutions" },
+          { label: "Technology", href: "/technology" },
+          { label: "Platform", href: "/platform" },
+          { label: "Insights", href: "/insights" },
+          { label: "Company", href: "/about" },
+          { label: "Access HACIEN", href: "/access" },
+          { label: "Request Quote", href: "/quote" },
+        ],
+        reviewNotes: "Route crawl before apply.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+    const source = `const navigationContent = {\n  header: {\n    primaryItems: [\n      { href: \"/old\", label: \"Old\" },\n    ],\n    accessAction: { href: \"/old-access\", label: \"Old Access\" },\n    quoteAction: { href: \"/old-quote\", label: \"Old Quote\" },\n  },\n};\n`;
+    const nextSource = applyCmsDraftToSource(source, plan);
+
+    expect(nextSource).toContain('{ href: "/solutions", label: "Solutions" },');
+    expect(nextSource).toContain('accessAction: { href: "/access", label: "Access HACIEN" },');
+    expect(nextSource).toContain('quoteAction: { href: "/quote", label: "Request Quote" },');
   });
 });
