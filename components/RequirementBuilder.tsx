@@ -277,21 +277,21 @@ export function RequirementBuilder({ initialCategory = "computers-laptops" }: { 
   }
 
   return (
-    <section className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+    <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm sm:p-6">
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
         <div>
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Technology RFQ Builder</div>
-          <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950">Build a requirement package.</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
+          <h2 className="mt-2 text-2xl font-bold tracking-tight text-slate-950 sm:mt-3 sm:text-3xl">Build a requirement package.</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600 sm:mt-3">
             Add one or more technology requirements, then submit them together as one RFQ. Lists help speed up intake; they never limit what you can request.
           </p>
         </div>
-        <div className="rounded border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-bold text-[#1457d9]">
+        <div className="rounded border border-blue-100 bg-blue-50 px-3 py-2 text-sm font-bold text-[#1457d9] sm:px-4 sm:py-3">
           {totalRequirements} requirement{totalRequirements === 1 ? "" : "s"} in RFQ
         </div>
       </div>
 
-      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+      <div className="mt-4 grid gap-3 lg:grid-cols-2 lg:gap-4">
         <label className="grid gap-2 text-sm font-semibold text-slate-700">
           Technology area
           <select
@@ -317,12 +317,12 @@ export function RequirementBuilder({ initialCategory = "computers-laptops" }: { 
         </label>
       </div>
 
-      <p className="mt-4 rounded border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-600">
+      <p className="mt-3 rounded border border-slate-200 bg-slate-50 p-3 text-sm leading-6 text-slate-600 sm:mt-4 sm:p-4">
         {template.description}
       </p>
 
-      <div className="mt-5 grid gap-4 lg:grid-cols-2">
-        <label className="grid gap-2 text-sm font-semibold text-slate-700">
+      <div className="mt-4 grid gap-3 lg:grid-cols-2 lg:gap-4">
+        <label className="grid gap-1.5 text-sm font-semibold text-slate-700 sm:gap-2">
           Preferred brand / vendor
           <select
             value={brandPreference}
@@ -335,7 +335,7 @@ export function RequirementBuilder({ initialCategory = "computers-laptops" }: { 
           </select>
         </label>
 
-        <label className="grid gap-2 text-sm font-semibold text-slate-700">
+        <label className="grid gap-1.5 text-sm font-semibold text-slate-700 sm:gap-2">
           Equivalent options accepted?
           <select
             value={equivalentAccepted}
@@ -349,7 +349,7 @@ export function RequirementBuilder({ initialCategory = "computers-laptops" }: { 
         </label>
 
         {brandPreference === "Other / not listed" ? (
-          <label className="grid gap-2 text-sm font-semibold text-slate-700 lg:col-span-2">
+          <label className="grid gap-1.5 text-sm font-semibold text-slate-700 sm:gap-2 lg:col-span-2">
             Specify brand, vendor, model, or reference
             <input
               value={otherBrand}
@@ -360,7 +360,7 @@ export function RequirementBuilder({ initialCategory = "computers-laptops" }: { 
         ) : null}
 
         {template.fields.map((field) => (
-          <label key={field.key} className="grid gap-2 text-sm font-semibold text-slate-700">
+          <label key={field.key} className="grid gap-1.5 text-sm font-semibold text-slate-700 sm:gap-2">
             {field.label}
             <FieldControl
               field={field}
@@ -370,7 +370,7 @@ export function RequirementBuilder({ initialCategory = "computers-laptops" }: { 
           </label>
         ))}
 
-        <label className="grid gap-2 text-sm font-semibold text-slate-700">
+        <label className="grid gap-1.5 text-sm font-semibold text-slate-700 sm:gap-2">
           Deadline <span className="font-normal text-slate-500">(optional)</span>
           <input
             type="date"
@@ -380,7 +380,7 @@ export function RequirementBuilder({ initialCategory = "computers-laptops" }: { 
           />
         </label>
 
-        <label className="grid gap-2 text-sm font-semibold text-slate-700">
+        <label className="grid gap-1.5 text-sm font-semibold text-slate-700 sm:gap-2">
           Delivery location <span className="font-normal text-slate-500">(optional)</span>
           <input
             value={deliveryLocation}
@@ -389,10 +389,10 @@ export function RequirementBuilder({ initialCategory = "computers-laptops" }: { 
           />
         </label>
 
-        <label className="grid gap-2 text-sm font-semibold text-slate-700 lg:col-span-2">
+        <label className="grid gap-1.5 text-sm font-semibold text-slate-700 sm:gap-2 lg:col-span-2">
           Notes <span className="font-normal text-slate-500">(optional)</span>
           <textarea
-            rows={3}
+            rows={2}
             value={notes}
             onChange={(event) => setNotes(event.target.value)}
             placeholder="Add details, BOQ references, exact model requirements, preferred warranty, site context, or anything HACIEN should review."
@@ -401,7 +401,7 @@ export function RequirementBuilder({ initialCategory = "computers-laptops" }: { 
         </label>
       </div>
 
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+      <div className="mt-5 flex flex-col gap-2 sm:mt-6 sm:flex-row sm:items-center sm:gap-3">
         <button
           type="button"
           onClick={handleAddRequirement}

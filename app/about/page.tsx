@@ -64,24 +64,24 @@ export default function AboutPage() {
         ]}
       />
 
-      <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
+      <section className="px-4 py-9 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
+        <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Why HACIEN Exists</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Technology buying often gets messy before the first quote is useful.
             </h2>
           </AnimatedContent>
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6">
             <BlurReveal>
-              <p className="text-base leading-8 text-slate-600">
+              <p className="text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
                 Many teams already know what they need in practical terms: faster devices, a stable
                 network, licensed software, better security, or a project closeout that will not fall apart.
                 The hard part is turning that need into a request suppliers can answer clearly.
               </p>
             </BlurReveal>
             <BlurReveal delay={120}>
-              <p className="text-base leading-8 text-slate-600">
+              <p className="text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
                 HACIEN was built around that gap. We help collect the details, surface the missing
                 details, and keep the request organized before commercial terms are treated as final.
               </p>
@@ -89,7 +89,7 @@ export default function AboutPage() {
             <div className="grid gap-3 sm:grid-cols-2">
               {storySignals.map((signal, index) => (
                 <AnimatedContent key={signal} delay={index * 70}>
-                  <SpotlightCard className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+                  <SpotlightCard className={`rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:p-4 ${index > 1 ? "hidden sm:block" : ""}`}>
                     <div className="text-sm font-bold text-slate-900">{signal}</div>
                   </SpotlightCard>
                 </AnimatedContent>
@@ -101,9 +101,9 @@ export default function AboutPage() {
 
       <CompanyCredentials />
 
-      <section className="px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
+      <section className="px-4 py-9 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
         <div className="mx-auto max-w-7xl">
-          <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+          <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
             <AnimatedContent>
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Working Standard</div>
               <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
@@ -113,10 +113,10 @@ export default function AboutPage() {
                 HACIEN keeps the request grounded in visible details: what is known, what is missing, what needs supplier input, and what should happen next.
               </p>
             </AnimatedContent>
-            <div className="grid gap-3 md:grid-cols-2">
+            <div className="grid gap-2 md:grid-cols-2 md:gap-3">
               {[...philosophy.map((item) => [item.title, item.text]), ...workflow.map((step) => [step, workflowCopy(step)])].map(([title, text], index) => (
                 <AnimatedContent key={title} delay={Math.min(index * 45, 320)}>
-                  <BorderGlow className="h-full rounded-lg bg-white p-4 shadow-sm">
+                  <BorderGlow className={`h-full rounded-lg bg-white p-3 shadow-sm sm:p-4 ${index > 4 ? "hidden md:block" : ""}`}>
                     <div className="text-xs font-bold text-[#1457d9]">{String(index + 1).padStart(2, "0")}</div>
                     <h3 className="mt-2 text-sm font-bold text-slate-950">{title}</h3>
                     <p className="mt-2 text-xs leading-5 text-slate-600">{text}</p>
@@ -128,19 +128,19 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="px-4 py-12 sm:px-6 lg:px-8">
+      <section className="px-4 py-9 sm:px-6 sm:py-12 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
-          <BorderGlow className="relative overflow-hidden rounded-lg bg-[linear-gradient(135deg,#071426_0%,#0b3142_58%,#123730_100%)] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
+          <BorderGlow className="relative overflow-hidden rounded-lg bg-[linear-gradient(135deg,#071426_0%,#0b3142_58%,#123730_100%)] p-5 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
             <GradientBackground className="opacity-[0.36]" />
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
                   Start with clarity
                 </div>
-                <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
+                <h2 className="mt-3 max-w-3xl text-xl font-bold tracking-tight sm:mt-4 sm:text-3xl">
                   Need an IT supplier that can turn scattered requirements into a clear RFQ?
                 </h2>
-                <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
+                <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300 sm:mt-4">
                   Send your requirement list, deadline, delivery location, and supporting
                   specifications. HACIEN will help turn it into a usable RFQ.
                 </p>

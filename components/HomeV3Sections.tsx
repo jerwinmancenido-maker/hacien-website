@@ -46,17 +46,17 @@ const categoryImages: Record<string, keyof typeof enterpriseImages> = {
 
 export function TechnologyEcosystem() {
   return (
-    <AnimatedSection className="glass-section-dark px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
-      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+    <AnimatedSection className="glass-section-dark px-4 py-9 text-white sm:px-6 sm:py-12 lg:px-8 lg:py-14">
+      <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div>
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">RFQ Readiness</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">Turn incomplete specs into a usable request.</h2>
-          <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-300 sm:text-base sm:leading-7">
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300 sm:mt-4 sm:text-base sm:leading-7">
             The first job is not to sell a model. It is to make the request clear enough for responsible checking and practical follow-up.
           </p>
-          <StaggerContainer className="mt-7 grid gap-3 sm:grid-cols-2">
-            {ecosystem.map(([title, detail]) => (
-              <AnimatedCard key={title} className="group rounded-lg border border-white/12 bg-white/[0.06] p-5 backdrop-blur">
+          <StaggerContainer className="mt-5 grid gap-2 sm:mt-7 sm:grid-cols-2 sm:gap-3">
+            {ecosystem.map(([title, detail], index) => (
+              <AnimatedCard key={title} className={`group rounded-lg border border-white/12 bg-white/[0.06] p-4 backdrop-blur sm:p-5 ${index > 1 ? "hidden sm:block" : ""}`}>
                 <div className="text-base font-bold">{title}</div>
                 <p className="mt-2 text-sm leading-6 text-slate-300">{detail}</p>
               </AnimatedCard>
@@ -76,17 +76,17 @@ export function TechnologyEcosystem() {
 
 export function HowHacienWorks() {
   return (
-    <AnimatedSection className="glass-section px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
+    <AnimatedSection className="glass-section px-4 py-9 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="How HACIEN Works"
           title="A short path for requests that are not yet perfect."
           description="The public RFQ experience is designed for real buyers: sometimes you have a BOQ, sometimes a model, and sometimes only the outcome you need."
         />
-        <div className="mt-8 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
+        <div className="mt-6 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 sm:mt-8">
           <div className="grid divide-y divide-slate-200 md:grid-cols-4 md:divide-x md:divide-y-0">
             {howItWorks.map(([title, text], index) => (
-              <details key={title} className="group p-5 open:bg-white">
+              <details key={title} className="group p-4 open:bg-white sm:p-5">
                 <summary className="cursor-pointer list-none">
                   <div className="grid h-10 w-10 place-items-center rounded bg-[#071426] text-sm font-bold text-white">{index + 1}</div>
                   <div className="mt-4 font-bold text-slate-950">{title}</div>
@@ -103,19 +103,19 @@ export function HowHacienWorks() {
 
 export function SolutionsV3() {
   return (
-    <AnimatedSection className="bg-transparent px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
+    <AnimatedSection className="bg-transparent px-4 py-9 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="Solutions"
           title="Common IT needs, organized for review."
           description="These solution areas help buyers describe work across infrastructure, workplace technology, cybersecurity, cloud, and support without needing perfect specifications first."
         />
-        <StaggerContainer className="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {solutions.slice(0, 6).map((solution) => (
-            <Link key={solution.slug} href={`/solutions/${solution.slug}`} className="group block">
+        <StaggerContainer className="mt-6 grid gap-3 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
+          {solutions.slice(0, 6).map((solution, index) => (
+            <Link key={solution.slug} href={`/solutions/${solution.slug}`} className={`group block ${index > 2 ? "hidden md:block" : ""}`}>
               <AnimatedCard className="surface lift h-full overflow-hidden rounded-xl">
                 <div
-                  className="relative h-40 border-b border-slate-200 bg-slate-950 p-5"
+                  className="relative h-28 border-b border-slate-200 bg-slate-950 p-4 sm:h-40 sm:p-5"
                   style={{
                     backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.04), rgba(7, 20, 38, 0.76)), url(${enterpriseImages[solutionImages[solution.slug] || "network"]})`,
                     backgroundPosition: "center",
@@ -124,16 +124,16 @@ export function SolutionsV3() {
                 >
                   <div className="grid h-12 w-12 place-items-center rounded bg-white/90 text-xs font-bold text-[#071426] shadow-lg shadow-slate-950/20">{solution.icon}</div>
                 </div>
-                <div className="p-6">
-                  <div className="text-xl font-bold text-slate-950 group-hover:text-[#1457d9]">{solution.title}</div>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">{solution.summary}</p>
-                  <div className="mt-5 text-sm font-bold text-[#1457d9]">Explore solution</div>
+                <div className="p-4 sm:p-6">
+                  <div className="text-lg font-bold text-slate-950 group-hover:text-[#1457d9] sm:text-xl">{solution.title}</div>
+                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600 sm:mt-3 sm:line-clamp-none">{solution.summary}</p>
+                  <div className="mt-3 text-sm font-bold text-[#1457d9] sm:mt-5">Explore solution</div>
                 </div>
               </AnimatedCard>
             </Link>
           ))}
         </StaggerContainer>
-        <div className="mt-10">
+        <div className="mt-6 sm:mt-10">
           <Link href="/solutions" className="interactive-link text-sm font-bold text-[#1457d9] hover:underline">
             View all solutions →
           </Link>
@@ -145,7 +145,7 @@ export function SolutionsV3() {
 
 export function ProductCatalogV3() {
   return (
-    <AnimatedSection className="glass-section px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
+    <AnimatedSection className="glass-section px-4 py-9 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
           <SectionHeading
@@ -154,8 +154,8 @@ export function ProductCatalogV3() {
           description="Use product categories to describe what you need. Final models, prices, and commercial terms still require RFQ review."
         />
         <div className="grid gap-3 sm:grid-cols-2">
-          {categories.slice(0, 6).map((category) => (
-            <Link key={category.slug} href={`/products/${category.slug}`} className="group block">
+          {categories.slice(0, 6).map((category, index) => (
+            <Link key={category.slug} href={`/products/${category.slug}`} className={`group block ${index > 3 ? "hidden sm:block" : ""}`}>
               <AnimatedCard className="h-full rounded-lg border border-slate-200 bg-slate-50 p-4 shadow-sm transition hover:-translate-y-1 hover:bg-white hover:shadow-xl hover:shadow-slate-950/10">
                 <div className="flex gap-3">
                   <div
@@ -192,7 +192,7 @@ export function ErpPreviewV3() {
   ];
 
   return (
-    <AnimatedSection className="glass-section-dark px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
+    <AnimatedSection className="glass-section-dark px-4 py-9 text-white sm:px-6 sm:py-12 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <div>
@@ -228,16 +228,16 @@ export function TrustV3() {
   ];
 
   return (
-    <AnimatedSection className="bg-transparent px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
+    <AnimatedSection className="bg-transparent px-4 py-9 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="Trust & Confidence"
           title="Trust without overstatement."
           description="HACIEN keeps public claims bounded, formal terms document-controlled, and customer communication clear."
         />
-        <StaggerContainer className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <StaggerContainer className="mt-6 grid gap-3 md:mt-10 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
           {trustCards.map(([title, detail]) => (
-            <AnimatedCard key={title} className="rounded-lg border border-slate-200 bg-slate-50 p-5">
+            <AnimatedCard key={title} className="rounded-lg border border-slate-200 bg-slate-50 p-4 sm:p-5">
               <div className="font-bold text-slate-950">{title}</div>
               <p className="mt-2 text-sm leading-6 text-slate-600">{detail}</p>
             </AnimatedCard>
