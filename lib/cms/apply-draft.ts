@@ -81,14 +81,20 @@ function quoted(value: string) {
   return JSON.stringify(value);
 }
 
-function findRecordBlock(source: string, recordKey: string) {
+function findRecordBlock(source: string, recordKey: string, anchorText?: string) {
+  const anchorIndex = anchorText ? source.indexOf(anchorText) : 0;
+  if (anchorIndex === -1) {
+    return null;
+  }
+
   const startPattern = new RegExp(`\\n\\s{2}${recordKey}:\\s*{`);
-  const match = source.match(startPattern);
+  const searchableSource = source.slice(anchorIndex);
+  const match = searchableSource.match(startPattern);
   if (!match || match.index == null) {
     return null;
   }
 
-  const start = match.index;
+  const start = anchorIndex + match.index;
   const endMarker = "\n  },";
   const end = source.indexOf(endMarker, start);
   if (end === -1) {
@@ -305,7 +311,11 @@ export function applyCmsDraftToSource(source: string, plan: CmsDraftApplyPlan) {
     throw new Error(`Cannot apply CMS draft: ${plan.errors.join(" ") || "missing apply plan metadata"}`);
   }
 
-  const block = findRecordBlock(source, plan.recordKey);
+  const block = findRecordBlock(
+    source,
+    plan.recordKey,
+    plan.contentKey === "navigation.header" || plan.contentKey === "navigation.footer" ? "const navigationContent" : undefined,
+  );
   if (!block) {
     throw new Error(`Could not locate record ${plan.recordKey} in ${plan.filePath}.`);
   }
