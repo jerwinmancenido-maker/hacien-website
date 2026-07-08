@@ -21,6 +21,7 @@
     "db:seed": "tsx scripts/seed-ecommerce-products.ts",
     "db:studio": "prisma studio",
     "cron:quote-expiry": "tsx cron/quote-expiry-monitor.ts",
+    "cms:apply-draft": "tsx scripts/cms-apply-draft.ts",
     "teammate:doctor": "node tools/teammate-doctor.js",
     "visual:audit": "node tools/visual-audit.js",
     "visual:audit:update": "node tools/visual-audit.js --update-baselines",

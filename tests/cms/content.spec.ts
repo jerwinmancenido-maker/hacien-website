@@ -31,6 +31,7 @@ import {
 import { getCmsMediaRecords, validateCmsMediaRecords } from "@/lib/cms/media";
 import { getCmsPreviewData } from "@/lib/cms/preview";
 import { getCmsSeoRecords, validateCmsSeoRecords } from "@/lib/cms/seo";
+import { applyCmsDraftToSource, validateCmsDraftApplyPlan } from "@/lib/cms/apply-draft";
 
 describe("CMS read layer", () => {
   it("loads published repo-backed FAQ and Help content", () => {
@@ -443,5 +444,131 @@ describe("CMS read layer", () => {
 
     expect(standaloneResolved).toBe(`${process.cwd()}/cms-drafts`);
     expect(npmStartResolved).toBe(`${process.cwd()}/cms-drafts`);
+  });
+
+  it("creates a dry-run apply plan for ready SEO drafts", () => {
+    const draft = createCmsDraft({
+      id: "ready-seo-homepage",
+      contentKey: "seo.metadata",
+      status: "ready",
+      fields: {
+        route: "/",
+        title: "Updated homepage title",
+        description: "Updated homepage description for local review.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+
+    expect(plan).toMatchObject({
+      applySupported: true,
+      contentKey: "seo.metadata",
+      filePath: "lib/cms/seo.ts",
+      mode: "dry-run",
+      recordKey: "homepage",
+      errors: [],
+    });
+  });
+
+  it("creates a dry-run apply plan for ready media drafts", () => {
+    const draft = createCmsDraft({
+      id: "ready-media-workspace",
+      contentKey: "media.photos",
+      status: "ready",
+      fields: {
+        key: "workspace",
+        alt: "Updated workspace image alt text.",
+        sourceUrl: "https://example.com/workspace-source",
+        sourceNote: "Local review source note.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+
+    expect(plan).toMatchObject({
+      applySupported: true,
+      contentKey: "media.photos",
+      filePath: "lib/cms/media.ts",
+      mode: "dry-run",
+      recordKey: "workspace",
+      errors: [],
+    });
+  });
+
+  it("rejects non-ready drafts before repo application", () => {
+    const draft = createCmsDraft({
+      id: "review-seo-homepage",
+      contentKey: "seo.metadata",
+      status: "needs-review",
+      fields: {
+        route: "/",
+        title: "Updated homepage title",
+        description: "Updated homepage description for local review.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+
+    expect(plan.applySupported).toBe(false);
+    expect(plan.errors).toContain("Only drafts marked ready can be applied to repo-backed CMS content.");
+  });
+
+  it("rejects unsupported page drafts before repo application", () => {
+    const draft = createCmsDraft({
+      id: "ready-homepage-page",
+      contentKey: "homepage",
+      status: "ready",
+      fields: {
+        title: "Homepage draft",
+        description: "Homepage draft description.",
+        sections: [{ heading: "Section", body: "Body" }],
+        reviewNotes: "Review before apply.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+
+    expect(plan.applySupported).toBe(false);
+    expect(plan.errors).toContain("Draft contentKey homepage is not supported by the apply script yet.");
+  });
+
+  it("rejects blocked claims before repo application", () => {
+    const draft = {
+      id: "ready-unsafe-seo",
+      contentKey: "seo.metadata",
+      ownerType: "cms",
+      riskLevel: 3,
+      status: "ready",
+      updatedAt: "2026-07-09T00:00:00.000Z",
+      fields: {
+        route: "/",
+        title: "In Stock at Manila Hub",
+        description: "15-day price match guarantee.",
+      },
+    };
+    const plan = validateCmsDraftApplyPlan(draft as never);
+
+    expect(plan.applySupported).toBe(false);
+    expect(plan.errors).toContain("Draft contains blocked public claims.");
+  });
+
+  it("updates supported source snippets without writing during dry-run", () => {
+    const draft = createCmsDraft({
+      id: "ready-seo-homepage-source",
+      contentKey: "seo.metadata",
+      status: "ready",
+      fields: {
+        route: "/",
+        title: "New title",
+        description: "New description.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+    const source = `const cmsSeoRecords = {\n  homepage: {\n    key: "homepage",\n    route: "/",\n    title: "Old title",\n    description: "Old description.",\n  },\n};\n`;
+    const nextSource = applyCmsDraftToSource(source, plan);
+
+    expect(nextSource).toContain('title: "New title",');
+    expect(nextSource).toContain('description: "New description.",');
   });
 });
