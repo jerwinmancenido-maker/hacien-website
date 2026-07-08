@@ -7,7 +7,12 @@ import { getCmsSeoRecords } from "@/lib/cms/seo";
 
 export type CmsDraftStatus = "draft" | "needs-review" | "ready";
 
-export type CmsDraftFieldValue = string | number | boolean | string[] | null;
+export type CmsDocumentSection = {
+  heading: string;
+  body: string;
+};
+
+export type CmsDraftFieldValue = string | number | boolean | string[] | CmsDocumentSection[] | null;
 
 export type CmsDraftFields = Record<string, CmsDraftFieldValue>;
 
@@ -40,15 +45,19 @@ export const editableCmsDraftKeys = [
 
 export type EditableCmsDraftKey = (typeof editableCmsDraftKeys)[number];
 
+export const editableCmsDocumentDraftKeys = ["legal", "privacy", "terms", "trust-center"] as const satisfies EditableCmsDraftKey[];
+
+export type EditableCmsDocumentDraftKey = (typeof editableCmsDocumentDraftKeys)[number];
+
 const requiredDraftFields: Record<EditableCmsDraftKey, string[]> = {
   faq: ["title", "description"],
   help: ["title", "description"],
   "seo.metadata": ["route", "title", "description"],
   "media.photos": ["key", "alt", "sourceUrl", "sourceNote"],
-  legal: ["title", "summary", "body"],
-  privacy: ["title", "summary", "body"],
-  terms: ["title", "summary", "body"],
-  "trust-center": ["title", "summary", "body"],
+  legal: ["title", "summary", "effectiveDate", "sections", "reviewNotes"],
+  privacy: ["title", "summary", "effectiveDate", "sections", "reviewNotes"],
+  terms: ["title", "summary", "effectiveDate", "sections", "reviewNotes"],
+  "trust-center": ["title", "summary", "effectiveDate", "sections", "reviewNotes"],
 };
 
 export function getRequiredCmsDraftFields(contentKey: EditableCmsDraftKey) {
@@ -61,6 +70,10 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
 
 export function isEditableCmsDraftKey(key: string): key is EditableCmsDraftKey {
   return editableCmsDraftKeys.includes(key as EditableCmsDraftKey);
+}
+
+export function isEditableCmsDocumentDraftKey(key: string): key is EditableCmsDocumentDraftKey {
+  return editableCmsDocumentDraftKeys.includes(key as EditableCmsDocumentDraftKey);
 }
 
 export function getEditableCmsDraftInventory() {
@@ -102,7 +115,14 @@ export function getCmsDraftSeedFields(contentKey: EditableCmsDraftKey): CmsDraft
     return {
       title: "Legal notice",
       summary: "Draft legal page copy for founder review before any publish step.",
-      body: "Write draft legal content here. This local draft does not update the live legal page.",
+      effectiveDate: new Date().toISOString().slice(0, 10),
+      sections: [
+        {
+          heading: "Legal notice section",
+          body: "Write draft legal content here. This local draft does not update the live legal page.",
+        },
+      ],
+      reviewNotes: "Founder/legal review required before publishing.",
     };
   }
 
@@ -110,7 +130,14 @@ export function getCmsDraftSeedFields(contentKey: EditableCmsDraftKey): CmsDraft
     return {
       title: "Privacy policy",
       summary: "Draft privacy page copy for founder review before any publish step.",
-      body: "Write draft privacy content here. This local draft does not update the live privacy page.",
+      effectiveDate: new Date().toISOString().slice(0, 10),
+      sections: [
+        {
+          heading: "Privacy policy section",
+          body: "Write draft privacy content here. This local draft does not update the live privacy page.",
+        },
+      ],
+      reviewNotes: "Founder/legal review required before publishing.",
     };
   }
 
@@ -118,7 +145,14 @@ export function getCmsDraftSeedFields(contentKey: EditableCmsDraftKey): CmsDraft
     return {
       title: "Terms",
       summary: "Draft terms page copy for founder review before any publish step.",
-      body: "Write draft terms content here. This local draft does not update the live terms page.",
+      effectiveDate: new Date().toISOString().slice(0, 10),
+      sections: [
+        {
+          heading: "Terms section",
+          body: "Write draft terms content here. This local draft does not update the live terms page.",
+        },
+      ],
+      reviewNotes: "Founder/legal review required before publishing.",
     };
   }
 
@@ -126,7 +160,14 @@ export function getCmsDraftSeedFields(contentKey: EditableCmsDraftKey): CmsDraft
     return {
       title: "Trust Center",
       summary: "Draft trust-center page copy for founder review before any publish step.",
-      body: "Write draft trust-center content here. This local draft does not update the live trust-center page.",
+      effectiveDate: new Date().toISOString().slice(0, 10),
+      sections: [
+        {
+          heading: "Trust Center section",
+          body: "Write draft trust-center content here. This local draft does not update the live trust-center page.",
+        },
+      ],
+      reviewNotes: "Claim-safety review required before publishing.",
     };
   }
 
@@ -211,6 +252,27 @@ export function validateCmsDraft(draft: unknown): CmsDraftValidationResult {
   } else if (typeof contentKey === "string" && isEditableCmsDraftKey(contentKey)) {
     for (const fieldName of requiredDraftFields[contentKey]) {
       const value = draft.fields[fieldName];
+      if (fieldName === "sections") {
+        if (!Array.isArray(value) || value.length === 0) {
+          errors.push(`Draft field sections must include at least one section for ${contentKey}.`);
+          continue;
+        }
+
+        value.forEach((section, index) => {
+          if (!isPlainObject(section)) {
+            errors.push(`Draft section ${index + 1} must be an object for ${contentKey}.`);
+            return;
+          }
+          if (typeof section.heading !== "string" || section.heading.trim().length === 0) {
+            errors.push(`Draft section ${index + 1} heading is required for ${contentKey}.`);
+          }
+          if (typeof section.body !== "string" || section.body.trim().length === 0) {
+            errors.push(`Draft section ${index + 1} body is required for ${contentKey}.`);
+          }
+        });
+        continue;
+      }
+
       if (typeof value !== "string" || value.trim().length === 0) {
         errors.push(`Draft field ${fieldName} is required for ${contentKey}.`);
       }

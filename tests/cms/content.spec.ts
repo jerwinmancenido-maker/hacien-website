@@ -225,6 +225,34 @@ describe("CMS read layer", () => {
     });
   });
 
+  it("validates structured local CMS document drafts", () => {
+    for (const contentKey of ["legal", "privacy", "terms", "trust-center"] as const) {
+      const draft = createCmsDraft({
+        id: `draft-${contentKey}-document`,
+        contentKey,
+        fields: {
+          title: `${contentKey} draft`,
+          summary: "Review-ready policy summary.",
+          effectiveDate: "2026-07-09",
+          sections: [
+            {
+              heading: "Policy section",
+              body: "This section is editable as plain text for local review before publishing.",
+            },
+          ],
+          reviewNotes: "Founder/legal review required before publishing.",
+        },
+        updatedAt: "2026-07-09T00:00:00.000Z",
+      });
+
+      expect(validateCmsDraft(draft)).toMatchObject({
+        ok: true,
+        errors: [],
+        blockedClaims: [],
+      });
+    }
+  });
+
   it("rejects local CMS drafts with blocked public claims", () => {
     const result = validateCmsDraft({
       id: "draft-unsafe",
@@ -293,6 +321,48 @@ describe("CMS read layer", () => {
       expect.arrayContaining([
         "Draft field sourceUrl is required for media.photos.",
         "Draft field sourceNote is required for media.photos.",
+      ]),
+    );
+  });
+
+  it("requires structured sections for legal document drafts", () => {
+    const missingSections = validateCmsDraft({
+      id: "draft-legal-missing-sections",
+      contentKey: "legal",
+      ownerType: "cms",
+      riskLevel: 4,
+      status: "draft",
+      updatedAt: "2026-07-09T00:00:00.000Z",
+      fields: {
+        title: "Legal notice",
+        summary: "Policy summary.",
+        effectiveDate: "2026-07-09",
+        reviewNotes: "Review required.",
+      },
+    });
+
+    expect(missingSections.errors).toContain("Draft field sections must include at least one section for legal.");
+
+    const incompleteSection = validateCmsDraft({
+      id: "draft-legal-incomplete-section",
+      contentKey: "legal",
+      ownerType: "cms",
+      riskLevel: 4,
+      status: "draft",
+      updatedAt: "2026-07-09T00:00:00.000Z",
+      fields: {
+        title: "Legal notice",
+        summary: "Policy summary.",
+        effectiveDate: "2026-07-09",
+        sections: [{ heading: "", body: "" }],
+        reviewNotes: "Review required.",
+      },
+    });
+
+    expect(incompleteSection.errors).toEqual(
+      expect.arrayContaining([
+        "Draft section 1 heading is required for legal.",
+        "Draft section 1 body is required for legal.",
       ]),
     );
   });
