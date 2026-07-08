@@ -77,6 +77,74 @@ Verified base before this register update: `26f0ef4` (`polish: compress mobile p
 | Tax/payment/receipt claims | Blocked | Do not publish payment collection, official invoice, official receipt, BIR/tax readiness, or cashier approval claims without approved evidence |
 | Phase 3 closure | Complete / Founder Accepted | Visual recovery, route hygiene, live RFQ, tracking, and mobile density work are implemented and pushed through `26f0ef4`; Founder accepted Phase 3 on 2026-07-08 | Phase 4 may now enter planning |
 
+## Phase 4 CMS Source-of-Truth Tracking Plan
+
+Phase 4 CMS work must treat the CMS registry as a source-of-truth metadata repository for public website content. The registry is not only a list of pages; it is the tracking layer that records who owns every editable website data point, where it currently lives, what can be edited safely, and which validation gates must pass before publication.
+
+| CMS Capability | Status | Target Slice | Implementation Rule |
+|---|---|---|---|
+| Repo-backed CMS read layer for FAQ and Help | Complete / Local | Slice 1 | Implemented in `lib/cms/content.ts`; public content is claim-scanned before use |
+| CMS ownership inventory | In Progress / Local | Slice 2A | Registry must cover homepage, about, company profile, solutions, product display metadata, industries, insights, FAQ/help, quote support copy, document pages, navigation/footer, media/photos, SEO, and sitemap/discovery |
+| Strict inventory metadata schema | Planned / Required | Slice 2A | Each record must include owner type, repo-relative source file, editability, numeric risk level, validation schema, dependencies, SEO source, and CMS readiness |
+| Missing-record validation | Planned / Required | Slice 2A and 2B | `npm run validate` must fail when required public content areas are missing ownership records or contain incomplete metadata |
+| Dependency impact mapping | Planned / Metadata first | Slice 2A, expanded later | Use dependencies to show impact across routes, Gateway/RFQ, sitemap, SEO, media, ERP boundaries, legal review, and future CMS dashboard permissions |
+| Route registry build checks | Planned | Slice 2B | Public routes and sitemap-discoverable routes should map back to CMS ownership records; missing records should fail validation |
+| Repo-backed content modules | Planned | Slice 3 | Move homepage, about, solutions, industries, navigation/footer, SEO, and selected quote-support copy into structured repo-backed CMS modules before MySQL |
+| Media/source registry | Planned | Slice 4 | Track image key, alt text, source/license note, usage area, and claim-safety risk for public photography |
+| Preview and publish validation | Planned | Slice 5 | Add pre-publish checks for blocked claims, route crawl, sitemap consistency, SEO fields, and mobile/content QA |
+| Hostinger MySQL CMS tables | Blocked Until Approved | Slice 6 | Plan draft/published/revision/audit tables first; no migration until explicitly approved |
+| CMS admin dashboard and permissions | Blocked Until Architecture Approved | Slice 7 | Editor UI must gray out or block ERP-owned, code-owned, and blocked-claim areas based on owner type and risk level |
+| Version/sync tracking | Deferred | Slice 8 | Add `lastSynced` only after real sync automation exists; add checksum only after content moves to JSON/MySQL storage |
+| ERP dashboard alerts and advanced impact monitoring | Deferred / Optional | Slice 9 | Consider later only after ERP admin/dashboard foundation is stable |
+
+### CMS Inventory Required Fields
+
+| Field | Requirement |
+|---|---|
+| `key` / route or content key | Unique route or content identifier |
+| `ownerType` | `cms`, `erp`, `config`, `code`, or `blocked` |
+| `sourceFile` / current source | Repo-relative source location only; do not use machine-specific absolute paths |
+| `editableNow` | Boolean used by future CMS UI to decide whether editing is allowed |
+| `riskLevel` | Numeric `1` to `5`, where `1` is low-risk copy and `5` is critical/blocked |
+| `validationSchema` | Required fields plus rule names such as claim-safety scan, SEO metadata check, route crawl, or legal review |
+| `dependencies` | Impact map to related routes, Gateway/RFQ, sitemap, SEO, media, ERP boundary, or review gate |
+| `seoSource` / `seoManagedBy` | Identifies where SEO title/description/canonical/OG image are currently controlled |
+| `cmsReadiness` | `ready`, `needs-model`, `blocked`, or `future-db` |
+
+Do not add `lastSynced`, checksum, ERP dashboard alerts, or database-driven editing in Slice 2A. Those ideas are preserved in this plan but remain later slices.
+
+### CMS Non-Ownership Boundaries
+
+| Area | Owner | Rule |
+|---|---|---|
+| ERP ProductPublication truth | ERP | Website CMS may display approved metadata but must not override ProductPublication truth |
+| Official order records | ERP | Website CMS cannot create or alter official order records |
+| Payment, tax, invoice, receipt claims | Blocked | Keep out of public CMS unless approved with evidence |
+| Supplier stock, SLA, 15-day, price-match guarantees | Blocked | Keep out of public CMS unless supplier/commercial evidence exists |
+| Public government/BIR/DTI/Mayor/PhilGEPS claims | Blocked | Keep out of public CMS and public website positioning |
+
+## Future HACIEN Command Center Track
+
+The HACIEN Website CMS is the first module of a future internal HACIEN Command Center. This preserves the broader admin vision without expanding the current Phase 4 CMS scope into unrelated operational systems.
+
+| Command Center Area | Status | Relationship to Current Work | Boundary |
+|---|---|---|---|
+| Website CMS | Active / Phase 4 | Module 1 and current implementation focus | Manage public website content, media, SEO, navigation, sitemap/discovery, and publish validation only |
+| RFQ/Gateway visibility | Future | May surface request status, Gateway health, and public reference tracking after CMS foundations are stable | Must not create official ERP order records |
+| Support inbox | Future | May connect website support/RFQ follow-up into an authenticated internal view | Requires privacy, auth, and retention review |
+| Internal document/admin review | Future | May support review workflows for website/legal/help content | Must not publish tax/payment/official-document claims without approval |
+| Audit trail | Future / Required for admin UI | Track who changed content, when, from where, and what validation passed | Add after CMS dashboard/data model exists |
+| System health/status | Future | May show website/API/Gateway uptime, build status, and validation status | Internal-only; not public readiness marketing |
+| ERP summaries or links | Future | May deep-link to ERP-owned records or summarize approved read-only status | ERP remains source of truth; CMS cannot edit ERP ProductPublication or official orders |
+
+Command Center constraints:
+
+1. HACIEN only. Do not add PepStack, trucking, or unrelated business workspaces to this website plan.
+2. Internal only. Do not expose Command Center surfaces publicly.
+3. Do not start Command Center UI until Phase 4 CMS registry, route/sitemap validation, repo-backed content modules, media registry, and preview/publish gates are stable.
+4. Keep blocked public claims blocked across CMS and future Command Center modules.
+5. Treat admin permissions, audit trail, and MySQL persistence as approval-gated later slices, not current Slice 2A/2B work.
+
 ## Design Direction Override
 
 | Decision | Result | Implementation Rule |
