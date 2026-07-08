@@ -53,12 +53,15 @@ export function EnterprisePhotoPanel({
   return (
     <div
       className={`relative min-h-[220px] overflow-hidden rounded-lg bg-slate-950 shadow-2xl shadow-slate-950/18 sm:min-h-[270px] ${className}`}
+    >
+      <div
+        className="cinematic-photo absolute inset-0"
       style={{
         backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.08), rgba(7, 20, 38, 0.74)), url(${enterpriseImages[image]})`,
         backgroundPosition: "center",
         backgroundSize: "cover",
       }}
-    >
+      />
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,20,38,0.72),transparent_54%)]" />
       <div className="cinematic-lines pointer-events-none absolute inset-0 opacity-25" />
       <div className="relative flex min-h-[220px] flex-col justify-end p-4 text-white sm:min-h-[270px] sm:p-5">

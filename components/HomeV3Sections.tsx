@@ -46,7 +46,7 @@ const categoryImages: Record<string, keyof typeof enterpriseImages> = {
 
 export function TechnologyEcosystem() {
   return (
-    <AnimatedSection className="bg-[linear-gradient(135deg,#05101c_0%,#08263a_58%,#123730_100%)] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
+    <AnimatedSection className="glass-section-dark px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div>
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">RFQ Readiness</div>
@@ -76,7 +76,7 @@ export function TechnologyEcosystem() {
 
 export function HowHacienWorks() {
   return (
-    <AnimatedSection className="bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
+    <AnimatedSection className="glass-section px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="How HACIEN Works"
@@ -103,7 +103,7 @@ export function HowHacienWorks() {
 
 export function SolutionsV3() {
   return (
-    <AnimatedSection className="bg-[linear-gradient(180deg,#f8fbff_0%,#eef7f8_100%)] px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
+    <AnimatedSection className="bg-transparent px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="Solutions"
@@ -145,7 +145,7 @@ export function SolutionsV3() {
 
 export function ProductCatalogV3() {
   return (
-    <AnimatedSection className="bg-white px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
+    <AnimatedSection className="glass-section px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
           <SectionHeading
@@ -192,7 +192,7 @@ export function ErpPreviewV3() {
   ];
 
   return (
-    <AnimatedSection className="bg-[#0b1220] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
+    <AnimatedSection className="glass-section-dark px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <div>
@@ -228,7 +228,7 @@ export function TrustV3() {
   ];
 
   return (
-    <AnimatedSection className="bg-[linear-gradient(180deg,#ffffff_0%,#fbfaf7_100%)] px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
+    <AnimatedSection className="bg-transparent px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
           eyebrow="Trust & Confidence"
@@ -260,7 +260,7 @@ export { PremiumStatementBand };
 
 export function ExistingCustomerV3() {
   return (
-    <AnimatedSection className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
+    <AnimatedSection className="glass-section px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
