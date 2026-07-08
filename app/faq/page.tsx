@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import faqData from "@/config/faq-data.json";
 import { FaqSearch, type FaqSection } from "@/components/FaqSearch";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
+import { getFaqContent } from "@/lib/cms/content";
 
 export const metadata: Metadata = {
   title: "FAQ | HACIEN",
@@ -9,25 +9,22 @@ export const metadata: Metadata = {
 };
 
 export default function FaqPage() {
+  const content = getFaqContent();
+
   return (
     <>
       <PremiumPageHero
-        eyebrow="FAQ"
-        title="Evidence-safe answers for HACIEN buyers."
-        description="Search common questions about RFQ intake, payment posture, documents, warranty questions, and request tracking."
-        image="knowledge"
-        primaryAction={{ href: "/quote", label: "Start an RFQ" }}
-        secondaryAction={{ href: "/help", label: "Open Help Center" }}
-        highlights={[
-          { label: "RFQ-first", text: "Requests are reviewed before business records." },
-          { label: "No checkout claim", text: "Live online payment is not claimed here." },
-          { label: "Document caution", text: "Official records require approved evidence." },
-          { label: "Support path", text: "Track and follow up with the request reference." },
-        ]}
+        eyebrow={content.hero.eyebrow}
+        title={content.hero.title}
+        description={content.hero.description}
+        image={content.hero.image}
+        primaryAction={content.hero.primaryAction}
+        secondaryAction={content.hero.secondaryAction}
+        highlights={content.hero.highlights}
       />
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl">
-          <FaqSearch sections={faqData.sections as FaqSection[]} />
+          <FaqSearch sections={content.faqSections as FaqSection[]} />
         </div>
       </section>
     </>
