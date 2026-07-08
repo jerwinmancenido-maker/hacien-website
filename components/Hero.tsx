@@ -2,20 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { FadeIn, SlideUp } from "@/components/motion";
+import { getHomepageContent } from "@/lib/cms/content";
 
 export function Hero() {
-  const signals = [
-    ["RFQ review", "Specs, BOQs, photos, and plain requests are shaped before quoting."],
-    ["Supplier checks", "Availability, warranty, lead time, and assumptions stay visible when checked."],
-    ["Trackable follow-up", "Every request gets a reference so the conversation can continue."],
-  ];
+  const content = getHomepageContent();
 
   return (
     <section className="relative overflow-hidden bg-[#071426] text-white">
       <div
         className="cinematic-photo absolute inset-0 opacity-80"
         style={{
-          backgroundImage: `linear-gradient(105deg, rgba(5, 16, 28, 0.98), rgba(8, 45, 62, 0.76) 48%, rgba(132, 91, 44, 0.22)), url(${enterpriseImages.commandCenter})`,
+          backgroundImage: `linear-gradient(105deg, rgba(5, 16, 28, 0.98), rgba(8, 45, 62, 0.76) 48%, rgba(132, 91, 44, 0.22)), url(${enterpriseImages[content.hero.image]})`,
           backgroundPosition: "center",
           backgroundSize: "cover",
         }}
@@ -39,27 +36,29 @@ export function Hero() {
         <div className="flex flex-col justify-center">
           <FadeIn>
             <div className="mb-3 inline-flex w-fit rounded border border-blue-300/30 bg-white/8 px-3 py-1.5 text-xs font-semibold text-blue-100 backdrop-blur sm:mb-5">
-              HACIEN IT Solutions
+              {content.hero.eyebrow}
             </div>
           </FadeIn>
           <SlideUp delay={80}>
             <h1 className="max-w-4xl text-3xl font-bold tracking-tight sm:text-5xl">
-              Technology procurement, clarified before anyone quotes.
+              {content.hero.title}
             </h1>
           </SlideUp>
           <SlideUp delay={170}>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-200 sm:mt-5 sm:text-base sm:leading-7">
-              Send a requirement list, BOQ, photo, supplier quote, or rough idea. HACIEN organizes the details and flags what still needs supplier review before price, stock, payment, or delivery is treated as confirmed.
+              {content.hero.description}
             </p>
           </SlideUp>
           <SlideUp delay={260}>
             <div className="mt-5 flex flex-col gap-2 sm:mt-7 sm:flex-row sm:gap-3">
-              <Link href="/quote" className="button-glow rounded-full bg-white px-5 py-2.5 text-center text-sm font-bold text-[#071426] shadow-xl shadow-blue-950/30 sm:px-6 sm:py-3">
-                Start an RFQ
+              <Link href={content.hero.primaryAction.href} className="button-glow rounded-full bg-white px-5 py-2.5 text-center text-sm font-bold text-[#071426] shadow-xl shadow-blue-950/30 sm:px-6 sm:py-3">
+                {content.hero.primaryAction.label}
               </Link>
-              <Link href="/technology" className="interactive-link glass-control-dark rounded-full px-5 py-2.5 text-center text-sm font-bold text-white hover:border-blue-200 sm:px-6 sm:py-3">
-                Explore Technology
-              </Link>
+              {content.hero.secondaryAction ? (
+                <Link href={content.hero.secondaryAction.href} className="interactive-link glass-control-dark rounded-full px-5 py-2.5 text-center text-sm font-bold text-white hover:border-blue-200 sm:px-6 sm:py-3">
+                  {content.hero.secondaryAction.label}
+                </Link>
+              ) : null}
             </div>
           </SlideUp>
         </div>
@@ -75,11 +74,11 @@ export function Hero() {
                 </p>
               </div>
               <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
-                {signals.map(([title, text], index) => (
-                <div key={title} className="rounded-lg border border-white/12 bg-white/10 p-3 backdrop-blur transition-transform duration-200 hover:-translate-y-1">
+                {content.heroSignals.map((item, index) => (
+                <div key={item.title} className="rounded-lg border border-white/12 bg-white/10 p-3 backdrop-blur transition-transform duration-200 hover:-translate-y-1">
                   <div className="text-xs font-bold text-blue-200">{String(index + 1).padStart(2, "0")}</div>
-                  <div className="mt-2 text-sm font-bold text-white">{title}</div>
-                  <p className="mt-2 text-xs leading-5 text-slate-300">{text}</p>
+                  <div className="mt-2 text-sm font-bold text-white">{item.title}</div>
+                  <p className="mt-2 text-xs leading-5 text-slate-300">{item.text}</p>
                 </div>
               ))}
               </div>

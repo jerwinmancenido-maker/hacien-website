@@ -1,7 +1,7 @@
 import { categories, products } from "../data/products";
 import { solutions } from "../data/solutions";
 import { insights } from "../data/insights";
-import { getPublishedCmsContent, validateCmsContent } from "../lib/cms/content";
+import { getNavigationContent, getPublishedCmsContent, validateCmsContent } from "../lib/cms/content";
 import { getCmsInventory, validateCmsInventory } from "../lib/cms/inventory";
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -268,6 +268,16 @@ function main() {
       }
       errors++;
     }
+  }
+
+  const navigationContent = getNavigationContent();
+  const navigationResult = validateCmsContent(navigationContent);
+  if (!navigationResult.ok) {
+    console.error("  ERROR: CMS navigation includes blocked public claims");
+    for (const blockedClaim of navigationResult.blockedClaims) {
+      console.error(`    - ${blockedClaim.text}`);
+    }
+    errors++;
   }
 
   const cmsInventory = getCmsInventory();

@@ -5,20 +5,9 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
 import { categories } from "@/data/products";
 import { solutions } from "@/data/solutions";
+import { getHomepageContent } from "@/lib/cms/content";
 
-const ecosystem = [
-  ["What is needed", "Users, quantity, site, deadline, and the business reason behind the request."],
-  ["What is unclear", "Missing specs, compatibility questions, equivalents, and assumptions that affect review."],
-  ["What can be checked", "Supplier inputs, warranty terms, lead time, and commercial conditions when evidence is available."],
-  ["What happens next", "A usable RFQ with a reference number and written follow-up."],
-];
-
-const howItWorks = [
-  ["Send", "Share a list, BOQ, photo, supplier quote, or plain description."],
-  ["Clarify", "HACIEN checks what is missing or risky before quotation work begins."],
-  ["Review", "Supplier and technical inputs are organized when available."],
-  ["Respond", "You receive the next practical step with the original request preserved."],
-];
+const homepageContent = getHomepageContent();
 
 const solutionImages: Record<string, keyof typeof enterpriseImages> = {
   "it-infrastructure": "dataCenter",
@@ -49,25 +38,25 @@ export function TechnologyEcosystem() {
     <AnimatedSection className="glass-section-dark px-4 py-9 text-white sm:px-6 sm:py-12 lg:px-8 lg:py-14">
       <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div>
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">RFQ Readiness</div>
-          <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">Turn incomplete specs into a usable request.</h2>
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">{homepageContent.rfqReadiness.eyebrow}</div>
+          <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">{homepageContent.rfqReadiness.title}</h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300 sm:mt-4 sm:text-base sm:leading-7">
-            The first job is not to sell a model. It is to make the request clear enough for responsible checking and practical follow-up.
+            {homepageContent.rfqReadiness.description}
           </p>
           <StaggerContainer className="mt-5 grid gap-2 sm:mt-7 sm:grid-cols-2 sm:gap-3">
-            {ecosystem.map(([title, detail], index) => (
-              <AnimatedCard key={title} className={`group rounded-lg border border-white/12 bg-white/[0.06] p-4 backdrop-blur sm:p-5 ${index > 1 ? "hidden sm:block" : ""}`}>
-                <div className="text-base font-bold">{title}</div>
-                <p className="mt-2 text-sm leading-6 text-slate-300">{detail}</p>
+            {homepageContent.rfqReadiness.cards.map((item, index) => (
+              <AnimatedCard key={item.title} className={`group rounded-lg border border-white/12 bg-white/[0.06] p-4 backdrop-blur sm:p-5 ${index > 1 ? "hidden sm:block" : ""}`}>
+                <div className="text-base font-bold">{item.title}</div>
+                <p className="mt-2 text-sm leading-6 text-slate-300">{item.text}</p>
               </AnimatedCard>
             ))}
           </StaggerContainer>
         </div>
         <EnterprisePhotoPanel
           image="silicon"
-          eyebrow="Details before quote"
-          title="The useful detail is usually hidden in the first conversation."
-          caption="HACIEN helps surface assumptions, options, and missing details before a formal quotation path is treated as ready."
+          eyebrow={homepageContent.rfqReadiness.imagePanel.eyebrow}
+          title={homepageContent.rfqReadiness.imagePanel.title}
+          caption={homepageContent.rfqReadiness.imagePanel.caption}
         />
       </div>
     </AnimatedSection>
@@ -79,19 +68,19 @@ export function HowHacienWorks() {
     <AnimatedSection className="glass-section px-4 py-9 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
-          eyebrow="How HACIEN Works"
-          title="A short path for requests that are not yet perfect."
-          description="The public RFQ experience is designed for real buyers: sometimes you have a BOQ, sometimes a model, and sometimes only the outcome you need."
+          eyebrow={homepageContent.howItWorks.eyebrow}
+          title={homepageContent.howItWorks.title}
+          description={homepageContent.howItWorks.description}
         />
         <div className="mt-6 overflow-hidden rounded-xl border border-slate-200 bg-slate-50 sm:mt-8">
           <div className="grid divide-y divide-slate-200 md:grid-cols-4 md:divide-x md:divide-y-0">
-            {howItWorks.map(([title, text], index) => (
-              <details key={title} className="group p-4 open:bg-white sm:p-5">
+            {homepageContent.howItWorks.steps.map((item, index) => (
+              <details key={item.title} className="group p-4 open:bg-white sm:p-5">
                 <summary className="cursor-pointer list-none">
                   <div className="grid h-10 w-10 place-items-center rounded bg-[#071426] text-sm font-bold text-white">{index + 1}</div>
-                  <div className="mt-4 font-bold text-slate-950">{title}</div>
+                  <div className="mt-4 font-bold text-slate-950">{item.title}</div>
                 </summary>
-                <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
               </details>
             ))}
           </div>
@@ -106,9 +95,9 @@ export function SolutionsV3() {
     <AnimatedSection className="bg-transparent px-4 py-9 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
-          eyebrow="Solutions"
-          title="Common IT needs, organized for review."
-          description="These solution areas help buyers describe work across infrastructure, workplace technology, cybersecurity, cloud, and support without needing perfect specifications first."
+          eyebrow={homepageContent.solutionsPreview.eyebrow}
+          title={homepageContent.solutionsPreview.title}
+          description={homepageContent.solutionsPreview.description}
         />
         <StaggerContainer className="mt-6 grid gap-3 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
           {solutions.slice(0, 6).map((solution, index) => (
@@ -135,7 +124,7 @@ export function SolutionsV3() {
         </StaggerContainer>
         <div className="mt-6 sm:mt-10">
           <Link href="/solutions" className="interactive-link text-sm font-bold text-[#1457d9] hover:underline">
-            View all solutions →
+            {homepageContent.solutionsPreview.viewAllLabel}
           </Link>
         </div>
       </div>
@@ -149,9 +138,9 @@ export function ProductCatalogV3() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
           <SectionHeading
-          eyebrow="Technology"
-          title="Technology categories without fake certainty."
-          description="Use product categories to describe what you need. Final models, prices, and commercial terms still require RFQ review."
+          eyebrow={homepageContent.productCatalogPreview.eyebrow}
+          title={homepageContent.productCatalogPreview.title}
+          description={homepageContent.productCatalogPreview.description}
         />
         <div className="grid gap-3 sm:grid-cols-2">
           {categories.slice(0, 6).map((category, index) => (
@@ -184,33 +173,26 @@ export function ProductCatalogV3() {
 }
 
 export function ErpPreviewV3() {
-  const platformLayers = [
-    ["Workspace", "Secure internal operations"],
-    ["Timeline", "Relationship memory"],
-    ["Guardian", "Operational guidance"],
-    ["Customer Workspace", "Future customer continuity"],
-  ];
-
   return (
     <AnimatedSection className="glass-section-dark px-4 py-9 text-white sm:px-6 sm:py-12 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">HACIEN Platform</div>
-            <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">HACIEN keeps each request tied to its history.</h2>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">{homepageContent.platformPreview.eyebrow}</div>
+            <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">{homepageContent.platformPreview.title}</h2>
             <p className="mt-5 leading-7 text-slate-300">
-              Workspace, Timeline, Guardian, and Customer Workspace help keep inquiries, operations, and account history connected. Public availability is announced only when mature.
+              {homepageContent.platformPreview.description}
             </p>
-            <Link href="/platform" className="button-glow mt-8 inline-flex rounded bg-white px-5 py-3 text-sm font-bold text-[#071426]">
-              Explore Platform
+            <Link href={homepageContent.platformPreview.action.href} className="button-glow mt-8 inline-flex rounded bg-white px-5 py-3 text-sm font-bold text-[#071426]">
+              {homepageContent.platformPreview.action.label}
             </Link>
           </div>
           <StaggerContainer className="grid gap-4 sm:grid-cols-2">
-            {platformLayers.map(([title, text], index) => (
-              <div key={title} className="rounded-lg border border-white/12 bg-white/[0.07] p-5">
+            {homepageContent.platformPreview.layers.map((item, index) => (
+              <div key={item.title} className="rounded-lg border border-white/12 bg-white/[0.07] p-5">
                 <div className="text-xs font-bold text-blue-200">0{index + 1}</div>
-                <div className="mt-3 text-lg font-bold">{title}</div>
-                <p className="mt-2 text-sm leading-6 text-slate-300">{text}</p>
+                <div className="mt-3 text-lg font-bold">{item.title}</div>
+                <p className="mt-2 text-sm leading-6 text-slate-300">{item.text}</p>
               </div>
             ))}
           </StaggerContainer>
@@ -221,34 +203,28 @@ export function ErpPreviewV3() {
 }
 
 export function TrustV3() {
-  const trustCards = [
-    ["Bounded identity", "Public company information stays limited to what is appropriate for public review."],
-    ["Quotation discipline", "Pricing, warranty, delivery, payment, and tax treatment are confirmed through formal quotation and written communication."],
-    ["Customer continuity", "Inquiries, quotations, delivery, support, and follow-up are treated as one continuing account record."],
-  ];
-
   return (
     <AnimatedSection className="bg-transparent px-4 py-9 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
-          eyebrow="Trust & Confidence"
-          title="Trust without overstatement."
-          description="HACIEN keeps public claims bounded, formal terms document-controlled, and customer communication clear."
+          eyebrow={homepageContent.trustPreview.eyebrow}
+          title={homepageContent.trustPreview.title}
+          description={homepageContent.trustPreview.description}
         />
         <StaggerContainer className="mt-6 grid gap-3 md:mt-10 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
-          {trustCards.map(([title, detail]) => (
-            <AnimatedCard key={title} className="rounded-lg border border-slate-200 bg-slate-50 p-4 sm:p-5">
-              <div className="font-bold text-slate-950">{title}</div>
-              <p className="mt-2 text-sm leading-6 text-slate-600">{detail}</p>
+          {homepageContent.trustPreview.cards.map((item) => (
+            <AnimatedCard key={item.title} className="rounded-lg border border-slate-200 bg-slate-50 p-4 sm:p-5">
+              <div className="font-bold text-slate-950">{item.title}</div>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
             </AnimatedCard>
           ))}
         </StaggerContainer>
         <div className="mt-8">
           <Link
-            href="/about/company-profile"
+            href={homepageContent.trustPreview.action.href}
             className="interactive-link inline-flex text-sm font-bold text-[#1457d9] hover:underline"
           >
-            Read HACIEN company profile →
+            {homepageContent.trustPreview.action.label}
           </Link>
         </div>
       </div>
@@ -264,26 +240,26 @@ export function ExistingCustomerV3() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Access HACIEN</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">{homepageContent.accessPreview.eyebrow}</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-              Continue through one connected access point.
+              {homepageContent.accessPreview.title}
             </h2>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">
-              Internal personnel can open Workspace. Customers can track requests, learn about the future Customer Workspace, or contact HACIEN for support.
+              {homepageContent.accessPreview.description}
             </p>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
-              href="/access"
+              href={homepageContent.accessPreview.actions[0].href}
               className="interactive-link rounded border border-slate-300 bg-white px-5 py-3 text-center text-sm font-bold text-slate-900 hover:border-[#1457d9] hover:text-[#1457d9]"
             >
-              Access HACIEN
+              {homepageContent.accessPreview.actions[0].label}
             </Link>
             <Link
-              href="/contact"
+              href={homepageContent.accessPreview.actions[1].href}
               className="button-glow rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
             >
-              Contact HACIEN
+              {homepageContent.accessPreview.actions[1].label}
             </Link>
           </div>
         </div>
