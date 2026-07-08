@@ -182,23 +182,45 @@ describe("CMS read layer", () => {
     expect(preview.blockedOrErpOwned.every((item) => item.editableNow === false)).toBe(true);
   });
 
-  it("declares first-slice local CMS draft ownership for safe content only", () => {
+  it("declares local CMS draft ownership for every CMS-owned public content area", () => {
     const editableInventory = getEditableCmsDraftInventory();
+    const inventory = getCmsInventory();
+    const cmsOwnedKeys = inventory.filter((item) => item.ownerType === "cms").map((item) => item.key);
 
     expect(editableCmsDraftKeys).toEqual([
+      "homepage",
+      "about",
+      "about.company-profile",
+      "access",
+      "contact",
+      "customer-workspace",
+      "solutions.index",
+      "solutions.detail",
+      "technology",
+      "platform",
+      "industries",
+      "insights.index",
+      "insights.article",
       "faq",
       "help",
-      "seo.metadata",
-      "media.photos",
+      "search",
+      "support",
+      "tracking.lookup",
       "legal",
       "privacy",
       "terms",
       "trust-center",
+      "navigation.header",
+      "navigation.footer",
+      "media.photos",
+      "seo.metadata",
     ]);
+    expect(editableCmsDraftKeys).toEqual(cmsOwnedKeys);
     expect(editableInventory.map((item) => item.key)).toEqual(expect.arrayContaining([...editableCmsDraftKeys]));
     expect(editableInventory.every((item) => item.ownerType === "cms")).toBe(true);
     expect(editableInventory.every((item) => item.editableNow === true)).toBe(true);
     expect(editableInventory.every((item) => item.publishRisk !== "blocked")).toBe(true);
+    expect(inventory.filter((item) => item.ownerType !== "cms").every((item) => item.editableNow === false)).toBe(true);
   });
 
   it("validates local CMS drafts without publishing them", () => {
@@ -241,6 +263,54 @@ describe("CMS read layer", () => {
             },
           ],
           reviewNotes: "Founder/legal review required before publishing.",
+        },
+        updatedAt: "2026-07-09T00:00:00.000Z",
+      });
+
+      expect(validateCmsDraft(draft)).toMatchObject({
+        ok: true,
+        errors: [],
+        blockedClaims: [],
+      });
+    }
+  });
+
+  it("validates structured local CMS page drafts", () => {
+    for (const contentKey of ["homepage", "about", "solutions.index", "industries", "support", "tracking.lookup"] as const) {
+      const draft = createCmsDraft({
+        id: `draft-${contentKey}-page`,
+        contentKey,
+        fields: {
+          title: `${contentKey} draft`,
+          description: "Review-ready page description.",
+          sections: [
+            {
+              heading: "Page section",
+              body: "This page section is editable as plain text for local review before publishing.",
+            },
+          ],
+          reviewNotes: "Review route, density, and claim safety before publishing.",
+        },
+        updatedAt: "2026-07-09T00:00:00.000Z",
+      });
+
+      expect(validateCmsDraft(draft)).toMatchObject({
+        ok: true,
+        errors: [],
+        blockedClaims: [],
+      });
+    }
+  });
+
+  it("validates local CMS navigation drafts", () => {
+    for (const contentKey of ["navigation.header", "navigation.footer"] as const) {
+      const draft = createCmsDraft({
+        id: `draft-${contentKey}-nav`,
+        contentKey,
+        fields: {
+          title: `${contentKey} draft`,
+          links: [{ label: "Home", href: "/" }],
+          reviewNotes: "Route crawl required before publishing.",
         },
         updatedAt: "2026-07-09T00:00:00.000Z",
       });

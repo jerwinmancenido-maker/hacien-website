@@ -1,5 +1,13 @@
-import { findBlockedCmsClaims } from "@/lib/cms/content";
-import { getFaqContent, getHelpContent } from "@/lib/cms/content";
+import {
+  findBlockedCmsClaims,
+  getAboutContent,
+  getFaqContent,
+  getHelpContent,
+  getHomepageContent,
+  getIndustriesContent,
+  getNavigationContent,
+  getSolutionsContent,
+} from "@/lib/cms/content";
 import type { ExpectedCmsInventoryKey } from "@/lib/cms/inventory";
 import { getCmsInventory } from "@/lib/cms/inventory";
 import { getCmsMediaRecords } from "@/lib/cms/media";
@@ -12,7 +20,12 @@ export type CmsDocumentSection = {
   body: string;
 };
 
-export type CmsDraftFieldValue = string | number | boolean | string[] | CmsDocumentSection[] | null;
+export type CmsDraftLink = {
+  label: string;
+  href: string;
+};
+
+export type CmsDraftFieldValue = string | number | boolean | string[] | CmsDocumentSection[] | CmsDraftLink[] | null;
 
 export type CmsDraftFields = Record<string, CmsDraftFieldValue>;
 
@@ -33,14 +46,32 @@ export type CmsDraftValidationResult = {
 };
 
 export const editableCmsDraftKeys = [
+  "homepage",
+  "about",
+  "about.company-profile",
+  "access",
+  "contact",
+  "customer-workspace",
+  "solutions.index",
+  "solutions.detail",
+  "technology",
+  "platform",
+  "industries",
+  "insights.index",
+  "insights.article",
   "faq",
   "help",
-  "seo.metadata",
-  "media.photos",
+  "search",
+  "support",
+  "tracking.lookup",
   "legal",
   "privacy",
   "terms",
   "trust-center",
+  "navigation.header",
+  "navigation.footer",
+  "media.photos",
+  "seo.metadata",
 ] as const satisfies ExpectedCmsInventoryKey[];
 
 export type EditableCmsDraftKey = (typeof editableCmsDraftKeys)[number];
@@ -49,15 +80,58 @@ export const editableCmsDocumentDraftKeys = ["legal", "privacy", "terms", "trust
 
 export type EditableCmsDocumentDraftKey = (typeof editableCmsDocumentDraftKeys)[number];
 
+export const editableCmsNavigationDraftKeys = ["navigation.header", "navigation.footer"] as const satisfies EditableCmsDraftKey[];
+
+export type EditableCmsNavigationDraftKey = (typeof editableCmsNavigationDraftKeys)[number];
+
+export const editableCmsPageDraftKeys = [
+  "homepage",
+  "about",
+  "about.company-profile",
+  "access",
+  "contact",
+  "customer-workspace",
+  "solutions.index",
+  "solutions.detail",
+  "technology",
+  "platform",
+  "industries",
+  "insights.index",
+  "insights.article",
+  "search",
+  "support",
+  "tracking.lookup",
+] as const satisfies EditableCmsDraftKey[];
+
+export type EditableCmsPageDraftKey = (typeof editableCmsPageDraftKeys)[number];
+
 const requiredDraftFields: Record<EditableCmsDraftKey, string[]> = {
+  homepage: ["title", "description", "sections", "reviewNotes"],
+  about: ["title", "description", "sections", "reviewNotes"],
+  "about.company-profile": ["title", "description", "sections", "reviewNotes"],
+  access: ["title", "description", "sections", "reviewNotes"],
+  contact: ["title", "description", "sections", "reviewNotes"],
+  "customer-workspace": ["title", "description", "sections", "reviewNotes"],
+  "solutions.index": ["title", "description", "sections", "reviewNotes"],
+  "solutions.detail": ["title", "description", "sections", "reviewNotes"],
+  technology: ["title", "description", "sections", "reviewNotes"],
+  platform: ["title", "description", "sections", "reviewNotes"],
+  industries: ["title", "description", "sections", "reviewNotes"],
+  "insights.index": ["title", "description", "sections", "reviewNotes"],
+  "insights.article": ["title", "description", "sections", "reviewNotes"],
   faq: ["title", "description"],
   help: ["title", "description"],
-  "seo.metadata": ["route", "title", "description"],
-  "media.photos": ["key", "alt", "sourceUrl", "sourceNote"],
+  search: ["title", "description", "sections", "reviewNotes"],
+  support: ["title", "description", "sections", "reviewNotes"],
+  "tracking.lookup": ["title", "description", "sections", "reviewNotes"],
   legal: ["title", "summary", "effectiveDate", "sections", "reviewNotes"],
   privacy: ["title", "summary", "effectiveDate", "sections", "reviewNotes"],
   terms: ["title", "summary", "effectiveDate", "sections", "reviewNotes"],
   "trust-center": ["title", "summary", "effectiveDate", "sections", "reviewNotes"],
+  "navigation.header": ["title", "links", "reviewNotes"],
+  "navigation.footer": ["title", "links", "reviewNotes"],
+  "media.photos": ["key", "alt", "sourceUrl", "sourceNote"],
+  "seo.metadata": ["route", "title", "description"],
 };
 
 export function getRequiredCmsDraftFields(contentKey: EditableCmsDraftKey) {
@@ -76,13 +150,128 @@ export function isEditableCmsDocumentDraftKey(key: string): key is EditableCmsDo
   return editableCmsDocumentDraftKeys.includes(key as EditableCmsDocumentDraftKey);
 }
 
+export function isEditableCmsNavigationDraftKey(key: string): key is EditableCmsNavigationDraftKey {
+  return editableCmsNavigationDraftKeys.includes(key as EditableCmsNavigationDraftKey);
+}
+
+export function isEditableCmsPageDraftKey(key: string): key is EditableCmsPageDraftKey {
+  return editableCmsPageDraftKeys.includes(key as EditableCmsPageDraftKey);
+}
+
 export function getEditableCmsDraftInventory() {
   const editableKeys = new Set<string>(editableCmsDraftKeys);
 
   return getCmsInventory().filter((item) => editableKeys.has(item.key));
 }
 
+function getCmsInventoryItem(contentKey: EditableCmsDraftKey) {
+  return getCmsInventory().find((item) => item.key === contentKey);
+}
+
+function sectionFromContent(heading: string, body: string): CmsDocumentSection {
+  return { heading, body };
+}
+
+function pageDraftSeed(contentKey: EditableCmsPageDraftKey): CmsDraftFields {
+  if (contentKey === "homepage") {
+    const content = getHomepageContent();
+
+    return {
+      title: content.hero.title,
+      description: content.hero.description,
+      sections: [
+        sectionFromContent(content.rfqReadiness.title, content.rfqReadiness.description ?? ""),
+        sectionFromContent(content.howItWorks.title, content.howItWorks.description ?? ""),
+        sectionFromContent(content.platformPreview.title, content.platformPreview.description ?? ""),
+      ],
+      reviewNotes: "Review mobile density, RFQ-first copy, and blocked claims before publishing.",
+    };
+  }
+
+  if (contentKey === "about") {
+    const content = getAboutContent();
+
+    return {
+      title: content.hero.title,
+      description: content.hero.description,
+      sections: [
+        sectionFromContent(content.story.title, content.story.paragraphs.join("\n\n")),
+        sectionFromContent(content.workingStandard.title, content.workingStandard.description ?? ""),
+        sectionFromContent(content.cta.title, content.cta.description ?? ""),
+      ],
+      reviewNotes: "Review company-positioning copy before publishing.",
+    };
+  }
+
+  if (contentKey === "solutions.index") {
+    const content = getSolutionsContent();
+
+    return {
+      title: content.hero.title,
+      description: content.hero.description,
+      sections: [
+        sectionFromContent(content.meaning.title, content.meaning.cards.map((card) => `${card.title}: ${card.text}`).join("\n")),
+        sectionFromContent(content.activeAreas.title, content.activeAreas.description ?? ""),
+        sectionFromContent(content.cta.title, content.cta.description ?? ""),
+      ],
+      reviewNotes: "Review solution language before publishing.",
+    };
+  }
+
+  if (contentKey === "industries") {
+    const content = getIndustriesContent();
+
+    return {
+      title: content.hero.title,
+      description: content.hero.description,
+      sections: [
+        sectionFromContent(content.buyerContext.title, content.buyerContext.signals.join("\n")),
+        sectionFromContent(content.supportedIndustries.title, content.supportedIndustries.cards.map((card) => `${card.title}: ${card.text}`).join("\n")),
+        sectionFromContent(content.cta.title, content.cta.description ?? ""),
+      ],
+      reviewNotes: "Review industry copy before publishing.",
+    };
+  }
+
+  const item = getCmsInventoryItem(contentKey);
+  const title = item?.label ?? contentKey;
+
+  return {
+    title,
+    description: `Draft public copy for ${title}.`,
+    sections: [
+      {
+        heading: `${title} section`,
+        body: `Write editable ${title} content here. This local draft does not publish to the live website.`,
+      },
+    ],
+    reviewNotes: "Review claim safety and route context before publishing.",
+  };
+}
+
+function navigationDraftSeed(contentKey: EditableCmsNavigationDraftKey): CmsDraftFields {
+  const navigation = getNavigationContent();
+  const links =
+    contentKey === "navigation.header"
+      ? [...navigation.header.primaryItems, navigation.header.accessAction, navigation.header.quoteAction]
+      : navigation.footer.groups.flatMap((group) => group.links.map((link) => ({ ...link, label: `${group.title}: ${link.label}` })));
+
+  return {
+    title: contentKey === "navigation.header" ? "Header navigation" : "Footer navigation",
+    links,
+    reviewNotes: "Review route availability and sitemap consistency before publishing navigation changes.",
+  };
+}
+
 export function getCmsDraftSeedFields(contentKey: EditableCmsDraftKey): CmsDraftFields {
+  if (isEditableCmsPageDraftKey(contentKey)) {
+    return pageDraftSeed(contentKey);
+  }
+
+  if (isEditableCmsNavigationDraftKey(contentKey)) {
+    return navigationDraftSeed(contentKey);
+  }
+
   if (contentKey === "faq") {
     const content = getFaqContent();
 
@@ -268,6 +457,27 @@ export function validateCmsDraft(draft: unknown): CmsDraftValidationResult {
           }
           if (typeof section.body !== "string" || section.body.trim().length === 0) {
             errors.push(`Draft section ${index + 1} body is required for ${contentKey}.`);
+          }
+        });
+        continue;
+      }
+
+      if (fieldName === "links") {
+        if (!Array.isArray(value) || value.length === 0) {
+          errors.push(`Draft field links must include at least one link for ${contentKey}.`);
+          continue;
+        }
+
+        value.forEach((link, index) => {
+          if (!isPlainObject(link)) {
+            errors.push(`Draft link ${index + 1} must be an object for ${contentKey}.`);
+            return;
+          }
+          if (typeof link.label !== "string" || link.label.trim().length === 0) {
+            errors.push(`Draft link ${index + 1} label is required for ${contentKey}.`);
+          }
+          if (typeof link.href !== "string" || link.href.trim().length === 0) {
+            errors.push(`Draft link ${index + 1} href is required for ${contentKey}.`);
           }
         });
         continue;

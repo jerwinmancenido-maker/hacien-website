@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { CmsDocumentSection, CmsDraftFields, CmsDraftRecord, CmsDraftStatus, EditableCmsDraftKey } from "@/lib/cms/drafts";
-import { isEditableCmsDocumentDraftKey } from "@/lib/cms/drafts";
+import type { CmsDocumentSection, CmsDraftFields, CmsDraftLink, CmsDraftRecord, CmsDraftStatus, EditableCmsDraftKey } from "@/lib/cms/drafts";
+import { isEditableCmsDocumentDraftKey, isEditableCmsNavigationDraftKey, isEditableCmsPageDraftKey } from "@/lib/cms/drafts";
 
 type EditorOption = {
   key: EditableCmsDraftKey;
@@ -87,6 +87,24 @@ function getDocumentSections(fields: CmsDraftFields): CmsDocumentSection[] {
   });
 }
 
+function getDraftLinks(fields: CmsDraftFields): CmsDraftLink[] {
+  const value = fields.links;
+  if (!Array.isArray(value)) {
+    return [{ label: "", href: "" }];
+  }
+
+  return value.map((link) => {
+    if (typeof link === "object" && link && "label" in link && "href" in link) {
+      return {
+        label: String(link.label ?? ""),
+        href: String(link.href ?? ""),
+      };
+    }
+
+    return { label: "", href: "" };
+  });
+}
+
 function getDraftTitle(draft: CmsDraftRecord) {
   const title = draft.fields.title ?? draft.fields.description ?? draft.fields.summary ?? draft.fields.key ?? draft.contentKey;
   return String(title);
@@ -102,6 +120,10 @@ function formatDraftDate(value: string) {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(date);
+}
+
+function countDraftsByStatus(drafts: CmsDraftRecord[], status: CmsDraftStatus) {
+  return drafts.filter((draft) => draft.status === status).length;
 }
 
 export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOption[]; initialDrafts: CmsDraftRecord[] }) {
@@ -138,6 +160,22 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
     }));
   }
 
+  function updateDraftLink(index: number, fieldName: keyof CmsDraftLink, value: string) {
+    setFields((currentFields) => {
+      const links = getDraftLinks(currentFields);
+      const nextLinks = links.map((link, linkIndex) => (linkIndex === index ? { ...link, [fieldName]: value } : link));
+
+      return { ...currentFields, links: nextLinks };
+    });
+  }
+
+  function addDraftLink() {
+    setFields((currentFields) => ({
+      ...currentFields,
+      links: [...getDraftLinks(currentFields), { label: "", href: "" }],
+    }));
+  }
+
   async function saveDraft(status: CmsDraftStatus) {
     setSaveState({ status: "saving", message: "Saving local draft..." });
 
@@ -162,7 +200,11 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
   }
 
   const isDocumentDraft = isEditableCmsDocumentDraftKey(selectedKey);
+  const isPageDraft = isEditableCmsPageDraftKey(selectedKey);
+  const isNavigationDraft = isEditableCmsNavigationDraftKey(selectedKey);
+  const isSectionDraft = isDocumentDraft || isPageDraft;
   const documentSections = getDocumentSections(fields);
+  const draftLinks = getDraftLinks(fields);
 
   return (
     <div className="grid gap-5 lg:grid-cols-[320px_minmax(0,1fr)]">
@@ -201,12 +243,14 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
           </div>
         </div>
 
-        {isDocumentDraft ? (
+        {isSectionDraft ? (
           <div className="mt-5 grid gap-5">
-            {(["title", "summary", "effectiveDate"] as const).map((fieldName) => (
+            {selectedOption.requiredFields
+              .filter((fieldName) => fieldName !== "sections" && fieldName !== "reviewNotes")
+              .map((fieldName) => (
               <label key={fieldName} className="grid gap-2">
                 <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">{fieldLabel(fieldName)}</span>
-                <span className="text-xs leading-5 text-slate-500">{fieldHints[fieldName]}</span>
+                <span className="text-xs leading-5 text-slate-500">{fieldHints[fieldName] ?? "Draft this field for local review."}</span>
                 <textarea
                   value={getStringField(fields, fieldName)}
                   onChange={(event) => updateField(fieldName, event.target.value)}
@@ -271,6 +315,72 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
               />
             </label>
           </div>
+        ) : isNavigationDraft ? (
+          <div className="mt-5 grid gap-5">
+            <label className="grid gap-2">
+              <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Title</span>
+              <span className="text-xs leading-5 text-slate-500">Name this navigation draft for review.</span>
+              <textarea
+                value={getStringField(fields, "title")}
+                onChange={(event) => updateField("title", event.target.value)}
+                rows={2}
+                className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+              />
+            </label>
+
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <div className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Navigation links</div>
+                  <p className="mt-1 text-xs leading-5 text-slate-500">Edit labels and URLs locally. Route crawl is still required before publishing.</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={addDraftLink}
+                  className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-bold text-slate-800 transition hover:border-slate-400"
+                >
+                  Add Link
+                </button>
+              </div>
+
+              <div className="mt-4 grid gap-4">
+                {draftLinks.map((link, index) => (
+                  <div key={index} className="rounded-lg border border-slate-200 bg-white p-3">
+                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">Link {index + 1}</div>
+                    <label className="mt-3 grid gap-2">
+                      <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Label</span>
+                      <textarea
+                        value={link.label}
+                        onChange={(event) => updateDraftLink(index, "label", event.target.value)}
+                        rows={2}
+                        className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                      />
+                    </label>
+                    <label className="mt-3 grid gap-2">
+                      <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Href</span>
+                      <textarea
+                        value={link.href}
+                        onChange={(event) => updateDraftLink(index, "href", event.target.value)}
+                        rows={2}
+                        className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                      />
+                    </label>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <label className="grid gap-2">
+              <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Review notes</span>
+              <span className="text-xs leading-5 text-slate-500">{fieldHints.reviewNotes}</span>
+              <textarea
+                value={getStringField(fields, "reviewNotes")}
+                onChange={(event) => updateField("reviewNotes", event.target.value)}
+                rows={4}
+                className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+              />
+            </label>
+          </div>
         ) : (
           <div className="mt-5 grid gap-4">
             {selectedOption.requiredFields.map((fieldName) => (
@@ -290,7 +400,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
 
         <div className="mt-5 rounded-lg border border-slate-200 bg-slate-50 p-4">
           <div className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Preview</div>
-          {isDocumentDraft ? (
+          {isSectionDraft ? (
             <div className="mt-3 grid gap-3">
               <div>
                 <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Title</div>
@@ -305,6 +415,20 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                   <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Section {index + 1}</div>
                   <div className="mt-1 text-sm font-bold leading-6 text-slate-800">{section.heading || "Empty heading"}</div>
                   <div className="mt-1 text-sm leading-6 text-slate-700">{section.body || "Empty body"}</div>
+                </div>
+              ))}
+            </div>
+          ) : isNavigationDraft ? (
+            <div className="mt-3 grid gap-3">
+              <div>
+                <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Title</div>
+                <div className="mt-1 text-sm font-bold leading-6 text-slate-800">{getStringField(fields, "title") || "Empty"}</div>
+              </div>
+              {draftLinks.map((link, index) => (
+                <div key={index} className="border-t border-slate-200 pt-3">
+                  <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Link {index + 1}</div>
+                  <div className="mt-1 text-sm font-bold leading-6 text-slate-800">{link.label || "Empty label"}</div>
+                  <div className="mt-1 break-all text-sm leading-6 text-slate-700">{link.href || "Empty href"}</div>
                 </div>
               ))}
             </div>
@@ -335,6 +459,13 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
           >
             Mark Needs Review
           </button>
+          <button
+            type="button"
+            onClick={() => void saveDraft("ready")}
+            className="rounded-lg border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-800 transition hover:border-emerald-400"
+          >
+            Mark Ready
+          </button>
           <div
             className={`text-sm ${
               saveState.status === "error" ? "font-bold text-red-700" : saveState.status === "success" ? "font-bold text-emerald-700" : "text-slate-500"
@@ -345,7 +476,26 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
         </div>
 
         <div className="mt-6">
-          <h2 className="text-lg font-bold text-slate-950">Saved local drafts</h2>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h2 className="text-lg font-bold text-slate-950">Saved local drafts</h2>
+              <p className="mt-1 text-xs leading-5 text-slate-500">Ready means ready for human review. It still does not publish or write to a database.</p>
+            </div>
+            <div className="grid grid-cols-3 gap-2 text-center text-xs font-bold uppercase tracking-[0.1em] text-slate-500">
+              <div className="rounded-lg border border-slate-200 bg-white px-2 py-2">
+                <div className="text-slate-950">{countDraftsByStatus(drafts, "draft")}</div>
+                Draft
+              </div>
+              <div className="rounded-lg border border-amber-200 bg-amber-50 px-2 py-2">
+                <div className="text-amber-800">{countDraftsByStatus(drafts, "needs-review")}</div>
+                Review
+              </div>
+              <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-2 py-2">
+                <div className="text-emerald-800">{countDraftsByStatus(drafts, "ready")}</div>
+                Ready
+              </div>
+            </div>
+          </div>
           <div className="mt-3 grid gap-3">
             {drafts.length === 0 ? (
               <div className="rounded-lg border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">No local drafts saved yet.</div>
