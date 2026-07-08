@@ -63,10 +63,56 @@ Internal or private ERP features may be planned later, but public website copy m
 
 ## Next Start Point
 
-The next website task is Phase 4 CMS planning:
+The active website task is Phase 4 CMS planning and local implementation. The CMS must be designed as a source-of-truth tracking layer before any Hostinger MySQL or admin dashboard work starts.
 
-1. Define the CMS scope before building: editable copy/data, media library, route content, FAQ/help, products/catalog sync boundaries, and admin access model.
-2. Keep ERP as the business source of truth for ProductPublication/order intent validation.
-3. Keep website CMS focused on public website content, media, layout metadata, and approved storefront/cache content only.
-4. Keep public government, tax, payment, invoice, receipt, stock/SLA, 15-day, and price-match claims blocked unless separately approved with evidence.
-5. Do not start implementation until Phase 4 architecture, schema, admin auth, and migration boundaries are reviewed.
+1. Treat the CMS inventory as a metadata repository for public website source-of-truth tracking.
+2. Every public website data point must have a visible owner/location before it becomes editable in a CMS dashboard.
+3. Keep ERP as the business source of truth for ProductPublication/order intent validation.
+4. Keep website CMS focused on public website content, media, layout metadata, SEO metadata, sitemap/discovery fields, and approved storefront/cache display metadata only.
+5. Keep public government, tax, payment, invoice, receipt, stock/SLA, 15-day, and price-match claims blocked unless separately approved with evidence.
+6. Do not start Hostinger MySQL CMS tables, migrations, or CMS admin dashboard work until the repo-backed inventory, validation, and content ownership model are complete.
+
+## Phase 4 CMS Roadmap
+
+| Slice | Status | Scope | Notes |
+|---|---|---|---|
+| Slice 1 - Repo-backed CMS read layer | Complete / Local | FAQ and Help content read from CMS module | Implemented in `lib/cms/content.ts`; claim-safety validation is active |
+| Slice 2A - CMS ownership metadata registry | In Progress / Local | Inventory every public content area and record owner, source, risk, validation, dependencies, SEO source, and readiness | This is the current tracking foundation before CMS UI or database work |
+| Slice 2B - Route and sitemap ownership validation | Planned | Ensure public routes, sitemap entries, and key clickable surfaces map back to ownership records | Missing ownership should fail validation |
+| Slice 3 - Repo-backed content modules | Planned | Move homepage, about, solutions, industries, navigation/footer, SEO, and selected quote-support copy into structured modules | Keep ERP product truth out of CMS |
+| Slice 4 - Media and asset registry | Planned | Track media key, alt text, source/license context, usage, and claim-safety risk | Use repo-relative references and reviewed source notes |
+| Slice 5 - Preview and publish validation | Planned | Add pre-publish checks for blocked claims, route crawl, sitemap consistency, SEO fields, and visual/content QA | No public publish without passing gates |
+| Slice 6 - Hostinger MySQL CMS schema | Blocked Until Approved | Draft/published/revision/audit tables | Requires explicit migration approval |
+| Slice 7 - HACIEN Command Center admin shell and CMS permissions | Blocked Until Architecture Approved | Internal admin shell, editor UI, review flow, role-based access, disabled edit controls for blocked/ERP/code-owned areas | Website CMS is Module 1; must not expose ERP business truth as website-editable content |
+| Slice 8 - Version/sync/checksum tracking | Deferred | `lastSynced`, checksum, stale-content detection | Add only after real sync automation or DB storage exists |
+| Slice 9 - Command Center system modules | Deferred / Optional | Audit trail, RFQ/Gateway visibility, support inbox, system health, and read-only ERP summaries | HACIEN-only; internal-only; consider after Website CMS foundations are stable |
+
+## Future HACIEN Command Center Track
+
+The long-term internal admin product is the HACIEN Command Center. The current Phase 4 Website CMS is its first module, not a throwaway standalone CMS.
+
+| Module | Timing | Purpose |
+|---|---|---|
+| Website CMS | Active Phase 4 | Manage HACIEN public website content, media, SEO, navigation, sitemap/discovery, and publish validation |
+| RFQ/Gateway visibility | Future | Show website inquiry status, Gateway health, and customer-safe tracking references |
+| Support inbox | Future | Centralize HACIEN website support and RFQ follow-up after auth/privacy rules are designed |
+| Internal document/admin review | Future | Support controlled review of website/legal/help content without making public compliance claims |
+| Audit trail | Future / Required before broad editing | Record who changed content, when, and which validation gates passed |
+| System health/status | Future | Surface website/API/Gateway validation and uptime signals internally |
+| ERP summaries or links | Future | Link to ERP-owned records or show read-only summaries without allowing CMS edits to ERP truth |
+
+Command Center guardrails:
+
+1. HACIEN only; do not add PepStack, trucking, or multi-venture workspaces.
+2. Internal-only; no public Command Center routes.
+3. Website CMS remains the active implementation scope until Phase 4 registry, route/sitemap validation, content modules, media registry, and preview/publish gates are stable.
+4. ERP ProductPublication and official orders remain ERP-owned.
+5. Payment, tax, invoice, receipt, stock/SLA, 15-day, price-match, and government credential claims remain blocked unless explicitly approved with evidence.
+
+## CMS Tracking Guardrails
+
+1. Use repo-relative `sourceFile` paths, not absolute machine paths.
+2. Preserve future ideas like `lastSynced`, checksum, and ERP dashboard alerts in the roadmap, but do not implement them before their supporting sync/database/dashboard systems exist.
+3. Use dependencies for impact analysis: route, sitemap, SEO, media, Gateway/RFQ, ERP boundary, legal review, and future CMS permissions.
+4. Use numeric risk levels so future CMS UI can decide which content is editable, review-only, blocked, or admin-only.
+5. Keep the CMS HACIEN Website-specific for now, but keep the schema clean enough to extend to other ventures later without polluting this repo.
