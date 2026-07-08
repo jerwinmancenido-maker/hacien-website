@@ -2,37 +2,13 @@ import type { MetadataRoute } from "next";
 import { categories, products } from "@/data/products";
 import { solutions } from "@/data/solutions";
 import { insights } from "@/data/insights";
+import { staticSitemapRoutes } from "@/lib/cms/inventory";
 
 const baseUrl = "https://haciensolutions.com";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const staticRoutes = [
-    "",
-    "/about",
-    "/about/company-profile",
-    "/solutions",
-    "/technology",
-    "/platform",
-    "/products",
-    "/industries",
-    "/quote",
-    "/access",
-    "/customer-workspace",
-    "/contact",
-    "/support",
-    "/track",
-    "/faq",
-    "/help",
-    "/search",
-    "/trust-center",
-    "/insights",
-    "/privacy",
-    "/terms",
-    "/legal",
-  ];
-
   return [
-    ...staticRoutes.map((route) => ({
+    ...staticSitemapRoutes.map((route) => ({
       url: `${baseUrl}${route}`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,

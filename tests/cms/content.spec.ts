@@ -8,8 +8,12 @@ import {
   validateCmsContent,
 } from "@/lib/cms/content";
 import {
+  blockedPublicRoutePatterns,
+  dynamicSitemapRoutePatterns,
   expectedCmsInventoryKeys,
   getCmsInventory,
+  publicRouteOwnershipRules,
+  staticSitemapRoutes,
   validateCmsInventory,
 } from "@/lib/cms/inventory";
 
@@ -49,6 +53,11 @@ describe("CMS read layer", () => {
     expect(result).toMatchObject({
       ok: true,
       missingExpectedKeys: [],
+      missingPublicRouteOwnership: [],
+      missingStaticSitemapOwnership: [],
+      missingDynamicSitemapOwnership: [],
+      sitemapRuleDrift: [],
+      blockedRoutesInSitemap: [],
       duplicateKeys: [],
       invalidItems: [],
       incompleteMetadataItems: [],
@@ -77,5 +86,19 @@ describe("CMS read layer", () => {
     expect(blockedItems.length).toBeGreaterThan(0);
     expect(blockedItems.every((item) => item.editableNow === false)).toBe(true);
     expect(blockedItems.every((item) => item.ownerType === "blocked" || item.ownerType === "erp")).toBe(true);
+  });
+
+  it("maps sitemap-discoverable routes to CMS ownership records", () => {
+    const sitemapRoutes = staticSitemapRoutes.map((route) => (route === "" ? "/" : route));
+    const sitemapRules = publicRouteOwnershipRules.filter((rule) => rule.discoverableInSitemap);
+
+    expect(sitemapRoutes).toEqual(expect.arrayContaining(sitemapRules.filter((rule) => !rule.route.includes("[")).map((rule) => rule.route)));
+    expect(sitemapRules.map((rule) => rule.route)).toEqual(expect.arrayContaining([...dynamicSitemapRoutePatterns]));
+  });
+
+  it("keeps blocked public routes out of sitemap ownership", () => {
+    const sitemapRoutes = [...staticSitemapRoutes, ...dynamicSitemapRoutePatterns];
+
+    expect(sitemapRoutes.some((route) => blockedPublicRoutePatterns.includes(route as never))).toBe(false);
   });
 });
