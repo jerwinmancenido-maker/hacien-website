@@ -7,13 +7,27 @@ const protectedPrefixes = [
   "/account",
   "/admin",
 ];
+const localCmsPrefixes = ["/cms-preview", "/command-center", "/api/local-cms"];
 
 function isProtectedRoute(pathname: string) {
   return protectedPrefixes.some((prefix) => pathname.startsWith(prefix));
 }
 
+function isLocalCmsRoute(pathname: string) {
+  return localCmsPrefixes.some((prefix) => pathname.startsWith(prefix));
+}
+
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  if (isLocalCmsRoute(pathname) && process.env.CMS_PREVIEW_ENABLED !== "true") {
+    return new NextResponse("Not found", {
+      status: 404,
+      headers: {
+        "content-type": "text/plain; charset=utf-8",
+      },
+    });
+  }
+
   const isProtected = isProtectedRoute(pathname);
   if (!isProtected) {
     return NextResponse.next();
@@ -30,5 +44,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/account/:path*", "/admin/:path*"],
+  matcher: ["/account/:path*", "/admin/:path*", "/cms-preview", "/command-center/:path*", "/api/local-cms/:path*"],
 };

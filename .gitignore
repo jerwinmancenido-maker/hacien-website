@@ -12,3 +12,7 @@ tools/visual-audit.spec.js-snapshots/
 tools/tools/
 playwright-report/
 test-results/
+
+# Local-only CMS drafts
+cms-drafts/*.json
+!cms-drafts/.gitkeep
