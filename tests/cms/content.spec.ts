@@ -584,7 +584,7 @@ describe("CMS read layer", () => {
     expect(plan.errors).toContain("Only drafts marked ready can be applied to repo-backed CMS content.");
   });
 
-  it("rejects unsupported page drafts before repo application", () => {
+  it("creates a dry-run apply plan for ready homepage hero drafts", () => {
     const draft = createCmsDraft({
       id: "ready-homepage-page",
       contentKey: "homepage",
@@ -599,8 +599,121 @@ describe("CMS read layer", () => {
     });
     const plan = validateCmsDraftApplyPlan(draft);
 
+    expect(plan).toMatchObject({
+      applySupported: true,
+      contentKey: "homepage",
+      filePath: "lib/cms/content.ts",
+      mode: "dry-run",
+      recordKey: "homepageContent",
+      errors: [],
+    });
+  });
+
+  it("creates a dry-run apply plan for ready FAQ and Help hero drafts", () => {
+    for (const contentKey of ["faq", "help"] as const) {
+      const draft = createCmsDraft({
+        id: `ready-${contentKey}-hero`,
+        contentKey,
+        status: "ready",
+        fields: {
+          title: `${contentKey} title`,
+          description: `${contentKey} description for local review.`,
+        },
+        updatedAt: "2026-07-09T00:00:00.000Z",
+      });
+      const plan = validateCmsDraftApplyPlan(draft);
+
+      expect(plan.applySupported).toBe(true);
+      expect(plan.filePath).toBe("lib/cms/content.ts");
+      expect(plan.recordKey).toBe(contentKey === "faq" ? "faqContent" : "helpContent");
+    }
+  });
+
+  it("rejects unsupported page drafts before repo application", () => {
+    const draft = createCmsDraft({
+      id: "ready-insight-article-page",
+      contentKey: "insights.article",
+      status: "ready",
+      fields: {
+        title: "Insight article draft",
+        description: "Insight article draft description.",
+        sections: [{ heading: "Section", body: "Body" }],
+        reviewNotes: "Review before apply.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+
     expect(plan.applySupported).toBe(false);
-    expect(plan.errors).toContain("Draft contentKey homepage is not supported by the apply script yet.");
+    expect(plan.errors).toContain("Draft contentKey insights.article is not supported by the apply script yet.");
+  });
+
+  it("creates a dry-run apply plan for ready document drafts", () => {
+    const draft = createCmsDraft({
+      id: "ready-legal-document",
+      contentKey: "legal",
+      status: "ready",
+      fields: {
+        title: "Updated legal notice",
+        summary: "Updated legal summary for local review.",
+        effectiveDate: "2026-07-09",
+        sections: [{ heading: "Updated legal section", body: "Updated legal body for local review." }],
+        reviewNotes: "Founder/legal review before apply.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+
+    expect(plan).toMatchObject({
+      applySupported: true,
+      contentKey: "legal",
+      filePath: "lib/cms/documents.ts",
+      mode: "dry-run",
+      recordKey: "legal",
+      errors: [],
+    });
+  });
+
+  it("rejects non-ready document drafts before repo application", () => {
+    const draft = createCmsDraft({
+      id: "review-privacy-document",
+      contentKey: "privacy",
+      status: "needs-review",
+      fields: {
+        title: "Updated privacy policy",
+        summary: "Updated privacy summary for local review.",
+        effectiveDate: "2026-07-09",
+        sections: [{ heading: "Updated privacy section", body: "Updated privacy body for local review." }],
+        reviewNotes: "Founder/legal review before apply.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+
+    expect(plan.applySupported).toBe(false);
+    expect(plan.errors).toContain("Only drafts marked ready can be applied to repo-backed CMS content.");
+  });
+
+  it("rejects blocked claims in document drafts before repo application", () => {
+    const draft = {
+      id: "ready-unsafe-terms-document",
+      contentKey: "terms",
+      ownerType: "cms",
+      riskLevel: 4,
+      status: "ready",
+      updatedAt: "2026-07-09T00:00:00.000Z",
+      fields: {
+        title: "Updated terms",
+        summary: "15-day price match guarantee.",
+        effectiveDate: "2026-07-09",
+        sections: [{ heading: "Unsafe section", body: "In Stock at Manila Hub." }],
+        reviewNotes: "Founder/legal review before apply.",
+      },
+    };
+    const plan = validateCmsDraftApplyPlan(draft as never);
+
+    expect(plan.applySupported).toBe(false);
+    expect(plan.errors).toContain("Draft contains blocked public claims.");
   });
 
   it("creates a dry-run apply plan for ready grouped footer navigation drafts", () => {
@@ -823,5 +936,50 @@ describe("CMS read layer", () => {
     expect(nextSource).toContain('statement: "Updated footer statement.",');
     expect(nextSource).toContain('title: "Company",');
     expect(nextSource).toContain('{ href: "/quote", label: "Request Quote" },');
+  });
+
+  it("updates document source snippets without writing during dry-run", () => {
+    const draft = createCmsDraft({
+      id: "ready-trust-center-document-source",
+      contentKey: "trust-center",
+      status: "ready",
+      fields: {
+        title: "Updated Trust Center",
+        summary: "Updated trust summary for local review.",
+        effectiveDate: "2026-07-09",
+        sections: [{ heading: "Updated trust section", body: "Updated trust body for local review." }],
+        reviewNotes: "Founder review before apply.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+    const source = `export const cmsDocumentRecords = {\n  \"trust-center\": {\n    key: \"trust-center\",\n    eyebrow: \"Trust Center\",\n    title: \"Old Trust Center\",\n    description: \"Old description.\",\n    summary: \"Old summary.\",\n    version: \"1.0\",\n    effectiveDate: \"2026-07-01\",\n    updatedAt: \"2026-07-01\",\n    introParagraphs: [\"Old summary.\"],\n    sections: [\n      {\n        title: \"Old section\",\n        clauses: [\n          {\n            heading: \"Old section\",\n            paragraphs: [\"Old body.\"],\n          },\n        ],\n      },\n    ],\n  },\n};\n`;
+    const nextSource = applyCmsDraftToSource(source, plan);
+
+    expect(nextSource).toContain('title: "Updated Trust Center",');
+    expect(nextSource).toContain('effectiveDate: "2026-07-09",');
+    expect(nextSource).toContain('heading: "Updated trust section",');
+    expect(nextSource).toContain('paragraphs: ["Updated trust body for local review."],');
+  });
+
+  it("updates page hero source snippets without writing during dry-run", () => {
+    const draft = createCmsDraft({
+      id: "ready-about-page-source",
+      contentKey: "about",
+      status: "ready",
+      fields: {
+        title: "Updated About Title",
+        description: "Updated about description for local review.",
+        sections: [{ heading: "Section", body: "Body" }],
+        reviewNotes: "Review before apply.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+    const source = `const aboutContent: CmsAboutContent = {\n  slug: "about",\n  status: "published",\n  hero: {\n    eyebrow: "Company",\n    title: "Old About Title",\n    description: "Old about description.",\n    image: "workspace",\n    primaryAction: { href: "/quote", label: "Start an RFQ" },\n    highlights: [],\n  },\n};\n`;
+    const nextSource = applyCmsDraftToSource(source, plan);
+
+    expect(nextSource).toContain('title: "Updated About Title",');
+    expect(nextSource).toContain('description: "Updated about description for local review.",');
   });
 });

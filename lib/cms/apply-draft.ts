@@ -1,11 +1,26 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import type { CmsDraftLink, CmsDraftNavigationGroup, CmsDraftRecord } from "@/lib/cms/drafts";
+import type { CmsDocumentSection } from "@/lib/cms/documents";
+import { getCmsDocumentRecords } from "@/lib/cms/documents";
+import type {
+  CmsDocumentSection as CmsDraftDocumentSection,
+  CmsDraftLink,
+  CmsDraftNavigationGroup,
+  CmsDraftRecord,
+} from "@/lib/cms/drafts";
 import { validateCmsDraft } from "@/lib/cms/drafts";
 import { getCmsMediaRecords } from "@/lib/cms/media";
 import { getCmsSeoRecords } from "@/lib/cms/seo";
 
-export type CmsDraftApplyTarget = "seo.metadata" | "media.photos" | "navigation.header" | "navigation.footer";
+export type CmsDraftApplyTarget =
+  | "seo.metadata"
+  | "media.photos"
+  | "navigation.header"
+  | "navigation.footer"
+  | "legal"
+  | "privacy"
+  | "terms"
+  | "trust-center";
 
 export type CmsDraftApplyPlan = {
   applySupported: boolean;
@@ -19,7 +34,26 @@ export type CmsDraftApplyPlan = {
   summary: string;
 };
 
-const supportedApplyTargets = new Set<string>(["seo.metadata", "media.photos", "navigation.header", "navigation.footer"]);
+const documentApplyTargets = new Set<string>(["legal", "privacy", "terms", "trust-center"]);
+const pageHeroApplyTargets = new Set<string>(["homepage", "about", "solutions.index", "industries", "faq", "help"]);
+
+const supportedApplyTargets = new Set<string>([
+  "seo.metadata",
+  "media.photos",
+  "navigation.header",
+  "navigation.footer",
+  ...documentApplyTargets,
+  ...pageHeroApplyTargets,
+]);
+
+const pageHeroApplyConstNames: Record<string, string> = {
+  homepage: "homepageContent",
+  about: "aboutContent",
+  "solutions.index": "solutionsContent",
+  industries: "industriesContent",
+  faq: "faqContent",
+  help: "helpContent",
+};
 
 function getStringField(draft: CmsDraftRecord, fieldName: string) {
   const value = draft.fields[fieldName];
@@ -77,8 +111,32 @@ function getDraftNavigationGroups(draft: CmsDraftRecord): CmsDraftNavigationGrou
     .filter((group): group is CmsDraftNavigationGroup => Boolean(group));
 }
 
+function getDraftDocumentSections(draft: CmsDraftRecord): CmsDraftDocumentSection[] {
+  const value = draft.fields.sections;
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((section) => {
+      if (!section || typeof section !== "object" || !("heading" in section) || !("body" in section)) {
+        return null;
+      }
+
+      return {
+        heading: String(section.heading ?? "").trim(),
+        body: String(section.body ?? "").trim(),
+      };
+    })
+    .filter((section): section is CmsDraftDocumentSection => Boolean(section));
+}
+
 function quoted(value: string) {
   return JSON.stringify(value);
+}
+
+function escapeRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }
 
 function findRecordBlock(source: string, recordKey: string, anchorText?: string) {
@@ -87,7 +145,8 @@ function findRecordBlock(source: string, recordKey: string, anchorText?: string)
     return null;
   }
 
-  const startPattern = new RegExp(`\\n\\s{2}${recordKey}:\\s*{`);
+  const escapedRecordKey = escapeRegExp(recordKey);
+  const startPattern = new RegExp(`\\n\\s{2}(?:${escapedRecordKey}|["']${escapedRecordKey}["']):\\s*{`);
   const searchableSource = source.slice(anchorIndex);
   const match = searchableSource.match(startPattern);
   if (!match || match.index == null) {
@@ -95,17 +154,112 @@ function findRecordBlock(source: string, recordKey: string, anchorText?: string)
   }
 
   const start = anchorIndex + match.index;
-  const endMarker = "\n  },";
-  const end = source.indexOf(endMarker, start);
-  if (end === -1) {
+  const openBrace = source.indexOf("{", start);
+  if (openBrace === -1) {
     return null;
   }
 
-  return {
-    start,
-    end: end + endMarker.length,
-    text: source.slice(start, end + endMarker.length),
-  };
+  let depth = 0;
+  let inString: string | null = null;
+  let escape = false;
+
+  for (let index = openBrace; index < source.length; index += 1) {
+    const char = source[index];
+
+    if (inString) {
+      if (escape) {
+        escape = false;
+        continue;
+      }
+      if (char === "\\") {
+        escape = true;
+        continue;
+      }
+      if (char === inString) {
+        inString = null;
+      }
+      continue;
+    }
+
+    if (char === "\"" || char === "'" || char === "`") {
+      inString = char;
+      continue;
+    }
+
+    if (char === "{") {
+      depth += 1;
+    } else if (char === "}") {
+      depth -= 1;
+      if (depth === 0) {
+        const end = source[index + 1] === "," ? index + 2 : index + 1;
+        return {
+          start,
+          end,
+          text: source.slice(start, end),
+        };
+      }
+    }
+  }
+
+  return null;
+}
+
+function findConstObjectBlock(source: string, constName: string) {
+  const startPattern = new RegExp(`(?:^|\\n)const\\s+${escapeRegExp(constName)}(?::[^=]+)?=\\s*{`);
+  const match = source.match(startPattern);
+  if (!match || match.index == null) {
+    return null;
+  }
+
+  const start = match.index;
+  const openBrace = source.indexOf("{", start);
+  if (openBrace === -1) {
+    return null;
+  }
+
+  let depth = 0;
+  let inString: string | null = null;
+  let escape = false;
+
+  for (let index = openBrace; index < source.length; index += 1) {
+    const char = source[index];
+
+    if (inString) {
+      if (escape) {
+        escape = false;
+        continue;
+      }
+      if (char === "\\") {
+        escape = true;
+        continue;
+      }
+      if (char === inString) {
+        inString = null;
+      }
+      continue;
+    }
+
+    if (char === "\"" || char === "'" || char === "`") {
+      inString = char;
+      continue;
+    }
+
+    if (char === "{") {
+      depth += 1;
+    } else if (char === "}") {
+      depth -= 1;
+      if (depth === 0) {
+        const end = source[index + 1] === ";" ? index + 2 : index + 1;
+        return {
+          start,
+          end,
+          text: source.slice(start, end),
+        };
+      }
+    }
+  }
+
+  return null;
 }
 
 function setRecordProperty(recordText: string, propertyName: string, value: string) {
@@ -122,6 +276,29 @@ function setRecordProperty(recordText: string, propertyName: string, value: stri
   }
 
   return recordText.replace(/\n\s{2}},$/, `\n    ${propertyName}: ${quoted(value)},\n  },`);
+}
+
+function setBlockProperty(blockText: string, propertyName: string, value: string) {
+  const propertyPattern = new RegExp(`(\\n\\s+${propertyName}:\\s*)(?:\"(?:\\\\.|[^\"])*\"|'(?:\\\\.|[^'])*')\\s*,?`);
+  const nextLine = `$1${quoted(value)},`;
+
+  if (propertyPattern.test(blockText)) {
+    return blockText.replace(propertyPattern, nextLine);
+  }
+
+  return blockText;
+}
+
+function updateHeroFields(recordText: string, title: string, description: string) {
+  const heroBlock = findRecordBlock(recordText, "hero");
+  if (!heroBlock) {
+    throw new Error("Could not locate hero block in CMS content record.");
+  }
+
+  let nextHeroBlock = setBlockProperty(heroBlock.text, "title", title);
+  nextHeroBlock = setBlockProperty(nextHeroBlock, "description", description);
+
+  return `${recordText.slice(0, heroBlock.start)}${nextHeroBlock}${recordText.slice(heroBlock.end)}`;
 }
 
 function validateNavigationLinks(links: CmsDraftLink[]) {
@@ -186,6 +363,63 @@ function renderFooterNavigationBlock(statement: string, groups: CmsDraftNavigati
     .join("\n")}\n    ],\n  },`;
 }
 
+function renderDocumentSections(sections: CmsDraftDocumentSection[]): CmsDocumentSection[] {
+  return sections.map((section) => ({
+    title: section.heading,
+    clauses: [
+      {
+        heading: section.heading,
+        paragraphs: [section.body],
+      },
+    ],
+  }));
+}
+
+function renderDocumentSectionBlock(sections: CmsDocumentSection[]) {
+  const renderedSections = sections.map((section) => {
+    const renderedClauses = section.clauses.map((clause) => {
+      const paragraphs = (clause.paragraphs ?? []).map((paragraph) => quoted(paragraph)).join(", ");
+      return [
+        "          {",
+        `            heading: ${quoted(clause.heading)},`,
+        `            paragraphs: [${paragraphs}],`,
+        "          },",
+      ].join("\n");
+    });
+
+    return [
+      "      {",
+      `        title: ${quoted(section.title)},`,
+      "        clauses: [",
+      renderedClauses.join("\n"),
+      "        ],",
+      "      },",
+    ].join("\n");
+  });
+
+  return ["[", renderedSections.join("\n"), "    ]"].join("\n");
+}
+
+function renderDocumentRecordBlock(recordKey: string, record: Record<string, unknown>) {
+  const sections = Array.isArray(record.sections) ? (record.sections as CmsDocumentSection[]) : [];
+  const introParagraphs = Array.isArray(record.introParagraphs) ? (record.introParagraphs as string[]) : [];
+
+  return [
+    `\n  ${recordKey}: {`,
+    `    key: ${quoted(recordKey)},`,
+    `    eyebrow: ${quoted(String(record.eyebrow ?? ""))},`,
+    `    title: ${quoted(String(record.title ?? ""))},`,
+    `    description: ${quoted(String(record.description ?? ""))},`,
+    `    summary: ${quoted(String(record.summary ?? ""))},`,
+    `    version: ${quoted(String(record.version ?? "draft"))},`,
+    `    effectiveDate: ${quoted(String(record.effectiveDate ?? ""))},`,
+    `    updatedAt: ${quoted(String(record.updatedAt ?? ""))},`,
+    `    introParagraphs: [${introParagraphs.map((paragraph) => quoted(paragraph)).join(", ")}],`,
+    `    sections: ${renderDocumentSectionBlock(sections)},`,
+    `    finalNote: ${quoted(String(record.finalNote ?? ""))},`,
+    "  },",
+  ].join("\n");
+}
 export function validateCmsDraftApplyPlan(draft: CmsDraftRecord, mode: "dry-run" | "apply" = "dry-run"): CmsDraftApplyPlan {
   const draftValidation = validateCmsDraft(draft);
   const errors = [...draftValidation.errors];
@@ -296,6 +530,93 @@ export function validateCmsDraftApplyPlan(draft: CmsDraftRecord, mode: "dry-run"
     };
   }
 
+  if (documentApplyTargets.has(draft.contentKey)) {
+    const record = getCmsDocumentRecords().find((item) => item.key === draft.contentKey);
+    const sections = getDraftDocumentSections(draft);
+    const title = getStringField(draft, "title");
+    const summary = getStringField(draft, "summary");
+    const effectiveDate = getStringField(draft, "effectiveDate");
+
+    if (!record) {
+      errors.push(`No existing CMS document record found for ${draft.contentKey}.`);
+    }
+    if (!title) {
+      errors.push("Document title is required.");
+    }
+    if (!summary) {
+      errors.push("Document summary is required.");
+    }
+    if (!effectiveDate) {
+      errors.push("Document effectiveDate is required.");
+    }
+    if (sections.length === 0) {
+      errors.push("Document apply requires at least one section.");
+    }
+    sections.forEach((section, index) => {
+      if (!section.heading) {
+        errors.push(`Document section ${index + 1} heading is required.`);
+      }
+      if (!section.body) {
+        errors.push(`Document section ${index + 1} body is required.`);
+      }
+    });
+
+    return {
+      applySupported: errors.length === 0,
+      contentKey: draft.contentKey,
+      draftId: draft.id,
+      errors,
+      filePath: "lib/cms/documents.ts",
+      mode,
+      nextRecord: {
+        eyebrow: record?.eyebrow ?? title,
+        title,
+        description: summary,
+        summary,
+        version: record?.version ?? "draft",
+        effectiveDate,
+        updatedAt: effectiveDate,
+        introParagraphs: [summary],
+        sections: renderDocumentSections(sections),
+        finalNote: getStringField(draft, "reviewNotes"),
+      },
+      recordKey: draft.contentKey,
+      summary: record ? `Update CMS document content for ${draft.contentKey}.` : "CMS document draft is not ready to apply.",
+    };
+  }
+
+  if (pageHeroApplyTargets.has(draft.contentKey)) {
+    const title = getStringField(draft, "title");
+    const description = getStringField(draft, "description");
+    const constName = pageHeroApplyConstNames[draft.contentKey];
+
+    if (!title) {
+      errors.push("Page hero title is required.");
+    }
+    if (!description) {
+      errors.push("Page hero description is required.");
+    }
+    if (!constName) {
+      errors.push(`No CMS content constant mapping exists for ${draft.contentKey}.`);
+    }
+
+    return {
+      applySupported: errors.length === 0,
+      contentKey: draft.contentKey,
+      draftId: draft.id,
+      errors,
+      filePath: "lib/cms/content.ts",
+      mode,
+      nextRecord: {
+        title,
+        description,
+        sections: getDraftDocumentSections(draft),
+      },
+      recordKey: constName,
+      summary: constName ? `Update CMS hero content for ${draft.contentKey}.` : "CMS page draft is not ready to apply.",
+    };
+  }
+
   return {
     applySupported: false,
     contentKey: draft.contentKey,
@@ -309,6 +630,21 @@ export function validateCmsDraftApplyPlan(draft: CmsDraftRecord, mode: "dry-run"
 export function applyCmsDraftToSource(source: string, plan: CmsDraftApplyPlan) {
   if (!plan.applySupported || !plan.recordKey || !plan.nextRecord) {
     throw new Error(`Cannot apply CMS draft: ${plan.errors.join(" ") || "missing apply plan metadata"}`);
+  }
+
+  if (pageHeroApplyTargets.has(plan.contentKey)) {
+    const block = findConstObjectBlock(source, plan.recordKey);
+    if (!block) {
+      throw new Error(`Could not locate content constant ${plan.recordKey} in ${plan.filePath}.`);
+    }
+
+    const nextBlock = updateHeroFields(
+      block.text,
+      String(plan.nextRecord.title ?? ""),
+      String(plan.nextRecord.description ?? ""),
+    );
+
+    return `${source.slice(0, block.start)}${nextBlock}${source.slice(block.end)}`;
   }
 
   const block = findRecordBlock(
@@ -342,6 +678,8 @@ export function applyCmsDraftToSource(source: string, plan: CmsDraftApplyPlan) {
       throw new Error("Footer navigation apply plan is missing groups.");
     }
     nextBlock = renderFooterNavigationBlock(statement, groups as CmsDraftNavigationGroup[]);
+  } else if (documentApplyTargets.has(plan.contentKey)) {
+    nextBlock = renderDocumentRecordBlock(plan.recordKey, plan.nextRecord);
   }
 
   return `${source.slice(0, block.start)}${nextBlock}${source.slice(block.end)}`;
