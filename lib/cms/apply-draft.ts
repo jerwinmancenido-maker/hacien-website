@@ -1,11 +1,11 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import type { CmsDraftRecord } from "@/lib/cms/drafts";
+import type { CmsDraftLink, CmsDraftRecord } from "@/lib/cms/drafts";
 import { validateCmsDraft } from "@/lib/cms/drafts";
 import { getCmsMediaRecords } from "@/lib/cms/media";
 import { getCmsSeoRecords } from "@/lib/cms/seo";
 
-export type CmsDraftApplyTarget = "seo.metadata" | "media.photos";
+export type CmsDraftApplyTarget = "seo.metadata" | "media.photos" | "navigation.header";
 
 export type CmsDraftApplyPlan = {
   applySupported: boolean;
@@ -14,16 +14,36 @@ export type CmsDraftApplyPlan = {
   errors: string[];
   filePath?: string;
   mode: "dry-run" | "apply";
-  nextRecord?: Record<string, string>;
+  nextRecord?: Record<string, unknown>;
   recordKey?: string;
   summary: string;
 };
 
-const supportedApplyTargets = new Set<string>(["seo.metadata", "media.photos"]);
+const supportedApplyTargets = new Set<string>(["seo.metadata", "media.photos", "navigation.header"]);
 
 function getStringField(draft: CmsDraftRecord, fieldName: string) {
   const value = draft.fields[fieldName];
   return typeof value === "string" ? value.trim() : "";
+}
+
+function getDraftLinks(draft: CmsDraftRecord): CmsDraftLink[] {
+  const value = draft.fields.links;
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((link) => {
+      if (!link || typeof link !== "object" || !("label" in link) || !("href" in link)) {
+        return null;
+      }
+
+      return {
+        label: String(link.label ?? "").trim(),
+        href: String(link.href ?? "").trim(),
+      };
+    })
+    .filter((link): link is CmsDraftLink => Boolean(link));
 }
 
 function quoted(value: string) {
@@ -67,12 +87,47 @@ function setRecordProperty(recordText: string, propertyName: string, value: stri
   return recordText.replace(/\n\s{2}},$/, `\n    ${propertyName}: ${quoted(value)},\n  },`);
 }
 
+function validateNavigationLinks(links: CmsDraftLink[]) {
+  const errors: string[] = [];
+
+  links.forEach((link, index) => {
+    if (!link.label) {
+      errors.push(`Navigation link ${index + 1} label is required.`);
+    }
+    if (!link.href) {
+      errors.push(`Navigation link ${index + 1} href is required.`);
+    } else if (!link.href.startsWith("/")) {
+      errors.push(`Navigation link ${index + 1} must use an internal href that starts with /.`);
+    } else if (link.href.includes("/government-procurement")) {
+      errors.push(`Navigation link ${index + 1} uses a blocked public route.`);
+    }
+  });
+
+  return errors;
+}
+
+function renderLink(link: CmsDraftLink) {
+  return `{ href: ${quoted(link.href)}, label: ${quoted(link.label)} }`;
+}
+
+function renderHeaderNavigationBlock(links: CmsDraftLink[]) {
+  const primaryItems = links.slice(0, 6);
+  const accessAction = links[6];
+  const quoteAction = links[7];
+
+  return `\n  header: {\n    primaryItems: [\n${primaryItems.map((link) => `      ${renderLink(link)},`).join("\n")}\n    ],\n    accessAction: ${renderLink(accessAction)},\n    quoteAction: ${renderLink(quoteAction)},\n  },`;
+}
+
 export function validateCmsDraftApplyPlan(draft: CmsDraftRecord, mode: "dry-run" | "apply" = "dry-run"): CmsDraftApplyPlan {
   const draftValidation = validateCmsDraft(draft);
   const errors = [...draftValidation.errors];
 
   if (draft.status !== "ready") {
     errors.push("Only drafts marked ready can be applied to repo-backed CMS content.");
+  }
+
+  if (draft.contentKey === "navigation.footer") {
+    errors.push("Footer navigation apply requires grouped draft support before it can safely preserve footer columns.");
   }
 
   if (!supportedApplyTargets.has(draft.contentKey)) {
@@ -130,6 +185,28 @@ export function validateCmsDraftApplyPlan(draft: CmsDraftRecord, mode: "dry-run"
     };
   }
 
+  if (draft.contentKey === "navigation.header") {
+    const links = getDraftLinks(draft);
+    if (links.length !== 8) {
+      errors.push("Header navigation apply requires exactly 8 links: 6 primary links, access action, and quote action.");
+    }
+    errors.push(...validateNavigationLinks(links));
+
+    return {
+      applySupported: errors.length === 0,
+      contentKey: draft.contentKey,
+      draftId: draft.id,
+      errors,
+      filePath: "lib/cms/content.ts",
+      mode,
+      nextRecord: {
+        links,
+      },
+      recordKey: "header",
+      summary: "Update header navigation links.",
+    };
+  }
+
   return {
     applySupported: false,
     contentKey: draft.contentKey,
@@ -153,12 +230,18 @@ export function applyCmsDraftToSource(source: string, plan: CmsDraftApplyPlan) {
   let nextBlock = block.text;
 
   if (plan.contentKey === "seo.metadata") {
-    nextBlock = setRecordProperty(nextBlock, "title", plan.nextRecord.title);
-    nextBlock = setRecordProperty(nextBlock, "description", plan.nextRecord.description);
+    nextBlock = setRecordProperty(nextBlock, "title", String(plan.nextRecord.title ?? ""));
+    nextBlock = setRecordProperty(nextBlock, "description", String(plan.nextRecord.description ?? ""));
   } else if (plan.contentKey === "media.photos") {
-    nextBlock = setRecordProperty(nextBlock, "alt", plan.nextRecord.alt);
-    nextBlock = setRecordProperty(nextBlock, "sourceUrl", plan.nextRecord.sourceUrl);
-    nextBlock = setRecordProperty(nextBlock, "sourceNote", plan.nextRecord.sourceNote);
+    nextBlock = setRecordProperty(nextBlock, "alt", String(plan.nextRecord.alt ?? ""));
+    nextBlock = setRecordProperty(nextBlock, "sourceUrl", String(plan.nextRecord.sourceUrl ?? ""));
+    nextBlock = setRecordProperty(nextBlock, "sourceNote", String(plan.nextRecord.sourceNote ?? ""));
+  } else if (plan.contentKey === "navigation.header") {
+    const links = plan.nextRecord.links;
+    if (!Array.isArray(links)) {
+      throw new Error("Header navigation apply plan is missing links.");
+    }
+    nextBlock = renderHeaderNavigationBlock(links as CmsDraftLink[]);
   }
 
   return `${source.slice(0, block.start)}${nextBlock}${source.slice(block.end)}`;
