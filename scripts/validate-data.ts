@@ -2,6 +2,7 @@ import { categories, products } from "../data/products";
 import { solutions } from "../data/solutions";
 import { insights } from "../data/insights";
 import { getPublishedCmsContent, validateCmsContent } from "../lib/cms/content";
+import { getCmsInventory, validateCmsInventory } from "../lib/cms/inventory";
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const unsafeProductNamePatterns = [
@@ -265,6 +266,39 @@ function main() {
       for (const blockedClaim of result.blockedClaims) {
         console.error(`    - ${blockedClaim.text}`);
       }
+      errors++;
+    }
+  }
+
+  const cmsInventory = getCmsInventory();
+  const cmsInventoryResult = validateCmsInventory(cmsInventory);
+  console.log(`CMS inventory records: ${cmsInventory.length}`);
+
+  if (!cmsInventoryResult.ok) {
+    if (cmsInventoryResult.missingExpectedKeys.length > 0) {
+      console.error(
+        `  ERROR: CMS inventory missing expected keys: ${cmsInventoryResult.missingExpectedKeys.join(", ")}`,
+      );
+      errors++;
+    }
+
+    if (cmsInventoryResult.duplicateKeys.length > 0) {
+      console.error(`  ERROR: CMS inventory duplicate keys: ${cmsInventoryResult.duplicateKeys.join(", ")}`);
+      errors++;
+    }
+
+    for (const item of cmsInventoryResult.invalidItems) {
+      console.error(`  ERROR: CMS inventory item ${item.key || "(missing key)"} is incomplete`);
+      errors++;
+    }
+
+    for (const item of cmsInventoryResult.incompleteMetadataItems) {
+      console.error(`  ERROR: CMS inventory item ${item.key} is missing required metadata tracking`);
+      errors++;
+    }
+
+    for (const item of cmsInventoryResult.blockedOwnershipErrors) {
+      console.error(`  ERROR: CMS inventory item ${item.key} has blocked risk but unsafe owner ${item.ownerType}`);
       errors++;
     }
   }
