@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ClarificationReplyForm } from "@/components/ClarificationReplyForm";
 import { SectionHeading } from "@/components/SectionHeading";
+import { TrackReferenceLookup } from "@/components/TrackReferenceLookup";
 
 type TrackingPageProps = {
   params: Promise<{ referenceNumber: string }>;
@@ -87,12 +88,17 @@ export default async function TrackReferencePage({ params }: TrackingPageProps) 
           title="Track a HACIEN request"
           description="Public tracking shows only customer-safe progress for the reference number provided. No account is required."
         />
+        <TrackReferenceLookup initialReference={tracking ? referenceNumber : ""} />
 
         {!tracking ? (
-          <div className="surface mt-8 rounded-lg p-6">
+          <div className="surface mt-6 rounded-lg p-6">
             <h2 className="text-xl font-bold text-slate-950">Reference not found</h2>
             <p className="mt-3 text-sm leading-6 text-slate-600">
-              HACIEN could not find a public request for this reference. Check the number and try again.
+              HACIEN could not find a public request for this reference. Check the number above,
+              submit another reference, or contact support if the request was recently created.
+            </p>
+            <p className="mt-3 text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
+              Last checked: {referenceNumber}
             </p>
             <Link
               href="/support"
