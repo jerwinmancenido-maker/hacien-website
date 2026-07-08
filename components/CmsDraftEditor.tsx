@@ -1,7 +1,15 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { CmsDocumentSection, CmsDraftFields, CmsDraftLink, CmsDraftRecord, CmsDraftStatus, EditableCmsDraftKey } from "@/lib/cms/drafts";
+import type {
+  CmsDocumentSection,
+  CmsDraftFields,
+  CmsDraftLink,
+  CmsDraftNavigationGroup,
+  CmsDraftRecord,
+  CmsDraftStatus,
+  EditableCmsDraftKey,
+} from "@/lib/cms/drafts";
 import { isEditableCmsDocumentDraftKey, isEditableCmsNavigationDraftKey, isEditableCmsPageDraftKey } from "@/lib/cms/drafts";
 
 type EditorOption = {
@@ -105,6 +113,33 @@ function getDraftLinks(fields: CmsDraftFields): CmsDraftLink[] {
   });
 }
 
+function getDraftNavigationGroups(fields: CmsDraftFields): CmsDraftNavigationGroup[] {
+  const value = fields.groups;
+  if (!Array.isArray(value)) {
+    return [{ title: "", links: [{ label: "", href: "" }] }];
+  }
+
+  return value.map((group) => {
+    if (typeof group === "object" && group && "title" in group && "links" in group && Array.isArray(group.links)) {
+      return {
+        title: String(group.title ?? ""),
+        links: group.links.map((link) => {
+          if (typeof link === "object" && link && "label" in link && "href" in link) {
+            return {
+              label: String(link.label ?? ""),
+              href: String(link.href ?? ""),
+            };
+          }
+
+          return { label: "", href: "" };
+        }),
+      };
+    }
+
+    return { title: "", links: [{ label: "", href: "" }] };
+  });
+}
+
 function getDraftTitle(draft: CmsDraftRecord) {
   const title = draft.fields.title ?? draft.fields.description ?? draft.fields.summary ?? draft.fields.key ?? draft.contentKey;
   return String(title);
@@ -176,6 +211,51 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
     }));
   }
 
+  function updateNavigationGroup(groupIndex: number, value: string) {
+    setFields((currentFields) => {
+      const groups = getDraftNavigationGroups(currentFields);
+      const nextGroups = groups.map((group, index) => (index === groupIndex ? { ...group, title: value } : group));
+
+      return { ...currentFields, groups: nextGroups };
+    });
+  }
+
+  function updateNavigationGroupLink(groupIndex: number, linkIndex: number, fieldName: keyof CmsDraftLink, value: string) {
+    setFields((currentFields) => {
+      const groups = getDraftNavigationGroups(currentFields);
+      const nextGroups = groups.map((group, index) => {
+        if (index !== groupIndex) {
+          return group;
+        }
+
+        return {
+          ...group,
+          links: group.links.map((link, currentLinkIndex) => (currentLinkIndex === linkIndex ? { ...link, [fieldName]: value } : link)),
+        };
+      });
+
+      return { ...currentFields, groups: nextGroups };
+    });
+  }
+
+  function addNavigationGroup() {
+    setFields((currentFields) => ({
+      ...currentFields,
+      groups: [...getDraftNavigationGroups(currentFields), { title: "", links: [{ label: "", href: "" }] }],
+    }));
+  }
+
+  function addNavigationGroupLink(groupIndex: number) {
+    setFields((currentFields) => {
+      const groups = getDraftNavigationGroups(currentFields);
+      const nextGroups = groups.map((group, index) =>
+        index === groupIndex ? { ...group, links: [...group.links, { label: "", href: "" }] } : group,
+      );
+
+      return { ...currentFields, groups: nextGroups };
+    });
+  }
+
   async function saveDraft(status: CmsDraftStatus) {
     setSaveState({ status: "saving", message: "Saving local draft..." });
 
@@ -205,6 +285,8 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
   const isSectionDraft = isDocumentDraft || isPageDraft;
   const documentSections = getDocumentSections(fields);
   const draftLinks = getDraftLinks(fields);
+  const draftNavigationGroups = getDraftNavigationGroups(fields);
+  const isFooterNavigationDraft = selectedKey === "navigation.footer";
   const sectionHelpText = isDocumentDraft
     ? "Add policy sections as plain text. No HTML is required, and drafts still require review before publishing."
     : "Add website sections as plain text. No HTML is required, and drafts still require review before publishing.";
@@ -331,7 +413,86 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
               />
             </label>
 
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+            {isFooterNavigationDraft ? (
+              <>
+                <label className="grid gap-2">
+                  <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Footer statement</span>
+                  <span className="text-xs leading-5 text-slate-500">Short footer positioning line shown above the footer link columns.</span>
+                  <textarea
+                    value={getStringField(fields, "statement")}
+                    onChange={(event) => updateField("statement", event.target.value)}
+                    rows={3}
+                    className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                  />
+                </label>
+
+                <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                      <div className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Footer columns</div>
+                      <p className="mt-1 text-xs leading-5 text-slate-500">Preserve grouped footer columns. Each group keeps its own title and links.</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={addNavigationGroup}
+                      className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-bold text-slate-800 transition hover:border-slate-400"
+                    >
+                      Add Group
+                    </button>
+                  </div>
+
+                  <div className="mt-4 grid gap-4">
+                    {draftNavigationGroups.map((group, groupIndex) => (
+                      <div key={groupIndex} className="rounded-lg border border-slate-200 bg-white p-3">
+                        <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">Group {groupIndex + 1}</div>
+                        <label className="mt-3 grid gap-2">
+                          <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Group title</span>
+                          <textarea
+                            value={group.title}
+                            onChange={(event) => updateNavigationGroup(groupIndex, event.target.value)}
+                            rows={2}
+                            className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                          />
+                        </label>
+                        <div className="mt-4 grid gap-3">
+                          {group.links.map((link, linkIndex) => (
+                            <div key={linkIndex} className="rounded-lg border border-slate-100 bg-slate-50 p-3">
+                              <div className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Link {linkIndex + 1}</div>
+                              <label className="mt-3 grid gap-2">
+                                <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Label</span>
+                                <textarea
+                                  value={link.label}
+                                  onChange={(event) => updateNavigationGroupLink(groupIndex, linkIndex, "label", event.target.value)}
+                                  rows={2}
+                                  className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                                />
+                              </label>
+                              <label className="mt-3 grid gap-2">
+                                <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Href</span>
+                                <textarea
+                                  value={link.href}
+                                  onChange={(event) => updateNavigationGroupLink(groupIndex, linkIndex, "href", event.target.value)}
+                                  rows={2}
+                                  className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                                />
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                        <button
+                          type="button"
+                          onClick={() => addNavigationGroupLink(groupIndex)}
+                          className="mt-3 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-bold text-slate-800 transition hover:border-slate-400"
+                        >
+                          Add Link To Group
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </>
+            ) : (
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <div className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Navigation links</div>
@@ -372,6 +533,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                 ))}
               </div>
             </div>
+            )}
 
             <label className="grid gap-2">
               <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Review notes</span>
@@ -427,13 +589,36 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                 <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Title</div>
                 <div className="mt-1 text-sm font-bold leading-6 text-slate-800">{getStringField(fields, "title") || "Empty"}</div>
               </div>
-              {draftLinks.map((link, index) => (
+              {isFooterNavigationDraft ? (
+                <>
+                  <div>
+                    <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Footer statement</div>
+                    <div className="mt-1 text-sm leading-6 text-slate-700">{getStringField(fields, "statement") || "Empty"}</div>
+                  </div>
+                  {draftNavigationGroups.map((group, groupIndex) => (
+                    <div key={groupIndex} className="border-t border-slate-200 pt-3">
+                      <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Group {groupIndex + 1}</div>
+                      <div className="mt-1 text-sm font-bold leading-6 text-slate-800">{group.title || "Empty group title"}</div>
+                      <div className="mt-2 grid gap-2">
+                        {group.links.map((link, linkIndex) => (
+                          <div key={linkIndex}>
+                            <div className="text-sm font-bold leading-6 text-slate-800">{link.label || "Empty label"}</div>
+                            <div className="break-all text-sm leading-6 text-slate-700">{link.href || "Empty href"}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </>
+              ) : (
+                draftLinks.map((link, index) => (
                 <div key={index} className="border-t border-slate-200 pt-3">
                   <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Link {index + 1}</div>
                   <div className="mt-1 text-sm font-bold leading-6 text-slate-800">{link.label || "Empty label"}</div>
                   <div className="mt-1 break-all text-sm leading-6 text-slate-700">{link.href || "Empty href"}</div>
                 </div>
-              ))}
+                ))
+              )}
             </div>
           ) : (
             <div className="mt-3 grid gap-2">

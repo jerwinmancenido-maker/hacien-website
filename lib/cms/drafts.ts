@@ -25,7 +25,12 @@ export type CmsDraftLink = {
   href: string;
 };
 
-export type CmsDraftFieldValue = string | number | boolean | string[] | CmsDocumentSection[] | CmsDraftLink[] | null;
+export type CmsDraftNavigationGroup = {
+  title: string;
+  links: CmsDraftLink[];
+};
+
+export type CmsDraftFieldValue = string | number | boolean | string[] | CmsDocumentSection[] | CmsDraftLink[] | CmsDraftNavigationGroup[] | null;
 
 export type CmsDraftFields = Record<string, CmsDraftFieldValue>;
 
@@ -129,7 +134,7 @@ const requiredDraftFields: Record<EditableCmsDraftKey, string[]> = {
   terms: ["title", "summary", "effectiveDate", "sections", "reviewNotes"],
   "trust-center": ["title", "summary", "effectiveDate", "sections", "reviewNotes"],
   "navigation.header": ["title", "links", "reviewNotes"],
-  "navigation.footer": ["title", "links", "reviewNotes"],
+  "navigation.footer": ["title", "statement", "groups", "reviewNotes"],
   "media.photos": ["key", "alt", "sourceUrl", "sourceNote"],
   "seo.metadata": ["route", "title", "description"],
 };
@@ -251,14 +256,21 @@ function pageDraftSeed(contentKey: EditableCmsPageDraftKey): CmsDraftFields {
 
 function navigationDraftSeed(contentKey: EditableCmsNavigationDraftKey): CmsDraftFields {
   const navigation = getNavigationContent();
-  const links =
-    contentKey === "navigation.header"
-      ? [...navigation.header.primaryItems, navigation.header.accessAction, navigation.header.quoteAction]
-      : navigation.footer.groups.flatMap((group) => group.links.map((link) => ({ ...link, label: `${group.title}: ${link.label}` })));
+  if (contentKey === "navigation.footer") {
+    return {
+      title: "Footer navigation",
+      statement: navigation.footer.statement,
+      groups: navigation.footer.groups.map((group) => ({
+        title: group.title,
+        links: group.links.map((link) => ({ ...link })),
+      })),
+      reviewNotes: "Review route availability and sitemap consistency before publishing navigation changes.",
+    };
+  }
 
   return {
-    title: contentKey === "navigation.header" ? "Header navigation" : "Footer navigation",
-    links,
+    title: "Header navigation",
+    links: [...navigation.header.primaryItems, navigation.header.accessAction, navigation.header.quoteAction],
     reviewNotes: "Review route availability and sitemap consistency before publishing navigation changes.",
   };
 }
@@ -479,6 +491,41 @@ export function validateCmsDraft(draft: unknown): CmsDraftValidationResult {
           if (typeof link.href !== "string" || link.href.trim().length === 0) {
             errors.push(`Draft link ${index + 1} href is required for ${contentKey}.`);
           }
+        });
+        continue;
+      }
+
+      if (fieldName === "groups") {
+        if (!Array.isArray(value) || value.length === 0) {
+          errors.push(`Draft field groups must include at least one group for ${contentKey}.`);
+          continue;
+        }
+
+        value.forEach((group, groupIndex) => {
+          if (!isPlainObject(group)) {
+            errors.push(`Draft group ${groupIndex + 1} must be an object for ${contentKey}.`);
+            return;
+          }
+          if (typeof group.title !== "string" || group.title.trim().length === 0) {
+            errors.push(`Draft group ${groupIndex + 1} title is required for ${contentKey}.`);
+          }
+          if (!Array.isArray(group.links) || group.links.length === 0) {
+            errors.push(`Draft group ${groupIndex + 1} must include at least one link for ${contentKey}.`);
+            return;
+          }
+
+          group.links.forEach((link, linkIndex) => {
+            if (!isPlainObject(link)) {
+              errors.push(`Draft group ${groupIndex + 1} link ${linkIndex + 1} must be an object for ${contentKey}.`);
+              return;
+            }
+            if (typeof link.label !== "string" || link.label.trim().length === 0) {
+              errors.push(`Draft group ${groupIndex + 1} link ${linkIndex + 1} label is required for ${contentKey}.`);
+            }
+            if (typeof link.href !== "string" || link.href.trim().length === 0) {
+              errors.push(`Draft group ${groupIndex + 1} link ${linkIndex + 1} href is required for ${contentKey}.`);
+            }
+          });
         });
         continue;
       }
