@@ -12,24 +12,24 @@ import {
 export const metadata: Metadata = {
   title: "Industries Served | HACIEN",
   description:
-    "Explore how HACIEN supports business, education, healthcare, construction, enterprise, and institutional buyers with procurement-first technology sourcing.",
+    "Explore how HACIEN supports business, education, healthcare, construction, enterprise, and organization buyers with RFQ-first technology support.",
 };
 
 const industries = [
   ["Business", "Workstations, software, network upgrades, peripherals, power protection, and recurring office technology procurement."],
-  ["Institutional", "Specification review, approved equivalent matching, quotation support, documentation-aware sourcing, and delivery coordination."],
+  ["Organizations", "Specification review, approved equivalent matching, quotation support, documentation-aware review, and delivery coordination."],
   ["Education", "Classroom devices, WiFi, printing, security systems, productivity licenses, and institutional purchasing support."],
   ["Healthcare", "Reliable endpoint, network, storage, power, security, and support materials for operational environments."],
   ["Construction", "Project office equipment, site connectivity, CCTV, access control, consumables, and deployment materials."],
-  ["Enterprise", "Multi-supplier coordination for infrastructure refreshes, device rollouts, renewals, documentation, and handover records."],
+  ["Enterprise", "Multi-supplier coordination for infrastructure refreshes, device rollouts, renewals, documentation, and closeout records."],
 ];
 
 const signals = [
   "Procurement requirements vary by industry.",
-  "Technical specifications need context.",
+  "Technical specifications need working details.",
   "Supplier availability changes per project.",
   "Documentation and delivery expectations matter.",
-  "Support should continue after handover.",
+  "Support should continue after closeout.",
 ];
 
 export default function IndustriesPage() {
@@ -44,7 +44,7 @@ export default function IndustriesPage() {
             </AnimatedContent>
             <SplitText
               as="h1"
-              text="Procurement support shaped around each buyer's operating context."
+              text="Procurement support shaped around each buyer's operating reality."
               className="mt-5 max-w-5xl text-3xl font-bold tracking-tight text-slate-950 sm:text-5xl"
             />
             <BlurReveal delay={160}>
@@ -75,7 +75,7 @@ export default function IndustriesPage() {
                 Buyer Context
               </div>
               <h2 className="mt-3 text-xl font-bold text-slate-950 sm:text-2xl">
-                Industry context changes how products should be specified, sourced, and delivered.
+                Industry details change how products should be specified, reviewed, and delivered.
               </h2>
               <div className="mt-8 grid gap-3">
                 {signals.map((signal, index) => (
@@ -97,7 +97,7 @@ export default function IndustriesPage() {
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Who HACIEN Supports</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-              Built for buyers who need organized sourcing, not generic catalog browsing.
+              Built for buyers who need organized RFQs, not generic catalog browsing.
             </h2>
           </AnimatedContent>
           <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
@@ -120,13 +120,13 @@ export default function IndustriesPage() {
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
-                  Industry-specific sourcing
+                  Industry-specific review
                 </div>
                 <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
                   Have a requirement with site, compliance, or delivery constraints?
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
-                  Send the requirement details, and HACIEN will help shape the review-ready RFQ path.
+                  Send the requirement details, and HACIEN will help shape the RFQ path.
                 </p>
               </div>
               <Link

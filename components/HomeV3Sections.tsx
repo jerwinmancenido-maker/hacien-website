@@ -9,15 +9,15 @@ import { solutions } from "@/data/solutions";
 const ecosystem = [
   ["What is needed", "Users, quantity, site, deadline, and the business reason behind the request."],
   ["What is unclear", "Missing specs, compatibility questions, equivalents, and assumptions that affect review."],
-  ["What can be checked", "Supplier inputs, warranty context, lead time, and commercial conditions when evidence is available."],
-  ["What happens next", "A clearer RFQ path with reference tracking and written follow-up context."],
+  ["What can be checked", "Supplier inputs, warranty terms, lead time, and commercial conditions when evidence is available."],
+  ["What happens next", "A usable RFQ with a reference number and written follow-up."],
 ];
 
 const howItWorks = [
   ["Send", "Share a list, BOQ, photo, supplier quote, or plain description."],
   ["Clarify", "HACIEN checks what is missing or risky before quotation work begins."],
   ["Review", "Supplier and technical inputs are organized when available."],
-  ["Respond", "You receive the next practical step with the request context preserved."],
+  ["Respond", "You receive the next practical step with the original request preserved."],
 ];
 
 const solutionImages: Record<string, keyof typeof enterpriseImages> = {
@@ -52,7 +52,7 @@ export function TechnologyEcosystem() {
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">RFQ Readiness</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">Turn incomplete specs into a usable request.</h2>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-300 sm:text-base sm:leading-7">
-            The first job is not to sell a model. It is to make the request clear enough for responsible review and practical follow-up.
+            The first job is not to sell a model. It is to make the request clear enough for responsible checking and practical follow-up.
           </p>
           <StaggerContainer className="mt-7 grid gap-3 sm:grid-cols-2">
             {ecosystem.map(([title, detail]) => (
@@ -65,9 +65,9 @@ export function TechnologyEcosystem() {
         </div>
         <EnterprisePhotoPanel
           image="silicon"
-          eyebrow="Context before quote"
+          eyebrow="Details before quote"
           title="The useful detail is usually hidden in the first conversation."
-          caption="HACIEN helps surface the assumptions, options, and missing details before a formal quotation path is treated as ready."
+          caption="HACIEN helps surface assumptions, options, and missing details before a formal quotation path is treated as ready."
         />
       </div>
     </AnimatedSection>
@@ -151,7 +151,7 @@ export function ProductCatalogV3() {
           <SectionHeading
           eyebrow="Technology"
           title="Technology categories without fake certainty."
-          description="Use product categories as a language for the request. Final models, prices, and commercial terms still require RFQ review."
+          description="Use product categories to describe what you need. Final models, prices, and commercial terms still require RFQ review."
         />
         <div className="grid gap-3 sm:grid-cols-2">
           {categories.slice(0, 6).map((category) => (
@@ -197,9 +197,9 @@ export function ErpPreviewV3() {
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">HACIEN Platform</div>
-            <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">HACIEN keeps request context connected behind the scenes.</h2>
+            <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">HACIEN keeps each request tied to its history.</h2>
             <p className="mt-5 leading-7 text-slate-300">
-              Workspace, Timeline, Guardian, and Customer Workspace help keep inquiries, operations, and relationship history connected. Public availability is announced only when mature.
+              Workspace, Timeline, Guardian, and Customer Workspace help keep inquiries, operations, and account history connected. Public availability is announced only when mature.
             </p>
             <Link href="/platform" className="button-glow mt-8 inline-flex rounded bg-white px-5 py-3 text-sm font-bold text-[#071426]">
               Explore Platform
@@ -224,7 +224,7 @@ export function TrustV3() {
   const trustCards = [
     ["Bounded identity", "Public company information stays limited to what is appropriate for public review."],
     ["Quotation discipline", "Pricing, warranty, delivery, payment, and tax treatment are confirmed through formal quotation and written communication."],
-    ["Relationship continuity", "Inquiries, quotations, delivery, support, and follow-up are treated as one continuing customer relationship."],
+    ["Customer continuity", "Inquiries, quotations, delivery, support, and follow-up are treated as one continuing account record."],
   ];
 
   return (

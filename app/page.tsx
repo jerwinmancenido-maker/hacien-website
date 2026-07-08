@@ -9,9 +9,9 @@ import {
 } from "@/components/HomeV3Sections";
 
 export const metadata: Metadata = {
-  title: "Technology Sourcing From Request to Handover",
+  title: "Technology Procurement Clarified Before Quoting",
   description:
-    "HACIEN helps organizations turn IT requirements, BOQs, supplier quotes, and rough ideas into review-ready RFQ conversations.",
+    "HACIEN helps organizations turn IT requirements, BOQs, supplier quotes, and rough ideas into usable RFQ conversations.",
 };
 
 export default function Home() {

@@ -18,10 +18,10 @@ export function BrandMark({ className = "", size = 32, light = false }: BrandMar
     >
       <rect width="64" height="64" rx="14" fill={light ? "#ffffff" : "#071426"} />
       <path
-        d="M17 16h8v16h14V16h8v32h-8V39H25v9h-8V16z"
+        d="M17 16h8v12h14V16h8v32h-8V36H25v12h-8z"
         fill={light ? "#071426" : "#ffffff"}
       />
-      <path d="M47 48H17v-5h30v5z" fill="#37a7ff" />
+      <path d="M47 48H17v-5h30v5z" fill="#00F2FE" />
     </svg>
   );
 }

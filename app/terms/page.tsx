@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { SectionHeading } from "@/components/SectionHeading";
+import {
+  DocumentClause,
+  DocumentIntro,
+  DocumentPageShell,
+  DocumentSection,
+} from "@/components/DocumentLayout";
 
 export const metadata: Metadata = {
   title: "Terms of Use",
@@ -270,88 +275,60 @@ const terms: TermSection[] = [
 
 export default function TermsPage() {
   return (
-    <section className="px-4 py-12 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-5xl">
-        <SectionHeading
-          eyebrow="Terms"
-          as="h1"
-          title="Terms of Use"
-          description="These terms explain how visitors should understand HACIEN's public website, technology information, RFQ Gateway, and inquiry paths."
-        />
+    <DocumentPageShell
+      eyebrow="Terms"
+      title="Terms of Use"
+      description="Plain-language boundaries for HACIEN's website, RFQ intake, product information, and formal business communication."
+      meta={[
+        { label: "Version", value: "1.0" },
+        { label: "Effective", value: "July 1, 2026" },
+        { label: "Updated", value: "July 1, 2026" },
+      ]}
+    >
+      <DocumentIntro>
+        <p>
+          These terms explain how visitors should understand HACIEN&apos;s public website,
+          technology information, RFQ Gateway, and inquiry paths. Use of this website indicates
+          that the visitor understands that public content supports business review and does not
+          replace formal written documents.
+        </p>
+        <p>
+          For formal business communication, use HACIEN&apos;s{" "}
+          <a className="font-semibold text-[#1457d9]" href="/contact">
+            public inquiry paths
+          </a>{" "}
+          so the request can be routed through the correct review path.
+        </p>
+      </DocumentIntro>
 
-        <div className="surface mt-10 rounded-lg p-6 text-sm leading-7 text-slate-700 sm:p-8">
-          <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
-            <div className="grid gap-3 sm:grid-cols-3">
-              {[
-                ["Document Version", "1.0"],
-                ["Effective Date", "July 1, 2026"],
-                ["Last Updated", "July 1, 2026"],
-              ].map(([label, value]) => (
-                <div key={label} className="rounded border border-slate-200 bg-white p-3">
-                  <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">
-                    {label}
-                  </div>
-                  <div className="mt-1 font-semibold text-slate-950">{value}</div>
-                </div>
+      {terms.map((term, termIndex) => (
+        <DocumentSection key={term.title} title={term.title} index={termIndex}>
+          {term.paragraphs ? (
+            <DocumentClause title={`${termIndex + 1}.1 General Provisions`}>
+              {term.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </DocumentClause>
+          ) : null}
+          {term.bullets ? (
+            <div className="grid gap-3">
+              {term.bullets.map((bullet, bulletIndex) => (
+                <DocumentClause
+                  key={`${bullet.label ?? ""}${bullet.text}`}
+                  title={`${termIndex + 1}.${term.paragraphs ? bulletIndex + 2 : bulletIndex + 1} ${bullet.label ?? "Clause"}`}
+                >
+                  <p>{bullet.text}</p>
+                </DocumentClause>
               ))}
             </div>
-            <p className="mt-4">
-              These terms explain how visitors should understand HACIEN&apos;s public website,
-              technology information, RFQ Gateway, and inquiry paths. Use of this website indicates
-              that the visitor understands that public content supports business review and does not
-              replace formal written documents.
-            </p>
-            <p className="mt-4">
-              For formal business communication, use HACIEN&apos;s{" "}
-              <a className="font-semibold text-[#1457d9]" href="/contact">
-                public inquiry paths
-              </a>
-              {" "}so the request can be routed through the correct review path.
-            </p>
-          </div>
+          ) : null}
+        </DocumentSection>
+      ))}
 
-          <div className="mt-8 grid gap-6">
-            {terms.map((term, termIndex) => (
-              <section key={term.title} className="rounded-lg border border-slate-200 bg-white p-5">
-                <h2 className="text-lg font-bold text-slate-950">{term.title}</h2>
-                {term.paragraphs ? (
-                  <div className="mt-4 rounded-lg border border-slate-100 bg-slate-50/70 p-4">
-                    <h3 className="font-bold text-slate-950">
-                      {termIndex + 1}.1 General Provisions
-                    </h3>
-                    {term.paragraphs.map((paragraph) => (
-                      <p key={paragraph} className="mt-2">
-                        {paragraph}
-                      </p>
-                    ))}
-                  </div>
-                ) : null}
-                {term.bullets ? (
-                  <div className="mt-4 grid gap-3">
-                    {term.bullets.map((bullet, bulletIndex) => (
-                      <div
-                        key={`${bullet.label ?? ""}${bullet.text}`}
-                        className="rounded-lg border border-slate-100 bg-slate-50/70 p-4"
-                      >
-                        <h3 className="font-bold text-slate-950">
-                          {termIndex + 1}.{term.paragraphs ? bulletIndex + 2 : bulletIndex + 1}{" "}
-                          {bullet.label ?? "Clause"}
-                        </h3>
-                        <p className="mt-2">{bullet.text}</p>
-                      </div>
-                    ))}
-                  </div>
-                ) : null}
-              </section>
-            ))}
-          </div>
-
-          <p className="mt-8 rounded border border-slate-200 bg-slate-50 p-4 text-xs leading-6 text-slate-600">
-            If a formal quotation, purchase order, invoice, contract, or written agreement conflicts with
-            general website content, the formal business document controls for that transaction.
-          </p>
-        </div>
-      </div>
-    </section>
+      <p className="rounded border border-slate-200 bg-white/88 p-4 text-xs leading-6 text-slate-600">
+        If a formal quotation, purchase order, invoice, contract, or written agreement conflicts with
+        general website content, the formal business document controls for that transaction.
+      </p>
+    </DocumentPageShell>
   );
 }

@@ -31,19 +31,19 @@ export const solutions: Solution[] = [
     summary: "Infrastructure RFQ review for endpoints, servers, networking, power, and site connectivity.",
     heroCopy: "Prepare reliable IT infrastructure requirements for supplier-input review with HACIEN.",
     detail:
-      "HACIEN supports IT infrastructure RFQ preparation from bill-of-materials review through supplier-input review and delivery planning. Whether you are upgrading a branch office network, planning a server room, or refreshing workstations across a facility, we help translate requirements into quotation-ready context.",
+      "HACIEN supports IT infrastructure RFQ preparation from bill-of-materials review through supplier input and delivery planning. Whether you are upgrading a branch network, planning a server room, or refreshing workstations across a facility, we help translate requirements into a quotation-ready package.",
     outcomes: [
       "Endpoint and workstation RFQ review",
       "Server and storage sizing support",
       "Network equipment requirement review",
       "Power and UPS planning",
-      "Cabling and structured connectivity context",
+      "Cabling and structured connectivity details",
     ],
-    workflow: ["Assess requirements", "Map equipment", "Review inputs", "Plan delivery context"],
+    workflow: ["Assess requirements", "Map equipment", "Review inputs", "Plan delivery details"],
     sections: [
       {
         heading: "What infrastructure procurement covers",
-        body: "IT infrastructure procurement can span everything from individual workstations to full server room buildouts. HACIEN helps clarify bill-of-materials, identify candidate product options, review supplier availability evidence, and organize quotation context for business and institutional buyers.",
+        body: "IT infrastructure procurement can span individual workstations, networks, power equipment, and server rooms. HACIEN helps clarify bills of materials, identify candidate product options, review supplier availability evidence, and organize quotation details for business buyers.",
       },
       {
         heading: "Approved equivalent matching",
@@ -60,7 +60,7 @@ export const solutions: Solution[] = [
     icon: "INF",
     seoTitle: "IT Infrastructure Procurement | HACIEN",
     seoDescription:
-      "HACIEN supports IT infrastructure sourcing including endpoints, servers, networking, power, and connectivity for Philippine organizations.",
+      "HACIEN supports IT infrastructure RFQ review including endpoints, servers, networking, power, and connectivity for Philippine organizations.",
   },
   {
     slug: "hardware-software-procurement",
@@ -68,9 +68,9 @@ export const solutions: Solution[] = [
     shortTitle: "Procurement",
     category: "Core",
     summary: "RFQ-ready review for hardware, software, accessories, warranties, and project materials.",
-    heroCopy: "Turn your IT requirements list into a review-ready procurement package.",
+    heroCopy: "Turn your IT requirements list into a usable RFQ package.",
     detail:
-      "HACIEN helps buyers translate technical requirements into review-ready requests, compare available options when evidence is available, and organize quotation inputs for business and institutional purchasing.",
+      "HACIEN helps buyers translate technical requirements into usable requests, compare available options when evidence is available, and organize quotation inputs for business purchasing.",
     outcomes: [
       "Supplier availability review",
       "Approved equivalent matching",
@@ -81,7 +81,7 @@ export const solutions: Solution[] = [
     workflow: ["Clarify specs", "Review inputs", "Compare options", "Prepare quotation"],
     sections: [
       {
-        heading: "Hardware sourcing",
+        heading: "Hardware review",
         body: "HACIEN reviews RFQ requests for business-grade hardware including computers, servers, network equipment, printers, and peripherals. Procurement decisions should be based on buyer specifications and verified supplier inputs.",
       },
       {
@@ -107,17 +107,17 @@ export const solutions: Solution[] = [
     shortTitle: "Integration",
     category: "Core",
     summary: "Project coordination for IT rollouts, device deployment, systems setup, and documentation.",
-    heroCopy: "From procurement to deployment — HACIEN bridges sourcing and implementation.",
+    heroCopy: "From purchase planning to deployment, HACIEN helps keep the sequence clear.",
     detail:
-      "HACIEN bridges procurement and implementation by coordinating practical setup requirements, project documentation, installation support, and handover needs. Systems integration projects require careful sequencing of equipment delivery, configuration, and sign-off. We help buyers manage that coordination.",
+      "HACIEN bridges purchase planning and implementation by coordinating practical setup requirements, project documentation, installation support, and closeout needs. Systems integration projects require careful sequencing of equipment delivery, configuration, and sign-off.",
     outcomes: [
       "Endpoint deployment support",
       "Configuration coordination",
       "Project documentation",
-      "Handover planning",
+      "Closeout planning",
       "Rollout sequencing",
     ],
-    workflow: ["Plan rollout", "Prepare materials", "Review setup context", "Document handover"],
+    workflow: ["Plan rollout", "Prepare materials", "Review setup details", "Document closeout"],
     sections: [
       {
         heading: "What systems integration means for procurement",
@@ -128,7 +128,7 @@ export const solutions: Solution[] = [
         body: "For multi-site or phased deployments, HACIEN helps coordinate supplier delivery schedules, installation material lists, and project status tracking. We do not replace implementation teams but support them with procurement and logistics.",
       },
       {
-        heading: "Handover documentation",
+        heading: "Closeout documentation",
         body: "HACIEN can help prepare basic delivery acceptance documentation, serial number logs, and warranty registration support as part of project closeout.",
       },
     ],
@@ -148,15 +148,15 @@ export const solutions: Solution[] = [
     summary: "Practical RFQ and follow-up support for devices, office IT, consumables, replacements, and projects.",
     heroCopy: "Review recurring IT operations requirements through an RFQ-first path.",
     detail:
-      "HACIEN supports recurring IT requirement review, device refresh planning, small infrastructure upgrades, and follow-up coordination where a formal request or prior transaction context exists.",
+      "HACIEN supports recurring IT requirement review, device refresh planning, small infrastructure upgrades, and follow-up coordination where a formal request or prior transaction record exists.",
     outcomes: [
       "Device lifecycle RFQ support",
       "Consumables planning",
       "Follow-up coordination",
-      "Replacement sourcing",
+      "Replacement review",
       "Recurring requirement review",
     ],
-    workflow: ["Log requirements", "Prioritize needs", "Review item context", "Route fulfillment context"],
+    workflow: ["Log requirements", "Prioritize needs", "Review item details", "Route the next step"],
     sections: [
       {
         heading: "Lifecycle procurement support",
@@ -167,7 +167,7 @@ export const solutions: Solution[] = [
         body: "From printer toner and ink to patch cords, batteries, and storage media, HACIEN can help organize recurring consumable requirements for offices and facilities.",
       },
       {
-        heading: "Reactive and planned sourcing",
+        heading: "Reactive and planned requirements",
         body: "Whether a device fails unexpectedly or your team is planning a scheduled refresh, HACIEN can review reactive requirements and planned technology upgrades through the appropriate inquiry or RFQ path.",
       },
     ],
@@ -177,25 +177,25 @@ export const solutions: Solution[] = [
     icon: "OPS",
     seoTitle: "Managed IT Support Procurement | HACIEN",
     seoDescription:
-      "HACIEN provides managed IT support procurement including device lifecycle management, consumables sourcing, and replacement coordination.",
+      "HACIEN reviews managed IT support RFQs including device lifecycle needs, consumables, and replacement coordination.",
   },
   {
     slug: "network-connectivity",
     title: "Network & Connectivity",
     shortTitle: "Network",
     category: "Infrastructure",
-    summary: "Switching, wireless, firewall, structured cabling, and site connectivity sourcing.",
+    summary: "Switching, wireless, firewall, structured cabling, and site connectivity RFQ review.",
     heroCopy: "Reliable network infrastructure procurement for offices, campuses, and facilities.",
     detail:
       "Network projects require precise equipment specification, PoE budget planning, VLAN design inputs, and cable infrastructure coordination. HACIEN supports network procurement from access layer switches to firewall appliances, wireless access points, and structured cabling materials.",
     outcomes: [
       "Managed switch procurement",
-      "Wireless access point sourcing",
+      "Wireless access point review",
       "Firewall and router procurement",
       "Structured cabling materials",
       "PoE and power planning",
     ],
-    workflow: ["Review site needs", "Map equipment", "Validate specs", "Plan delivery context"],
+    workflow: ["Review site needs", "Map equipment", "Validate specs", "Plan delivery details"],
     sections: [
       {
         heading: "Switching and access layer",
@@ -223,13 +223,13 @@ export const solutions: Solution[] = [
     title: "Servers & Storage",
     shortTitle: "Servers",
     category: "Infrastructure",
-    summary: "Entry to midrange server, NAS, backup, and storage expansion sourcing.",
+    summary: "Entry to midrange server, NAS, backup, and storage expansion RFQ review.",
     heroCopy: "Right-sized server and storage procurement for your workload and budget.",
     detail:
       "Server and storage procurement requires workload analysis, redundancy planning, and warranty validation before quotation. HACIEN supports sizing conversations, vendor options comparison, and formal quotation preparation for tower servers, rack servers, NAS appliances, and backup storage systems.",
     outcomes: [
       "Server sizing support",
-      "NAS and backup storage sourcing",
+      "NAS and backup storage review",
       "RAID and redundancy planning",
       "Warranty and support options",
       "Rack and physical planning",
@@ -265,7 +265,7 @@ export const solutions: Solution[] = [
     summary: "Licensed productivity, endpoint security, collaboration, and business software RFQ review.",
     heroCopy: "License requirements and renewal planning for your productivity and collaboration tools.",
     detail:
-      "HACIEN supports license sourcing and renewal planning for common productivity, security, and business applications. Licensing terms are subject to vendor program rules. We help buyers understand user counts, license types, and subscription options before committing to a purchase.",
+      "HACIEN supports license review and renewal planning for common productivity, security, and business applications. Licensing terms are subject to vendor program rules. We help buyers understand user counts, license types, and subscription options before committing to a purchase.",
     outcomes: [
       "Productivity license review",
       "Renewal coordination",
@@ -277,7 +277,7 @@ export const solutions: Solution[] = [
     sections: [
       {
         heading: "Microsoft 365 and productivity licensing",
-        body: "Microsoft 365 licenses are user-based annual or monthly subscriptions. HACIEN helps organizations count active users, review plan tiers, and prepare renewal request context. Licensing must be confirmed through appropriate vendor channels.",
+        body: "Microsoft 365 licenses are user-based annual or monthly subscriptions. HACIEN helps organizations count active users, review plan tiers, and prepare renewal requests. Licensing must be confirmed through appropriate vendor channels.",
       },
       {
         heading: "Endpoint security software",
@@ -301,7 +301,7 @@ export const solutions: Solution[] = [
     title: "Cybersecurity",
     shortTitle: "Cybersecurity",
     category: "Security",
-    summary: "Endpoint protection, firewall, security software, and network security sourcing.",
+    summary: "Endpoint protection, firewall, security software, and network security RFQ review.",
     heroCopy: "Practical cybersecurity procurement for Philippine organizations.",
     detail:
       "Cybersecurity procurement covers endpoint protection software, firewall appliances, network security devices, and security management tools. HACIEN helps organizations clarify security requirements for threat profile and budget before quotation review.",
@@ -312,11 +312,11 @@ export const solutions: Solution[] = [
       "Security software licensing",
       "Cybersecurity accessory planning",
     ],
-    workflow: ["Assess threat profile", "Identify solutions", "Review product context", "Prepare quotation"],
+    workflow: ["Assess threat profile", "Identify solutions", "Review product details", "Prepare quotation"],
     sections: [
       {
         heading: "Endpoint protection",
-        body: "Endpoint antivirus, anti-malware, and endpoint detection software protect individual devices from threats. HACIEN reviews endpoint security license requirements against per-device or per-user licensing context.",
+        body: "Endpoint antivirus, anti-malware, and endpoint detection software protect individual devices from threats. HACIEN reviews endpoint security license requirements against per-device or per-user licensing rules.",
       },
       {
         heading: "Network security",
@@ -343,7 +343,7 @@ export const solutions: Solution[] = [
     summary: "CCTV, access control, endpoint protection, and site security technology RFQ review.",
     heroCopy: "Site security technology requirements, from cameras to access control.",
     detail:
-      "Security and surveillance projects need clear retention, coverage, cabling, and warranty assumptions. HACIEN helps convert site security needs into review-ready request context covering CCTV cameras, NVR/DVR systems, access control hardware, and monitoring infrastructure.",
+      "Security and surveillance projects need clear retention, coverage, cabling, and warranty assumptions. HACIEN helps convert site security needs into usable requests covering CCTV cameras, NVR/DVR systems, access control hardware, and monitoring infrastructure.",
     outcomes: [
       "CCTV package planning",
       "NVR/DVR requirement review",
@@ -351,11 +351,11 @@ export const solutions: Solution[] = [
       "Storage and retention sizing",
       "Installation accessory list",
     ],
-    workflow: ["Assess coverage", "Size equipment", "Review availability context", "Prepare quotation"],
+    workflow: ["Assess coverage", "Size equipment", "Review availability details", "Prepare quotation"],
     sections: [
       {
         heading: "CCTV and surveillance systems",
-        body: "Camera count, resolution, coverage area, and retention days drive the bill of materials for CCTV deployments. HACIEN reviews camera package, NVR/DVR, and storage expansion requirements based on site context.",
+        body: "Camera count, resolution, coverage area, and retention days drive the bill of materials for CCTV deployments. HACIEN reviews camera package, NVR/DVR, and storage expansion requirements based on site details.",
       },
       {
         heading: "Access control",
@@ -390,7 +390,7 @@ export const solutions: Solution[] = [
       "Volume license guidance",
       "OS and productivity software",
     ],
-    workflow: ["Identify software needs", "Validate license type", "Review channel context", "Prepare quotation"],
+    workflow: ["Identify software needs", "Validate license type", "Review channel rules", "Prepare quotation"],
     sections: [
       {
         heading: "Types of software licenses",
@@ -429,15 +429,15 @@ export const solutions: Solution[] = [
       "Supplier-input review for general goods",
       "Quotation support for institutional buyers",
     ],
-    workflow: ["Identify goods", "Review supplier inputs", "Review availability context", "Prepare quotation"],
+    workflow: ["Identify goods", "Review supplier inputs", "Review availability details", "Prepare quotation"],
     sections: [
       {
         heading: "What general merchandise covers",
-        body: "General merchandise procurement covers non-IT items that organizations regularly purchase: office supplies, furniture, safety equipment, cleaning materials, and other consumables. HACIEN can review these alongside IT procurement for integrated project quotation context.",
+        body: "General merchandise procurement covers non-IT items that organizations regularly purchase: office supplies, furniture, safety equipment, cleaning materials, and other consumables. HACIEN can review these alongside IT requirements for an integrated quotation package.",
       },
       {
         heading: "Mixed IT and non-IT packages",
-        body: "Institutional buyers often issue combined procurement packages that include both IT equipment and general goods. HACIEN can help organize sourcing questions for mixed packages to simplify quotation review.",
+        body: "Some buyers issue combined packages that include both IT equipment and general goods. HACIEN can help organize supplier questions for mixed packages to simplify quotation review.",
       },
       {
         heading: "Procurement notes",
@@ -457,18 +457,18 @@ export const solutions: Solution[] = [
     title: "Project Delivery Support",
     shortTitle: "Delivery",
     category: "Operations",
-    summary: "Delivery-context review, logistics planning, acceptance documentation, and project closeout support.",
-    heroCopy: "Procurement does not end at the purchase order: delivery context should be reviewed early.",
+    summary: "Delivery detail review, logistics planning, acceptance documentation, and project closeout support.",
+    heroCopy: "Procurement does not end at the purchase order: delivery details should be reviewed early.",
     detail:
       "Project delivery support covers the logistics and documentation tasks that may follow procurement: scheduling deliveries, coordinating with installation teams, preparing acceptance checklists, and supporting project closeout when included in the formal request.",
     outcomes: [
       "Delivery scheduling review",
       "Supplier logistics support",
-      "Acceptance documentation context",
-      "Serial number and warranty documentation context",
+      "Acceptance documentation details",
+      "Serial number and warranty documentation details",
       "Project closeout support",
     ],
-    workflow: ["Review delivery schedule", "Plan logistics context", "Support acceptance context", "Document closeout"],
+    workflow: ["Review delivery schedule", "Plan logistics details", "Support acceptance review", "Document closeout"],
     sections: [
       {
         heading: "Delivery coordination",
@@ -480,7 +480,7 @@ export const solutions: Solution[] = [
       },
       {
         heading: "Post-delivery support",
-        body: "After delivery, organizations may need follow-up coordination for missing items, warranty questions, or replacement requests. HACIEN can route these questions when product, quotation, supplier, and delivery context is available.",
+        body: "After delivery, organizations may need follow-up coordination for missing items, warranty questions, or replacement requests. HACIEN can route these questions when product, quotation, supplier, and delivery details are available.",
       },
     ],
     relatedSlugs: ["systems-integration", "managed-it-support", "hardware-software-procurement"],

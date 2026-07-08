@@ -42,14 +42,14 @@ export default function TechnologyPage() {
     <>
       <PremiumPageHero
         eyebrow="Technology"
-        title="Technology categories for describing the work."
-        description="Use this page to frame the request. HACIEN reviews the context before any model, price, delivery, or commercial term is treated as confirmed."
+        title="Technology categories for clearer requests."
+        description="Use this page to frame the request. HACIEN reviews the details before any model, price, delivery, or commercial term is treated as confirmed."
         image="silicon"
         primaryAction={{ href: "/quote", label: "Request Quote" }}
         secondaryAction={{ href: "/solutions", label: "View Solutions" }}
         highlights={[
           { label: "Computing", text: "Endpoints, workstations, servers, and user needs." },
-          { label: "Networking", text: "Connectivity, site layout, and reliability context." },
+          { label: "Networking", text: "Connectivity, site layout, and reliability needs." },
           { label: "Cybersecurity", text: "Protection requirements and operating risk." },
           { label: "Cloud & Software", text: "Licensing, backup, SaaS, and hybrid needs." },
         ]}
@@ -60,7 +60,7 @@ export default function TechnologyPage() {
           <SectionHeading
             eyebrow="Domains"
             title="Choose the language closest to your requirement."
-            description="You do not need a perfect specification to start. Choose the category that fits, then add the context HACIEN should review."
+            description="You do not need a perfect specification to start. Choose the category that fits, then add the details HACIEN should review."
           />
           <StaggerContainer className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {priorityTechnologyDomains.map(([title, text, categorySlug]) => (
@@ -93,7 +93,7 @@ export default function TechnologyPage() {
           <div className="mt-8 rounded-lg border border-slate-200 bg-slate-50 p-5">
             <h2 className="text-lg font-bold text-slate-950">Need cabling, power, services, or something not listed?</h2>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              Use the RFQ path and describe the outcome. HACIEN reviews the context before treating any product or service path as final.
+              Use the RFQ path and describe the outcome. HACIEN reviews the details before treating any product or service path as final.
             </p>
             <Link href="/quote" className="mt-3 inline-flex text-sm font-bold text-[#1457d9] hover:underline">
               Describe the requirement
@@ -110,7 +110,7 @@ export default function TechnologyPage() {
               Start with a product, a category, a BOQ, a photo, or only the outcome.
             </h2>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">
-              HACIEN&apos;s Gateway reviews the requirement first. The catalog helps describe context; it does not limit what you can ask.
+              HACIEN&apos;s Gateway reviews the requirement first. The catalog helps describe the request; it does not limit what you can ask.
             </p>
           </div>
           <Link href="/quote" className="button-glow rounded-full bg-[#1457d9] px-6 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15">

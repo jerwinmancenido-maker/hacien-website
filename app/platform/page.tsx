@@ -7,15 +7,15 @@ import { SectionHeading } from "@/components/SectionHeading";
 export const metadata: Metadata = {
   title: "HACIEN Platform | Operating Model",
   description:
-    "HACIEN operates through its own enterprise operating platform supporting Workspace, Timeline, Guardian, Customer Workspace, and relationship continuity.",
+    "HACIEN operates through its own enterprise operating platform supporting Workspace, Timeline, Guardian, Customer Workspace, and account continuity.",
 };
 
 const platformLayers = [
   ["Workspace", "The secure internal operating workspace HACIEN uses to review requests, manage work, and keep operations moving."],
-  ["Timeline", "The relationship memory that records meaningful customer milestones without exposing internal operational noise."],
+  ["Timeline", "The account memory that records meaningful customer milestones without exposing internal operational noise."],
   ["Guardian", "The guidance layer that helps prevent missed follow-ups, incomplete records, and avoidable operational mistakes."],
-  ["Customer Workspace", "The future customer continuity layer for request tracking, quotations, documents, support, and relationship history."],
-  ["Relationship Continuity", "The principle that every inquiry, quote, delivery, document, and support interaction belongs to one relationship."],
+  ["Customer Workspace", "The future customer continuity layer for request tracking, quotations, documents, support, and account history."],
+  ["Account Continuity", "The principle that every inquiry, quote, delivery, document, and support interaction belongs to one account record."],
 ];
 
 const operatingPrinciples = [
@@ -39,13 +39,13 @@ export default function PlatformPage() {
       <PremiumPageHero
         eyebrow="Platform"
         title="The operating platform behind HACIEN."
-        description="HACIEN operates through its own enterprise platform for request intake, relationship memory, operational guidance, and future customer continuity."
+        description="HACIEN operates through its own enterprise platform for request intake, account memory, operational guidance, and future customer continuity."
         image="network"
         primaryAction={{ href: "/access", label: "Access HACIEN" }}
         secondaryAction={{ href: "/quote", label: "Request Quote" }}
         highlights={[
           { label: "Workspace", text: "Secure internal operations for requests, reviews, and follow-up." },
-          { label: "Timeline", text: "Relationship memory for meaningful customer milestones." },
+          { label: "Timeline", text: "Account memory for meaningful customer milestones." },
           { label: "Guardian", text: "Operational guidance that helps prevent missed details." },
           { label: "Customer Workspace", text: "Future continuity for tracking, documents, and support." },
         ]}
@@ -56,7 +56,7 @@ export default function PlatformPage() {
           <SectionHeading
             eyebrow="Operating Layers"
             title="One company, connected through one operating model."
-            description="Platform does not market an ERP. It explains how HACIEN keeps customer relationships, internal operations, and future continuity connected."
+            description="Platform does not market an ERP. It explains how HACIEN keeps customer accounts, internal operations, and future continuity connected."
           />
           <StaggerContainer className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {platformLayers.map(([title, text]) => (

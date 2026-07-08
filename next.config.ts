@@ -31,7 +31,7 @@ const nextConfig: NextConfig = {
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
-      ...(process.env.NODE_ENV === "production" ? ["upgrade-insecure-requests"] : []),
+      ...(hstsEnabled ? ["upgrade-insecure-requests"] : []),
     ].join("; ");
 
     const headers: Record<string, string> = {

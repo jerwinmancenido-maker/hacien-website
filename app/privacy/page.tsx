@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
-import { SectionHeading } from "@/components/SectionHeading";
+import {
+  DocumentClause,
+  DocumentIntro,
+  DocumentPageShell,
+  DocumentSection,
+} from "@/components/DocumentLayout";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
@@ -250,84 +255,58 @@ const sections: PrivacySection[] = [
 
 export default function PrivacyPage() {
   return (
-    <section className="px-4 py-12 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-5xl">
-        <SectionHeading
-          eyebrow="Privacy"
-          as="h1"
-          title="Privacy Policy"
-          description="This policy explains how HACIEN collects, uses, processes, stores, shares, retains, and protects information submitted through the public website, RFQ Gateway, contact forms, support modules, and related digital inquiry paths."
-        />
-        <div className="surface mt-10 rounded-lg p-6 text-sm leading-7 text-slate-700 sm:p-8">
-          <div className="rounded-lg border border-slate-200 bg-slate-50 p-5">
-            <div className="grid gap-3 sm:grid-cols-3">
-              {[
-                ["Document Version", "1.0"],
-                ["Effective Date", "July 1, 2026"],
-                ["Last Updated", "July 1, 2026"],
-              ].map(([label, value]) => (
-                <div key={label} className="rounded border border-slate-200 bg-white p-3">
-                  <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">
-                    {label}
-                  </div>
-                  <div className="mt-1 font-semibold text-slate-950">{value}</div>
-                </div>
+    <DocumentPageShell
+      eyebrow="Privacy"
+      title="Privacy Policy"
+      description="How HACIEN handles information submitted through public forms, RFQ intake, support requests, and related website paths."
+      meta={[
+        { label: "Version", value: "1.0" },
+        { label: "Effective", value: "July 1, 2026" },
+        { label: "Updated", value: "July 1, 2026" },
+      ]}
+    >
+      <DocumentIntro>
+        <p>
+          HACIEN handles public inquiry, RFQ, support, and website data with care and keeps
+          public privacy statements tied to website and inquiry use.
+        </p>
+        <p>
+          For privacy and data protection questions, use the public contact path so the request can
+          be routed for review.
+        </p>
+      </DocumentIntro>
+
+      {sections.map((section, sectionIndex) => (
+        <DocumentSection key={section.title} title={section.title} index={sectionIndex}>
+          {section.paragraphs ? (
+            <DocumentClause title={`${sectionIndex + 1}.1 General Provisions`}>
+              {section.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </DocumentClause>
+          ) : null}
+          {section.bullets ? (
+            <div className="grid gap-3">
+              {section.bullets.map((bullet, bulletIndex) => (
+                <DocumentClause
+                  key={`${bullet.label ?? ""}${bullet.text}`}
+                  title={`${sectionIndex + 1}.${section.paragraphs ? bulletIndex + 2 : bulletIndex + 1} ${bullet.label ?? "Clause"}`}
+                >
+                  <p>{bullet.text}</p>
+                </DocumentClause>
               ))}
             </div>
-            <p className="mt-4">
-              HACIEN handles public inquiry, RFQ, support, and website data with care and keeps
-              public privacy statements tied to website and inquiry use.
-            </p>
-            <p className="mt-4">
-              For privacy and data protection questions, use the public contact path so the request can
-              be routed for review.
-            </p>
-          </div>
+          ) : null}
+        </DocumentSection>
+      ))}
 
-          <div className="mt-8 grid gap-6">
-            {sections.map((section, sectionIndex) => (
-              <section key={section.title} className="rounded-lg border border-slate-200 bg-white p-5">
-                <h2 className="text-lg font-bold text-slate-950">{section.title}</h2>
-                {section.paragraphs ? (
-                  <div className="mt-4 rounded-lg border border-slate-100 bg-slate-50/70 p-4">
-                    <h3 className="font-bold text-slate-950">
-                      {sectionIndex + 1}.1 General Provisions
-                    </h3>
-                    {section.paragraphs.map((paragraph) => (
-                      <p key={paragraph} className="mt-2">
-                        {paragraph}
-                      </p>
-                    ))}
-                  </div>
-                ) : null}
-                {section.bullets ? (
-                  <div className="mt-4 grid gap-3">
-                    {section.bullets.map((bullet, bulletIndex) => (
-                      <div
-                        key={`${bullet.label ?? ""}${bullet.text}`}
-                        className="rounded-lg border border-slate-100 bg-slate-50/70 p-4"
-                      >
-                        <h3 className="font-bold text-slate-950">
-                          {sectionIndex + 1}.{section.paragraphs ? bulletIndex + 2 : bulletIndex + 1}{" "}
-                          {bullet.label ?? "Clause"}
-                        </h3>
-                        <p className="mt-2">{bullet.text}</p>
-                      </div>
-                    ))}
-                  </div>
-                ) : null}
-              </section>
-            ))}
-          </div>
-          <p className="mt-8 rounded border border-slate-200 bg-slate-50 p-4 text-xs leading-6 text-slate-600">
-            This public policy is intended for website and inquiry use. Specific customer contracts,
-            master service agreements, non-disclosure agreements, supplier agreements, or formal
-            institutional procurement projects may contain additional privacy, confidentiality, and data
-            handling clauses. In the event of a conflict, the terms of the specific written agreement
-            shall supersede this online policy.
-          </p>
-        </div>
-      </div>
-    </section>
+      <p className="rounded border border-slate-200 bg-white/88 p-4 text-xs leading-6 text-slate-600">
+        This public policy is intended for website and inquiry use. Specific customer contracts,
+        master service agreements, non-disclosure agreements, supplier agreements, or formal
+        institutional procurement projects may contain additional privacy, confidentiality, and data
+        handling clauses. In the event of a conflict, the terms of the specific written agreement
+        shall supersede this online policy.
+      </p>
+    </DocumentPageShell>
   );
 }

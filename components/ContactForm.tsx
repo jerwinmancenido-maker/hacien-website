@@ -243,14 +243,14 @@ export function ContactForm({
           </select>
         </div>
         <label htmlFor="contact-message" className="sr-only">
-          Project description, specifications, quantities, or procurement context
+          Project description, specifications, quantities, or procurement details
         </label>
         <textarea
           id="contact-message"
           required
           name="message"
-          aria-label="Project description, specifications, quantities, or procurement context"
-          placeholder="Project description, specifications, quantities, or procurement context"
+          aria-label="Project description, specifications, quantities, or procurement details"
+          placeholder="Project description, specifications, quantities, or procurement details"
           rows={5}
           className="focus-ring rounded-xl border border-slate-300 bg-white px-4 py-3"
         />

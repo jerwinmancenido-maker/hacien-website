@@ -14,7 +14,7 @@ export default function FaqPage() {
       <PremiumPageHero
         eyebrow="FAQ"
         title="Evidence-safe answers for HACIEN buyers."
-        description="Search common questions about RFQ intake, payment posture, documents, warranty context, and request tracking."
+        description="Search common questions about RFQ intake, payment posture, documents, warranty questions, and request tracking."
         image="knowledge"
         primaryAction={{ href: "/quote", label: "Start an RFQ" }}
         secondaryAction={{ href: "/help", label: "Open Help Center" }}
@@ -22,7 +22,7 @@ export default function FaqPage() {
           { label: "RFQ-first", text: "Requests are reviewed before business records." },
           { label: "No checkout claim", text: "Live online payment is not claimed here." },
           { label: "Document caution", text: "Official records require approved evidence." },
-          { label: "Support path", text: "Track and follow up with request context." },
+          { label: "Support path", text: "Track and follow up with the request reference." },
         ]}
       />
       <section className="px-4 py-12 sm:px-6 lg:px-8">

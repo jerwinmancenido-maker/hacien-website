@@ -16,7 +16,7 @@ export default function QuotePage() {
       <PremiumPageHero
         eyebrow="Universal Gateway Intake"
         title="Send the requirement in whatever form you have."
-        description="Use a BOQ, supplier quote, photo, spreadsheet, product link, or plain description. HACIEN reviews the context before any formal quote or business record is treated as ready."
+        description="Use a BOQ, supplier quote, photo, spreadsheet, product link, or plain description. HACIEN reviews the details before any formal quote or business record is treated as ready."
         image="commandCenter"
         primaryAction={{ href: "#rfq-form", label: "Start RFQ" }}
         secondaryAction={{ href: "/products", label: "Use RFQ Builder" }}

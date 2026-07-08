@@ -36,18 +36,19 @@ Missing evidence means the item is not ready. It must be marked `Partial`, `Bloc
 | Phase 0 - Workplace Preparation | Green / Complete | No current action |
 | Phase 1 - Foundation & Build Verification | Green / Complete | No current action |
 | Phase 2 - Intake Readiness | Green / Complete | PR #2 is deployed; live RFQ path works |
-| Phase 3 - Visual Recovery, Remotion, WebGL | Yellow / Partial / Reopened for Design Recovery | Technical artifacts exist, but public design/content quality is not accepted |
-| Phase 4 - CMS Flexibility | Red / Blocked Until Phase 3 Recovery | Do not start until Phase 3 public design/content recovery passes QA |
+| Phase 3 - Visual Recovery, Remotion, WebGL | Yellow / Partial / Reopened for Editorial & Layout Recovery | Technical artifacts exist, but visual variety, page layouts (especially legal/privacy/terms), global cinematic animations, and copy readability are rejected |
+| Phase 4 - CMS Flexibility | Red / Blocked Until Phase 3 Recovery | Do not start until Phase 3 visual, layout, and copy rewrite passes QA |
 | Phase 5 - Portal/Admin/AI Concierge | Red / Not Started | Requires auth, internal-admin, legal/tax/payment gates |
 | Phase 6 - Quote PDF, Payments & Logistics | Red / Not Started | Requires payment, tax, logistics, and stock-evidence gates |
 | Phase 7 - Supplier Integration | Red / Not Started | Requires supplier/API credentials and evidence |
 | Phase 8 - Final Verification & Hand-off | Red / Not Started | Final verification only after earlier phases are reconciled |
 
-## Founder Design Correction
+## Founder Design & Editorial Correction
 
-The accepted public cinematic direction is premium website motion: moving backgrounds, text choreography, scroll rhythm, parallax or ambient layers, and curated real-world photography.
-
-The public cinematic direction is not cheap product renders, generic 3D server parts, or render-heavy computer/server fantasy scenes. Existing Remotion/WebGL work may remain as technical prototype evidence, but it is not accepted as the final public design identity.
+1. **Premium Website Motion (Mandatory)**: Visual recovery requires global cinematic animations. Moving backgrounds (CSS ambient flows or canvas particle loops), scroll rhythm, and text motion must run consistently across all routes (including legal, privacy, terms, and trust-center pages).
+2. **Unified Document Templates**: All legal, terms, and privacy pages must share the exact same clean, high-density, professional card layout with frosted borders and matte dark accents to ensure design consistency.
+3. **B2B Editorial Copy Rewrite**: All page text must be rewritten to remove dry, repetitive AI buzzwords (like "context", "workflow", "handover", "sourcing"). Copy must read like a premium, human-crafted B2B corporate agency.
+4. **No Cheap 3D Renders**: Rejects cheap product/server 3D renders or computer/server fantasy scenes as the public visual identity. Existing Three.js work remains local prototype evidence only.
 
 ## Public Claim Blocks
 

@@ -64,7 +64,7 @@ export default async function ProductCategoryPage({ params }: { params: Promise<
                   <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
                     {isErpCatalog
                       ? "These items come from ERP publication settings. Manual payment review and sandbox signals appear only when enabled in ERP."
-                      : "These examples show the kind of sourcing targets HACIEN can review. Final brand, model, warranty, lead time, and commercial terms are confirmed through formal quotation."}
+                      : "These examples show the kind of request targets HACIEN can review. Final brand, model, warranty, lead time, and commercial terms are confirmed through formal quotation."}
                   </p>
                 </div>
                 <div className="rounded border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-bold text-[#1457d9]">
@@ -85,7 +85,7 @@ export default async function ProductCategoryPage({ params }: { params: Promise<
           </AnimatedSection>
         </div>
       </section>
-      <CTABand title={`Need help sourcing ${category.name.toLowerCase()}?`} />
+      <CTABand title={`Need help preparing ${category.name.toLowerCase()} requirements?`} />
     </>
   );
 }

@@ -15,14 +15,14 @@ export const metadata: Metadata = {
 const contactPaths = [
   {
     title: "Request a quotation",
-    text: "For BOQs, product lists, specifications, files, institutional requirements, or procurement review.",
+    text: "For BOQs, product lists, specifications, files, organization requirements, or quotation review.",
     href: "/quote",
     action: "Start RFQ",
     image: "documentation",
   },
   {
     title: "Ask for support",
-    text: "For follow-up, delivery context, warranty questions tied to formal documents, replacement context, or an existing request.",
+    text: "For follow-up, delivery details, warranty questions tied to formal documents, replacements, or an existing request.",
     href: "/support",
     action: "Open Support",
     image: "workspace",
@@ -37,8 +37,8 @@ const contactPaths = [
 ];
 
 const communicationStandards = [
-  "Use Request Quote when the inquiry needs pricing, sourcing, BOQ review, or files.",
-  "Use Support when the inquiry continues an existing request, delivery context, warranty question, or follow-up.",
+  "Use Request Quote when the inquiry needs pricing, BOQ review, or files.",
+  "Use Support when the inquiry continues an existing request, delivery detail, warranty question, or follow-up.",
   "Use Contact for business communication that does not yet belong to a formal RFQ or support path.",
 ];
 
@@ -50,14 +50,14 @@ export default function ContactPage() {
       <PremiumPageHero
         eyebrow="Contact"
         title="Reach HACIEN through the right business path."
-        description="HACIEN keeps communication structured so inquiries, RFQs, supplier introductions, and support questions move into the right review process."
+        description="HACIEN keeps communication structured so inquiries, RFQs, supplier introductions, and support questions reach the right team."
         image="office"
         primaryAction={{ href: "/quote", label: "Request Quote" }}
         secondaryAction={{ href: "#contact-form", label: "Send Inquiry" }}
         highlights={[
           { label: "Business Contact", text: "Public inquiry routing through HACIEN's contact channel." },
           { label: "RFQ Direction", text: "Requirements and files move through the Gateway intake path." },
-          { label: "Support Routing", text: "Follow-ups are routed with context and reference details." },
+          { label: "Support Routing", text: "Follow-ups are routed with reference details." },
           { label: "Formal Notices", text: "Legal notice handling must be confirmed through written communication." },
         ]}
       />
@@ -108,7 +108,7 @@ export default function ContactPage() {
               Communication Standard
             </div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">
-              Clear context helps HACIEN respond with the right next step.
+              Clear details help HACIEN respond with the right next step.
             </h2>
           </AnimatedContent>
           <div className="grid gap-4">

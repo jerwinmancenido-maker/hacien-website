@@ -6,13 +6,13 @@ import { companyContact } from "@/data/companyContact";
 export const metadata: Metadata = {
   title: "Company Profile",
   description:
-    "HACIEN company profile with supported company identity facts, RFQ intake, and professional procurement coordination context.",
+    "HACIEN company profile with supported company identity facts, RFQ intake, and professional procurement coordination.",
 };
 
 const profileItems = [
-  ["What HACIEN does", "Solutions consulting, RFQ review, technology sourcing coordination, procurement support, and customer-success oriented follow-through."],
-  ["How HACIEN works", "Every request enters a review path before quotation, sourcing, delivery, warranty, payment, or tax commitments are made."],
-  ["Published company facts", "HACIEN INFORMATION TECHNOLOGY SOLUTIONS publishes bounded company information with clear public limits."],
+  ["What HACIEN does", "Solutions consulting, RFQ review, technology requirement coordination, procurement support, and customer-success oriented follow-through."],
+  ["How HACIEN works", "Every request is reviewed before quotation, delivery, warranty, payment, or tax commitments are made."],
+  ["Published company facts", "HACIEN INFORMATION TECHNOLOGY SOLUTIONS publishes company information with clear public limits."],
   ["Commercial commitments", "Pricing, delivery, warranty, payment, and tax terms are confirmed only through request-specific formal documents or written business communication."],
   ["Why this matters", "Customers and suppliers should know which information is public, which commitments are formal, and how to begin safely."],
 ];
@@ -84,7 +84,7 @@ export default function CompanyProfilePage() {
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Contact Details</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">Public business contact.</h2>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-600">
-              Customers, suppliers, partners, and organization buyers may use these public paths to begin review-first communication with HACIEN.
+              Customers, suppliers, partners, and organization buyers may use these public paths to begin clear communication with HACIEN.
             </p>
           </AnimatedContent>
           <AnimatedContent delay={100}>

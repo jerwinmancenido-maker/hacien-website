@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { GlobalCinematicBackdrop } from "@/components/GlobalCinematicBackdrop";
 import { QuoteCartProvider } from "@/components/QuoteCartProvider";
 import { LenisProvider } from "@/components/motion/LenisProvider";
 import { companyContact } from "@/data/companyContact";
@@ -81,6 +82,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         />
         <LenisProvider>
           <QuoteCartProvider>
+            <GlobalCinematicBackdrop />
             <Header />
             <main>{children}</main>
             <Footer />

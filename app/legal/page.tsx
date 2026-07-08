@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { SectionHeading } from "@/components/SectionHeading";
+import {
+  DocumentClause,
+  DocumentIntro,
+  DocumentPageShell,
+  DocumentSection,
+} from "@/components/DocumentLayout";
 import { companyContact } from "@/data/companyContact";
 
 export const metadata: Metadata = {
@@ -302,98 +307,76 @@ const legalSections: LegalSection[] = [
 
 export default function LegalPage() {
   return (
-    <section className="px-4 py-12 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-5xl">
-        <SectionHeading
-          eyebrow="Legal"
-          as="h1"
-          title="Legal Information and Inquiry Boundaries"
-          description="These Terms define public website boundaries for HACIEN's pages, inquiry channels, RFQ paths, support routing, and formal business communication."
-        />
-
-        <div className="surface mt-10 rounded-lg p-6 text-sm leading-7 text-slate-700 sm:p-8">
-          <div className="grid gap-4 rounded-lg border border-slate-200 bg-slate-50 p-5 lg:grid-cols-[1fr_0.9fr]">
-            <div>
-              <div className="grid gap-3 sm:grid-cols-3">
-                {[
-                  ["Document Version", "1.0"],
-                  ["Effective Date", "June 30, 2026"],
-                  ["Last Updated", "June 30, 2026"],
-                ].map(([label, value]) => (
-                  <div key={label} className="rounded border border-slate-200 bg-white p-3">
-                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">
-                      {label}
-                    </div>
-                    <div className="mt-1 font-semibold text-slate-950">{value}</div>
-                  </div>
-                ))}
-              </div>
-              <p className="mt-4">
-                By accessing this website, submitting inquiries, requesting quotations, or engaging in
-                business communications with HACIEN, the User, Customer, or Counterparty agrees to be
-                bound by these Terms. If you do not agree to these Terms, you must immediately cease
-                all use of HACIEN&apos;s website and public systems.
-              </p>
-            </div>
-            <div>
-              <div className="font-bold text-slate-950">Registered office for formal notices</div>
-              <p className="mt-2 text-xs leading-5 text-slate-500">
-                Published office location and approved business communication path.
-              </p>
-              <address className="mt-2 not-italic">
-                {companyContact.addressLines.map((line) => (
-                  <span key={line} className="block">
-                    {line}
-                  </span>
-                ))}
-              </address>
-              <div className="mt-4 font-bold text-slate-950">Public business contact</div>
-              <p className="mt-1 text-sm">{companyContact.contactInstruction}</p>
-              <Link href="/contact" className="mt-3 inline-flex font-semibold text-[#1457d9]">
-                Use Contact Form
-              </Link>
-            </div>
-          </div>
-
-          <div className="mt-8 grid gap-8">
-            {legalSections.map((section) => (
-              <section key={section.title} className="rounded-lg border border-slate-200 bg-white p-5">
-                <h2 className="text-xl font-bold tracking-tight text-slate-950">{section.title}</h2>
-                <div className="mt-5 grid gap-3">
-                  {section.items.map((item) => (
-                    <div key={item.heading} className="rounded-lg border border-slate-100 bg-slate-50/70 p-4">
-                      <h3 className="font-bold text-slate-950">{item.heading}</h3>
-                      {item.paragraphs?.map((paragraph) => (
-                        <p key={paragraph} className="mt-2">
-                          {paragraph}
-                        </p>
-                      ))}
-                      {item.bullets ? (
-                        <ul className="mt-3 list-disc space-y-2 pl-5">
-                          {item.bullets.map((bullet) => (
-                            <li key={bullet}>{bullet}</li>
-                          ))}
-                        </ul>
-                      ) : null}
-                    </div>
-                  ))}
-                </div>
-              </section>
-            ))}
-          </div>
-
-          <div className="mt-8 flex flex-col gap-3 rounded border border-slate-200 bg-slate-50 p-4 text-xs leading-6 text-slate-600 sm:flex-row sm:items-center sm:justify-between">
+    <DocumentPageShell
+      eyebrow="Legal"
+      title="Legal Information and Inquiry Boundaries"
+      description="The legal baseline for HACIEN's public pages, RFQ paths, support routing, and formal written business communication."
+      meta={[
+        { label: "Version", value: "1.0" },
+        { label: "Effective", value: "June 30, 2026" },
+        { label: "Updated", value: "June 30, 2026" },
+      ]}
+    >
+      <DocumentIntro>
+        <div className="grid gap-4 lg:grid-cols-[1fr_0.9fr]">
+          <div>
             <p>
-              Related policies: review HACIEN&apos;s Terms of Use and Privacy Policy for website, RFQ,
-              and data handling details.
+              By accessing this website, submitting inquiries, requesting quotations, or engaging in
+              business communications with HACIEN, the User, Customer, or Counterparty agrees to be
+              bound by these Terms. If you do not agree to these Terms, you must immediately cease
+              all use of HACIEN&apos;s website and public systems.
             </p>
-            <div className="flex gap-3 font-bold text-[#1457d9]">
-              <Link href="/terms">Terms</Link>
-              <Link href="/privacy">Privacy</Link>
-            </div>
+          </div>
+          <div>
+            <div className="font-bold text-slate-950">Registered office for formal notices</div>
+            <p className="mt-2 text-xs leading-5 text-slate-500">
+              Published office location and approved business communication path.
+            </p>
+            <address className="mt-2 not-italic">
+              {companyContact.addressLines.map((line) => (
+                <span key={line} className="block">
+                  {line}
+                </span>
+              ))}
+            </address>
+            <div className="mt-4 font-bold text-slate-950">Public business contact</div>
+            <p className="mt-1 text-sm">{companyContact.contactInstruction}</p>
+            <Link href="/contact" className="mt-3 inline-flex font-semibold text-[#1457d9]">
+              Use Contact Form
+            </Link>
           </div>
         </div>
+      </DocumentIntro>
+
+      {legalSections.map((section, sectionIndex) => (
+        <DocumentSection key={section.title} title={section.title} index={sectionIndex}>
+          {section.items.map((item) => (
+            <DocumentClause key={item.heading} title={item.heading}>
+              {item.paragraphs?.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+              {item.bullets ? (
+                <ul className="mt-3 list-disc space-y-2 pl-5">
+                  {item.bullets.map((bullet) => (
+                    <li key={bullet}>{bullet}</li>
+                  ))}
+                </ul>
+              ) : null}
+            </DocumentClause>
+          ))}
+        </DocumentSection>
+      ))}
+
+      <div className="flex flex-col gap-3 rounded border border-slate-200 bg-white/88 p-4 text-xs leading-6 text-slate-600 sm:flex-row sm:items-center sm:justify-between">
+        <p>
+          Related policies: review HACIEN&apos;s Terms of Use and Privacy Policy for website, RFQ,
+          and data handling details.
+        </p>
+        <div className="flex gap-3 font-bold text-[#1457d9]">
+          <Link href="/terms">Terms</Link>
+          <Link href="/privacy">Privacy</Link>
+        </div>
       </div>
-    </section>
+    </DocumentPageShell>
   );
 }

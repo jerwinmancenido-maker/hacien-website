@@ -74,8 +74,8 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
               className="mt-10"
               image={solution.slug === "servers-storage" ? "storage" : "dataCenter"}
               eyebrow="Infrastructure Review"
-              title="Infrastructure decisions need real operating context."
-              caption="HACIEN uses this page to frame requirement review, supplier-input context, and quotation preparation. Final configuration, availability, delivery, and terms remain subject to formal RFQ review."
+              title="Infrastructure decisions need real operating details."
+              caption="HACIEN uses this page to frame requirement review, supplier inputs, and quotation preparation. Final configuration, availability, delivery, and terms remain subject to formal RFQ review."
             />
           ) : null}
         </div>
@@ -83,7 +83,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
 
       <section className="bg-slate-50 px-4 py-14 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <SectionHeading eyebrow="Workflow" title={`${solution.shortTitle} workflow`} />
+          <SectionHeading eyebrow="Process" title={`${solution.shortTitle} review sequence`} />
           <div className="progress-line mt-8 grid gap-4 md:grid-cols-4 md:[&::before]:hidden">
             {solution.workflow.map((step, index) => (
               <div key={step} className="relative rounded border border-slate-200 bg-white p-5">
