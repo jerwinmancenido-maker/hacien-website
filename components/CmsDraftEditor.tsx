@@ -18,6 +18,62 @@ type SaveState =
   | { status: "success"; message: string }
   | { status: "error"; message: string };
 
+const fieldLabels: Record<string, string> = {
+  alt: "Alt text",
+  body: "Body",
+  description: "Description",
+  key: "Media key",
+  route: "Route",
+  sourceNote: "Source note",
+  sourceUrl: "Source URL",
+  summary: "Summary",
+  title: "Title",
+};
+
+const fieldHints: Record<string, string> = {
+  alt: "Describe the image plainly for accessibility.",
+  body: "Use review-ready draft copy. This does not update the live page.",
+  description: "Keep this concise and useful for the page or search result.",
+  key: "Use a stable, lowercase identifier for the media record.",
+  route: "Use the public route this metadata belongs to, such as /about.",
+  sourceNote: "Record where the image came from and why it is safe to use.",
+  sourceUrl: "Paste the image source or internal asset path.",
+  summary: "Give reviewers the short version before the full body.",
+  title: "Write the visible title or SEO title for this draft.",
+};
+
+function fieldLabel(fieldName: string) {
+  return fieldLabels[fieldName] ?? fieldName.replace(/([a-z])([A-Z])/g, "$1 $2").replace(/[-_.]/g, " ");
+}
+
+function fieldRows(fieldName: string) {
+  if (fieldName === "body") {
+    return 9;
+  }
+  if (fieldName === "description" || fieldName === "summary" || fieldName === "sourceNote" || fieldName === "alt") {
+    return 4;
+  }
+
+  return 2;
+}
+
+function getDraftTitle(draft: CmsDraftRecord) {
+  const title = draft.fields.title ?? draft.fields.description ?? draft.fields.summary ?? draft.fields.key ?? draft.contentKey;
+  return String(title);
+}
+
+function formatDraftDate(value: string) {
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) {
+    return value;
+  }
+
+  return new Intl.DateTimeFormat("en", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(date);
+}
+
 export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOption[]; initialDrafts: CmsDraftRecord[] }) {
   const [selectedKey, setSelectedKey] = useState<EditableCmsDraftKey>(options[0]?.key ?? "faq");
   const selectedOption = useMemo(() => options.find((option) => option.key === selectedKey) ?? options[0], [options, selectedKey]);
@@ -99,11 +155,12 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
         <div className="mt-5 grid gap-4">
           {selectedOption.requiredFields.map((fieldName) => (
             <label key={fieldName} className="grid gap-2">
-              <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">{fieldName}</span>
+              <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">{fieldLabel(fieldName)}</span>
+              <span className="text-xs leading-5 text-slate-500">{fieldHints[fieldName] ?? "Draft this field for local review."}</span>
               <textarea
                 value={String(fields[fieldName] ?? "")}
                 onChange={(event) => updateField(fieldName, event.target.value)}
-                rows={fieldName === "description" || fieldName === "alt" ? 4 : 2}
+                rows={fieldRows(fieldName)}
                 className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
               />
             </label>
@@ -115,7 +172,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
           <div className="mt-3 grid gap-2">
             {selectedOption.requiredFields.map((fieldName) => (
               <div key={fieldName}>
-                <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">{fieldName}</div>
+                <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">{fieldLabel(fieldName)}</div>
                 <div className="mt-1 text-sm leading-6 text-slate-700">{String(fields[fieldName] ?? "") || "Empty"}</div>
               </div>
             ))}
@@ -155,13 +212,14 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
               drafts.map((draft) => (
                 <div key={draft.id} className="rounded-lg border border-slate-200 bg-slate-50 p-4">
                   <div className="flex flex-wrap items-center gap-2">
-                    <div className="font-bold text-slate-950">{draft.contentKey}</div>
+                    <div className="font-bold text-slate-950">{getDraftTitle(draft)}</div>
                     <div className="rounded-full border border-slate-200 bg-white px-2 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-600">
                       {draft.status}
                     </div>
                   </div>
-                  <div className="mt-2 font-mono text-xs text-slate-500">{draft.id}</div>
-                  <div className="mt-1 text-xs text-slate-500">{draft.updatedAt}</div>
+                  <div className="mt-2 text-xs font-bold uppercase tracking-[0.12em] text-slate-500">{draft.contentKey}</div>
+                  <div className="mt-1 font-mono text-xs text-slate-500">{draft.id}</div>
+                  <div className="mt-1 text-xs text-slate-500">{formatDraftDate(draft.updatedAt)}</div>
                 </div>
               ))
             )}
