@@ -10,7 +10,7 @@ export default function ErrorPage({
   reset: () => void;
 }) {
   return (
-    <section className="motion-slide-up flex min-h-[65vh] items-center justify-center px-4 py-16 sm:px-6 lg:px-8">
+    <section className="motion-slide-up flex min-h-[65vh] items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="surface mx-auto max-w-lg rounded-2xl p-8 sm:p-12 text-center">
         <div className="mx-auto flex flex-col items-center gap-4">
           <BrandMark size={56} className="opacity-85 shadow-lg shadow-slate-950/8" />

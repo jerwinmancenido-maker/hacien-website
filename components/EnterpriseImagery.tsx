@@ -1,5 +1,7 @@
 import Link from "next/link";
 
+// Image source register: every URL below is a reviewed Unsplash source photo used
+// as environmental website imagery, not as product, delivery, stock, or warranty proof.
 const sourcePhotos = {
   // Kevin Ache, Unsplash: https://unsplash.com/photos/2JJ3wBHu4_0
   serverRack:
@@ -50,7 +52,7 @@ export function EnterprisePhotoPanel({
 }) {
   return (
     <div
-      className={`relative min-h-[260px] overflow-hidden rounded-lg bg-slate-950 shadow-2xl shadow-slate-950/18 sm:min-h-[320px] ${className}`}
+      className={`relative min-h-[220px] overflow-hidden rounded-lg bg-slate-950 shadow-2xl shadow-slate-950/18 sm:min-h-[270px] ${className}`}
       style={{
         backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.08), rgba(7, 20, 38, 0.74)), url(${enterpriseImages[image]})`,
         backgroundPosition: "center",
@@ -59,9 +61,9 @@ export function EnterprisePhotoPanel({
     >
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,20,38,0.72),transparent_54%)]" />
       <div className="cinematic-lines pointer-events-none absolute inset-0 opacity-25" />
-      <div className="relative flex min-h-[260px] flex-col justify-end p-5 text-white sm:min-h-[320px] sm:p-6">
+      <div className="relative flex min-h-[220px] flex-col justify-end p-4 text-white sm:min-h-[270px] sm:p-5">
         <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">{eyebrow}</div>
-        <h3 className="mt-3 max-w-xl text-2xl font-bold tracking-tight">{title}</h3>
+        <h3 className="mt-3 max-w-xl text-xl font-bold tracking-tight sm:text-2xl">{title}</h3>
         <p className="mt-3 max-w-lg text-sm leading-6 text-slate-200">{caption}</p>
       </div>
     </div>
@@ -74,7 +76,7 @@ export function PremiumStatementBand() {
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div className="max-w-2xl">
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Enterprise Technology</div>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+          <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             Start with the operating need, then choose the right technology.
           </h2>
           <p className="mt-4 text-base leading-7 text-slate-600">

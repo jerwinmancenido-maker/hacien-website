@@ -59,7 +59,7 @@ export default async function SearchPage({
         ]}
       />
 
-      <section className="px-4 py-18 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <form className="glass-control rounded-2xl p-4 sm:p-5" action="/search" role="search">
             <label htmlFor="hq-search" className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">

@@ -15,12 +15,12 @@ export default function LoginPage() {
   const isErpExternal = workspaceUrl.startsWith("http");
 
   return (
-    <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+    <section className="relative overflow-hidden px-4 py-12 sm:px-6 lg:px-8 lg:py-12">
       <GradientBackground />
       <div className="mx-auto grid max-w-4xl gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Customer Access</p>
-          <h1 className="mt-5 max-w-2xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl">Customer access is being prepared</h1>
+          <h1 className="mt-5 max-w-2xl text-3xl font-bold tracking-tight text-slate-950 sm:text-5xl">Customer access is being prepared</h1>
           <p id="login-status" className="mt-4 text-sm leading-6 text-slate-600">
             Customer account login will use HACIEN ERP-backed access after account verification. Existing workspace users should use the workspace login.
           </p>

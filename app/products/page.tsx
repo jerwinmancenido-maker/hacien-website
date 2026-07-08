@@ -62,13 +62,13 @@ export default async function ProductsPage() {
         ]}
       />
 
-      <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
+      <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           {erpProducts.length > 0 ? (
             <div className="mb-12">
               <AnimatedContent>
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">ERP-published catalog</div>
-                <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+                <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
                   Products currently published from HACIEN ERP.
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">
@@ -84,11 +84,11 @@ export default async function ProductsPage() {
         </div>
       </section>
 
-      <section className="px-4 py-18 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Technology Areas</div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Common categories HACIEN can discuss with customers.
             </h2>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">
@@ -134,7 +134,7 @@ export default async function ProductsPage() {
         </div>
       </section>
 
-      <section className="px-4 py-16 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
           <BorderGlow className="relative overflow-hidden rounded-lg bg-white p-8 shadow-sm sm:p-10">
             <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
@@ -142,7 +142,7 @@ export default async function ProductsPage() {
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
                   How to start
                 </div>
-                <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+                <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
                   You can request help even if the exact product is not listed.
                 </h2>
                 <div className="mt-6 grid gap-4 md:grid-cols-3">

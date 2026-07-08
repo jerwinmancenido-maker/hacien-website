@@ -9,7 +9,7 @@ export default function ProductsError({
   reset: () => void;
 }) {
   return (
-    <section className="flex min-h-[60vh] items-center justify-center px-4 py-20 sm:px-6 lg:px-8">
+    <section className="flex min-h-[60vh] items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="surface mx-auto max-w-lg rounded-lg p-8 text-center">
         <div className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-red-50 text-2xl font-bold text-red-600">
           !

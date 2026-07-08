@@ -40,7 +40,7 @@ export default async function InsightDetailPage({
 
   return (
     <>
-      <article className="px-4 py-16 sm:px-6 lg:px-8">
+      <article className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
           <Breadcrumb
             items={[
@@ -53,7 +53,7 @@ export default async function InsightDetailPage({
             {insight.category}
           </div>
 
-          <h1 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+          <h1 className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             {insight.title}
           </h1>
 

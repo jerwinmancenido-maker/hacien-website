@@ -51,7 +51,7 @@ export default function PlatformPage() {
         ]}
       />
 
-      <AnimatedSection className="bg-white px-4 py-20 sm:px-6 lg:px-8">
+      <AnimatedSection className="bg-white px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="Operating Layers"
@@ -80,11 +80,11 @@ export default function PlatformPage() {
         </div>
       </AnimatedSection>
 
-      <section className="bg-slate-50 px-4 py-20 sm:px-6 lg:px-8">
+      <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.86fr_1.14fr]">
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Platform Discipline</div>
-            <h2 className="mt-4 text-4xl font-bold tracking-tight text-slate-950">
+            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">
               Built through operational reality, not claims.
             </h2>
             <p className="mt-5 text-sm leading-7 text-slate-600">

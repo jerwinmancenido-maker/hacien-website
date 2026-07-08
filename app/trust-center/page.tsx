@@ -29,14 +29,14 @@ const documentRules = [
 export default function TrustCenterPage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8 lg:py-24">
+      <section className="relative overflow-hidden bg-[#071426] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-12">
         <div className="absolute inset-0 hq-grid opacity-80" />
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
           <div>
             <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
               Trust & Compliance
             </AnimatedContent>
-            <h1 className="mt-5 max-w-5xl text-5xl font-bold tracking-tight sm:text-6xl">
+            <h1 className="mt-5 max-w-5xl text-3xl font-bold tracking-tight sm:text-5xl">
               Trust begins with clear boundaries.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
@@ -71,11 +71,11 @@ export default function TrustCenterPage() {
         </div>
       </section>
 
-      <section className="px-4 py-18 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Public Boundaries</div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Customer questions grouped by evidence status.
             </h2>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">
@@ -96,11 +96,11 @@ export default function TrustCenterPage() {
         </div>
       </section>
 
-      <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
+      <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr]">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Document Rules</div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Paper protects truth.
             </h2>
             <p className="mt-4 text-sm leading-7 text-slate-600">

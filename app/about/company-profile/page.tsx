@@ -29,14 +29,14 @@ const verification = [
 export default function CompanyProfilePage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8 lg:py-24">
+      <section className="relative overflow-hidden bg-[#071426] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-12">
         <div className="absolute inset-0 hq-grid opacity-80" />
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
             <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
               Company Profile
             </AnimatedContent>
-            <h1 className="mt-5 max-w-5xl text-5xl font-bold tracking-tight sm:text-6xl">
+            <h1 className="mt-5 max-w-5xl text-3xl font-bold tracking-tight sm:text-5xl">
               HACIEN publishes only the company facts it can support.
             </h1>
             <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
@@ -57,11 +57,11 @@ export default function CompanyProfilePage() {
         </div>
       </section>
 
-      <section className="px-4 py-18 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Public Profile</div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Useful information with clear public boundaries.
             </h2>
           </AnimatedContent>
@@ -78,7 +78,7 @@ export default function CompanyProfilePage() {
         </div>
       </section>
 
-      <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
+      <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-2">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Contact Details</div>
@@ -108,7 +108,7 @@ export default function CompanyProfilePage() {
         </div>
       </section>
 
-      <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
+      <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Next public action</div>

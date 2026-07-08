@@ -64,7 +64,7 @@ export function ProductDetail({ product }: { product: Product }) {
         <SlideUp delay={120} className="min-w-0">
         <div className="min-w-0">
           <div className="text-sm font-semibold text-[#1457d9]">{categoryLabel}</div>
-          <h1 className="mt-3 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">{product.name}</h1>
+          <h1 className="mt-3 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{product.name}</h1>
           <p className="mt-4 text-base leading-7 text-slate-600">{product.longDescription}</p>
 
           <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-5">
