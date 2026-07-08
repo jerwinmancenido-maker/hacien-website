@@ -41,8 +41,13 @@ export const expectedCmsInventoryKeys = [
   "homepage",
   "about",
   "about.company-profile",
+  "access",
+  "contact",
+  "customer-workspace",
   "solutions.index",
   "solutions.detail",
+  "technology",
+  "platform",
   "products.display-metadata",
   "industries",
   "insights.index",
@@ -50,6 +55,10 @@ export const expectedCmsInventoryKeys = [
   "faq",
   "help",
   "quote.support-copy",
+  "search",
+  "support",
+  "tracking.lookup",
+  "tracking.reference",
   "legal",
   "privacy",
   "terms",
@@ -67,6 +76,103 @@ export const expectedCmsInventoryKeys = [
 ] as const;
 
 export type ExpectedCmsInventoryKey = (typeof expectedCmsInventoryKeys)[number];
+
+export type CmsRouteOwnershipRule = {
+  route: string;
+  inventoryKey: ExpectedCmsInventoryKey;
+  discoverableInSitemap: boolean;
+};
+
+export const staticSitemapRoutes = [
+  "",
+  "/about",
+  "/about/company-profile",
+  "/solutions",
+  "/technology",
+  "/platform",
+  "/products",
+  "/industries",
+  "/quote",
+  "/access",
+  "/customer-workspace",
+  "/contact",
+  "/support",
+  "/track",
+  "/faq",
+  "/help",
+  "/search",
+  "/trust-center",
+  "/insights",
+  "/privacy",
+  "/terms",
+  "/legal",
+] as const;
+
+export const dynamicSitemapRoutePatterns = [
+  "/solutions/[slug]",
+  "/products/[category]",
+  "/products/[category]/[product]",
+  "/insights/[slug]",
+] as const;
+
+export const publicRouteOwnershipRules: CmsRouteOwnershipRule[] = [
+  { route: "/", inventoryKey: "homepage", discoverableInSitemap: true },
+  { route: "/about", inventoryKey: "about", discoverableInSitemap: true },
+  { route: "/about/company-profile", inventoryKey: "about.company-profile", discoverableInSitemap: true },
+  { route: "/access", inventoryKey: "access", discoverableInSitemap: true },
+  { route: "/contact", inventoryKey: "contact", discoverableInSitemap: true },
+  { route: "/customer-workspace", inventoryKey: "customer-workspace", discoverableInSitemap: true },
+  { route: "/faq", inventoryKey: "faq", discoverableInSitemap: true },
+  { route: "/help", inventoryKey: "help", discoverableInSitemap: true },
+  { route: "/industries", inventoryKey: "industries", discoverableInSitemap: true },
+  { route: "/insights", inventoryKey: "insights.index", discoverableInSitemap: true },
+  { route: "/insights/[slug]", inventoryKey: "insights.article", discoverableInSitemap: true },
+  { route: "/legal", inventoryKey: "legal", discoverableInSitemap: true },
+  { route: "/platform", inventoryKey: "platform", discoverableInSitemap: true },
+  { route: "/privacy", inventoryKey: "privacy", discoverableInSitemap: true },
+  { route: "/products", inventoryKey: "products.display-metadata", discoverableInSitemap: true },
+  { route: "/products/[category]", inventoryKey: "products.display-metadata", discoverableInSitemap: true },
+  { route: "/products/[category]/[product]", inventoryKey: "products.display-metadata", discoverableInSitemap: true },
+  { route: "/quote", inventoryKey: "quote.support-copy", discoverableInSitemap: true },
+  { route: "/search", inventoryKey: "search", discoverableInSitemap: true },
+  { route: "/solutions", inventoryKey: "solutions.index", discoverableInSitemap: true },
+  { route: "/solutions/[slug]", inventoryKey: "solutions.detail", discoverableInSitemap: true },
+  { route: "/support", inventoryKey: "support", discoverableInSitemap: true },
+  { route: "/technology", inventoryKey: "technology", discoverableInSitemap: true },
+  { route: "/terms", inventoryKey: "terms", discoverableInSitemap: true },
+  { route: "/track", inventoryKey: "tracking.lookup", discoverableInSitemap: true },
+  { route: "/track/[referenceNumber]", inventoryKey: "tracking.reference", discoverableInSitemap: false },
+  { route: "/trust-center", inventoryKey: "trust-center", discoverableInSitemap: true },
+];
+
+export const blockedPublicRoutePatterns = [
+  "/government-procurement",
+  "/government-procurement/[topic]",
+  "/product/[slug]",
+] as const;
+
+function normalizeRoute(route: string) {
+  if (route === "") {
+    return "/";
+  }
+
+  return route;
+}
+
+function routeMatchesPattern(route: string, pattern: string) {
+  const routeParts = normalizeRoute(route).split("/").filter(Boolean);
+  const patternParts = normalizeRoute(pattern).split("/").filter(Boolean);
+
+  if (routeParts.length !== patternParts.length) {
+    return false;
+  }
+
+  return patternParts.every((part, index) => part.startsWith("[") || part === routeParts[index]);
+}
+
+function findRouteOwnershipRule(route: string) {
+  return publicRouteOwnershipRules.find((rule) => routeMatchesPattern(route, rule.route));
+}
 
 function riskLevelFromPublishRisk(publishRisk: CmsPublishRisk): CmsRiskLevel {
   if (publishRisk === "blocked") {
@@ -191,6 +297,36 @@ const cmsInventorySeeds: CmsInventorySeed[] = [
     validationRequirements: ["claim-safety scan", "contact data review", "public credential wording scan"],
   },
   {
+    key: "access",
+    label: "Access page",
+    route: "/access",
+    ownerType: "cms",
+    currentSource: "app/access/page.tsx",
+    editableNow: false,
+    publishRisk: "medium",
+    validationRequirements: ["claim-safety scan", "route screenshot QA", "auth-boundary wording scan"],
+  },
+  {
+    key: "contact",
+    label: "Contact page",
+    route: "/contact",
+    ownerType: "cms",
+    currentSource: "app/contact/page.tsx, components/ContactForm.tsx, data/companyContact.ts",
+    editableNow: false,
+    publishRisk: "medium",
+    validationRequirements: ["claim-safety scan", "contact data review", "route screenshot QA"],
+  },
+  {
+    key: "customer-workspace",
+    label: "Customer workspace preview",
+    route: "/customer-workspace",
+    ownerType: "cms",
+    currentSource: "app/customer-workspace/page.tsx",
+    editableNow: false,
+    publishRisk: "high",
+    validationRequirements: ["claim-safety scan", "prototype wording scan", "auth-boundary wording scan"],
+  },
+  {
     key: "solutions.index",
     label: "Solutions index",
     route: "/solutions",
@@ -209,6 +345,26 @@ const cmsInventorySeeds: CmsInventorySeed[] = [
     editableNow: false,
     publishRisk: "medium",
     validationRequirements: ["claim-safety scan", "slug validation", "metadata validation"],
+  },
+  {
+    key: "technology",
+    label: "Technology page",
+    route: "/technology",
+    ownerType: "cms",
+    currentSource: "app/technology/page.tsx",
+    editableNow: false,
+    publishRisk: "medium",
+    validationRequirements: ["claim-safety scan", "route screenshot QA", "technology capability wording scan"],
+  },
+  {
+    key: "platform",
+    label: "Platform page",
+    route: "/platform",
+    ownerType: "cms",
+    currentSource: "app/platform/page.tsx",
+    editableNow: false,
+    publishRisk: "medium",
+    validationRequirements: ["claim-safety scan", "route screenshot QA", "platform readiness wording scan"],
   },
   {
     key: "products.display-metadata",
@@ -280,6 +436,46 @@ const cmsInventorySeeds: CmsInventorySeed[] = [
     editableNow: false,
     publishRisk: "high",
     validationRequirements: ["claim-safety scan", "payment/tax wording scan", "Gateway route smoke"],
+  },
+  {
+    key: "search",
+    label: "Search page",
+    route: "/search",
+    ownerType: "cms",
+    currentSource: "app/search/page.tsx",
+    editableNow: false,
+    publishRisk: "low",
+    validationRequirements: ["route crawl", "empty-state copy scan", "claim-safety scan"],
+  },
+  {
+    key: "support",
+    label: "Support page",
+    route: "/support",
+    ownerType: "cms",
+    currentSource: "app/support/page.tsx",
+    editableNow: false,
+    publishRisk: "medium",
+    validationRequirements: ["claim-safety scan", "support path review", "route screenshot QA"],
+  },
+  {
+    key: "tracking.lookup",
+    label: "Track request lookup",
+    route: "/track",
+    ownerType: "cms",
+    currentSource: "app/track/page.tsx, components/TrackReferenceLookup.tsx",
+    editableNow: false,
+    publishRisk: "medium",
+    validationRequirements: ["route crawl", "reference input UX check", "customer-safe copy scan"],
+  },
+  {
+    key: "tracking.reference",
+    label: "Track request reference result",
+    route: "/track/[referenceNumber]",
+    ownerType: "config",
+    currentSource: "app/track/[referenceNumber]/page.tsx, components/TrackReferenceLookup.tsx",
+    editableNow: false,
+    publishRisk: "high",
+    validationRequirements: ["Gateway route smoke", "customer-safe response check", "graceful failure check"],
   },
   {
     key: "legal",
@@ -422,7 +618,26 @@ export function getCmsInventory() {
 
 export function validateCmsInventory(items: CmsInventoryItem[] = cmsInventory) {
   const keys = new Set(items.map((item) => item.key));
+  const staticSitemapRouteSet = new Set(staticSitemapRoutes.map(normalizeRoute));
   const missingExpectedKeys = expectedCmsInventoryKeys.filter((key) => !keys.has(key));
+  const missingPublicRouteOwnership = publicRouteOwnershipRules.filter((rule) => !keys.has(rule.inventoryKey));
+  const missingStaticSitemapOwnership = staticSitemapRoutes
+    .map(normalizeRoute)
+    .filter((route) => {
+      const rule = findRouteOwnershipRule(route);
+      return !rule || !rule.discoverableInSitemap || !keys.has(rule.inventoryKey);
+    });
+  const missingDynamicSitemapOwnership = dynamicSitemapRoutePatterns.filter((route) => {
+    const rule = findRouteOwnershipRule(route);
+    return !rule || !rule.discoverableInSitemap || !keys.has(rule.inventoryKey);
+  });
+  const sitemapRuleDrift = publicRouteOwnershipRules
+    .filter((rule) => rule.discoverableInSitemap && !rule.route.includes("["))
+    .map((rule) => normalizeRoute(rule.route))
+    .filter((route) => !staticSitemapRouteSet.has(route));
+  const blockedRoutesInSitemap = [...staticSitemapRoutes, ...dynamicSitemapRoutePatterns]
+    .map(normalizeRoute)
+    .filter((route) => blockedPublicRoutePatterns.some((pattern) => routeMatchesPattern(route, pattern)));
   const duplicateKeys = items
     .map((item) => item.key)
     .filter((key, index, allKeys) => allKeys.indexOf(key) !== index);
@@ -456,11 +671,21 @@ export function validateCmsInventory(items: CmsInventoryItem[] = cmsInventory) {
   return {
     ok:
       missingExpectedKeys.length === 0 &&
+      missingPublicRouteOwnership.length === 0 &&
+      missingStaticSitemapOwnership.length === 0 &&
+      missingDynamicSitemapOwnership.length === 0 &&
+      sitemapRuleDrift.length === 0 &&
+      blockedRoutesInSitemap.length === 0 &&
       duplicateKeys.length === 0 &&
       invalidItems.length === 0 &&
       incompleteMetadataItems.length === 0 &&
       blockedOwnershipErrors.length === 0,
     missingExpectedKeys,
+    missingPublicRouteOwnership,
+    missingStaticSitemapOwnership,
+    missingDynamicSitemapOwnership,
+    sitemapRuleDrift,
+    blockedRoutesInSitemap,
     duplicateKeys,
     invalidItems,
     incompleteMetadataItems,

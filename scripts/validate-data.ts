@@ -282,6 +282,39 @@ function main() {
       errors++;
     }
 
+    if (cmsInventoryResult.missingPublicRouteOwnership.length > 0) {
+      console.error(
+        `  ERROR: CMS inventory missing public route ownership: ${cmsInventoryResult.missingPublicRouteOwnership
+          .map((rule) => rule.route)
+          .join(", ")}`,
+      );
+      errors++;
+    }
+
+    if (cmsInventoryResult.missingStaticSitemapOwnership.length > 0) {
+      console.error(
+        `  ERROR: CMS inventory missing static sitemap ownership: ${cmsInventoryResult.missingStaticSitemapOwnership.join(", ")}`,
+      );
+      errors++;
+    }
+
+    if (cmsInventoryResult.missingDynamicSitemapOwnership.length > 0) {
+      console.error(
+        `  ERROR: CMS inventory missing dynamic sitemap ownership: ${cmsInventoryResult.missingDynamicSitemapOwnership.join(", ")}`,
+      );
+      errors++;
+    }
+
+    if (cmsInventoryResult.sitemapRuleDrift.length > 0) {
+      console.error(`  ERROR: CMS route ownership rules missing from sitemap: ${cmsInventoryResult.sitemapRuleDrift.join(", ")}`);
+      errors++;
+    }
+
+    if (cmsInventoryResult.blockedRoutesInSitemap.length > 0) {
+      console.error(`  ERROR: Blocked routes are present in sitemap ownership: ${cmsInventoryResult.blockedRoutesInSitemap.join(", ")}`);
+      errors++;
+    }
+
     if (cmsInventoryResult.duplicateKeys.length > 0) {
       console.error(`  ERROR: CMS inventory duplicate keys: ${cmsInventoryResult.duplicateKeys.join(", ")}`);
       errors++;
