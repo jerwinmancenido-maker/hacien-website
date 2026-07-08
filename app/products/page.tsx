@@ -62,7 +62,7 @@ export default async function ProductsPage() {
         ]}
       />
 
-      <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
+      <section className="bg-slate-50 px-4 py-9 sm:px-6 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-7xl">
           {erpProducts.length > 0 ? (
             <div className="mb-12">
@@ -95,13 +95,13 @@ export default async function ProductsPage() {
               These categories are examples of supported technology areas. They are not a complete catalog and do not limit what customers may request.
             </p>
           </AnimatedContent>
-          <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-6 grid gap-3 md:mt-10 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
             {categories.slice(0, 6).map((category, index) => (
               <AnimatedContent key={category.slug} delay={index * 45}>
-                <Link href={`/products/${category.slug}`} className="group block h-full">
+                <Link href={`/products/${category.slug}`} className={`group block h-full ${index > 2 ? "hidden md:block" : ""}`}>
                   <SpotlightCard className="h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
                     <div
-                      className="relative min-h-[190px]"
+                      className="relative min-h-[118px] sm:min-h-[190px]"
                       style={{
                         backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.03), rgba(7, 20, 38, 0.78)), url(${enterpriseImages[categoryImages[category.slug] || "dataCenter"]})`,
                         backgroundPosition: "center",
@@ -112,17 +112,17 @@ export default async function ProductsPage() {
                         Supported Area
                       </div>
                     </div>
-                    <div className="p-6">
-                      <h3 className="text-xl font-bold text-slate-950 group-hover:text-[#1457d9]">{category.name}</h3>
-                      <p className="mt-3 text-sm leading-6 text-slate-600">{category.summary}</p>
-                      <div className="mt-5 text-sm font-bold text-[#1457d9]">See example details</div>
+                    <div className="p-4 sm:p-6">
+                      <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#1457d9] sm:text-xl">{category.name}</h3>
+                      <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600 sm:mt-3 sm:line-clamp-none">{category.summary}</p>
+                      <div className="mt-3 text-sm font-bold text-[#1457d9] sm:mt-5">See example details</div>
                     </div>
                   </SpotlightCard>
                 </Link>
               </AnimatedContent>
             ))}
           </div>
-          <div className="mt-8 rounded-lg border border-slate-200 bg-slate-50 p-5">
+          <div className="mt-5 rounded-lg border border-slate-200 bg-slate-50 p-4 sm:mt-8 sm:p-5">
             <h3 className="text-lg font-bold text-slate-950">Need a different category?</h3>
             <p className="mt-2 text-sm leading-6 text-slate-600">
               Use the RFQ form and describe the outcome. HACIEN can review mixed requirements without making this page a full catalog.
@@ -134,20 +134,20 @@ export default async function ProductsPage() {
         </div>
       </section>
 
-      <section className="px-4 py-12 sm:px-6 lg:px-8">
+      <section className="px-4 py-9 sm:px-6 sm:py-12 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
-          <BorderGlow className="relative overflow-hidden rounded-lg bg-white p-8 shadow-sm sm:p-10">
+          <BorderGlow className="relative overflow-hidden rounded-lg bg-white p-5 shadow-sm sm:p-10">
             <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
                   How to start
                 </div>
-                <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+                <h2 className="mt-3 max-w-3xl text-xl font-bold tracking-tight text-slate-950 sm:mt-4 sm:text-3xl">
                   You can request help even if the exact product is not listed.
                 </h2>
-                <div className="mt-6 grid gap-4 md:grid-cols-3">
-                  {supportNotes.map(([title, text]) => (
-                    <div key={title} className="rounded border border-slate-200 bg-slate-50 p-4">
+                <div className="mt-4 grid gap-3 md:mt-6 md:grid-cols-3 md:gap-4">
+                  {supportNotes.map(([title, text], index) => (
+                    <div key={title} className={`rounded border border-slate-200 bg-slate-50 p-3 sm:p-4 ${index > 0 ? "hidden md:block" : ""}`}>
                       <div className="font-bold text-slate-950">{title}</div>
                       <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
                     </div>
