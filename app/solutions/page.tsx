@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import {
   AnimatedContent,
@@ -10,12 +9,9 @@ import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { solutions } from "@/data/solutions";
 import { getSolutionsContent } from "@/lib/cms/content";
+import { getCmsMetadata } from "@/lib/cms/seo";
 
-export const metadata: Metadata = {
-  title: "IT Solutions and Systems Integration Philippines | HACIEN",
-  description:
-    "HACIEN provides IT infrastructure, systems integration, networking, cybersecurity, servers, storage, cloud, software licensing, managed IT, and project delivery support in the Philippines.",
-};
+export const metadata = getCmsMetadata("solutions");
 
 const solutionImages: Record<string, keyof typeof enterpriseImages> = {
   "it-infrastructure": "dataCenter",

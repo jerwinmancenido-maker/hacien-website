@@ -1,4 +1,5 @@
 import faqData from "../../config/faq-data.json";
+import type { CmsMediaKey } from "@/lib/cms/media";
 
 export type CmsStatus = "published" | "draft" | "archived";
 
@@ -9,21 +10,7 @@ export type CmsMediaReference = {
   sourceNote?: string;
 };
 
-export type CmsHeroImage =
-  | "dataCenter"
-  | "silicon"
-  | "office"
-  | "workstation"
-  | "network"
-  | "commandCenter"
-  | "cybersecurity"
-  | "cloud"
-  | "cabling"
-  | "storage"
-  | "documentation"
-  | "knowledge"
-  | "strategy"
-  | "workspace";
+export type CmsHeroImage = CmsMediaKey;
 
 export type CmsHeroContent = {
   eyebrow: string;

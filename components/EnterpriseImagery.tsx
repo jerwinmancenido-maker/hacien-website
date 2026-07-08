@@ -1,41 +1,7 @@
 import Link from "next/link";
+import { getCmsMediaSourceMap } from "@/lib/cms/media";
 
-// Image source register: every URL below is a reviewed Unsplash source photo used
-// as environmental website imagery, not as product, delivery, stock, or warranty proof.
-const sourcePhotos = {
-  // Kevin Ache, Unsplash: https://unsplash.com/photos/2JJ3wBHu4_0
-  serverRack:
-    "https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&w=1800",
-  // Alesia Kazantceva, Unsplash: https://unsplash.com/photos/VWcPlbHglYc
-  officeDesk:
-    "https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&w=1800",
-  // Huy Phan, Unsplash: https://unsplash.com/photos/GLhDVcndCLg
-  workstation:
-    "https://images.unsplash.com/photo-1722159475028-d38e511f7853?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&w=1800",
-  // Deliberate Directions, Unsplash: https://unsplash.com/photos/K9DZz7B8sCU
-  modernOffice:
-    "https://images.unsplash.com/photo-1746021535490-cd4d7fe7ab2a?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&w=1800",
-  // Jakub Zerdzicki, Unsplash: https://unsplash.com/photos/xzmuvPQt6KM
-  documents:
-    "https://images.unsplash.com/photo-1706508156658-f246b0c8753c?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&w=1800",
-};
-
-export const enterpriseImages = {
-  dataCenter: sourcePhotos.serverRack,
-  silicon: sourcePhotos.officeDesk,
-  office: sourcePhotos.modernOffice,
-  workstation: sourcePhotos.workstation,
-  network: sourcePhotos.modernOffice,
-  commandCenter: sourcePhotos.modernOffice,
-  cybersecurity: sourcePhotos.officeDesk,
-  cloud: sourcePhotos.officeDesk,
-  cabling: sourcePhotos.documents,
-  storage: sourcePhotos.serverRack,
-  documentation: sourcePhotos.documents,
-  knowledge: sourcePhotos.officeDesk,
-  strategy: sourcePhotos.modernOffice,
-  workspace: sourcePhotos.officeDesk,
-};
+export const enterpriseImages = getCmsMediaSourceMap();
 
 export function EnterprisePhotoPanel({
   image,

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import {
   AnimatedContent,
@@ -10,12 +9,9 @@ import {
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { CompanyCredentials } from "@/components/TrustConfidence";
 import { getAboutContent } from "@/lib/cms/content";
+import { getCmsMetadata } from "@/lib/cms/seo";
 
-export const metadata: Metadata = {
-  title: "About HACIEN | IT Procurement & Technology Solutions",
-  description:
-    "HACIEN Information Technology Solutions helps Philippine organizations prepare technology requirements, review supplier inputs, and move RFQs into formal business communication.",
-};
+export const metadata = getCmsMetadata("about");
 
 export default function AboutPage() {
   const content = getAboutContent();

@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { Hero } from "@/components/Hero";
 import {
   CTABand,
@@ -7,12 +6,9 @@ import {
   TechnologyEcosystem,
   TrustV3,
 } from "@/components/HomeV3Sections";
+import { getCmsMetadata } from "@/lib/cms/seo";
 
-export const metadata: Metadata = {
-  title: "Technology Procurement Clarified Before Quoting",
-  description:
-    "HACIEN helps organizations turn IT requirements, BOQs, supplier quotes, and rough ideas into usable RFQ conversations.",
-};
+export const metadata = getCmsMetadata("homepage");
 
 export default function Home() {
   return (
