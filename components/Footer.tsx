@@ -50,6 +50,7 @@ export function Footer() {
             <div className="mt-4 grid gap-3 text-sm text-slate-300">
               <Link href="/solutions">Solutions</Link>
               <Link href="/technology">Technology</Link>
+              <Link href="/industries">Industries</Link>
               <Link href="/platform">Platform</Link>
               <Link href="/insights">Insights</Link>
             </div>
@@ -59,8 +60,11 @@ export function Footer() {
             <div className="text-sm font-semibold text-slate-100">Start</div>
             <div className="mt-4 grid gap-3 text-sm text-slate-300">
               <Link href="/quote">Request Quote</Link>
+              <Link href="/track">Track Request</Link>
               <Link href="/products">Technology RFQ Builder</Link>
               <Link href="/support">Support</Link>
+              <Link href="/help">Help Center</Link>
+              <Link href="/faq">B2B FAQ</Link>
             </div>
           </div>
 

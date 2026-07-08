@@ -172,7 +172,7 @@ export default function InsightsPage() {
               </AnimatedContent>
             ))}
             <AnimatedContent delay={260}>
-              <Link href="/erp-platform" className="group block">
+              <Link href="/platform" className="group block">
                 <BorderGlow className="overflow-hidden rounded-lg bg-white shadow-sm">
                   <div className="grid md:grid-cols-[168px_1fr]">
                     <div
