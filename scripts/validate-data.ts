@@ -1,6 +1,7 @@
 import { categories, products } from "../data/products";
 import { solutions } from "../data/solutions";
 import { insights } from "../data/insights";
+import { getPublishedCmsContent, validateCmsContent } from "../lib/cms/content";
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const unsafeProductNamePatterns = [
@@ -236,6 +237,34 @@ function main() {
     }
     if (!insight.checklist || insight.checklist.length === 0) {
       console.error(`  ERROR: Insight ${insight.slug} missing checklist`);
+      errors++;
+    }
+  }
+
+  // Validate CMS read-layer content
+  const cmsContent = getPublishedCmsContent();
+  console.log(`CMS content: ${cmsContent.length}`);
+
+  for (const entry of cmsContent) {
+    if (!entry.slug) {
+      console.error("  ERROR: CMS content missing slug");
+      errors++;
+    }
+    if (entry.status !== "published") {
+      console.error(`  ERROR: CMS content ${entry.slug} must be published for public read layer`);
+      errors++;
+    }
+    if (!entry.hero?.title || !entry.hero.description) {
+      console.error(`  ERROR: CMS content ${entry.slug} missing hero title or description`);
+      errors++;
+    }
+
+    const result = validateCmsContent(entry);
+    if (!result.ok) {
+      console.error(`  ERROR: CMS content ${entry.slug} includes blocked public claims`);
+      for (const blockedClaim of result.blockedClaims) {
+        console.error(`    - ${blockedClaim.text}`);
+      }
       errors++;
     }
   }
