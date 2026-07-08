@@ -42,7 +42,7 @@ const fieldHints: Record<string, string> = {
   key: "Use a stable, lowercase identifier for the media record.",
   reviewNotes: "Add founder, legal, or policy review notes before any publish step.",
   route: "Use the public route this metadata belongs to, such as /about.",
-  sections: "Add clear policy sections so this can be edited without HTML.",
+  sections: "Add clear editable sections so this can be reviewed without HTML.",
   sourceNote: "Record where the image came from and why it is safe to use.",
   sourceUrl: "Paste the image source or internal asset path.",
   summary: "Give reviewers the short version before the full body.",
@@ -205,6 +205,11 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
   const isSectionDraft = isDocumentDraft || isPageDraft;
   const documentSections = getDocumentSections(fields);
   const draftLinks = getDraftLinks(fields);
+  const sectionHelpText = isDocumentDraft
+    ? "Add policy sections as plain text. No HTML is required, and drafts still require review before publishing."
+    : "Add website sections as plain text. No HTML is required, and drafts still require review before publishing.";
+  const previewSummaryLabel = isDocumentDraft ? "Summary" : "Description";
+  const previewSummaryValue = isDocumentDraft ? getStringField(fields, "summary") : getStringField(fields, "description");
 
   return (
     <div className="grid gap-5 lg:grid-cols-[320px_minmax(0,1fr)]">
@@ -264,9 +269,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <div className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Editable sections</div>
-                  <p className="mt-1 text-xs leading-5 text-slate-500">
-                    Add policy sections as plain text. No HTML is required, and drafts still require review before publishing.
-                  </p>
+                  <p className="mt-1 text-xs leading-5 text-slate-500">{sectionHelpText}</p>
                 </div>
                 <button
                   type="button"
@@ -407,8 +410,8 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                 <div className="mt-1 text-sm font-bold leading-6 text-slate-800">{getStringField(fields, "title") || "Empty"}</div>
               </div>
               <div>
-                <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Summary</div>
-                <div className="mt-1 text-sm leading-6 text-slate-700">{getStringField(fields, "summary") || "Empty"}</div>
+                <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">{previewSummaryLabel}</div>
+                <div className="mt-1 text-sm leading-6 text-slate-700">{previewSummaryValue || "Empty"}</div>
               </div>
               {documentSections.map((section, index) => (
                 <div key={index} className="border-t border-slate-200 pt-3">
