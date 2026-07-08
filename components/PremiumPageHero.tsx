@@ -32,7 +32,7 @@ export function PremiumPageHero({
   return (
     <section className="relative overflow-hidden bg-[#071426] text-white">
       <div
-        className="cinematic-photo absolute inset-0 opacity-82"
+        className="cinematic-photo absolute inset-0 opacity-[0.82]"
         style={{
           backgroundImage: `linear-gradient(105deg, rgba(5, 16, 28, 0.98), rgba(8, 45, 62, 0.74) 50%, rgba(132, 91, 44, 0.2)), url(${enterpriseImages[image]})`,
           backgroundPosition: "center",

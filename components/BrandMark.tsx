@@ -1,4 +1,4 @@
-import React from "react";
+import Image from "next/image";
 
 interface BrandMarkProps {
   className?: string;
@@ -6,22 +6,15 @@ interface BrandMarkProps {
   light?: boolean;
 }
 
-export function BrandMark({ className = "", size = 32, light = false }: BrandMarkProps) {
+export function BrandMark({ className = "", size = 32 }: BrandMarkProps) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
+    <Image
+      src="/brand/hacien-mark.png"
+      alt="HACIEN logo"
       width={size}
       height={size}
       className={className}
-      aria-hidden="true"
-    >
-      <rect width="64" height="64" rx="14" fill={light ? "#ffffff" : "#071426"} />
-      <path
-        d="M17 16h8v12h14V16h8v32h-8V36H25v12h-8z"
-        fill={light ? "#071426" : "#ffffff"}
-      />
-      <path d="M47 48H17v-5h30v5z" fill="#00F2FE" />
-    </svg>
+      priority
+    />
   );
 }

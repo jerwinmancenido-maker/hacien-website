@@ -65,7 +65,7 @@ export default function InsightsPage() {
         ]}
       />
 
-      <section className="px-4 py-12 sm:px-6 lg:px-8">
+      <section className="glass-section px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Educational Authority</div>
@@ -86,7 +86,7 @@ export default function InsightsPage() {
         </div>
       </section>
 
-      <section className="bg-[#071426] px-4 py-12 text-white sm:px-6 lg:px-8">
+      <section className="glass-section-dark px-4 py-12 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Featured Guides</div>
@@ -126,7 +126,7 @@ export default function InsightsPage() {
         </div>
       </section>
 
-      <section className="px-4 py-12 sm:px-6 lg:px-8">
+      <section className="bg-transparent px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr]">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Browse the Library</div>
@@ -200,7 +200,7 @@ export default function InsightsPage() {
         </div>
       </section>
 
-      <section className="px-4 py-12 sm:px-6 lg:px-8">
+      <section className="bg-transparent px-4 py-12 sm:px-6 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
           <BorderGlow className="relative overflow-hidden rounded-lg bg-[#071426] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
             <GradientBackground className="opacity-[0.36]" />
