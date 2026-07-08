@@ -3,7 +3,7 @@ import { BrandMark } from "@/components/BrandMark";
 
 export default function NotFoundPage() {
   return (
-    <section className="motion-slide-up flex min-h-[65vh] items-center justify-center px-4 py-16 sm:px-6 lg:px-8">
+    <section className="motion-slide-up flex min-h-[65vh] items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="surface mx-auto max-w-2xl rounded-2xl p-8 sm:p-12 text-center">
         <div className="mx-auto flex flex-col items-center gap-4">
           <BrandMark size={56} className="shadow-lg shadow-slate-950/8" />
@@ -11,7 +11,7 @@ export default function NotFoundPage() {
             Error Code 404
           </span>
         </div>
-        <h1 className="mt-6 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">
+        <h1 className="mt-6 text-3xl font-extrabold tracking-tight text-slate-950 sm:text-3xl">
           This room is not available.
         </h1>
         <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-slate-600">

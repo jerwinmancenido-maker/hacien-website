@@ -40,13 +40,13 @@ export default function PortalPage() {
         ]}
       />
 
-      <section className="px-4 py-18 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
               Available Now
             </div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Customers can already begin and continue a relationship.
             </h2>
             <p className="mt-4 text-sm leading-7 text-slate-600">
@@ -82,7 +82,7 @@ export default function PortalPage() {
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
               Planned Workspace
             </div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Private access will be useful only when it protects the relationship.
             </h2>
             <p className="mt-4 text-sm leading-6 text-slate-600">
@@ -108,13 +108,13 @@ export default function PortalPage() {
         </div>
       </section>
 
-      <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
+      <section className="bg-[#071426] px-4 py-12 text-white sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
               Relationship Continuity
             </div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+            <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">
               The customer should never feel they entered another system.
             </h2>
             <p className="mt-5 text-sm leading-7 text-slate-300">
@@ -143,7 +143,7 @@ export default function PortalPage() {
         </div>
       </section>
 
-      <section className="px-4 py-16 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
           <BorderGlow className="relative overflow-hidden rounded-2xl bg-[#071426] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
@@ -151,7 +151,7 @@ export default function PortalPage() {
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
                   Start now
                 </div>
-                <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
+                <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
                   Need HACIEN to review a requirement today?
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">

@@ -32,7 +32,7 @@ export default function HelpPage() {
           { label: "Bounded claims", text: "Official documents are not issued here." },
         ]}
       />
-      <section className="px-4 py-16 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="grid gap-4">
             {helpTiles.map(([title, text, href]) => (

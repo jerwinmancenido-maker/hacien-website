@@ -25,7 +25,7 @@ export default function FaqPage() {
           { label: "Support path", text: "Track and follow up with request context." },
         ]}
       />
-      <section className="px-4 py-16 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-4xl">
           <FaqSearch sections={faqData.sections as FaqSection[]} />
         </div>

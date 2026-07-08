@@ -20,7 +20,7 @@ export function SectionHeading({
           {eyebrow}
         </div>
       ) : null}
-      <HeadingTag className="text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">{title}</HeadingTag>
+      <HeadingTag className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{title}</HeadingTag>
       {description ? <p className="mt-4 text-base leading-7 text-slate-600">{description}</p> : null}
     </div>
   );

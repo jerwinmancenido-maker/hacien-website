@@ -57,7 +57,7 @@ export default function AccessPage() {
         ]}
       />
 
-      <AnimatedSection className="bg-slate-50 px-4 py-20 sm:px-6 lg:px-8">
+      <AnimatedSection className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <StaggerContainer className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-3">
           {accessOptions.map((option) => (
             <AnimatedCard key={option.title} className="flex h-full flex-col rounded-lg border border-slate-200 bg-white p-8 shadow-sm">

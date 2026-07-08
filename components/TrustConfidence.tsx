@@ -33,11 +33,11 @@ const journey = [
 
 export function OurCommitment({ className = "" }: { className?: string }) {
   return (
-    <AnimatedSection className={`bg-white px-4 py-18 sm:px-6 lg:px-8 ${className}`}>
+    <AnimatedSection className={`bg-white px-4 py-12 sm:px-6 lg:px-8 ${className}`}>
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Our Commitment</div>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+          <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             Dependable procurement support is built from small, visible disciplines.
           </h2>
           <p className="mt-4 text-base leading-7 text-slate-600">
@@ -60,13 +60,13 @@ export function OurCommitment({ className = "" }: { className?: string }) {
 
 export function CapabilityResources({ inverse = false }: { inverse?: boolean }) {
   return (
-    <section className={`${inverse ? "bg-[#071426] text-white" : "bg-slate-50 text-slate-950"} px-4 py-18 sm:px-6 lg:px-8`}>
+    <section className={`${inverse ? "bg-[#071426] text-white" : "bg-slate-50 text-slate-950"} px-4 py-12 sm:px-6 lg:px-8`}>
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
           <div className={`text-xs font-bold uppercase tracking-[0.18em] ${inverse ? "text-blue-300" : "text-[#1457d9]"}`}>
             Capability Resources
           </div>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">
+          <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">
             Buyer resources are handled with the same discipline as quotations.
           </h2>
           <p className={`mt-4 text-base leading-7 ${inverse ? "text-slate-300" : "text-slate-600"}`}>
@@ -96,11 +96,11 @@ export function CapabilityResources({ inverse = false }: { inverse?: boolean }) 
 
 export function CustomerJourneyConfidence() {
   return (
-    <AnimatedSection className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
+    <AnimatedSection className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">What Happens Next</div>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+          <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             New customers should know what happens after they contact HACIEN.
           </h2>
           <p className="mt-4 text-base leading-7 text-slate-600">
@@ -139,11 +139,11 @@ export function FutureProofAssets() {
   ];
 
   return (
-    <section className="bg-white px-4 py-18 sm:px-6 lg:px-8">
+    <section className="bg-white px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Future Proof Assets</div>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+          <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             Proof should be added only when it is real, approved, and supportable.
           </h2>
           <p className="mt-4 text-base leading-7 text-slate-600">
@@ -165,13 +165,13 @@ export function FutureProofAssets() {
 
 export function TrustCta() {
   return (
-    <section className="px-4 py-16 sm:px-6 lg:px-8">
+    <section className="px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <BorderGlow className="rounded-lg bg-[#071426] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
           <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Procurement Confidence</div>
-              <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
+              <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
                 Have a requirement that needs careful review before quotation?
               </h2>
               <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
@@ -199,11 +199,11 @@ export function CompanyCredentials() {
   ];
 
   return (
-    <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
+    <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Company Credentials</div>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+          <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             Trust is presented as verifiable operating context, not inflated credentials.
           </h2>
           <p className="mt-4 text-base leading-7 text-slate-600">
@@ -239,12 +239,12 @@ export function ControlledAccessPreview({
   modules: Array<[string, string, string, string]>;
 }) {
   return (
-    <section className="bg-slate-50 px-4 py-18 sm:px-6 lg:px-8">
+    <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">{eyebrow}</div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               {title}
             </h2>
             <p className="mt-4 text-base leading-7 text-slate-600">

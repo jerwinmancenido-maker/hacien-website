@@ -70,7 +70,7 @@ export default function SolutionsPage() {
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">What Solutions Mean</div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Not a menu of promises. A way to describe work clearly.
             </h2>
           </AnimatedContent>
@@ -91,7 +91,7 @@ export default function SolutionsPage() {
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Active Solution Areas</div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Pick the closest area, then describe the requirement.
             </h2>
             <p className="mt-4 text-sm leading-6 text-slate-600">
@@ -140,7 +140,7 @@ export default function SolutionsPage() {
         </div>
       </section>
 
-      <section className="px-4 py-16 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
           <BorderGlow className="relative overflow-hidden rounded-lg bg-[linear-gradient(135deg,#071426_0%,#0b3142_58%,#123730_100%)] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
             <GradientBackground className="opacity-[0.36]" />
@@ -149,7 +149,7 @@ export default function SolutionsPage() {
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
                   Source with structure
                 </div>
-                <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
+                <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
                   Have a requirement that needs sourcing, validation, and quotation support?
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">

@@ -30,7 +30,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
 
   return (
     <>
-      <section className="px-4 py-16 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <Breadcrumb items={[{ label: "Solutions", href: "/solutions" }, { label: solution.title }]} />
           <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">

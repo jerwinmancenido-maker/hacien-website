@@ -68,7 +68,7 @@ export default function AboutPage() {
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Why HACIEN Exists</div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Technology buying often gets messy before the first quote is useful.
             </h2>
           </AnimatedContent>
@@ -106,7 +106,7 @@ export default function AboutPage() {
           <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
             <AnimatedContent>
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Working Standard</div>
-              <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+              <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
                 Good sourcing is calm, specific, and written down.
               </h2>
               <p className="mt-4 text-sm leading-6 text-slate-600">
@@ -128,7 +128,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="px-4 py-16 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
           <BorderGlow className="relative overflow-hidden rounded-lg bg-[linear-gradient(135deg,#071426_0%,#0b3142_58%,#123730_100%)] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
             <GradientBackground className="opacity-[0.36]" />
@@ -137,7 +137,7 @@ export default function AboutPage() {
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
                   Start with clarity
                 </div>
-                <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
+                <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
                   Need an IT supplier that understands procurement workflows?
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">

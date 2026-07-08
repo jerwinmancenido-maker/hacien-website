@@ -43,7 +43,7 @@ export function PremiumPageHero({
       <div className="cinematic-lines pointer-events-none absolute inset-0 opacity-25" />
       <div className="cinematic-sweep pointer-events-none absolute inset-y-0 left-0 w-[72%] opacity-0" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#071426] to-transparent" />
-      <div className="relative mx-auto grid min-h-[430px] max-w-7xl items-center gap-5 px-4 py-7 sm:min-h-[540px] sm:gap-8 sm:px-6 sm:py-10 lg:min-h-[590px] lg:grid-cols-[1fr_0.88fr] lg:px-8 lg:py-14">
+      <div className="relative mx-auto grid min-h-[400px] max-w-7xl items-center gap-5 px-4 py-7 sm:min-h-[500px] sm:gap-8 sm:px-6 sm:py-9 lg:min-h-[540px] lg:grid-cols-[1fr_0.88fr] lg:px-8 lg:py-12">
         <div className="flex flex-col justify-center">
           <FadeIn>
             <div className="mb-3 inline-flex w-fit rounded border border-blue-300/30 bg-white/8 px-3 py-1.5 text-xs font-semibold text-blue-100 backdrop-blur sm:mb-5">
@@ -74,7 +74,7 @@ export function PremiumPageHero({
           </SlideUp>
         </div>
 
-        <SlideUp delay={220} className="h-full">
+        <SlideUp delay={220} className="hidden h-full md:block">
           <div className="relative overflow-hidden rounded-lg border border-white/15 bg-white/[0.08] p-3 shadow-2xl shadow-black/20 backdrop-blur-xl sm:p-4">
             <div className="absolute inset-0 bg-gradient-to-br from-white/12 via-transparent to-blue-500/10" />
             <StaggerContainer className="relative grid gap-2 sm:grid-cols-2 sm:gap-3">

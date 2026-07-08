@@ -127,9 +127,9 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
 
         {/* Honeypot */}
         <div className="absolute -left-[9999px]" aria-hidden="true">
-          <label>
+          <label htmlFor="rfq-website">
             Website
-            <input type="text" name="_website" tabIndex={-1} autoComplete="off" />
+            <input id="rfq-website" type="text" name="_website" tabIndex={-1} autoComplete="off" />
           </label>
         </div>
         <input ref={startedAtInputRef} type="hidden" name="formStartedAt" />
@@ -153,7 +153,11 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
         <div className="mt-5 grid gap-4">
           {step === 1 ? (
             <>
+              <label htmlFor="rfq-requirement-type" className="sr-only">
+                Requirement type
+              </label>
               <select
+                id="rfq-requirement-type"
                 required
                 name="requirementType"
                 aria-label="Requirement type"
@@ -169,7 +173,11 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 <option>Security / surveillance project</option>
                 <option>Institutional procurement support</option>
               </select>
+              <label htmlFor="rfq-budget-range" className="sr-only">
+                Budget range
+              </label>
               <select
+                id="rfq-budget-range"
                 required
                 name="budgetRange"
                 aria-label="Budget range"
@@ -184,7 +192,11 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 <option>PHP 250,000 - PHP 1,000,000</option>
                 <option>Project budget to be discussed</option>
               </select>
+              <label htmlFor="rfq-timeline" className="sr-only">
+                Target timeline
+              </label>
               <select
+                id="rfq-timeline"
                 required
                 name="timeline"
                 aria-label="Target timeline"
@@ -199,7 +211,11 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 <option>Within this quarter</option>
                 <option>Planning stage</option>
               </select>
+              <label htmlFor="rfq-message" className="sr-only">
+                Requirement details
+              </label>
               <textarea
+                id="rfq-message"
                 required
                 name="message"
                 aria-label="Requirement details"
@@ -210,7 +226,11 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
             </>
           ) : (
             <>
+              <label htmlFor="rfq-name" className="sr-only">
+                Name
+              </label>
               <input
+                id="rfq-name"
                 required
                 name="name"
                 aria-label="Name"
@@ -218,7 +238,11 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 placeholder="Name"
                 className="focus-ring rounded border border-slate-300 px-3 py-2"
               />
+              <label htmlFor="rfq-company" className="sr-only">
+                Company or organization
+              </label>
               <input
+                id="rfq-company"
                 required
                 name="company"
                 aria-label="Company or organization"
@@ -226,7 +250,11 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 placeholder="Company / organization"
                 className="focus-ring rounded border border-slate-300 px-3 py-2"
               />
+              <label htmlFor="rfq-email" className="sr-only">
+                Email
+              </label>
               <input
+                id="rfq-email"
                 required
                 name="email"
                 type="email"
@@ -235,14 +263,22 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 placeholder="Email"
                 className="focus-ring rounded border border-slate-300 px-3 py-2"
               />
+              <label htmlFor="rfq-phone" className="sr-only">
+                Phone number
+              </label>
               <input
+                id="rfq-phone"
                 name="phone"
                 aria-label="Phone number"
                 autoComplete="tel"
                 placeholder="Phone number"
                 className="focus-ring rounded border border-slate-300 px-3 py-2"
               />
+              <label htmlFor="rfq-industry" className="sr-only">
+                Industry or organization type
+              </label>
               <input
+                id="rfq-industry"
                 name="industry"
                 aria-label="Industry or organization type"
                 autoComplete="organization-title"

@@ -35,7 +35,7 @@ const signals = [
 export default function IndustriesPage() {
   return (
     <>
-      <section className="relative overflow-hidden px-4 py-20 sm:px-6 lg:px-8 lg:py-24">
+      <section className="relative overflow-hidden px-4 py-12 sm:px-6 lg:px-8 lg:py-12">
         <GradientBackground />
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
@@ -45,7 +45,7 @@ export default function IndustriesPage() {
             <SplitText
               as="h1"
               text="Procurement support shaped around each buyer's operating context."
-              className="mt-5 max-w-5xl text-5xl font-bold tracking-tight text-slate-950 sm:text-6xl lg:text-7xl"
+              className="mt-5 max-w-5xl text-3xl font-bold tracking-tight text-slate-950 sm:text-5xl"
             />
             <BlurReveal delay={160}>
               <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
@@ -92,11 +92,11 @@ export default function IndustriesPage() {
         </div>
       </section>
 
-      <section className="px-4 py-18 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Who HACIEN Supports</div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Built for buyers who need organized sourcing, not generic catalog browsing.
             </h2>
           </AnimatedContent>
@@ -113,7 +113,7 @@ export default function IndustriesPage() {
         </div>
       </section>
 
-      <section className="px-4 py-16 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
           <BorderGlow className="relative overflow-hidden rounded-lg bg-[#071426] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
             <GradientBackground className="opacity-[0.36]" />
@@ -122,7 +122,7 @@ export default function IndustriesPage() {
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
                   Industry-specific sourcing
                 </div>
-                <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
+                <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
                   Have a requirement with site, compliance, or delivery constraints?
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">

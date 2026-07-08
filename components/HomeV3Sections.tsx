@@ -50,7 +50,7 @@ export function TechnologyEcosystem() {
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div>
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">RFQ Readiness</div>
-          <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">Turn incomplete specs into a usable request.</h2>
+          <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">Turn incomplete specs into a usable request.</h2>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-300 sm:text-base sm:leading-7">
             The first job is not to sell a model. It is to make the request clear enough for responsible review and practical follow-up.
           </p>
@@ -197,7 +197,7 @@ export function ErpPreviewV3() {
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">HACIEN Platform</div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">HACIEN keeps request context connected behind the scenes.</h2>
+            <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">HACIEN keeps request context connected behind the scenes.</h2>
             <p className="mt-5 leading-7 text-slate-300">
               Workspace, Timeline, Guardian, and Customer Workspace help keep inquiries, operations, and relationship history connected. Public availability is announced only when mature.
             </p>
@@ -265,7 +265,7 @@ export function ExistingCustomerV3() {
         <div className="grid gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Access HACIEN</div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Continue through one connected access point.
             </h2>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">

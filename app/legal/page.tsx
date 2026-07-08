@@ -302,7 +302,7 @@ const legalSections: LegalSection[] = [
 
 export default function LegalPage() {
   return (
-    <section className="px-4 py-16 sm:px-6 lg:px-8">
+    <section className="px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-5xl">
         <SectionHeading
           eyebrow="Legal"

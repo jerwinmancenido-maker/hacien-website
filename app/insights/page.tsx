@@ -65,11 +65,11 @@ export default function InsightsPage() {
         ]}
       />
 
-      <section className="px-4 py-18 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Educational Authority</div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Clearer buying starts before the RFQ is submitted.
             </h2>
           </AnimatedContent>
@@ -86,11 +86,11 @@ export default function InsightsPage() {
         </div>
       </section>
 
-      <section className="bg-[#071426] px-4 py-18 text-white sm:px-6 lg:px-8">
+      <section className="bg-[#071426] px-4 py-12 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Featured Guides</div>
-            <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
+            <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
               Start with the procurement decisions buyers ask about most.
             </h2>
           </AnimatedContent>
@@ -126,11 +126,11 @@ export default function InsightsPage() {
         </div>
       </section>
 
-      <section className="px-4 py-18 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr]">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Browse the Library</div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950 sm:text-4xl">
+            <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Articles grouped by buying intent.
             </h2>
             <p className="mt-4 max-w-md text-sm leading-6 text-slate-600">
@@ -200,7 +200,7 @@ export default function InsightsPage() {
         </div>
       </section>
 
-      <section className="px-4 py-16 sm:px-6 lg:px-8">
+      <section className="px-4 py-12 sm:px-6 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
           <BorderGlow className="relative overflow-hidden rounded-lg bg-[#071426] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
             <GradientBackground className="opacity-[0.36]" />
@@ -209,7 +209,7 @@ export default function InsightsPage() {
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
                   Ready to act
                 </div>
-                <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-4xl">
+                <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
                   Have a procurement requirement ready to source?
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
