@@ -4,15 +4,10 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { BrandMark } from "@/components/BrandMark";
+import { getNavigationContent } from "@/lib/cms/content";
 
-const navItems = [
-  { href: "/", label: "Home" },
-  { href: "/solutions", label: "Solutions" },
-  { href: "/technology", label: "Technology" },
-  { href: "/platform", label: "Platform" },
-  { href: "/insights", label: "Insights" },
-  { href: "/about", label: "Company" },
-];
+const navigationContent = getNavigationContent();
+const navItems = navigationContent.header.primaryItems;
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -90,20 +85,20 @@ export function Header() {
 
         <div className="hidden shrink-0 items-center gap-1.5 lg:flex">
           <Link
-            href="/access"
+            href={navigationContent.header.accessAction.href}
             className={`rounded-full border px-3 py-1.5 text-xs xl:px-4 xl:py-2 xl:text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 ${
-              pathname === "/access"
+              pathname === navigationContent.header.accessAction.href
                 ? "glass-control border-[#1457d9]/50 text-[#1457d9]"
                 : "glass-control text-slate-900 hover:border-[#1457d9]/50 hover:text-[#1457d9] hover:shadow-lg hover:shadow-blue-950/10"
             }`}
           >
-            Access HACIEN
+            {navigationContent.header.accessAction.label}
           </Link>
           <Link
-            href="/quote"
+            href={navigationContent.header.quoteAction.href}
             className="button-glow rounded-full bg-[#1457d9] px-3 py-1.5 text-xs xl:px-4 xl:py-2 xl:text-sm font-semibold text-white shadow-lg shadow-blue-700/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#0f46b4] hover:shadow-xl hover:shadow-blue-700/25"
           >
-            Request Quote
+            {navigationContent.header.quoteAction.label}
           </Link>
         </div>
 
@@ -140,18 +135,18 @@ export function Header() {
               Access
             </div>
             <Link
-              href="/access"
+              href={navigationContent.header.accessAction.href}
               onClick={() => setOpen(false)}
               className="rounded-lg px-3 py-3 hover:bg-slate-50 hover:text-[#071426]"
             >
-              Access HACIEN
+              {navigationContent.header.accessAction.label}
             </Link>
             <Link
-              href="/quote"
+              href={navigationContent.header.quoteAction.href}
               onClick={() => setOpen(false)}
               className="button-glow mt-1 rounded-full bg-[#1457d9] px-4 py-3 text-center font-bold text-white"
             >
-              Request Quote
+              {navigationContent.header.quoteAction.label}
             </Link>
           </nav>
         </div>

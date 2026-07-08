@@ -1,8 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { companyContact } from "@/data/companyContact";
+import { getNavigationContent } from "@/lib/cms/content";
 
 export function Footer() {
+  const navigationContent = getNavigationContent();
+
   return (
     <footer className="border-t border-slate-200 bg-[#071426] text-white">
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
@@ -16,7 +19,7 @@ export function Footer() {
               className="h-auto w-[230px] object-contain sm:w-[280px]"
             />
             <p className="mt-4 max-w-lg text-sm leading-6 text-slate-300">
-              Technology procurement clarified before anyone quotes.
+              {navigationContent.footer.statement}
             </p>
           </div>
 
@@ -35,56 +38,18 @@ export function Footer() {
         </div>
 
         <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
-          <div>
-            <div className="text-sm font-semibold text-slate-100">Company</div>
-            <div className="mt-4 grid gap-3 text-sm text-slate-300">
-              <Link href="/about">About</Link>
-              <Link href="/about/company-profile">Company Profile</Link>
-              <Link href="/trust-center">Trust & Compliance</Link>
-              <Link href="/contact">Contact</Link>
+          {navigationContent.footer.groups.map((group) => (
+            <div key={group.title}>
+              <div className="text-sm font-semibold text-slate-100">{group.title}</div>
+              <div className="mt-4 grid gap-3 text-sm text-slate-300">
+                {group.links.map((link) => (
+                  <Link key={`${group.title}-${link.href}`} href={link.href}>
+                    {link.label}
+                  </Link>
+                ))}
+              </div>
             </div>
-          </div>
-
-          <div>
-            <div className="text-sm font-semibold text-slate-100">Explore</div>
-            <div className="mt-4 grid gap-3 text-sm text-slate-300">
-              <Link href="/solutions">Solutions</Link>
-              <Link href="/technology">Technology</Link>
-              <Link href="/industries">Industries</Link>
-              <Link href="/platform">Platform</Link>
-              <Link href="/insights">Insights</Link>
-            </div>
-          </div>
-
-          <div>
-            <div className="text-sm font-semibold text-slate-100">Start</div>
-            <div className="mt-4 grid gap-3 text-sm text-slate-300">
-              <Link href="/quote">Request Quote</Link>
-              <Link href="/track">Track Request</Link>
-              <Link href="/products">Technology RFQ Builder</Link>
-              <Link href="/support">Support</Link>
-              <Link href="/help">Help Center</Link>
-              <Link href="/faq">B2B FAQ</Link>
-            </div>
-          </div>
-
-          <div>
-            <div className="text-sm font-semibold text-slate-100">Access</div>
-            <div className="mt-4 grid gap-3 text-sm text-slate-300">
-              <Link href="/access">Access HACIEN</Link>
-              <Link href="/customer-workspace">Customer Workspace</Link>
-              <Link href="/search">Search</Link>
-            </div>
-          </div>
-
-          <div>
-            <div className="text-sm font-semibold text-slate-100">Legal</div>
-            <div className="mt-4 grid gap-3 text-sm text-slate-300">
-              <Link href="/privacy">Privacy Policy</Link>
-              <Link href="/terms">Terms</Link>
-              <Link href="/legal">Legal</Link>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
       <div className="border-t border-white/10 px-4 py-4 text-center text-xs text-slate-400">

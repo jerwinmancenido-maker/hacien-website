@@ -2,9 +2,14 @@ import { describe, expect, it } from "vitest";
 
 import {
   findBlockedCmsClaims,
+  getAboutContent,
   getFaqContent,
   getHelpContent,
+  getHomepageContent,
+  getIndustriesContent,
+  getNavigationContent,
   getPublishedCmsContent,
+  getSolutionsContent,
   validateCmsContent,
 } from "@/lib/cms/content";
 import {
@@ -21,14 +26,37 @@ describe("CMS read layer", () => {
   it("loads published repo-backed FAQ and Help content", () => {
     const content = getPublishedCmsContent();
 
-    expect(content.map((entry) => entry.slug)).toEqual(["faq", "help"]);
+    expect(content.map((entry) => entry.slug)).toEqual(
+      expect.arrayContaining(["homepage", "about", "solutions", "industries", "faq", "help"]),
+    );
     expect(content.every((entry) => entry.status === "published")).toBe(true);
     expect(getFaqContent().faqSections.length).toBeGreaterThan(0);
     expect(getHelpContent().tiles.length).toBeGreaterThan(0);
   });
 
+  it("loads the first migrated public page content areas from CMS", () => {
+    expect(getHomepageContent().rfqReadiness.cards.length).toBeGreaterThanOrEqual(4);
+    expect(getAboutContent().workingStandard.cards.length).toBeGreaterThanOrEqual(5);
+    expect(getSolutionsContent().meaning.cards.length).toBeGreaterThanOrEqual(3);
+    expect(getIndustriesContent().supportedIndustries.cards.length).toBeGreaterThanOrEqual(6);
+  });
+
+  it("loads header and footer navigation from CMS", () => {
+    const navigation = getNavigationContent();
+
+    expect(navigation.header.primaryItems.map((item) => item.href)).toEqual(
+      expect.arrayContaining(["/", "/solutions", "/technology", "/platform", "/insights", "/about"]),
+    );
+    expect(navigation.footer.groups.flatMap((group) => group.links.map((link) => link.href))).toEqual(
+      expect.arrayContaining(["/help", "/faq", "/track", "/privacy", "/terms", "/legal"]),
+    );
+  });
+
   it("keeps current published content claim-safe", () => {
-    const results = getPublishedCmsContent().map((entry) => validateCmsContent(entry));
+    const results = [
+      validateCmsContent(getNavigationContent()),
+      ...getPublishedCmsContent().map((entry) => validateCmsContent(entry)),
+    ];
 
     expect(results.every((result) => result.ok)).toBe(true);
   });

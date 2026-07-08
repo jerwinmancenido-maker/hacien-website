@@ -9,27 +9,13 @@ import {
 import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { solutions } from "@/data/solutions";
+import { getSolutionsContent } from "@/lib/cms/content";
 
 export const metadata: Metadata = {
   title: "IT Solutions and Systems Integration Philippines | HACIEN",
   description:
     "HACIEN provides IT infrastructure, systems integration, networking, cybersecurity, servers, storage, cloud, software licensing, managed IT, and project delivery support in the Philippines.",
 };
-
-const capabilityGroups = [
-  {
-    title: "Infrastructure requests need facts.",
-    text: "Devices, servers, storage, network equipment, and power needs are easier to review when usage, site, and scale are clear.",
-  },
-  {
-    title: "Integration is more than equipment.",
-    text: "Cabling, network, security, cloud, and software work better when scope and closeout assumptions are visible early.",
-  },
-  {
-    title: "Follow-up should not restart the story.",
-    text: "Renewals, replacements, warranty questions, and support needs should stay connected to the original request.",
-  },
-];
 
 const solutionImages: Record<string, keyof typeof enterpriseImages> = {
   "it-infrastructure": "dataCenter",
@@ -49,33 +35,30 @@ const solutionImages: Record<string, keyof typeof enterpriseImages> = {
 const prioritySolutions = solutions.slice(0, 6);
 
 export default function SolutionsPage() {
+  const content = getSolutionsContent();
+
   return (
     <>
       <PremiumPageHero
-        eyebrow="Solutions"
-        title="IT solution areas for clearer requests."
-        description="Use these pages to describe the work HACIEN should review: infrastructure, integration, workplace technology, software, security, and support needs."
-        image="commandCenter"
-        primaryAction={{ href: "/quote", label: "Start an RFQ" }}
-        secondaryAction={{ href: "/technology", label: "Explore Technology" }}
-        highlights={[
-          { label: "Infrastructure", text: "Endpoints, servers, networks, power, and site details." },
-          { label: "Integration", text: "Materials, setup needs, and closeout assumptions." },
-          { label: "Sourcing", text: "Requirements, equivalents, and supplier inputs when available." },
-          { label: "Continuity", text: "Follow-up, renewal, replacement, and support needs." },
-        ]}
+        eyebrow={content.hero.eyebrow}
+        title={content.hero.title}
+        description={content.hero.description}
+        image={content.hero.image}
+        primaryAction={content.hero.primaryAction}
+        secondaryAction={content.hero.secondaryAction}
+        highlights={content.hero.highlights}
       />
 
       <section className="glass-section px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">What Solutions Mean</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">{content.meaning.eyebrow}</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-              Not a menu of promises. A way to describe work clearly.
+              {content.meaning.title}
             </h2>
           </AnimatedContent>
           <div className="grid gap-5">
-            {capabilityGroups.map((item, index) => (
+            {content.meaning.cards.map((item, index) => (
               <AnimatedContent key={item.title} delay={index * 80}>
                 <SpotlightCard className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
                   <h3 className="text-lg font-bold text-slate-950">{item.title}</h3>
@@ -90,12 +73,12 @@ export default function SolutionsPage() {
       <section className="bg-transparent px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Active Solution Areas</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">{content.activeAreas.eyebrow}</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-              Pick the closest area, then describe the requirement.
+              {content.activeAreas.title}
             </h2>
             <p className="mt-4 text-sm leading-6 text-slate-600">
-              Start with the closest area. If the request is unusual, describe it in the RFQ instead of searching through every possible category.
+              {content.activeAreas.description}
             </p>
           </AnimatedContent>
           <div className="grid gap-3 md:grid-cols-2">
@@ -127,12 +110,12 @@ export default function SolutionsPage() {
             ))}
             <AnimatedContent delay={320} className="md:col-span-2">
               <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
-                <h3 className="text-base font-bold text-slate-950">Do not see the exact area?</h3>
+                <h3 className="text-base font-bold text-slate-950">{content.activeAreas.fallback.title}</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-600">
-                  Use the RFQ form. HACIEN reviews the requirement before treating any solution path as final.
+                  {content.activeAreas.fallback.text}
                 </p>
-                <Link href="/quote" className="mt-3 inline-flex text-sm font-bold text-[#1457d9]">
-                  Describe the requirement
+                <Link href={content.activeAreas.fallback.action.href} className="mt-3 inline-flex text-sm font-bold text-[#1457d9]">
+                  {content.activeAreas.fallback.action.label}
                 </Link>
               </div>
             </AnimatedContent>
@@ -147,20 +130,20 @@ export default function SolutionsPage() {
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
-                  Request with structure
+                  {content.cta.eyebrow}
                 </div>
                 <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
-                  Have a requirement that needs checking, options, and quotation support?
+                  {content.cta.title}
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
-                  Send HACIEN your requirement list and notes. We will help shape the next RFQ step.
+                  {content.cta.description}
                 </p>
               </div>
               <Link
-                href="/quote"
+                href={content.cta.action.href}
                 className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#071426]"
               >
-                Submit RFQ
+                {content.cta.action.label}
               </Link>
             </div>
           </BorderGlow>
