@@ -1,11 +1,11 @@
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
-import type { CmsDraftLink, CmsDraftRecord } from "@/lib/cms/drafts";
+import type { CmsDraftLink, CmsDraftNavigationGroup, CmsDraftRecord } from "@/lib/cms/drafts";
 import { validateCmsDraft } from "@/lib/cms/drafts";
 import { getCmsMediaRecords } from "@/lib/cms/media";
 import { getCmsSeoRecords } from "@/lib/cms/seo";
 
-export type CmsDraftApplyTarget = "seo.metadata" | "media.photos" | "navigation.header";
+export type CmsDraftApplyTarget = "seo.metadata" | "media.photos" | "navigation.header" | "navigation.footer";
 
 export type CmsDraftApplyPlan = {
   applySupported: boolean;
@@ -19,7 +19,7 @@ export type CmsDraftApplyPlan = {
   summary: string;
 };
 
-const supportedApplyTargets = new Set<string>(["seo.metadata", "media.photos", "navigation.header"]);
+const supportedApplyTargets = new Set<string>(["seo.metadata", "media.photos", "navigation.header", "navigation.footer"]);
 
 function getStringField(draft: CmsDraftRecord, fieldName: string) {
   const value = draft.fields[fieldName];
@@ -44,6 +44,37 @@ function getDraftLinks(draft: CmsDraftRecord): CmsDraftLink[] {
       };
     })
     .filter((link): link is CmsDraftLink => Boolean(link));
+}
+
+function getDraftNavigationGroups(draft: CmsDraftRecord): CmsDraftNavigationGroup[] {
+  const value = draft.fields.groups;
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return value
+    .map((group) => {
+      if (!group || typeof group !== "object" || !("title" in group) || !("links" in group) || !Array.isArray(group.links)) {
+        return null;
+      }
+
+      return {
+        title: String(group.title ?? "").trim(),
+        links: group.links
+          .map((link) => {
+            if (!link || typeof link !== "object" || !("label" in link) || !("href" in link)) {
+              return null;
+            }
+
+            return {
+              label: String(link.label ?? "").trim(),
+              href: String(link.href ?? "").trim(),
+            };
+          })
+          .filter((link): link is CmsDraftLink => Boolean(link)),
+      };
+    })
+    .filter((group): group is CmsDraftNavigationGroup => Boolean(group));
 }
 
 function quoted(value: string) {
@@ -106,6 +137,28 @@ function validateNavigationLinks(links: CmsDraftLink[]) {
   return errors;
 }
 
+function validateNavigationGroups(groups: CmsDraftNavigationGroup[]) {
+  const errors: string[] = [];
+
+  if (groups.length === 0) {
+    errors.push("Footer navigation apply requires at least one grouped footer column.");
+  }
+
+  groups.forEach((group, groupIndex) => {
+    if (!group.title) {
+      errors.push(`Footer navigation group ${groupIndex + 1} title is required.`);
+    }
+    if (group.links.length === 0) {
+      errors.push(`Footer navigation group ${groupIndex + 1} must include at least one link.`);
+    }
+    errors.push(
+      ...validateNavigationLinks(group.links).map((error) => `Footer navigation group ${groupIndex + 1}: ${error}`),
+    );
+  });
+
+  return errors;
+}
+
 function renderLink(link: CmsDraftLink) {
   return `{ href: ${quoted(link.href)}, label: ${quoted(link.label)} }`;
 }
@@ -118,16 +171,21 @@ function renderHeaderNavigationBlock(links: CmsDraftLink[]) {
   return `\n  header: {\n    primaryItems: [\n${primaryItems.map((link) => `      ${renderLink(link)},`).join("\n")}\n    ],\n    accessAction: ${renderLink(accessAction)},\n    quoteAction: ${renderLink(quoteAction)},\n  },`;
 }
 
+function renderFooterNavigationBlock(statement: string, groups: CmsDraftNavigationGroup[]) {
+  return `\n  footer: {\n    statement: ${quoted(statement)},\n    groups: [\n${groups
+    .map(
+      (group) =>
+        `      {\n        title: ${quoted(group.title)},\n        links: [\n${group.links.map((link) => `          ${renderLink(link)},`).join("\n")}\n        ],\n      },`,
+    )
+    .join("\n")}\n    ],\n  },`;
+}
+
 export function validateCmsDraftApplyPlan(draft: CmsDraftRecord, mode: "dry-run" | "apply" = "dry-run"): CmsDraftApplyPlan {
   const draftValidation = validateCmsDraft(draft);
   const errors = [...draftValidation.errors];
 
   if (draft.status !== "ready") {
     errors.push("Only drafts marked ready can be applied to repo-backed CMS content.");
-  }
-
-  if (draft.contentKey === "navigation.footer") {
-    errors.push("Footer navigation apply requires grouped draft support before it can safely preserve footer columns.");
   }
 
   if (!supportedApplyTargets.has(draft.contentKey)) {
@@ -207,6 +265,31 @@ export function validateCmsDraftApplyPlan(draft: CmsDraftRecord, mode: "dry-run"
     };
   }
 
+  if (draft.contentKey === "navigation.footer") {
+    const statement = getStringField(draft, "statement");
+    const groups = getDraftNavigationGroups(draft);
+
+    if (!statement) {
+      errors.push("Footer navigation statement is required.");
+    }
+    errors.push(...validateNavigationGroups(groups));
+
+    return {
+      applySupported: errors.length === 0,
+      contentKey: draft.contentKey,
+      draftId: draft.id,
+      errors,
+      filePath: "lib/cms/content.ts",
+      mode,
+      nextRecord: {
+        statement,
+        groups,
+      },
+      recordKey: "footer",
+      summary: "Update grouped footer navigation.",
+    };
+  }
+
   return {
     applySupported: false,
     contentKey: draft.contentKey,
@@ -242,6 +325,13 @@ export function applyCmsDraftToSource(source: string, plan: CmsDraftApplyPlan) {
       throw new Error("Header navigation apply plan is missing links.");
     }
     nextBlock = renderHeaderNavigationBlock(links as CmsDraftLink[]);
+  } else if (plan.contentKey === "navigation.footer") {
+    const statement = String(plan.nextRecord.statement ?? "");
+    const groups = plan.nextRecord.groups;
+    if (!Array.isArray(groups)) {
+      throw new Error("Footer navigation apply plan is missing groups.");
+    }
+    nextBlock = renderFooterNavigationBlock(statement, groups as CmsDraftNavigationGroup[]);
   }
 
   return `${source.slice(0, block.start)}${nextBlock}${source.slice(block.end)}`;

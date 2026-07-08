@@ -304,18 +304,29 @@ describe("CMS read layer", () => {
   });
 
   it("validates local CMS navigation drafts", () => {
-    for (const contentKey of ["navigation.header", "navigation.footer"] as const) {
-      const draft = createCmsDraft({
-        id: `draft-${contentKey}-nav`,
-        contentKey,
-        fields: {
-          title: `${contentKey} draft`,
-          links: [{ label: "Home", href: "/" }],
-          reviewNotes: "Route crawl required before publishing.",
-        },
-        updatedAt: "2026-07-09T00:00:00.000Z",
-      });
+    const headerDraft = createCmsDraft({
+      id: "draft-navigation.header-nav",
+      contentKey: "navigation.header",
+      fields: {
+        title: "navigation.header draft",
+        links: [{ label: "Home", href: "/" }],
+        reviewNotes: "Route crawl required before publishing.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const footerDraft = createCmsDraft({
+      id: "draft-navigation.footer-nav",
+      contentKey: "navigation.footer",
+      fields: {
+        title: "navigation.footer draft",
+        statement: "Footer statement.",
+        groups: [{ title: "Company", links: [{ label: "About", href: "/about" }] }],
+        reviewNotes: "Route crawl required before publishing.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
 
+    for (const draft of [headerDraft, footerDraft]) {
       expect(validateCmsDraft(draft)).toMatchObject({
         ok: true,
         errors: [],
@@ -592,14 +603,73 @@ describe("CMS read layer", () => {
     expect(plan.errors).toContain("Draft contentKey homepage is not supported by the apply script yet.");
   });
 
-  it("stops footer navigation drafts until grouped draft support exists", () => {
+  it("creates a dry-run apply plan for ready grouped footer navigation drafts", () => {
     const draft = createCmsDraft({
       id: "ready-footer-navigation",
       contentKey: "navigation.footer",
       status: "ready",
       fields: {
         title: "Footer navigation",
-        links: [{ label: "Company: About", href: "/about" }],
+        statement: "Technology procurement clarified before anyone quotes.",
+        groups: [
+          { title: "Company", links: [{ label: "About", href: "/about" }] },
+          { title: "Start", links: [{ label: "Request Quote", href: "/quote" }] },
+        ],
+        reviewNotes: "Route crawl before apply.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+
+    expect(plan).toMatchObject({
+      applySupported: true,
+      contentKey: "navigation.footer",
+      filePath: "lib/cms/content.ts",
+      mode: "dry-run",
+      recordKey: "footer",
+      errors: [],
+    });
+  });
+
+  it("rejects malformed grouped footer navigation drafts", () => {
+    const draft = {
+      id: "ready-malformed-footer-navigation",
+      contentKey: "navigation.footer",
+      ownerType: "cms",
+      riskLevel: 3,
+      status: "ready",
+      updatedAt: "2026-07-09T00:00:00.000Z",
+      fields: {
+        title: "Footer navigation",
+        statement: "Technology procurement clarified before anyone quotes.",
+        groups: [{ title: "", links: [{ label: "", href: "" }] }],
+        reviewNotes: "Route crawl before apply.",
+      },
+    };
+    const plan = validateCmsDraftApplyPlan(draft as never);
+
+    expect(plan.applySupported).toBe(false);
+    expect(plan.errors).toEqual(
+      expect.arrayContaining([
+        "Draft group 1 title is required for navigation.footer.",
+        "Draft group 1 link 1 label is required for navigation.footer.",
+        "Draft group 1 link 1 href is required for navigation.footer.",
+        "Footer navigation group 1 title is required.",
+        "Footer navigation group 1: Navigation link 1 label is required.",
+        "Footer navigation group 1: Navigation link 1 href is required.",
+      ]),
+    );
+  });
+
+  it("rejects non-ready footer navigation drafts before repo application", () => {
+    const draft = createCmsDraft({
+      id: "review-footer-navigation",
+      contentKey: "navigation.footer",
+      status: "needs-review",
+      fields: {
+        title: "Footer navigation",
+        statement: "Technology procurement clarified before anyone quotes.",
+        groups: [{ title: "Company", links: [{ label: "About", href: "/about" }] }],
         reviewNotes: "Route crawl before apply.",
       },
       updatedAt: "2026-07-09T00:00:00.000Z",
@@ -607,7 +677,7 @@ describe("CMS read layer", () => {
     const plan = validateCmsDraftApplyPlan(draft);
 
     expect(plan.applySupported).toBe(false);
-    expect(plan.errors).toContain("Footer navigation apply requires grouped draft support before it can safely preserve footer columns.");
+    expect(plan.errors).toContain("Only drafts marked ready can be applied to repo-backed CMS content.");
   });
 
   it("rejects header navigation drafts that point to blocked routes", () => {
@@ -637,6 +707,27 @@ describe("CMS read layer", () => {
 
     expect(plan.applySupported).toBe(false);
     expect(plan.errors).toEqual(expect.arrayContaining(["Draft contains blocked public claims.", "Navigation link 7 uses a blocked public route."]));
+  });
+
+  it("rejects footer navigation drafts that point to blocked routes", () => {
+    const draft = {
+      id: "ready-blocked-footer-navigation",
+      contentKey: "navigation.footer",
+      ownerType: "cms",
+      riskLevel: 3,
+      status: "ready",
+      updatedAt: "2026-07-09T00:00:00.000Z",
+      fields: {
+        title: "Footer navigation",
+        statement: "Technology procurement clarified before anyone quotes.",
+        groups: [{ title: "Company", links: [{ label: "Government", href: "/government-procurement" }] }],
+        reviewNotes: "Route crawl before apply.",
+      },
+    };
+    const plan = validateCmsDraftApplyPlan(draft as never);
+
+    expect(plan.applySupported).toBe(false);
+    expect(plan.errors).toEqual(expect.arrayContaining(["Draft contains blocked public claims.", "Footer navigation group 1: Navigation link 1 uses a blocked public route."]));
   });
 
   it("rejects blocked claims before repo application", () => {
@@ -707,5 +798,30 @@ describe("CMS read layer", () => {
     expect(nextSource).toContain('{ href: "/solutions", label: "Solutions" },');
     expect(nextSource).toContain('accessAction: { href: "/access", label: "Access HACIEN" },');
     expect(nextSource).toContain('quoteAction: { href: "/quote", label: "Request Quote" },');
+  });
+
+  it("updates grouped footer navigation source snippets without writing during dry-run", () => {
+    const draft = createCmsDraft({
+      id: "ready-footer-navigation-source",
+      contentKey: "navigation.footer",
+      status: "ready",
+      fields: {
+        title: "Footer navigation",
+        statement: "Updated footer statement.",
+        groups: [
+          { title: "Company", links: [{ label: "About", href: "/about" }] },
+          { title: "Start", links: [{ label: "Request Quote", href: "/quote" }] },
+        ],
+        reviewNotes: "Route crawl before apply.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+    const source = `const navigationContent = {\n  footer: {\n    statement: \"Old footer statement.\",\n    groups: [\n      {\n        title: \"Old\",\n        links: [\n          { href: \"/old\", label: \"Old\" },\n        ],\n      },\n    ],\n  },\n};\n`;
+    const nextSource = applyCmsDraftToSource(source, plan);
+
+    expect(nextSource).toContain('statement: "Updated footer statement.",');
+    expect(nextSource).toContain('title: "Company",');
+    expect(nextSource).toContain('{ href: "/quote", label: "Request Quote" },');
   });
 });
