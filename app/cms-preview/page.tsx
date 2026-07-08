@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
+import { isLocalCmsAccessEnabled } from "@/lib/cms/local-access";
 import { getCmsPreviewData } from "@/lib/cms/preview";
 
 export const dynamic = "force-dynamic";
@@ -13,10 +14,6 @@ export const metadata: Metadata = {
     follow: false,
   },
 };
-
-function isCmsPreviewEnabled() {
-  return process.env.NODE_ENV === "development" || process.env.CMS_PREVIEW_ENABLED === "true";
-}
 
 const ownerTone = {
   cms: "border-emerald-200 bg-emerald-50 text-emerald-800",
@@ -42,7 +39,7 @@ function Pill({ children, className }: { children: ReactNode; className: string 
 }
 
 export default function CmsPreviewPage() {
-  if (!isCmsPreviewEnabled()) {
+  if (!isLocalCmsAccessEnabled()) {
     notFound();
   }
 

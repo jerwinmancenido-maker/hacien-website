@@ -13,6 +13,13 @@ import {
   validateCmsContent,
 } from "@/lib/cms/content";
 import {
+  createCmsDraft,
+  editableCmsDraftKeys,
+  getEditableCmsDraftInventory,
+  validateCmsDraft,
+} from "@/lib/cms/drafts";
+import { resolveCmsDraftDirectory } from "@/lib/cms/draft-storage";
+import {
   blockedPublicRoutePatterns,
   dynamicSitemapRoutePatterns,
   expectedCmsInventoryKeys,
@@ -173,5 +180,128 @@ describe("CMS read layer", () => {
     expect(preview.summary.seoRecords).toBe(preview.seo.length);
     expect(preview.blockedOrErpOwned.length).toBeGreaterThan(0);
     expect(preview.blockedOrErpOwned.every((item) => item.editableNow === false)).toBe(true);
+  });
+
+  it("declares first-slice local CMS draft ownership for safe content only", () => {
+    const editableInventory = getEditableCmsDraftInventory();
+
+    expect(editableCmsDraftKeys).toEqual([
+      "faq",
+      "help",
+      "seo.metadata",
+      "media.photos",
+      "legal",
+      "privacy",
+      "terms",
+      "trust-center",
+    ]);
+    expect(editableInventory.map((item) => item.key)).toEqual(expect.arrayContaining([...editableCmsDraftKeys]));
+    expect(editableInventory.every((item) => item.ownerType === "cms")).toBe(true);
+    expect(editableInventory.every((item) => item.editableNow === true)).toBe(true);
+    expect(editableInventory.every((item) => item.publishRisk !== "blocked")).toBe(true);
+  });
+
+  it("validates local CMS drafts without publishing them", () => {
+    const draft = createCmsDraft({
+      id: "draft-faq-hero",
+      contentKey: "faq",
+      fields: {
+        title: "Evidence-safe answers for HACIEN buyers.",
+        description: "Search common RFQ questions before sending a request.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+
+    expect(draft).toMatchObject({
+      id: "draft-faq-hero",
+      contentKey: "faq",
+      ownerType: "cms",
+      status: "draft",
+    });
+    expect(validateCmsDraft(draft)).toMatchObject({
+      ok: true,
+      errors: [],
+      blockedClaims: [],
+    });
+  });
+
+  it("rejects local CMS drafts with blocked public claims", () => {
+    const result = validateCmsDraft({
+      id: "draft-unsafe",
+      contentKey: "help",
+      ownerType: "cms",
+      riskLevel: 3,
+      status: "draft",
+      updatedAt: "2026-07-09T00:00:00.000Z",
+      fields: {
+        title: "Official invoice ready",
+        description: "In Stock at Manila Hub with a 15-day price match.",
+      },
+    });
+
+    expect(result.ok).toBe(false);
+    expect(result.errors).toContain("Draft contains blocked public claims.");
+    expect(result.blockedClaims.length).toBeGreaterThan(0);
+  });
+
+  it("rejects local CMS drafts for ERP, config, and blocked ownership", () => {
+    for (const contentKey of [
+      "erp.product-publication-truth",
+      "quote.support-copy",
+      "tracking.reference",
+      "blocked.payment-tax-documents",
+    ]) {
+      const result = validateCmsDraft({
+        id: `draft-${contentKey}`,
+        contentKey,
+        ownerType: "cms",
+        riskLevel: 5,
+        status: "draft",
+        updatedAt: "2026-07-09T00:00:00.000Z",
+        fields: { title: "Attempted edit", description: "Should not be editable from local CMS drafts." },
+      });
+
+      expect(result.ok).toBe(false);
+      expect(result.errors).toContain("Draft contentKey is not enabled for local CMS drafts.");
+    }
+  });
+
+  it("requires metadata fields for SEO and media drafts", () => {
+    expect(
+      validateCmsDraft({
+        id: "draft-seo-incomplete",
+        contentKey: "seo.metadata",
+        ownerType: "cms",
+        riskLevel: 3,
+        status: "draft",
+        updatedAt: "2026-07-09T00:00:00.000Z",
+        fields: { route: "/", title: "Home" },
+      }).errors,
+    ).toContain("Draft field description is required for seo.metadata.");
+
+    expect(
+      validateCmsDraft({
+        id: "draft-media-incomplete",
+        contentKey: "media.photos",
+        ownerType: "cms",
+        riskLevel: 3,
+        status: "draft",
+        updatedAt: "2026-07-09T00:00:00.000Z",
+        fields: { key: "workspace", alt: "Workspace image" },
+      }).errors,
+    ).toEqual(
+      expect.arrayContaining([
+        "Draft field sourceUrl is required for media.photos.",
+        "Draft field sourceNote is required for media.photos.",
+      ]),
+    );
+  });
+
+  it("resolves local CMS draft storage back to the repo-level drafts directory", () => {
+    const standaloneResolved = resolveCmsDraftDirectory(`${process.cwd()}/.next/standalone`, undefined);
+    const npmStartResolved = resolveCmsDraftDirectory(`${process.cwd()}/.next/standalone`, process.cwd());
+
+    expect(standaloneResolved).toBe(`${process.cwd()}/cms-drafts`);
+    expect(npmStartResolved).toBe(`${process.cwd()}/cms-drafts`);
   });
 });

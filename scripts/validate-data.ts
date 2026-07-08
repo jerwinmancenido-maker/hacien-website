@@ -2,6 +2,7 @@ import { categories, products } from "../data/products";
 import { solutions } from "../data/solutions";
 import { insights } from "../data/insights";
 import { getNavigationContent, getPublishedCmsContent, validateCmsContent } from "../lib/cms/content";
+import { editableCmsDraftKeys, getEditableCmsDraftInventory } from "../lib/cms/drafts";
 import { getCmsInventory, validateCmsInventory } from "../lib/cms/inventory";
 import { getCmsMediaRecords, validateCmsMediaRecords } from "../lib/cms/media";
 import { getCmsSeoRecords, validateCmsSeoRecords } from "../lib/cms/seo";
@@ -382,6 +383,30 @@ function main() {
 
     for (const item of cmsInventoryResult.blockedOwnershipErrors) {
       console.error(`  ERROR: CMS inventory item ${item.key} has blocked risk but unsafe owner ${item.ownerType}`);
+      errors++;
+    }
+  }
+
+  const editableCmsDraftInventory = getEditableCmsDraftInventory();
+  console.log(`CMS draft-editable records: ${editableCmsDraftInventory.length}`);
+
+  for (const draftKey of editableCmsDraftKeys) {
+    const item = editableCmsDraftInventory.find((inventoryItem) => inventoryItem.key === draftKey);
+    if (!item) {
+      console.error(`  ERROR: CMS draft-editable key ${draftKey} is missing from inventory`);
+      errors++;
+      continue;
+    }
+    if (item.ownerType !== "cms") {
+      console.error(`  ERROR: CMS draft-editable key ${draftKey} is not CMS-owned`);
+      errors++;
+    }
+    if (!item.editableNow) {
+      console.error(`  ERROR: CMS draft-editable key ${draftKey} is not marked editable`);
+      errors++;
+    }
+    if (item.publishRisk === "blocked") {
+      console.error(`  ERROR: CMS draft-editable key ${draftKey} has blocked publish risk`);
       errors++;
     }
   }
