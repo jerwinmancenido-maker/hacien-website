@@ -12,7 +12,7 @@ import { erpCatalogToWebsiteProducts } from "@/lib/erp/catalog-products";
 export const metadata: Metadata = {
   title: "Technology RFQ Builder | HACIEN",
   description:
-    "Build one RFQ package with multiple technology requirements, optional brand preferences, and supporting context before sending it to HACIEN.",
+    "Build one RFQ package with multiple technology requirements, optional brand preferences, and supporting details before sending it to HACIEN.",
 };
 
 const supportNotes = [
@@ -115,7 +115,7 @@ export default async function ProductsPage() {
                     <div className="p-6">
                       <h3 className="text-xl font-bold text-slate-950 group-hover:text-[#1457d9]">{category.name}</h3>
                       <p className="mt-3 text-sm leading-6 text-slate-600">{category.summary}</p>
-                      <div className="mt-5 text-sm font-bold text-[#1457d9]">See example context</div>
+                      <div className="mt-5 text-sm font-bold text-[#1457d9]">See example details</div>
                     </div>
                   </SpotlightCard>
                 </Link>

@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 const helpTiles = [
   ["Prepare an RFQ", "Attach requirements, BOQs, supplier quotes, images, spreadsheets, or plain descriptions.", "/quote"],
   ["Track a request", "Use your Gateway reference to inspect the current public tracking response.", "/track/sample-reference"],
-  ["Read FAQ", "Search evidence-safe answers about intake, documents, payments, warranty context, and support.", "/faq"],
-  ["Contact HACIEN", "Send a support or follow-up message with request context.", "/contact"],
+  ["Read FAQ", "Search evidence-safe answers about intake, documents, payments, warranty questions, and support.", "/faq"],
+  ["Contact HACIEN", "Send a support or follow-up message with the request details.", "/contact"],
 ];
 
 export default function HelpPage() {
@@ -20,13 +20,13 @@ export default function HelpPage() {
     <>
       <PremiumPageHero
         eyebrow="Help Center"
-        title="Prepare better request context."
+        title="Prepare a cleaner request before you send it."
         description="Use these tools to organize RFQ details and understand what the public website can and cannot confirm."
         image="workspace"
         primaryAction={{ href: "/quote", label: "Start an RFQ" }}
         secondaryAction={{ href: "/faq", label: "Search FAQ" }}
         highlights={[
-          { label: "Attachments", text: "BOQ, PDF, images, and spreadsheet context can support review." },
+          { label: "Attachments", text: "BOQ, PDF, images, and spreadsheets can support review." },
           { label: "Tracking", text: "Gateway references help with follow-up." },
           { label: "Prototype tools", text: "Parser output is review-only." },
           { label: "Bounded claims", text: "Official documents are not issued here." },

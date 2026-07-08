@@ -4,31 +4,31 @@ import { BorderGlow, SpotlightCard } from "@/app/components/reactbits";
 
 const commitments = [
   ["Clear communication", "Requirements, timelines, assumptions, and open questions should be visible before quotation work moves forward."],
-  ["Transparent quotations", "Quoted items should be backed by request-specific supplier inputs, warranty evidence, lead time, and delivery context where applicable."],
-  ["Procurement accountability", "HACIEN keeps the discussion tied to documents, specifications, supplier inputs, and practical handover needs without treating unverified inputs as final."],
+  ["Transparent quotations", "Quoted items should be backed by request-specific supplier inputs, warranty evidence, lead time, and delivery details where applicable."],
+  ["Procurement accountability", "HACIEN keeps the discussion tied to documents, specifications, supplier inputs, and practical closeout needs without treating unverified inputs as final."],
   ["Practical recommendations", "Recommendations should fit the buyer's environment, not simply push a product class or brand preference."],
-  ["Long-term support", "Delivery, warranty, renewal, replacement, and support conversations should remain connected when formal transaction context exists."],
+  ["Long-term support", "Delivery, warranty, renewal, replacement, and support conversations should remain connected when a formal transaction record exists."],
   ["Continuous improvement", "Customer follow-up should become clearer every time HACIEN learns from real procurement work."],
 ];
 
 const resources = [
   ["Company Profile", "Available", "A public overview of HACIEN's company information, positioning, services, and contact details."],
   ["Capability Statement", "Upon request", "A concise buyer-facing summary of service coverage, procurement support, and operating focus."],
-  ["Service Overview", "Upon request", "A service overview for IT infrastructure, integration, sourcing, delivery, and support."],
+  ["Service Overview", "Upon request", "A service overview for IT infrastructure, integration, delivery, and support."],
   ["Product Catalog", "RFQ-based", "A structured product category reference. Final pricing, stock, warranty, and models require request-specific supplier evidence and quotation review."],
   ["Institutional RFQ Support", "Available", "Guidance for specification review, equivalent matching, documentation, and quotation preparation."],
 ];
 
 const journey = [
-  ["Initial discussion", "Confirm buyer context, urgency, location, and procurement path."],
+  ["Initial discussion", "Confirm buyer details, urgency, location, and purchase path."],
   ["Requirement gathering", "Collect product list, BOQ, specifications, quantities, constraints, and target delivery needs."],
   ["Technical review", "Check completeness, compatibility, equivalents, and questions that may affect quotation quality."],
-  ["Supplier sourcing", "Review supplier availability, warranty, lead time, and commercial-condition inputs where available."],
+  ["Supplier review", "Review supplier availability, warranty, lead time, and commercial-condition inputs where available."],
   ["Quotation", "Prepare quotation support using reviewed inputs and stated assumptions."],
   ["Approval", "Support buyer review, clarification, and selected offer confirmation."],
   ["Procurement", "Coordinate ordering and documentation only when formal transaction terms support it."],
-  ["Delivery", "Align logistics, receiving requirements, handover details, and implementation context when delivery is in scope."],
-  ["Ongoing support", "Keep warranty, renewal, replacement, and follow-up needs visible when post-delivery context exists."],
+  ["Delivery", "Align logistics, receiving requirements, closeout details, and implementation notes when delivery is in scope."],
+  ["Ongoing support", "Keep warranty, renewal, replacement, and follow-up needs visible when post-delivery records exist."],
 ];
 
 export function OurCommitment({ className = "" }: { className?: string }) {
@@ -70,7 +70,7 @@ export function CapabilityResources({ inverse = false }: { inverse?: boolean }) 
             Buyer resources are handled with the same discipline as quotations.
           </h2>
           <p className={`mt-4 text-base leading-7 ${inverse ? "text-slate-300" : "text-slate-600"}`}>
-            Public resources stay concise. More detailed materials can be shared directly when they match the buyer, supplier, or procurement context.
+            Public resources stay concise. More detailed materials can be shared directly when they match the buyer, supplier, or request.
           </p>
         </div>
         <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
@@ -104,7 +104,7 @@ export function CustomerJourneyConfidence() {
             New customers should know what happens after they contact HACIEN.
           </h2>
           <p className="mt-4 text-base leading-7 text-slate-600">
-            The process may vary by requirement, but the intent is consistent: clarify, validate, quote, procure, deliver, and support with visible context.
+            The process may vary by requirement, but the intent is consistent: clarify, validate, quote, procure, deliver, and support with visible records.
           </p>
         </div>
         <div className="progress-line mt-12 grid gap-4">
@@ -175,7 +175,7 @@ export function TrustCta() {
                 Have a requirement that needs careful review before quotation?
               </h2>
               <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
-                Send the requirement, specification, quantity, deadline, and delivery context. HACIEN will help organize the next review-ready step.
+                Send the requirement, specification, quantity, deadline, and delivery details. HACIEN will help organize the next RFQ step.
               </p>
             </div>
             <Link href="/quote" className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#071426]">
@@ -190,11 +190,11 @@ export function TrustCta() {
 
 export function CompanyCredentials() {
   const credentials = [
-    ["Company information", "HACIEN Information Technology Solutions operates as a Philippine IT procurement, sourcing, and technology solutions business."],
+    ["Company information", "HACIEN Information Technology Solutions operates as a Philippine IT procurement and technology solutions business."],
     ["Industries served", "Business, education, healthcare, construction, enterprise, and institutional buyers."],
-    ["Core expertise", "IT infrastructure requirement review, systems integration support, software licensing context, networking, security, project delivery, and procurement coordination."],
-    ["Service coverage", "Requirement review, supplier-input review, quotation support, procurement coordination, delivery-context review, and post-delivery follow-up when transaction context exists."],
-    ["Procurement methodology", "RFQ-first workflow that prioritizes documented requirements, technical validation, reviewed supplier inputs, and clear assumptions."],
+    ["Core expertise", "IT infrastructure requirement review, systems integration support, software licensing, networking, security, project delivery, and procurement coordination."],
+    ["Service coverage", "Requirement review, supplier-input review, quotation support, procurement coordination, delivery detail review, and post-delivery follow-up when transaction records exist."],
+    ["Procurement method", "RFQ-first review that prioritizes documented requirements, technical validation, reviewed supplier inputs, and clear assumptions."],
     ["Transparency commitment", "Company details and downloadable materials are shared only when verified, approved for release, and relevant to the business request."],
   ];
 
@@ -204,7 +204,7 @@ export function CompanyCredentials() {
         <div className="max-w-3xl">
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Company Credentials</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-            Trust is presented as verifiable operating context, not inflated credentials.
+            Trust is presented through verifiable operating facts, not inflated credentials.
           </h2>
           <p className="mt-4 text-base leading-7 text-slate-600">
             HACIEN shares formal business details through approved communication when relevant. The public website focuses on what the company does and how it operates.

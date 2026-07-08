@@ -24,7 +24,7 @@ const accessOptions = [
   {
     title: "Customer Workspace",
     eyebrow: "Future customer continuity",
-    body: "A future customer workspace for tracking requests, viewing quotations, accessing documents, continuing support, and preserving relationship history.",
+    body: "A future customer workspace for tracking requests, viewing quotations, accessing documents, continuing support, and preserving account history.",
     href: "/customer-workspace",
     label: "Learn More",
     external: false,
@@ -52,8 +52,8 @@ export default function AccessPage() {
         highlights={[
           { label: "Internal Workspace", text: "Secure access for authorized HACIEN personnel." },
           { label: "Customer Workspace", text: "Future continuity for tracking, documents, and support." },
-          { label: "Support", text: "Help with inquiry, quotation, reference, or follow-up context." },
-          { label: "Relationship Access", text: "One connected path for public, internal, and future customer use." },
+          { label: "Support", text: "Help with inquiry, quotation, reference, or follow-up details." },
+          { label: "Account Access", text: "One connected path for public, internal, and future customer use." },
         ]}
       />
 

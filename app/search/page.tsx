@@ -9,17 +9,17 @@ export const metadata: Metadata = {
 };
 
 const searchable = [
-  { title: "Home", href: "/", group: "Company", text: "Technology sourcing that stays clear from request to handover." },
+  { title: "Home", href: "/", group: "Company", text: "Technology procurement clarified before anyone quotes." },
   { title: "Solutions", href: "/solutions", group: "Solutions", text: "Infrastructure, workplace, cybersecurity, cloud, procurement, and managed services." },
   { title: "Technology", href: "/technology", group: "Technology", text: "Enterprise computing, networking, cybersecurity, cloud, software, storage, power, cabling, and services." },
   { title: "Technology RFQ Builder", href: "/products", group: "Technology", text: "Build one RFQ package from multiple technology requirements." },
-  { title: "Platform", href: "/platform", group: "Platform", text: "HACIEN Workspace, Timeline, Guardian, Customer Workspace, and relationship continuity." },
+  { title: "Platform", href: "/platform", group: "Platform", text: "HACIEN Workspace, Timeline, Guardian, Customer Workspace, and account continuity." },
   { title: "Insights", href: "/insights", group: "Knowledge", text: "Enterprise technology, institutional procurement, digital transformation, cybersecurity, cloud, and best practices." },
   { title: "Trust & Compliance", href: "/trust-center", group: "Company", text: "Company identity, verification boundaries, privacy, security, and support expectations." },
   { title: "Support", href: "/support", group: "Support", text: "RFQ follow-up, delivery, warranty questions, policy routing, and supplier inquiries." },
   { title: "Request Quote", href: "/quote", group: "RFQ", text: "Request formal quotation review through HACIEN's universal intake path." },
   { title: "Access HACIEN", href: "/access", group: "Access", text: "Open Workspace, learn about Customer Workspace, or contact HACIEN support." },
-  { title: "Customer Workspace", href: "/customer-workspace", group: "Access", text: "Future customer continuity for tracking, documents, quotations, support, and relationship history." },
+  { title: "Customer Workspace", href: "/customer-workspace", group: "Access", text: "Future customer continuity for tracking, documents, quotations, support, and account history." },
   { title: "About HACIEN", href: "/about", group: "Company", text: "Company story, operating philosophy, and professional profile." },
   { title: "Company Profile", href: "/about/company-profile", group: "Company", text: "Supported company profile, public identity facts, and RFQ engagement path." },
 ];

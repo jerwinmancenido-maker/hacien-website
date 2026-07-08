@@ -94,7 +94,7 @@ export function PremiumStatementBand() {
         </div>
         <EnterprisePhotoPanel
           image="network"
-          eyebrow="Review-ready context"
+          eyebrow="RFQ-ready details"
           title="Clear requests make better supplier conversations possible."
           caption="A short requirement, a BOQ, or even a rough description can become useful when the assumptions and missing details are visible."
         />

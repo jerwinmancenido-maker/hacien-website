@@ -162,7 +162,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           Thank you. HACIEN will review your request.
         </h1>
         <p className="mt-4 text-slate-600">
-          HACIEN will review availability, equivalent options, warranty, delivery terms, and supplier quotation context before preparing a formal response.
+          HACIEN will review availability, equivalent options, warranty, delivery terms, and supplier quotation details before preparing a formal response.
         </p>
         {referenceNumber ? (
           <div className="mx-auto mt-6 max-w-sm rounded border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
@@ -348,9 +348,9 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         <input ref={startedAtInputRef} type="hidden" name="formStartedAt" />
 
         <div className="mt-6 grid gap-4">
-          <label className="grid gap-2 text-sm font-semibold text-slate-700">
+          <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
             Intake path
-            <select required name="intakePath" className="focus-ring min-h-12 rounded-xl border border-slate-300 bg-white px-4 font-normal" defaultValue="">
+            <select required name="intakePath" className="focus-ring min-h-12 w-full min-w-0 rounded-xl border border-slate-300 bg-white px-4 font-normal" defaultValue="">
               <option value="" disabled>Select how this RFQ is starting</option>
               {intakePaths.map((path) => (
                 <option key={path}>{path}</option>
@@ -365,7 +365,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
             ["location", "Delivery location", "text"],
             ["targetDate", "Target date / deadline", "date"],
           ].map(([key, label, type]) => (
-            <label key={key} className="grid gap-2 text-sm font-semibold text-slate-700">
+            <label key={key} className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
               {label}
               <input
                 required
@@ -382,13 +382,13 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
                           ? "tel"
                           : undefined
                 }
-                className="focus-ring min-h-12 rounded-xl border border-slate-300 bg-white px-4 font-normal"
+                className="focus-ring min-h-12 w-full min-w-0 rounded-xl border border-slate-300 bg-white px-4 font-normal"
               />
             </label>
           ))}
-          <label className="grid gap-2 text-sm font-semibold text-slate-700">
+          <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
             Procurement type
-            <select required name="procurementType" className="focus-ring min-h-12 rounded-xl border border-slate-300 bg-white px-4 font-normal" defaultValue="">
+            <select required name="procurementType" className="focus-ring min-h-12 w-full min-w-0 rounded-xl border border-slate-300 bg-white px-4 font-normal" defaultValue="">
               <option value="" disabled>Select procurement type</option>
               <option>Corporate</option>
               <option>Institutional</option>
@@ -397,9 +397,9 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
               <option>Reseller / integrator</option>
             </select>
           </label>
-          <label className="grid gap-2 text-sm font-semibold text-slate-700">
+          <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
             Budget range <span className="font-normal text-slate-500">(optional)</span>
-            <select name="budgetRange" className="focus-ring min-h-12 rounded-xl border border-slate-300 bg-white px-4 font-normal" defaultValue="">
+            <select name="budgetRange" className="focus-ring min-h-12 w-full min-w-0 rounded-xl border border-slate-300 bg-white px-4 font-normal" defaultValue="">
               <option value="">Not specified</option>
               <option>Under PHP 50,000</option>
               <option>PHP 50,000 - PHP 250,000</option>
@@ -407,23 +407,23 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
               <option>Project budget to be discussed</option>
             </select>
           </label>
-          <label className="grid gap-2 text-sm font-semibold text-slate-700">
+          <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
             Requirement details <span className="font-normal text-slate-500">(required unless a file is included)</span>
             <textarea
               name="notes"
               rows={5}
               aria-label="Notes or specifications"
-              placeholder="Describe the product, outcome, quantity, model, equivalent options, delivery location, deadline, BOQ context, or anything HACIEN should review."
-              className="focus-ring rounded-xl border border-slate-300 bg-white px-4 py-3 font-normal"
+              placeholder="Describe the product, outcome, quantity, model, equivalent options, delivery location, deadline, BOQ details, or anything HACIEN should review."
+              className="focus-ring w-full min-w-0 rounded-xl border border-slate-300 bg-white px-4 py-3 font-normal"
             />
           </label>
-          <label className="grid gap-2 text-sm font-semibold text-slate-700">
+          <label className="grid min-w-0 gap-2 text-sm font-semibold text-slate-700">
             Attachment <span className="font-normal text-slate-500">(BOQ, formal specs, supplier quote, PDF, Excel, image, or ZIP)</span>
             <input
               name="attachment"
               type="file"
               accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg,.zip"
-              className="focus-ring rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-4 text-sm font-normal"
+              className="focus-ring w-full min-w-0 rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-4 text-sm font-normal"
               onChange={(event) => {
                 const file = event.currentTarget.files?.[0];
                 setFileError("");

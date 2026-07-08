@@ -68,7 +68,7 @@ export function ProductDetail({ product }: { product: Product }) {
           <p className="mt-4 text-base leading-7 text-slate-600">{product.longDescription}</p>
 
           <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-5">
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Quotation context</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Quotation review</div>
             <p className="mt-3 text-sm leading-6 text-slate-600">
               This page explains a technology type HACIEN can review. Final model, quantity, pricing,
               warranty, supplier availability, delivery terms, and payment review are confirmed before any
@@ -79,7 +79,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 {stockBadgeLabel}
               </span>
               <span className="rounded-full border border-amber-200 bg-white px-3 py-1 text-xs font-bold text-amber-800">
-                Price context review available
+                Price review available
               </span>
             </div>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
@@ -99,7 +99,7 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
 
           <div className="mt-6">
-            <h2 className="font-bold text-slate-950">Typical sourcing targets</h2>
+            <h2 className="font-bold text-slate-950">Typical request targets</h2>
             <ul className="mt-4 grid gap-3 text-sm text-slate-700">
               {product.specs.map((spec) => (
                 <li key={spec} className="flex gap-3">
@@ -173,7 +173,7 @@ export function ProductDetail({ product }: { product: Product }) {
               href={`/quote?product=${encodeURIComponent(product.slug)}&context=price-review`}
               className="interactive-link focus-ring rounded border border-amber-300 bg-amber-50 px-5 py-3 text-sm font-bold text-amber-900"
             >
-              Request price context review
+              Request price review
             </Link>
           </div>
           {priceText ? <p className="mt-4 text-sm font-semibold text-slate-900">Starting at {priceText}</p> : null}

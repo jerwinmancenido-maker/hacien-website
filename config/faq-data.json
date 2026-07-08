@@ -14,7 +14,7 @@
         },
         {
           "question": "Can formal specifications be reviewed?",
-          "answer": "HACIEN can review specification context and possible equivalent requirements through the RFQ path, subject to buyer approval and evidence provided with the request."
+          "answer": "HACIEN can review specifications and possible equivalent requirements through the RFQ path, subject to buyer approval and evidence provided with the request."
         }
       ]
     },
@@ -40,7 +40,7 @@
       "items": [
         {
           "question": "How can I follow up on a request?",
-          "answer": "Use the tracking reference returned after a successful inquiry, or contact HACIEN with the submitted company, email, and request context."
+          "answer": "Use the tracking reference returned after a successful inquiry, or contact HACIEN with the submitted company, email, and request details."
         },
         {
           "question": "Are warranty or returns guaranteed from website content?",

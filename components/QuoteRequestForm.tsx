@@ -77,7 +77,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
         <div className="motion-slide-up rounded border border-emerald-200 bg-emerald-50 p-5">
           <div className="text-sm font-bold text-emerald-800">RFQ request sent</div>
           <p className="mt-2 text-sm leading-6 text-emerald-700">
-            Thank you. HACIEN received your request and will review the requirement context before any formal quotation is prepared.
+            Thank you. HACIEN received your request and will review the requirement details before any formal quotation is prepared.
           </p>
           {referenceNumber ? (
             <div className="mt-4 rounded border border-emerald-200 bg-white p-3 text-sm text-emerald-800">

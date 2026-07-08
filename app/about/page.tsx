@@ -13,7 +13,7 @@ import { CompanyCredentials } from "@/components/TrustConfidence";
 export const metadata: Metadata = {
   title: "About HACIEN | IT Procurement & Technology Solutions",
   description:
-    "HACIEN Information Technology Solutions helps Philippine organizations plan, source, procure, implement, and support technology projects through structured IT procurement workflows.",
+    "HACIEN Information Technology Solutions helps Philippine organizations prepare technology requirements, review supplier inputs, and move RFQs into formal business communication.",
 };
 
 const storySignals = [
@@ -25,16 +25,16 @@ const storySignals = [
 
 const philosophy = [
   {
-    title: "Start with the real operating need.",
-    text: "The request should explain who will use the technology, where it will operate, and what would make the outcome successful.",
+    title: "Start with the real business need.",
+    text: "A useful request explains who will use the technology, where it will operate, and what outcome matters.",
   },
   {
     title: "Make uncertainty visible.",
-    text: "Equivalents, missing specifications, assumptions, warranty context, and lead-time questions should be clear before decisions harden.",
+    text: "Equivalents, missing specifications, assumptions, warranty terms, and lead-time questions should be clear before decisions harden.",
   },
   {
     title: "Keep follow-up connected.",
-    text: "A customer should not need to restart the story every time the request moves from inquiry to review to support.",
+    text: "A customer should not need to repeat the same story each time a request moves from inquiry to quote to support.",
   },
 ];
 
@@ -51,13 +51,13 @@ export default function AboutPage() {
     <>
       <PremiumPageHero
         eyebrow="Company"
-        title="A technology partner for requests that need structure."
-        description="HACIEN helps organizations turn rough requirements, product lists, and project context into clearer RFQ conversations."
+        title="A technology partner for requests that need sharper definition."
+        description="HACIEN helps organizations turn rough requirements, product lists, and project notes into clearer RFQ conversations."
         image="workspace"
         primaryAction={{ href: "/quote", label: "Start an RFQ" }}
         secondaryAction={{ href: "/solutions", label: "Explore Solutions" }}
         highlights={[
-          { label: "RFQ-first", text: "The website captures context before formal quotation work." },
+          { label: "RFQ-first", text: "The website captures the request before formal quotation work." },
           { label: "Review discipline", text: "Missing details and assumptions stay visible." },
           { label: "Continuity", text: "Requests stay connected through follow-up." },
           { label: "Bounded claims", text: "Public pages avoid unsupported commercial promises." },
@@ -76,13 +76,13 @@ export default function AboutPage() {
             <BlurReveal>
               <p className="text-base leading-8 text-slate-600">
                 Many teams already know what they need in practical terms: faster devices, a stable
-                network, licensed software, better security, or a project handover that will not fall apart.
+                network, licensed software, better security, or a project closeout that will not fall apart.
                 The hard part is turning that need into a request suppliers can answer clearly.
               </p>
             </BlurReveal>
             <BlurReveal delay={120}>
               <p className="text-base leading-8 text-slate-600">
-                HACIEN was built around that gap. We help collect the context, surface the missing
+                HACIEN was built around that gap. We help collect the details, surface the missing
                 details, and keep the request organized before commercial terms are treated as final.
               </p>
             </BlurReveal>
@@ -107,7 +107,7 @@ export default function AboutPage() {
             <AnimatedContent>
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Working Standard</div>
               <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-                Good sourcing is calm, specific, and written down.
+                Good buying is calm, specific, and written down.
               </h2>
               <p className="mt-4 text-sm leading-6 text-slate-600">
                 HACIEN keeps the request grounded in visible details: what is known, what is missing, what needs supplier input, and what should happen next.
@@ -138,11 +138,11 @@ export default function AboutPage() {
                   Start with clarity
                 </div>
                 <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
-                  Need an IT supplier that understands procurement workflows?
+                  Need an IT supplier that can turn scattered requirements into a clear RFQ?
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
                   Send your requirement list, deadline, delivery location, and supporting
-                  specifications. HACIEN will help turn it into a review-ready RFQ.
+                  specifications. HACIEN will help turn it into a usable RFQ.
                 </p>
               </div>
               <div className="flex items-center gap-4">
@@ -163,7 +163,7 @@ export default function AboutPage() {
 
 function workflowCopy(step: string) {
   const copy: Record<string, string> = {
-    Requirement: "Need, quantity, location, timeline, and decision context are clarified.",
+    Requirement: "Need, quantity, location, timeline, and decision basis are clarified.",
     Review: "Missing details, compatibility questions, and practical alternatives are surfaced.",
     "Supplier Input": "Supplier-provided details are reviewed when available and relevant.",
     "Quote Context": "Assumptions and exclusions are made visible before formal terms are relied on.",

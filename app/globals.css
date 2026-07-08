@@ -48,6 +48,59 @@ body {
   letter-spacing: 0;
 }
 
+main {
+  position: relative;
+  z-index: 1;
+}
+
+.global-cinematic-backdrop {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.global-cinematic-backdrop__glow {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(72px);
+  opacity: 0.16;
+  will-change: transform, opacity;
+}
+
+.global-cinematic-backdrop__glow--cyan {
+  left: -10vw;
+  top: 8vh;
+  height: 34vw;
+  width: 34vw;
+  min-height: 280px;
+  min-width: 280px;
+  background: #00f2fe;
+}
+
+.global-cinematic-backdrop__glow--amber {
+  right: -12vw;
+  top: 38vh;
+  height: 30vw;
+  width: 30vw;
+  min-height: 240px;
+  min-width: 240px;
+  background: #ffb300;
+}
+
+.global-cinematic-backdrop__grid {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(20, 87, 217, 0.035) 0 1px, transparent 1px 100%),
+    linear-gradient(0deg, rgba(20, 87, 217, 0.026) 0 1px, transparent 1px 100%);
+  background-size: 88px 88px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.5), transparent 72%);
+  opacity: 0.55;
+  will-change: background-position;
+}
+
 a {
   text-decoration: none;
 }
@@ -468,6 +521,18 @@ select {
   .cinematic-aurora {
     animation: cinematic-aurora-drift 16s var(--ease-premium-in-out) infinite alternate;
   }
+
+  .global-cinematic-backdrop__glow--cyan {
+    animation: global-cinematic-cyan 22s var(--ease-premium-in-out) infinite alternate;
+  }
+
+  .global-cinematic-backdrop__glow--amber {
+    animation: global-cinematic-amber 26s var(--ease-premium-in-out) infinite alternate;
+  }
+
+  .global-cinematic-backdrop__grid {
+    animation: cinematic-grid-drift 28s linear infinite;
+  }
 }
 
 @keyframes fade-in {
@@ -579,6 +644,28 @@ select {
   to {
     opacity: 0.95;
     transform: translate3d(0.65rem, 0.4rem, 0) scale(1.04);
+  }
+}
+
+@keyframes global-cinematic-cyan {
+  from {
+    transform: translate3d(-1rem, 0, 0) scale(1);
+    opacity: 0.11;
+  }
+  to {
+    transform: translate3d(3rem, 2rem, 0) scale(1.12);
+    opacity: 0.2;
+  }
+}
+
+@keyframes global-cinematic-amber {
+  from {
+    transform: translate3d(1rem, 1rem, 0) scale(1);
+    opacity: 0.08;
+  }
+  to {
+    transform: translate3d(-3rem, -1.5rem, 0) scale(1.08);
+    opacity: 0.16;
   }
 }
 

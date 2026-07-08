@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 export function CTABand({
-  title = "Ready to turn an IT requirement into a review-ready RFQ?",
-  description = "Send HACIEN your product list, technical specifications, deadline, and delivery location. We will help review available inputs and prepare the next quotation step.",
+  title = "Ready to turn an IT requirement into a usable RFQ?",
+  description = "Send HACIEN your product list, technical specifications, deadline, and delivery location. We will organize the available inputs and prepare the next quotation step.",
 }: {
   title?: string;
   description?: string;

@@ -46,25 +46,32 @@ function getGatewayUrl() {
 
 async function getTracking(referenceNumber: string) {
   const gatewayUrl = getGatewayUrl();
-  const [gatewayResponse, timelineResponse] = await Promise.all([
-    fetch(
-      `${gatewayUrl}/gateway/submissions/${encodeURIComponent(referenceNumber)}/tracking`,
-      { cache: "no-store" },
-    ),
-    fetch(
-      `${gatewayUrl}/timeline/public/references/${encodeURIComponent(referenceNumber)}`,
-      { cache: "no-store" },
-    ),
-  ]);
+  const signal = AbortSignal.timeout(3000);
 
-  if (!gatewayResponse.ok) return null;
+  try {
+    const [gatewayResponse, timelineResponse] = await Promise.all([
+      fetch(
+        `${gatewayUrl}/gateway/submissions/${encodeURIComponent(referenceNumber)}/tracking`,
+        { cache: "no-store", signal },
+      ),
+      fetch(
+        `${gatewayUrl}/timeline/public/references/${encodeURIComponent(referenceNumber)}`,
+        { cache: "no-store", signal },
+      ),
+    ]);
 
-  const gateway = (await gatewayResponse.json()) as GatewayTracking;
-  const timeline = timelineResponse.ok
-    ? ((await timelineResponse.json()) as TimelineTracking)
-    : { events: [] };
+    if (!gatewayResponse.ok) return null;
 
-  return { gateway, timeline };
+    const gateway = (await gatewayResponse.json()) as GatewayTracking;
+    const timeline = timelineResponse.ok
+      ? ((await timelineResponse.json()) as TimelineTracking)
+      : { events: [] };
+
+    return { gateway, timeline };
+  } catch (error) {
+    console.error("Unable to load public tracking reference", error);
+    return null;
+  }
 }
 
 export default async function TrackReferencePage({ params }: TrackingPageProps) {

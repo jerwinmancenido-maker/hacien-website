@@ -6,20 +6,20 @@ import { PremiumPageHero } from "@/components/PremiumPageHero";
 export const metadata: Metadata = {
   title: "Customer Workspace | HACIEN",
   description:
-    "HACIEN Customer Workspace direction for future RFQ tracking, quotation visibility, documents, support, and relationship continuity.",
+    "HACIEN Customer Workspace direction for future RFQ tracking, quotation visibility, documents, support, and account continuity.",
 };
 
 const availableNow = [
-  ["Request Quote", "Submit requirements, BOQs, files, existing quotes, or project context through the Gateway.", "/quote"],
+  ["Request Quote", "Submit requirements, BOQs, files, existing quotes, or project details through the Gateway.", "/quote"],
   ["Track Reference", "Use a reference number to view request status and continue the inquiry path.", "/track/RFQ-2026-000009"],
-  ["Contact Support", "Send follow-up context for quotation, fulfillment questions, or company communication.", "/support"],
+  ["Contact Support", "Send follow-up details for quotation, fulfillment questions, or company communication.", "/support"],
 ];
 
 const relationshipPath = [
   ["Discover", "Customer learns what HACIEN can support."],
   ["Request", "Requirement enters the Gateway with a reference."],
   ["Review", "HACIEN clarifies, sources, and prepares the next step."],
-  ["Continue", "Customer follows status, documents, and support through one relationship."],
+  ["Continue", "Customer follows status, documents, and support through one account history."],
 ];
 
 export default function PortalPage() {
@@ -28,14 +28,14 @@ export default function PortalPage() {
       <PremiumPageHero
         eyebrow="Customer Workspace"
         title="A future workspace for customer continuity."
-        description="Customer Workspace is HACIEN's planned customer relationship layer for tracking requests, viewing approved documents, continuing support, and preserving procurement history."
+        description="Customer Workspace is HACIEN's planned customer layer for tracking requests, viewing approved documents, continuing support, and preserving procurement history."
         image="workspace"
         primaryAction={{ href: "/quote", label: "Request Quote" }}
         secondaryAction={{ href: "/access", label: "Access HACIEN" }}
         highlights={[
           { label: "Coming Soon", text: "Private customer access will be introduced when ready." },
           { label: "Controlled Visibility", text: "Customer-facing records will follow approved visibility rules." },
-          { label: "Relationship Memory", text: "Requests, quotes, documents, and support belong to one history." },
+          { label: "Account Memory", text: "Requests, quotes, documents, and support belong to one history." },
           { label: "Available Now", text: "RFQ, tracking, clarification, contact, and support paths are active." },
         ]}
       />
@@ -47,7 +47,7 @@ export default function PortalPage() {
               Available Now
             </div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-              Customers can already begin and continue a relationship.
+              Customers can already begin and continue a request.
             </h2>
             <p className="mt-4 text-sm leading-7 text-slate-600">
               Customer Workspace is not publicly open yet. Until private access is introduced, customers
@@ -83,7 +83,7 @@ export default function PortalPage() {
               Planned Workspace
             </div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-              Private access will be useful only when it protects the relationship.
+              Private access will be useful only when it protects customer records.
             </h2>
             <p className="mt-4 text-sm leading-6 text-slate-600">
               Phase 3 shows the direction without implying the customer portal is live.
@@ -91,10 +91,10 @@ export default function PortalPage() {
           </AnimatedContent>
           <div className="grid gap-3 md:grid-cols-2">
             {[
-              ["Request Tracking", "Milestones for RFQs, clarifications, quotation context, and support."],
+              ["Request Tracking", "Milestones for RFQs, clarifications, quotation notes, and support."],
               ["Controlled Documents", "Document access only when visibility rules allow it."],
-              ["Support History", "Follow-up context connected to the same customer record."],
-              ["Relationship Memory", "Requests, quotes, and support stay tied to one history."],
+              ["Support History", "Follow-up details connected to the same customer record."],
+              ["Account Memory", "Requests, quotes, and support stay tied to one history."],
             ].map(([title, text], index) => (
               <AnimatedContent key={title} delay={index * 60}>
                 <SpotlightCard className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
@@ -112,13 +112,13 @@ export default function PortalPage() {
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
-              Relationship Continuity
+              Account Continuity
             </div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">
               The customer should never feel they entered another system.
             </h2>
             <p className="mt-5 text-sm leading-7 text-slate-300">
-              The public website begins the relationship. Gateway preserves it. Workspace operates it.
+              The public website begins the request. Gateway preserves it. Workspace operates it.
               Customer Workspace will eventually continue it with controlled visibility.
             </p>
           </AnimatedContent>

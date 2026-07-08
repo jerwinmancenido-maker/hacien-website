@@ -18,16 +18,16 @@ export const metadata: Metadata = {
 
 const capabilityGroups = [
   {
-    title: "Infrastructure requests need context.",
+    title: "Infrastructure requests need facts.",
     text: "Devices, servers, storage, network equipment, and power needs are easier to review when usage, site, and scale are clear.",
   },
   {
     title: "Integration is more than equipment.",
-    text: "Cabling, network, security, cloud, and software work better when scope and handover assumptions are visible early.",
+    text: "Cabling, network, security, cloud, and software work better when scope and closeout assumptions are visible early.",
   },
   {
     title: "Follow-up should not restart the story.",
-    text: "Renewals, replacements, warranty context, and support questions should stay connected to the original request.",
+    text: "Renewals, replacements, warranty questions, and support needs should stay connected to the original request.",
   },
 ];
 
@@ -54,15 +54,15 @@ export default function SolutionsPage() {
       <PremiumPageHero
         eyebrow="Solutions"
         title="IT solution areas for clearer requests."
-        description="Use these pages to describe the work HACIEN should review: infrastructure, integration, workplace technology, software, security, and support context."
+        description="Use these pages to describe the work HACIEN should review: infrastructure, integration, workplace technology, software, security, and support needs."
         image="commandCenter"
         primaryAction={{ href: "/quote", label: "Start an RFQ" }}
         secondaryAction={{ href: "/technology", label: "Explore Technology" }}
         highlights={[
-          { label: "Infrastructure", text: "Endpoints, servers, networks, power, and site context." },
-          { label: "Integration", text: "Materials, setup needs, and handover assumptions." },
+          { label: "Infrastructure", text: "Endpoints, servers, networks, power, and site details." },
+          { label: "Integration", text: "Materials, setup needs, and closeout assumptions." },
           { label: "Sourcing", text: "Requirements, equivalents, and supplier inputs when available." },
-          { label: "Continuity", text: "Follow-up, renewal, replacement, and support context." },
+          { label: "Continuity", text: "Follow-up, renewal, replacement, and support needs." },
         ]}
       />
 
@@ -129,7 +129,7 @@ export default function SolutionsPage() {
               <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
                 <h3 className="text-base font-bold text-slate-950">Do not see the exact area?</h3>
                 <p className="mt-2 text-sm leading-6 text-slate-600">
-                  Use the RFQ form. HACIEN reviews the requirement context before treating any solution path as final.
+                  Use the RFQ form. HACIEN reviews the requirement before treating any solution path as final.
                 </p>
                 <Link href="/quote" className="mt-3 inline-flex text-sm font-bold text-[#1457d9]">
                   Describe the requirement
@@ -147,13 +147,13 @@ export default function SolutionsPage() {
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
-                  Source with structure
+                  Request with structure
                 </div>
                 <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
-                  Have a requirement that needs sourcing, validation, and quotation support?
+                  Have a requirement that needs checking, options, and quotation support?
                 </h2>
                 <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
-                  Send HACIEN your requirement list and context. We will help shape the next review-ready RFQ step.
+                  Send HACIEN your requirement list and notes. We will help shape the next RFQ step.
                 </p>
               </div>
               <Link

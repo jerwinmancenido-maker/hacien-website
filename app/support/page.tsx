@@ -8,23 +8,23 @@ import { PremiumPageHero } from "@/components/PremiumPageHero";
 export const metadata: Metadata = {
   title: "Support",
   description:
-    "HACIEN support entry point for RFQ follow-up, procurement context, warranty questions tied to formal documents, delivery context, supplier inquiries, and general business support.",
+    "HACIEN support entry point for RFQ follow-up, warranty questions tied to formal documents, delivery details, supplier inquiries, and general business support.",
 };
 
 const supportPaths = [
-  ["RFQ follow-up", "Clarify submitted requirements, quantities, deadlines, or product context.", "/quote", "documentation"],
+  ["RFQ follow-up", "Clarify submitted requirements, quantities, deadlines, or product details.", "/quote", "documentation"],
   ["Procurement question", "Ask about supplier availability, equivalent options, or quotation assumptions for review.", "/contact", "network"],
-  ["Delivery coordination", "Share delivery context or handover requirements for review.", "/contact", "cabling"],
-  ["Warranty or replacement", "Route questions with the product, quotation, supplier, and delivery context available for review.", "/contact", "storage"],
+  ["Delivery coordination", "Share delivery details or receiver requirements for review.", "/contact", "cabling"],
+  ["Warranty or replacement", "Route questions with the product, quotation, supplier, and delivery details available for review.", "/contact", "storage"],
   ["Supplier or partner", "Introduce supply, fulfillment, implementation, or service capability.", "/contact", "workspace"],
   ["Policy question", "Review Trust & Compliance before relying on a commercial term.", "/trust-center", "cybersecurity"],
 ];
 
 const expectations = [
-  "Support starts with clear context, not a ticket number promise.",
+  "Support starts with clear details, not a ticket number promise.",
   "Response expectations are confirmed through the active support conversation or formal business communication.",
   "Payment, warranty, delivery, tax, and return commitments must come from formal documents or verified policies.",
-  "Use RFQ for new requirements and Contact for follow-up context.",
+  "Use RFQ for new requirements and Contact for follow-up details.",
 ];
 
 export default function SupportPage() {
@@ -35,14 +35,14 @@ export default function SupportPage() {
       <PremiumPageHero
         eyebrow="Support Desk"
         title="Support begins by routing the question correctly."
-        description="HACIEN support is designed around procurement context: RFQ review, quotation assumptions, delivery context, warranty questions tied to documents, and follow-up."
+        description="HACIEN support is designed around RFQ review, quotation assumptions, delivery details, warranty questions tied to documents, and follow-up."
         image="workspace"
         primaryAction={{ href: "#support-form", label: "Contact Support" }}
         secondaryAction={{ href: "/quote", label: "Request Quote" }}
         highlights={[
           { label: "RFQ Follow-Up", text: "Continue from a reference or submitted requirement." },
-          { label: "Delivery", text: "Share handover, receiver, and site access context." },
-          { label: "Warranty", text: "Route warranty questions with product, supplier, and quote context." },
+          { label: "Delivery", text: "Share receiver, schedule, and site access details." },
+          { label: "Warranty", text: "Route warranty questions with product, supplier, and quote details." },
           { label: "Supplier", text: "Introduce capability through the right business channel." },
         ]}
       />
@@ -90,7 +90,7 @@ export default function SupportPage() {
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Expectations</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-              Clear support keeps each request moving with the right context.
+              Clear support keeps each request moving with the right details.
             </h2>
           </AnimatedContent>
           <div className="grid gap-4">
@@ -115,10 +115,10 @@ export default function SupportPage() {
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Contact Form</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-              Send the context HACIEN needs to respond usefully.
+              Send the details HACIEN needs to respond usefully.
             </h2>
             <p className="mt-4 text-sm leading-7 text-slate-600">
-              Include RFQ reference, products, quantity, date, delivery context, quotation reference, or the policy area you need clarified.
+              Include RFQ reference, products, quantity, date, delivery details, quotation reference, or the policy area you need clarified.
             </p>
           </AnimatedContent>
           <ContactForm turnstileSiteKey={turnstileSiteKey} />

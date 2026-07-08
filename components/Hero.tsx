@@ -5,8 +5,8 @@ import { FadeIn, SlideUp } from "@/components/motion";
 
 export function Hero() {
   const signals = [
-    ["RFQ review", "Specs, BOQs, photos, and plain requests are organized before quoting."],
-    ["Supplier context", "Availability, warranty, lead time, and assumptions stay visible when reviewed."],
+    ["RFQ review", "Specs, BOQs, photos, and plain requests are shaped before quoting."],
+    ["Supplier checks", "Availability, warranty, lead time, and assumptions stay visible when checked."],
     ["Trackable follow-up", "Every request gets a reference so the conversation can continue."],
   ];
 
@@ -44,12 +44,12 @@ export function Hero() {
           </FadeIn>
           <SlideUp delay={80}>
             <h1 className="max-w-4xl text-3xl font-bold tracking-tight sm:text-5xl">
-              Technology sourcing that stays clear from request to handover.
+              Technology procurement, clarified before anyone quotes.
             </h1>
           </SlideUp>
           <SlideUp delay={170}>
             <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-200 sm:mt-5 sm:text-base sm:leading-7">
-              Send a requirement list, BOQ, photo, supplier quote, or rough idea. HACIEN helps turn it into a review-ready RFQ without pretending the website can confirm price, stock, or commercial terms on its own.
+              Send a requirement list, BOQ, photo, supplier quote, or rough idea. HACIEN organizes the details and flags what still needs supplier review before price, stock, payment, or delivery is treated as confirmed.
             </p>
           </SlideUp>
           <SlideUp delay={260}>
@@ -71,7 +71,7 @@ export function Hero() {
               <div className="rounded-lg border border-white/12 bg-white/10 p-4">
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">First response focus</div>
                 <p className="mt-3 text-sm leading-6 text-slate-200">
-                  The website captures context. HACIEN reviews the request before any formal quote, delivery, payment, or document commitment exists.
+                  The website captures the request. HACIEN checks it before any formal quote, delivery, payment, or document commitment exists.
                 </p>
               </div>
               <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
