@@ -3,6 +3,8 @@ import { solutions } from "../data/solutions";
 import { insights } from "../data/insights";
 import { getNavigationContent, getPublishedCmsContent, validateCmsContent } from "../lib/cms/content";
 import { getCmsInventory, validateCmsInventory } from "../lib/cms/inventory";
+import { getCmsMediaRecords, validateCmsMediaRecords } from "../lib/cms/media";
+import { getCmsSeoRecords, validateCmsSeoRecords } from "../lib/cms/seo";
 
 const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 const unsafeProductNamePatterns = [
@@ -278,6 +280,44 @@ function main() {
       console.error(`    - ${blockedClaim.text}`);
     }
     errors++;
+  }
+
+  const cmsMediaRecords = getCmsMediaRecords();
+  const cmsMediaResult = validateCmsMediaRecords(cmsMediaRecords);
+  console.log(`CMS media records: ${cmsMediaRecords.length}`);
+
+  if (!cmsMediaResult.ok) {
+    for (const record of cmsMediaResult.invalidRecords) {
+      console.error(`  ERROR: CMS media record ${record.key || "(missing key)"} is missing source, alt, or source note`);
+      errors++;
+    }
+    if (cmsMediaResult.duplicateKeys.length > 0) {
+      console.error(`  ERROR: CMS media duplicate keys: ${cmsMediaResult.duplicateKeys.join(", ")}`);
+      errors++;
+    }
+  }
+
+  const cmsSeoRecords = getCmsSeoRecords();
+  const cmsSeoResult = validateCmsSeoRecords(cmsSeoRecords);
+  console.log(`CMS SEO records: ${cmsSeoRecords.length}`);
+
+  if (!cmsSeoResult.ok) {
+    for (const record of cmsSeoResult.invalidRecords) {
+      console.error(`  ERROR: CMS SEO record ${record.key || "(missing key)"} is missing route, title, or description`);
+      errors++;
+    }
+    if (cmsSeoResult.duplicateKeys.length > 0) {
+      console.error(`  ERROR: CMS SEO duplicate keys: ${cmsSeoResult.duplicateKeys.join(", ")}`);
+      errors++;
+    }
+    if (cmsSeoResult.duplicateRoutes.length > 0) {
+      console.error(`  ERROR: CMS SEO duplicate routes: ${cmsSeoResult.duplicateRoutes.join(", ")}`);
+      errors++;
+    }
+    for (const record of cmsSeoResult.blockedClaimRecords) {
+      console.error(`  ERROR: CMS SEO record ${record.key} includes blocked public claims`);
+      errors++;
+    }
   }
 
   const cmsInventory = getCmsInventory();

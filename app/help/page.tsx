@@ -1,13 +1,10 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { AiDocumentParser } from "@/components/AiDocumentParser";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { getHelpContent } from "@/lib/cms/content";
+import { getCmsMetadata } from "@/lib/cms/seo";
 
-export const metadata: Metadata = {
-  title: "Help Center | HACIEN",
-  description: "HACIEN help center for RFQ preparation, request tracking, and prototype document parsing.",
-};
+export const metadata = getCmsMetadata("help");
 
 export default function HelpPage() {
   const content = getHelpContent();

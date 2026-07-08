@@ -1,12 +1,9 @@
-import type { Metadata } from "next";
 import { FaqSearch, type FaqSection } from "@/components/FaqSearch";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { getFaqContent } from "@/lib/cms/content";
+import { getCmsMetadata } from "@/lib/cms/seo";
 
-export const metadata: Metadata = {
-  title: "FAQ | HACIEN",
-  description: "Search HACIEN RFQ, payment, document, support, and tracking questions with evidence-safe answers.",
-};
+export const metadata = getCmsMetadata("faq");
 
 export default function FaqPage() {
   const content = getFaqContent();

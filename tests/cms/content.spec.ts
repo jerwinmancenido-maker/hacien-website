@@ -21,6 +21,8 @@ import {
   staticSitemapRoutes,
   validateCmsInventory,
 } from "@/lib/cms/inventory";
+import { getCmsMediaRecords, validateCmsMediaRecords } from "@/lib/cms/media";
+import { getCmsSeoRecords, validateCmsSeoRecords } from "@/lib/cms/seo";
 
 describe("CMS read layer", () => {
   it("loads published repo-backed FAQ and Help content", () => {
@@ -49,6 +51,37 @@ describe("CMS read layer", () => {
     );
     expect(navigation.footer.groups.flatMap((group) => group.links.map((link) => link.href))).toEqual(
       expect.arrayContaining(["/help", "/faq", "/track", "/privacy", "/terms", "/legal"]),
+    );
+  });
+
+  it("tracks media source, alt text, and source notes in CMS", () => {
+    const records = getCmsMediaRecords();
+    const result = validateCmsMediaRecords(records);
+
+    expect(result).toMatchObject({
+      ok: true,
+      invalidRecords: [],
+      duplicateKeys: [],
+    });
+    expect(records.map((record) => record.key)).toEqual(
+      expect.arrayContaining(["commandCenter", "workspace", "knowledge", "strategy"]),
+    );
+    expect(records.every((record) => record.alt.length > 0 && record.sourceNote.length > 0)).toBe(true);
+  });
+
+  it("tracks first-batch SEO metadata in CMS and keeps it claim-safe", () => {
+    const records = getCmsSeoRecords();
+    const result = validateCmsSeoRecords(records);
+
+    expect(result).toMatchObject({
+      ok: true,
+      invalidRecords: [],
+      duplicateKeys: [],
+      duplicateRoutes: [],
+      blockedClaimRecords: [],
+    });
+    expect(records.map((record) => record.route)).toEqual(
+      expect.arrayContaining(["/", "/about", "/solutions", "/industries", "/faq", "/help"]),
     );
   });
 

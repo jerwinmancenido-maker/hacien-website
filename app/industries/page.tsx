@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import {
   AnimatedContent,
@@ -9,12 +8,9 @@ import {
   SpotlightCard,
 } from "@/app/components/reactbits";
 import { getIndustriesContent } from "@/lib/cms/content";
+import { getCmsMetadata } from "@/lib/cms/seo";
 
-export const metadata: Metadata = {
-  title: "Industries Served | HACIEN",
-  description:
-    "Explore how HACIEN supports business, education, healthcare, construction, enterprise, and organization buyers with RFQ-first technology support.",
-};
+export const metadata = getCmsMetadata("industries");
 
 export default function IndustriesPage() {
   const content = getIndustriesContent();
