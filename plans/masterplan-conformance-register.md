@@ -3,7 +3,7 @@
 Last updated: 2026-07-08
 Repository: `/Users/jerwinmancenido/hacien-website`
 Branch: `main`
-Verified base before this register update: `43dd204` (`Merge pull request #2 from jerwinmancenido-maker/audit/website-production-readiness-hardening`)
+Verified base before this register update: `26f0ef4` (`polish: compress mobile page density`)
 
 ## Source Freeze
 
@@ -34,13 +34,14 @@ Verified base before this register update: `43dd204` (`Merge pull request #2 fro
 |---|---|---|---|
 | Phase 0 - Workplace Preparation | Green / Complete | Master task inventory marks complete | No action in this register |
 | Phase 1 - Foundation & Build Verification | Green / Complete | Master task inventory marks complete | Current build also passes |
-| Phase 2 - Intake Readiness | Green / Complete | PR #2 deployed; live RFQ path returned `RFQ-2026-000001`; `/track/RFQ-2026-000001` returns 200 | Gateway, Turnstile, website Gateway URL, Gateway tables, and timeline tables are production-verified |
-| Phase 3 - Visual Recovery, Remotion, WebGL | Yellow / Partial / Reopened for Editorial & Layout Recovery | Technical artifacts exist in commits `b032403` through `4e0bb6c`; visual sweep is rejected by the Founder because document layouts (privacy/legal/terms) are inconsistent, copy reads repetitive/dry, and cinematic background motion is missing. | Phase 3 visual/copy sweep must be completed before Phase 4. |
-| Phase 4 - CMS Flexibility | Red / Blocked Until Phase 3 Recovery | Master task inventory | Do not start until Phase 3 layout, visual, and copy rewrite passes QA |
+| Phase 2 - Intake Readiness | Green / Complete | PR #2 deployed; live RFQ path returned `RFQ-2026-000001`; `/track/RFQ-2026-000001` returns 200; route hygiene deployed through `a510cee` | Gateway, Turnstile, website Gateway URL, Gateway tables, timeline tables, `/track`, canonical product sitemap URLs, Help Center, FAQ, and footer discoverability are production-verified |
+| Phase 3 - Visual Recovery, Remotion, WebGL | Green / Complete / Founder Accepted | Visual recovery completed through `6087b29`; brand/glass motion restored through `6087b29`; route hygiene deployed through `a510cee`; mobile density polish deployed through `26f0ef4`; local smoke evidence in `/tmp/hacien-26f0ef4-local-visual-smoke-20260708`; Founder accepted Phase 3 on 2026-07-08 | Phase 3 is closed unless new production defects are found |
+| Phase 4 - CMS Flexibility | Yellow / Ready for Planning | Founder accepted Phase 3 on 2026-07-08 | Start with CMS architecture/scope review before implementation; do not begin broad admin/CMS build without a Phase 4 plan |
 | Phase 5 - Portal/Admin/AI Concierge | Blue / Pending | Master task inventory | Contains legal/tax/payment-risk items requiring gates |
 | Phase 6 - Quote PDF, Payments & Logistics | Blue / Pending | Master task inventory | Contains payment/logistics/tax commitments requiring gates |
 | Phase 7 - Supplier Integration | Blue / Pending | Master task inventory | Supplier/API credentials and evidence required |
 | Phase 8 - Final Verification & Hand-off | Blue / Pending | Master task inventory | Requires deploy/ops approval |
+
 
 ## Sprint 2 Phase 3 Masterplan Variance Register
 
@@ -61,7 +62,7 @@ Verified base before this register update: `43dd204` (`Merge pull request #2 fro
 | 3D Interactive Server Chassis | Stale Plan Record / Not Accepted Public Direction | `components/visual/InteractiveServerChassis.tsx`, wrapper; commits `b032403`, `7c2dbfb`, `34382d7` | Founder correction rejects cheap render-heavy product/server direction as the public cinematic identity |
 | Interactive WebGL Philippines Delivery Globe | Partial / De-emphasized | `components/visual/DeliveryGlobe.tsx`, wrapper; commit `b032403` | It is illustrative only. Do not use as proof of delivery/logistics readiness or as dominant public design |
 | Glassmorphic Skeleton Suspense | Complete | `components/visual/GlassmorphicSkeleton.tsx`, dynamic wrappers with `ssr: false`; commit `b032403` | None |
-| Multi-Viewport Visual Screenshot Verification | Partial / Reopened | Prior local evidence: `/tmp/hacien-20260707-final-phase3-reviewed/manifest.json`. Honest live audit: `/tmp/hacien-phase3-honest-audit-20260708/manifest.json` | Earlier QA proved "not broken"; it did not prove "premium, meaningful, cinematic, and useful." Phase 3 needs design recovery |
+| Multi-Viewport Visual Screenshot Verification | Complete | Prior local evidence: `/tmp/hacien-20260707-final-phase3-reviewed/manifest.json`; honest live audit: `/tmp/hacien-phase3-honest-audit-20260708/manifest.json`; mobile density smoke: `/tmp/hacien-26f0ef4-local-visual-smoke-20260708/manifest.json`; Founder accepted Phase 3 on 2026-07-08 | Reopen only if a new production visual defect is found |
 | Required checks: `npm run validate`, `npm test`, `npm run build` | Complete | `npm run validate` passed; `npm run build` passed; `npx vitest run` passed | `npm test` equivalent in this repo is `npx vitest run`; no `test` script is defined in `package.json` |
 
 ## Founder Gate Decisions
@@ -74,7 +75,7 @@ Verified base before this register update: `43dd204` (`Merge pull request #2 fro
 | 15-day quote guarantee | Blocked | Do not publish default validity or price guarantee claims while Terms state validity is set by the formal document |
 | Price match guarantee | Blocked | Do not publish price-match triggers without written policy, exclusions, and margin guardrails |
 | Tax/payment/receipt claims | Blocked | Do not publish payment collection, official invoice, official receipt, BIR/tax readiness, or cashier approval claims without approved evidence |
-| Phase 3 closure | Reopened | Technical implementation exists, but public design/content quality is not accepted | Phase 4 is blocked until Phase 3 design recovery passes visual/content QA |
+| Phase 3 closure | Complete / Founder Accepted | Visual recovery, route hygiene, live RFQ, tracking, and mobile density work are implemented and pushed through `26f0ef4`; Founder accepted Phase 3 on 2026-07-08 | Phase 4 may now enter planning |
 
 ## Design Direction Override
 
@@ -123,27 +124,31 @@ Note: `http://localhost:3037` returned page HTML with status `200`, but previous
 | `/government-procurement` | 404 | Public route is no longer discoverable as a live page |
 | RFQ submission | Complete | Live `/quote` submitted successfully with reference `RFQ-2026-000001` |
 | RFQ tracking | Complete | `/track/RFQ-2026-000001` returns 200 |
+| Route hygiene | Complete | Commit `a510cee` deployed; `/track` is live; footer exposes Track Request, Help Center, B2B FAQ, and Industries |
+| Mobile density polish | Complete / Founder Accepted | Commit `26f0ef4` pushed to `origin/main`; mobile smoke showed `/` height `7836 -> 5934`, `/about` `6332 -> 5466`, `/products` `7611 -> 5419`, with no horizontal overflow; Founder accepted Phase 3 on 2026-07-08 |
 
 ## Phase 3 Design Recovery Findings
 
 | Finding | Severity | Evidence | Required Correction |
 |---|---|---|---|
-| Public cinematic effect is not visible on core live routes | High | Honest audit found `canvas=0` and `video=0` on audited core live routes | Build website-level motion: moving backgrounds, text choreography, scroll rhythm, ambient/parallax layers |
-| Render-heavy server/globe direction is not accepted | High | Existing `components/visual/*Server*`, `DeliveryGlobe`, and Remotion hardware scenes | Remove, archive, or de-emphasize as public identity; use curated photography and subtle motion |
-| Mobile pages are too long and low-density | High | Honest audit: mobile home about 15 screens, about about 18 screens, solutions about 13 screens | Reduce oversized sections, repeated cards, and low-value blocks |
-| Copy reads repetitive and AI-generated | High | Repeated "procurement", "clarity", "workflow", "relationship", "operational" framing across pages | Rewrite page copy so each section has a distinct purpose and business meaning |
-| Photography is repetitive | Medium | Multiple sections reuse the same server/office imagery | Curate fewer, stronger, more intentional real-world images with source traceability |
+| Public cinematic effect was not visible enough on core routes | Accepted | Visual recovery and glass motion work through `6087b29`; live/local screenshot reviews followed; Founder accepted Phase 3 on 2026-07-08 | Reopen only if Founder requests a new visual direction pass |
+| Render-heavy server/globe direction is not accepted | Complete / Guardrail Active | Public direction shifted toward photography, glass motion, and text rhythm | Do not restore cheap product/server render direction |
+| Mobile pages were too long and low-density | Accepted | Commit `26f0ef4`; local smoke showed large height reductions for `/`, `/about`, and `/products`; Founder accepted Phase 3 on 2026-07-08 | Do not run further density work unless Founder requests it |
+| Copy reads repetitive and AI-generated | Accepted | Phase 3 editorial recovery commits and public claim cleanup; Founder accepted Phase 3 on 2026-07-08 | Future CMS content must preserve the approved editorial direction |
+| Photography is repetitive | Accepted | Visual recovery shifted away from cheap renders and toward curated photography; Founder accepted Phase 3 on 2026-07-08 | Future CMS/media work must preserve asset traceability |
 
 ## Verification Record
 
 | Command | Result | Notes |
 |---|---|---|
-| `git status -sb` | Passed inspection | Only known untracked plan/backup artifacts before this register was added |
+| `git status -sb` | Passed inspection | Only known planning/backup artifacts remain outside this docs update |
 | `git log --oneline -10` | Passed inspection | Latest Phase 3 reconciliation commit is `80959fb` |
 | `npm run validate` | Passed | 9 categories, 17 products, 12 solutions, 6 government topics, 7 insights, 0 errors |
 | `npm run build` | Passed | Next.js 16 build completed; non-blocking middleware deprecation warning remains; `prebuild` now removes stale generated `.next` output before validation/build |
 | `npx vitest run` | Passed | 2 test files, 4 tests |
 | Playwright screenshot matrix on `http://localhost:3055` | Passed | 21 screenshots, 0 HTTP failures, 0 console/page errors, 0 horizontal-overflow findings, 0 blocked-claim hits |
+| Local mobile density smoke after `26f0ef4` | Passed | `/tmp/hacien-26f0ef4-local-visual-smoke-20260708/manifest.json`; `/`, `/about`, `/products` returned 200 with no horizontal overflow |
+| Live route verification after `26f0ef4` push | Passed | `/`, `/about`, `/products`, `/quote`, `/track`, `/sitemap.xml` returned 200; sitemap keeps `/track` and canonical `/products/...`, excludes `/erp-platform` and legacy `/product/...` |
 
 ## Drift Rules Going Forward
 
@@ -155,9 +160,9 @@ Note: `http://localhost:3037` returned page HTML with status `200`, but previous
 
 ## Recommended Next Decision
 
-Phase 3 must be recovered before Phase 4 starts:
+Phase 3 is complete and Founder accepted. Phase 4 may now begin with planning only:
 
-- Keep safe technical foundations that still help: RFQ, Gateway, tracking, help/FAQ, parser, motion utilities, claim safety, photography source tracking.
-- Rework public design and copy so the site feels premium, meaningful, cinematic, and useful on mobile.
-- Remove or de-emphasize cheap 3D server/product render direction from public pages.
+- Keep safe technical foundations that help: RFQ, Gateway, tracking, Help Center, FAQ, parser, motion utilities, claim safety, sitemap hygiene, and photography source tracking.
+- Start Phase 4 with CMS architecture, source-of-truth, schema, auth, and migration boundary review before implementation.
+- Keep ERP as the source of truth for ProductPublication/order intent validation; website CMS must not directly write ERP business tables.
 - Keep stock SLA, 15-day quote guarantee, price-match, payment, invoice, receipt, and BIR/tax claims blocked unless explicitly approved with business evidence.

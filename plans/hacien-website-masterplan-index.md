@@ -36,8 +36,8 @@ Missing evidence means the item is not ready. It must be marked `Partial`, `Bloc
 | Phase 0 - Workplace Preparation | Green / Complete | No current action |
 | Phase 1 - Foundation & Build Verification | Green / Complete | No current action |
 | Phase 2 - Intake Readiness | Green / Complete | PR #2 is deployed; live RFQ path works |
-| Phase 3 - Visual Recovery, Remotion, WebGL | Yellow / Partial / Reopened for Editorial & Layout Recovery | Technical artifacts exist, but visual variety, page layouts (especially legal/privacy/terms), global cinematic animations, and copy readability are rejected |
-| Phase 4 - CMS Flexibility | Red / Blocked Until Phase 3 Recovery | Do not start until Phase 3 visual, layout, and copy rewrite passes QA |
+| Phase 3 - Visual Recovery, Remotion, WebGL | Green / Complete / Founder Accepted | Visual recovery, route hygiene, live deploy, and mobile density polish are implemented and pushed through `26f0ef4`; Founder accepted Phase 3 on 2026-07-08 |
+| Phase 4 - CMS Flexibility | Yellow / Ready for Planning | Phase 3 acceptance gate is cleared; CMS work still needs a scoped Phase 4 plan before implementation |
 | Phase 5 - Portal/Admin/AI Concierge | Red / Not Started | Requires auth, internal-admin, legal/tax/payment gates |
 | Phase 6 - Quote PDF, Payments & Logistics | Red / Not Started | Requires payment, tax, logistics, and stock-evidence gates |
 | Phase 7 - Supplier Integration | Red / Not Started | Requires supplier/API credentials and evidence |
@@ -63,9 +63,10 @@ Internal or private ERP features may be planned later, but public website copy m
 
 ## Next Start Point
 
-The next website implementation task is Phase 3 Design Recovery:
+The next website task is Phase 4 CMS planning:
 
-1. Audit live and local pages for AI-generated copy, repeated ideas, oversized boxes, weak mobile density, and missing cinematic motion.
-2. Replace render-heavy direction with curated photography and subtle website-level motion.
-3. Rewrite content so each page has a distinct purpose.
-4. Verify with local-vs-live screenshots, `npm run validate`, `npm run build`, and `npx vitest run`.
+1. Define the CMS scope before building: editable copy/data, media library, route content, FAQ/help, products/catalog sync boundaries, and admin access model.
+2. Keep ERP as the business source of truth for ProductPublication/order intent validation.
+3. Keep website CMS focused on public website content, media, layout metadata, and approved storefront/cache content only.
+4. Keep public government, tax, payment, invoice, receipt, stock/SLA, 15-day, and price-match claims blocked unless separately approved with evidence.
+5. Do not start implementation until Phase 4 architecture, schema, admin auth, and migration boundaries are reviewed.
