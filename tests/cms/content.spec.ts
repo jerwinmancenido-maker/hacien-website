@@ -22,6 +22,7 @@ import {
   validateCmsInventory,
 } from "@/lib/cms/inventory";
 import { getCmsMediaRecords, validateCmsMediaRecords } from "@/lib/cms/media";
+import { getCmsPreviewData } from "@/lib/cms/preview";
 import { getCmsSeoRecords, validateCmsSeoRecords } from "@/lib/cms/seo";
 
 describe("CMS read layer", () => {
@@ -161,5 +162,16 @@ describe("CMS read layer", () => {
     const sitemapRoutes = [...staticSitemapRoutes, ...dynamicSitemapRoutePatterns];
 
     expect(sitemapRoutes.some((route) => blockedPublicRoutePatterns.includes(route as never))).toBe(false);
+  });
+
+  it("builds a read-only CMS preview dataset from source registries", () => {
+    const preview = getCmsPreviewData();
+
+    expect(preview.summary.inventoryRecords).toBe(preview.inventory.length);
+    expect(preview.summary.publishedContent).toBe(preview.content.length);
+    expect(preview.summary.mediaRecords).toBe(preview.media.length);
+    expect(preview.summary.seoRecords).toBe(preview.seo.length);
+    expect(preview.blockedOrErpOwned.length).toBeGreaterThan(0);
+    expect(preview.blockedOrErpOwned.every((item) => item.editableNow === false)).toBe(true);
   });
 });
