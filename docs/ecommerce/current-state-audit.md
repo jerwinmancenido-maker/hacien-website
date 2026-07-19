@@ -1,43 +1,57 @@
 # HACIEN Ecommerce Current-State Audit
 
-## Verified Existing Features
+Status: Adopted P1.3 source correction; runtime state unknown
+Last Reviewed: 2026-07-18
+Authority: Source inventory only
+Data Authority: `/Users/m5/Projects/hacien-staging/operations/knowledge/website-source-data-promotion-contract.md`
+Supersedes: The 2026-07-05 claim that no database or ORM exists
 
-- Product catalogs and profiles are currently maintained in `data/products.ts`.
-- Category pages exist at `app/products/[category]/page.tsx`.
-- Product detail routes exist at:
-  - `app/products/[category]/[product]/page.tsx` (canonical),
-  - `app/product/[slug]/page.tsx` (legacy-compatible redirect route).
-- Quote/Inquiry flow is implemented with RFQ provider and forms:
-  - `components/QuoteCartProvider.tsx`
-  - `components/QuoteCart.tsx`
-  - `components/RequirementBuilder.tsx`
-  - `components/QuoteRequestForm.tsx`
-  - `app/actions/send-inquiry.ts`
-- Public access pages already exist:
-  - `app/login/page.tsx`
-  - `app/signup/page.tsx`
-  - `app/access/page.tsx`
-  - `app/portal/page.tsx`
-  - `app/customer-workspace/page.tsx`
-- The repository includes production-hardening work on headers/footer and route-level page validation in:
-  - `next.config.ts`
-  - `components/Footer.tsx`
-  - `scripts/validate-data.ts`
+## Verified Source Facts
 
-## Verified Missing Features
+- Static product/catalog records remain in `data/products.ts`.
+- Canonical product routes exist under `app/products/[category]/[product]` with
+  a legacy-compatible `app/product/[slug]` route.
+- RFQ/quote interfaces and server actions exist.
+- Public login, signup, access, portal, customer workspace, admin, and local CMS
+  surfaces exist.
+- Prisma is configured for MySQL in `prisma/schema.prisma`.
+- The schema contains website-local models named for users, organizations,
+  products, carts, orders, payments, invoice references, subscriptions, RFQ
+  references, support tickets, and audit events.
+- `lib/db.ts` creates a Prisma client when `DATABASE_URL` is configured.
+- `scripts/seed-ecommerce-products.ts` can seed website fallback products.
+- `lib/phase7/erp-integration.ts` contains ERP-first, compatibility, and offline
+  fallback read behavior plus a draft request builder.
+- `cron/quote-expiry-monitor.ts` contains configuration-gated outbound reminder
+  behavior.
 
-- No auth provider is installed.
-- No customer session management exists.
-- No database or ORM is configured.
-- No customer account creation with persistence exists.
-- No direct checkout flow exists.
-- No payment provider integration exists.
-- No order, payment, invoice, subscription, or admin product management model exists.
-- Product content remains static and file-based; no ERP API integration exists yet.
+These are source facts. They do not prove that a database exists, migrations
+were applied, a provider is configured, a cron is scheduled, messages were sent,
+or production/runtime behavior is active.
 
-## Product Rule
+## Current Authority Disposition
 
-HACIEN should preserve RFQ-first procurement behavior for variable, hardware,
-custom services, and project-scoped needs.
-Direct purchase should be added only for products with explicit clear-price, fulfillment,
-and policy controls (`checkout`-eligible) in a later phase.
+- ERP/PostgreSQL owns official operational, customer, catalog, order,
+  fulfillment, financial, supplier, logistics, and audit truth.
+- Website MySQL may own only separately approved website-local session,
+  continuity, request, CMS, and versioned projection/display records.
+- Existing broad Prisma models are implementation inventory. Their names do not
+  grant authority to create official ERP records.
+- Any activation, migration, schema change, seed, provider connection, or data
+  synchronization requires a separate exact lease and direct evidence.
+
+## Current Verification Disposition
+
+| Evidence domain | Disposition |
+| --- | --- |
+| Current source inventory | `FACT` at the P1.3 baseline |
+| Tests, typecheck, lint, build | `UNKNOWN` for the current dirty tree |
+| Browser/runtime | `UNKNOWN` |
+| Database/provider | `UNKNOWN` |
+| Deployment/production | `UNKNOWN` |
+
+## Product Boundary
+
+HACIEN remains RFQ-first for variable, hardware, custom-service, and
+project-scoped needs. Direct checkout, payment, official documents, and ERP
+mutation remain blocked until explicitly approved and verified.

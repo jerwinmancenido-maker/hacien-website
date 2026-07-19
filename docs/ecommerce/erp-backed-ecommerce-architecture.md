@@ -1,74 +1,77 @@
 # HACIEN ERP-Backed Ecommerce Architecture
 
+Status: Adopted P1.3 ERP/website boundary alignment
+Last Reviewed: 2026-07-18
+Authority: ERP/website integration consumer
+Controlling Contract: `/Users/m5/Projects/hacien-staging/operations/knowledge/website-source-data-promotion-contract.md`
+Supersedes: The absolute prohibition on all website-local ecommerce persistence
+
 ## Decision
 
-HACIEN ERP is the sole source of truth for ecommerce operations. The standalone website is the storefront and customer-facing portal client that reads ERP data and publishes only customer-safe public data.
+ERP/PostgreSQL is the sole authority for official ecommerce and business
+operations. The canonical website is the public storefront and continuity
+client. Website-local MySQL may support explicitly bounded draft, request,
+session, CMS, and projection/display records; it does not become operational
+truth.
 
-## Approved Business Rules
+## ERP Ownership
 
-- Customer signup is open, with visibility and access controls managed in ERP customer identity.
-- Manual payment order intent is allowed first, with a sandbox gateway adapter available only behind feature flags.
-- Official invoices/tax documents are not automated in ecommerce MVP.
-- Hardware, project-scoped, and variable-availability products remain RFQ-first unless explicitly approved for checkout.
-- Products are sourced from ERP Product Master and published to web via a publication layer.
-- Official invoices, official receipts, and accounting postings must not be auto-posted during checkout intent collection.
+ERP owns:
 
-## Ownership
+- product master, publication eligibility, price, stock, availability, and
+  fulfillment truth;
+- official customer, organization, membership, quotation, order, sale,
+  supplier, logistics, and support/RMA decisions;
+- invoices, receipts, payments, tax, accounting, commissions, and audit history;
+- final acceptance, rejection, cancellation, and lifecycle state.
 
-- ERP owns:
-  - Product Master (SKU, price, stock, categories, brands, UOM, availability, verification status, evidence link)
-  - Product Publication (public slug, public name, public description, image/specs, purchase mode, published state)
-  - Customers, customer users, memberships, organization assignments
-  - Customer signup workflow
-  - Order intents, quotations, and downstream sales flow
-  - Audit logs and operational history
-- Website owns:
-  - Public rendering for products and catalog
-  - Checkout/order-intent flow UI
-  - Open signup form UI
-  - Validation + safe rendering behavior (fallback and empty-state handling)
+## Website-Local Ownership Ceiling
 
-## Source-of-Truth Guarantees
+Subject to separate implementation and external-state approval, the website may
+own:
 
-1. Website does not persist its own sellable product catalog.
-2. Website does not persist ERP-facing customer account records, order intents, quotations, sales orders, invoices, receipts, or accounting entries.
-3. Public product data is read from ERP-published catalog endpoints only.
-4. ERP Product Master is the only place operations staff create products.
-5. Any product shown publicly must pass through publication controls.
+- website session/consent records;
+- carts and pre-ERP RFQ or checkout drafts;
+- idempotency keys, correlation identifiers, request delivery receipts, and
+  reconciliation checkpoints;
+- CMS/public-content records;
+- versioned customer-safe ERP projections and display caches.
 
-## Non-Goals (MVP)
+Schema models resembling products, customers, orders, payments, invoices, or
+subscriptions must be constrained to projection, draft, request, or display
+semantics. They do not authorize official record creation.
 
-- No website-local ecommerce database for sellable products.
-- No website-local customer authentication/authorization that duplicates ERP customer identity.
-- No direct ERP order creation from public checkout before quotation, payment, approval, inventory, and tax rules are approved.
-- No card details stored in HACIEN systems.
-- No production payment provider without sandbox gating and explicit security approvals.
-- No official invoice automation in the public storefront.
+## Contract Flow
 
-## Public-Facing Purchase Modes
+1. ERP publishes an allowlisted, versioned projection.
+2. Website stores or renders the projection with source identifier, version, and
+   freshness.
+3. Website submits additive requests through an approved gateway/API using an
+   idempotency key.
+4. ERP returns acceptance/rejection and later lifecycle reconciliation.
+5. Website yields to official ERP state while retaining an audit trail.
 
-- `rfq` - request-for-quote flow only.
-- `checkout` - direct checkout form available (manual payment path initially).
-- `hybrid` - RFQ + optional checkout path for approved product types.
+## Public Purchase Modes
 
-## Public Endpoint Behavior
+- `rfq`: request-for-quote only.
+- `checkout`: approval-gated direct-purchase intent.
+- `hybrid`: RFQ plus optional approved checkout intent.
 
-- `/products` and `/products/[category]` must be resilient to ERP downtime and show controlled fallback content or empty states without exposing unverified claims.
-- `/product/[slug]` must:
-  - resolve published products by slug
-  - display ERP-published specs and image payload safely
-  - expose RFQ CTA always
-  - expose checkout intents only for eligible published products.
+The website must not imply that intent capture creates an official order,
+payment, invoice, or fulfillment commitment.
 
-## Security and Compliance Defaults
+## Resilience
 
-- Never expose internal ERP identifiers or internal-only status transitions.
-- Always sanitize URLs, phone/email links, and form payloads.
-- Enforce HTTPS and content security constraints in production hosting layer.
-- Keep email/attachment and evidence references customer-safe by default.
+Controlled fallback or empty states may preserve navigation during ERP
+unavailability. Seeded, compatibility, cached, or fallback data must be visibly
+classified internally and must not be represented as current official truth.
 
-## Implementation Guardrails
+## Prohibitions
 
-- Any implementation that introduces direct product mutation on the website must be rejected.
-- Any implementation that auto-creates official financial artifacts from public storefront actions must be rejected.
-- Any checkout path that bypasses manual payment review and ERP order-intent intent is considered non-compliant for MVP.
+- no direct website mutation of ERP tables;
+- no independent website product/price/stock truth;
+- no official order, invoice, receipt, tax, payment, supplier, logistics, or
+  accounting creation from the storefront;
+- no cardholder-data storage;
+- no production provider, database, migration, seed, messaging, cron, or
+  deployment action without a separate exact authorization.
