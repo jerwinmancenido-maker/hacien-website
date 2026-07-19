@@ -1,6 +1,13 @@
 # HACIEN Website — 7-Day Priority Plan
 
-> **Status:** Production — live at https://haciensolutions.com
+> **Status:** Superseded historical plan. Not current authority, runtime proof,
+> deployment proof, or production status.
+> **Superseded by:** `AGENTS.md`,
+> `plans/hacien-website-masterplan-index.md`, and the P1.3 contract at
+> `/Users/m5/Projects/hacien-staging/operations/knowledge/website-source-data-promotion-contract.md`.
+> **Preservation rule:** The checklist below remains historical context only.
+
+> **Historical status recorded by the original plan:** Production — live at https://haciensolutions.com
 > **Cloudflare + Hostinger Node.js** | **Next.js 16.2.9 (Turbopack)**
 > **Branch:** `hardening/standalone-output` exists but not merged to main
 
