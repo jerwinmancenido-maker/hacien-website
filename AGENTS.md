@@ -127,5 +127,5 @@ separate dispositions.
   migration/rollback disposition, and review evidence.
 - Older plans remain historical/reference material where they conflict with this
   overlay or the P1.3 contract.
-- The held P1.2.1 manifest is a separate protected packet and must not be
-  modified or incorporated into P1.3 work.
+- The finalized P1.2.1 manifest remains a separate protected provenance packet;
+  this website overlay cannot redefine or supersede it.
