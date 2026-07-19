@@ -1,6 +1,14 @@
 # HACIEN Website — Architecture Review & Execution Roadmap
 
-> **Status:** Planning-only. No implementation until approved.
+> **Status:** Superseded historical architecture assessment. Not current source,
+> runtime, provider, database, deployment, or production truth.
+> **Superseded by:** `AGENTS.md`, current source inspection,
+> `plans/hacien-website-masterplan-index.md`, and the P1.3 contract at
+> `/Users/m5/Projects/hacien-staging/operations/knowledge/website-source-data-promotion-contract.md`.
+> **Preservation rule:** Findings below describe the repository at an earlier
+> point and must be reverified before use.
+
+> **Historical status recorded by the original review:** Planning-only. No implementation until approved.
 > **Repo:** `hacien-website` | **Live:** https://haciensolutions.com
 > **Stack:** Next.js 16.2.9 (Turbopack), Tailwind CSS v4, Hostinger Node.js
 

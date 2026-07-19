@@ -1,52 +1,61 @@
 # HACIEN Ecommerce Architecture Decision
 
+Status: Adopted P1.3 architecture alignment
+Last Reviewed: 2026-07-18
+Authority: Product-mode and website-consumer architecture
+Data and Promotion Authority: `/Users/m5/Projects/hacien-staging/operations/knowledge/website-source-data-promotion-contract.md`
+Supersedes: Earlier unresolved ERP-versus-local-cache wording
+
 ## Decision
 
-HACIEN will be implemented as a **procurement-aware marketplace**, not a generic
-ecommerce implementation. The website remains the public storefront and enquiry
-entrypoint; ERP-backed APIs provide the long-term source of truth for sellable
-operational data, while customer-facing features are introduced progressively.
+HACIEN is a procurement-aware, RFQ-first website backed by ERP-controlled
+business truth. The website is the canonical public source and customer-facing
+client; it is not a second ERP.
 
 ## Product Modes
 
-- `rfq`: RFQ-only products.
-- `checkout`: direct purchase products.
-- `hybrid`: products that allow both RFQ and direct-checkout-style paths.
+- `rfq`: request-for-quote only.
+- `checkout`: direct-purchase intent only for explicitly approved products and
+  policies.
+- `hybrid`: RFQ plus an approval-gated checkout-intent path.
 
-## Account Model
+These modes control website presentation and request capture. ERP controls
+publication eligibility, official price/availability, acceptance, quotation,
+order, payment, fulfillment, and financial state.
 
-Customers use account sign-in with organization context.
-Accounts are expected to show:
+## Account and Continuity Model
 
-- RFQ history and submitted references.
-- Checkout/order-intent state.
-- Support activity references.
-- Order/payment status records.
+The website may provide customer-safe continuity for:
 
-## Provider Decisions Required
+- website authentication/session and consent;
+- cart and draft request state;
+- RFQ and checkout-intent submission receipts;
+- ERP-projected quotation, order, document, support, and payment-status display.
 
-- Database host.
-- Auth provider.
-- ERP integration approach (read-through vs local cache).
-- Payment provider and sandbox activation policy.
-- Production migration policy.
-- Tax/invoice posture.
-- Admin approval/role model.
+Website-local identity is not the official customer/organization master. A
+request or displayed record is not official until ERP accepts or publishes it.
 
-## Immediate Non-Goals for MVP
+## Integration Direction
 
-- No official tax invoice automation yet.
-- No direct checkout for hardware/project products by default.
-- No card-data storage or payment card vault in HACIEN systems.
-- No official claims that full ERP-style customer portal is fully operational until
-  accounts, roles, and order history are implemented and verified.
+```text
+ERP -> versioned customer-safe projection -> website display/cache
+website draft -> idempotent request -> ERP gateway/API
+ERP receipt/reconciliation -> website continuity display
+```
 
-## ERP-First Source-of-Truth Alignment
+Direct database writes, dual writes, inferred record matching, and
+last-write-wins synchronization are prohibited.
 
-HACIEN is proceeding with an ERP-first strategy:
+## Activation Gates
 
-- Product master data and pricing truth are managed in HACIEN ERP.
-- Website should read public-safe product publications and status.
-- Website can maintain UI/UX and quote intent services, but should avoid duplicating
-  ERP operational truth in local static files beyond interim migration.
-- ERP-backed contracts and APIs are the default path for future account and order data.
+Database hosting, authentication, ERP APIs, payments, tax/invoice behavior,
+admin roles, migrations, data seeding, outbound messaging, and production
+deployment each require separate authorization and direct verification.
+
+## Immediate Non-Goals
+
+- official invoice, receipt, tax, payment, inventory, supplier, logistics, or
+  accounting automation in the website;
+- cardholder-data storage;
+- treating seeded/fallback content as production truth;
+- production-readiness claims based only on source or historical evidence.
