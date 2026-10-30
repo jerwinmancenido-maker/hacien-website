@@ -11,7 +11,7 @@ import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { insights } from "@/data/insights";
 
 export const metadata: Metadata = {
-  title: "Enterprise Technology Knowledge Center | HACIEN Insights",
+  title: "Enterprise Technology Knowledge Center | Insights",
   description:
     "Read HACIEN insights for enterprise technology, RFQ preparation, buyer checklists, infrastructure, cybersecurity, cloud, and best practices.",
 };

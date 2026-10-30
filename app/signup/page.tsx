@@ -5,7 +5,7 @@ import { SignupForm } from "@/components/account/SignupForm";
 import { GradientBackground } from "@/app/components/reactbits";
 
 export const metadata: Metadata = {
-  title: "Customer Signup | HACIEN",
+  title: "Customer Signup",
   description:
     "Create an open customer account request for HACIEN. This remains a request/verification flow while ERP integration is prepared.",
 };

@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const erpProduct = await resolveErpProduct(slug);
   if (erpProduct) {
     return {
-      title: `${erpProduct.name} | HACIEN`,
+      title: erpProduct.name,
       description: erpProduct.shortDescription,
     };
   }

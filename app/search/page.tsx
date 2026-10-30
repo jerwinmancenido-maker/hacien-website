@@ -12,7 +12,7 @@ const searchable = [
   { title: "Home", href: "/", group: "Company", text: "Technology procurement clarified before anyone quotes." },
   { title: "Solutions", href: "/solutions", group: "Solutions", text: "Infrastructure, workplace, cybersecurity, cloud, procurement, and managed services." },
   { title: "Technology", href: "/technology", group: "Technology", text: "Enterprise computing, networking, cybersecurity, cloud, software, storage, power, cabling, and services." },
-  { title: "Technology RFQ Builder", href: "/products", group: "Technology", text: "Build one RFQ package from multiple technology requirements." },
+  { title: "Products", href: "/products", group: "Technology", text: "Build one RFQ package from multiple technology requirements." },
   { title: "Platform", href: "/platform", group: "Platform", text: "HACIEN Workspace, Timeline, Guardian, Customer Workspace, and account continuity." },
   { title: "Insights", href: "/insights", group: "Knowledge", text: "Enterprise technology, institutional procurement, digital transformation, cybersecurity, cloud, and best practices." },
   { title: "Trust & Compliance", href: "/trust-center", group: "Company", text: "Company identity, verification boundaries, privacy, security, and support expectations." },

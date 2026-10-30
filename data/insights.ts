@@ -71,7 +71,7 @@ export const insights: Insight[] = [
     ctaUrl: "/quote",
     publishedAt: "2025-01-15",
     readingTime: "7 min read",
-    seoTitle: "IT Procurement Guide for Philippine Organizations | HACIEN Insights",
+    seoTitle: "IT Procurement Guide for Philippine Organizations | Insights",
     seoDescription:
       "A practical guide to IT procurement in the Philippines — defining requirements, sourcing suppliers, comparing quotations, and managing delivery.",
   },
@@ -124,7 +124,7 @@ export const insights: Insight[] = [
     ctaUrl: "/quote",
     publishedAt: "2025-02-03",
     readingTime: "6 min read",
-    seoTitle: "How to Prepare an IT RFQ | HACIEN Insights",
+    seoTitle: "How to Prepare an IT RFQ | Insights",
     seoDescription:
       "Step-by-step guide to preparing a complete IT Request for Quotation — covering specifications, documentation, validity, and supplier engagement.",
   },
@@ -172,7 +172,7 @@ export const insights: Insight[] = [
     ctaUrl: "/quote",
     publishedAt: "2025-02-20",
     readingTime: "5 min read",
-    seoTitle: "Approved Equivalent in IT Procurement | HACIEN Insights",
+    seoTitle: "Approved Equivalent in IT Procurement | Insights",
     seoDescription:
       "Plain-language explanation of approved equivalent review in IT procurement — when it applies, how it works, and what documentation is useful.",
   },
@@ -224,7 +224,7 @@ export const insights: Insight[] = [
     ctaUrl: "/quote",
     publishedAt: "2025-03-10",
     readingTime: "6 min read",
-    seoTitle: "Server vs. NAS Storage: Buyer's Guide | HACIEN Insights",
+    seoTitle: "Server vs. NAS Storage: Buyer's Guide | Insights",
     seoDescription:
       "Practical comparison of server and NAS storage options for Philippine organizations — helping buyers choose the right solution for their needs and budget.",
   },
@@ -272,7 +272,7 @@ export const insights: Insight[] = [
     ctaUrl: "/quote",
     publishedAt: "2025-03-25",
     readingTime: "7 min read",
-    seoTitle: "Network Equipment Buying Guide | HACIEN Insights",
+    seoTitle: "Network Equipment Buying Guide | Insights",
     seoDescription:
       "Practical guide to buying switches, access points, firewalls, and routers for Philippine organization deployments.",
   },
@@ -325,7 +325,7 @@ export const insights: Insight[] = [
     ctaUrl: "/quote",
     publishedAt: "2025-04-08",
     readingTime: "6 min read",
-    seoTitle: "Business Laptop Procurement Guide | HACIEN Insights",
+    seoTitle: "Business Laptop Procurement Guide | Insights",
     seoDescription:
       "How to specify and source business laptops for Philippine organizations — covering processor, memory, storage, warranty, and procurement considerations.",
   },

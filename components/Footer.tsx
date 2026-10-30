@@ -53,7 +53,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-white/10 px-4 py-4 text-center text-xs text-slate-400">
-        <span>© 2026 HACIEN Information Technology Solutions. All rights reserved.</span>
+        <span>© {new Date().getFullYear()} HACIEN Information Technology Solutions. All rights reserved.</span>
       </div>
     </footer>
   );

@@ -4,7 +4,7 @@ import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/rea
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 
 export const metadata: Metadata = {
-  title: "Customer Workspace | HACIEN",
+  title: "Customer Workspace",
   description:
     "HACIEN Customer Workspace direction for future RFQ tracking, quotation visibility, documents, support, and account continuity.",
 };
