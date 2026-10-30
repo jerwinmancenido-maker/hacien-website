@@ -8,7 +8,7 @@ import { isLocalCmsAccessEnabled } from "@/lib/cms/local-access";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Command Center CMS Drafts | HACIEN",
+  title: "Command Center CMS Drafts",
   description: "Local-only HACIEN CMS draft editor for safe website content review.",
   robots: {
     index: false,

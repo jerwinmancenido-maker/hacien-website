@@ -1,4 +1,8 @@
 import type { NextConfig } from "next";
+import {
+  buildStrictTransportSecurity,
+  shouldUpgradeInsecureRequests,
+} from "./lib/security/hsts-headers";
 
 const nextConfig: NextConfig = {
   output: "standalone",
@@ -13,7 +17,16 @@ const nextConfig: NextConfig = {
   },
 
   async headers() {
-    const hstsEnabled = process.env.HSTS_ENABLE === "true";
+    const securityEnv = {
+      HSTS_ENABLE: process.env.HSTS_ENABLE,
+      HSTS_MAX_AGE: process.env.HSTS_MAX_AGE,
+      HSTS_INCLUDE_SUBDOMAINS: process.env.HSTS_INCLUDE_SUBDOMAINS,
+      HSTS_PRELOAD: process.env.HSTS_PRELOAD,
+      CSP_UPGRADE_INSECURE_REQUESTS: process.env.CSP_UPGRADE_INSECURE_REQUESTS,
+    };
+    const hstsValue = buildStrictTransportSecurity(securityEnv);
+    const upgradeInsecureRequests = shouldUpgradeInsecureRequests(securityEnv);
+
     const scriptSrc =
       process.env.NODE_ENV === "production"
         ? "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com"
@@ -31,7 +44,7 @@ const nextConfig: NextConfig = {
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
-      ...(hstsEnabled ? ["upgrade-insecure-requests"] : []),
+      ...(upgradeInsecureRequests ? ["upgrade-insecure-requests"] : []),
     ].join("; ");
 
     const headers: Record<string, string> = {
@@ -43,9 +56,8 @@ const nextConfig: NextConfig = {
         "camera=(), microphone=(), geolocation=(), interest-cohort=()",
     };
 
-    if (hstsEnabled) {
-      headers["Strict-Transport-Security"] =
-        "max-age=63072000; includeSubDomains; preload";
+    if (hstsValue) {
+      headers["Strict-Transport-Security"] = hstsValue;
     }
 
     return [

@@ -4,7 +4,7 @@ import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/mo
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 
 export const metadata: Metadata = {
-  title: "Access HACIEN",
+  title: "Access",
   description:
     "Access HACIEN Workspace, learn about the future Customer Workspace, or contact HACIEN support.",
 };

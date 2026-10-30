@@ -18,7 +18,7 @@ export async function generateMetadata({
   const { slug } = await params;
   const insight = getInsight(slug);
   return {
-    title: insight ? insight.seoTitle : "Insights | HACIEN",
+    title: insight ? insight.seoTitle : "Insights",
     description:
       insight?.seoDescription ??
       "Practical IT procurement guides and resources from HACIEN.",

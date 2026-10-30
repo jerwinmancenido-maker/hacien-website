@@ -5,7 +5,7 @@ import { LoginForm } from "@/components/auth/LoginForm";
 import { GradientBackground } from "@/app/components/reactbits";
 
 export const metadata: Metadata = {
-  title: "Customer Login | HACIEN",
+  title: "Customer Login",
   description:
     "Customer account sign-in preview for HACIEN. Public access to RFQ and workspace request paths remains active.",
 };

@@ -21,34 +21,34 @@ const cmsSeoRecords: Record<CmsSeoKey, CmsSeoRecord> = {
   about: {
     key: "about",
     route: "/about",
-    title: "About HACIEN | IT Procurement & Technology Solutions",
+    title: "About | IT Procurement & Technology Solutions",
     description:
       "HACIEN Information Technology Solutions helps Philippine organizations prepare technology requirements, review supplier inputs, and move RFQs into formal business communication.",
   },
   solutions: {
     key: "solutions",
     route: "/solutions",
-    title: "IT Solutions and Systems Integration Philippines | HACIEN",
+    title: "IT Solutions and Systems Integration Philippines",
     description:
       "HACIEN provides IT infrastructure, systems integration, networking, cybersecurity, servers, storage, cloud, software licensing, managed IT, and project delivery support in the Philippines.",
   },
   industries: {
     key: "industries",
     route: "/industries",
-    title: "Industries Served | HACIEN",
+    title: "Industries Served",
     description:
       "Explore how HACIEN supports business, education, healthcare, construction, enterprise, and organization buyers with RFQ-first technology support.",
   },
   faq: {
     key: "faq",
     route: "/faq",
-    title: "FAQ | HACIEN",
+    title: "FAQ",
     description: "Search HACIEN RFQ, payment, document, support, and tracking questions with evidence-safe answers.",
   },
   help: {
     key: "help",
     route: "/help",
-    title: "Help Center | HACIEN",
+    title: "Help Center",
     description: "HACIEN help center for RFQ preparation, request tracking, and prototype document parsing.",
   },
 };

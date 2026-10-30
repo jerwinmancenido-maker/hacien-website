@@ -5,7 +5,7 @@ import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { SectionHeading } from "@/components/SectionHeading";
 
 export const metadata: Metadata = {
-  title: "HACIEN Platform | Operating Model",
+  title: "Platform | Operating Model",
   description:
     "HACIEN operates through its own enterprise operating platform supporting Workspace, Timeline, Guardian, Customer Workspace, and account continuity.",
 };

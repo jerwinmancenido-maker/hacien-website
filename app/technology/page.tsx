@@ -6,7 +6,7 @@ import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { SectionHeading } from "@/components/SectionHeading";
 
 export const metadata: Metadata = {
-  title: "Enterprise Technology | HACIEN",
+  title: "Enterprise Technology",
   description:
     "Explore HACIEN enterprise technology domains including computing, networking, cybersecurity, cloud, software, storage, power, structured cabling, and professional services.",
 };
