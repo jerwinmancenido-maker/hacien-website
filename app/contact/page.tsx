@@ -7,7 +7,7 @@ import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { companyContact } from "@/data/companyContact";
 
 export const metadata: Metadata = {
-  title: "Contact HACIEN",
+  title: "Contact",
   description:
     "Contact HACIEN Information Technology Solutions for business inquiries, RFQ direction, support routing, supplier introductions, and review-first communication.",
 };

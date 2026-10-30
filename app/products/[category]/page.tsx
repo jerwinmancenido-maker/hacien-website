@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const { category: categorySlug } = await params;
   const category = getCategory(categorySlug);
   return {
-    title: category ? category.seoTitle.replace("Products", "Technology") : "Technology Category | HACIEN",
+    title: category ? category.seoTitle.replace("Products", "Technology") : "Technology Category",
     description: category?.seoDescription ?? "Review HACIEN technology categories and request a quotation.",
   };
 }

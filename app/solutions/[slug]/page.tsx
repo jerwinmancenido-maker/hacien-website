@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const solution = getSolution(slug);
   return {
-    title: solution ? solution.seoTitle : "Solution | HACIEN",
+    title: solution ? solution.seoTitle : "Solution",
     description: solution?.seoDescription ?? "Explore HACIEN IT infrastructure, procurement, and systems integration solutions.",
   };
 }

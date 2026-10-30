@@ -58,7 +58,7 @@ export const solutions: Solution[] = [
     ctaLabel: "Submit Infrastructure RFQ",
     ctaUrl: "/quote",
     icon: "INF",
-    seoTitle: "IT Infrastructure Procurement | HACIEN",
+    seoTitle: "IT Infrastructure Procurement",
     seoDescription:
       "HACIEN supports IT infrastructure RFQ review including endpoints, servers, networking, power, and connectivity for Philippine organizations.",
   },
@@ -97,7 +97,7 @@ export const solutions: Solution[] = [
     ctaLabel: "Submit Procurement RFQ",
     ctaUrl: "/quote",
     icon: "RFQ",
-    seoTitle: "Hardware & Software Procurement | HACIEN",
+    seoTitle: "Hardware & Software Procurement",
     seoDescription:
       "HACIEN provides hardware and software procurement support including RFQ preparation, supplier coordination, and quotation packages for Philippine organizations.",
   },
@@ -136,7 +136,7 @@ export const solutions: Solution[] = [
     ctaLabel: "Discuss Your Integration Project",
     ctaUrl: "/contact",
     icon: "SYS",
-    seoTitle: "Systems Integration Support | HACIEN",
+    seoTitle: "Systems Integration Support",
     seoDescription:
       "HACIEN supports systems integration projects with procurement coordination, deployment planning, and project documentation for IT rollouts.",
   },
@@ -175,7 +175,7 @@ export const solutions: Solution[] = [
     ctaLabel: "Submit Support RFQ",
     ctaUrl: "/quote",
     icon: "OPS",
-    seoTitle: "Managed IT Support Procurement | HACIEN",
+    seoTitle: "Managed IT Support Procurement",
     seoDescription:
       "HACIEN reviews managed IT support RFQs including device lifecycle needs, consumables, and replacement coordination.",
   },
@@ -214,7 +214,7 @@ export const solutions: Solution[] = [
     ctaLabel: "Submit Network RFQ",
     ctaUrl: "/quote",
     icon: "NET",
-    seoTitle: "Network & Connectivity Procurement | HACIEN",
+    seoTitle: "Network & Connectivity Procurement",
     seoDescription:
       "HACIEN provides network and connectivity procurement including switches, wireless access points, firewalls, and structured cabling for Philippine organizations.",
   },
@@ -253,7 +253,7 @@ export const solutions: Solution[] = [
     ctaLabel: "Submit Server RFQ",
     ctaUrl: "/quote",
     icon: "SRV",
-    seoTitle: "Server & Storage Procurement | HACIEN",
+    seoTitle: "Server & Storage Procurement",
     seoDescription:
       "HACIEN reviews RFQ requests for servers, NAS, backup storage, and rack equipment for Philippine organizations.",
   },
@@ -292,7 +292,7 @@ export const solutions: Solution[] = [
     ctaLabel: "Get License Quotation",
     ctaUrl: "/quote",
     icon: "SaaS",
-    seoTitle: "Cloud & Productivity Licensing | HACIEN",
+    seoTitle: "Cloud & Productivity Licensing",
     seoDescription:
       "HACIEN reviews RFQ requests for Microsoft 365, endpoint security, and cloud productivity licenses for Philippine organizations.",
   },
@@ -331,7 +331,7 @@ export const solutions: Solution[] = [
     ctaLabel: "Submit Security RFQ",
     ctaUrl: "/quote",
     icon: "SEC",
-    seoTitle: "Cybersecurity Procurement | HACIEN",
+    seoTitle: "Cybersecurity Procurement",
     seoDescription:
       "HACIEN reviews RFQ requests for endpoint protection, firewall appliances, and network security products for Philippine organizations.",
   },
@@ -370,7 +370,7 @@ export const solutions: Solution[] = [
     ctaLabel: "Submit Security RFQ",
     ctaUrl: "/quote",
     icon: "CAM",
-    seoTitle: "Security & Surveillance Procurement | HACIEN",
+    seoTitle: "Security & Surveillance Procurement",
     seoDescription:
       "HACIEN reviews RFQ requests for CCTV systems, access control, NVR/DVR equipment, and site security technology.",
   },
@@ -409,7 +409,7 @@ export const solutions: Solution[] = [
     ctaLabel: "Request License Quotation",
     ctaUrl: "/quote",
     icon: "LIC",
-    seoTitle: "Software Licensing Procurement | HACIEN",
+    seoTitle: "Software Licensing Procurement",
     seoDescription:
       "HACIEN reviews RFQ requests for software licenses including productivity suites, operating systems, and business applications.",
   },
@@ -448,7 +448,7 @@ export const solutions: Solution[] = [
     ctaLabel: "Submit General RFQ",
     ctaUrl: "/quote",
     icon: "GEN",
-    seoTitle: "General Merchandise Procurement | HACIEN",
+    seoTitle: "General Merchandise Procurement",
     seoDescription:
       "HACIEN reviews RFQ requests for general merchandise, office supplies, non-IT goods, and mixed procurement packages.",
   },
@@ -487,7 +487,7 @@ export const solutions: Solution[] = [
     ctaLabel: "Discuss Delivery Support",
     ctaUrl: "/contact",
     icon: "DEL",
-    seoTitle: "Project Delivery Support | HACIEN",
+    seoTitle: "Project Delivery Support",
     seoDescription:
       "HACIEN reviews delivery coordination needs including logistics scheduling, acceptance documentation, and project closeout support.",
   },

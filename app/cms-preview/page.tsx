@@ -7,7 +7,7 @@ import { getCmsPreviewData } from "@/lib/cms/preview";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "CMS Preview | HACIEN",
+  title: "CMS Preview",
   description: "Read-only local preview of HACIEN repo-backed CMS ownership, content, media, and SEO records.",
   robots: {
     index: false,

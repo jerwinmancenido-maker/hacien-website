@@ -41,9 +41,16 @@ production statements are not current runtime truth by themselves.
 ## Lifecycle
 
 - Documentary phase label: Phase 8A work is present in the current dirty tree.
-- Current source verification: `UNKNOWN` until the dirty tree receives fresh
-  validation, tests, typecheck, lint, build, claim-safety, and rendered-browser
-  evidence.
+- Current source verification (chore/maintenance-20261031, after CTO review
+  fixes on 2026-10-30):
+  - `npm ci`: PASS (lock regenerated; `.npmrc` sets `legacy-peer-deps=true`)
+  - `npx tsc --noEmit`: PASS (0 errors)
+  - `npm run lint`: PASS (0 errors; 0 warnings)
+  - `npx vitest run`: PASS (5 files / 63 tests)
+  - `npm run validate` (claim-safety / blocked-claim scan): PASS (0 errors)
+  - `npm run build` (`next build`): PASS (Next.js 16.4.3)
+  - `npm audit`: 3 high / 0 critical (remaining require prisma major)
+  - Rendered-browser evidence: not refreshed in this maintenance pass (`UNKNOWN`)
 - Database/provider/deployment/production state: `UNKNOWN` unless separately
   verified in an authorized lane.
 - A local diff or passing review does not authorize staging, commit, push,

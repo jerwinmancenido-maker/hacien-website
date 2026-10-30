@@ -32,7 +32,7 @@ export async function generateMetadata({
   const erpProduct = await resolveErpProduct(productSlug);
   if (erpProduct?.categorySlug === categorySlug) {
     return {
-      title: `${erpProduct.name} | HACIEN`,
+      title: erpProduct.name,
       description: erpProduct.shortDescription,
     };
   }
@@ -54,7 +54,7 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${product.name} | HACIEN`,
+    title: product.name,
     description: product.shortDescription,
   };
 }
