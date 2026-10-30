@@ -10,7 +10,9 @@ export function LogoutButton() {
   async function handleLogout() {
     setIsLoading(true);
     await logoutCustomer();
-    window.location.href = "/";
+    // Absolute URL keeps a full document navigation (same as before) while
+    // satisfying the no-relative-location-assign lint rule.
+    window.location.href = new URL("/", window.location.origin).toString();
   }
 
   return (

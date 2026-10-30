@@ -21,7 +21,7 @@ const cmsSeoRecords: Record<CmsSeoKey, CmsSeoRecord> = {
   about: {
     key: "about",
     route: "/about",
-    title: "About HACIEN | IT Procurement & Technology Solutions",
+    title: "About | IT Procurement & Technology Solutions",
     description:
       "HACIEN Information Technology Solutions helps Philippine organizations prepare technology requirements, review supplier inputs, and move RFQs into formal business communication.",
   },
