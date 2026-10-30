@@ -10,7 +10,7 @@ import { listErpCatalog } from "@/lib/erp/ecommerce-client";
 import { erpCatalogToWebsiteProducts } from "@/lib/erp/catalog-products";
 
 export const metadata: Metadata = {
-  title: "Technology RFQ Builder | HACIEN",
+  title: "Products",
   description:
     "Build one RFQ package with multiple technology requirements, optional brand preferences, and supporting details before sending it to HACIEN.",
 };

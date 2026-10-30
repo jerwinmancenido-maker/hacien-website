@@ -41,9 +41,14 @@ production statements are not current runtime truth by themselves.
 ## Lifecycle
 
 - Documentary phase label: Phase 8A work is present in the current dirty tree.
-- Current source verification: `UNKNOWN` until the dirty tree receives fresh
-  validation, tests, typecheck, lint, build, claim-safety, and rendered-browser
-  evidence.
+- Current source verification (chore/maintenance-20261031, after maintenance
+  pass on 2026-10-30):
+  - `npx tsc --noEmit`: PASS (0 errors)
+  - `npm run lint`: PASS (0 errors; 1 pre-existing warning under eslint-config-next 16.4.3 in `components/auth/LogoutButton.tsx`)
+  - `npx vitest run`: PASS (3 files / 48 tests)
+  - `npm run validate` (claim-safety / blocked-claim scan): PASS (0 errors)
+  - `npm run build` (`next build`): PASS (Next.js 16.4.3)
+  - Rendered-browser evidence: not refreshed in this maintenance pass (`UNKNOWN`)
 - Database/provider/deployment/production state: `UNKNOWN` unless separately
   verified in an authorized lane.
 - A local diff or passing review does not authorize staging, commit, push,
