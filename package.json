@@ -4,20 +4,21 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "postbuild": "mkdir -p .next/standalone/.next && cp -R .next/static .next/standalone/.next/static && if [ -d public ]; then cp -R public .next/standalone/public; fi",
     "start": "node .next/standalone/server.js",
     "lint": "eslint",
     "validate": "tsx scripts/validate-data.ts",
-    "prebuild": "node -e \"require('node:fs').rmSync('.next',{recursive:true,force:true})\" && npm run validate",
+    "postinstall": "prisma generate",
+    "prebuild": "node -e \"require('node:fs').rmSync('.next',{recursive:true,force:true})\" && npm run validate && prisma generate",
     "crawl": "node scripts/crawl-routes.mjs",
     "smoke:production": "node scripts/production-smoke.mjs",
     "db:generate": "prisma generate",
-    "db:validate": "DATABASE_URL=${DATABASE_URL:-mysql://user:password@127.0.0.1:3306/hacien_website} prisma validate --schema prisma/schema.prisma",
+    "db:validate": "DATABASE_URL=${DATABASE_URL:-mysql://user:password@127.0.0.1:3306/hacien_website} prisma validate",
     "db:migrate": "prisma migrate dev",
     "db:migration:hostinger": "node scripts/generate-hostinger-mysql-migration.mjs",
-    "db:check": "node scripts/check-hostinger-database.mjs",
-    "db:deploy": "prisma migrate deploy --schema prisma/schema.prisma",
+    "db:check": "tsx scripts/check-hostinger-database.ts",
+    "db:deploy": "prisma migrate deploy",
     "db:seed": "tsx scripts/seed-ecommerce-products.ts",
     "db:studio": "prisma studio",
     "cron:quote-expiry": "tsx cron/quote-expiry-monitor.ts",
@@ -31,21 +32,20 @@
     "node": ">=20.9.0"
   },
   "dependencies": {
-    "@prisma/client": "^6.19.3",
+    "@prisma/adapter-mariadb": "7.10.1",
+    "@prisma/client": "7.10.1",
     "@react-pdf/renderer": "^4.9.0",
-    "@react-three/drei": "^10.7.9",
-    "@react-three/fiber": "^9.8.2",
     "@remotion/player": "^4.0.539",
     "@upstash/ratelimit": "^2.2.0",
     "@upstash/redis": "^1.40.0",
     "lenis": "^1.3.27",
     "lucide-react": "^1.65.0",
+    "mariadb": "3.5.4",
     "next": "16.4.3",
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "recharts": "^3.10.1",
-    "resend": "^6.36.0",
-    "three": "^0.185.1"
+    "resend": "^6.36.0"
   },
   "devDependencies": {
     "@playwright/test": "^1.64.1",
@@ -53,12 +53,17 @@
     "@types/node": "^20.19.43",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "dotenv": "16.4.7",
     "eslint": "^9.39.5",
     "eslint-config-next": "16.4.3",
-    "prisma": "^6.19.3",
+    "prisma": "7.10.1",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.15",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.12"
+    "vitest": "^4.1.12",
+    "@prisma/streams-local": "file:vendor/prisma-streams-local-stub"
+  },
+  "overrides": {
+    "@prisma/streams-local": "$@prisma/streams-local"
   }
 }

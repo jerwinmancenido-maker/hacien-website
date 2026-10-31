@@ -26,7 +26,7 @@ const sql = execFileSync(
     "migrate",
     "diff",
     "--from-empty",
-    "--to-schema-datamodel",
+    "--to-schema",
     "prisma/schema.prisma",
     "--script",
   ],
