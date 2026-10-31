@@ -113,12 +113,12 @@ export function InteractivePortalPreview() {
   const selectedRfqData = rfqs.find(r => r.id === selectedRfq) || rfqs[0];
 
   return (
-    <div className="rounded-3xl border border-slate-200/80 bg-white shadow-xl shadow-slate-950/5 overflow-hidden">
+    <div className="rounded border border-slate-200/80 bg-white shadow-xl shadow-slate-950/5 overflow-hidden">
       {/* Top Banner */}
-      <div className="bg-[#071426] p-6 text-white sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-[#0A0A0A] p-6 text-white sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-blue-500/20 px-3 py-1 text-xs font-semibold text-blue-300 border border-blue-400/30">
+              <span className="inline-flex items-center gap-1.5 rounded bg-blue-500/20 px-3 py-1 text-xs font-semibold text-blue-300 border border-blue-400/30">
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
               Illustrative Portal Preview
             </span>
@@ -134,7 +134,7 @@ export function InteractivePortalPreview() {
         <div className="flex items-center gap-3">
           <Link
             href="/quote"
-            className="rounded-full bg-[#1457d9] px-4 py-2 text-xs font-semibold text-white shadow-md hover:bg-blue-600 transition"
+            className="rounded bg-[#2563EB] px-4 py-2 text-xs font-semibold text-white shadow-md hover:bg-blue-600 transition"
           >
             New RFQ Intake
           </Link>
@@ -153,14 +153,14 @@ export function InteractivePortalPreview() {
           <button
             onClick={() => setActiveTab("rfqs")}
             className={`flex items-center gap-2 border-b-2 pb-3 text-sm font-semibold transition ${
-              activeTab === "rfqs"
-                ? "border-[#1457d9] text-[#1457d9]"
-                : "border-transparent text-slate-600 hover:text-slate-900"
-            }`}
+ activeTab === "rfqs"
+ ? "border-[#2563EB] text-[#2563EB]"
+ : "border-transparent text-slate-600 hover:text-slate-900"
+ }`}
           >
             <FileText className="h-4 w-4" />
             Sample RFQs & Quotes
-            <span className="rounded-full bg-blue-100 px-2 py-0.5 text-xs text-blue-700 font-bold">
+            <span className="rounded bg-blue-100 px-2 py-0.5 text-xs text-blue-700 font-bold">
               {rfqs.length}
             </span>
           </button>
@@ -168,10 +168,10 @@ export function InteractivePortalPreview() {
           <button
             onClick={() => setActiveTab("orders")}
             className={`flex items-center gap-2 border-b-2 pb-3 text-sm font-semibold transition ${
-              activeTab === "orders"
-                ? "border-[#1457d9] text-[#1457d9]"
-                : "border-transparent text-slate-600 hover:text-slate-900"
-            }`}
+ activeTab === "orders"
+ ? "border-[#2563EB] text-[#2563EB]"
+ : "border-transparent text-slate-600 hover:text-slate-900"
+ }`}
           >
             <Truck className="h-4 w-4" />
             Procurement Planning
@@ -183,10 +183,10 @@ export function InteractivePortalPreview() {
           <button
             onClick={() => setActiveTab("tickets")}
             className={`flex items-center gap-2 border-b-2 pb-3 text-sm font-semibold transition ${
-              activeTab === "tickets"
-                ? "border-[#1457d9] text-[#1457d9]"
-                : "border-transparent text-slate-600 hover:text-slate-900"
-            }`}
+ activeTab === "tickets"
+ ? "border-[#2563EB] text-[#2563EB]"
+ : "border-transparent text-slate-600 hover:text-slate-900"
+ }`}
           >
             <HelpCircle className="h-4 w-4" />
             Support Tickets
@@ -198,10 +198,10 @@ export function InteractivePortalPreview() {
           <button
             onClick={() => setActiveTab("documents")}
             className={`flex items-center gap-2 border-b-2 pb-3 text-sm font-semibold transition ${
-              activeTab === "documents"
-                ? "border-[#1457d9] text-[#1457d9]"
-                : "border-transparent text-slate-600 hover:text-slate-900"
-            }`}
+ activeTab === "documents"
+ ? "border-[#2563EB] text-[#2563EB]"
+ : "border-transparent text-slate-600 hover:text-slate-900"
+ }`}
           >
             <ShieldCheck className="h-4 w-4" />
             Evidence Vault
@@ -226,11 +226,11 @@ export function InteractivePortalPreview() {
                 <button
                   key={rfq.id}
                   onClick={() => setSelectedRfq(rfq.id)}
-                  className={`text-left rounded-xl border p-4 transition ${
-                    selectedRfq === rfq.id
-                      ? "border-[#1457d9] bg-blue-50/40 shadow-sm"
-                      : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50"
-                  }`}
+                  className={`text-left rounded border p-4 transition ${
+ selectedRfq === rfq.id
+ ? "border-[#2563EB] bg-blue-50/40 shadow-sm"
+ : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50"
+ }`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold text-slate-500">{rfq.id}</span>
@@ -250,10 +250,10 @@ export function InteractivePortalPreview() {
             </div>
 
             {/* RFQ Details Pane */}
-            <div className="lg:col-span-7 rounded-2xl border border-slate-200 bg-slate-50/50 p-6">
+            <div className="lg:col-span-7 rounded border border-slate-200 bg-slate-50/50 p-6">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-4">
                 <div>
-                  <span className="text-xs font-bold text-[#1457d9]">{selectedRfqData.id}</span>
+                  <span className="text-xs font-bold text-[#2563EB]">{selectedRfqData.id}</span>
                   <h4 className="text-base font-bold text-slate-950">{selectedRfqData.title}</h4>
                   <p className="text-xs text-slate-500">Created: {selectedRfqData.date}</p>
                 </div>
@@ -270,7 +270,7 @@ export function InteractivePortalPreview() {
               {/* Items Table */}
               <div className="mt-4">
                 <h5 className="text-xs font-bold text-slate-700 mb-2">Requested Specifications & Items</h5>
-                <div className="overflow-hidden rounded-xl border border-slate-200 bg-white text-xs">
+                <div className="overflow-hidden rounded border border-slate-200 bg-white text-xs">
                   <table className="w-full text-left">
                     <thead className="bg-slate-100/80 text-slate-600 font-semibold border-b border-slate-200">
                       <tr>
@@ -293,7 +293,7 @@ export function InteractivePortalPreview() {
               </div>
 
               {/* Notes */}
-              <div className="mt-4 rounded-xl border border-blue-200/80 bg-blue-50/60 p-3.5 text-xs text-blue-900">
+              <div className="mt-4 rounded border border-blue-200/80 bg-blue-50/60 p-3.5 text-xs text-blue-900">
                 <span className="font-bold">Status Note: </span>
                 {selectedRfqData.notes}
               </div>
@@ -305,7 +305,7 @@ export function InteractivePortalPreview() {
         {activeTab === "orders" && (
           <div className="flex flex-col gap-6">
             {orders.map((order) => (
-              <div key={order.id} className="rounded-2xl border border-slate-200 p-6 bg-slate-50/40">
+              <div key={order.id} className="rounded border border-slate-200 p-6 bg-slate-50/40">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 pb-4">
                   <div>
                     <div className="flex items-center gap-2">
@@ -333,12 +333,12 @@ export function InteractivePortalPreview() {
                         <div className="flex items-center gap-2">
                           <div
                             className={`grid h-7 w-7 place-items-center rounded-full text-xs font-bold ${
-                              step.completed
-                                ? "bg-emerald-600 text-white"
-                                : step.current
-                                ? "bg-[#1457d9] text-white ring-4 ring-blue-100 animate-pulse"
-                                : "bg-slate-200 text-slate-500"
-                            }`}
+ step.completed
+ ? "bg-emerald-600 text-white"
+ : step.current
+ ? "bg-[#2563EB] text-white ring-4 ring-blue-100 animate-pulse"
+ : "bg-slate-200 text-slate-500"
+ }`}
                           >
                             {step.completed ? <CheckCircle2 className="h-4 w-4" /> : idx + 1}
                           </div>
@@ -357,7 +357,7 @@ export function InteractivePortalPreview() {
 
         {/* TICKETS TAB */}
         {activeTab === "tickets" && (
-          <div className="overflow-hidden rounded-xl border border-slate-200 text-xs">
+          <div className="overflow-hidden rounded border border-slate-200 text-xs">
             <table className="w-full text-left">
               <thead className="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
                 <tr>
@@ -371,13 +371,13 @@ export function InteractivePortalPreview() {
               <tbody className="divide-y divide-slate-100 text-slate-800">
                 {tickets.map((t) => (
                   <tr key={t.id} className="hover:bg-slate-50/80 transition">
-                    <td className="py-3 px-4 font-mono font-bold text-[#1457d9]">{t.id}</td>
+                    <td className="py-3 px-4 font-mono font-bold text-[#2563EB]">{t.id}</td>
                     <td className="py-3 px-4 font-medium">{t.subject}</td>
                     <td className="py-3 px-4 text-slate-600">{t.category}</td>
                     <td className="py-3 px-4">
                       <span className={`inline-block rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
-                        t.status.includes("Resolved") ? "bg-slate-100 text-slate-700 border border-slate-300" : "bg-blue-50 text-blue-700 border border-blue-200"
-                      }`}>
+ t.status.includes("Resolved") ? "bg-slate-100 text-slate-700 border border-slate-300" : "bg-blue-50 text-blue-700 border border-blue-200"
+ }`}>
                         {t.status}
                       </span>
                     </td>
@@ -393,9 +393,9 @@ export function InteractivePortalPreview() {
         {activeTab === "documents" && (
           <div className="grid gap-4 md:grid-cols-2">
             {documents.map((doc, idx) => (
-              <div key={idx} className="flex items-center justify-between rounded-xl border border-slate-200 p-4 bg-slate-50/50 hover:bg-white hover:shadow-sm transition">
+              <div key={idx} className="flex items-center justify-between rounded border border-slate-200 p-4 bg-slate-50/50 hover:bg-white hover:shadow-sm transition">
                 <div className="flex items-center gap-3">
-                  <div className="grid h-10 w-10 place-items-center rounded-lg bg-blue-100 text-[#1457d9]">
+                  <div className="grid h-10 w-10 place-items-center rounded-lg bg-blue-100 text-[#2563EB]">
                     <FileCheck className="h-5 w-5" />
                   </div>
                   <div>
@@ -415,7 +415,7 @@ export function InteractivePortalPreview() {
       {/* Footer Info */}
       <div className="border-t border-slate-200 bg-slate-50 px-6 py-4 text-xs text-slate-500 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <span>Need assistance with a request? Contact HACIEN support for RFQ follow-up and clarification.</span>
-        <Link href="/contact" className="font-bold text-[#1457d9] hover:underline flex items-center gap-1">
+        <Link href="/contact" className="font-bold text-[#2563EB] hover:underline flex items-center gap-1">
           Support Desk <ChevronRight className="h-3.5 w-3.5" />
         </Link>
       </div>

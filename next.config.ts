@@ -9,6 +9,11 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
+  images: {
+    dangerouslyAllowSVG: true,
+    contentDispositionType: "attachment",
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+  },
   experimental: {
     cpus: Number(process.env.NEXT_BUILD_CPUS || 2),
     staticGenerationMaxConcurrency: Number(process.env.NEXT_STATIC_GENERATION_MAX_CONCURRENCY || 2),

@@ -61,14 +61,14 @@ export default function AccessPage() {
         <StaggerContainer className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-3">
           {accessOptions.map((option) => (
             <AnimatedCard key={option.title} className="flex h-full flex-col rounded-lg border border-slate-200 bg-white p-8 shadow-sm">
-              <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">{option.eyebrow}</div>
+              <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">{option.eyebrow}</div>
               <h2 className="mt-5 text-3xl font-bold tracking-tight text-slate-950">{option.title}</h2>
               <p className="mt-4 flex-1 text-sm leading-7 text-slate-600">{option.body}</p>
               <Link
                 href={option.href}
                 target={option.external ? "_blank" : undefined}
                 rel={option.external ? "noopener noreferrer" : undefined}
-                className="mt-8 inline-flex w-fit rounded-full bg-[#071426] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#1457d9]"
+                className="mt-8 inline-flex w-fit rounded bg-[#0A0A0A] px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-[#2563EB]"
               >
                 {option.label}
               </Link>

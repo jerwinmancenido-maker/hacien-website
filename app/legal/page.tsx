@@ -23,7 +23,7 @@ function renderDocumentSections(document: CmsDocumentRecord) {
         {section.clauses.map((clause) => (
           <DocumentClause key={clause.heading} title={clause.heading}>
             {clause.status ? (
-              <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">{clause.status}</div>
+              <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">{clause.status}</div>
             ) : null}
             {clause.paragraphs?.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
@@ -75,7 +75,7 @@ export default function LegalPage() {
             </address>
             <div className="mt-4 font-bold text-slate-950">Public business contact</div>
             <p className="mt-1 text-sm">{companyContact.contactInstruction}</p>
-            <Link href="/contact" className="mt-3 inline-flex font-semibold text-[#1457d9]">
+            <Link href="/contact" className="mt-3 inline-flex font-semibold text-[#2563EB]">
               Use Contact Form
             </Link>
           </div>
@@ -86,7 +86,7 @@ export default function LegalPage() {
 
       <div className="flex flex-col gap-3 rounded border border-slate-200 bg-white/88 p-4 text-xs leading-6 text-slate-600 sm:flex-row sm:items-center sm:justify-between">
         <p>{legalDocument.finalNote}</p>
-        <div className="flex gap-3 font-bold text-[#1457d9]">
+        <div className="flex gap-3 font-bold text-[#2563EB]">
           {legalDocument.relatedLinks?.map((link) => (
             <Link key={link.href} href={link.href}>
               {link.label}

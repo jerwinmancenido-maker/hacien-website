@@ -74,15 +74,15 @@ export default function TechnologyPage() {
                   }}
                 />
                 <div className="p-7">
-                <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Technology Domain</div>
+                <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">Technology Domain</div>
                 <h2 className="mt-5 text-2xl font-bold tracking-tight text-slate-950">{title}</h2>
                 <p className="mt-4 text-sm leading-7 text-slate-600">{text}</p>
                 {categorySlug ? (
-                  <Link href={`/products/${categorySlug}`} className="mt-7 inline-flex text-sm font-bold text-[#1457d9] hover:underline">
+                  <Link href={`/products/${categorySlug}`} className="mt-7 inline-flex text-sm font-bold text-[#2563EB] hover:underline">
                     Build this requirement
                   </Link>
                 ) : (
-                  <Link href="/quote" className="mt-7 inline-flex text-sm font-bold text-[#1457d9] hover:underline">
+                  <Link href="/quote" className="mt-7 inline-flex text-sm font-bold text-[#2563EB] hover:underline">
                     Describe a service requirement
                   </Link>
                 )}
@@ -95,7 +95,7 @@ export default function TechnologyPage() {
             <p className="mt-2 text-sm leading-6 text-slate-600">
               Use the RFQ path and describe the outcome. HACIEN reviews the details before treating any product or service path as final.
             </p>
-            <Link href="/quote" className="mt-3 inline-flex text-sm font-bold text-[#1457d9] hover:underline">
+            <Link href="/quote" className="mt-3 inline-flex text-sm font-bold text-[#2563EB] hover:underline">
               Describe the requirement
             </Link>
           </div>
@@ -105,7 +105,7 @@ export default function TechnologyPage() {
       <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto grid max-w-7xl gap-6 rounded-lg border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Product references remain optional</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Product references remain optional</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950">
               Start with a product, a category, a BOQ, a photo, or only the outcome.
             </h2>
@@ -113,7 +113,7 @@ export default function TechnologyPage() {
               HACIEN&apos;s Gateway reviews the requirement first. The catalog helps describe the request; it does not limit what you can ask.
             </p>
           </div>
-          <Link href="/quote" className="button-glow rounded-full bg-[#1457d9] px-6 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15">
+          <Link href="/quote" className="button-glow rounded bg-[#2563EB] px-6 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15">
             Start with Request Quote
           </Link>
         </div>

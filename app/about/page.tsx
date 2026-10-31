@@ -31,7 +31,7 @@ export default function AboutPage() {
       <section className="px-4 py-9 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
         <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">{content.story.eyebrow}</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">{content.story.eyebrow}</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               {content.story.title}
             </h2>
@@ -63,7 +63,7 @@ export default function AboutPage() {
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-6 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
             <AnimatedContent>
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">{content.workingStandard.eyebrow}</div>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">{content.workingStandard.eyebrow}</div>
               <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
                 {content.workingStandard.title}
               </h2>
@@ -75,7 +75,7 @@ export default function AboutPage() {
               {content.workingStandard.cards.map((item, index) => (
                 <AnimatedContent key={item.title} delay={Math.min(index * 45, 320)}>
                   <BorderGlow className={`h-full rounded-lg bg-white p-3 shadow-sm sm:p-4 ${index > 4 ? "hidden md:block" : ""}`}>
-                    <div className="text-xs font-bold text-[#1457d9]">{String(index + 1).padStart(2, "0")}</div>
+                    <div className="text-xs font-bold text-[#2563EB]">{String(index + 1).padStart(2, "0")}</div>
                     <h3 className="mt-2 text-sm font-bold text-slate-950">{item.title}</h3>
                     <p className="mt-2 text-xs leading-5 text-slate-600">{item.text}</p>
                   </BorderGlow>
@@ -88,7 +88,7 @@ export default function AboutPage() {
 
       <section className="px-4 py-9 sm:px-6 sm:py-12 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
-          <BorderGlow className="relative overflow-hidden rounded-lg bg-[linear-gradient(135deg,#071426_0%,#0b3142_58%,#123730_100%)] p-5 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
+          <BorderGlow className="relative overflow-hidden rounded-lg bg-[linear-gradient(135deg,#0A0A0A_0%,#0b3142_58%,#123730_100%)] p-5 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
             <GradientBackground className="opacity-[0.36]" />
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
@@ -105,7 +105,7 @@ export default function AboutPage() {
               <div className="flex items-center gap-4">
                 <Link
                   href={content.cta.action.href}
-                  className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#071426]"
+                  className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#0A0A0A]"
                 >
                   {content.cta.action.label}
                 </Link>

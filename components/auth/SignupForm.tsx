@@ -21,42 +21,42 @@ export function SignupForm() {
   }
 
   return (
-    <form action={handleSubmit} className="surface grid gap-4 rounded-2xl p-6">
-      <label className="grid gap-2 text-sm font-semibold text-slate-700">
+    <form action={handleSubmit} className="surface grid gap-4 rounded p-6">
+      <label className="grid gap-2 text-sm font-semibold text-grey-700">
         Contact name
         <input
           name="contactName"
           required
           autoComplete="name"
-          className="focus-ring min-h-12 rounded-xl border border-slate-300 bg-white px-4"
+          className="focus-ring min-h-12 rounded border border-grey-200 bg-white px-4"
           placeholder="Maria Santos"
         />
       </label>
-      <label className="grid gap-2 text-sm font-semibold text-slate-700">
+      <label className="grid gap-2 text-sm font-semibold text-grey-700">
         Work email
         <input
           type="email"
           name="email"
           required
           autoComplete="email"
-          className="focus-ring min-h-12 rounded-xl border border-slate-300 bg-white px-4"
+          className="focus-ring min-h-12 rounded border border-grey-200 bg-white px-4"
           placeholder="name@company.com"
         />
       </label>
-      <label className="grid gap-2 text-sm font-semibold text-slate-700">
+      <label className="grid gap-2 text-sm font-semibold text-grey-700">
         Company / organization
         <input
           name="organizationName"
           required
           autoComplete="organization"
-          className="focus-ring min-h-12 rounded-xl border border-slate-300 bg-white px-4"
+          className="focus-ring min-h-12 rounded border border-grey-200 bg-white px-4"
           placeholder="Company Name"
         />
       </label>
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="button-glow rounded-full bg-[#1457d9] px-5 py-3 text-sm font-bold text-white disabled:bg-slate-300"
+        className="button-glow rounded bg-blue px-5 py-3 text-sm font-bold text-white disabled:bg-slate-300"
       >
         {status === "submitting" ? "Creating request..." : "Create Customer Account Request"}
       </button>

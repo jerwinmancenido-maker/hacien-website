@@ -1,4 +1,6 @@
 import { ImageResponse } from "next/og";
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 
 export const size = {
   width: 1200,
@@ -7,7 +9,20 @@ export const size = {
 
 export const contentType = "image/png";
 
-export default function Image() {
+/**
+ * Share card uses the real full-logo PNG lockup — never retype HACIEN in a font.
+ * Clear space X = 0.286 × CH; full logo minimum width = 200px (handoff v1.1).
+ */
+export default async function Image() {
+  const logoData = await readFile(join(process.cwd(), "public/brand/logo-full-600.png"));
+  const logoSrc = `data:image/png;base64,${logoData.toString("base64")}`;
+
+  // Rendered logo width (≥ 200px min). Aspect from full lockup viewBox 819 × 220.6.
+  const logoWidth = 480;
+  const logoHeight = Math.round(logoWidth * (220.6 / 819));
+  // Cap height ≈ logoWidth × (140 / 819); clear space X = 0.286 × CH.
+  const clearSpace = Math.round(0.286 * logoWidth * (140 / 819));
+
   return new ImageResponse(
     (
       <div
@@ -18,37 +33,49 @@ export default function Image() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: 64,
-          color: "white",
-          background:
-            "linear-gradient(135deg, #071426 0%, #102a4c 48%, #1457d9 100%)",
-          fontFamily: "Arial",
+          color: "#0A0A0A",
+          background: "#FFFFFF",
+          borderBottom: "8px solid #2563EB",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+        <div
+          style={{
+            display: "flex",
+            padding: clearSpace,
+            alignItems: "flex-start",
+          }}
+        >
+          <img src={logoSrc} width={logoWidth} height={logoHeight} alt="HACIEN Information Technology Solutions" />
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", paddingLeft: clearSpace }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+            <div style={{ width: 10, height: 10, background: "#2563EB" }} />
+            <div
+              style={{
+                fontSize: 18,
+                color: "#404040",
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                fontWeight: 600,
+                fontFamily: "Arial",
+              }}
+            >
+              Philippine IT Solutions
+            </div>
+          </div>
           <div
             style={{
-              width: 84,
-              height: 84,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: 12,
-              background: "white",
-              color: "#071426",
-              fontSize: 48,
-              fontWeight: 800,
+              fontSize: 36,
+              fontWeight: 600,
+              lineHeight: 1.25,
+              maxWidth: 920,
+              color: "#0A0A0A",
+              fontFamily: "Arial",
             }}
           >
-            H
-          </div>
-          <div style={{ fontSize: 34, fontWeight: 700 }}>HACIEN</div>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <div style={{ fontSize: 58, fontWeight: 800, lineHeight: 1.05, maxWidth: 900 }}>
-            Information Technology Solutions
-          </div>
-          <div style={{ marginTop: 24, fontSize: 26, color: "#dbeafe", maxWidth: 860 }}>
-            IT infrastructure, procurement support, systems integration, and technology sourcing for Philippine organizations.
+            IT infrastructure, procurement support, systems integration, and technology sourcing for Philippine
+            organizations.
           </div>
         </div>
       </div>

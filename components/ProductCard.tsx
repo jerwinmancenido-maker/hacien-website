@@ -28,30 +28,30 @@ export function ProductCard({ product }: { product: Product }) {
         </div>
       </Link>
       <div className="flex flex-1 flex-col p-5">
-          <div className="flex items-center justify-between gap-2 text-xs font-semibold text-[#1457d9]">
+          <div className="flex items-center justify-between gap-2 text-xs font-semibold text-grey-600">
             <span>{product.availability}</span>
             <span>{modes.length > 0 ? modes.join(" + ") : "RFQ"}</span>
           </div>
         <Link href={productHref}>
-          <h3 className="mt-2 text-lg font-bold text-slate-950 hover:text-[#1457d9]">{product.name}</h3>
+          <h3 className="mt-2 text-lg font-semibold text-ink hover:text-blue">{product.name}</h3>
         </Link>
-        <p className="mt-3 flex-1 text-sm leading-6 text-slate-600">{product.shortDescription}</p>
+        <p className="mt-3 flex-1 text-sm leading-6 text-grey-600">{product.shortDescription}</p>
         <div className="mt-5 flex items-end justify-between gap-4">
           <div>
-            <div className="text-xs text-slate-500">Commercial path</div>
-            <div className="font-bold text-slate-950">{modes.length > 0 ? modes.join(" + ") : "RFQ"}</div>
-            <div className="mt-1 text-xs text-slate-500">Availability and terms confirmed before quotation</div>
+            <div className="text-xs text-grey-600">Commercial path</div>
+            <div className="font-semibold text-ink">{modes.length > 0 ? modes.join(" + ") : "RFQ"}</div>
+            <div className="mt-1 text-xs text-grey-600">Availability and terms confirmed before quotation</div>
           </div>
           <Link
             href={productHref}
-            className="button-glow rounded px-4 py-2 text-sm font-bold text-white bg-[#071426] hover:bg-[#1457d9]"
+            className="rounded bg-blue px-4 py-2 text-sm font-medium text-white hover:bg-blue-dark"
           >
             View details
           </Link>
         </div>
         <Link
           href={productHref}
-          className="interactive-link mt-4 inline-flex text-sm font-bold text-[#1457d9]"
+          className="interactive-link mt-4 inline-flex text-sm font-medium text-blue"
         >
           Review technical targets
         </Link>

@@ -29,7 +29,7 @@ const verification = [
 export default function CompanyProfilePage() {
   return (
     <>
-      <section className="relative overflow-hidden bg-[#071426] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-12">
+      <section className="relative overflow-hidden bg-[#0A0A0A] px-4 py-12 text-white sm:px-6 lg:px-8 lg:py-12">
         <div className="absolute inset-0 hq-grid opacity-80" />
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
@@ -60,7 +60,7 @@ export default function CompanyProfilePage() {
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Public Profile</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Public Profile</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Useful information with clear public boundaries.
             </h2>
@@ -81,7 +81,7 @@ export default function CompanyProfilePage() {
       <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-2">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Contact Details</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Contact Details</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">Public business contact.</h2>
             <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-600">
               Customers, suppliers, partners, and organization buyers may use these public paths to begin clear communication with HACIEN.
@@ -111,13 +111,13 @@ export default function CompanyProfilePage() {
       <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Next public action</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Next public action</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">Send a requirement for review.</h2>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">
               The RFQ channel is the safest way to start: describe the requirement, attach supporting files, receive a reference number, and continue through review.
             </p>
           </div>
-          <Link href="/quote" className="button-glow rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white">
+          <Link href="/quote" className="button-glow rounded bg-[#2563EB] px-5 py-3 text-center text-sm font-bold text-white">
             Submit RFQ
           </Link>
         </div>
