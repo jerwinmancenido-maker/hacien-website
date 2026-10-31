@@ -108,7 +108,7 @@ export default function IndustriesPage() {
                 <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
                   {content.cta.title}
                 </h2>
-                <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
+                <p className="mt-4 max-w-3xl text-sm leading-6 text-grey-300">
                   {content.cta.description}
                 </p>
               </div>

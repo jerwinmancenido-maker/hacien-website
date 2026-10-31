@@ -12,7 +12,7 @@ export function RemotionCinematicPreview() {
         <h2 className="mt-4 text-2xl font-bold tracking-tight text-white sm:text-3xl">
           Cinematic previews now read from the Phase 3 scene configuration.
         </h2>
-        <p className="mt-4 text-sm leading-7 text-slate-300">
+        <p className="mt-4 text-sm leading-7 text-grey-300">
           This browser preview verifies the five Sprint 2 compositions as a single overlapping sequence. The copy
           is loaded from local configuration and remains RFQ-first: no payment, tax, invoice, stock, or delivery
           commitment is created here.

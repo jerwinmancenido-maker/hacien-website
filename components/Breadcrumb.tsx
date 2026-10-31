@@ -16,7 +16,7 @@ export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
         </li>
         {items.map((item, index) => (
           <li key={index} className="flex items-center gap-1">
-            <span aria-hidden="true" className="text-slate-300">
+            <span aria-hidden="true" className="text-grey-200">
               /
             </span>
             {item.href ? (

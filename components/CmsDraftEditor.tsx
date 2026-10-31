@@ -568,16 +568,16 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
           {isSectionDraft ? (
             <div className="mt-3 grid gap-3">
               <div>
-                <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Title</div>
+                <div className="text-xs font-bold uppercase tracking-[0.12em] text-grey-700">Title</div>
                 <div className="mt-1 text-sm font-bold leading-6 text-slate-800">{getStringField(fields, "title") || "Empty"}</div>
               </div>
               <div>
-                <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">{previewSummaryLabel}</div>
+                <div className="text-xs font-bold uppercase tracking-[0.12em] text-grey-700">{previewSummaryLabel}</div>
                 <div className="mt-1 text-sm leading-6 text-slate-700">{previewSummaryValue || "Empty"}</div>
               </div>
               {documentSections.map((section, index) => (
                 <div key={index} className="border-t border-slate-200 pt-3">
-                  <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Section {index + 1}</div>
+                  <div className="text-xs font-bold uppercase tracking-[0.12em] text-grey-700">Section {index + 1}</div>
                   <div className="mt-1 text-sm font-bold leading-6 text-slate-800">{section.heading || "Empty heading"}</div>
                   <div className="mt-1 text-sm leading-6 text-slate-700">{section.body || "Empty body"}</div>
                 </div>
@@ -586,18 +586,18 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
           ) : isNavigationDraft ? (
             <div className="mt-3 grid gap-3">
               <div>
-                <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Title</div>
+                <div className="text-xs font-bold uppercase tracking-[0.12em] text-grey-700">Title</div>
                 <div className="mt-1 text-sm font-bold leading-6 text-slate-800">{getStringField(fields, "title") || "Empty"}</div>
               </div>
               {isFooterNavigationDraft ? (
                 <>
                   <div>
-                    <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Footer statement</div>
+                    <div className="text-xs font-bold uppercase tracking-[0.12em] text-grey-700">Footer statement</div>
                     <div className="mt-1 text-sm leading-6 text-slate-700">{getStringField(fields, "statement") || "Empty"}</div>
                   </div>
                   {draftNavigationGroups.map((group, groupIndex) => (
                     <div key={groupIndex} className="border-t border-slate-200 pt-3">
-                      <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Group {groupIndex + 1}</div>
+                      <div className="text-xs font-bold uppercase tracking-[0.12em] text-grey-700">Group {groupIndex + 1}</div>
                       <div className="mt-1 text-sm font-bold leading-6 text-slate-800">{group.title || "Empty group title"}</div>
                       <div className="mt-2 grid gap-2">
                         {group.links.map((link, linkIndex) => (
@@ -613,7 +613,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
               ) : (
                 draftLinks.map((link, index) => (
                 <div key={index} className="border-t border-slate-200 pt-3">
-                  <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">Link {index + 1}</div>
+                  <div className="text-xs font-bold uppercase tracking-[0.12em] text-grey-700">Link {index + 1}</div>
                   <div className="mt-1 text-sm font-bold leading-6 text-slate-800">{link.label || "Empty label"}</div>
                   <div className="mt-1 break-all text-sm leading-6 text-slate-700">{link.href || "Empty href"}</div>
                 </div>
@@ -624,7 +624,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
             <div className="mt-3 grid gap-2">
               {selectedOption.requiredFields.map((fieldName) => (
                 <div key={fieldName}>
-                  <div className="text-xs font-bold uppercase tracking-[0.12em] text-slate-400">{fieldLabel(fieldName)}</div>
+                  <div className="text-xs font-bold uppercase tracking-[0.12em] text-grey-700">{fieldLabel(fieldName)}</div>
                   <div className="mt-1 text-sm leading-6 text-slate-700">{String(fields[fieldName] ?? "") || "Empty"}</div>
                 </div>
               ))}

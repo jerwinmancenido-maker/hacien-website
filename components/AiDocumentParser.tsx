@@ -21,10 +21,10 @@ export function AiDocumentParser() {
   return (
     <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-xl shadow-slate-950/8">
       <div className="relative bg-[#0A0A0A] p-6 text-white">
-        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-400 via-cyan-300 to-amber-300" />
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-grey-700 via-grey-400 to-grey-200" />
         <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">AI Document Parser Playground</div>
         <h2 className="mt-3 text-2xl font-bold">Scan an RFQ attachment safely</h2>
-        <p className="mt-2 text-sm leading-6 text-slate-300">
+        <p className="mt-2 text-sm leading-6 text-grey-300">
           Prototype extraction only. Files are checked for format and size, then summarized for manual review.
         </p>
       </div>

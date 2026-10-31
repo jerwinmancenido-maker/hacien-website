@@ -88,7 +88,7 @@ export default function AboutPage() {
 
       <section className="px-4 py-9 sm:px-6 sm:py-12 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
-          <BorderGlow className="relative overflow-hidden rounded-lg bg-[linear-gradient(135deg,#0A0A0A_0%,#0b3142_58%,#123730_100%)] p-5 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
+          <BorderGlow className="relative overflow-hidden rounded-lg bg-ink p-5 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
             <GradientBackground className="opacity-[0.36]" />
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
@@ -98,7 +98,7 @@ export default function AboutPage() {
                 <h2 className="mt-3 max-w-3xl text-xl font-bold tracking-tight sm:mt-4 sm:text-3xl">
                   {content.cta.title}
                 </h2>
-                <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300 sm:mt-4">
+                <p className="mt-3 max-w-3xl text-sm leading-6 text-grey-300 sm:mt-4">
                   {content.cta.description}
                 </p>
               </div>

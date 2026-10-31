@@ -69,7 +69,7 @@ export function CapabilityResources({ inverse = false }: { inverse?: boolean }) 
           <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">
             Buyer resources are handled with the same discipline as quotations.
           </h2>
-          <p className={`mt-4 text-base leading-7 ${inverse ? "text-slate-300" : "text-slate-600"}`}>
+          <p className={`mt-4 text-base leading-7 ${inverse ? "text-grey-300" : "text-grey-600"}`}>
             Public resources stay concise. More detailed materials can be shared directly when they match the buyer, supplier, or request.
           </p>
         </div>
@@ -81,11 +81,11 @@ export function CapabilityResources({ inverse = false }: { inverse?: boolean }) 
  inverse ? "border-white/12 bg-white/[0.06]" : "border-slate-200 bg-white shadow-sm"
  }`}
             >
-              <div className={`text-xs font-bold uppercase tracking-[0.16em] ${inverse ? "text-blue-200" : "text-[#2563EB]"}`}>
+              <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue">
                 {status}
               </div>
               <h3 className="mt-4 text-base font-bold">{title}</h3>
-              <p className={`mt-3 text-sm leading-6 ${inverse ? "text-slate-300" : "text-slate-600"}`}>{text}</p>
+              <p className={`mt-3 text-sm leading-6 ${inverse ? "text-grey-300" : "text-grey-600"}`}>{text}</p>
             </div>
           ))}
         </div>
@@ -174,7 +174,7 @@ export function TrustCta() {
               <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
                 Have a requirement that needs careful review before quotation?
               </h2>
-              <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
+              <p className="mt-4 max-w-3xl text-sm leading-6 text-grey-300">
                 Send the requirement, specification, quantity, deadline, and delivery details. HACIEN will help organize the next RFQ step.
               </p>
             </div>
