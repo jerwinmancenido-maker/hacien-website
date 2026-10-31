@@ -1,0 +1,11 @@
+{
+  "name": "@prisma/streams-local",
+  "version": "0.1.11",
+  "private": true,
+  "description": "Local stub of @prisma/streams-local with Node 20-compatible engines. Prisma CLI pulls the real package transitively via @prisma/dev for Prisma Streams local workflows; this website does not use Prisma Streams. Stub removes Hostinger EBADENGINE on Node 20.20.2 without changing runtime Prisma Client behavior.",
+  "main": "index.js",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=20.19.0"
+  }
+}
