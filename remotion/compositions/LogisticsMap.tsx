@@ -28,7 +28,7 @@ export function LogisticsMap() {
         {nodes.map(([, x, y], index) => (
           <g key={remotionScenes.logisticsMap.nodes[index]}>
             <circle cx={x} cy={y} r={22 + index * 4} fill={index === 0 ? colors.amber : colors.blue} opacity="0.9" />
-            <text x={x + 36} y={y + 8} fill="#f8fafc" fontSize="28" fontWeight="800">
+            <text x={x + 36} y={y + 8} fill="#FFFFFF" fontSize="28" fontWeight="800">
               {remotionScenes.logisticsMap.nodes[index]}
             </text>
           </g>

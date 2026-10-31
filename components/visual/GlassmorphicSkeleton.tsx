@@ -4,7 +4,7 @@ export function GlassmorphicSkeleton({ label = "Loading visual preview" }: { lab
       <div>
         <div className="mx-auto h-14 w-14 rounded-full border border-blue-200/50 border-t-blue-300" />
         <div className="mt-5 text-sm font-bold uppercase tracking-[0.18em] text-blue-200">{label}</div>
-        <p className="mt-2 max-w-sm text-sm leading-6 text-slate-300">
+        <p className="mt-2 max-w-sm text-sm leading-6 text-grey-400">
           A browser-rendered 3D preview is preparing. Static page content remains available.
         </p>
       </div>

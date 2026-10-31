@@ -77,7 +77,7 @@ export function Hero() {
                   >
                     <div className="text-xs font-bold text-blue-200">{String(index + 1).padStart(2, "0")}</div>
                     <div className="mt-2 text-sm font-bold text-white">{item.title}</div>
-                    <p className="mt-2 text-xs leading-5 text-slate-300">{item.text}</p>
+                    <p className="mt-2 text-xs leading-5 text-grey-400">{item.text}</p>
                   </div>
                 ))}
               </div>

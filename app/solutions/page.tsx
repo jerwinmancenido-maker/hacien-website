@@ -121,7 +121,7 @@ export default function SolutionsPage() {
 
       <section className="bg-transparent px-4 py-12 sm:px-6 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
-          <BorderGlow className="relative overflow-hidden rounded-lg bg-[linear-gradient(135deg,#0A0A0A_0%,#0b3142_58%,#123730_100%)] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
+          <BorderGlow className="relative overflow-hidden rounded-lg bg-ink p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
             <GradientBackground className="opacity-[0.36]" />
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
@@ -131,7 +131,7 @@ export default function SolutionsPage() {
                 <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
                   {content.cta.title}
                 </h2>
-                <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
+                <p className="mt-4 max-w-3xl text-sm leading-6 text-grey-400">
                   {content.cta.description}
                 </p>
               </div>

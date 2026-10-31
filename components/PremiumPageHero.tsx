@@ -85,7 +85,7 @@ export function PremiumPageHero({
                 >
                   <div className="text-xs font-bold text-blue-200">{String(index + 1).padStart(2, "0")}</div>
                   <div className="mt-2 text-sm font-bold text-white">{item.label}</div>
-                  <p className="mt-2 text-xs leading-5 text-slate-300 sm:text-sm sm:leading-6">{item.text}</p>
+                  <p className="mt-2 text-xs leading-5 text-grey-400 sm:text-sm sm:leading-6">{item.text}</p>
                 </div>
               ))}
             </StaggerContainer>
