@@ -8,6 +8,7 @@
     "postbuild": "mkdir -p .next/standalone/.next && cp -R .next/static .next/standalone/.next/static && if [ -d public ]; then cp -R public .next/standalone/public; fi",
     "start": "node .next/standalone/server.js",
     "lint": "eslint",
+    "test": "vitest run",
     "validate": "tsx scripts/validate-data.ts",
     "postinstall": "prisma generate",
     "prebuild": "node -e \"require('node:fs').rmSync('.next',{recursive:true,force:true})\" && npm run validate && prisma generate",
