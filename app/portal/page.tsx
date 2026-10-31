@@ -117,7 +117,7 @@ export default function PortalPage() {
             <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">
               The customer should never feel they entered another system.
             </h2>
-            <p className="mt-5 text-sm leading-7 text-slate-300">
+            <p className="mt-5 text-sm leading-7 text-grey-300">
               The public website begins the request. Gateway preserves it. Workspace operates it.
               Customer Workspace will eventually continue it with controlled visibility.
             </p>
@@ -133,7 +133,7 @@ export default function PortalPage() {
                     </div>
                     <div>
                       <h3 className="font-bold text-white">{title}</h3>
-                      <p className="mt-1 text-sm leading-6 text-slate-300">{text}</p>
+                      <p className="mt-1 text-sm leading-6 text-grey-300">{text}</p>
                     </div>
                   </div>
                 </BorderGlow>
@@ -154,7 +154,7 @@ export default function PortalPage() {
                 <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
                   Need HACIEN to review a requirement today?
                 </h2>
-                <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
+                <p className="mt-4 max-w-3xl text-sm leading-6 text-grey-300">
                   Submit the requirement through RFQ intake. HACIEN will keep the request connected through
                   review, clarification, quotation, and follow-up.
                 </p>

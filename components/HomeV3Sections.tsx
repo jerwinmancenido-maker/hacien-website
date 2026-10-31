@@ -40,14 +40,14 @@ export function TechnologyEcosystem() {
         <div>
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">{homepageContent.rfqReadiness.eyebrow}</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">{homepageContent.rfqReadiness.title}</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-300 sm:mt-4 sm:text-base sm:leading-7">
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-grey-300 sm:mt-4 sm:text-base sm:leading-7">
             {homepageContent.rfqReadiness.description}
           </p>
           <StaggerContainer className="mt-5 grid gap-2 sm:mt-7 sm:grid-cols-2 sm:gap-3">
             {homepageContent.rfqReadiness.cards.map((item, index) => (
               <AnimatedCard key={item.title} className={`group rounded-lg border border-white/12 bg-white/[0.06] p-4 backdrop-blur sm:p-5 ${index > 1 ? "hidden sm:block" : ""}`}>
                 <div className="text-base font-bold">{item.title}</div>
-                <p className="mt-2 text-sm leading-6 text-slate-300">{item.text}</p>
+                <p className="mt-2 text-sm leading-6 text-grey-300">{item.text}</p>
               </AnimatedCard>
             ))}
           </StaggerContainer>
@@ -180,7 +180,7 @@ export function ErpPreviewV3() {
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">{homepageContent.platformPreview.eyebrow}</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">{homepageContent.platformPreview.title}</h2>
-            <p className="mt-5 leading-7 text-slate-300">
+            <p className="mt-5 leading-7 text-grey-300">
               {homepageContent.platformPreview.description}
             </p>
             <Link href={homepageContent.platformPreview.action.href} className="button-glow mt-8 inline-flex rounded bg-white px-5 py-3 text-sm font-bold text-[#0A0A0A]">
@@ -192,7 +192,7 @@ export function ErpPreviewV3() {
               <div key={item.title} className="rounded-lg border border-white/12 bg-white/[0.07] p-5">
                 <div className="text-xs font-bold text-blue-200">0{index + 1}</div>
                 <div className="mt-3 text-lg font-bold">{item.title}</div>
-                <p className="mt-2 text-sm leading-6 text-slate-300">{item.text}</p>
+                <p className="mt-2 text-sm leading-6 text-grey-300">{item.text}</p>
               </div>
             ))}
           </StaggerContainer>

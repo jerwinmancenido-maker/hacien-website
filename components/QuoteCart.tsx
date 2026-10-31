@@ -312,9 +312,9 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
               </AnimatedCard>
             ))}
             <div className="rounded bg-slate-950 p-5 text-white">
-              <div className="text-sm text-slate-300">RFQ package note</div>
+              <div className="text-sm text-grey-300">RFQ package note</div>
               <div className="mt-1 text-lg font-bold">Each block stays inside one Gateway submission.</div>
-              <p className="mt-2 text-sm leading-6 text-slate-300">
+              <p className="mt-2 text-sm leading-6 text-grey-300">
                 HACIEN reviews the complete package, recommends suitable options, and clarifies details before preparing a formal quotation.
               </p>
               <Link href="/products" className="mt-4 inline-flex text-sm font-bold text-blue-200 hover:text-white">
