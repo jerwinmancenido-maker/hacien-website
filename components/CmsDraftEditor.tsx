@@ -295,7 +295,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
 
   return (
     <div className="grid gap-5 lg:grid-cols-[320px_minmax(0,1fr)]">
-      <aside className="rounded-xl border border-slate-200 bg-white/86 p-4 shadow-sm">
+      <aside className="rounded border border-slate-200 bg-white/86 p-4 shadow-sm">
         <div className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Editable draft areas</div>
         <div className="mt-4 grid gap-2">
           {options.map((option) => (
@@ -304,8 +304,8 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
               type="button"
               onClick={() => selectKey(option.key)}
               className={`rounded-lg border px-3 py-3 text-left transition ${
-                option.key === selectedKey ? "border-[#1457d9] bg-blue-50 text-slate-950" : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
-              }`}
+ option.key === selectedKey ? "border-[#2563EB] bg-blue-50 text-slate-950" : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
+ }`}
             >
               <div className="font-bold">{option.label}</div>
               <div className="mt-1 text-xs uppercase tracking-[0.12em] text-slate-500">
@@ -316,10 +316,10 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
         </div>
       </aside>
 
-      <section className="rounded-xl border border-slate-200 bg-white/90 p-4 shadow-sm md:p-5">
+      <section className="rounded border border-slate-200 bg-white/90 p-4 shadow-sm md:p-5">
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Local draft editor</div>
+            <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">Local draft editor</div>
             <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-950">{selectedOption.label}</h1>
             <p className="mt-2 text-sm leading-6 text-slate-600">
               Save local drafts for review. This does not write live CMS modules, publish website pages, or touch databases.
@@ -342,12 +342,12 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                   value={getStringField(fields, fieldName)}
                   onChange={(event) => updateField(fieldName, event.target.value)}
                   rows={fieldName === "summary" ? 4 : 2}
-                  className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                  className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
                 />
               </label>
             ))}
 
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+            <div className="rounded border border-slate-200 bg-slate-50 p-4">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <div className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Editable sections</div>
@@ -365,14 +365,14 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
               <div className="mt-4 grid gap-4">
                 {documentSections.map((section, index) => (
                   <div key={index} className="rounded-lg border border-slate-200 bg-white p-3">
-                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">Section {index + 1}</div>
+                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">Section {index + 1}</div>
                     <label className="mt-3 grid gap-2">
                       <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Heading</span>
                       <textarea
                         value={section.heading}
                         onChange={(event) => updateDocumentSection(index, "heading", event.target.value)}
                         rows={2}
-                        className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                        className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
                       />
                     </label>
                     <label className="mt-3 grid gap-2">
@@ -381,7 +381,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                         value={section.body}
                         onChange={(event) => updateDocumentSection(index, "body", event.target.value)}
                         rows={7}
-                        className="min-h-32 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                        className="min-h-32 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
                       />
                     </label>
                   </div>
@@ -396,7 +396,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                 value={getStringField(fields, "reviewNotes")}
                 onChange={(event) => updateField("reviewNotes", event.target.value)}
                 rows={4}
-                className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
               />
             </label>
           </div>
@@ -409,7 +409,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                 value={getStringField(fields, "title")}
                 onChange={(event) => updateField("title", event.target.value)}
                 rows={2}
-                className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
               />
             </label>
 
@@ -422,11 +422,11 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                     value={getStringField(fields, "statement")}
                     onChange={(event) => updateField("statement", event.target.value)}
                     rows={3}
-                    className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                    className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
                   />
                 </label>
 
-                <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <div className="rounded border border-slate-200 bg-slate-50 p-4">
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                       <div className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Footer columns</div>
@@ -444,14 +444,14 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                   <div className="mt-4 grid gap-4">
                     {draftNavigationGroups.map((group, groupIndex) => (
                       <div key={groupIndex} className="rounded-lg border border-slate-200 bg-white p-3">
-                        <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">Group {groupIndex + 1}</div>
+                        <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">Group {groupIndex + 1}</div>
                         <label className="mt-3 grid gap-2">
                           <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Group title</span>
                           <textarea
                             value={group.title}
                             onChange={(event) => updateNavigationGroup(groupIndex, event.target.value)}
                             rows={2}
-                            className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                            className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
                           />
                         </label>
                         <div className="mt-4 grid gap-3">
@@ -464,7 +464,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                                   value={link.label}
                                   onChange={(event) => updateNavigationGroupLink(groupIndex, linkIndex, "label", event.target.value)}
                                   rows={2}
-                                  className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                                  className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
                                 />
                               </label>
                               <label className="mt-3 grid gap-2">
@@ -473,7 +473,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                                   value={link.href}
                                   onChange={(event) => updateNavigationGroupLink(groupIndex, linkIndex, "href", event.target.value)}
                                   rows={2}
-                                  className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                                  className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
                                 />
                               </label>
                             </div>
@@ -492,7 +492,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                 </div>
               </>
             ) : (
-              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <div className="rounded border border-slate-200 bg-slate-50 p-4">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <div>
                   <div className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Navigation links</div>
@@ -510,14 +510,14 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
               <div className="mt-4 grid gap-4">
                 {draftLinks.map((link, index) => (
                   <div key={index} className="rounded-lg border border-slate-200 bg-white p-3">
-                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">Link {index + 1}</div>
+                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">Link {index + 1}</div>
                     <label className="mt-3 grid gap-2">
                       <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Label</span>
                       <textarea
                         value={link.label}
                         onChange={(event) => updateDraftLink(index, "label", event.target.value)}
                         rows={2}
-                        className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                        className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
                       />
                     </label>
                     <label className="mt-3 grid gap-2">
@@ -526,7 +526,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                         value={link.href}
                         onChange={(event) => updateDraftLink(index, "href", event.target.value)}
                         rows={2}
-                        className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                        className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
                       />
                     </label>
                   </div>
@@ -542,7 +542,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                 value={getStringField(fields, "reviewNotes")}
                 onChange={(event) => updateField("reviewNotes", event.target.value)}
                 rows={4}
-                className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
               />
             </label>
           </div>
@@ -556,7 +556,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                   value={String(fields[fieldName] ?? "")}
                   onChange={(event) => updateField(fieldName, event.target.value)}
                   rows={fieldRows(fieldName)}
-                  className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+                  className="min-h-12 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm leading-6 text-slate-950 shadow-sm outline-none focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
                 />
               </label>
             ))}
@@ -636,7 +636,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
           <button
             type="button"
             onClick={() => void saveDraft("draft")}
-            className="rounded-lg bg-[#071426] px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#10213c]"
+            className="rounded-lg bg-[#0A0A0A] px-4 py-3 text-sm font-bold text-white shadow-sm transition hover:bg-[#10213c]"
           >
             Save Local Draft
           </button>
@@ -656,8 +656,8 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
           </button>
           <div
             className={`text-sm ${
-              saveState.status === "error" ? "font-bold text-red-700" : saveState.status === "success" ? "font-bold text-emerald-700" : "text-slate-500"
-            }`}
+ saveState.status === "error" ? "font-bold text-red-700" : saveState.status === "success" ? "font-bold text-emerald-700" : "text-slate-500"
+ }`}
           >
             {saveState.message}
           </div>
@@ -692,7 +692,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                 <div key={draft.id} className="rounded-lg border border-slate-200 bg-slate-50 p-4">
                   <div className="flex flex-wrap items-center gap-2">
                     <div className="font-bold text-slate-950">{getDraftTitle(draft)}</div>
-                    <div className="rounded-full border border-slate-200 bg-white px-2 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-600">
+                    <div className="rounded border border-slate-200 bg-white px-2 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-slate-600">
                       {draft.status}
                     </div>
                   </div>

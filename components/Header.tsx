@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { BrandMark } from "@/components/BrandMark";
+import { BrandLogo } from "@/components/BrandLogo";
 import { getNavigationContent } from "@/lib/cms/content";
 
 const navigationContent = getNavigationContent();
@@ -29,122 +29,116 @@ export function Header() {
     return pathname === href || pathname.startsWith(`${href}/`);
   }
 
-  const activeNavIndex = Math.max(navItems.findIndex((item) => isActive(item.href)), 0);
-
   return (
     <header
-      className={`sticky top-0 z-50 border-b border-transparent bg-white/82 backdrop-blur-2xl transition-all duration-300 ${
-        scrolled ? "shadow-lg shadow-slate-950/8" : "shadow-sm shadow-slate-950/3"
+      className={`sticky top-0 z-50 border-b border-grey-200 bg-white/95 backdrop-blur-md transition-shadow duration-300 ${
+        scrolled ? "shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : ""
       }`}
     >
-      <div className={`mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 sm:px-5 lg:gap-4 lg:px-8 ${scrolled ? "py-2" : "py-3"}`}>
-        <Link href="/" className="group flex shrink-0 items-center gap-3 rounded-full pr-3 transition hover:bg-slate-50/70">
-          <span className="relative grid h-11 w-11 place-items-center overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-sm shadow-slate-950/5 transition duration-300 group-hover:-translate-y-0.5 group-hover:border-[#1457d9]/35 group-hover:shadow-lg group-hover:shadow-blue-900/10">
-            <span className="absolute inset-0 bg-gradient-to-br from-cyan-100/50 via-white to-blue-100/60 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            <BrandMark size={36} className="relative z-10" />
+      <div
+        className={`mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 sm:px-5 lg:gap-4 lg:px-8 ${
+          scrolled ? "py-1.5" : "py-2"
+        }`}
+      >
+        {/*
+          Wordmark 28px tall (within 24–32). BrandLogo adds clear space X = 0.286×CH.
+          Width at 28px tall ≈ 142px (≥ 96px minimum). Never retype HACIEN in a font.
+          ≤390: icon (≥16px); its tile is the frame so no extra clear space.
+        */}
+        <Link
+          href="/"
+          className="group flex shrink-0 items-center rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+          aria-label="HACIEN home"
+        >
+          <span className="hidden sm:inline-flex">
+            <BrandLogo variant="wordmark" height={28} priority />
           </span>
-          <span>
-            <span className="block text-sm font-bold tracking-wide text-slate-950 transition-colors group-hover:text-[#1457d9]">HACIEN</span>
-            <span className="hidden text-xs text-slate-500 xl:block">Information Technology Solutions</span>
+          <span className="inline-flex sm:hidden">
+            <BrandLogo variant="icon" height={28} priority />
           </span>
         </Link>
 
-        <div className="relative hidden lg:block">
-          <nav className="glass-control relative grid w-[480px] xl:w-[540px] grid-cols-6 overflow-hidden rounded-full p-1 text-center text-sm font-semibold text-slate-700">
-            <span
-              className="pointer-events-none absolute left-1 top-1 h-[calc(100%-0.5rem)] w-[calc((100%-0.5rem)/6)] overflow-hidden border border-white/80 bg-white/95 shadow-md shadow-slate-950/10 transition-transform duration-300 ease-out"
-              style={{
-                borderRadius: "46% 54% 48% 52% / 58% 42% 58% 42%",
-                transform: `translateX(${activeNavIndex * 100}%)`,
-              }}
-              aria-hidden="true"
-            >
-              <span className="absolute -inset-x-5 bottom-[-11px] h-8 rounded-[55%_45%_50%_50%/70%_38%_62%_30%] bg-gradient-to-r from-[#1457d9]/18 via-cyan-300/26 to-[#5b4bff]/16" />
-              <span className="absolute -left-4 top-[-10px] h-7 w-20 rounded-[44%_56%_40%_60%/55%_42%_58%_45%] bg-cyan-200/18 blur-sm" />
-            </span>
-            <span
-              className="pointer-events-none absolute -bottom-3 left-1 h-8 w-[calc((100%-0.5rem)/6)] bg-[radial-gradient(ellipse_at_center,rgba(20,87,217,0.42),rgba(45,212,255,0.22)_42%,transparent_73%)] blur-lg transition-transform duration-500 ease-out"
-              style={{ transform: `translateX(${activeNavIndex * 100}%)` }}
-              aria-hidden="true"
-            />
-            {navItems.map((item) => (
+        <nav className="hidden items-center gap-1 text-sm font-medium text-grey-600 lg:flex">
+          {navItems.map((item) => {
+            const active = isActive(item.href);
+            return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative z-10 rounded-full px-2 py-2 transition-all duration-200 ${
-                  isActive(item.href)
-                    ? "text-[#071426]"
-                    : "text-slate-600 hover:-translate-y-0.5 hover:bg-white/45 hover:text-[#071426]"
+                className={`relative inline-flex items-center gap-2 rounded px-3 py-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue ${
+                  active ? "bg-blue-tint font-semibold text-ink" : "hover:bg-grey-100 hover:text-ink"
                 }`}
               >
+                {active ? <span className="pixel-marker !mr-0" aria-hidden="true" /> : null}
                 {item.label}
               </Link>
-            ))}
-          </nav>
-        </div>
+            );
+          })}
+        </nav>
 
-        <div className="hidden shrink-0 items-center gap-1.5 lg:flex">
+        <div className="hidden shrink-0 items-center gap-2 lg:flex">
           <Link
             href={navigationContent.header.accessAction.href}
-            className={`rounded-full border px-3 py-1.5 text-xs xl:px-4 xl:py-2 xl:text-sm font-semibold transition-all duration-200 hover:-translate-y-0.5 ${
+            className={`rounded border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue ${
               pathname === navigationContent.header.accessAction.href
-                ? "glass-control border-[#1457d9]/50 text-[#1457d9]"
-                : "glass-control text-slate-900 hover:border-[#1457d9]/50 hover:text-[#1457d9] hover:shadow-lg hover:shadow-blue-950/10"
+                ? "border-blue bg-blue-tint text-blue"
+                : "border-grey-200 bg-white text-ink hover:bg-grey-100"
             }`}
           >
             {navigationContent.header.accessAction.label}
           </Link>
           <Link
             href={navigationContent.header.quoteAction.href}
-            className="button-glow rounded-full bg-[#1457d9] px-3 py-1.5 text-xs xl:px-4 xl:py-2 xl:text-sm font-semibold text-white shadow-lg shadow-blue-700/20 transition-all duration-200 hover:-translate-y-0.5 hover:bg-[#0f46b4] hover:shadow-xl hover:shadow-blue-700/25"
+            className="rounded bg-blue px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
           >
             {navigationContent.header.quoteAction.label}
           </Link>
         </div>
 
         <button
-          className="grid h-10 w-10 place-items-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm shadow-slate-950/5 transition-all hover:-translate-y-0.5 hover:border-[#1457d9] hover:shadow-lg hover:shadow-blue-950/10 lg:hidden"
+          className="grid h-10 w-10 place-items-center rounded border border-grey-200 bg-white text-ink transition-colors hover:bg-grey-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue lg:hidden"
           onClick={() => setOpen((value) => !value)}
           aria-expanded={open}
           aria-label="Toggle navigation"
         >
           <span className="sr-only">Menu</span>
           <span className="grid gap-1.5">
-            <span className="block h-0.5 w-4 rounded-full bg-current" />
-            <span className="block h-0.5 w-4 rounded-full bg-current" />
+            <span className="block h-0.5 w-4 bg-current" />
+            <span className="block h-0.5 w-4 bg-current" />
           </span>
         </button>
       </div>
 
       {open ? (
-        <div className="motion-slide-up border-t border-slate-200/80 bg-white/96 px-4 py-4 shadow-2xl shadow-slate-950/10 backdrop-blur-xl lg:hidden">
-          <nav className="mx-auto grid max-w-7xl gap-2 text-sm font-semibold text-slate-700">
+        <div className="motion-slide-up border-t border-grey-200 bg-white px-4 py-4 lg:hidden">
+          <nav className="mx-auto grid max-w-7xl gap-1 text-sm font-medium text-grey-700">
             {navItems.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className={`rounded-xl px-3 py-3 transition ${
-                  isActive(item.href) ? "bg-blue-50 text-[#1457d9]" : "hover:bg-slate-50 hover:text-[#071426]"
+                className={`inline-flex items-center gap-2 rounded px-3 py-3 transition-colors ${
+                  isActive(item.href) ? "bg-blue-tint font-semibold text-ink" : "hover:bg-grey-100 hover:text-ink"
                 }`}
               >
+                {isActive(item.href) ? <span className="pixel-marker !mr-0" aria-hidden="true" /> : null}
                 {item.label}
               </Link>
             ))}
-            <div className="mt-3 border-t border-slate-100 pt-4 text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
+            <div className="mt-3 border-t border-grey-200 pt-4 text-xs font-semibold uppercase tracking-[0.08em] text-grey-700">
               Access
             </div>
             <Link
               href={navigationContent.header.accessAction.href}
               onClick={() => setOpen(false)}
-              className="rounded-lg px-3 py-3 hover:bg-slate-50 hover:text-[#071426]"
+              className="rounded px-3 py-3 hover:bg-grey-100 hover:text-ink"
             >
               {navigationContent.header.accessAction.label}
             </Link>
             <Link
               href={navigationContent.header.quoteAction.href}
               onClick={() => setOpen(false)}
-              className="button-glow mt-1 rounded-full bg-[#1457d9] px-4 py-3 text-center font-bold text-white"
+              className="mt-1 rounded bg-blue px-4 py-3 text-center font-medium text-white hover:bg-blue-dark"
             >
               {navigationContent.header.quoteAction.label}
             </Link>

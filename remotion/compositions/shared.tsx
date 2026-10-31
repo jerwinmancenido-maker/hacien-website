@@ -3,10 +3,10 @@ import { AbsoluteFill, Easing, interpolate, useCurrentFrame, useVideoConfig } fr
 import { CLINICAL_OUT_BEZIER } from "../../lib/motion/timing";
 
 export const colors = {
-  obsidian: "#071426",
+  obsidian: "#0A0A0A",
   panel: "#0b1729",
   cyan: "#38bdf8",
-  blue: "#1457d9",
+  blue: "#2563EB",
   amber: "#f59e0b",
   line: "rgba(148, 163, 184, 0.2)",
   text: "#f8fafc",
@@ -28,7 +28,7 @@ export function Stage({ children }: { children: ReactNode }) {
     <AbsoluteFill
       style={{
         background:
-          "radial-gradient(circle at 18% 18%, rgba(56, 189, 248, 0.2), transparent 28%), radial-gradient(circle at 82% 24%, rgba(245, 158, 11, 0.14), transparent 24%), linear-gradient(135deg, #050b14 0%, #071426 44%, #0f172a 100%)",
+          "radial-gradient(circle at 18% 18%, rgba(56, 189, 248, 0.2), transparent 28%), radial-gradient(circle at 82% 24%, rgba(245, 158, 11, 0.14), transparent 24%), linear-gradient(135deg, #050b14 0%, #0A0A0A 44%, #0f172a 100%)",
         color: colors.text,
         fontFamily: "Inter, Arial, Helvetica, sans-serif",
         overflow: "hidden",

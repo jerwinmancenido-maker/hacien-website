@@ -21,7 +21,7 @@ function renderDocumentSections(document: CmsDocumentRecord) {
         {section.clauses.map((clause) => (
           <DocumentClause key={clause.heading} title={clause.heading}>
             {clause.status ? (
-              <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">{clause.status}</div>
+              <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">{clause.status}</div>
             ) : null}
             {clause.paragraphs?.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>

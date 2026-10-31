@@ -50,7 +50,7 @@ export default function SupportPage() {
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Support Paths</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Support Paths</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Choose the path that matches the work.
             </h2>
@@ -59,7 +59,7 @@ export default function SupportPage() {
             {supportPaths.map(([title, text, href, image], index) => (
               <AnimatedContent key={title} delay={index * 55}>
                 <Link href={href} className="group block h-full">
-                  <SpotlightCard className="h-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
+                  <SpotlightCard className="h-full overflow-hidden rounded border border-slate-200 bg-white shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
                     <div
                       className="relative min-h-[170px]"
                       style={{
@@ -73,9 +73,9 @@ export default function SupportPage() {
                       </div>
                     </div>
                     <div className="p-6">
-                      <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#1457d9]">{title}</h3>
+                      <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#2563EB]">{title}</h3>
                       <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
-                      <div className="mt-5 text-sm font-bold text-[#1457d9]">Continue</div>
+                      <div className="mt-5 text-sm font-bold text-[#2563EB]">Continue</div>
                     </div>
                   </SpotlightCard>
                 </Link>
@@ -88,7 +88,7 @@ export default function SupportPage() {
       <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr]">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Expectations</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Expectations</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Clear support keeps each request moving with the right details.
             </h2>
@@ -96,9 +96,9 @@ export default function SupportPage() {
           <div className="grid gap-4">
             {expectations.map((expectation, index) => (
               <AnimatedContent key={expectation} delay={index * 70}>
-                <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+                <div className="rounded border border-slate-200 bg-white p-5 shadow-sm">
                   <div className="flex gap-4">
-                    <div className="grid h-9 w-9 shrink-0 place-items-center rounded bg-[#071426] text-sm font-bold text-white">
+                    <div className="grid h-9 w-9 shrink-0 place-items-center rounded bg-[#0A0A0A] text-sm font-bold text-white">
                       {index + 1}
                     </div>
                     <p className="text-sm leading-6 text-slate-700">{expectation}</p>
@@ -113,7 +113,7 @@ export default function SupportPage() {
       <section id="support-form" className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Contact Form</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Contact Form</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Send the details HACIEN needs to respond usefully.
             </h2>

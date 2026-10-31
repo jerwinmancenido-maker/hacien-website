@@ -73,7 +73,7 @@ export function ManualPaymentIntentForm({
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="button-glow rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white disabled:bg-slate-300"
+        className="button-glow rounded bg-[#2563EB] px-5 py-3 text-sm font-bold text-white disabled:bg-slate-300"
       >
         {status === "submitting" ? "Submitting..." : "Start manual payment review"}
       </button>

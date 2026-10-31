@@ -68,7 +68,7 @@ export default function InsightsPage() {
       <section className="glass-section px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Educational Authority</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Educational Authority</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Clearer buying starts before the RFQ is submitted.
             </h2>
@@ -129,7 +129,7 @@ export default function InsightsPage() {
       <section className="bg-transparent px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr]">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Browse the Library</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Browse the Library</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Articles grouped by buying intent.
             </h2>
@@ -138,11 +138,11 @@ export default function InsightsPage() {
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
               {categories.map((category) => (
-                <span key={category} className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-500">
+                <span key={category} className="rounded border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-500">
                   {category}
                 </span>
               ))}
-              <span className="rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-500">
+              <span className="rounded border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-500">
                 Platform
               </span>
             </div>
@@ -162,8 +162,8 @@ export default function InsightsPage() {
                         }}
                       />
                       <div className="p-5">
-                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">{insight.category}</div>
-                        <h3 className="mt-3 text-lg font-bold text-slate-950 group-hover:text-[#1457d9]">{insight.title}</h3>
+                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">{insight.category}</div>
+                        <h3 className="mt-3 text-lg font-bold text-slate-950 group-hover:text-[#2563EB]">{insight.title}</h3>
                         <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">{insight.summary}</p>
                       </div>
                     </div>
@@ -184,8 +184,8 @@ export default function InsightsPage() {
                       }}
                     />
                     <div className="p-5">
-                      <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">Platform Direction</div>
-                      <h3 className="mt-3 text-lg font-bold text-slate-950 group-hover:text-[#1457d9]">
+                      <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">Platform Direction</div>
+                      <h3 className="mt-3 text-lg font-bold text-slate-950 group-hover:text-[#2563EB]">
                         HACIEN operating platform and procurement continuity
                       </h3>
                       <p className="mt-2 text-sm leading-6 text-slate-600">
@@ -202,7 +202,7 @@ export default function InsightsPage() {
 
       <section className="bg-transparent px-4 py-12 sm:px-6 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
-          <BorderGlow className="relative overflow-hidden rounded-lg bg-[#071426] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
+          <BorderGlow className="relative overflow-hidden rounded-lg bg-[#0A0A0A] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
             <GradientBackground className="opacity-[0.36]" />
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
@@ -218,7 +218,7 @@ export default function InsightsPage() {
               </div>
               <Link
                 href="/quote"
-                className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#071426]"
+                className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#0A0A0A]"
               >
                 Submit RFQ
               </Link>

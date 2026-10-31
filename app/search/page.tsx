@@ -61,8 +61,8 @@ export default async function SearchPage({
 
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
-          <form className="glass-control rounded-2xl p-4 sm:p-5" action="/search" role="search">
-            <label htmlFor="hq-search" className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">
+          <form className="glass-control rounded p-4 sm:p-5" action="/search" role="search">
+            <label htmlFor="hq-search" className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">
               Search public headquarters
             </label>
             <div className="mt-4 flex flex-col gap-3 sm:flex-row">
@@ -73,7 +73,7 @@ export default async function SearchPage({
                 placeholder="Search RFQ, technology, platform, trust, support..."
                 className="focus-ring min-h-14 flex-1 rounded-full border border-white/60 bg-white/80 px-5 text-sm text-slate-950 shadow-inner shadow-slate-950/5 outline-none placeholder:text-slate-400"
               />
-              <button className="button-glow focus-ring rounded-full bg-[#1457d9] px-7 py-3 text-sm font-bold text-white shadow-lg shadow-blue-900/15" type="submit">
+              <button className="button-glow focus-ring rounded bg-[#2563EB] px-7 py-3 text-sm font-bold text-white shadow-lg shadow-blue-900/15" type="submit">
                 Search
               </button>
             </div>
@@ -82,7 +82,7 @@ export default async function SearchPage({
                 <Link
                   key={term}
                   href={`/search?q=${encodeURIComponent(term)}`}
-                  className="rounded-full border border-slate-200 bg-white/70 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-[#1457d9]/40 hover:text-[#1457d9]"
+                  className="rounded border border-slate-200 bg-white/70 px-3 py-1.5 text-xs font-semibold text-slate-600 transition hover:border-[#2563EB]/40 hover:text-[#2563EB]"
                 >
                   {term}
                 </Link>
@@ -93,7 +93,7 @@ export default async function SearchPage({
           <AnimatedContent className="mt-10">
             <div className="flex flex-col gap-3 border-b border-slate-200 pb-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">
+                <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">
                   {query ? "Search Results" : "Suggested Paths"}
                 </div>
                 <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950">
@@ -117,16 +117,16 @@ export default async function SearchPage({
                     {items.map((item, index) => (
                       <AnimatedContent key={item.href} delay={index * 45}>
                         <Link href={item.href} className="group block h-full focus-ring">
-                          <SpotlightCard className="h-full rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition group-hover:-translate-y-1 group-hover:border-[#1457d9]/35 group-hover:shadow-xl group-hover:shadow-slate-950/10">
+                          <SpotlightCard className="h-full rounded border border-slate-200 bg-white p-6 shadow-sm transition group-hover:-translate-y-1 group-hover:border-[#2563EB]/35 group-hover:shadow-xl group-hover:shadow-slate-950/10">
                             <div className="flex items-center justify-between gap-4">
-                              <span className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-[#1457d9]">
+                              <span className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-[#2563EB]">
                                 {item.group}
                               </span>
-                              <span aria-hidden="true" className="text-lg text-slate-300 transition group-hover:translate-x-1 group-hover:text-[#1457d9]">
+                              <span aria-hidden="true" className="text-lg text-slate-300 transition group-hover:translate-x-1 group-hover:text-[#2563EB]">
                                 →
                               </span>
                             </div>
-                            <div className="mt-5 text-xl font-bold text-slate-950 group-hover:text-[#1457d9]">{item.title}</div>
+                            <div className="mt-5 text-xl font-bold text-slate-950 group-hover:text-[#2563EB]">{item.title}</div>
                             <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
                           </SpotlightCard>
                         </Link>
@@ -136,13 +136,13 @@ export default async function SearchPage({
                 </section>
               ))
             ) : (
-              <div className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+              <div className="rounded border border-slate-200 bg-white p-8 shadow-sm">
                 <h2 className="text-2xl font-bold text-slate-950">No matching headquarters page</h2>
                 <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
                   Try a simpler term like RFQ, Technology, Platform, trust, support, or company profile.
                 </p>
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                  <Link href="/support" className="button-glow focus-ring inline-flex rounded-full bg-[#071426] px-5 py-3 text-sm font-bold text-white">
+                  <Link href="/support" className="button-glow focus-ring inline-flex rounded bg-[#0A0A0A] px-5 py-3 text-sm font-bold text-white">
                     Ask support
                   </Link>
                   <Link href="/search" className="interactive-link focus-ring inline-flex rounded-full border border-slate-300 px-5 py-3 text-sm font-bold text-slate-700">
