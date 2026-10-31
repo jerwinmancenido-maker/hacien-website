@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { FadeIn, SlideUp } from "@/components/motion";
@@ -8,7 +7,7 @@ export function Hero() {
   const content = getHomepageContent();
 
   return (
-    <section className="relative overflow-hidden bg-[#071426] text-white">
+    <section className="relative overflow-hidden bg-[#0A0A0A] text-white">
       <div
         className="cinematic-photo absolute inset-0 opacity-80"
         style={{
@@ -20,18 +19,8 @@ export function Hero() {
       <div className="cinematic-aurora pointer-events-none absolute inset-0" />
       <div className="cinematic-lines pointer-events-none absolute inset-0 opacity-30" />
       <div className="cinematic-sweep pointer-events-none absolute inset-y-0 left-0 w-[74%] opacity-0" />
-      <div className="pointer-events-none absolute -right-[18vw] top-12 hidden h-[720px] w-[720px] opacity-[0.16] mix-blend-screen lg:block xl:-right-[10vw] xl:h-[820px] xl:w-[820px]">
-        <Image
-          src="/brand/hacien-mark-4k.png"
-          alt=""
-          fill
-          priority
-          sizes="820px"
-          className="object-contain drop-shadow-[0_0_70px_rgba(45,212,255,0.28)]"
-          aria-hidden="true"
-        />
-      </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#071426] to-transparent" />
+      {/* Handoff: do not place the logo over the hero photo. */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
       <div className="relative mx-auto grid min-h-[450px] max-w-7xl items-center gap-5 px-4 py-7 sm:min-h-[520px] sm:gap-8 sm:px-6 sm:py-9 lg:min-h-[560px] lg:grid-cols-[1fr_0.86fr] lg:gap-10 lg:px-8 lg:py-12">
         <div className="flex flex-col justify-center">
           <FadeIn>
@@ -40,7 +29,7 @@ export function Hero() {
             </div>
           </FadeIn>
           <SlideUp delay={80}>
-            <h1 className="max-w-4xl text-3xl font-bold tracking-tight sm:text-5xl">
+            <h1 className="font-display max-w-4xl text-3xl tracking-tight sm:text-5xl lg:text-6xl">
               {content.hero.title}
             </h1>
           </SlideUp>
@@ -51,11 +40,17 @@ export function Hero() {
           </SlideUp>
           <SlideUp delay={260}>
             <div className="mt-5 flex flex-col gap-2 sm:mt-7 sm:flex-row sm:gap-3">
-              <Link href={content.hero.primaryAction.href} className="button-glow rounded-full bg-white px-5 py-2.5 text-center text-sm font-bold text-[#071426] shadow-xl shadow-blue-950/30 sm:px-6 sm:py-3">
+              <Link
+                href={content.hero.primaryAction.href}
+                className="rounded bg-blue px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-dark sm:px-6 sm:py-3"
+              >
                 {content.hero.primaryAction.label}
               </Link>
               {content.hero.secondaryAction ? (
-                <Link href={content.hero.secondaryAction.href} className="interactive-link glass-control-dark rounded-full px-5 py-2.5 text-center text-sm font-bold text-white hover:border-blue-200 sm:px-6 sm:py-3">
+                <Link
+                  href={content.hero.secondaryAction.href}
+                  className="interactive-link rounded border border-white/25 bg-transparent px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-white/5 sm:px-6 sm:py-3"
+                >
                   {content.hero.secondaryAction.label}
                 </Link>
               ) : null}
@@ -70,17 +65,21 @@ export function Hero() {
               <div className="rounded-lg border border-white/12 bg-white/10 p-4">
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">First response focus</div>
                 <p className="mt-3 text-sm leading-6 text-slate-200">
-                  The website captures the request. HACIEN checks it before any formal quote, delivery, payment, or document commitment exists.
+                  The website captures the request. HACIEN checks it before any formal quote, delivery, payment, or
+                  document commitment exists.
                 </p>
               </div>
               <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
                 {content.heroSignals.map((item, index) => (
-                <div key={item.title} className="rounded-lg border border-white/12 bg-white/10 p-3 backdrop-blur transition-transform duration-200 hover:-translate-y-1">
-                  <div className="text-xs font-bold text-blue-200">{String(index + 1).padStart(2, "0")}</div>
-                  <div className="mt-2 text-sm font-bold text-white">{item.title}</div>
-                  <p className="mt-2 text-xs leading-5 text-slate-300">{item.text}</p>
-                </div>
-              ))}
+                  <div
+                    key={item.title}
+                    className="rounded-lg border border-white/12 bg-white/10 p-3 backdrop-blur transition-transform duration-200 hover:-translate-y-1"
+                  >
+                    <div className="text-xs font-bold text-blue-200">{String(index + 1).padStart(2, "0")}</div>
+                    <div className="mt-2 text-sm font-bold text-white">{item.title}</div>
+                    <p className="mt-2 text-xs leading-5 text-slate-300">{item.text}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

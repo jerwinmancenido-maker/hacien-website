@@ -48,10 +48,10 @@ export default function CmsPreviewPage() {
   return (
     <main className="min-h-screen bg-[linear-gradient(180deg,#f8fbff_0%,#eef7f8_48%,#f8fafc_100%)] px-4 py-8 text-slate-950 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <section className="rounded-xl border border-slate-200 bg-white/82 p-5 shadow-sm backdrop-blur md:p-7">
+        <section className="rounded border border-slate-200 bg-white/82 p-5 shadow-sm backdrop-blur md:p-7">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Local CMS Preview</div>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Local CMS Preview</div>
               <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
                 HACIEN repo-backed CMS inspection.
               </h1>
@@ -82,7 +82,7 @@ export default function CmsPreviewPage() {
           ))}
         </section>
 
-        <section className="mt-5 rounded-xl border border-slate-200 bg-white/86 p-4 shadow-sm backdrop-blur">
+        <section className="mt-5 rounded border border-slate-200 bg-white/86 p-4 shadow-sm backdrop-blur">
           <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <h2 className="text-xl font-bold tracking-tight">CMS Ownership Inventory</h2>
@@ -135,7 +135,7 @@ export default function CmsPreviewPage() {
         </section>
 
         <section className="mt-5 grid gap-5 lg:grid-cols-2">
-          <div className="rounded-xl border border-slate-200 bg-white/86 p-4 shadow-sm backdrop-blur">
+          <div className="rounded border border-slate-200 bg-white/86 p-4 shadow-sm backdrop-blur">
             <h2 className="text-xl font-bold tracking-tight">Published CMS Content</h2>
             <div className="mt-4 grid gap-3">
               {data.content.map((entry) => (
@@ -151,7 +151,7 @@ export default function CmsPreviewPage() {
             </div>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white/86 p-4 shadow-sm backdrop-blur">
+          <div className="rounded border border-slate-200 bg-white/86 p-4 shadow-sm backdrop-blur">
             <h2 className="text-xl font-bold tracking-tight">Blocked and ERP-Owned Boundaries</h2>
             <div className="mt-4 grid gap-3">
               {data.blockedOrErpOwned.map((item) => (
@@ -169,7 +169,7 @@ export default function CmsPreviewPage() {
         </section>
 
         <section className="mt-5 grid gap-5 lg:grid-cols-2">
-          <div className="rounded-xl border border-slate-200 bg-white/86 p-4 shadow-sm backdrop-blur">
+          <div className="rounded border border-slate-200 bg-white/86 p-4 shadow-sm backdrop-blur">
             <h2 className="text-xl font-bold tracking-tight">Media Source Registry</h2>
             <div className="mt-4 grid gap-3">
               {data.media.map((record) => (
@@ -183,7 +183,7 @@ export default function CmsPreviewPage() {
             </div>
           </div>
 
-          <div className="rounded-xl border border-slate-200 bg-white/86 p-4 shadow-sm backdrop-blur">
+          <div className="rounded border border-slate-200 bg-white/86 p-4 shadow-sm backdrop-blur">
             <h2 className="text-xl font-bold tracking-tight">SEO Metadata Registry</h2>
             <div className="mt-4 grid gap-3">
               {data.seo.map((record) => (

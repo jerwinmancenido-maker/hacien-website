@@ -10,7 +10,7 @@ export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
     <nav aria-label="Breadcrumb" className="mb-6">
       <ol className="flex flex-wrap items-center gap-1 text-xs text-slate-500">
         <li>
-          <Link href="/" className="interactive-link hover:text-[#1457d9]">
+          <Link href="/" className="interactive-link hover:text-[#2563EB]">
             Home
           </Link>
         </li>
@@ -20,7 +20,7 @@ export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
               /
             </span>
             {item.href ? (
-              <Link href={item.href} className="interactive-link hover:text-[#1457d9]">
+              <Link href={item.href} className="interactive-link hover:text-[#2563EB]">
                 {item.label}
               </Link>
             ) : (

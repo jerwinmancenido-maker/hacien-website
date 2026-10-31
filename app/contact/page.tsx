@@ -65,7 +65,7 @@ export default function ContactPage() {
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Contact Paths</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Contact Paths</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Choose the route that matches the work.
             </h2>
@@ -75,7 +75,7 @@ export default function ContactPage() {
             {contactPaths.map((path, index) => (
               <AnimatedContent key={path.title} delay={index * 70}>
                 <Link href={path.href} className="group block h-full">
-                  <SpotlightCard className="h-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
+                  <SpotlightCard className="h-full overflow-hidden rounded border border-slate-200 bg-white shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
                     <div
                       className="relative min-h-[190px]"
                       style={{
@@ -89,9 +89,9 @@ export default function ContactPage() {
                       </div>
                     </div>
                     <div className="p-6">
-                      <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#1457d9]">{path.title}</h3>
+                      <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#2563EB]">{path.title}</h3>
                       <p className="mt-3 text-sm leading-6 text-slate-600">{path.text}</p>
-                      <div className="mt-5 text-sm font-bold text-[#1457d9]">{path.action}</div>
+                      <div className="mt-5 text-sm font-bold text-[#2563EB]">{path.action}</div>
                     </div>
                   </SpotlightCard>
                 </Link>
@@ -101,7 +101,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="bg-[#071426] px-4 py-12 text-white sm:px-6 lg:px-8">
+      <section className="bg-[#0A0A0A] px-4 py-12 text-white sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
@@ -114,9 +114,9 @@ export default function ContactPage() {
           <div className="grid gap-4">
             {communicationStandards.map((standard, index) => (
               <AnimatedContent key={standard} delay={index * 70}>
-                <div className="rounded-2xl border border-white/12 bg-white/[0.07] p-5 backdrop-blur">
+                <div className="rounded border border-white/12 bg-white/[0.07] p-5 backdrop-blur">
                   <div className="flex gap-4">
-                    <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-sm font-bold text-[#071426]">
+                    <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white text-sm font-bold text-[#0A0A0A]">
                       {index + 1}
                     </div>
                     <p className="text-sm leading-6 text-slate-200">{standard}</p>
@@ -131,8 +131,8 @@ export default function ContactPage() {
       <section id="contact-form" className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
           <AnimatedContent>
-            <BorderGlow className="rounded-2xl bg-white p-6 shadow-sm sm:p-8">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
+            <BorderGlow className="rounded bg-white p-6 shadow-sm sm:p-8">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">
                 Public Inquiry
               </div>
               <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">
@@ -144,12 +144,12 @@ export default function ContactPage() {
               </p>
 
               <div className="mt-8 grid gap-5 text-sm leading-7 text-slate-700">
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <div className="rounded border border-slate-200 bg-slate-50 p-5">
                   <div className="font-bold text-slate-950">Inquiry routing</div>
                   <p className="mt-2">{companyContact.contactInstruction}</p>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <div className="rounded border border-slate-200 bg-slate-50 p-5">
                   <div className="font-bold text-slate-950">{companyContact.addressLabel}</div>
                   <address className="mt-2 not-italic text-slate-700">
                     {companyContact.addressLines.map((line) => (
@@ -160,12 +160,12 @@ export default function ContactPage() {
                   </address>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                <div className="rounded border border-slate-200 bg-slate-50 p-5">
                   <div className="font-bold text-slate-950">Formal legal notices</div>
                   <p className="mt-2">
                     Formal legal notices must follow the published Legal page requirements.
                   </p>
-                  <Link href="/legal" className="mt-3 inline-flex text-sm font-bold text-[#1457d9]">
+                  <Link href="/legal" className="mt-3 inline-flex text-sm font-bold text-[#2563EB]">
                     Review Legal Information
                   </Link>
                 </div>

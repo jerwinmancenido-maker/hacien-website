@@ -17,7 +17,7 @@ export function CinematicSequence() {
   const frame = useCurrentFrame();
 
   return (
-    <AbsoluteFill style={{ background: "#071426" }}>
+    <AbsoluteFill style={{ background: "#0A0A0A" }}>
       {scenes.map((Scene, index) => {
         const start = index * (CINEMATIC_SCENE_FRAMES - OVERLAP_FRAMES);
         const fadeIn =

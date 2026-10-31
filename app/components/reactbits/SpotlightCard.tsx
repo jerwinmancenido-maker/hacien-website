@@ -6,7 +6,7 @@ import type { CSSProperties, ReactNode } from "react";
 export function SpotlightCard({
   children,
   className = "",
-  spotlightColor = "rgba(20, 87, 217, 0.16)",
+  spotlightColor = "rgba(37, 99, 235, 0.16)",
 }: {
   children: ReactNode;
   className?: string;

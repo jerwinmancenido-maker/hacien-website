@@ -20,7 +20,7 @@ export function AiDocumentParser() {
 
   return (
     <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-xl shadow-slate-950/8">
-      <div className="relative bg-[#071426] p-6 text-white">
+      <div className="relative bg-[#0A0A0A] p-6 text-white">
         <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-400 via-cyan-300 to-amber-300" />
         <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">AI Document Parser Playground</div>
         <h2 className="mt-3 text-2xl font-bold">Scan an RFQ attachment safely</h2>
@@ -45,7 +45,7 @@ export function AiDocumentParser() {
         <button
           type="submit"
           disabled={isPending}
-          className="button-glow rounded-full bg-[#1457d9] px-5 py-3 text-sm font-bold text-white disabled:bg-slate-300"
+          className="button-glow rounded bg-[#2563EB] px-5 py-3 text-sm font-bold text-white disabled:bg-slate-300"
         >
           {isPending ? "Scanning..." : "Run prototype scan"}
         </button>

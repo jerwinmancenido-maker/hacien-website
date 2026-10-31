@@ -67,7 +67,7 @@ export default async function ProductCategoryPage({ params }: { params: Promise<
                       : "These examples show the kind of request targets HACIEN can review. Final brand, model, warranty, lead time, and commercial terms are confirmed through formal quotation."}
                   </p>
                 </div>
-                <div className="rounded border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-bold text-[#1457d9]">
+                <div className="rounded border border-blue-100 bg-blue-50 px-4 py-3 text-sm font-bold text-[#2563EB]">
                   {categoryProducts.length} profile{categoryProducts.length === 1 ? "" : "s"}
                 </div>
               </div>

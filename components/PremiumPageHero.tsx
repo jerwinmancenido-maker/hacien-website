@@ -30,7 +30,7 @@ export function PremiumPageHero({
   highlights: HeroHighlight[];
 }) {
   return (
-    <section className="relative overflow-hidden bg-[#071426] text-white">
+    <section className="relative overflow-hidden bg-[#0A0A0A] text-white">
       <div
         className="cinematic-photo absolute inset-0 opacity-[0.82]"
         style={{
@@ -42,7 +42,7 @@ export function PremiumPageHero({
       <div className="cinematic-aurora pointer-events-none absolute inset-0" />
       <div className="cinematic-lines pointer-events-none absolute inset-0 opacity-25" />
       <div className="cinematic-sweep pointer-events-none absolute inset-y-0 left-0 w-[72%] opacity-0" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#071426] to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
       <div className="relative mx-auto grid min-h-[400px] max-w-7xl items-center gap-5 px-4 py-7 sm:min-h-[500px] sm:gap-8 sm:px-6 sm:py-9 lg:min-h-[540px] lg:grid-cols-[1fr_0.88fr] lg:px-8 lg:py-12">
         <div className="flex flex-col justify-center">
           <FadeIn>
@@ -51,7 +51,7 @@ export function PremiumPageHero({
             </div>
           </FadeIn>
           <SlideUp delay={80}>
-            <h1 className="max-w-4xl text-3xl font-bold tracking-tight sm:text-5xl">
+            <h1 className="font-display max-w-4xl text-3xl tracking-tight sm:text-5xl">
               {title}
             </h1>
           </SlideUp>
@@ -62,11 +62,11 @@ export function PremiumPageHero({
           </SlideUp>
           <SlideUp delay={260}>
             <div className="mt-5 flex flex-col gap-2 sm:mt-7 sm:flex-row sm:gap-3">
-              <Link href={primaryAction.href} className="button-glow rounded-full bg-white px-5 py-2.5 text-center text-sm font-bold text-[#071426] shadow-xl shadow-blue-950/30 sm:px-6 sm:py-3">
+              <Link href={primaryAction.href} className="rounded bg-blue px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-dark sm:px-6 sm:py-3">
                 {primaryAction.label}
               </Link>
               {secondaryAction ? (
-                <Link href={secondaryAction.href} className="interactive-link glass-control-dark rounded-full px-5 py-2.5 text-center text-sm font-bold text-white hover:border-blue-200 sm:px-6 sm:py-3">
+                <Link href={secondaryAction.href} className="interactive-link rounded border border-white/25 bg-transparent px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-white/5 sm:px-6 sm:py-3">
                   {secondaryAction.label}
                 </Link>
               ) : null}
