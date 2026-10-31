@@ -41,15 +41,19 @@ production statements are not current runtime truth by themselves.
 ## Lifecycle
 
 - Documentary phase label: Phase 8A work is present in the current dirty tree.
-- Current source verification (chore/maintenance-20261031, after CTO review
-  fixes on 2026-10-30):
-  - `npm ci`: PASS (lock regenerated; `.npmrc` sets `legacy-peer-deps=true`)
+- Current source verification (cursor/prisma7-audit-hostinger-d738, Node
+  20.20.2 / npm 10.8.2 Hostinger-matched, 2026-10-31):
+  - `npm ci`: PASS (`.npmrc` keeps `legacy-peer-deps=true`; no `camera-controls`
+    EBADENGINE; lockfileVersion 3 / npm 10)
   - `npx tsc --noEmit`: PASS (0 errors)
   - `npm run lint`: PASS (0 errors; 0 warnings)
   - `npx vitest run`: PASS (5 files / 63 tests)
   - `npm run validate` (claim-safety / blocked-claim scan): PASS (0 errors)
-  - `npm run build` (`next build`): PASS (Next.js 16.4.3)
-  - `npm audit`: 3 high / 0 critical (remaining require prisma major)
+  - `npm run build` (`next build --webpack`): PASS (Next.js 16.4.3; webpack
+    selected for Hostinger Turbopack/PostCSS stability on Node 20)
+  - `npm audit`: 0 high / 0 critical (14 moderate remain via eslint/minimatch)
+  - Prisma: 7.10.1 (`prisma` / `@prisma/client` engines `^20.19 || ^22.12 ||
+    >=24.0` satisfied by Hostinger Node 20.20.2); no DB migration
   - Rendered-browser evidence: not refreshed in this maintenance pass (`UNKNOWN`)
 - Database/provider/deployment/production state: `UNKNOWN` unless separately
   verified in an authorized lane.

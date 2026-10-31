@@ -1,6 +1,5 @@
-import { PrismaClient, type Order } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import type { Order } from "../generated/prisma/client";
+import { prisma } from "../lib/db";
 
 type NotificationTarget = Pick<Order, "id" | "externalReference" | "createdAt" | "status" | "totalCents" | "currency"> & {
   organization: {
