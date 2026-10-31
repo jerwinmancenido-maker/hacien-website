@@ -98,7 +98,7 @@ export default function AboutPage() {
                 <h2 className="mt-3 max-w-3xl text-xl font-bold tracking-tight sm:mt-4 sm:text-3xl">
                   {content.cta.title}
                 </h2>
-                <p className="mt-3 max-w-3xl text-sm leading-6 text-grey-400 sm:mt-4">
+                <p className="mt-3 max-w-3xl text-sm leading-6 text-grey-300 sm:mt-4">
                   {content.cta.description}
                 </p>
               </div>

@@ -122,12 +122,12 @@ export function InteractivePortalPreview() {
                 <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
               Illustrative Portal Preview
             </span>
-            <span className="text-xs text-grey-400">Sample workspace data</span>
+            <span className="text-xs text-grey-300">Sample workspace data</span>
           </div>
           <h3 className="mt-2 text-xl font-bold tracking-tight text-white sm:text-2xl">
             Sample Customer Workspace
           </h3>
-          <p className="mt-1 text-xs text-grey-400">
+          <p className="mt-1 text-xs text-grey-300">
             Preview of RFQ visibility, support context, and evidence-gated procurement workflow states.
           </p>
         </div>

@@ -11,7 +11,10 @@ export const brandColors = {
   grey50: "var(--grey-50)",
   grey100: "var(--grey-100)",
   grey200: "var(--grey-200)",
+  /** Secondary text on dark / translucent-dark surfaces (hero glass cards, ink panels). */
+  grey300: "var(--grey-300)",
   grey400: "var(--grey-400)",
+  /** Secondary text on light surfaces only — never on ink/hero glass. */
   grey600: "var(--grey-600)",
   grey700: "var(--grey-700)",
   blue: "var(--blue)",
