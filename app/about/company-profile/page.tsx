@@ -39,7 +39,7 @@ export default function CompanyProfilePage() {
             <h1 className="mt-5 max-w-5xl text-3xl font-bold tracking-tight sm:text-5xl">
               HACIEN publishes only the company facts it can support.
             </h1>
-            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-grey-400">
               HACIEN INFORMATION TECHNOLOGY SOLUTIONS publishes supported company identity facts and keeps commercial commitments inside formal review, quotation, and written communication.
             </p>
           </div>

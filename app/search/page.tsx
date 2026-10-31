@@ -71,7 +71,7 @@ export default async function SearchPage({
                 name="q"
                 defaultValue={params.q || ""}
                 placeholder="Search RFQ, technology, platform, trust, support..."
-                className="focus-ring min-h-14 flex-1 rounded-full border border-white/60 bg-white/80 px-5 text-sm text-slate-950 shadow-inner shadow-slate-950/5 outline-none placeholder:text-slate-400"
+                className="focus-ring min-h-14 flex-1 rounded-full border border-white/60 bg-white/80 px-5 text-sm text-slate-950 shadow-inner shadow-slate-950/5 outline-none placeholder:text-grey-600"
               />
               <button className="button-glow focus-ring rounded bg-[#2563EB] px-7 py-3 text-sm font-bold text-white shadow-lg shadow-blue-900/15" type="submit">
                 Search
@@ -110,7 +110,7 @@ export default async function SearchPage({
             {results.length ? (
               Object.entries(groupedResults).map(([group, items]) => (
                 <section key={group} aria-labelledby={`search-group-${group.toLowerCase().replace(/\s+/g, "-")}`}>
-                  <h2 id={`search-group-${group.toLowerCase().replace(/\s+/g, "-")}`} className="text-xs font-bold uppercase tracking-[0.16em] text-slate-400">
+                  <h2 id={`search-group-${group.toLowerCase().replace(/\s+/g, "-")}`} className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">
                     {group}
                   </h2>
                   <div className="mt-4 grid gap-4 md:grid-cols-2">
@@ -122,7 +122,7 @@ export default async function SearchPage({
                               <span className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-[#2563EB]">
                                 {item.group}
                               </span>
-                              <span aria-hidden="true" className="text-lg text-slate-300 transition group-hover:translate-x-1 group-hover:text-[#2563EB]">
+                              <span aria-hidden="true" className="text-lg text-grey-200 transition group-hover:translate-x-1 group-hover:text-[#2563EB]">
                                 →
                               </span>
                             </div>

@@ -1,8 +1,11 @@
+import { brandCategoryAccent } from "@/lib/brand-colors";
+
 export type ProductCategory = {
   slug: string;
   name: string;
   summary: string;
   heroCopy: string;
+  /** Brand token only (ink). Blue is reserved for CTAs, links, and focus rings. */
   accent: string;
   seoTitle: string;
   seoDescription: string;
@@ -62,7 +65,7 @@ export const categories: ProductCategory[] = [
     name: "Computers & Laptops",
     summary: "Business desktops, notebooks, workstations, and endpoint packages.",
     heroCopy: "Prepare an RFQ for business-grade computers and laptops for office, field, and institutional deployments.",
-    accent: "#2563EB",
+    accent: brandCategoryAccent,
     seoTitle: "Computers & Laptops | Technology",
     seoDescription: "HACIEN reviews RFQ requests for business desktops, notebooks, and workstations for Philippine organizations.",
   },
@@ -71,7 +74,7 @@ export const categories: ProductCategory[] = [
     name: "Servers & Storage",
     summary: "Entry to midrange servers, NAS, backup, and storage expansion.",
     heroCopy: "Review server and NAS storage requirements for workload, budget, and quotation context.",
-    accent: "#0f766e",
+    accent: brandCategoryAccent,
     seoTitle: "Servers & Storage | Technology",
     seoDescription: "HACIEN reviews RFQ requests for servers, NAS appliances, and backup storage for Philippine organizations.",
   },
@@ -80,7 +83,7 @@ export const categories: ProductCategory[] = [
     name: "Network Equipment",
     summary: "Switching, routing, access points, firewalls, and structured connectivity.",
     heroCopy: "Network infrastructure RFQ review, from access layer switches to firewall appliances.",
-    accent: "#2563EB",
+    accent: brandCategoryAccent,
     seoTitle: "Network Equipment | Technology",
     seoDescription: "HACIEN reviews RFQ requests for managed switches, wireless access points, firewalls, and network infrastructure.",
   },
@@ -89,7 +92,7 @@ export const categories: ProductCategory[] = [
     name: "Printers & Peripherals",
     summary: "Printers, scanners, monitors, UPS, and office IT devices.",
     heroCopy: "Office peripherals and printing solutions sourced for business and institutional buyers.",
-    accent: "#b45309",
+    accent: brandCategoryAccent,
     seoTitle: "Printers & Peripherals | Technology",
     seoDescription: "HACIEN reviews RFQ requests for printers, scanners, monitors, UPS units, and office peripherals.",
   },
@@ -98,7 +101,7 @@ export const categories: ProductCategory[] = [
     name: "Licensed Software",
     summary: "Productivity, endpoint security, operating systems, and business apps.",
     heroCopy: "Software licensing requests reviewed against vendor channel and organization requirements.",
-    accent: "#2563eb",
+    accent: brandCategoryAccent,
     seoTitle: "Licensed Software | Technology",
     seoDescription: "HACIEN reviews RFQ requests for productivity software, endpoint security, and operating system licenses.",
   },
@@ -107,7 +110,7 @@ export const categories: ProductCategory[] = [
     name: "Security & Surveillance",
     summary: "CCTV, access control, monitoring, and security infrastructure.",
     heroCopy: "Site security technology RFQ review: cameras, access control, and monitoring systems.",
-    accent: "#be123c",
+    accent: brandCategoryAccent,
     seoTitle: "Security & Surveillance | Technology",
     seoDescription: "HACIEN reviews RFQ requests for CCTV systems, access control, NVR/DVR equipment, and site security technology.",
   },
@@ -116,7 +119,7 @@ export const categories: ProductCategory[] = [
     name: "Accessories & Consumables",
     summary: "Cables, printer supplies, storage media, and deployment essentials.",
     heroCopy: "Deployment accessories and consumables reviewed alongside the primary IT requirement.",
-    accent: "#475569",
+    accent: brandCategoryAccent,
     seoTitle: "Accessories & Consumables | Technology",
     seoDescription: "HACIEN reviews RFQ requests for cables, printer supplies, storage media, and deployment accessories.",
   },
@@ -125,7 +128,7 @@ export const categories: ProductCategory[] = [
     name: "Power & UPS",
     summary: "UPS units, voltage regulators, PDUs, and power protection equipment.",
     heroCopy: "Power protection and UPS requirements reviewed for offices, server rooms, and critical equipment.",
-    accent: "#ca8a04",
+    accent: brandCategoryAccent,
     seoTitle: "Power & UPS | Technology",
     seoDescription: "HACIEN reviews RFQ requests for UPS units, voltage regulators, and power distribution equipment.",
   },
@@ -134,7 +137,7 @@ export const categories: ProductCategory[] = [
     name: "General Merchandise",
     summary: "Non-IT goods, office supplies, and general items for institutional procurement packages.",
     heroCopy: "General merchandise RFQ review for organizations with mixed IT and non-IT requirements.",
-    accent: "#64748b",
+    accent: brandCategoryAccent,
     seoTitle: "General Merchandise | Technology",
     seoDescription: "HACIEN reviews RFQ requests for general merchandise and office supplies with mixed procurement requirements.",
   },

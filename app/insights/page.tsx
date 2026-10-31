@@ -113,7 +113,7 @@ export default function InsightsPage() {
                     <div className="p-6">
                     <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue-200">{insight.category}</div>
                     <h3 className="mt-4 text-xl font-bold text-white group-hover:text-blue-200">{insight.title}</h3>
-                    <p className="mt-3 line-clamp-4 text-sm leading-6 text-slate-300">{insight.summary}</p>
+                    <p className="mt-3 line-clamp-4 text-sm leading-6 text-grey-400">{insight.summary}</p>
                     <div className="mt-5 text-xs font-bold text-blue-200">
                       {insight.publishedAt} / {insight.readingTime}
                     </div>
@@ -212,7 +212,7 @@ export default function InsightsPage() {
                 <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
                   Have a procurement requirement ready to source?
                 </h2>
-                <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-300">
+                <p className="mt-4 max-w-3xl text-sm leading-6 text-grey-400">
                   Use the guides to prepare the context, then submit the requirement for RFQ review.
                 </p>
               </div>

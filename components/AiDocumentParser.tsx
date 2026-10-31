@@ -24,7 +24,7 @@ export function AiDocumentParser() {
         <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-400 via-cyan-300 to-amber-300" />
         <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">AI Document Parser Playground</div>
         <h2 className="mt-3 text-2xl font-bold">Scan an RFQ attachment safely</h2>
-        <p className="mt-2 text-sm leading-6 text-slate-300">
+        <p className="mt-2 text-sm leading-6 text-grey-400">
           Prototype extraction only. Files are checked for format and size, then summarized for manual review.
         </p>
       </div>
