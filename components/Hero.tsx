@@ -29,7 +29,7 @@ export function Hero() {
             </div>
           </FadeIn>
           <SlideUp delay={80}>
-            <h1 className="font-display max-w-4xl text-3xl tracking-tight sm:text-5xl lg:text-6xl">
+            <h1 className="font-display max-w-4xl text-balance text-2xl tracking-tight sm:text-4xl lg:text-5xl">
               {content.hero.title}
             </h1>
           </SlideUp>
