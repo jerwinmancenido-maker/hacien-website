@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { BrandLogo } from "@/components/BrandLogo";
 
 interface BrandMarkProps {
   className?: string;
@@ -6,13 +6,12 @@ interface BrandMarkProps {
   light?: boolean;
 }
 
-export function BrandMark({ className = "", size = 32 }: BrandMarkProps) {
+/** App/icon mark — prefers the SVG icon lockup from brand kit v1.1. */
+export function BrandMark({ className = "", size = 32, light = false }: BrandMarkProps) {
   return (
-    <Image
-      src="/brand/hacien-mark.png"
-      alt="HACIEN logo"
-      width={size}
-      height={size}
+    <BrandLogo
+      variant={light ? "icon-dark" : "icon"}
+      height={Math.max(size, 16)}
       className={className}
       priority
     />

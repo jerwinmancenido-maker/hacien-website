@@ -49,7 +49,7 @@ export default async function InsightDetailPage({
             ]}
           />
 
-          <div className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">
+          <div className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">
             {insight.category}
           </div>
 
@@ -80,7 +80,7 @@ export default async function InsightDetailPage({
             <ul className="mt-4 space-y-3">
               {insight.checklist.map((item) => (
                 <li key={item} className="flex gap-3 text-sm text-slate-700">
-                  <span className="mt-0.5 shrink-0 text-[#1457d9]">✓</span>
+                  <span className="mt-0.5 shrink-0 text-[#2563EB]">✓</span>
                   <span>{item}</span>
                 </li>
               ))}
@@ -104,7 +104,7 @@ export default async function InsightDetailPage({
           <div className="mt-10 flex flex-col gap-3 sm:flex-row">
             <Link
               href={insight.ctaUrl}
-              className="button-glow rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white"
+              className="button-glow rounded bg-[#2563EB] px-5 py-3 text-center text-sm font-bold text-white"
             >
               {insight.ctaLabel}
             </Link>
@@ -127,15 +127,15 @@ export default async function InsightDetailPage({
                 <Link
                   key={related.slug}
                   href={`/insights/${related.slug}`}
-                  className="lift group block rounded-lg border border-slate-200 bg-white p-5 hover:border-[#1457d9]/40"
+                  className="lift group block rounded-lg border border-slate-200 bg-white p-5 hover:border-[#2563EB]/40"
                 >
-                  <div className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">
+                  <div className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">
                     {related.category}
                   </div>
-                  <h3 className="text-sm font-bold text-slate-950 group-hover:text-[#1457d9] leading-snug">
+                  <h3 className="text-sm font-bold text-slate-950 group-hover:text-[#2563EB] leading-snug">
                     {related.title}
                   </h3>
-                  <div className="mt-3 text-xs font-semibold text-[#1457d9]">Read →</div>
+                  <div className="mt-3 text-xs font-semibold text-[#2563EB]">Read →</div>
                 </Link>
               ))}
             </div>

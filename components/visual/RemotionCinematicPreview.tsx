@@ -26,7 +26,7 @@ export function RemotionCinematicPreview() {
           ))}
         </div>
       </div>
-      <div className="overflow-hidden rounded-lg border border-white/15 bg-black/30 shadow-2xl shadow-blue-950/30">
+      <div className="overflow-hidden rounded-lg border border-white/15 bg-black/30">
         <Player
           component={CinematicSequence}
           compositionWidth={1920}

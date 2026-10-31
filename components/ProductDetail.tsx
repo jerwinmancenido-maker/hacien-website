@@ -51,11 +51,11 @@ export function ProductDetail({ product }: { product: Product }) {
           <div className="absolute inset-0 animated-grid" />
           <div className="relative flex h-full flex-col justify-end">
             <div className="rounded border border-white/70 bg-white/90 p-4 backdrop-blur sm:p-5">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue">
                 {categoryLabel}
               </div>
-              <div className="mt-3 text-2xl font-bold text-slate-950">Requirement review</div>
-              <p className="mt-3 text-sm text-slate-600">{product.availability}</p>
+              <div className="mt-3 text-2xl font-bold text-ink">Requirement review</div>
+              <p className="mt-3 text-sm text-grey-600">{product.availability}</p>
             </div>
           </div>
         </div>
@@ -63,13 +63,13 @@ export function ProductDetail({ product }: { product: Product }) {
 
         <SlideUp delay={120} className="min-w-0">
         <div className="min-w-0">
-          <div className="text-sm font-semibold text-[#1457d9]">{categoryLabel}</div>
-          <h1 className="mt-3 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{product.name}</h1>
-          <p className="mt-4 text-base leading-7 text-slate-600">{product.longDescription}</p>
+          <div className="text-sm font-semibold text-blue">{categoryLabel}</div>
+          <h1 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-3xl">{product.name}</h1>
+          <p className="mt-4 text-base leading-7 text-grey-600">{product.longDescription}</p>
 
-          <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-5">
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Quotation review</div>
-            <p className="mt-3 text-sm leading-6 text-slate-600">
+          <div className="mt-6 rounded-lg border border-grey-200 bg-grey-100 p-5">
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue">Quotation review</div>
+            <p className="mt-3 text-sm leading-6 text-grey-600">
               This page explains a technology type HACIEN can review. Final model, quantity, pricing,
               warranty, supplier availability, delivery terms, and payment review are confirmed before any
               official order or invoice step.
@@ -91,7 +91,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 "Delivery location and deadline",
                 "BOQ, specification, image, or existing quote",
               ].map((item) => (
-                <div key={item} className="rounded border border-slate-200 bg-white px-4 py-3 text-sm font-semibold text-slate-700">
+                <div key={item} className="rounded border border-grey-200 bg-white px-4 py-3 text-sm font-semibold text-grey-700">
                   {item}
                 </div>
               ))}
@@ -99,32 +99,32 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
 
           <div className="mt-6">
-            <h2 className="font-bold text-slate-950">Typical request targets</h2>
-            <ul className="mt-4 grid gap-3 text-sm text-slate-700">
+            <h2 className="font-bold text-ink">Typical request targets</h2>
+            <ul className="mt-4 grid gap-3 text-sm text-grey-700">
               {product.specs.map((spec) => (
                 <li key={spec} className="flex gap-3">
-                  <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#1457d9]" />
+                  <span className="mt-2 h-1.5 w-1.5 rounded bg-blue" />
                   <span>{spec}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          <div className="mt-6 overflow-hidden rounded-lg border border-slate-200">
-            <div className="border-b border-slate-200 bg-slate-50 px-5 py-4">
-              <h2 className="font-bold text-slate-950">Technical specification table</h2>
-              <p className="mt-1 text-sm leading-6 text-slate-600">
+          <div className="mt-6 overflow-hidden rounded-lg border border-grey-200">
+            <div className="border-b border-grey-200 bg-grey-100 px-5 py-4">
+              <h2 className="font-bold text-ink">Technical specification table</h2>
+              <p className="mt-1 text-sm leading-6 text-grey-600">
                 These are RFQ planning targets, not guaranteed stock, pricing, or final model commitments.
               </p>
             </div>
             <div className="max-w-full overflow-x-auto">
               <table className="w-full min-w-[520px] border-collapse text-left text-sm">
-                <thead className="bg-white text-xs uppercase tracking-[0.12em] text-slate-500">
+                <thead className="bg-white text-xs uppercase tracking-[0.12em] text-grey-600">
                   <tr>
-                    <th scope="col" className="border-b border-slate-200 px-5 py-3 font-bold">
+                    <th scope="col" className="border-b border-grey-200 px-5 py-3 font-bold">
                       Field
                     </th>
-                    <th scope="col" className="border-b border-slate-200 px-5 py-3 font-bold">
+                    <th scope="col" className="border-b border-grey-200 px-5 py-3 font-bold">
                       RFQ target
                     </th>
                   </tr>
@@ -132,10 +132,10 @@ export function ProductDetail({ product }: { product: Product }) {
                 <tbody className="divide-y divide-slate-100 bg-white">
                   {product.technicalSpecs.map((spec) => (
                     <tr key={spec.label}>
-                      <th scope="row" className="w-48 px-5 py-4 align-top font-semibold text-slate-950">
+                      <th scope="row" className="w-48 px-5 py-4 align-top font-semibold text-ink">
                         {spec.label}
                       </th>
-                      <td className="px-5 py-4 leading-6 text-slate-600">{spec.value}</td>
+                      <td className="px-5 py-4 leading-6 text-grey-600">{spec.value}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -143,8 +143,8 @@ export function ProductDetail({ product }: { product: Product }) {
             </div>
           </div>
 
-          <div className="mt-6 rounded border border-blue-100 bg-blue-50 p-5 text-sm leading-6 text-slate-700">
-            <strong className="text-slate-950">Procurement note:</strong> {product.procurementNotes}
+          <div className="mt-6 rounded border border-blue-100 bg-blue-tint p-5 text-sm leading-6 text-grey-700">
+            <strong className="text-ink">Procurement note:</strong> {product.procurementNotes}
           </div>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -152,20 +152,20 @@ export function ProductDetail({ product }: { product: Product }) {
               <button
                 type="button"
                 onClick={handleAddToRfq}
-                className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-sm font-bold text-white hover:bg-[#0f46b4]"
+                className="button-glow focus-ring rounded bg-blue px-5 py-3 text-sm font-bold text-white hover:bg-blue-dark"
               >
                 Add to RFQ
               </button>
             ) : null}
             <Link
               href="/quote"
-              className="interactive-link focus-ring rounded border border-slate-300 px-5 py-3 text-sm font-bold text-slate-900"
+              className="interactive-link focus-ring rounded border border-grey-200 px-5 py-3 text-sm font-bold text-ink"
             >
               Continue to RFQ
             </Link>
             <Link
               href="/products"
-              className="interactive-link focus-ring rounded border border-slate-300 px-5 py-3 text-sm font-bold text-slate-900"
+              className="interactive-link focus-ring rounded border border-grey-200 px-5 py-3 text-sm font-bold text-ink"
             >
               View technology areas
             </Link>
@@ -176,10 +176,10 @@ export function ProductDetail({ product }: { product: Product }) {
               Request price review
             </Link>
           </div>
-          {priceText ? <p className="mt-4 text-sm font-semibold text-slate-900">Starting at {priceText}</p> : null}
+          {priceText ? <p className="mt-4 text-sm font-semibold text-ink">Starting at {priceText}</p> : null}
           {showManualPaymentIntent ? (
             <div className="mt-8">
-              <div className="mb-3 text-sm font-bold text-slate-950">Manual payment review</div>
+              <div className="mb-3 text-sm font-bold text-ink">Manual payment review</div>
               <ManualPaymentIntentForm
                 productId={product.id}
                 publicationId={product.erpPublicationId || ""}
@@ -187,13 +187,13 @@ export function ProductDetail({ product }: { product: Product }) {
                 name={product.name}
                 sourceUrl={`/product/${product.slug}`}
               />
-              <p className="mt-3 text-xs leading-5 text-slate-500">
+              <p className="mt-3 text-xs leading-5 text-grey-600">
                 This creates an ERP order intent for review. It does not create an official order, invoice,
                 receipt, or paid transaction.
               </p>
             </div>
           ) : canCheckout(product) ? (
-            <p className="mt-4 rounded border border-blue-200 bg-blue-50 px-4 py-3 text-sm font-semibold text-blue-800">
+            <p className="mt-4 rounded border border-blue-200 bg-blue-tint px-4 py-3 text-sm font-semibold text-blue-800">
               Order intent is available only after ERP publication settings enable manual payment review.
             </p>
           ) : null}

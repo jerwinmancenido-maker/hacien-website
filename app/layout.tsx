@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Archivo_Black, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -6,6 +7,20 @@ import { GlobalCinematicBackdrop } from "@/components/GlobalCinematicBackdrop";
 import { QuoteCartProvider } from "@/components/QuoteCartProvider";
 import { LenisProvider } from "@/components/motion/LenisProvider";
 import { companyContact } from "@/data/companyContact";
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const archivoBlack = Archivo_Black({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-archivo-black",
+  display: "swap",
+});
 
 export const revalidate = 300;
 
@@ -26,6 +41,16 @@ export const metadata: Metadata = {
     "institutional procurement support",
     "technology solutions provider",
   ],
+  icons: {
+    icon: [
+      { url: "/brand/favicon.ico" },
+      { url: "/brand/icon.svg", type: "image/svg+xml" },
+      { url: "/brand/icon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/brand/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/brand/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/brand/icon-192.png", sizes: "192x192", type: "image/png" }],
+  },
   openGraph: {
     title: "HACIEN Information Technology Solutions",
     description:
@@ -74,8 +99,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   };
 
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className={`${inter.variable} ${archivoBlack.variable}`}>
+      <body className="font-sans antialiased">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}

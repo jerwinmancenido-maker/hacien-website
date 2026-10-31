@@ -24,33 +24,33 @@ export function LoginForm() {
   }
 
   return (
-    <form action={handleSubmit} className="surface grid gap-4 rounded-2xl p-6">
-      <label className="grid gap-2 text-sm font-semibold text-slate-700">
+    <form action={handleSubmit} className="surface grid gap-4 rounded p-6">
+      <label className="grid gap-2 text-sm font-semibold text-grey-700">
         Work email
         <input
           type="email"
           name="email"
           required
           autoComplete="username"
-          className="focus-ring min-h-12 rounded-xl border border-slate-300 bg-white px-4"
+          className="focus-ring min-h-12 rounded border border-grey-200 bg-white px-4"
           placeholder="name@company.com"
         />
       </label>
-      <label className="grid gap-2 text-sm font-semibold text-slate-700">
+      <label className="grid gap-2 text-sm font-semibold text-grey-700">
         Password
         <input
           type="password"
           name="password"
           required
           autoComplete="current-password"
-          className="focus-ring min-h-12 rounded-xl border border-slate-300 bg-white px-4"
+          className="focus-ring min-h-12 rounded border border-grey-200 bg-white px-4"
           placeholder="••••••••"
         />
       </label>
       <button
         type="submit"
         disabled={status === "submitting"}
-        className="button-glow rounded-full bg-[#1457d9] px-5 py-3 text-sm font-bold text-white disabled:bg-slate-300"
+        className="button-glow rounded bg-blue px-5 py-3 text-sm font-bold text-white disabled:bg-slate-300"
       >
         {status === "submitting" ? "Checking account..." : "Sign In"}
       </button>
@@ -62,8 +62,8 @@ export function LoginForm() {
       ) : null}
 
       {nextUrl ? (
-        <p className="text-sm text-slate-600">
-          Next step: <a href={nextUrl} className="font-semibold text-[#1457d9]">continue</a>
+        <p className="text-sm text-grey-600">
+          Next step: <a href={nextUrl} className="font-semibold text-blue">continue</a>
         </p>
       ) : null}
     </form>

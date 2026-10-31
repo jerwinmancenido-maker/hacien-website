@@ -21,7 +21,7 @@ export default function IndustriesPage() {
         <GradientBackground />
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
-            <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
+            <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">
               {content.hero.eyebrow}
             </AnimatedContent>
             <SplitText
@@ -37,7 +37,7 @@ export default function IndustriesPage() {
             <AnimatedContent delay={260} className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href={content.hero.primaryAction.href}
-                className="button-glow focus-ring rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
+                className="button-glow focus-ring rounded bg-[#2563EB] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
               >
                 {content.hero.primaryAction.label}
               </Link>
@@ -53,8 +53,8 @@ export default function IndustriesPage() {
           </div>
 
           <AnimatedContent delay={140} direction="left">
-            <BorderGlow className="rounded-lg bg-white/[0.86] p-6 shadow-2xl shadow-slate-950/10">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
+            <BorderGlow className="rounded-lg bg-white/[0.86] p-6">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">
                 {content.buyerContext.eyebrow}
               </div>
               <h2 className="mt-3 text-xl font-bold text-slate-950 sm:text-2xl">
@@ -63,7 +63,7 @@ export default function IndustriesPage() {
               <div className="mt-8 grid gap-3">
                 {content.buyerContext.signals.map((signal, index) => (
                   <div key={signal} className="flex items-center gap-3 rounded border border-slate-200 bg-slate-50 px-4 py-3">
-                    <span className="grid h-7 w-7 place-items-center rounded-full bg-[#071426] text-xs font-bold text-white">
+                    <span className="grid h-7 w-7 place-items-center rounded bg-[#0A0A0A] text-xs font-bold text-white">
                       {index + 1}
                     </span>
                     <span className="text-sm font-bold text-slate-800">{signal}</span>
@@ -78,7 +78,7 @@ export default function IndustriesPage() {
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">{content.supportedIndustries.eyebrow}</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">{content.supportedIndustries.eyebrow}</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               {content.supportedIndustries.title}
             </h2>
@@ -98,7 +98,7 @@ export default function IndustriesPage() {
 
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <AnimatedContent className="mx-auto max-w-7xl">
-          <BorderGlow className="relative overflow-hidden rounded-lg bg-[#071426] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
+          <BorderGlow className="relative overflow-hidden rounded-lg bg-[#0A0A0A] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
             <GradientBackground className="opacity-[0.36]" />
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
@@ -114,7 +114,7 @@ export default function IndustriesPage() {
               </div>
               <Link
                 href={content.cta.action.href}
-                className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#071426]"
+                className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#0A0A0A]"
               >
                 {content.cta.action.label}
               </Link>

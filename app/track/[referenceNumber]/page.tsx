@@ -102,7 +102,7 @@ export default async function TrackReferencePage({ params }: TrackingPageProps) 
             </p>
             <Link
               href="/support"
-              className="mt-5 inline-flex rounded bg-[#071426] px-5 py-3 text-sm font-bold text-white"
+              className="mt-5 inline-flex rounded bg-[#0A0A0A] px-5 py-3 text-sm font-bold text-white"
             >
               Contact support
             </Link>
@@ -110,7 +110,7 @@ export default async function TrackReferencePage({ params }: TrackingPageProps) 
         ) : (
           <div className="mt-8 grid gap-6">
             <div className="surface rounded-lg p-6">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">
                 {tracking.gateway.status}
               </div>
               <h2 className="mt-3 text-2xl font-bold text-slate-950">

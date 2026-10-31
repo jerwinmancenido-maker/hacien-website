@@ -67,7 +67,7 @@ export default async function ProductsPage() {
           {erpProducts.length > 0 ? (
             <div className="mb-12">
               <AnimatedContent>
-                <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">ERP-published catalog</div>
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">ERP-published catalog</div>
                 <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
                   Products currently published from HACIEN ERP.
                 </h2>
@@ -87,7 +87,7 @@ export default async function ProductsPage() {
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Technology Areas</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Technology Areas</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Common categories HACIEN can discuss with customers.
             </h2>
@@ -113,9 +113,9 @@ export default async function ProductsPage() {
                       </div>
                     </div>
                     <div className="p-4 sm:p-6">
-                      <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#1457d9] sm:text-xl">{category.name}</h3>
+                      <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#2563EB] sm:text-xl">{category.name}</h3>
                       <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600 sm:mt-3 sm:line-clamp-none">{category.summary}</p>
-                      <div className="mt-3 text-sm font-bold text-[#1457d9] sm:mt-5">See example details</div>
+                      <div className="mt-3 text-sm font-bold text-[#2563EB] sm:mt-5">See example details</div>
                     </div>
                   </SpotlightCard>
                 </Link>
@@ -127,7 +127,7 @@ export default async function ProductsPage() {
             <p className="mt-2 text-sm leading-6 text-slate-600">
               Use the RFQ form and describe the outcome. HACIEN can review mixed requirements without making this page a full catalog.
             </p>
-            <Link href="/quote" className="mt-3 inline-flex text-sm font-bold text-[#1457d9]">
+            <Link href="/quote" className="mt-3 inline-flex text-sm font-bold text-[#2563EB]">
               Describe the requirement
             </Link>
           </div>
@@ -139,7 +139,7 @@ export default async function ProductsPage() {
           <BorderGlow className="relative overflow-hidden rounded-lg bg-white p-5 shadow-sm sm:p-10">
             <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
-                <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">
                   How to start
                 </div>
                 <h2 className="mt-3 max-w-3xl text-xl font-bold tracking-tight text-slate-950 sm:mt-4 sm:text-3xl">
@@ -156,7 +156,7 @@ export default async function ProductsPage() {
               </div>
               <Link
                 href="/quote"
-                className="button-glow focus-ring rounded bg-[#1457d9] px-6 py-3 text-center text-sm font-bold text-white"
+                className="button-glow focus-ring rounded bg-[#2563EB] px-6 py-3 text-center text-sm font-bold text-white"
               >
                 Send a Requirement
               </Link>

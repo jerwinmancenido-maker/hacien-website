@@ -45,7 +45,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
                 ))}
               </div>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link href={solution.ctaUrl} className="button-glow rounded bg-[#1457d9] px-5 py-3 text-center text-sm font-bold text-white">
+                <Link href={solution.ctaUrl} className="button-glow rounded bg-[#2563EB] px-5 py-3 text-center text-sm font-bold text-white">
                   {solution.ctaLabel}
                 </Link>
                 <Link href="/products" className="interactive-link rounded border border-slate-300 px-5 py-3 text-center text-sm font-bold text-slate-900">
@@ -55,7 +55,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
             </div>
             <div className="surface overflow-hidden rounded-lg p-6">
               <div className="animated-grid rounded-lg p-6">
-                <div className="grid h-16 w-16 place-items-center rounded bg-[#071426] text-sm font-bold text-white">
+                <div className="grid h-16 w-16 place-items-center rounded bg-[#0A0A0A] text-sm font-bold text-white">
                   {solution.icon}
                 </div>
                 <h2 className="mt-8 text-2xl font-bold text-slate-950">What this supports</h2>
@@ -87,7 +87,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
           <div className="progress-line mt-8 grid gap-4 md:grid-cols-4 md:[&::before]:hidden">
             {solution.workflow.map((step, index) => (
               <div key={step} className="relative rounded border border-slate-200 bg-white p-5">
-                <div className="grid h-10 w-10 place-items-center rounded-full bg-[#1457d9] text-sm font-bold text-white">{index + 1}</div>
+                <div className="grid h-10 w-10 place-items-center rounded bg-[#2563EB] text-sm font-bold text-white">{index + 1}</div>
                 <div className="mt-4 font-bold text-slate-950">{step}</div>
               </div>
             ))}
@@ -104,10 +104,10 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
                 <Link
                   key={s.slug}
                   href={`/solutions/${s.slug}`}
-                  className="lift group block rounded-lg border border-slate-200 bg-white p-5 hover:border-[#1457d9]/40"
+                  className="lift group block rounded-lg border border-slate-200 bg-white p-5 hover:border-[#2563EB]/40"
                 >
-                  <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#1457d9]">{s.category}</div>
-                  <div className="mt-2 font-bold text-slate-950 group-hover:text-[#1457d9]">{s.title}</div>
+                  <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">{s.category}</div>
+                  <div className="mt-2 font-bold text-slate-950 group-hover:text-[#2563EB]">{s.title}</div>
                   <p className="mt-1 text-sm text-slate-500">{s.summary}</p>
                 </Link>
               ))}

@@ -36,7 +36,7 @@ export function OurCommitment({ className = "" }: { className?: string }) {
     <AnimatedSection className={`bg-white px-4 py-12 sm:px-6 lg:px-8 ${className}`}>
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Our Commitment</div>
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Our Commitment</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             Dependable procurement support is built from small, visible disciplines.
           </h2>
@@ -60,10 +60,10 @@ export function OurCommitment({ className = "" }: { className?: string }) {
 
 export function CapabilityResources({ inverse = false }: { inverse?: boolean }) {
   return (
-    <section className={`${inverse ? "bg-[#071426] text-white" : "bg-slate-50 text-slate-950"} px-4 py-12 sm:px-6 lg:px-8`}>
+    <section className={`${inverse ? "bg-[#0A0A0A] text-white" : "bg-slate-50 text-slate-950"} px-4 py-12 sm:px-6 lg:px-8`}>
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
-          <div className={`text-xs font-bold uppercase tracking-[0.18em] ${inverse ? "text-blue-300" : "text-[#1457d9]"}`}>
+          <div className={`text-xs font-bold uppercase tracking-[0.18em] ${inverse ? "text-blue-300" : "text-[#2563EB]"}`}>
             Capability Resources
           </div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">
@@ -78,10 +78,10 @@ export function CapabilityResources({ inverse = false }: { inverse?: boolean }) 
             <div
               key={title}
               className={`h-full rounded-lg border p-5 ${
-                inverse ? "border-white/12 bg-white/[0.06]" : "border-slate-200 bg-white shadow-sm"
-              }`}
+ inverse ? "border-white/12 bg-white/[0.06]" : "border-slate-200 bg-white shadow-sm"
+ }`}
             >
-              <div className={`text-xs font-bold uppercase tracking-[0.16em] ${inverse ? "text-blue-200" : "text-[#1457d9]"}`}>
+              <div className={`text-xs font-bold uppercase tracking-[0.16em] ${inverse ? "text-blue-200" : "text-[#2563EB]"}`}>
                 {status}
               </div>
               <h3 className="mt-4 text-base font-bold">{title}</h3>
@@ -99,7 +99,7 @@ export function CustomerJourneyConfidence() {
     <AnimatedSection className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">What Happens Next</div>
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">What Happens Next</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             New customers should know what happens after they contact HACIEN.
           </h2>
@@ -111,7 +111,7 @@ export function CustomerJourneyConfidence() {
           {journey.map(([title, text], index) => (
             <BorderGlow key={title} className="rounded-lg bg-white p-5 shadow-sm">
               <div className="flex gap-4">
-                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#1457d9] text-sm font-bold text-white">
+                <div className="grid h-11 w-11 shrink-0 place-items-center rounded bg-[#2563EB] text-sm font-bold text-white">
                   {String(index + 1).padStart(2, "0")}
                 </div>
                 <div>
@@ -142,7 +142,7 @@ export function FutureProofAssets() {
     <section className="bg-white px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Future Proof Assets</div>
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Future Proof Assets</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             Proof should be added only when it is real, approved, and supportable.
           </h2>
@@ -167,7 +167,7 @@ export function TrustCta() {
   return (
     <section className="px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
-        <BorderGlow className="rounded-lg bg-[#071426] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
+        <BorderGlow className="rounded-lg bg-[#0A0A0A] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
           <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Procurement Confidence</div>
@@ -178,7 +178,7 @@ export function TrustCta() {
                 Send the requirement, specification, quantity, deadline, and delivery details. HACIEN will help organize the next RFQ step.
               </p>
             </div>
-            <Link href="/quote" className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#071426]">
+            <Link href="/quote" className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#0A0A0A]">
               Submit RFQ
             </Link>
           </div>
@@ -202,7 +202,7 @@ export function CompanyCredentials() {
     <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Company Credentials</div>
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Company Credentials</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             Trust is presented through verifiable operating facts, not inflated credentials.
           </h2>
@@ -243,7 +243,7 @@ export function ControlledAccessPreview({
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">{eyebrow}</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">{eyebrow}</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               {title}
             </h2>
@@ -254,8 +254,8 @@ export function ControlledAccessPreview({
               {statusNote}
             </div>
           </div>
-          <BorderGlow className="rounded-lg bg-white p-4 shadow-2xl shadow-slate-950/10 sm:p-5">
-            <div className="rounded border border-slate-200 bg-[#071426] p-4 text-white">
+          <BorderGlow className="rounded-lg bg-white p-4 sm:p-5">
+            <div className="rounded border border-slate-200 bg-[#0A0A0A] p-4 text-white">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
                   <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue-200">HACIEN Customer Workspace</div>
@@ -274,7 +274,7 @@ export function ControlledAccessPreview({
                       <h3 className="text-sm font-bold text-slate-950">{title}</h3>
                       <p className="mt-1 text-xs font-semibold text-slate-500">{label}</p>
                     </div>
-                    <span className="rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#1457d9]">
+                    <span className="rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#2563EB]">
                       {status}
                     </span>
                   </div>

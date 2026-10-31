@@ -42,10 +42,10 @@ export function ClarificationReplyForm({ referenceNumber }: { referenceNumber: s
   return (
     <form onSubmit={handleSubmit} className="mt-5 rounded border border-amber-200 bg-amber-50 p-4">
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
-      <label htmlFor="clarification-message" className="text-sm font-bold text-slate-950">
+      <label htmlFor="clarification-message" className="text-sm font-bold text-ink">
         Reply to HACIEN
       </label>
-      <p className="mt-2 text-sm leading-6 text-slate-600">
+      <p className="mt-2 text-sm leading-6 text-grey-600">
         Add the requested information using the same reference. HACIEN will continue review after receiving your reply.
       </p>
       <textarea
@@ -53,7 +53,7 @@ export function ClarificationReplyForm({ referenceNumber }: { referenceNumber: s
         name="message"
         required
         rows={4}
-        className="mt-4 w-full rounded border border-amber-200 bg-white px-4 py-3 text-sm text-slate-900 outline-none transition focus:border-[#1457d9] focus:ring-2 focus:ring-blue-100"
+        className="mt-4 w-full rounded border border-amber-200 bg-white px-4 py-3 text-sm text-ink outline-none transition focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
         placeholder="Provide the requested clarification..."
       />
       {status === "error" ? (
@@ -67,7 +67,7 @@ export function ClarificationReplyForm({ referenceNumber }: { referenceNumber: s
       <button
         type="submit"
         disabled={status === "sending"}
-        className="mt-4 inline-flex rounded bg-[#071426] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#1457d9] disabled:cursor-not-allowed disabled:opacity-60"
+        className="mt-4 inline-flex rounded bg-ink px-5 py-3 text-sm font-bold text-white transition hover:bg-blue disabled:cursor-not-allowed disabled:opacity-60"
       >
         {status === "sending" ? "Sending..." : "Send clarification"}
       </button>

@@ -82,7 +82,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
           {referenceNumber ? (
             <div className="mt-4 rounded border border-emerald-200 bg-white p-3 text-sm text-emerald-800">
               Reference: <span className="font-bold">{referenceNumber}</span>
-              <Link href={`/track/${referenceNumber}`} className="ml-3 font-bold text-[#1457d9] hover:underline">
+              <Link href={`/track/${referenceNumber}`} className="ml-3 font-bold text-blue hover:underline">
                 Track request
               </Link>
             </div>
@@ -119,8 +119,8 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
         onChangeCapture={markFormStarted}
         onSubmit={handleSubmit}
       >
-        <h3 className="text-xl font-bold text-slate-950">Request for Quotation</h3>
-        <p className="mt-2 text-sm leading-6 text-slate-600">
+        <h3 className="text-xl font-bold text-ink">Request for Quotation</h3>
+        <p className="mt-2 text-sm leading-6 text-grey-600">
           No fixed prices are published. HACIEN will review availability, equivalent options,
           warranty, delivery terms, and supplier quotations before issuing a formal quote.
         </p>
@@ -137,15 +137,15 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
         <div className="mt-5 grid grid-cols-2 gap-2 text-xs font-bold uppercase tracking-[0.12em]">
           <div
             className={`rounded px-3 py-2 ${
-              step === 1 ? "bg-[#071426] text-white" : "bg-slate-100 text-slate-500"
-            }`}
+ step === 1 ? "bg-ink text-white" : "bg-grey-100 text-grey-600"
+ }`}
           >
             1 Requirement
           </div>
           <div
             className={`rounded px-3 py-2 ${
-              step === 2 ? "bg-[#071426] text-white" : "bg-slate-100 text-slate-500"
-            }`}
+ step === 2 ? "bg-ink text-white" : "bg-grey-100 text-grey-600"
+ }`}
           >
             2 Buyer Details
           </div>
@@ -161,7 +161,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 required
                 name="requirementType"
                 aria-label="Requirement type"
-                className="focus-ring rounded border border-slate-300 px-3 py-2"
+                className="focus-ring rounded border border-grey-200 px-3 py-2"
                 defaultValue=""
               >
                 <option value="" disabled>
@@ -181,7 +181,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 required
                 name="budgetRange"
                 aria-label="Budget range"
-                className="focus-ring rounded border border-slate-300 px-3 py-2"
+                className="focus-ring rounded border border-grey-200 px-3 py-2"
                 defaultValue=""
               >
                 <option value="" disabled>
@@ -200,7 +200,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 required
                 name="timeline"
                 aria-label="Target timeline"
-                className="focus-ring rounded border border-slate-300 px-3 py-2"
+                className="focus-ring rounded border border-grey-200 px-3 py-2"
                 defaultValue=""
               >
                 <option value="" disabled>
@@ -221,7 +221,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 aria-label="Requirement details"
                 placeholder="Describe products, specifications, quantities, delivery location, or RFQ details"
                 rows={5}
-                className="focus-ring rounded border border-slate-300 px-3 py-2"
+                className="focus-ring rounded border border-grey-200 px-3 py-2"
               />
             </>
           ) : (
@@ -236,7 +236,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 aria-label="Name"
                 autoComplete="name"
                 placeholder="Name"
-                className="focus-ring rounded border border-slate-300 px-3 py-2"
+                className="focus-ring rounded border border-grey-200 px-3 py-2"
               />
               <label htmlFor="rfq-company" className="sr-only">
                 Company or organization
@@ -248,7 +248,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 aria-label="Company or organization"
                 autoComplete="organization"
                 placeholder="Company / organization"
-                className="focus-ring rounded border border-slate-300 px-3 py-2"
+                className="focus-ring rounded border border-grey-200 px-3 py-2"
               />
               <label htmlFor="rfq-email" className="sr-only">
                 Email
@@ -261,7 +261,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 aria-label="Email"
                 autoComplete="email"
                 placeholder="Email"
-                className="focus-ring rounded border border-slate-300 px-3 py-2"
+                className="focus-ring rounded border border-grey-200 px-3 py-2"
               />
               <label htmlFor="rfq-phone" className="sr-only">
                 Phone number
@@ -272,7 +272,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 aria-label="Phone number"
                 autoComplete="tel"
                 placeholder="Phone number"
-                className="focus-ring rounded border border-slate-300 px-3 py-2"
+                className="focus-ring rounded border border-grey-200 px-3 py-2"
               />
               <label htmlFor="rfq-industry" className="sr-only">
                 Industry or organization type
@@ -283,19 +283,19 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 aria-label="Industry or organization type"
                 autoComplete="organization-title"
                 placeholder="Industry / organization type"
-                className="focus-ring rounded border border-slate-300 px-3 py-2"
+                className="focus-ring rounded border border-grey-200 px-3 py-2"
               />
             </>
           )}
 
           {step === 2 && (
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-grey-600">
               By submitting, you agree to our{" "}
-              <Link href="/privacy" className="font-semibold text-[#1457d9] hover:underline">
+              <Link href="/privacy" className="font-semibold text-blue hover:underline">
                 Privacy Policy
               </Link>{" "}
               and{" "}
-              <Link href="/terms" className="font-semibold text-[#1457d9] hover:underline">
+              <Link href="/terms" className="font-semibold text-blue hover:underline">
                 Terms of Use
               </Link>.
             </p>
@@ -309,7 +309,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
             type={step === 1 ? "button" : "submit"}
             onClick={step === 1 ? () => setStep(2) : undefined}
             disabled={status === "sending"}
-            className="button-glow rounded bg-[#071426] px-5 py-3 text-sm font-bold text-white hover:bg-[#1457d9] disabled:cursor-not-allowed disabled:opacity-60"
+            className="button-glow rounded bg-ink px-5 py-3 text-sm font-bold text-white hover:bg-blue disabled:cursor-not-allowed disabled:opacity-60"
           >
             {status === "sending"
               ? "Sending..."
@@ -321,7 +321,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
             <button
               type="button"
               onClick={() => setStep(1)}
-              className="text-sm font-semibold text-slate-500 hover:text-[#1457d9]"
+              className="text-sm font-semibold text-grey-600 hover:text-blue"
             >
               Back to requirement
             </button>

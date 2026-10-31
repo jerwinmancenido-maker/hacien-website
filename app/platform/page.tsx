@@ -70,7 +70,7 @@ export default function PlatformPage() {
                   }}
                 />
                 <div className="p-7">
-                <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#1457d9]">HACIEN Platform</div>
+                <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">HACIEN Platform</div>
                 <h2 className="mt-5 text-2xl font-bold tracking-tight text-slate-950">{title}</h2>
                 <p className="mt-4 text-sm leading-7 text-slate-600">{text}</p>
                 </div>
@@ -83,7 +83,7 @@ export default function PlatformPage() {
       <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.86fr_1.14fr]">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#1457d9]">Platform Discipline</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Platform Discipline</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">
               Built through operational reality, not claims.
             </h2>
