@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { enterpriseImages } from "@/components/EnterpriseImagery";
+import {
+  EnterpriseMediaImage,
+  enterpriseCardSizes,
+  enterpriseImages,
+} from "@/components/EnterpriseImagery";
 import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -65,14 +69,19 @@ export default function TechnologyPage() {
           <StaggerContainer className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
             {priorityTechnologyDomains.map(([title, text, categorySlug]) => (
               <AnimatedCard key={title} className="h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-slate-950/10">
-                <div
-                  className="h-36 bg-slate-950"
-                  style={{
-                    backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.04), rgba(7, 20, 38, 0.72)), url(${enterpriseImages[technologyImages[String(title)] || "dataCenter"]})`,
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                  }}
-                />
+                <div className="relative h-36 overflow-hidden bg-slate-950">
+                  <EnterpriseMediaImage
+                    image={technologyImages[String(title)] || "dataCenter"}
+                    sizes={enterpriseCardSizes}
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(180deg, rgba(7, 20, 38, 0.04), rgba(7, 20, 38, 0.72))",
+                    }}
+                  />
+                </div>
                 <div className="p-7">
                 <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">Technology Domain</div>
                 <h2 className="mt-5 text-2xl font-bold tracking-tight text-slate-950">{title}</h2>

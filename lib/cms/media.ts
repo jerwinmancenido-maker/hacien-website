@@ -24,122 +24,145 @@ export type CmsMediaRecord = {
 };
 
 const sourcePhotos = {
-  serverRack: {
-    source:
-      "https://images.unsplash.com/photo-1695668548342-c0c1ad479aee?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&w=1800",
-    sourceUrl: "https://unsplash.com/photos/2JJ3wBHu4_0",
-    sourceNote: "Kevin Ache, Unsplash",
+  dataCenter: {
+    source: "/images/data-center.jpg",
+    sourceUrl: "https://www.pexels.com/photo/server-racks-on-data-center-5480781/",
+    sourceNote: "Brett Sayles, Pexels",
   },
-  officeDesk: {
-    source:
-      "https://images.unsplash.com/photo-1497215728101-856f4ea42174?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&w=1800",
-    sourceUrl: "https://unsplash.com/photos/VWcPlbHglYc",
-    sourceNote: "Alesia Kazantceva, Unsplash",
+  storage: {
+    source: "/images/storage.jpg",
+    sourceUrl: "https://www.pexels.com/photo/cables-connected-on-server-2881229/",
+    sourceNote: "Brett Sayles, Pexels",
   },
-  workstation: {
-    source:
-      "https://images.unsplash.com/photo-1722159475028-d38e511f7853?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&w=1800",
-    sourceUrl: "https://unsplash.com/photos/GLhDVcndCLg",
-    sourceNote: "Huy Phan, Unsplash",
+  network: {
+    source: "/images/network.jpg",
+    sourceUrl: "https://www.pexels.com/photo/patch-cables-plugged-in-patch-panel-4682187/",
+    sourceNote: "Brett Sayles, Pexels",
+  },
+  cabling: {
+    source: "/images/cabling.jpg",
+    sourceUrl: "https://www.pexels.com/photo/electronics-engineer-fixing-cables-on-server-442150/",
+    sourceNote: "Field Engineer, Pexels",
+  },
+  commandCenter: {
+    source: "/images/command-center.jpg",
+    sourceUrl: "https://www.pexels.com/photo/it-technician-working-in-data-center-server-room-37605911/",
+    sourceNote: "panumas nikhomkhai, Pexels",
+  },
+  cybersecurity: {
+    source: "/images/cybersecurity.jpg",
+    sourceUrl: "https://www.pexels.com/photo/surveillance-camera-mounted-on-the-wall-10902545/",
+    sourceNote: "Possessed Photography, Pexels",
   },
   modernOffice: {
-    source:
-      "https://images.unsplash.com/photo-1746021535490-cd4d7fe7ab2a?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&w=1800",
-    sourceUrl: "https://unsplash.com/photos/K9DZz7B8sCU",
-    sourceNote: "Deliberate Directions, Unsplash",
+    source: "/images/modern-office.jpg",
+    sourceUrl: "https://www.pexels.com/photo/empty-modern-interior-of-an-office-12526862/",
+    sourceNote: "Bohdan K., Pexels",
   },
-  documents: {
-    source:
-      "https://images.unsplash.com/photo-1706508156658-f246b0c8753c?ixlib=rb-4.1.0&q=85&fm=jpg&crop=entropy&cs=srgb&w=1800",
-    sourceUrl: "https://unsplash.com/photos/xzmuvPQt6KM",
-    sourceNote: "Jakub Zerdzicki, Unsplash",
+  workspace: {
+    source: "/images/workspace.jpg",
+    sourceUrl: "https://www.pexels.com/photo/black-laptop-computer-beside-white-steno-notebook-2034373/",
+    sourceNote: "Romka, Pexels",
+  },
+  documentation: {
+    source: "/images/documentation.jpg",
+    sourceUrl: "https://www.pexels.com/photo/close-up-of-a-person-signing-a-document-7821913/",
+    sourceNote: "RDNE Stock project, Pexels",
+  },
+  workstation: {
+    source: "/images/workstation.jpg",
+    sourceUrl: "https://www.pexels.com/photo/a-macbook-pro-laptop-on-white-table-8004044/",
+    sourceNote: "Darina Belonogova, Pexels",
   },
 } as const;
+
+const usageNote =
+  "Environmental website imagery only; not product, stock, warranty, or delivery evidence.";
 
 export const cmsMediaRecords: Record<CmsMediaKey, CmsMediaRecord> = {
   dataCenter: {
     key: "dataCenter",
-    ...sourcePhotos.serverRack,
-    alt: "Server rack environment used as abstract infrastructure imagery.",
-    usage: "Environmental website imagery only; not product, stock, warranty, or delivery evidence.",
+    ...sourcePhotos.dataCenter,
+    alt: "Server racks in a data center aisle with blue lighting.",
+    usage: usageNote,
   },
   silicon: {
     key: "silicon",
-    ...sourcePhotos.officeDesk,
-    alt: "Office workspace used as abstract technology planning imagery.",
-    usage: "Environmental website imagery only; not product, stock, warranty, or delivery evidence.",
+    ...sourcePhotos.workspace,
+    alt: "Laptop beside a notebook and pencil on a dark desk.",
+    usage: usageNote,
   },
   office: {
     key: "office",
     ...sourcePhotos.modernOffice,
-    alt: "Modern office environment used for business technology context.",
-    usage: "Environmental website imagery only; not product, stock, warranty, or delivery evidence.",
+    alt: "Empty modern open-plan office with desks and chairs.",
+    usage: usageNote,
   },
   workstation: {
     key: "workstation",
     ...sourcePhotos.workstation,
-    alt: "Workstation environment used for workplace technology context.",
-    usage: "Environmental website imagery only; not product, stock, warranty, or delivery evidence.",
+    alt: "Open laptop keyboard and trackpad on a white desk.",
+    usage: usageNote,
   },
   network: {
     key: "network",
-    ...sourcePhotos.modernOffice,
-    alt: "Office environment used for network and operations context.",
-    usage: "Environmental website imagery only; not product, stock, warranty, or delivery evidence.",
+    ...sourcePhotos.network,
+    alt: "Colored patch cables plugged into a network patch panel.",
+    usage: usageNote,
   },
   commandCenter: {
     key: "commandCenter",
-    ...sourcePhotos.modernOffice,
-    alt: "Business technology environment used for command-center style website visuals.",
-    usage: "Environmental website imagery only; not product, stock, warranty, or delivery evidence.",
+    ...sourcePhotos.commandCenter,
+    alt: "Technician working at a laptop among server racks.",
+    usage: usageNote,
   },
   cybersecurity: {
     key: "cybersecurity",
-    ...sourcePhotos.officeDesk,
-    alt: "Workspace imagery used for cybersecurity and review context.",
-    usage: "Environmental website imagery only; not product, stock, warranty, or delivery evidence.",
+    ...sourcePhotos.cybersecurity,
+    alt: "Surveillance camera mounted on an exterior wall.",
+    usage: usageNote,
   },
   cloud: {
     key: "cloud",
-    ...sourcePhotos.officeDesk,
-    alt: "Workspace imagery used for cloud and productivity context.",
-    usage: "Environmental website imagery only; not product, stock, warranty, or delivery evidence.",
+    ...sourcePhotos.workspace,
+    alt: "Laptop beside a notebook and pencil on a dark desk.",
+    usage: usageNote,
   },
   cabling: {
     key: "cabling",
-    ...sourcePhotos.documents,
-    alt: "Document review imagery used for project scope and implementation context.",
-    usage: "Environmental website imagery only; not product, stock, warranty, or delivery evidence.",
+    ...sourcePhotos.cabling,
+    alt: "Person arranging network cables in a server rack.",
+    usage: usageNote,
   },
   storage: {
     key: "storage",
-    ...sourcePhotos.serverRack,
-    alt: "Server rack environment used for storage and infrastructure context.",
-    usage: "Environmental website imagery only; not product, stock, warranty, or delivery evidence.",
+    ...sourcePhotos.storage,
+    alt: "Network cables connected to ports on server equipment.",
+    usage: usageNote,
   },
   documentation: {
     key: "documentation",
-    ...sourcePhotos.documents,
-    alt: "Documents used for RFQ preparation and review context.",
-    usage: "Environmental website imagery only; not product, stock, warranty, or delivery evidence.",
+    ...sourcePhotos.documentation,
+    alt: "Close-up of a hand signing a printed document.",
+    usage: usageNote,
   },
   knowledge: {
     key: "knowledge",
-    ...sourcePhotos.officeDesk,
-    alt: "Workspace imagery used for help and knowledge center context.",
-    usage: "Environmental website imagery only; not product, stock, warranty, or delivery evidence.",
+    ...sourcePhotos.workspace,
+    alt: "Laptop beside a notebook and pencil on a dark desk.",
+    usage: usageNote,
   },
   strategy: {
     key: "strategy",
     ...sourcePhotos.modernOffice,
-    alt: "Office environment used for planning and industry context.",
-    usage: "Environmental website imagery only; not product, stock, warranty, or delivery evidence.",
+    alt: "Empty modern open-plan office with desks and chairs.",
+    usage: usageNote,
   },
   workspace: {
     key: "workspace",
-    ...sourcePhotos.officeDesk,
-    alt: "Workspace imagery used for company and request preparation context.",
-    usage: "Environmental website imagery only; not product, stock, warranty, or delivery evidence.",
+    ...sourcePhotos.workspace,
+    alt: "Laptop beside a notebook and pencil on a dark desk.",
+    usage: usageNote,
   },
 };
 

@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    formats: ["image/avif", "image/webp"],
+    // Allow quality={70} used by EnterpriseMediaImage (Next default allowlist is [75] only).
+    qualities: [70, 75],
+    // Include 1600 so hero sizes≈1600px do not jump to 1920.
+    deviceSizes: [640, 750, 828, 1080, 1200, 1600, 1920],
   },
   experimental: {
     cpus: Number(process.env.NEXT_BUILD_CPUS || 2),
@@ -40,7 +45,7 @@ const nextConfig: NextConfig = {
       "default-src 'self'",
       scriptSrc,
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: https://images.unsplash.com",
+      "img-src 'self' data:",
       "media-src 'self' data:",
       "font-src 'self'",
       "connect-src 'self' https://challenges.cloudflare.com",

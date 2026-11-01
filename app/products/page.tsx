@@ -1,7 +1,11 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/reactbits";
-import { enterpriseImages } from "@/components/EnterpriseImagery";
+import {
+  EnterpriseMediaImage,
+  enterpriseCardSizes,
+  enterpriseImages,
+} from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { ProductGrid } from "@/components/ProductGrid";
 import { RequirementBuilder } from "@/components/RequirementBuilder";
@@ -100,14 +104,18 @@ export default async function ProductsPage() {
               <AnimatedContent key={category.slug} delay={Math.min(index * 45, 320)}>
                 <Link href={`/products/${category.slug}`} className="group block h-full">
                   <SpotlightCard className="h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
-                    <div
-                      className="relative min-h-[118px] sm:min-h-[190px]"
-                      style={{
-                        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.03), rgba(7, 20, 38, 0.78)), url(${enterpriseImages[categoryImages[category.slug] || "dataCenter"]})`,
-                        backgroundPosition: "center",
-                        backgroundSize: "cover",
-                      }}
-                    >
+                    <div className="relative min-h-[118px] overflow-hidden sm:min-h-[190px]">
+                      <EnterpriseMediaImage
+                        image={categoryImages[category.slug] || "dataCenter"}
+                        sizes={enterpriseCardSizes}
+                      />
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          backgroundImage:
+                            "linear-gradient(180deg, rgba(7, 20, 38, 0.03), rgba(7, 20, 38, 0.78))",
+                        }}
+                      />
                       <div className="absolute bottom-4 left-4 rounded border border-white/16 bg-white/12 px-3 py-2 text-xs font-bold uppercase tracking-[0.14em] text-white backdrop-blur">
                         Supported Area
                       </div>
