@@ -62,4 +62,19 @@ describe("public track result serializer (d)", () => {
       }),
     ).toBeNull();
   });
+
+  it("maps unknown status tokens to a generic status", () => {
+    expect(
+      toPublicTrackResult({
+        gateway: {
+          status: "SUPER_SECRET_INTERNAL_STATE",
+          receivedAt: "2026-03-01T08:15:00.000Z",
+        },
+      }),
+    ).toEqual({
+      status: "UNAVAILABLE",
+      receivedAt: "2026-03-01T08:15:00.000Z",
+      eventDates: [],
+    });
+  });
 });

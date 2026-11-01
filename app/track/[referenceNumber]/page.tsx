@@ -87,11 +87,12 @@ function formatDisplayDate(iso: string | null) {
 export default async function TrackReferencePage({ params }: TrackingPageProps) {
   const { referenceNumber: rawReference } = await params;
   const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "";
+  const turnstileSecretKey = process.env.TURNSTILE_SECRET_KEY || "";
   const parsed = parseTrackReference(rawReference);
   const cookieStore = await cookies();
-  const grantId = cookieStore.get(TRACK_LOOKUP_GRANT_COOKIE)?.value;
+  const grantCookie = cookieStore.get(TRACK_LOOKUP_GRANT_COOKIE)?.value;
   const unlocked = parsed
-    ? hasValidTrackLookupGrant(grantId, parsed.referenceNumber)
+    ? hasValidTrackLookupGrant(grantCookie, parsed.referenceNumber, turnstileSecretKey)
     : false;
 
   if (!parsed || !unlocked) {

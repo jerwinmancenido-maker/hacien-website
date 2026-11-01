@@ -1,10 +1,10 @@
-import { randomBytes } from "node:crypto";
+import { createHmac, hkdfSync, timingSafeEqual } from "node:crypto";
 
 const TRACK_LOOKUP_WINDOW_MS = 10 * 60 * 1000;
 const TRACK_LOOKUP_MAX = 10;
 const TRACK_LOOKUP_MAP_CAP = 2_000;
-const TRACK_GRANT_TTL_MS = 5 * 60 * 1000;
-const TRACK_GRANT_MAP_CAP = 2_000;
+const TRACK_GRANT_TTL_MS = 300_000;
+const TRACK_GRANT_HKDF_LABEL = "hacien-track-grant-v1";
 
 export const TRACK_LOOKUP_GRANT_COOKIE = "hacien_track_grant";
 
@@ -17,20 +17,15 @@ type RateLimitEntry = {
   touchedAt: number;
 };
 
-type GrantEntry = {
-  referenceNumber: string;
-  expiresAt: number;
-  touchedAt: number;
-};
+type EnvReader = Record<string, string | undefined>;
 
-type HeaderReader = {
-  get(name: string): string | null;
-};
-
+/**
+ * Best-effort per-process fixed-window limiter. Multi-instance deployments do
+ * not share this Map; Turnstile siteverify is the real cross-process gate.
+ */
 const rateLimitMap = new Map<string, RateLimitEntry>();
-const grantMap = new Map<string, GrantEntry>();
 
-function evictOldest<T extends { touchedAt: number }>(map: Map<string, T>, cap: number) {
+function evictOldest(map: Map<string, RateLimitEntry>, cap: number) {
   while (map.size > cap) {
     let oldestKey: string | null = null;
     let oldestTouched = Number.POSITIVE_INFINITY;
@@ -43,16 +38,6 @@ function evictOldest<T extends { touchedAt: number }>(map: Map<string, T>, cap: 
     if (!oldestKey) break;
     map.delete(oldestKey);
   }
-}
-
-/** First x-forwarded-for hop, else `unknown`. Never log the value. */
-export function getTrackLookupClientIp(headerStore: HeaderReader): string {
-  const forwarded = headerStore.get("x-forwarded-for");
-  if (forwarded) {
-    const first = forwarded.split(",")[0]?.trim();
-    if (first) return first;
-  }
-  return "unknown";
 }
 
 /**
@@ -143,12 +128,9 @@ async function siteverifyTurnstile(token: string, secret: string): Promise<boole
 /**
  * Turnstile check using existing env names only.
  * - If TURNSTILE_SITE_KEY is unset: allow (widget not configured).
- * - If set: require a non-empty token.
- * - If TURNSTILE_SECRET_KEY is also set: Cloudflare siteverify.
- * - If site key set but secret missing: token presence only (CTO must confirm secret for website verify).
+ * - If site key is set but TURNSTILE_SECRET_KEY is missing: fail closed.
+ * - If both are set: require token + Cloudflare siteverify.
  */
-type EnvReader = Record<string, string | undefined>;
-
 export async function verifyTrackLookupTurnstile(
   token: string | null | undefined,
   env: EnvReader = process.env,
@@ -156,13 +138,11 @@ export async function verifyTrackLookupTurnstile(
   const siteKey = String(env.TURNSTILE_SITE_KEY || "").trim();
   if (!siteKey) return { ok: true };
 
+  const secret = String(env.TURNSTILE_SECRET_KEY || "").trim();
+  if (!secret) return { ok: false };
+
   const trimmed = String(token || "").trim();
   if (!trimmed) return { ok: false };
-
-  const secret = String(env.TURNSTILE_SECRET_KEY || "").trim();
-  if (!secret) {
-    return { ok: true };
-  }
 
   try {
     const ok = await siteverifyTurnstile(trimmed, secret);
@@ -191,43 +171,72 @@ export async function assertTrackLookupAllowed(options: {
   return { ok: true };
 }
 
+function deriveTrackGrantKey(secret: string): Buffer {
+  return Buffer.from(hkdfSync("sha256", secret, "", TRACK_GRANT_HKDF_LABEL, 32));
+}
+
+function signTrackGrantPayload(payload: string, secret: string): string {
+  const key = deriveTrackGrantKey(secret);
+  return createHmac("sha256", key).update(payload).digest("base64url");
+}
+
+function safeEqualBase64Url(left: string, right: string): boolean {
+  const a = Buffer.from(left);
+  const b = Buffer.from(right);
+  if (a.length !== b.length) return false;
+  return timingSafeEqual(a, b);
+}
+
+/** Stateless signed grant cookie: HMAC-SHA256(ref + expiry), key via HKDF from TURNSTILE_SECRET_KEY. */
 export function issueTrackLookupGrant(
   referenceNumber: string,
+  secret: string,
   now = Date.now(),
-  store: Map<string, GrantEntry> = grantMap,
-): string {
-  const id = randomBytes(18).toString("hex");
-  store.set(id, {
-    referenceNumber,
-    expiresAt: now + TRACK_GRANT_TTL_MS,
-    touchedAt: now,
-  });
-  evictOldest(store, TRACK_GRANT_MAP_CAP);
-  return id;
+): string | null {
+  const trimmedSecret = String(secret || "").trim();
+  if (!trimmedSecret || !referenceNumber) return null;
+
+  const expiresAt = now + TRACK_GRANT_TTL_MS;
+  const payload = `${referenceNumber}.${expiresAt}`;
+  const mac = signTrackGrantPayload(payload, trimmedSecret);
+  const refPart = Buffer.from(referenceNumber, "utf8").toString("base64url");
+  return `${refPart}.${expiresAt}.${mac}`;
 }
 
-/** Returns true when the grant matches this reference and is still valid. */
+/** Returns true when the signed cookie matches this reference, is unexpired, and MAC verifies. */
 export function hasValidTrackLookupGrant(
-  grantId: string | undefined | null,
+  cookieValue: string | undefined | null,
   referenceNumber: string,
+  secret: string,
   now = Date.now(),
-  store: Map<string, GrantEntry> = grantMap,
 ): boolean {
-  if (!grantId) return false;
-  const entry = store.get(grantId);
-  if (!entry) return false;
-  if (now > entry.expiresAt) {
-    store.delete(grantId);
+  const trimmedSecret = String(secret || "").trim();
+  if (!cookieValue || !trimmedSecret || !referenceNumber) return false;
+
+  const parts = cookieValue.split(".");
+  if (parts.length !== 3) return false;
+
+  const [refPart, expiresRaw, mac] = parts;
+  if (!refPart || !expiresRaw || !mac) return false;
+
+  let cookieReference: string;
+  try {
+    cookieReference = Buffer.from(refPart, "base64url").toString("utf8");
+  } catch {
     return false;
   }
-  if (entry.referenceNumber !== referenceNumber) return false;
-  entry.touchedAt = now;
-  store.set(grantId, entry);
-  return true;
+
+  if (cookieReference !== referenceNumber) return false;
+
+  const expiresAt = Number(expiresRaw);
+  if (!Number.isFinite(expiresAt) || now > expiresAt) return false;
+
+  const payload = `${cookieReference}.${expiresAt}`;
+  const expected = signTrackGrantPayload(payload, trimmedSecret);
+  return safeEqualBase64Url(mac, expected);
 }
 
-/** Test-only: clear module maps between cases. */
+/** Test-only: clear module rate-limit map between cases. */
 export function resetTrackLookupGuardStoresForTests() {
   rateLimitMap.clear();
-  grantMap.clear();
 }

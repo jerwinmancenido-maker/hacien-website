@@ -4,6 +4,19 @@ export type PublicTrackResult = {
   eventDates: string[];
 };
 
+const ALLOWED_TRACK_STATUSES = new Set([
+  "RECEIVED",
+  "IN_REVIEW",
+  "NEEDS_CLARIFICATION",
+  "QUOTED",
+  "CLOSED",
+  "REJECTED",
+  "CANCELLED",
+  "COMPLETED",
+]);
+
+const GENERIC_TRACK_STATUS = "UNAVAILABLE";
+
 function asRecord(value: unknown): Record<string, unknown> | null {
   if (!value || typeof value !== "object" || Array.isArray(value)) return null;
   return value as Record<string, unknown>;
@@ -18,6 +31,13 @@ function readIsoDate(value: unknown): string | null {
   return new Date(parsed).toISOString();
 }
 
+function normalizePublicStatus(raw: unknown): string | null {
+  if (typeof raw !== "string") return null;
+  const status = raw.trim().toUpperCase();
+  if (!status) return null;
+  return ALLOWED_TRACK_STATUSES.has(status) ? status : GENERIC_TRACK_STATUS;
+}
+
 /**
  * Allowlist-only public track view: status + dates.
  * Drops names, emails, phones, addresses, prices, files, messages, actors, and bodies.
@@ -27,7 +47,7 @@ export function toPublicTrackResult(gatewayPayload: unknown): PublicTrackResult 
   if (!root) return null;
 
   const gateway = asRecord(root.gateway) ?? root;
-  const status = typeof gateway.status === "string" ? gateway.status.trim() : "";
+  const status = normalizePublicStatus(gateway.status);
   if (!status) return null;
 
   const receivedAt = readIsoDate(gateway.receivedAt);
