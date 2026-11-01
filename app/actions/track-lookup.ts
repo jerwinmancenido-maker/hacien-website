@@ -2,10 +2,10 @@
 
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { getClientIp } from "@/lib/security/client-ip";
 import {
   TRACK_LOOKUP_GRANT_COOKIE,
   assertTrackLookupAllowed,
-  getTrackLookupClientIp,
   issueTrackLookupGrant,
 } from "@/lib/security/track-lookup-guard";
 import { parseTrackReference } from "@/lib/security/track-reference";
@@ -30,7 +30,7 @@ export async function submitTrackLookup(formData: FormData) {
 
   const referenceNumber = parsed.referenceNumber;
   const headerStore = await headers();
-  const ip = getTrackLookupClientIp(headerStore);
+  const ip = getClientIp(headerStore);
   const allowed = await assertTrackLookupAllowed({ token, ip });
 
   if (!allowed.ok) {
@@ -38,14 +38,20 @@ export async function submitTrackLookup(formData: FormData) {
     return;
   }
 
-  const grantId = issueTrackLookupGrant(referenceNumber);
+  const secret = String(process.env.TURNSTILE_SECRET_KEY || "").trim();
+  const grantValue = issueTrackLookupGrant(referenceNumber, secret);
+  if (!grantValue) {
+    trackErrorRedirect(referenceNumber);
+    return;
+  }
+
   const cookieStore = await cookies();
   cookieStore.set({
     name: TRACK_LOOKUP_GRANT_COOKIE,
-    value: grantId,
+    value: grantValue,
     httpOnly: true,
     sameSite: "lax",
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
     path: "/track",
     maxAge: 300,
   });

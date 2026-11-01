@@ -2,6 +2,7 @@
 
 import { headers } from "next/headers";
 import { Ratelimit } from "@upstash/ratelimit";
+import { getClientIp } from "@/lib/security/client-ip";
 import { redis } from "@/lib/redis/upstash";
 
 const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
@@ -59,16 +60,6 @@ async function getRateLimitInfo(ip: string): Promise<{ allowed: boolean; retryAf
 
   entry.count++;
   return { allowed: true, retryAfterSec: 0 };
-}
-
-function getClientIp(headerList: Headers): string {
-  const forwardedFor = headerList.get("x-forwarded-for");
-  return (
-    headerList.get("cf-connecting-ip") ||
-    (forwardedFor ? forwardedFor.split(",")[0]?.trim() : "") ||
-    headerList.get("x-real-ip") ||
-    "unknown"
-  );
 }
 
 async function getEmailRateLimitInfo(email: string): Promise<{ allowed: boolean; retryAfterSec: number }> {

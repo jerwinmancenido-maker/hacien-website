@@ -1,13 +1,16 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { getClientIp } from "@/lib/security/client-ip";
 import {
   assertTrackLookupAllowed,
+  consumeTrackLookupRateLimit,
   createTrackLookupRateLimiterForTests,
-  getTrackLookupClientIp,
   hasValidTrackLookupGrant,
   issueTrackLookupGrant,
   resetTrackLookupGuardStoresForTests,
   verifyTrackLookupTurnstile,
 } from "@/lib/security/track-lookup-guard";
+
+const FAKE_SECRET = "1x0000000000000000000000000000000AA";
 
 afterEach(() => {
   resetTrackLookupGuardStoresForTests();
@@ -41,13 +44,45 @@ describe("track lookup rate limit (b)", () => {
     expect(limiter.size).toBe(2);
   });
 
-  it("reads the first x-forwarded-for hop", () => {
+  it("puts spoofed leftmost XFF into the same rate-limit bucket as the trusted hop", () => {
+    resetTrackLookupGuardStoresForTests();
+    const trusted = getClientIp({
+      get: (name) => {
+        if (name === "x-forwarded-for") return "198.51.100.1, 203.0.113.10";
+        if (name === "x-real-ip") return "203.0.113.10";
+        return null;
+      },
+    });
+    const spoofed = getClientIp({
+      get: (name) => {
+        if (name === "x-forwarded-for") return "203.0.113.99, 203.0.113.10";
+        if (name === "x-real-ip") return "203.0.113.10";
+        return null;
+      },
+    });
+    expect(trusted).toBe("203.0.113.10");
+    expect(spoofed).toBe("203.0.113.10");
+    expect(trusted).toBe(spoofed);
+
+    expect(consumeTrackLookupRateLimit(trusted, 1_000).allowed).toBe(true);
+    for (let i = 0; i < 9; i += 1) {
+      expect(consumeTrackLookupRateLimit(spoofed, 1_000 + i).allowed).toBe(true);
+    }
+    expect(consumeTrackLookupRateLimit(spoofed, 1_010).allowed).toBe(false);
+  });
+
+  it("prefers cf-connecting-ip and uses rightmost XFF when proxy headers are absent", () => {
     expect(
-      getTrackLookupClientIp({
-        get: (name) => (name === "x-forwarded-for" ? "203.0.113.50, 10.0.0.1" : null),
+      getClientIp({
+        get: (name) => (name === "cf-connecting-ip" ? "203.0.113.40" : "9.9.9.9"),
       }),
-    ).toBe("203.0.113.50");
-    expect(getTrackLookupClientIp({ get: () => null })).toBe("unknown");
+    ).toBe("203.0.113.40");
+    expect(
+      getClientIp({
+        get: (name) => (name === "x-forwarded-for" ? "198.51.100.1, 203.0.113.55" : null),
+      }),
+    ).toBe("203.0.113.55");
+    expect(getClientIp({ get: () => null })).toBe("unknown");
   });
 });
 
@@ -56,13 +91,18 @@ describe("track lookup turnstile gate", () => {
     await expect(verifyTrackLookupTurnstile("", {})).resolves.toEqual({ ok: true });
   });
 
-  it("requires a token when TURNSTILE_SITE_KEY is set and secret is absent", async () => {
-    await expect(
-      verifyTrackLookupTurnstile("", { TURNSTILE_SITE_KEY: "site-public" }),
-    ).resolves.toEqual({ ok: false });
+  it("fails closed when site key is set but secret is missing", async () => {
     await expect(
       verifyTrackLookupTurnstile("cf-token", { TURNSTILE_SITE_KEY: "site-public" }),
-    ).resolves.toEqual({ ok: true });
+    ).resolves.toEqual({ ok: false });
+
+    await expect(
+      assertTrackLookupAllowed({
+        ip: "203.0.113.9",
+        token: "cf-token",
+        env: { TURNSTILE_SITE_KEY: "site-public" },
+      }),
+    ).resolves.toEqual({ ok: false, reason: "turnstile" });
   });
 
   it("siteverifies when TURNSTILE_SECRET_KEY is set", async () => {
@@ -75,29 +115,39 @@ describe("track lookup turnstile gate", () => {
     await expect(
       verifyTrackLookupTurnstile("cf-token", {
         TURNSTILE_SITE_KEY: "site-public",
-        TURNSTILE_SECRET_KEY: "site-secret",
+        TURNSTILE_SECRET_KEY: FAKE_SECRET,
       }),
     ).resolves.toEqual({ ok: true });
 
     expect(fetchMock).toHaveBeenCalledOnce();
     const [, init] = fetchMock.mock.calls[0];
-    expect(String(init.body)).toContain("secret=site-secret");
+    expect(String(init.body)).toContain(`secret=${FAKE_SECRET}`);
     expect(String(init.body)).toContain("response=cf-token");
   });
+});
 
-  it("assertTrackLookupAllowed blocks missing tokens before issuing a grant path", async () => {
-    const result = await assertTrackLookupAllowed({
-      ip: "203.0.113.9",
-      token: "",
-      env: { TURNSTILE_SITE_KEY: "site-public" },
-    });
-    expect(result).toEqual({ ok: false, reason: "turnstile" });
+describe("track lookup signed grant cookie", () => {
+  it("accepts a valid grant for the matching reference", () => {
+    const now = 1_700_000_000_000;
+    const cookie = issueTrackLookupGrant("RFQ-2026-000001", FAKE_SECRET, now);
+    expect(cookie).toBeTruthy();
+    expect(hasValidTrackLookupGrant(cookie, "RFQ-2026-000001", FAKE_SECRET, now + 1_000)).toBe(true);
   });
 
-  it("grants unlock only for the matching reference", () => {
-    const grantId = issueTrackLookupGrant("RFQ-2026-000001");
-    expect(hasValidTrackLookupGrant(grantId, "RFQ-2026-000001")).toBe(true);
-    expect(hasValidTrackLookupGrant(grantId, "RFQ-2026-000002")).toBe(false);
-    expect(hasValidTrackLookupGrant("missing", "RFQ-2026-000001")).toBe(false);
+  it("rejects tampered, expired, and wrong-reference cookies", () => {
+    const now = 1_700_000_000_000;
+    const cookie = issueTrackLookupGrant("RFQ-2026-000001", FAKE_SECRET, now);
+    expect(cookie).toBeTruthy();
+
+    const tampered = `${cookie!.slice(0, -4)}AAAA`;
+    expect(hasValidTrackLookupGrant(tampered, "RFQ-2026-000001", FAKE_SECRET, now + 1_000)).toBe(false);
+
+    expect(
+      hasValidTrackLookupGrant(cookie, "RFQ-2026-000001", FAKE_SECRET, now + 301_000),
+    ).toBe(false);
+
+    expect(hasValidTrackLookupGrant(cookie, "RFQ-2026-000002", FAKE_SECRET, now + 1_000)).toBe(false);
+    expect(hasValidTrackLookupGrant(null, "RFQ-2026-000001", FAKE_SECRET, now)).toBe(false);
+    expect(issueTrackLookupGrant("RFQ-2026-000001", "")).toBeNull();
   });
 });
