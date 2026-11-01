@@ -16,7 +16,7 @@ const accessOptions = [
   {
     title: "Internal Workspace",
     eyebrow: "Authorized personnel",
-    body: "Secure operational workspace for HACIEN personnel. Used for request review, customer continuity, quotations, operations, and Founder work.",
+    body: "Secure operational workspace for HACIEN personnel. Used for request review, customer continuity, quotations, and operations.",
     href: erpUrl,
     label: "Open Workspace",
     external: erpUrl.startsWith("http"),
