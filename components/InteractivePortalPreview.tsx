@@ -136,7 +136,7 @@ export function InteractivePortalPreview() {
             href="/quote"
             className="rounded bg-[#2563EB] px-4 py-2 text-xs font-semibold text-white shadow-md hover:bg-blue-600 transition"
           >
-            New RFQ Intake
+            Request a Quote
           </Link>
           <Link
             href={`/track/${selectedRfq}`}

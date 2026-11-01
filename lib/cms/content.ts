@@ -58,7 +58,6 @@ export type CmsNavigationGroup = {
 export type CmsNavigationContent = {
   header: {
     primaryItems: CmsLink[];
-    accessAction: CmsLink;
     quoteAction: CmsLink;
   };
   footer: {
@@ -247,8 +246,7 @@ const navigationContent: CmsNavigationContent = {
       { href: "/about", label: "Company" },
       { href: "/contact", label: "Contact" },
     ],
-    accessAction: { href: "/access", label: "Access HACIEN" },
-    quoteAction: { href: "/quote", label: "Request Quote" },
+    quoteAction: { href: "/quote", label: "Request a Quote" },
   },
   footer: {
     statement: "Technology procurement clarified before anyone quotes.",
@@ -275,7 +273,7 @@ const navigationContent: CmsNavigationContent = {
       {
         title: "Start",
         links: [
-          { href: "/quote", label: "Request Quote" },
+          { href: "/quote", label: "Request a Quote" },
           { href: "/track", label: "Track Request" },
           { href: "/products", label: "Technology RFQ Builder" },
           { href: "/support", label: "Support" },
@@ -286,7 +284,6 @@ const navigationContent: CmsNavigationContent = {
       {
         title: "Access",
         links: [
-          { href: "/access", label: "Access HACIEN" },
           { href: "/customer-workspace", label: "Customer Workspace" },
           { href: "/search", label: "Search" },
         ],
@@ -312,7 +309,7 @@ const homepageContent: CmsHomeContent = {
     description:
       "Send a requirement list, BOQ, photo, supplier quote, or rough idea. HACIEN organizes the details and flags what still needs supplier review before price, stock, payment, or delivery is treated as confirmed.",
     image: "commandCenter",
-    primaryAction: { href: "/quote", label: "Start an RFQ" },
+    primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/technology", label: "Explore Technology" },
     highlights: [
       { label: "RFQ review", text: "Specs, BOQs, photos, and plain requests are shaped before quoting." },
@@ -414,7 +411,7 @@ const aboutContent: CmsAboutContent = {
     description:
       "HACIEN helps organizations turn rough requirements, product lists, and project notes into clearer RFQ conversations.",
     image: "workspace",
-    primaryAction: { href: "/quote", label: "Start an RFQ" },
+    primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/solutions", label: "Explore Solutions" },
     highlights: [
       { label: "RFQ-first", text: "The website captures the request before formal quotation work." },
@@ -458,7 +455,7 @@ const aboutContent: CmsAboutContent = {
     title: "Need an IT supplier that can turn scattered requirements into a clear RFQ?",
     description:
       "Send your requirement list, deadline, delivery location, and supporting specifications. HACIEN will help turn it into a usable RFQ.",
-    action: { href: "/quote", label: "Submit RFQ" },
+    action: { href: "/quote", label: "Request a Quote" },
   },
 };
 
@@ -471,7 +468,7 @@ const solutionsContent: CmsSolutionsContent = {
     description:
       "Use these pages to describe the work HACIEN should review: infrastructure, integration, workplace technology, software, security, and support needs.",
     image: "commandCenter",
-    primaryAction: { href: "/quote", label: "Start an RFQ" },
+    primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/technology", label: "Explore Technology" },
     highlights: [
       { label: "Infrastructure", text: "Endpoints, servers, networks, power, and site details." },
@@ -504,7 +501,7 @@ const solutionsContent: CmsSolutionsContent = {
     eyebrow: "Request with structure",
     title: "Have a requirement that needs checking, options, and quotation support?",
     description: "Send HACIEN your requirement list and notes. We will help shape the next RFQ step.",
-    action: { href: "/quote", label: "Submit RFQ" },
+    action: { href: "/quote", label: "Request a Quote" },
   },
 };
 
@@ -518,7 +515,7 @@ const industriesContent: CmsIndustriesContent = {
       "HACIEN supports organizations whose technology needs depend on specifications, supplier timing, warranty terms, delivery coordination, and procurement documentation.",
     image: "strategy",
     primaryAction: { href: "/solutions", label: "Explore Solutions" },
-    secondaryAction: { href: "/quote", label: "Start RFQ" },
+    secondaryAction: { href: "/quote", label: "Request a Quote" },
     highlights: [
       { label: "Specs", text: "Procurement requirements vary by industry." },
       { label: "Review", text: "Technical specifications need working details." },
@@ -553,7 +550,7 @@ const industriesContent: CmsIndustriesContent = {
     eyebrow: "Industry-specific review",
     title: "Have a requirement with site, policy, or delivery constraints?",
     description: "Send the requirement details, and HACIEN will help shape the RFQ path.",
-    action: { href: "/quote", label: "Submit RFQ" },
+    action: { href: "/quote", label: "Request a Quote" },
   },
 };
 
@@ -566,7 +563,7 @@ const faqContent: CmsFaqContent = {
     description:
       "Search common questions about RFQ intake, payment posture, documents, warranty questions, and request tracking.",
     image: "knowledge",
-    primaryAction: { href: "/quote", label: "Start an RFQ" },
+    primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/help", label: "Open Help Center" },
     highlights: [
       { label: "RFQ-first", text: "Requests are reviewed before business records." },
@@ -587,7 +584,7 @@ const helpContent: CmsHelpContent = {
     description:
       "Use these tools to organize RFQ details and understand what the public website can and cannot confirm.",
     image: "workspace",
-    primaryAction: { href: "/quote", label: "Start an RFQ" },
+    primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/faq", label: "Search FAQ" },
     highlights: [
       { label: "Attachments", text: "BOQ, PDF, images, and spreadsheets can support review." },

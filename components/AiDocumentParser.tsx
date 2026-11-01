@@ -32,7 +32,7 @@ export function AiDocumentParser() {
         <label className="grid min-h-[180px] cursor-pointer place-items-center rounded-lg border border-dashed border-blue-200 bg-blue-50/60 p-6 text-center">
           <span>
             <span className="block text-sm font-bold text-slate-950">{fileName || "Drop or choose a PDF, image, or TXT file"}</span>
-            <span className="mt-2 block text-xs leading-5 text-slate-600">Maximum playground size: 8MB. No official record is created.</span>
+            <span className="mt-2 block text-xs leading-5 text-slate-600">Maximum playground size: 10 MB. No official record is created.</span>
           </span>
           <input
             type="file"

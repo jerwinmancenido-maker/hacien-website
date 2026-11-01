@@ -22,6 +22,13 @@ function categorySlugForProduct(product: ErpCatalogProduct) {
   );
 }
 
+function publicProductImage(image: string | null) {
+  const value = image?.trim() ?? "";
+  if (!value) return undefined;
+  if (value.startsWith("/") || value.startsWith("https://") || value.startsWith("http://")) return value;
+  return undefined;
+}
+
 function specsToRows(product: ErpCatalogProduct) {
   const rows = Object.entries(product.specs || {}).map(([label, value]) => ({
     label,
@@ -68,6 +75,7 @@ export function erpCatalogProductToWebsiteProduct(product: ErpCatalogProduct): P
     currency: product.currency,
     fulfillmentType: "manual",
     inventoryPolicy: product.isAvailable ? "not_tracked" : "rfq_required",
+    image: publicProductImage(product.image),
   };
 }
 

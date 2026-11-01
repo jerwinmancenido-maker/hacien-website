@@ -38,7 +38,7 @@ export default function SupportPage() {
         description="HACIEN support is designed around RFQ review, quotation assumptions, delivery details, warranty questions tied to documents, and follow-up."
         image="workspace"
         primaryAction={{ href: "#support-form", label: "Contact Support" }}
-        secondaryAction={{ href: "/quote", label: "Request Quote" }}
+        secondaryAction={{ href: "/quote", label: "Request a Quote" }}
         highlights={[
           { label: "RFQ Follow-Up", text: "Continue from a reference or submitted requirement." },
           { label: "Delivery", text: "Share receiver, schedule, and site access details." },

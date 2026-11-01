@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 };
 
 const availableNow = [
-  ["Request Quote", "Submit requirements, BOQs, files, existing quotes, or project details through the Gateway.", "/quote"],
+  ["Request a Quote", "Submit requirements, BOQs, files, existing quotes, or project details through the Gateway.", "/quote"],
   ["Track Reference", "Use a reference number to view request status and continue the inquiry path.", "/track"],
   ["Contact Support", "Send follow-up details for quotation, fulfillment questions, or company communication.", "/support"],
 ];
@@ -30,7 +30,7 @@ export default function PortalPage() {
         title="A future workspace for customer continuity."
         description="Customer Workspace is HACIEN's planned customer layer for tracking requests, viewing approved documents, continuing support, and preserving procurement history."
         image="workspace"
-        primaryAction={{ href: "/quote", label: "Request Quote" }}
+        primaryAction={{ href: "/quote", label: "Request a Quote" }}
         secondaryAction={{ href: "/access", label: "Access HACIEN" }}
         highlights={[
           { label: "Coming Soon", text: "Private customer access will be introduced when ready." },
@@ -164,7 +164,7 @@ export default function PortalPage() {
                   href="/quote"
                   className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#0A0A0A]"
                 >
-                  Request Quote
+                  Request a Quote
                 </Link>
                 <Link
                   href="/contact"

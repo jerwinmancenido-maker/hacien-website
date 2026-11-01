@@ -18,15 +18,14 @@ export function ProductCard({ product }: { product: Product }) {
 
   return (
     <AnimatedCard className="surface lift flex h-full flex-col overflow-hidden rounded-lg">
-      <Link href={productHref} className="block">
-        <div className="relative h-44 overflow-hidden bg-slate-100">
-          <div className="absolute inset-0 animated-grid" />
-          <div className="absolute inset-x-5 bottom-5 rounded border border-white/70 bg-white/85 p-4 backdrop-blur">
-            <div className="text-xs font-semibold uppercase text-slate-500">{category?.name}</div>
-            <div className="mt-1 text-sm font-bold text-slate-950">{modes.length > 0 ? modes.join(" / ") : "RFQ-ready"}</div>
+      {product.image ? (
+        <Link href={productHref} className="block">
+          <div className="relative h-44 overflow-hidden bg-grey-100">
+            {/* eslint-disable-next-line @next/next/no-img-element -- ERP photo URLs are not in the image optimizer allowlist */}
+            <img src={product.image} alt={product.name} className="h-full w-full object-cover" />
           </div>
-        </div>
-      </Link>
+        </Link>
+      ) : null}
       <div className="flex flex-1 flex-col p-5">
           <div className="flex items-center justify-between gap-2 text-xs font-semibold text-grey-600">
             <span>{product.availability}</span>

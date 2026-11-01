@@ -37,6 +37,7 @@ export type Product = {
   currency: "PHP";
   fulfillmentType: "manual" | "digital" | "license" | "shipment" | "service";
   inventoryPolicy: "not_tracked" | "track_stock" | "preorder" | "rfq_required";
+  image?: string;
 };
 
 type RawProduct = Omit<

@@ -179,7 +179,7 @@ export function TrustCta() {
               </p>
             </div>
             <Link href="/quote" className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#0A0A0A]">
-              Submit RFQ
+              Request a Quote
             </Link>
           </div>
         </BorderGlow>

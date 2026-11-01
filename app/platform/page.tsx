@@ -42,7 +42,7 @@ export default function PlatformPage() {
         description="HACIEN operates through its own enterprise platform for request intake, account memory, operational guidance, and future customer continuity."
         image="network"
         primaryAction={{ href: "/access", label: "Access HACIEN" }}
-        secondaryAction={{ href: "/quote", label: "Request Quote" }}
+        secondaryAction={{ href: "/quote", label: "Request a Quote" }}
         highlights={[
           { label: "Workspace", text: "Secure internal operations for requests, reviews, and follow-up." },
           { label: "Timeline", text: "Account memory for meaningful customer milestones." },

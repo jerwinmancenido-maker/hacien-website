@@ -18,7 +18,7 @@ export default function QuotePage() {
         title="Send the requirement in whatever form you have."
         description="Use a BOQ, supplier quote, photo, spreadsheet, product link, or plain description. HACIEN reviews the details before any formal quote or business record is treated as ready."
         image="commandCenter"
-        primaryAction={{ href: "#rfq-form", label: "Start RFQ" }}
+        primaryAction={{ href: "#rfq-form", label: "Request a Quote" }}
         secondaryAction={{ href: "/products", label: "Use RFQ Builder" }}
         highlights={[
           { label: "Plain language", text: "Describe the need without perfect specs." },

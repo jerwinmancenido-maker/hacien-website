@@ -17,7 +17,7 @@ export function CTABand({
           </div>
           <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
             <Link href="/quote" className="rounded bg-blue px-5 py-3 text-center text-sm font-medium text-white hover:bg-blue-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue">
-              Submit RFQ
+              Request a Quote
             </Link>
             <Link href="/contact" className="interactive-link rounded border border-white/20 px-5 py-3 text-center text-sm font-medium text-white hover:bg-white/5">
               Talk to HACIEN

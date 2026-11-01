@@ -17,7 +17,7 @@ const contactPaths = [
     title: "Request a quotation",
     text: "For BOQs, product lists, specifications, files, organization requirements, or quotation review.",
     href: "/quote",
-    action: "Start RFQ",
+    action: "Request a Quote",
     image: "documentation",
   },
   {
@@ -37,7 +37,7 @@ const contactPaths = [
 ];
 
 const communicationStandards = [
-  "Use Request Quote when the inquiry needs pricing, BOQ review, or files.",
+  "Use Request a Quote when the inquiry needs pricing, BOQ review, or files.",
   "Use Support when the inquiry continues an existing request, delivery detail, warranty question, or follow-up.",
   "Use Contact for business communication that does not yet belong to a formal RFQ or support path.",
 ];
@@ -52,7 +52,7 @@ export default function ContactPage() {
         title="Reach HACIEN through the right business path."
         description="HACIEN keeps communication structured so inquiries, RFQs, supplier introductions, and support questions reach the right team."
         image="office"
-        primaryAction={{ href: "/quote", label: "Request Quote" }}
+        primaryAction={{ href: "/quote", label: "Request a Quote" }}
         secondaryAction={{ href: "#contact-form", label: "Send Inquiry" }}
         highlights={[
           { label: "Business Contact", text: "Public inquiry routing through HACIEN's contact channel." },

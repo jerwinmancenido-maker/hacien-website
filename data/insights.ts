@@ -16,7 +16,6 @@ export type Insight = {
   relatedSlugs: string[];
   ctaLabel: string;
   ctaUrl: string;
-  publishedAt: string;
   readingTime: string;
   seoTitle: string;
   seoDescription: string;
@@ -69,7 +68,6 @@ export const insights: Insight[] = [
     relatedSlugs: ["how-to-prepare-rfq", "approved-equivalent-explained", "business-laptop-procurement-guide"],
     ctaLabel: "Submit Your Requirements",
     ctaUrl: "/quote",
-    publishedAt: "2025-01-15",
     readingTime: "7 min read",
     seoTitle: "IT Procurement Guide for Philippine Organizations | Insights",
     seoDescription:
@@ -122,7 +120,6 @@ export const insights: Insight[] = [
     relatedSlugs: ["it-procurement-guide", "approved-equivalent-explained", "business-laptop-procurement-guide"],
     ctaLabel: "Get RFQ Support from HACIEN",
     ctaUrl: "/quote",
-    publishedAt: "2025-02-03",
     readingTime: "6 min read",
     seoTitle: "How to Prepare an IT RFQ | Insights",
     seoDescription:
@@ -170,7 +167,6 @@ export const insights: Insight[] = [
     relatedSlugs: ["it-procurement-guide", "how-to-prepare-rfq", "business-laptop-procurement-guide"],
     ctaLabel: "Get Equivalent Matching Support",
     ctaUrl: "/quote",
-    publishedAt: "2025-02-20",
     readingTime: "5 min read",
     seoTitle: "Approved Equivalent in IT Procurement | Insights",
     seoDescription:
@@ -222,7 +218,6 @@ export const insights: Insight[] = [
     relatedSlugs: ["it-procurement-guide", "network-equipment-buying-guide", "business-laptop-procurement-guide"],
     ctaLabel: "Get Storage Quotation",
     ctaUrl: "/quote",
-    publishedAt: "2025-03-10",
     readingTime: "6 min read",
     seoTitle: "Server vs. NAS Storage: Buyer's Guide | Insights",
     seoDescription:
@@ -270,7 +265,6 @@ export const insights: Insight[] = [
     relatedSlugs: ["server-vs-nas-storage", "it-procurement-guide", "business-laptop-procurement-guide"],
     ctaLabel: "Get Network Equipment Quotation",
     ctaUrl: "/quote",
-    publishedAt: "2025-03-25",
     readingTime: "7 min read",
     seoTitle: "Network Equipment Buying Guide | Insights",
     seoDescription:
@@ -323,7 +317,6 @@ export const insights: Insight[] = [
     relatedSlugs: ["it-procurement-guide", "how-to-prepare-rfq", "approved-equivalent-explained"],
     ctaLabel: "Get Laptop Quotation",
     ctaUrl: "/quote",
-    publishedAt: "2025-04-08",
     readingTime: "6 min read",
     seoTitle: "Business Laptop Procurement Guide | Insights",
     seoDescription:

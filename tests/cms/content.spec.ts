@@ -522,7 +522,6 @@ describe("CMS read layer", () => {
           { label: "Platform", href: "/platform" },
           { label: "Insights", href: "/insights" },
           { label: "Company", href: "/about" },
-          { label: "Access HACIEN", href: "/access" },
           { label: "Request Quote", href: "/quote" },
         ],
         reviewNotes: "Route crawl before apply.",
@@ -573,7 +572,6 @@ describe("CMS read layer", () => {
           { label: "Platform", href: "/platform" },
           { label: "Insights", href: "/insights" },
           { label: "Company", href: "/about" },
-          { label: "Access HACIEN", href: "/access" },
           { label: "Request Quote", href: "/quote" },
         ],
         reviewNotes: "Route crawl before apply.",
@@ -897,7 +895,6 @@ describe("CMS read layer", () => {
           { label: "Platform", href: "/platform" },
           { label: "Insights", href: "/insights" },
           { label: "Company", href: "/about" },
-          { label: "Access HACIEN", href: "/access" },
           { label: "Request Quote", href: "/quote" },
         ],
         reviewNotes: "Route crawl before apply.",
@@ -909,7 +906,7 @@ describe("CMS read layer", () => {
     const nextSource = applyCmsDraftToSource(source, plan);
 
     expect(nextSource).toContain('{ href: "/solutions", label: "Solutions" },');
-    expect(nextSource).toContain('accessAction: { href: "/access", label: "Access HACIEN" },');
+    expect(nextSource).not.toContain("accessAction");
     expect(nextSource).toContain('quoteAction: { href: "/quote", label: "Request Quote" },');
   });
 

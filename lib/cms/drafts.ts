@@ -264,7 +264,7 @@ function navigationDraftSeed(contentKey: EditableCmsNavigationDraftKey): CmsDraf
 
   return {
     title: "Header navigation",
-    links: [...navigation.header.primaryItems, navigation.header.accessAction, navigation.header.quoteAction],
+    links: [...navigation.header.primaryItems, navigation.header.quoteAction],
     reviewNotes: "Review route availability and sitemap consistency before publishing navigation changes.",
   };
 }

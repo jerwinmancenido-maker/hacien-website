@@ -1,7 +1,7 @@
 "use server";
 
 const allowedTypes = new Set(["application/pdf", "image/png", "image/jpeg", "text/plain"]);
-const maxFileSize = 8 * 1024 * 1024;
+const maxFileSize = 10 * 1024 * 1024;
 
 export type ParsedDocumentResult =
   | {
@@ -36,7 +36,7 @@ export async function parseDocument(formData: FormData): Promise<ParsedDocumentR
   }
 
   if (file.size > maxFileSize) {
-    return { success: false, message: "Document is too large. Maximum supported playground size is 8MB." };
+    return { success: false, message: "Document is too large. Maximum supported playground size is 10 MB." };
   }
 
   const fileName = file.name || "uploaded-document";

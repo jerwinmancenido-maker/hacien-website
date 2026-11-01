@@ -33,7 +33,7 @@ export default async function SearchPage({
         title="Find the right path without guessing."
         description="Search public HACIEN catalog pages for products, categories, solutions, and insights. Private Workspace records are never included."
         image="documentation"
-        primaryAction={{ href: "/quote", label: "Request Quote" }}
+        primaryAction={{ href: "/quote", label: "Request a Quote" }}
         secondaryAction={{ href: "/access", label: "Access HACIEN" }}
         highlights={[
           { label: "Products", text: "Match product names and requirement profiles." },

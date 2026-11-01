@@ -99,7 +99,7 @@ export function PremiumStatementBand() {
               Explore Technology
             </Link>
             <Link href="/quote" className="interactive-link rounded border border-slate-300 px-5 py-3 text-center text-sm font-bold text-slate-900">
-              Submit an RFQ
+              Request a Quote
             </Link>
           </div>
         </div>

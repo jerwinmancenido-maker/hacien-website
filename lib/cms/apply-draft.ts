@@ -349,10 +349,9 @@ function renderLink(link: CmsDraftLink) {
 
 function renderHeaderNavigationBlock(links: CmsDraftLink[]) {
   const primaryItems = links.slice(0, 6);
-  const accessAction = links[6];
-  const quoteAction = links[7];
+  const quoteAction = links[6];
 
-  return `\n  header: {\n    primaryItems: [\n${primaryItems.map((link) => `      ${renderLink(link)},`).join("\n")}\n    ],\n    accessAction: ${renderLink(accessAction)},\n    quoteAction: ${renderLink(quoteAction)},\n  },`;
+  return `\n  header: {\n    primaryItems: [\n${primaryItems.map((link) => `      ${renderLink(link)},`).join("\n")}\n    ],\n    quoteAction: ${renderLink(quoteAction)},\n  },`;
 }
 
 function renderFooterNavigationBlock(statement: string, groups: CmsDraftNavigationGroup[]) {
@@ -500,8 +499,8 @@ export function validateCmsDraftApplyPlan(draft: CmsDraftRecord, mode: "dry-run"
 
   if (draft.contentKey === "navigation.header") {
     const links = getDraftLinks(draft);
-    if (links.length !== 8) {
-      errors.push("Header navigation apply requires exactly 8 links: 6 primary links, access action, and quote action.");
+    if (links.length !== 7) {
+      errors.push("Header navigation apply requires exactly 7 links: 6 primary links and a quote action.");
     }
     errors.push(...validateNavigationLinks(links));
 

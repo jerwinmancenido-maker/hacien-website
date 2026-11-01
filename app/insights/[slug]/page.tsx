@@ -57,11 +57,7 @@ export default async function InsightDetailPage({
             {insight.title}
           </h1>
 
-          <div className="mt-3 flex items-center gap-3 text-sm text-slate-500">
-            <span>{insight.publishedAt}</span>
-            <span>·</span>
-            <span>{insight.readingTime}</span>
-          </div>
+          <div className="mt-3 text-sm text-slate-500">{insight.readingTime}</div>
 
           <p className="mt-6 text-base leading-7 text-slate-600">{insight.intro}</p>
 

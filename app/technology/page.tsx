@@ -49,7 +49,7 @@ export default function TechnologyPage() {
         title="Technology categories for clearer requests."
         description="Use this page to frame the request. HACIEN reviews the details before any model, price, delivery, or commercial term is treated as confirmed."
         image="silicon"
-        primaryAction={{ href: "/quote", label: "Request Quote" }}
+        primaryAction={{ href: "/quote", label: "Request a Quote" }}
         secondaryAction={{ href: "/solutions", label: "View Solutions" }}
         highlights={[
           { label: "Computing", text: "Endpoints, workstations, servers, and user needs." },
@@ -126,7 +126,7 @@ export default function TechnologyPage() {
             </p>
           </div>
           <Link href="/quote" className="button-glow rounded bg-[#2563EB] px-6 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15">
-            Start with Request Quote
+            Request a Quote
           </Link>
         </div>
       </section>
