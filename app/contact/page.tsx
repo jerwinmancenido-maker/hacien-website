@@ -128,7 +128,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section id="contact-form" className="px-4 py-12 sm:px-6 lg:px-8">
+      <section id="contact-form" className="scroll-mt-24 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
           <AnimatedContent>
             <BorderGlow className="rounded bg-white p-6 shadow-sm sm:p-8">

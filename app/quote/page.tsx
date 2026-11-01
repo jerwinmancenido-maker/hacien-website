@@ -28,7 +28,7 @@ export default function QuotePage() {
         ]}
       />
 
-      <section id="rfq-form" className="px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
+      <section id="rfq-form" className="scroll-mt-24 px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto max-w-7xl">
           <QuoteCart turnstileSiteKey={turnstileSiteKey} />
         </div>

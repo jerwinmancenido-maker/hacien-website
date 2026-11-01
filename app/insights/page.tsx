@@ -136,13 +136,13 @@ export default function InsightsPage() {
             <p className="mt-4 max-w-md text-sm leading-6 text-slate-600">
               Topics are shown as reading categories. Choose an article card to continue.
             </p>
-            <div className="mt-6 flex flex-wrap gap-2">
+            <div className="mt-6 flex flex-wrap gap-x-4 gap-y-2" aria-label="Insight topics">
               {categories.map((category) => (
-                <span key={category} className="rounded border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-500">
+                <span key={category} className="text-xs font-medium uppercase tracking-[0.08em] text-slate-500">
                   {category}
                 </span>
               ))}
-              <span className="rounded border border-slate-200 bg-white px-3 py-1.5 text-xs font-semibold text-slate-500">
+              <span className="text-xs font-medium uppercase tracking-[0.08em] text-slate-500">
                 Platform
               </span>
             </div>
