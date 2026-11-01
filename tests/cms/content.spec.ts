@@ -664,14 +664,10 @@ describe("CMS read layer", () => {
     });
     const plan = validateCmsDraftApplyPlan(draft);
 
-    expect(plan).toMatchObject({
-      applySupported: true,
-      contentKey: "legal",
-      filePath: "lib/cms/documents.ts",
-      mode: "dry-run",
-      recordKey: "legal",
-      errors: [],
-    });
+    expect(plan.applySupported).toBe(false);
+    expect(plan.errors).toContain(
+      "This page is published from app/policies/_lib/content.ts. CMS apply does not change the live legal page.",
+    );
   });
 
   it("rejects non-ready document drafts before repo application", () => {

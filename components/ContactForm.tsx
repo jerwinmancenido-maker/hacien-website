@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import Link from "next/link";
+import { contactInquiryTypes } from "@/app/actions/contact-inquiry";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
 import { TurnstileField } from "@/components/TurnstileField";
 
@@ -199,10 +200,9 @@ export function ContactForm({
           <option value="" disabled>
             Inquiry type
           </option>
-          <option>Request a quote</option>
-          <option>Supplier partnership</option>
-          <option>Institutional procurement</option>
-          <option>Systems integration project</option>
+          {contactInquiryTypes.map((inquiryType) => (
+            <option key={inquiryType}>{inquiryType}</option>
+          ))}
         </select>
         <div className="grid gap-4 sm:grid-cols-2">
           <label htmlFor="contact-budget-range" className="sr-only">

@@ -1,10 +1,23 @@
 import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo";
+import { siteFooterPolicyLinks } from "@/app/policies/_lib/links";
 import { companyContact } from "@/data/companyContact";
 import { getNavigationContent } from "@/lib/cms/content";
 
+/** BIR registration serial, read at build time. Unset shows the badge without an RSN. */
+export function birBadgeLabel(rsn: string | undefined = process.env.BIR_RSN) {
+  const value = typeof rsn === "string" ? rsn.trim() : "";
+  if (!value) return "BIR Registered";
+  return `BIR Registered · RSN ${value}`;
+}
+
 export function Footer() {
   const navigationContent = getNavigationContent();
+  const groups = navigationContent.footer.groups.some((group) => group.title === "Legal")
+    ? navigationContent.footer.groups.map((group) =>
+        group.title === "Legal" ? { ...group, links: [...siteFooterPolicyLinks] } : group,
+      )
+    : [...navigationContent.footer.groups, { title: "Legal", links: [...siteFooterPolicyLinks] }];
 
   return (
     <footer className="relative z-10 border-t border-grey-200 bg-ink text-white">
@@ -37,7 +50,7 @@ export function Footer() {
         </div>
 
         <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
-          {navigationContent.footer.groups.map((group) => (
+          {groups.map((group) => (
             <div key={group.title}>
               <div className="text-sm font-medium text-white">{group.title}</div>
               <div className="mt-4 grid gap-1 text-sm text-grey-300 sm:gap-3">
@@ -53,6 +66,12 @@ export function Footer() {
               </div>
             </div>
           ))}
+        </div>
+
+        <div className="mt-8">
+          <div className="inline-flex max-w-full rounded-lg bg-white px-4 py-3">
+            <p className="text-xs leading-5 text-grey-600">{birBadgeLabel()}</p>
+          </div>
         </div>
       </div>
       <div className="border-t border-white/10 px-4 py-4 text-center text-xs text-grey-300">
