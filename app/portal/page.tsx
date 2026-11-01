@@ -31,7 +31,6 @@ export default function PortalPage() {
         description="Customer Workspace is HACIEN's planned customer layer for tracking requests, viewing approved documents, continuing support, and preserving procurement history."
         image="workspace"
         primaryAction={{ href: "/quote", label: "Request a Quote" }}
-        secondaryAction={{ href: "/access", label: "Access HACIEN" }}
         highlights={[
           { label: "Coming Soon", text: "Private customer access will be introduced when ready." },
           { label: "Controlled Visibility", text: "Customer-facing records will follow approved visibility rules." },

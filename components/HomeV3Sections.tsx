@@ -269,15 +269,9 @@ export function ExistingCustomerV3() {
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
               href={homepageContent.accessPreview.actions[0].href}
-              className="interactive-link rounded border border-slate-300 bg-white px-5 py-3 text-center text-sm font-bold text-slate-900 hover:border-[#2563EB] hover:text-[#2563EB]"
-            >
-              {homepageContent.accessPreview.actions[0].label}
-            </Link>
-            <Link
-              href={homepageContent.accessPreview.actions[1].href}
               className="button-glow rounded bg-[#2563EB] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
             >
-              {homepageContent.accessPreview.actions[1].label}
+              {homepageContent.accessPreview.actions[0].label}
             </Link>
           </div>
         </div>

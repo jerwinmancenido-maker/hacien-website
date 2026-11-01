@@ -282,7 +282,7 @@ const navigationContent: CmsNavigationContent = {
         ],
       },
       {
-        title: "Access",
+        title: "Tools",
         links: [
           { href: "/customer-workspace", label: "Customer Workspace" },
           { href: "/search", label: "Search" },
@@ -396,7 +396,6 @@ const homepageContent: CmsHomeContent = {
     description:
       "Internal personnel can open Workspace. Customers can track requests, learn about the future Customer Workspace, or contact HACIEN for support.",
     actions: [
-      { href: "/access", label: "Access HACIEN" },
       { href: "/contact", label: "Contact HACIEN" },
     ],
   },
