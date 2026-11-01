@@ -61,6 +61,17 @@ Canonical tokens: `lib/brand-colors.ts`, `app/globals.css`.
 - Smallest diff that works; no new abstractions.
 - Keep HACIEN separate from PepStack Labs and other businesses in copy, branding, and config.
 
+## Review lessons
+
+- Fail closed: a missing secret, setting, or config value refuses/blocks — never fall back to a permissive default.
+- Client IP: use the shared `getClientIp` (`cf-connecting-ip`, `x-real-ip`, then rightmost X-Forwarded-For hop); never trust the leftmost XFF.
+- No in-process `Map` for security state (grants, passes); use signed stateless tokens or the existing helpers.
+- Map unknown external/status values to a safe allowlisted fallback.
+- Every request path that reads data counts against the rate limit, including cookie/grant-backed ones.
+- Tests import the real module, never a copied version of the logic.
+- Resolve real Bugbot findings before handing off.
+- Never edit `middleware`, `next.config`, or CSP without saying so in the PR summary.
+
 ## Repo map
 
 | Path | Role |
