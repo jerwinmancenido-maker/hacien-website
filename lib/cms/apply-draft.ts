@@ -34,7 +34,8 @@ export type CmsDraftApplyPlan = {
   summary: string;
 };
 
-const documentApplyTargets = new Set<string>(["legal", "privacy", "terms", "trust-center"]);
+const documentApplyTargets = new Set<string>(["trust-center"]);
+const codePublishedLegalPages = new Set<string>(["legal", "privacy", "terms"]);
 const pageHeroApplyTargets = new Set<string>(["homepage", "about", "solutions.index", "industries", "faq", "help"]);
 
 const supportedApplyTargets = new Set<string>([
@@ -426,6 +427,20 @@ export function validateCmsDraftApplyPlan(draft: CmsDraftRecord, mode: "dry-run"
 
   if (draft.status !== "ready") {
     errors.push("Only drafts marked ready can be applied to repo-backed CMS content.");
+  }
+
+  if (codePublishedLegalPages.has(draft.contentKey)) {
+    errors.push(
+      "This page is published from app/policies/_lib/content.ts. CMS apply does not change the live legal page.",
+    );
+    return {
+      applySupported: false,
+      contentKey: draft.contentKey,
+      draftId: draft.id,
+      errors,
+      mode,
+      summary: "Live legal pages are published from code, not from a CMS apply.",
+    };
   }
 
   if (!supportedApplyTargets.has(draft.contentKey)) {
