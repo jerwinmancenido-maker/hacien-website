@@ -1,142 +1,81 @@
-# HACIEN Website Project Overlay
+# HACIEN Website — Agent Instructions
 
-Status: active, durably adopted P1.3 project overlay
+Canonical public website for **HACIEN** (not PepStack Labs or other businesses).
+Hostinger Node.js target: **Node 20** (engines `>=20.9.0`; Hostinger-matched **20.20.2** / npm 10).
+Prisma **7.10.1** (MySQL/MariaDB via `@prisma/adapter-mariadb`). Next.js **16.4.3**.
+`.npmrc` keeps `legacy-peer-deps=true` — do not change it.
+`npm run build` is `next build --webpack` (webpack chosen for Hostinger Turbopack/PostCSS stability on Node 20).
+`prebuild` clears `.next`, runs `npm run validate`, then `prisma generate`. `postinstall` also runs `prisma generate`.
 
-This file is active immediately as a repository instruction for least-authority,
-stop-on-conflict, exact-scope, and no-release safety boundaries. Its
-cross-repository authority allocation is the adopted P1.3 operating ceiling.
+## Workflow
 
-## Scope and Precedence
+Cursor cloud agents: branch from `main`, implement, open a PR to `main`.
+**Never** merge, deploy, publish, run migrations against any real database, or change env vars, secrets, DNS, hosting, or `.npmrc`.
+CTO (separate reviewer) reviews and merges — **only with the owner's yes**.
 
-- This overlay applies to `/Users/m5/Projects/hacien-website` and all descendants.
-- Follow platform, system, developer, global `AGENTS.md`, and direct user
-  instructions before this file.
-- This repository is the canonical standalone public-website source until an
-  adopted migration decision changes that allocation.
-- Repository location grants source authority only. It does not grant provider,
-  database, deployment, production, release, credential, or integrated HACIEN
-  governance authority.
-- For repository roles, data ownership, synchronization, and promotion, use the
-  P1.3 contract at
-  `/Users/m5/Projects/hacien-staging/operations/knowledge/website-source-data-promotion-contract.md`.
-  That contract is durably adopted. It remains a safety ceiling and does not
-  authorize mutation of another repository or external system.
-- If instructions conflict or an authority is still draft/unknown, stop and
-  request direction before mutating anything.
+## Checks (before every push)
 
-## Canonical Local Sources
+Use Node 20. Paste real command output in the PR body.
 
-1. This overlay controls tool behavior and repository boundaries.
-2. `plans/hacien-website-masterplan-index.md` routes current website planning.
-3. `plans/masterplan-conformance-register.md` records source evidence and
-   unresolved verification.
-4. The P1.3 cross-repository contract owns data and promotion definitions;
-   local architecture documents are consumers and may not redefine them.
-5. Current Git/source inspection controls source facts. Provider, database,
-   deployment, browser, and production facts require separate direct evidence.
+| Command | `package.json` | Notes |
+|---|---|---|
+| `npm ci` | lockfile install | Respects `.npmrc` (`legacy-peer-deps=true`) |
+| `npm run lint` | `eslint` | |
+| `npx tsc --noEmit` | TypeScript (devDep) | Not a named script; run via `npx` |
+| `npm test` | `vitest run` | |
+| `npm run build` | `next build --webpack` | Runs `prebuild` → `validate` + `prisma generate` |
 
-Plans, prompts, memories, cached remote refs, historical screenshots, and old
-production statements are not current runtime truth by themselves.
+`prisma generate` (postinstall / prebuild) does **not** need `DATABASE_URL` under Prisma 7.
+If a local tool still asks for one, use only a dummy local value such as
+`mysql://user:password@127.0.0.1:3306/hacien_website` — **never** a real database URL.
+Do not run `db:migrate`, `db:deploy`, `db:seed`, or other DB write scripts against real data.
 
-## Lifecycle
+## UI changes
 
-- Documentary phase label: Phase 8A work is present in the current dirty tree.
-- Current source verification (cursor/prisma7-audit-hostinger-d738, Node
-  20.20.2 / npm 10.8.2 Hostinger-matched, 2026-10-31):
-  - `npm ci`: PASS (`.npmrc` keeps `legacy-peer-deps=true`; no `camera-controls`
-    EBADENGINE; lockfileVersion 3 / npm 10)
-  - `npx tsc --noEmit`: PASS (0 errors)
-  - `npm run lint`: PASS (0 errors; 0 warnings)
-  - `npx vitest run`: PASS (5 files / 63 tests)
-  - `npm run validate` (claim-safety / blocked-claim scan): PASS (0 errors)
-  - `npm run build` (`next build --webpack`): PASS (Next.js 16.4.3; webpack
-    selected for Hostinger Turbopack/PostCSS stability on Node 20)
-  - `npm audit`: 0 high / 0 critical (14 moderate remain via eslint/minimatch)
-  - Prisma: 7.10.1 (`prisma` / `@prisma/client` engines `^20.19 || ^22.12 ||
-    >=24.0` satisfied by Hostinger Node 20.20.2); no DB migration
-  - Rendered-browser evidence: not refreshed in this maintenance pass (`UNKNOWN`)
-- Database/provider/deployment/production state: `UNKNOWN` unless separately
-  verified in an authorized lane.
-- A local diff or passing review does not authorize staging, commit, push,
-  deployment, migration, or release.
+Attach before/after screenshots at **390px** and **1280px** for affected routes.
 
-## Sole Writer and Exact Leases
+## Brand
 
-- Use one writer for each exact shared file or logical source boundary.
-- Reproduce branch, HEAD, repository digests, leased file hashes, and absence
-  markers before writing. Stop on any mismatch or newly dirty leased path.
-- Preserve all unrelated tracked and untracked work.
-- Do not author the same logical change in `hacien-website-staging`.
-- Rehearsal findings must be re-authored here under a new exact lease; never
-  reverse-promote rehearsal changes.
-- Integrated `hacien-staging/apps/website` and `hacien-sites-lab` are candidate
-  inputs only. Copying from them requires a separate exact migration lease.
+Black and white with one blue accent. Clean bold sans-serif; no boxy clutter; AA contrast.
+White text on blue buttons.
 
-## Data Boundary
+| Token | Hex |
+|---|---|
+| Ink | `#0A0A0A` |
+| White | `#FFFFFF` |
+| Greys | `#F5F5F5` `#E5E5E5` `#A3A3A3` `#525252` `#404040` |
+| Blue (CTA / links / focus only) | `#2563EB` |
+| Blue hover | `#1D4ED8` |
 
-- ERP/PostgreSQL owns official customer, organization, catalog, price, stock,
-  publication eligibility, quotation, order, inventory, fulfillment, invoice,
-  receipt, payment, tax, accounting, supplier, logistics, and audit truth.
-- Website-local storage may hold only approved session/consent, cart, draft
-  request, idempotency/correlation, CMS, and versioned read-only projection or
-  customer-safe display records.
-- A website request is not official until ERP returns an acceptance receipt.
-- Do not write ERP tables directly, perform dual writes, or present seeded,
-  fallback, cached, or locally modeled data as official truth.
-- Existing Prisma model names do not grant operational ownership or activation
-  authority.
+Canonical tokens: `lib/brand-colors.ts`, `app/globals.css`.
 
-## Promotion Boundary
+## Content & secrets
 
-Permitted direction:
+- No new company facts, claims, prices, or legal text unless the brief gives the **exact** words.
+- No customer data, secrets, keys, or tokens in code, logs, or PRs. Fake data only.
+- Do not invent SLA, stock, government credentials, payment readiness, or certification claims.
 
-```text
-canonical change in hacien-website
-  -> exact canonical commit
-  -> independent review
-  -> one-way refresh to hacien-website-staging
-  -> rehearsal evidence
-  -> separately authorized release
-```
+## Diff discipline
 
-No bidirectional sync, staging-to-canonical merge, lab promotion, or deployment
-from the rehearsal checkout is permitted.
+- No new dependencies (paid or free) unless the brief says so.
+- Smallest diff that works; no new abstractions.
+- Keep HACIEN separate from PepStack Labs and other businesses in copy, branding, and config.
 
-## Prohibited Scope
+## Repo map
 
-Without a separate exact authorization, do not:
+| Path | Role |
+|---|---|
+| `app/` | Next.js App Router: pages (`page.tsx`), layouts, `api/`, `globals.css` |
+| `app/components/` | Route-local UI (rare); prefer top-level `components/` |
+| `components/` | Shared UI (Header, Footer, Hero, product/quote/checkout, motion) |
+| `data/` | Static site data (`products.ts`, `solutions.ts`, `insights.ts`, `companyContact.ts`) |
+| `scripts/` | Validate, crawl, seed, smoke, CMS helpers (`validate-data.ts`, …) |
+| `lib/` | Brand, db, auth, CMS, ecommerce, email, ERP, security, SEO |
+| `prisma/` | Schema + migrations (website-local MySQL only; not ERP) |
+| `tests/` | Vitest suites |
+| `public/` | Static assets |
+| `shared/` | Shared AI/product knowledge (read before inventing product facts) |
+| `plans/` | Planning / conformance docs (reference, not runtime truth) |
+| `config/`, `cron/`, `tools/`, `cms-drafts/`, `remotion/` | Config, jobs, tooling, drafts, motion demos |
 
-- stage, commit, push, merge, tag, deploy, publish, migrate, or change Git
-  branches/worktrees;
-- change providers, databases, schemas, migrations, permissions, credentials,
-  secrets, DNS, or production configuration;
-- activate payments, tax, invoices/receipts, supplier/logistics actions,
-  messaging, cron, official documents, or ERP mutation;
-- expose unsupported government credentials, stock, SLA, pricing, payment,
-  production-readiness, or certification claims;
-- discard, overwrite, stash, clean, or normalize unrelated work.
-
-## Verification
-
-Use fresh evidence appropriate to the change:
-
-- exact-scope and outside-lease diff checks;
-- authority-link and supersession checks;
-- validation, focused tests, typecheck, lint, and production build;
-- claim-safety and secret scans;
-- desktop/mobile rendered browser review for affected routes;
-- separate security/privacy review for identity or customer data;
-- independent PMO and Quality review of the exact final manifest.
-
-Keep source, database, provider, deployment, browser, and production evidence as
-separate dispositions.
-
-## Supersession
-
-- This overlay and the P1.3 contract may be superseded only by an adopted record
-  naming the replacement authority, effective revision, affected scope,
-  migration/rollback disposition, and review evidence.
-- Older plans remain historical/reference material where they conflict with this
-  overlay or the P1.3 contract.
-- The finalized P1.2.1 manifest remains a separate protected provenance packet;
-  this website overlay cannot redefine or supersede it.
+Official catalog/order/customer truth lives in ERP — do not treat website Prisma models or seeded data as official.
