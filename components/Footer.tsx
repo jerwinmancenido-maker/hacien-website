@@ -4,11 +4,14 @@ import { siteFooterPolicyLinks } from "@/app/policies/_lib/links";
 import { companyContact } from "@/data/companyContact";
 import { getNavigationContent } from "@/lib/cms/content";
 
+/** Second caption line. Shown even when BIR_RSN is unset. */
+export const birRmcCaption = "per BIR RMC No. 38-2026";
+
 /** BIR registration serial, read at build time. Unset omits the RSN. */
 export function birBadgeLabel(rsn: string | undefined = process.env.BIR_RSN) {
   const value = typeof rsn === "string" ? rsn.trim() : "";
   if (!value) return "BIR Registered";
-  return `BIR Registered · RSN ${value} · per BIR RMC No. 38-2026`;
+  return `BIR Registered · RSN ${value}`;
 }
 
 export function birBadgeAlt(rsn: string | undefined = process.env.BIR_RSN) {
@@ -87,7 +90,10 @@ export function Footer() {
               decoding="async"
             />
           </Link>
-          <p className="max-w-sm text-sm leading-5 text-grey-300">{birBadgeLabel()}</p>
+          <p className="text-sm leading-5 text-grey-300">
+            <span className="block whitespace-nowrap">{birBadgeLabel()}</span>
+            <span className="block whitespace-nowrap">{birRmcCaption}</span>
+          </p>
         </div>
       </div>
       <div className="border-t border-white/10 px-4 py-4 text-center text-xs text-grey-300">

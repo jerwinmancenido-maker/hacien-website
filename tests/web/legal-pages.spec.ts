@@ -12,7 +12,7 @@ import { isContactInquiryType } from "@/app/actions/contact-inquiry";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
 import { legalPages } from "@/app/policies/_lib/content";
 import { LEGAL_PUBLISH_DATE, legalMetadata, legalPagePlainText } from "@/app/policies/_lib/document";
-import { birBadgeLabel } from "@/components/Footer";
+import { birBadgeAlt, birBadgeLabel, birRmcCaption } from "@/components/Footer";
 import { renderDocumentTitle } from "@/lib/seo/document-title";
 
 const analyticsBlockPhrases = [
@@ -103,9 +103,14 @@ describe("legal page content", () => {
       expect(birBadgeLabel()).toBe("BIR Registered");
       expect(birBadgeLabel("")).toBe("BIR Registered");
       expect(birBadgeLabel("   ")).toBe("BIR Registered");
+      expect(birBadgeAlt()).toBe("BIR Registration Seal Badge");
+      expect(birBadgeAlt("")).toBe("BIR Registration Seal Badge");
+      expect(birRmcCaption).toBe("per BIR RMC No. 38-2026");
       process.env.BIR_RSN = "FAKE-RSN-000000";
       expect(birBadgeLabel()).toBe("BIR Registered · RSN FAKE-RSN-000000");
       expect(birBadgeLabel("FAKE-RSN-000000")).not.toBe("BIR Registered");
+      expect(birBadgeAlt()).toBe("BIR Registration Seal Badge, RSN FAKE-RSN-000000");
+      expect(birBadgeAlt("FAKE-RSN-000000")).toContain("RSN FAKE-RSN-000000");
     } finally {
       if (previous === undefined) delete process.env.BIR_RSN;
       else process.env.BIR_RSN = previous;
@@ -217,5 +222,24 @@ describe("legal routes", () => {
     const contactHtml = await contact.text();
     expect(contact.status).toBe(200);
     expect(contactHtml).toContain("Privacy request");
+
+    const compliance = await fetch(`${baseUrl}/compliance`, { redirect: "manual" });
+    const complianceHtml = await compliance.text();
+    expect(compliance.status).toBe(200);
+    expect(complianceHtml).toContain(`<title>${renderDocumentTitle("Government Compliance")}</title>`);
+    expect(complianceHtml).toContain("See Business and Legal Information");
+    expect(complianceHtml).toContain('href="/legal"');
+    expect(complianceHtml).toContain(">BIR Registered<");
+    expect(complianceHtml).toContain(birRmcCaption);
+    expect(complianceHtml).not.toContain("RSN");
+    expect(complianceHtml).not.toMatch(/\d{3}-\d{3}-\d{3}/);
+
+    const footer = complianceHtml.slice(complianceHtml.lastIndexOf("<footer"));
+    expect(footer).toMatch(
+      /<a[^>]*href="\/compliance"[^>]*>\s*<img[^>]*alt="BIR Registration Seal Badge"[^>]*>/,
+    );
+    expect(footer).not.toContain("RSN");
+    expect(footer).not.toMatch(/\d{3}-\d{3}-\d{3}/);
+    expect(historyHtml).not.toMatch(/\d{3}-\d{3}-\d{3}/);
   }, 120_000);
 });
