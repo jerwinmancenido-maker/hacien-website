@@ -40,7 +40,7 @@ const nextConfig: NextConfig = {
       "default-src 'self'",
       scriptSrc,
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data: https://images.unsplash.com",
+      "img-src 'self' data:",
       "media-src 'self' data:",
       "font-src 'self'",
       "connect-src 'self' https://challenges.cloudflare.com",
