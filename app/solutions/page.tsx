@@ -28,8 +28,6 @@ const solutionImages: Record<string, keyof typeof enterpriseImages> = {
   "project-delivery-support": "workspace",
 };
 
-const prioritySolutions = solutions.slice(0, 6);
-
 export default function SolutionsPage() {
   const content = getSolutionsContent();
 
@@ -78,8 +76,8 @@ export default function SolutionsPage() {
             </p>
           </AnimatedContent>
           <div className="grid gap-3 md:grid-cols-2">
-            {prioritySolutions.map((solution, index) => (
-              <AnimatedContent key={solution.slug} delay={index * 45}>
+            {solutions.map((solution, index) => (
+              <AnimatedContent key={solution.slug} delay={Math.min(index * 45, 320)}>
                 <Link href={`/solutions/${solution.slug}`} className="group block h-full">
                   <SpotlightCard className="h-full rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
                     <div className="flex gap-3">

@@ -2,29 +2,14 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AnimatedContent, SpotlightCard } from "@/app/components/reactbits";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
+import { buildSearchIndex, searchCatalog } from "@/lib/search-index";
 
 export const metadata: Metadata = {
   title: "Search",
-  description: "Search HACIEN public pages, RFQ paths, support, trust, solutions, technology, platform, and insights.",
+  description: "Search HACIEN products, categories, solutions, and insights.",
 };
 
-const searchable = [
-  { title: "Home", href: "/", group: "Company", text: "Technology procurement clarified before anyone quotes." },
-  { title: "Solutions", href: "/solutions", group: "Solutions", text: "Infrastructure, workplace, cybersecurity, cloud, procurement, and managed services." },
-  { title: "Technology", href: "/technology", group: "Technology", text: "Enterprise computing, networking, cybersecurity, cloud, software, storage, power, cabling, and services." },
-  { title: "Products", href: "/products", group: "Technology", text: "Build one RFQ package from multiple technology requirements." },
-  { title: "Platform", href: "/platform", group: "Platform", text: "HACIEN Workspace, Timeline, Guardian, Customer Workspace, and account continuity." },
-  { title: "Insights", href: "/insights", group: "Knowledge", text: "Enterprise technology, institutional procurement, digital transformation, cybersecurity, cloud, and best practices." },
-  { title: "Trust & Compliance", href: "/trust-center", group: "Company", text: "Company identity, verification boundaries, privacy, security, and support expectations." },
-  { title: "Support", href: "/support", group: "Support", text: "RFQ follow-up, delivery, warranty questions, policy routing, and supplier inquiries." },
-  { title: "Request Quote", href: "/quote", group: "RFQ", text: "Request formal quotation review through HACIEN's universal intake path." },
-  { title: "Access HACIEN", href: "/access", group: "Access", text: "Open Workspace, learn about Customer Workspace, or contact HACIEN support." },
-  { title: "Customer Workspace", href: "/customer-workspace", group: "Access", text: "Future customer continuity for tracking, documents, quotations, support, and account history." },
-  { title: "About HACIEN", href: "/about", group: "Company", text: "Company story, operating philosophy, and professional profile." },
-  { title: "Company Profile", href: "/about/company-profile", group: "Company", text: "Supported company profile, public identity facts, and RFQ engagement path." },
-];
-
-const suggestedSearches = ["RFQ", "Technology", "Platform", "Support", "Trust", "Company"];
+const suggestedSearches = ["laptop", "cctv", "ups", "RFQ", "network", "procurement"];
 
 export default async function SearchPage({
   searchParams,
@@ -32,11 +17,10 @@ export default async function SearchPage({
   searchParams: Promise<{ q?: string }>;
 }) {
   const params = await searchParams;
-  const query = (params.q || "").trim().toLowerCase();
-  const results = query
-    ? searchable.filter((item) => `${item.title} ${item.group} ${item.text}`.toLowerCase().includes(query))
-    : searchable;
-  const groupedResults = results.reduce<Record<string, typeof searchable>>((groups, item) => {
+  const query = (params.q || "").trim();
+  const index = buildSearchIndex();
+  const results = query ? searchCatalog(query, index) : index.slice(0, 12);
+  const groupedResults = results.reduce<Record<string, typeof results>>((groups, item) => {
     groups[item.group] = groups[item.group] || [];
     groups[item.group].push(item);
     return groups;
@@ -47,15 +31,15 @@ export default async function SearchPage({
       <PremiumPageHero
         eyebrow="HACIEN Search"
         title="Find the right path without guessing."
-        description="Search public HACIEN pages for RFQ, technology, platform, company, support, trust, and knowledge paths. Private Workspace records are never included."
+        description="Search public HACIEN catalog pages for products, categories, solutions, and insights. Private Workspace records are never included."
         image="documentation"
         primaryAction={{ href: "/quote", label: "Request Quote" }}
         secondaryAction={{ href: "/access", label: "Access HACIEN" }}
         highlights={[
-          { label: "Public Only", text: "Search covers public headquarters pages." },
-          { label: "RFQ Paths", text: "Find quote, support, and intake routes." },
-          { label: "Technology", text: "Locate domains and requirement builders." },
-          { label: "Trust", text: "Open company, legal, and compliance pages." },
+          { label: "Products", text: "Match product names and requirement profiles." },
+          { label: "Categories", text: "Locate technology areas for RFQ building." },
+          { label: "Solutions", text: "Find capability pages by area." },
+          { label: "Insights", text: "Open guides and procurement articles." },
         ]}
       />
 
@@ -70,7 +54,7 @@ export default async function SearchPage({
                 id="hq-search"
                 name="q"
                 defaultValue={params.q || ""}
-                placeholder="Search RFQ, technology, platform, trust, support..."
+                placeholder="Search products, solutions, insights..."
                 className="focus-ring min-h-14 flex-1 rounded-full border border-white/60 bg-white/80 px-5 text-sm text-slate-950 shadow-inner shadow-slate-950/5 outline-none placeholder:text-grey-600"
               />
               <button className="button-glow focus-ring rounded bg-[#2563EB] px-7 py-3 text-sm font-bold text-white shadow-lg shadow-blue-900/15" type="submit">
@@ -97,11 +81,11 @@ export default async function SearchPage({
                   {query ? "Search Results" : "Suggested Paths"}
                 </div>
                 <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950">
-                  {query ? `${results.length} result${results.length === 1 ? "" : "s"} for "${params.q}"` : "Start with the most common paths."}
+                  {query ? `${results.length} result${results.length === 1 ? "" : "s"} for "${params.q}"` : "Start with catalog highlights."}
                 </h2>
               </div>
               <p className="max-w-md text-sm leading-6 text-slate-600">
-                Search is scoped to public pages. Customer, supplier, payment, and internal Workspace records remain private.
+                Search covers products, categories, solutions, and insights. Customer, supplier, payment, and internal Workspace records remain private.
               </p>
             </div>
           </AnimatedContent>
@@ -127,7 +111,7 @@ export default async function SearchPage({
                               </span>
                             </div>
                             <div className="mt-5 text-xl font-bold text-slate-950 group-hover:text-[#2563EB]">{item.title}</div>
-                            <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
+                            <p className="mt-3 text-sm leading-6 text-slate-600">{item.summary}</p>
                           </SpotlightCard>
                         </Link>
                       </AnimatedContent>
@@ -137,9 +121,9 @@ export default async function SearchPage({
               ))
             ) : (
               <div className="rounded border border-slate-200 bg-white p-8 shadow-sm">
-                <h2 className="text-2xl font-bold text-slate-950">No matching headquarters page</h2>
+                <h2 className="text-2xl font-bold text-slate-950">No matching catalog items</h2>
                 <p className="mt-3 max-w-2xl text-sm leading-6 text-slate-600">
-                  Try a simpler term like RFQ, Technology, Platform, trust, support, or company profile.
+                  Try a simpler term like laptop, CCTV, UPS, network, or procurement.
                 </p>
                 <div className="mt-6 flex flex-col gap-3 sm:flex-row">
                   <Link href="/support" className="button-glow focus-ring inline-flex rounded bg-[#0A0A0A] px-5 py-3 text-sm font-bold text-white">

@@ -47,7 +47,7 @@ export default function AboutPage() {
             <div className="grid gap-3 sm:grid-cols-2">
               {content.story.signals.map((signal, index) => (
                 <AnimatedContent key={signal} delay={index * 70}>
-                  <SpotlightCard className={`rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:p-4 ${index > 1 ? "hidden sm:block" : ""}`}>
+                  <SpotlightCard className="rounded-lg border border-slate-200 bg-white p-3 shadow-sm sm:p-4">
                     <div className="text-sm font-bold text-slate-900">{signal}</div>
                   </SpotlightCard>
                 </AnimatedContent>
@@ -74,7 +74,7 @@ export default function AboutPage() {
             <div className="grid gap-2 md:grid-cols-2 md:gap-3">
               {content.workingStandard.cards.map((item, index) => (
                 <AnimatedContent key={item.title} delay={Math.min(index * 45, 320)}>
-                  <BorderGlow className={`h-full rounded-lg bg-white p-3 shadow-sm sm:p-4 ${index > 4 ? "hidden md:block" : ""}`}>
+                  <BorderGlow className="h-full rounded-lg bg-white p-3 shadow-sm sm:p-4">
                     <div className="text-xs font-bold text-[#2563EB]">{String(index + 1).padStart(2, "0")}</div>
                     <h3 className="mt-2 text-sm font-bold text-slate-950">{item.title}</h3>
                     <p className="mt-2 text-xs leading-5 text-slate-600">{item.text}</p>
