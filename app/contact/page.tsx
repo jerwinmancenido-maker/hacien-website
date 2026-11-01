@@ -17,7 +17,7 @@ const contactPaths = [
     title: "Request a quotation",
     text: "For BOQs, product lists, specifications, files, organization requirements, or quotation review.",
     href: "/quote",
-    action: "Request a Quote",
+    action: "Start RFQ",
     image: "documentation",
   },
   {
@@ -37,7 +37,7 @@ const contactPaths = [
 ];
 
 const communicationStandards = [
-  "Use Request a Quote when the inquiry needs pricing, BOQ review, or files.",
+  "Use Request Quote when the inquiry needs pricing, BOQ review, or files.",
   "Use Support when the inquiry continues an existing request, delivery detail, warranty question, or follow-up.",
   "Use Contact for business communication that does not yet belong to a formal RFQ or support path.",
 ];

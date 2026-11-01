@@ -13,8 +13,15 @@ export function AiDocumentParser() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     startTransition(async () => {
-      const nextResult = await parseDocument(formData);
-      setResult(nextResult);
+      try {
+        const nextResult = await parseDocument(formData);
+        setResult(nextResult);
+      } catch {
+        setResult({
+          success: false,
+          message: "Document is too large. Maximum supported playground size is 10 MB.",
+        });
+      }
     });
   }
 

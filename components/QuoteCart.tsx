@@ -475,7 +475,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
             disabled={status === "sending" || Boolean(fileError)}
             className="button-glow rounded bg-blue px-6 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-300"
           >
-            {status === "sending" ? "Sending..." : "Request a Quote"}
+            {status === "sending" ? "Sending..." : "Submit RFQ"}
           </button>
         </div>
       </form>

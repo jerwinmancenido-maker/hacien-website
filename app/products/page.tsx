@@ -56,7 +56,7 @@ export default async function ProductsPage() {
         title="Build one request from many technology needs."
         description="Add endpoints, servers, networking, software, power, cabling, services, files, or anything not listed into one RFQ package. HACIEN reviews the requirement before formal quotation."
         image="workstation"
-        primaryAction={{ href: "/quote", label: "Request a Quote" }}
+        primaryAction={{ href: "/quote", label: "Submit RFQ Package" }}
         secondaryAction={{ href: "/technology", label: "Explore Technology" }}
         highlights={[
           { label: "Multiple Blocks", text: "Combine different requirements into one request." },

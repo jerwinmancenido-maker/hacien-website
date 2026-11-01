@@ -273,7 +273,7 @@ const navigationContent: CmsNavigationContent = {
       {
         title: "Start",
         links: [
-          { href: "/quote", label: "Request a Quote" },
+          { href: "/quote", label: "Request Quote" },
           { href: "/track", label: "Track Request" },
           { href: "/products", label: "Technology RFQ Builder" },
           { href: "/support", label: "Support" },
@@ -514,7 +514,7 @@ const industriesContent: CmsIndustriesContent = {
       "HACIEN supports organizations whose technology needs depend on specifications, supplier timing, warranty terms, delivery coordination, and procurement documentation.",
     image: "strategy",
     primaryAction: { href: "/solutions", label: "Explore Solutions" },
-    secondaryAction: { href: "/quote", label: "Request a Quote" },
+    secondaryAction: { href: "/quote", label: "Start RFQ" },
     highlights: [
       { label: "Specs", text: "Procurement requirements vary by industry." },
       { label: "Review", text: "Technical specifications need working details." },

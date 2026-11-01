@@ -10,6 +10,7 @@ import type {
 } from "@/lib/cms/drafts";
 import { validateCmsDraft } from "@/lib/cms/drafts";
 import { getCmsMediaRecords } from "@/lib/cms/media";
+import { getNavigationContent } from "@/lib/cms/content";
 import { getCmsSeoRecords } from "@/lib/cms/seo";
 
 export type CmsDraftApplyTarget =
@@ -499,8 +500,11 @@ export function validateCmsDraftApplyPlan(draft: CmsDraftRecord, mode: "dry-run"
 
   if (draft.contentKey === "navigation.header") {
     const links = getDraftLinks(draft);
-    if (links.length < 2) {
-      errors.push("Header navigation apply requires primary links and a quote action.");
+    const expectedLinkCount = getNavigationContent().header.primaryItems.length + 1;
+    if (links.length !== expectedLinkCount) {
+      errors.push(
+        `Header navigation apply requires ${expectedLinkCount} links: the current primary links and a quote action.`,
+      );
     }
     errors.push(...validateNavigationLinks(links));
 

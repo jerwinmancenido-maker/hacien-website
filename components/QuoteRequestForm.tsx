@@ -315,7 +315,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
               ? "Sending..."
               : step === 1
                 ? "Continue to buyer details"
-                : "Request a Quote"}
+                : "Submit RFQ"}
           </button>
           {step === 2 && (
             <button
