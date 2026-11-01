@@ -96,9 +96,9 @@ export default async function ProductsPage() {
             </p>
           </AnimatedContent>
           <div className="mt-6 grid gap-3 md:mt-10 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
-            {categories.slice(0, 6).map((category, index) => (
-              <AnimatedContent key={category.slug} delay={index * 45}>
-                <Link href={`/products/${category.slug}`} className={`group block h-full ${index > 2 ? "hidden md:block" : ""}`}>
+            {categories.map((category, index) => (
+              <AnimatedContent key={category.slug} delay={Math.min(index * 45, 320)}>
+                <Link href={`/products/${category.slug}`} className="group block h-full">
                   <SpotlightCard className="h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
                     <div
                       className="relative min-h-[118px] sm:min-h-[190px]"
@@ -146,8 +146,8 @@ export default async function ProductsPage() {
                   You can request help even if the exact product is not listed.
                 </h2>
                 <div className="mt-4 grid gap-3 md:mt-6 md:grid-cols-3 md:gap-4">
-                  {supportNotes.map(([title, text], index) => (
-                    <div key={title} className={`rounded border border-slate-200 bg-slate-50 p-3 sm:p-4 ${index > 0 ? "hidden md:block" : ""}`}>
+                  {supportNotes.map(([title, text]) => (
+                    <div key={title} className="rounded border border-slate-200 bg-slate-50 p-3 sm:p-4">
                       <div className="font-bold text-slate-950">{title}</div>
                       <p className="mt-2 text-sm leading-6 text-slate-600">{text}</p>
                     </div>
