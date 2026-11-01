@@ -590,7 +590,7 @@ const helpContent: CmsHelpContent = {
     highlights: [
       { label: "Attachments", text: "BOQ, PDF, images, and spreadsheets can support review." },
       { label: "Tracking", text: "Gateway references help with follow-up." },
-      { label: "Prototype tools", text: "Parser output is review-only." },
+      { label: "Document tools", text: "Parser output is review-only." },
       { label: "Bounded claims", text: "Official documents are not issued here." },
     ],
   },
@@ -603,7 +603,7 @@ const helpContent: CmsHelpContent = {
     {
       title: "Track a request",
       text: "Use your Gateway reference to inspect the current public tracking response.",
-      href: "/track/sample-reference",
+      href: "/track",
     },
     {
       title: "Read FAQ",

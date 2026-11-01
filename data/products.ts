@@ -379,7 +379,7 @@ const rawProducts: RawProduct[] = [
     id: "HAC-SEC-001",
     slug: "cctv-starter-system",
     categorySlug: "security-surveillance",
-    name: "Firewall / CCTV Security Package",
+    name: "CCTV Starter System",
     shortDescription: "Firewall, camera, recording, and storage package planning for small sites and offices.",
     longDescription:
       "A site security requirement profile for small offices and facilities where camera count, recording retention, storage, and cable routing need to be reviewed before quotation.",
