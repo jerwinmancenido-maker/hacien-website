@@ -348,8 +348,8 @@ function renderLink(link: CmsDraftLink) {
 }
 
 function renderHeaderNavigationBlock(links: CmsDraftLink[]) {
-  const primaryItems = links.slice(0, 6);
-  const quoteAction = links[6];
+  const primaryItems = links.slice(0, -1);
+  const quoteAction = links[links.length - 1];
 
   return `\n  header: {\n    primaryItems: [\n${primaryItems.map((link) => `      ${renderLink(link)},`).join("\n")}\n    ],\n    quoteAction: ${renderLink(quoteAction)},\n  },`;
 }
@@ -499,8 +499,8 @@ export function validateCmsDraftApplyPlan(draft: CmsDraftRecord, mode: "dry-run"
 
   if (draft.contentKey === "navigation.header") {
     const links = getDraftLinks(draft);
-    if (links.length !== 7) {
-      errors.push("Header navigation apply requires exactly 7 links: 6 primary links and a quote action.");
+    if (links.length < 2) {
+      errors.push("Header navigation apply requires primary links and a quote action.");
     }
     errors.push(...validateNavigationLinks(links));
 

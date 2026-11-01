@@ -15,6 +15,7 @@ import {
 import {
   createCmsDraft,
   editableCmsDraftKeys,
+  getCmsDraftSeedFields,
   getEditableCmsDraftInventory,
   validateCmsDraft,
 } from "@/lib/cms/drafts";
@@ -908,6 +909,25 @@ describe("CMS read layer", () => {
     expect(nextSource).toContain('{ href: "/solutions", label: "Solutions" },');
     expect(nextSource).not.toContain("accessAction");
     expect(nextSource).toContain('quoteAction: { href: "/quote", label: "Request Quote" },');
+  });
+
+  it("applies a seeded header draft without dropping live primary links", () => {
+    const draft = createCmsDraft({
+      id: "seeded-header-navigation",
+      contentKey: "navigation.header",
+      status: "ready",
+      fields: getCmsDraftSeedFields("navigation.header"),
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+    const source = `const navigationContent = {\n  header: {\n    primaryItems: [\n      { href: \"/old\", label: \"Old\" },\n    ],\n    quoteAction: { href: \"/old-quote\", label: \"Old Quote\" },\n  },\n};\n`;
+    const nextSource = applyCmsDraftToSource(source, plan);
+
+    expect(plan.applySupported).toBe(true);
+    expect(plan.errors).toEqual([]);
+    expect(nextSource).toContain('{ href: "/products", label: "Products" },');
+    expect(nextSource).toContain('{ href: "/contact", label: "Contact" },');
+    expect(nextSource).toContain('quoteAction: { href: "/quote", label: "Request a Quote" },');
   });
 
   it("updates grouped footer navigation source snippets without writing during dry-run", () => {

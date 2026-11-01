@@ -24,9 +24,9 @@ function categorySlugForProduct(product: ErpCatalogProduct) {
 
 function publicProductImage(image: string | null) {
   const value = image?.trim() ?? "";
-  if (!value) return undefined;
-  if (value.startsWith("/") || value.startsWith("https://") || value.startsWith("http://")) return value;
-  return undefined;
+  // CSP img-src is 'self'. Remote URLs would render as broken images.
+  if (!value.startsWith("/") || value.startsWith("//")) return undefined;
+  return value;
 }
 
 function specsToRows(product: ErpCatalogProduct) {
