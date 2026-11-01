@@ -4,7 +4,7 @@ import Link from "next/link";
 import { DocumentIntro, DocumentPageShell, DocumentSection } from "@/components/DocumentLayout";
 import { policyFooterLinks } from "@/app/policies/_lib/links";
 
-export const LEGAL_PUBLISH_DATE = "November 1, 2026";
+export const LEGAL_PUBLISH_DATE = "November 2, 2026";
 
 export type ListItem = {
   text: string;
@@ -271,6 +271,7 @@ export function LegalDocument({ page }: { page: LegalPageModel }) {
       title={page.title}
       description={page.versionLine}
       meta={page.meta}
+      plain
     >
       {page.historyLink ? (
         <p>

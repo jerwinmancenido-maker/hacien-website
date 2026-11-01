@@ -12,17 +12,23 @@ export function DocumentPageShell({
   description,
   meta,
   children,
+  plain = false,
 }: {
   eyebrow: string;
   title: string;
   description: string;
   meta: DocumentMeta[];
   children: ReactNode;
+  plain?: boolean;
 }) {
   return (
-    <section className="relative overflow-hidden px-4 py-10 sm:px-6 lg:px-8">
-      <div className="cinematic-aurora pointer-events-none absolute inset-x-0 top-0 h-[420px] opacity-25" />
-      <div className="cinematic-lines pointer-events-none absolute inset-x-0 top-0 h-[520px] opacity-[0.08]" />
+    <section className={`relative overflow-hidden px-4 py-10 sm:px-6 lg:px-8 ${plain ? "bg-white" : ""}`}>
+      {plain ? null : (
+        <>
+          <div className="cinematic-aurora pointer-events-none absolute inset-x-0 top-0 h-[420px] opacity-25" />
+          <div className="cinematic-lines pointer-events-none absolute inset-x-0 top-0 h-[520px] opacity-[0.08]" />
+        </>
+      )}
       <div className="relative mx-auto max-w-7xl">
         <div className="grid gap-5 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
           <AnimatedContent>
