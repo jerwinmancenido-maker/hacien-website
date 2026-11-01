@@ -56,7 +56,7 @@ export function PremiumStatementBand() {
             <Link href="/technology" className="button-glow rounded bg-[#0A0A0A] px-5 py-3 text-center text-sm font-bold text-white">
               Explore Technology
             </Link>
-            <Link href="/quote" className="interactive-link rounded-full border border-slate-300 px-5 py-3 text-center text-sm font-bold text-slate-900">
+            <Link href="/quote" className="interactive-link rounded border border-slate-300 px-5 py-3 text-center text-sm font-bold text-slate-900">
               Submit an RFQ
             </Link>
           </div>

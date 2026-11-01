@@ -12,29 +12,29 @@ export default function NotFoundPage() {
           </span>
         </div>
         <h1 className="font-display mt-6 text-3xl tracking-tight text-ink sm:text-3xl">
-          This room is not available.
+          Page not found
         </h1>
         <p className="mx-auto mt-4 max-w-md text-sm leading-6 text-grey-600">
-          The page may have moved, or the address may not be part of the public HACIEN headquarters.
+          Sorry, we couldn&apos;t find that page.
         </p>
         <div className="mt-10 flex flex-col gap-3.5 sm:flex-row sm:justify-center">
           <Link
             href="/"
             className="rounded bg-blue px-6 py-3 text-sm font-medium text-white transition duration-200 hover:bg-blue-dark"
           >
-            Return to headquarters
+            Home
           </Link>
           <Link
-            href="/search"
+            href="/products"
             className="rounded border border-grey-200 px-6 py-3 text-center text-sm font-medium text-grey-700 transition duration-200 hover:border-blue/50 hover:bg-grey-100"
           >
-            Search Headquarters
+            Products
           </Link>
           <Link
-            href="/support"
+            href="/contact"
             className="rounded border border-grey-200 px-6 py-3 text-center text-sm font-medium text-grey-700 transition duration-200 hover:border-blue/50 hover:bg-grey-100"
           >
-            Support Desk
+            Contact
           </Link>
         </div>
       </div>
