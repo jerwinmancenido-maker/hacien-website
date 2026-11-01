@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 const availableNow = [
   ["Request Quote", "Submit requirements, BOQs, files, existing quotes, or project details through the Gateway.", "/quote"],
-  ["Track Reference", "Use a reference number to view request status and continue the inquiry path.", "/track/RFQ-2026-000009"],
+  ["Track Reference", "Use a reference number to view request status and continue the inquiry path.", "/track"],
   ["Contact Support", "Send follow-up details for quotation, fulfillment questions, or company communication.", "/support"],
 ];
 
@@ -86,7 +86,7 @@ export default function PortalPage() {
               Private access will be useful only when it protects customer records.
             </h2>
             <p className="mt-4 text-sm leading-6 text-grey-600">
-              Phase 3 shows the direction without implying the customer portal is live.
+              This page shows the planned direction without implying private customer access is live.
             </p>
           </AnimatedContent>
           <div className="grid gap-3 md:grid-cols-2">

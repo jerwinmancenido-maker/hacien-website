@@ -186,16 +186,23 @@ main {
   will-change: background-position;
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
+/*
+ * Keep link/form resets in @layer base so Tailwind color utilities
+ * (text-white on blue/black CTAs) win over color: inherit. Unlayered
+ * `a { color: inherit }` previously forced ink text onto every Link CTA.
+ */
+@layer base {
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
 
-button,
-input,
-textarea,
-select {
-  font: inherit;
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
 }
 
 .surface {
@@ -235,13 +242,16 @@ select {
 
 .button-glow {
   position: relative;
+  z-index: 0;
   overflow: hidden;
   transform: translateZ(0);
   border-radius: var(--radius);
+  isolation: isolate;
 }
 
 .button-glow::after {
   content: none;
+  pointer-events: none;
 }
 
 .mesh,

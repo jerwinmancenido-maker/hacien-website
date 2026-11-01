@@ -15,7 +15,7 @@ const technologyDomains = [
   ["Enterprise Computing", "Business endpoints, workstations, servers, and computing environments for serious operations.", "computers-laptops"],
   ["Networking", "Reliable connectivity for offices, facilities, campuses, and institutional environments.", "network-equipment"],
   ["Cybersecurity", "Security technologies that help protect users, devices, networks, and critical operations.", "security-surveillance"],
-  ["Cloud", "Cloud services, backup, SaaS, storage, and hybrid technology environments.", "licensed-software"],
+  ["Cloud", "Cloud services, backup, SaaS, storage, and hybrid technology environments.", "/solutions/cloud-productivity"],
   ["Software", "Business software, productivity platforms, security licensing, and professional software sourcing.", "licensed-software"],
   ["Storage", "Data storage, backup, continuity, and scalable infrastructure foundations.", "servers-storage"],
   ["Power", "UPS, rack power, and continuity equipment for technology environments.", "power-ups"],
@@ -78,7 +78,10 @@ export default function TechnologyPage() {
                 <h2 className="mt-5 text-2xl font-bold tracking-tight text-slate-950">{title}</h2>
                 <p className="mt-4 text-sm leading-7 text-slate-600">{text}</p>
                 {categorySlug ? (
-                  <Link href={`/products/${categorySlug}`} className="mt-7 inline-flex text-sm font-bold text-[#2563EB] hover:underline">
+                  <Link
+                    href={categorySlug.startsWith("/") ? categorySlug : `/products/${categorySlug}`}
+                    className="mt-7 inline-flex text-sm font-bold text-[#2563EB] hover:underline"
+                  >
                     Build this requirement
                   </Link>
                 ) : (
