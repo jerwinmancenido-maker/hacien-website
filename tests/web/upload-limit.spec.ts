@@ -7,6 +7,7 @@ import { chromium } from "playwright";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { parseDocument } from "@/app/actions/parse-document";
+import { documentScanErrorMessage } from "@/components/AiDocumentParser";
 import { exceedsQuoteAttachmentLimit, maxAttachmentSize } from "@/components/QuoteCart";
 
 const tenMb = 10 * 1024 * 1024;
@@ -58,6 +59,13 @@ describe("10 MB upload limit", () => {
       success: false,
       message: tooLargeMessage,
     });
+  });
+
+  it("maps only a body-limit throw to the 10 MB message", () => {
+    expect(documentScanErrorMessage(new Error("Body exceeded 11mb limit."))).toBe(tooLargeMessage);
+    expect(documentScanErrorMessage(new Error("Failed to fetch"))).toBe(
+      "The document could not be checked. Please try again.",
+    );
   });
 
   it("accepts a quote attachment of exactly 10 MB and rejects one byte over", () => {

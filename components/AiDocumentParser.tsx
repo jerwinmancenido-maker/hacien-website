@@ -3,6 +3,14 @@
 import { useRef, useState, useTransition } from "react";
 import { parseDocument, type ParsedDocumentResult } from "@/app/actions/parse-document";
 
+const tooLargeMessage = "Document is too large. Maximum supported playground size is 10 MB.";
+
+export function documentScanErrorMessage(error: unknown) {
+  const text = error instanceof Error ? error.message : "";
+  if (text.includes("Body exceeded")) return tooLargeMessage;
+  return "The document could not be checked. Please try again.";
+}
+
 export function AiDocumentParser() {
   const [result, setResult] = useState<ParsedDocumentResult | null>(null);
   const [fileName, setFileName] = useState("");
@@ -16,11 +24,8 @@ export function AiDocumentParser() {
       try {
         const nextResult = await parseDocument(formData);
         setResult(nextResult);
-      } catch {
-        setResult({
-          success: false,
-          message: "Document is too large. Maximum supported playground size is 10 MB.",
-        });
+      } catch (error) {
+        setResult({ success: false, message: documentScanErrorMessage(error) });
       }
     });
   }
