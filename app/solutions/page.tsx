@@ -5,7 +5,11 @@ import {
   GradientBackground,
   SpotlightCard,
 } from "@/app/components/reactbits";
-import { enterpriseImages } from "@/components/EnterpriseImagery";
+import {
+  EnterpriseMediaImage,
+  enterpriseImages,
+  enterpriseThumbSizes,
+} from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { solutions } from "@/data/solutions";
 import { getSolutionsContent } from "@/lib/cms/content";
@@ -81,14 +85,19 @@ export default function SolutionsPage() {
                 <Link href={`/solutions/${solution.slug}`} className="group block h-full">
                   <SpotlightCard className="h-full rounded-lg border border-slate-200 bg-white p-4 shadow-sm transition group-hover:-translate-y-1 group-hover:shadow-xl group-hover:shadow-slate-950/10">
                     <div className="flex gap-3">
-                      <div
-                        className="h-16 w-20 shrink-0 rounded bg-slate-950"
-                        style={{
-                          backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.04), rgba(7, 20, 38, 0.72)), url(${enterpriseImages[solutionImages[solution.slug] || "network"]})`,
-                          backgroundPosition: "center",
-                          backgroundSize: "cover",
-                        }}
-                      />
+                      <div className="relative h-16 w-20 shrink-0 overflow-hidden rounded bg-slate-950">
+                        <EnterpriseMediaImage
+                          image={solutionImages[solution.slug] || "network"}
+                          sizes={enterpriseThumbSizes}
+                        />
+                        <div
+                          className="absolute inset-0"
+                          style={{
+                            backgroundImage:
+                              "linear-gradient(180deg, rgba(7, 20, 38, 0.04), rgba(7, 20, 38, 0.72))",
+                          }}
+                        />
+                      </div>
                       <div className="min-w-0">
                         <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">{solution.category}</div>
                         <h3 className="mt-1 text-base font-bold text-slate-950 group-hover:text-[#2563EB]">

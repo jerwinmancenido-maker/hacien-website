@@ -1,5 +1,9 @@
 import Link from "next/link";
-import { enterpriseImages } from "@/components/EnterpriseImagery";
+import {
+  EnterpriseMediaImage,
+  enterpriseHeroSizes,
+  enterpriseImages,
+} from "@/components/EnterpriseImagery";
 import { FadeIn, SlideUp, StaggerContainer } from "@/components/motion";
 
 type HeroAction = {
@@ -31,14 +35,16 @@ export function PremiumPageHero({
 }) {
   return (
     <section className="relative overflow-hidden bg-[#0A0A0A] text-white">
-      <div
-        className="cinematic-photo absolute inset-0 opacity-[0.82]"
-        style={{
-          backgroundImage: `linear-gradient(105deg, rgba(5, 16, 28, 0.98), rgba(8, 45, 62, 0.74) 50%, rgba(132, 91, 44, 0.2)), url(${enterpriseImages[image]})`,
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}
-      />
+      <div className="cinematic-photo absolute inset-0 opacity-[0.82]">
+        <EnterpriseMediaImage image={image} priority sizes={enterpriseHeroSizes} />
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(105deg, rgba(5, 16, 28, 0.98), rgba(8, 45, 62, 0.74) 50%, rgba(132, 91, 44, 0.2))",
+          }}
+        />
+      </div>
       <div className="cinematic-aurora pointer-events-none absolute inset-0" />
       <div className="cinematic-lines pointer-events-none absolute inset-0 opacity-25" />
       <div className="cinematic-sweep pointer-events-none absolute inset-y-0 left-0 w-[72%] opacity-0" />
@@ -75,13 +81,14 @@ export function PremiumPageHero({
         </div>
 
         <SlideUp delay={220} className="hidden h-full md:block">
-          <div className="relative overflow-hidden rounded-lg border border-white/15 bg-white/[0.08] p-3 shadow-2xl shadow-black/20 backdrop-blur-xl sm:p-4">
-            <div className="absolute inset-0 bg-gradient-to-br from-white/12 via-transparent to-blue-500/10" />
+          {/* Darker glass so grey-300 body copy stays AA over bright hero photos (e.g. products laptop). */}
+          <div className="relative overflow-hidden rounded-lg border border-white/15 bg-[#05101C]/90 p-3 shadow-2xl shadow-black/40 backdrop-blur-xl sm:p-4">
+            <div className="absolute inset-0 bg-gradient-to-br from-white/6 via-[#05101C]/35 to-black/50" />
             <StaggerContainer className="relative grid gap-2 sm:grid-cols-2 sm:gap-3">
               {highlights.map((item, index) => (
                 <div
                   key={item.label}
-                  className={`rounded-lg border border-white/12 bg-white/10 p-3 backdrop-blur transition-transform duration-200 hover:-translate-y-1 ${index > 1 ? "hidden sm:block" : ""}`}
+                  className={`rounded-lg border border-white/12 bg-black/65 p-3 backdrop-blur-md transition-transform duration-200 hover:-translate-y-1 ${index > 1 ? "hidden sm:block" : ""}`}
                 >
                   <div className="text-xs font-bold text-blue-200">{String(index + 1).padStart(2, "0")}</div>
                   <div className="mt-2 text-sm font-bold text-white">{item.label}</div>

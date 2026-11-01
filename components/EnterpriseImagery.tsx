@@ -1,7 +1,48 @@
+import Image from "next/image";
 import Link from "next/link";
-import { getCmsMediaSourceMap } from "@/lib/cms/media";
+import { getCmsMediaRecord, getCmsMediaSourceMap, type CmsMediaKey } from "@/lib/cms/media";
 
 export const enterpriseImages = getCmsMediaSourceMap();
+
+export const enterpriseMediaQuality = 70;
+
+/** Full-bleed page heroes (only these should pass priority). Cap desktop src near source width. */
+export const enterpriseHeroSizes = "(max-width: 768px) 100vw, 1600px";
+
+/** Large photo panels beside copy (~half viewport on desktop). */
+export const enterprisePanelSizes = "(max-width: 1024px) 100vw, 50vw";
+
+/** Card / tile photo bands in grids. */
+export const enterpriseCardSizes = "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw";
+
+/** Small thumbnails beside list copy. */
+export const enterpriseThumbSizes = "(max-width: 640px) 80px, 96px";
+
+export function EnterpriseMediaImage({
+  image,
+  priority = false,
+  sizes,
+  className = "",
+}: {
+  image: CmsMediaKey | keyof typeof enterpriseImages;
+  priority?: boolean;
+  sizes: string;
+  className?: string;
+}) {
+  const record = getCmsMediaRecord(image as CmsMediaKey);
+
+  return (
+    <Image
+      src={record.source}
+      alt={record.alt}
+      fill
+      priority={priority}
+      quality={enterpriseMediaQuality}
+      sizes={sizes}
+      className={`object-cover ${className}`}
+    />
+  );
+}
 
 export function EnterprisePhotoPanel({
   image,
@@ -20,14 +61,15 @@ export function EnterprisePhotoPanel({
     <div
       className={`relative min-h-[220px] overflow-hidden rounded-lg bg-slate-950 shadow-2xl shadow-slate-950/18 sm:min-h-[270px] ${className}`}
     >
-      <div
-        className="cinematic-photo absolute inset-0"
-      style={{
-        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.08), rgba(7, 20, 38, 0.74)), url(${enterpriseImages[image]})`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-      }}
-      />
+      <div className="cinematic-photo absolute inset-0">
+        <EnterpriseMediaImage image={image} sizes={enterprisePanelSizes} />
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "linear-gradient(180deg, rgba(7, 20, 38, 0.08), rgba(7, 20, 38, 0.74))",
+          }}
+        />
+      </div>
       <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,20,38,0.72),transparent_54%)]" />
       <div className="cinematic-lines pointer-events-none absolute inset-0 opacity-25" />
       <div className="relative flex min-h-[220px] flex-col justify-end p-4 text-white sm:min-h-[270px] sm:p-5">

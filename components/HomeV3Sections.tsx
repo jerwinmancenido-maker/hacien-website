@@ -1,6 +1,13 @@
 import Link from "next/link";
 import { CTABand } from "@/components/CTABand";
-import { EnterprisePhotoPanel, PremiumStatementBand, enterpriseImages } from "@/components/EnterpriseImagery";
+import {
+  EnterpriseMediaImage,
+  EnterprisePhotoPanel,
+  PremiumStatementBand,
+  enterpriseCardSizes,
+  enterpriseImages,
+  enterpriseThumbSizes,
+} from "@/components/EnterpriseImagery";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
 import { categories } from "@/data/products";
@@ -103,15 +110,21 @@ export function SolutionsV3() {
           {solutions.slice(0, 6).map((solution, index) => (
             <Link key={solution.slug} href={`/solutions/${solution.slug}`} className={`group block ${index > 2 ? "hidden md:block" : ""}`}>
               <AnimatedCard className="surface lift h-full overflow-hidden rounded">
-                <div
-                  className="relative h-28 border-b border-slate-200 bg-slate-950 p-4 sm:h-40 sm:p-5"
-                  style={{
-                    backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.04), rgba(7, 20, 38, 0.76)), url(${enterpriseImages[solutionImages[solution.slug] || "network"]})`,
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                  }}
-                >
-                  <div className="grid h-12 w-12 place-items-center rounded bg-white/90 text-xs font-bold text-[#0A0A0A] shadow-lg shadow-slate-950/20">{solution.icon}</div>
+                <div className="relative h-28 overflow-hidden border-b border-slate-200 bg-slate-950 p-4 sm:h-40 sm:p-5">
+                  <EnterpriseMediaImage
+                    image={solutionImages[solution.slug] || "network"}
+                    sizes={enterpriseCardSizes}
+                  />
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      backgroundImage:
+                        "linear-gradient(180deg, rgba(7, 20, 38, 0.04), rgba(7, 20, 38, 0.76))",
+                    }}
+                  />
+                  <div className="relative grid h-12 w-12 place-items-center rounded bg-white/90 text-xs font-bold text-[#0A0A0A] shadow-lg shadow-slate-950/20">
+                    {solution.icon}
+                  </div>
                 </div>
                 <div className="p-4 sm:p-6">
                   <div className="text-lg font-bold text-slate-950 group-hover:text-[#2563EB] sm:text-xl">{solution.title}</div>
@@ -147,14 +160,19 @@ export function ProductCatalogV3() {
             <Link key={category.slug} href={`/products/${category.slug}`} className={`group block ${index > 3 ? "hidden sm:block" : ""}`}>
               <AnimatedCard className="h-full rounded-lg border border-slate-200 bg-slate-50 p-4 shadow-sm transition hover:-translate-y-1 hover:bg-white hover:shadow-xl hover:shadow-slate-950/10">
                 <div className="flex gap-3">
-                  <div
-                    className="h-14 w-16 shrink-0 rounded bg-slate-950"
-                    style={{
-                      backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.7)), url(${enterpriseImages[categoryImages[category.slug] || "dataCenter"]})`,
-                      backgroundPosition: "center",
-                      backgroundSize: "cover",
-                    }}
-                  />
+                  <div className="relative h-14 w-16 shrink-0 overflow-hidden rounded bg-slate-950">
+                    <EnterpriseMediaImage
+                      image={categoryImages[category.slug] || "dataCenter"}
+                      sizes={enterpriseThumbSizes}
+                    />
+                    <div
+                      className="absolute inset-0"
+                      style={{
+                        backgroundImage:
+                          "linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.7))",
+                      }}
+                    />
+                  </div>
                   <div className="min-w-0">
                     <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">Technology</div>
                     <h3 className="mt-1 text-base font-bold tracking-tight text-slate-950 group-hover:text-[#2563EB]">{category.name}</h3>

@@ -1,5 +1,9 @@
 import Link from "next/link";
-import { enterpriseImages } from "@/components/EnterpriseImagery";
+import {
+  EnterpriseMediaImage,
+  enterpriseHeroSizes,
+  enterpriseImages,
+} from "@/components/EnterpriseImagery";
 import { FadeIn, SlideUp } from "@/components/motion";
 import { getHomepageContent } from "@/lib/cms/content";
 
@@ -8,14 +12,20 @@ export function Hero() {
 
   return (
     <section className="relative overflow-hidden bg-[#0A0A0A] text-white">
-      <div
-        className="cinematic-photo absolute inset-0 opacity-80"
-        style={{
-          backgroundImage: `linear-gradient(105deg, rgba(5, 16, 28, 0.98), rgba(8, 45, 62, 0.76) 48%, rgba(132, 91, 44, 0.22)), url(${enterpriseImages[content.hero.image]})`,
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-        }}
-      />
+      <div className="cinematic-photo absolute inset-0 opacity-80">
+        <EnterpriseMediaImage
+          image={content.hero.image as keyof typeof enterpriseImages}
+          priority
+          sizes={enterpriseHeroSizes}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage:
+              "linear-gradient(105deg, rgba(5, 16, 28, 0.98), rgba(8, 45, 62, 0.76) 48%, rgba(132, 91, 44, 0.22))",
+          }}
+        />
+      </div>
       <div className="cinematic-aurora pointer-events-none absolute inset-0" />
       <div className="cinematic-lines pointer-events-none absolute inset-0 opacity-30" />
       <div className="cinematic-sweep pointer-events-none absolute inset-y-0 left-0 w-[74%] opacity-0" />
