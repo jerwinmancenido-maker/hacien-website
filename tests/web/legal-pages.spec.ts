@@ -73,14 +73,34 @@ describe("legal page content", () => {
     const privacy = legalPages.find((page) => page.path === "/privacy");
     const terms = legalPages.find((page) => page.path === "/terms");
     const legal = legalPages.find((page) => page.path === "/legal");
+    const policies = legalPages.find((page) => page.path === "/policies");
     const history = legalPages.find((page) => page.path === "/policies/history");
-    expect(privacy && legalPagePlainText(privacy)).toContain("Replaces version 1.0 (effective July 1, 2026)");
+    const privacyText = privacy ? legalPagePlainText(privacy) : "";
+    const historyText = history ? legalPagePlainText(history) : "";
+    expect(privacyText).toContain("Version 2.1");
+    expect(privacyText).toContain("Replaces version 2.0 (effective November 2, 2026)");
+    expect(privacyText).not.toContain("Version 2.0");
+    expect(privacyText).not.toContain("Not for the website");
+    expect(privacyText).not.toContain("we don't send promo newsletters");
     expect(terms && legalPagePlainText(terms)).toContain("Replaces version 1.0 (effective July 1, 2026)");
     expect(legal && legalPagePlainText(legal)).toContain("Replaces version 1.0 (effective June 30, 2026)");
-    expect(history && legalPagePlainText(history)).toContain("v1.0");
-    expect(history && legalPagePlainText(history)).toContain(LEGAL_PUBLISH_DATE);
-    expect(history && legalPagePlainText(history)).toContain("July 1, 2026");
-    expect(history && legalPagePlainText(history)).toContain("June 30, 2026");
+    expect(policies && legalPagePlainText(policies)).toContain(
+      "[Privacy Policy](/privacy) What personal data we keep, why, and your rights v2.1",
+    );
+    expect(historyText).toContain("v1.0");
+    expect(historyText).toContain("[Privacy Policy](/privacy) v2.1");
+    expect(historyText).toContain("Privacy Policy v2.0 November 2, 2026");
+    expect(historyText).toContain("Changes from v2.0");
+    expect(historyText).toContain(
+      'Added order-status texts: we text order updates from sender name "HACIEN" to the mobile number on an order. No promotional texts.',
+    );
+    expect(historyText).toContain(
+      "Added the right to withdraw marketing email consent. Unsubscribing never stops order texts and emails.",
+    );
+    expect(historyText).not.toContain("Not for the website");
+    expect(historyText).toContain(LEGAL_PUBLISH_DATE);
+    expect(historyText).toContain("July 1, 2026");
+    expect(historyText).toContain("June 30, 2026");
   });
 
   it("omits the analytics block and keeps the default privacy section 9", () => {
@@ -207,13 +227,28 @@ describe("legal routes", () => {
     }
 
     const policies = await fetch(`${baseUrl}/policies`, { redirect: "manual" });
+    const policiesHtml = await policies.text();
     expect(policies.status).toBe(200);
     expect(policies.headers.get("location")).toBeNull();
+    expect(policiesHtml).toContain("v2.1");
+
+    const privacy = await fetch(`${baseUrl}/privacy`, { redirect: "manual" });
+    const privacyHtml = await privacy.text();
+    expect(privacy.status).toBe(200);
+    expect(privacyHtml).toContain("Version 2.1");
+    expect(privacyHtml).toContain("Replaces version 2.0 (effective November 2, 2026)");
+    expect(privacyHtml).not.toContain("Not for the website");
+    expect(privacyHtml).not.toContain("for the Policy history page");
+    expect(privacyHtml).not.toMatch(/\d{3}-\d{3}-\d{3}/);
 
     const history = await fetch(`${baseUrl}/policies/history`, { redirect: "manual" });
     const historyHtml = await history.text();
     expect(history.status).toBe(200);
     expect(historyHtml).toContain("v1.0");
+    expect(historyHtml).toContain("v2.0");
+    expect(historyHtml).toContain("v2.1");
+    expect(historyHtml).toContain("Changes from v2.0");
+    expect(historyHtml).not.toContain("Not for the website");
     expect(historyHtml).toContain(LEGAL_PUBLISH_DATE);
     expect(historyHtml).toContain(">BIR Registered<");
     expect(historyHtml).not.toContain("RSN");
