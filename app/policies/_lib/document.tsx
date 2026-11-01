@@ -183,7 +183,7 @@ function BlockView({ block }: { block: LegalBlock }) {
           <div key={row.join(" | ")} className="border-b border-grey-200 pb-4">
             {row.map((cell, cellIndex) => (
               <p key={`${cell}-${cellIndex}`} className="mt-2 first:mt-0">
-                <span className="block text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-blue">
+                <span className="block text-[0.68rem] font-semibold uppercase tracking-[0.14em] text-grey-600">
                   {block.headers[cellIndex]}
                 </span>
                 <Rich text={cell} />

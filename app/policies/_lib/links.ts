@@ -9,5 +9,6 @@ export const policyFooterLinks = [
 
 export const siteFooterPolicyLinks = [
   ...policyFooterLinks,
+  { href: "/compliance", label: "Government Compliance" },
   { href: "/policies/history", label: "Policy history" },
 ] as const;

@@ -207,9 +207,6 @@ describe("CMS read layer", () => {
       "search",
       "support",
       "tracking.lookup",
-      "legal",
-      "privacy",
-      "terms",
       "trust-center",
       "navigation.header",
       "navigation.footer",
@@ -222,6 +219,11 @@ describe("CMS read layer", () => {
     expect(editableInventory.every((item) => item.editableNow === true)).toBe(true);
     expect(editableInventory.every((item) => item.publishRisk !== "blocked")).toBe(true);
     expect(inventory.filter((item) => item.ownerType !== "cms").every((item) => item.editableNow === false)).toBe(true);
+    for (const key of ["legal", "privacy", "terms", "compliance"] as const) {
+      const item = inventory.find((entry) => entry.key === key);
+      expect(item?.ownerType).toBe("code");
+      expect(item?.editableNow).toBe(false);
+    }
   });
 
   it("validates local CMS drafts without publishing them", () => {
@@ -249,7 +251,7 @@ describe("CMS read layer", () => {
   });
 
   it("validates structured local CMS document drafts", () => {
-    for (const contentKey of ["legal", "privacy", "terms", "trust-center"] as const) {
+    for (const contentKey of ["trust-center"] as const) {
       const draft = createCmsDraft({
         id: `draft-${contentKey}-document`,
         contentKey,
@@ -407,33 +409,33 @@ describe("CMS read layer", () => {
     );
   });
 
-  it("requires structured sections for legal document drafts", () => {
+  it("requires structured sections for trust-center document drafts", () => {
     const missingSections = validateCmsDraft({
-      id: "draft-legal-missing-sections",
-      contentKey: "legal",
+      id: "draft-trust-center-missing-sections",
+      contentKey: "trust-center",
       ownerType: "cms",
       riskLevel: 4,
       status: "draft",
       updatedAt: "2026-07-09T00:00:00.000Z",
       fields: {
-        title: "Legal notice",
+        title: "Trust Center",
         summary: "Policy summary.",
         effectiveDate: "2026-07-09",
         reviewNotes: "Review required.",
       },
     });
 
-    expect(missingSections.errors).toContain("Draft field sections must include at least one section for legal.");
+    expect(missingSections.errors).toContain("Draft field sections must include at least one section for trust-center.");
 
     const incompleteSection = validateCmsDraft({
-      id: "draft-legal-incomplete-section",
-      contentKey: "legal",
+      id: "draft-trust-center-incomplete-section",
+      contentKey: "trust-center",
       ownerType: "cms",
       riskLevel: 4,
       status: "draft",
       updatedAt: "2026-07-09T00:00:00.000Z",
       fields: {
-        title: "Legal notice",
+        title: "Trust Center",
         summary: "Policy summary.",
         effectiveDate: "2026-07-09",
         sections: [{ heading: "", body: "" }],
@@ -443,8 +445,8 @@ describe("CMS read layer", () => {
 
     expect(incompleteSection.errors).toEqual(
       expect.arrayContaining([
-        "Draft section 1 heading is required for legal.",
-        "Draft section 1 body is required for legal.",
+        "Draft section 1 heading is required for trust-center.",
+        "Draft section 1 body is required for trust-center.",
       ]),
     );
   });
@@ -649,9 +651,11 @@ describe("CMS read layer", () => {
   });
 
   it("creates a dry-run apply plan for ready document drafts", () => {
-    const draft = createCmsDraft({
+    const draft = {
       id: "ready-legal-document",
       contentKey: "legal",
+      ownerType: "cms",
+      riskLevel: 4,
       status: "ready",
       fields: {
         title: "Updated legal notice",
@@ -661,8 +665,8 @@ describe("CMS read layer", () => {
         reviewNotes: "Founder/legal review before apply.",
       },
       updatedAt: "2026-07-09T00:00:00.000Z",
-    });
-    const plan = validateCmsDraftApplyPlan(draft);
+    };
+    const plan = validateCmsDraftApplyPlan(draft as never);
 
     expect(plan.applySupported).toBe(false);
     expect(plan.errors).toContain(
@@ -672,14 +676,14 @@ describe("CMS read layer", () => {
 
   it("rejects non-ready document drafts before repo application", () => {
     const draft = createCmsDraft({
-      id: "review-privacy-document",
-      contentKey: "privacy",
+      id: "review-trust-center-document",
+      contentKey: "trust-center",
       status: "needs-review",
       fields: {
-        title: "Updated privacy policy",
-        summary: "Updated privacy summary for local review.",
+        title: "Updated trust center",
+        summary: "Updated trust center summary for local review.",
         effectiveDate: "2026-07-09",
-        sections: [{ heading: "Updated privacy section", body: "Updated privacy body for local review." }],
+        sections: [{ heading: "Updated trust center section", body: "Updated trust center body for local review." }],
         reviewNotes: "Founder/legal review before apply.",
       },
       updatedAt: "2026-07-09T00:00:00.000Z",

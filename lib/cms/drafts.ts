@@ -69,9 +69,6 @@ export const editableCmsDraftKeys = [
   "search",
   "support",
   "tracking.lookup",
-  "legal",
-  "privacy",
-  "terms",
   "trust-center",
   "navigation.header",
   "navigation.footer",
@@ -81,7 +78,7 @@ export const editableCmsDraftKeys = [
 
 export type EditableCmsDraftKey = (typeof editableCmsDraftKeys)[number];
 
-export const editableCmsDocumentDraftKeys = ["legal", "privacy", "terms", "trust-center"] as const satisfies EditableCmsDraftKey[];
+export const editableCmsDocumentDraftKeys = ["trust-center"] as const satisfies EditableCmsDraftKey[];
 
 export type EditableCmsDocumentDraftKey = (typeof editableCmsDocumentDraftKeys)[number];
 
@@ -129,9 +126,6 @@ const requiredDraftFields: Record<EditableCmsDraftKey, string[]> = {
   search: ["title", "description", "sections", "reviewNotes"],
   support: ["title", "description", "sections", "reviewNotes"],
   "tracking.lookup": ["title", "description", "sections", "reviewNotes"],
-  legal: ["title", "summary", "effectiveDate", "sections", "reviewNotes"],
-  privacy: ["title", "summary", "effectiveDate", "sections", "reviewNotes"],
-  terms: ["title", "summary", "effectiveDate", "sections", "reviewNotes"],
   "trust-center": ["title", "summary", "effectiveDate", "sections", "reviewNotes"],
   "navigation.header": ["title", "links", "reviewNotes"],
   "navigation.footer": ["title", "statement", "groups", "reviewNotes"],
@@ -309,51 +303,6 @@ export function getCmsDraftSeedFields(contentKey: EditableCmsDraftKey): CmsDraft
       route: record?.route ?? "/",
       title: record?.title ?? "",
       description: record?.description ?? "",
-    };
-  }
-
-  if (contentKey === "legal") {
-    return {
-      title: "Legal notice",
-      summary: "Draft legal page copy for founder review before any publish step.",
-      effectiveDate: new Date().toISOString().slice(0, 10),
-      sections: [
-        {
-          heading: "Legal notice section",
-          body: "Write draft legal content here. This local draft does not update the live legal page.",
-        },
-      ],
-      reviewNotes: "Founder/legal review required before publishing.",
-    };
-  }
-
-  if (contentKey === "privacy") {
-    return {
-      title: "Privacy policy",
-      summary: "Draft privacy page copy for founder review before any publish step.",
-      effectiveDate: new Date().toISOString().slice(0, 10),
-      sections: [
-        {
-          heading: "Privacy policy section",
-          body: "Write draft privacy content here. This local draft does not update the live privacy page.",
-        },
-      ],
-      reviewNotes: "Founder/legal review required before publishing.",
-    };
-  }
-
-  if (contentKey === "terms") {
-    return {
-      title: "Terms",
-      summary: "Draft terms page copy for founder review before any publish step.",
-      effectiveDate: new Date().toISOString().slice(0, 10),
-      sections: [
-        {
-          heading: "Terms section",
-          body: "Write draft terms content here. This local draft does not update the live terms page.",
-        },
-      ],
-      reviewNotes: "Founder/legal review required before publishing.",
     };
   }
 
