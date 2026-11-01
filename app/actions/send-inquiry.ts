@@ -2,6 +2,7 @@
 
 import { headers } from "next/headers";
 import { Ratelimit } from "@upstash/ratelimit";
+import { isContactInquiryType } from "@/app/actions/contact-inquiry";
 import { getClientIp } from "@/lib/security/client-ip";
 import { redis } from "@/lib/redis/upstash";
 
@@ -261,6 +262,10 @@ export async function sendInquiryEmail(
     };
   }
   const ip = clientIp || security.ip;
+  const inquiryType = getString(formData.inquiryType).trim();
+  if (inquiryType && !isContactInquiryType(inquiryType)) {
+    return { success: false, error: "Please choose a valid inquiry type." };
+  }
 
   // ── Log: submission received ──
   const formType = (formData.type as string) || "Unknown";
