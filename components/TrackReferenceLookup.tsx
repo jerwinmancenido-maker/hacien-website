@@ -14,9 +14,20 @@ export function TrackReferenceLookup({
   errorMessage?: string;
 }) {
   const [referenceNumber, setReferenceNumber] = useState(initialReference);
+  const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
+
+  async function handleTrackLookup(formData: FormData) {
+    try {
+      await submitTrackLookup(formData);
+    } finally {
+      // Same pattern as QuoteRequestForm: spent tokens must not block the next attempt
+      // (including success redirects back to the same /track/[ref] route).
+      setTurnstileResetSignal((value) => value + 1);
+    }
+  }
 
   return (
-    <form action={submitTrackLookup} className="mt-6 grid gap-4 rounded-lg border border-grey-200 bg-white/80 p-4 shadow-sm backdrop-blur">
+    <form action={handleTrackLookup} className="mt-6 grid gap-4 rounded-lg border border-grey-200 bg-white/80 p-4 shadow-sm backdrop-blur">
       {errorMessage ? (
         <p className="rounded border border-grey-200 bg-grey-50 px-4 py-3 text-sm leading-6 text-grey-700" role="status">
           {errorMessage}
@@ -44,7 +55,7 @@ export function TrackReferenceLookup({
           Track request
         </button>
       </div>
-      <TurnstileField siteKey={turnstileSiteKey} />
+      <TurnstileField siteKey={turnstileSiteKey} resetSignal={turnstileResetSignal} />
     </form>
   );
 }
