@@ -40,9 +40,13 @@ export function Footer() {
           {navigationContent.footer.groups.map((group) => (
             <div key={group.title}>
               <div className="text-sm font-medium text-white">{group.title}</div>
-              <div className="mt-4 grid gap-3 text-sm text-grey-300">
+              <div className="mt-4 grid gap-1 text-sm text-grey-300 sm:gap-3">
                 {group.links.map((link) => (
-                  <Link key={`${group.title}-${link.href}`} href={link.href} className="hover:text-white">
+                  <Link
+                    key={`${group.title}-${link.href}`}
+                    href={link.href}
+                    className="inline-flex min-h-11 items-center hover:text-white sm:min-h-0"
+                  >
                     {link.label}
                   </Link>
                 ))}
