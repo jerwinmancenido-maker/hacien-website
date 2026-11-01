@@ -1,10 +1,12 @@
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { SectionHeading } from "@/components/SectionHeading";
 import { TrackReferenceLookup } from "@/components/TrackReferenceLookup";
+import { getClientIp } from "@/lib/security/client-ip";
 import { toPublicTrackResult } from "@/lib/security/public-track-result";
 import {
   TRACK_LOOKUP_GENERIC_MESSAGE,
   TRACK_LOOKUP_GRANT_COOKIE,
+  consumeTrackLookupRateLimit,
   hasValidTrackLookupGrant,
 } from "@/lib/security/track-lookup-guard";
 import { parseTrackReference } from "@/lib/security/track-reference";
@@ -109,6 +111,29 @@ export default async function TrackReferencePage({ params }: TrackingPageProps) 
             initialReference={parsed?.referenceNumber || ""}
             turnstileSiteKey={turnstileSiteKey}
             errorMessage={!parsed && rawReference?.trim() ? TRACK_LOOKUP_GENERIC_MESSAGE : undefined}
+          />
+        </section>
+      </main>
+    );
+  }
+
+  const headerStore = await headers();
+  const clientIp = getClientIp(headerStore);
+  const retrievalBudget = consumeTrackLookupRateLimit(clientIp);
+  if (!retrievalBudget.allowed) {
+    return (
+      <main>
+        <section className="mx-auto max-w-4xl px-6 py-12">
+          <SectionHeading
+            eyebrow="Request Tracking"
+            as="h1"
+            title="Track a HACIEN request"
+            description="Complete the security check to view customer-safe status and dates for this reference. No account is required."
+          />
+          <TrackReferenceLookup
+            initialReference={parsed.referenceNumber}
+            turnstileSiteKey={turnstileSiteKey}
+            errorMessage={TRACK_LOOKUP_GENERIC_MESSAGE}
           />
         </section>
       </main>

@@ -8,6 +8,7 @@ import {
   issueTrackLookupGrant,
   resetTrackLookupGuardStoresForTests,
   verifyTrackLookupTurnstile,
+  type TrackLookupRateLimitEntry,
 } from "@/lib/security/track-lookup-guard";
 
 const FAKE_SECRET = "1x0000000000000000000000000000000AA";
@@ -19,7 +20,7 @@ afterEach(() => {
 });
 
 describe("track lookup rate limit (b)", () => {
-  it("allows up to the window max then blocks", () => {
+  it("allows up to the window max then blocks via production consumeTrackLookupRateLimit", () => {
     const limiter = createTrackLookupRateLimiterForTests({ max: 3, windowMs: 60_000 });
     expect(limiter.consume("203.0.113.10").allowed).toBe(true);
     expect(limiter.consume("203.0.113.10").allowed).toBe(true);
@@ -64,11 +65,11 @@ describe("track lookup rate limit (b)", () => {
     expect(spoofed).toBe("203.0.113.10");
     expect(trusted).toBe(spoofed);
 
-    expect(consumeTrackLookupRateLimit(trusted, 1_000).allowed).toBe(true);
+    expect(consumeTrackLookupRateLimit(trusted, { now: 1_000 }).allowed).toBe(true);
     for (let i = 0; i < 9; i += 1) {
-      expect(consumeTrackLookupRateLimit(spoofed, 1_000 + i).allowed).toBe(true);
+      expect(consumeTrackLookupRateLimit(spoofed, { now: 1_000 + i }).allowed).toBe(true);
     }
-    expect(consumeTrackLookupRateLimit(spoofed, 1_010).allowed).toBe(false);
+    expect(consumeTrackLookupRateLimit(spoofed, { now: 1_010 }).allowed).toBe(false);
   });
 
   it("prefers cf-connecting-ip and uses rightmost XFF when proxy headers are absent", () => {
@@ -83,6 +84,26 @@ describe("track lookup rate limit (b)", () => {
       }),
     ).toBe("203.0.113.55");
     expect(getClientIp({ get: () => null })).toBe("unknown");
+  });
+
+  it("counts grant-backed reloads against the budget and skips Gateway past the limit", () => {
+    const store = new Map<string, TrackLookupRateLimitEntry>();
+    const gateway = vi.fn();
+    const ip = "203.0.113.77";
+    const now = 5_000;
+
+    function retrieveWithValidGrant() {
+      // Mirrors app/track/[referenceNumber]/page.tsx: consume before Gateway.
+      const budget = consumeTrackLookupRateLimit(ip, { store, max: 2, windowMs: 60_000, now });
+      if (!budget.allowed) return "limited";
+      gateway();
+      return "fetched";
+    }
+
+    expect(retrieveWithValidGrant()).toBe("fetched");
+    expect(retrieveWithValidGrant()).toBe("fetched");
+    expect(retrieveWithValidGrant()).toBe("limited");
+    expect(gateway).toHaveBeenCalledTimes(2);
   });
 });
 

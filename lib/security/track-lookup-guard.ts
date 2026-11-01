@@ -11,10 +11,18 @@ export const TRACK_LOOKUP_GRANT_COOKIE = "hacien_track_grant";
 export const TRACK_LOOKUP_GENERIC_MESSAGE =
   "Reference not found or the request could not be completed. Check the number, complete the security check, and try again later.";
 
-type RateLimitEntry = {
+export type TrackLookupRateLimitEntry = {
   count: number;
   resetAt: number;
   touchedAt: number;
+};
+
+export type TrackLookupRateLimitOptions = {
+  now?: number;
+  store?: Map<string, TrackLookupRateLimitEntry>;
+  max?: number;
+  windowMs?: number;
+  maxEntries?: number;
 };
 
 type EnvReader = Record<string, string | undefined>;
@@ -23,9 +31,9 @@ type EnvReader = Record<string, string | undefined>;
  * Best-effort per-process fixed-window limiter. Multi-instance deployments do
  * not share this Map; Turnstile siteverify is the real cross-process gate.
  */
-const rateLimitMap = new Map<string, RateLimitEntry>();
+const rateLimitMap = new Map<string, TrackLookupRateLimitEntry>();
 
-function evictOldest(map: Map<string, RateLimitEntry>, cap: number) {
+function evictOldest(map: Map<string, TrackLookupRateLimitEntry>, cap: number) {
   while (map.size > cap) {
     let oldestKey: string | null = null;
     let oldestTouched = Number.POSITIVE_INFINITY;
@@ -43,66 +51,59 @@ function evictOldest(map: Map<string, RateLimitEntry>, cap: number) {
 /**
  * Fixed-window per-IP limiter. Over-limit returns false.
  * Map is capped; oldest touched entries are evicted.
+ * Optional store/clock/limits are for tests; production uses module defaults.
  */
 export function consumeTrackLookupRateLimit(
   ip: string,
-  now = Date.now(),
-  store: Map<string, RateLimitEntry> = rateLimitMap,
+  options: TrackLookupRateLimitOptions = {},
 ): { allowed: boolean } {
+  const now = options.now ?? Date.now();
+  const store = options.store ?? rateLimitMap;
+  const max = options.max ?? TRACK_LOOKUP_MAX;
+  const windowMs = options.windowMs ?? TRACK_LOOKUP_WINDOW_MS;
+  const maxEntries = options.maxEntries ?? TRACK_LOOKUP_MAP_CAP;
   const key = ip || "unknown";
   const existing = store.get(key);
 
   if (!existing || now > existing.resetAt) {
     store.set(key, {
       count: 1,
-      resetAt: now + TRACK_LOOKUP_WINDOW_MS,
+      resetAt: now + windowMs,
       touchedAt: now,
     });
-    evictOldest(store, TRACK_LOOKUP_MAP_CAP);
+    evictOldest(store, maxEntries);
     return { allowed: true };
   }
 
   existing.touchedAt = now;
-  if (existing.count >= TRACK_LOOKUP_MAX) {
+  if (existing.count >= max) {
     store.set(key, existing);
     return { allowed: false };
   }
 
   existing.count += 1;
   store.set(key, existing);
-  evictOldest(store, TRACK_LOOKUP_MAP_CAP);
+  evictOldest(store, maxEntries);
   return { allowed: true };
 }
 
-/** Test helper: isolated limiter with injectable clock/map. */
+/** Test helper: isolated store that delegates to production consumeTrackLookupRateLimit. */
 export function createTrackLookupRateLimiterForTests(options?: {
   max?: number;
   windowMs?: number;
   maxEntries?: number;
 }) {
-  const max = options?.max ?? TRACK_LOOKUP_MAX;
-  const windowMs = options?.windowMs ?? TRACK_LOOKUP_WINDOW_MS;
-  const maxEntries = options?.maxEntries ?? TRACK_LOOKUP_MAP_CAP;
-  const store = new Map<string, RateLimitEntry>();
+  const store = new Map<string, TrackLookupRateLimitEntry>();
 
   return {
     consume(ip: string, now = Date.now()): { allowed: boolean } {
-      const key = ip || "unknown";
-      const existing = store.get(key);
-      if (!existing || now > existing.resetAt) {
-        store.set(key, { count: 1, resetAt: now + windowMs, touchedAt: now });
-        evictOldest(store, maxEntries);
-        return { allowed: true };
-      }
-      existing.touchedAt = now;
-      if (existing.count >= max) {
-        store.set(key, existing);
-        return { allowed: false };
-      }
-      existing.count += 1;
-      store.set(key, existing);
-      evictOldest(store, maxEntries);
-      return { allowed: true };
+      return consumeTrackLookupRateLimit(ip, {
+        now,
+        store,
+        max: options?.max,
+        windowMs: options?.windowMs,
+        maxEntries: options?.maxEntries,
+      });
     },
     get size() {
       return store.size;
@@ -158,7 +159,7 @@ export async function assertTrackLookupAllowed(options: {
   now?: number;
   env?: EnvReader;
 }): Promise<{ ok: true } | { ok: false; reason: "rate_limited" | "turnstile" }> {
-  const rate = consumeTrackLookupRateLimit(options.ip, options.now);
+  const rate = consumeTrackLookupRateLimit(options.ip, { now: options.now });
   if (!rate.allowed) {
     return { ok: false, reason: "rate_limited" };
   }
