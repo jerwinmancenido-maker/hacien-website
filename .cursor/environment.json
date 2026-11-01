@@ -1,0 +1,9 @@
+{
+  "name": "HACIEN Website",
+  "user": "ubuntu",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": ".."
+  },
+  "install": "npm ci"
+}
