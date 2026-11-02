@@ -139,8 +139,14 @@ gtag('config', '${gaId}', {
         <LenisProvider>
           <QuoteCartProvider>
             <GlobalCinematicBackdrop />
+            <a
+              href="#content"
+              className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:border focus:border-grey-200 focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-ink focus:shadow-md focus:outline-none focus:ring-2 focus:ring-blue"
+            >
+              Skip to content
+            </a>
             <Header />
-            <main>{children}</main>
+            <main id="content" tabIndex={-1}>{children}</main>
             <Footer />
           </QuoteCartProvider>
         </LenisProvider>

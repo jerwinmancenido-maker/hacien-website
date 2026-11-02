@@ -99,7 +99,7 @@ export default async function TrackReferencePage({ params }: TrackingPageProps) 
 
   if (!parsed || !unlocked) {
     return (
-      <main>
+      <div>
         <section className="mx-auto max-w-4xl px-6 py-12">
           <SectionHeading
             eyebrow="Request Tracking"
@@ -113,7 +113,7 @@ export default async function TrackReferencePage({ params }: TrackingPageProps) 
             errorMessage={!parsed && rawReference?.trim() ? TRACK_LOOKUP_GENERIC_MESSAGE : undefined}
           />
         </section>
-      </main>
+      </div>
     );
   }
 
@@ -122,7 +122,7 @@ export default async function TrackReferencePage({ params }: TrackingPageProps) 
   const retrievalBudget = consumeTrackLookupRateLimit(clientIp);
   if (!retrievalBudget.allowed) {
     return (
-      <main>
+      <div>
         <section className="mx-auto max-w-4xl px-6 py-12">
           <SectionHeading
             eyebrow="Request Tracking"
@@ -136,7 +136,7 @@ export default async function TrackReferencePage({ params }: TrackingPageProps) 
             errorMessage={TRACK_LOOKUP_GENERIC_MESSAGE}
           />
         </section>
-      </main>
+      </div>
     );
   }
 
@@ -144,7 +144,7 @@ export default async function TrackReferencePage({ params }: TrackingPageProps) 
   const publicResult = tracking ? toPublicTrackResult(tracking) : null;
 
   return (
-    <main>
+    <div>
       <section className="mx-auto max-w-4xl px-6 py-12">
         <SectionHeading
           eyebrow="Request Tracking"
@@ -190,6 +190,6 @@ export default async function TrackReferencePage({ params }: TrackingPageProps) 
           </div>
         )}
       </section>
-    </main>
+    </div>
   );
 }

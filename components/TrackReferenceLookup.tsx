@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useId, useState } from "react";
 import { submitTrackLookup } from "@/app/actions/track-lookup";
 import { TurnstileField } from "@/components/TurnstileField";
 
@@ -26,6 +26,8 @@ export function TrackReferenceLookup({
     }
   }
 
+  const inputId = useId();
+
   return (
     <form action={handleTrackLookup} className="mt-6 grid gap-4 rounded-lg border border-grey-200 bg-white/80 p-4 shadow-sm backdrop-blur">
       {errorMessage ? (
@@ -35,18 +37,20 @@ export function TrackReferenceLookup({
       ) : null}
       <div className="grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
         <div>
-          <label htmlFor="tracking-reference" className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">
-            Reference number
+          <label htmlFor={inputId} className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">
+            Reference number <span className="text-grey-600">*</span>
           </label>
           <input
-            id="tracking-reference"
+            id={inputId}
             name="referenceNumber"
             value={referenceNumber}
             onChange={(event) => setReferenceNumber(event.target.value)}
             placeholder="Example: RFQ-2026-000001"
             className="mt-2 w-full rounded border border-grey-200 bg-white px-4 py-3 text-sm font-semibold text-ink shadow-inner outline-none transition focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
             required
+            aria-required="true"
           />
+          <p className="mt-1 text-xs text-grey-600">* required</p>
         </div>
         <button
           type="submit"

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useId } from "react";
 import Link from "next/link";
 import { contactInquiryTypes } from "@/app/actions/contact-inquiry";
 import { replyTime } from "@/data/companyContact";
@@ -16,6 +16,7 @@ export function ContactForm({
   type?: ContactFormType;
   turnstileSiteKey: string;
 }) {
+  const baseId = useId();
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [referenceNumber, setReferenceNumber] = useState("");
@@ -130,6 +131,7 @@ export function ContactForm({
       <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">Support Channel</div>
       <h3 className="mt-3 text-2xl font-bold tracking-tight text-ink">{type} Inquiry</h3>
       <p className="mt-3 text-sm leading-6 text-grey-600">{replyTime}</p>
+      <p className="mt-1 text-xs text-grey-600">* required</p>
       <p className="mt-1 text-xs text-grey-600">
         General contact:{" "}
         <a href="mailto:info@haciensolutions.com" className="font-semibold text-blue hover:underline">
@@ -139,129 +141,149 @@ export function ContactForm({
 
       {/* Honeypot — hidden from humans, visible to bots */}
       <div className="absolute -left-[9999px]" aria-hidden="true">
-        <label htmlFor="contact-website">
+        <label htmlFor={`${baseId}-website`}>
           Website
-          <input id="contact-website" type="text" name="_website" tabIndex={-1} autoComplete="off" />
+          <input id={`${baseId}-website`} type="text" name="_website" tabIndex={-1} autoComplete="off" />
         </label>
       </div>
       <input ref={startedAtInputRef} type="hidden" name="formStartedAt" />
 
       <div className="mt-5 grid gap-4">
-        <label htmlFor="contact-name" className="sr-only">
-          Full name
-        </label>
-        <input
-          id="contact-name"
-          required
-          name="name"
-          aria-label="Full name"
-          autoComplete="name"
-          placeholder="Full name"
-          className="focus-ring min-h-12 rounded border border-grey-200 bg-white px-4"
-        />
-        <label htmlFor="contact-company" className="sr-only">
-          Company or organization
-        </label>
-        <input
-          id="contact-company"
-          required
-          name="company"
-          aria-label="Company or organization"
-          autoComplete="organization"
-          placeholder="Company / organization"
-          className="focus-ring min-h-12 rounded border border-grey-200 bg-white px-4"
-        />
-        <label htmlFor="contact-email" className="sr-only">
-          Email address
-        </label>
-        <input
-          id="contact-email"
-          required
-          name="email"
-          type="email"
-          aria-label="Email address"
-          autoComplete="email"
-          placeholder="Email address"
-          className="focus-ring min-h-12 rounded border border-grey-200 bg-white px-4"
-        />
-        <label htmlFor="contact-phone" className="sr-only">
-          Phone number
-        </label>
-        <input
-          id="contact-phone"
-          name="phone"
-          aria-label="Phone number"
-          autoComplete="tel"
-          placeholder="Phone number"
-          className="focus-ring min-h-12 rounded border border-grey-200 bg-white px-4"
-        />
-        <label htmlFor="contact-inquiry-type" className="sr-only">
-          Inquiry type
-        </label>
-        <select
-          id="contact-inquiry-type"
-          name="inquiryType"
-          aria-label="Inquiry type"
-          className="focus-ring min-h-12 rounded border border-grey-200 bg-white px-4"
-          defaultValue=""
-        >
-          <option value="" disabled>
+        <div>
+          <label htmlFor={`${baseId}-name`} className="block text-sm font-semibold text-grey-700 mb-1">
+            Full name <span className="text-grey-600">*</span>
+          </label>
+          <input
+            id={`${baseId}-name`}
+            required
+            aria-required="true"
+            name="name"
+            aria-label="Full name"
+            autoComplete="name"
+            placeholder="Full name"
+            className="focus-ring min-h-12 w-full rounded border border-grey-200 bg-white px-4"
+          />
+        </div>
+        <div>
+          <label htmlFor={`${baseId}-company`} className="block text-sm font-semibold text-grey-700 mb-1">
+            Company or organization <span className="text-grey-600">*</span>
+          </label>
+          <input
+            id={`${baseId}-company`}
+            required
+            aria-required="true"
+            name="company"
+            aria-label="Company or organization"
+            autoComplete="organization"
+            placeholder="Company / organization"
+            className="focus-ring min-h-12 w-full rounded border border-grey-200 bg-white px-4"
+          />
+        </div>
+        <div>
+          <label htmlFor={`${baseId}-email`} className="block text-sm font-semibold text-grey-700 mb-1">
+            Email address <span className="text-grey-600">*</span>
+          </label>
+          <input
+            id={`${baseId}-email`}
+            required
+            aria-required="true"
+            name="email"
+            type="email"
+            aria-label="Email address"
+            autoComplete="email"
+            placeholder="Email address"
+            className="focus-ring min-h-12 w-full rounded border border-grey-200 bg-white px-4"
+          />
+        </div>
+        <div>
+          <label htmlFor={`${baseId}-phone`} className="block text-sm font-semibold text-grey-700 mb-1">
+            Phone number
+          </label>
+          <input
+            id={`${baseId}-phone`}
+            name="phone"
+            aria-label="Phone number"
+            autoComplete="tel"
+            placeholder="Phone number"
+            className="focus-ring min-h-12 w-full rounded border border-grey-200 bg-white px-4"
+          />
+        </div>
+        <div>
+          <label htmlFor={`${baseId}-inquiry-type`} className="block text-sm font-semibold text-grey-700 mb-1">
             Inquiry type
-          </option>
-          {contactInquiryTypes.map((inquiryType) => (
-            <option key={inquiryType}>{inquiryType}</option>
-          ))}
-        </select>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <label htmlFor="contact-budget-range" className="sr-only">
-            Budget range
           </label>
           <select
-            id="contact-budget-range"
-            name="budgetRange"
-            aria-label="Budget range"
-            className="focus-ring min-h-12 rounded border border-grey-200 bg-white px-4"
+            id={`${baseId}-inquiry-type`}
+            name="inquiryType"
+            aria-label="Inquiry type"
+            className="focus-ring min-h-12 w-full rounded border border-grey-200 bg-white px-4"
             defaultValue=""
           >
             <option value="" disabled>
-              Budget range
+              Inquiry type
             </option>
-            <option>Under PHP 50,000</option>
-            <option>PHP 50,000 - PHP 250,000</option>
-            <option>PHP 250,000 - PHP 1,000,000</option>
-            <option>To be discussed</option>
-          </select>
-          <label htmlFor="contact-timeline" className="sr-only">
-            Timeline
-          </label>
-          <select
-            id="contact-timeline"
-            name="timeline"
-            aria-label="Timeline"
-            className="focus-ring min-h-12 rounded border border-grey-200 bg-white px-4"
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Timeline
-            </option>
-            <option>Urgent</option>
-            <option>2-4 weeks</option>
-            <option>This quarter</option>
-            <option>Planning stage</option>
+            {contactInquiryTypes.map((inquiryType) => (
+              <option key={inquiryType}>{inquiryType}</option>
+            ))}
           </select>
         </div>
-        <label htmlFor="contact-message" className="sr-only">
-          Project description, specifications, quantities, or procurement details
-        </label>
-        <textarea
-          id="contact-message"
-          required
-          name="message"
-          aria-label="Project description, specifications, quantities, or procurement details"
-          placeholder="Project description, specifications, quantities, or procurement details"
-          rows={5}
-          className="focus-ring rounded border border-grey-200 bg-white px-4 py-3"
-        />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor={`${baseId}-budget-range`} className="block text-sm font-semibold text-grey-700 mb-1">
+              Budget range
+            </label>
+            <select
+              id={`${baseId}-budget-range`}
+              name="budgetRange"
+              aria-label="Budget range"
+              className="focus-ring min-h-12 w-full rounded border border-grey-200 bg-white px-4"
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Budget range
+              </option>
+              <option>Under PHP 50,000</option>
+              <option>PHP 50,000 - PHP 250,000</option>
+              <option>PHP 250,000 - PHP 1,000,000</option>
+              <option>To be discussed</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor={`${baseId}-timeline`} className="block text-sm font-semibold text-grey-700 mb-1">
+              Timeline
+            </label>
+            <select
+              id={`${baseId}-timeline`}
+              name="timeline"
+              aria-label="Timeline"
+              className="focus-ring min-h-12 w-full rounded border border-grey-200 bg-white px-4"
+              defaultValue=""
+            >
+              <option value="" disabled>
+                Timeline
+              </option>
+              <option>Urgent</option>
+              <option>2-4 weeks</option>
+              <option>This quarter</option>
+              <option>Planning stage</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label htmlFor={`${baseId}-message`} className="block text-sm font-semibold text-grey-700 mb-1">
+            Project description, specifications, quantities, or procurement details <span className="text-grey-600">*</span>
+          </label>
+          <textarea
+            id={`${baseId}-message`}
+            required
+            aria-required="true"
+            name="message"
+            aria-label="Project description, specifications, quantities, or procurement details"
+            placeholder="Project description, specifications, quantities, or procurement details"
+            rows={5}
+            className="focus-ring w-full rounded border border-grey-200 bg-white px-4 py-3"
+          />
+        </div>
 
         <TurnstileField siteKey={turnstileSiteKey} resetSignal={turnstileResetSignal} />
 

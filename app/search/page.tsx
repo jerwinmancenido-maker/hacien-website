@@ -53,6 +53,7 @@ export default async function SearchPage({
               <input
                 id="hq-search"
                 name="q"
+                type="search"
                 defaultValue={params.q || ""}
                 placeholder="Search products, solutions, insights..."
                 className="focus-ring min-h-14 flex-1 rounded-full border border-white/60 bg-white/80 px-5 text-sm text-slate-950 shadow-inner shadow-slate-950/5 outline-none placeholder:text-grey-600"

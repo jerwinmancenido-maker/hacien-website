@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useId } from "react";
 import Link from "next/link";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
 import { AnimatedCard, StaggerContainer } from "@/components/motion";
@@ -40,6 +40,7 @@ const intakePaths = [
 ];
 
 export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
+  const baseId = useId();
   const { requirements, removeRequirement, clearRequirements } = useQuoteCart();
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
@@ -295,26 +296,36 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         <p className="mt-2 text-sm text-grey-600">
           No online payment is collected. Every request receives a reference number and is reviewed before a quotation is prepared.
         </p>
+        <p className="mt-1 text-xs text-grey-600">* required</p>
 
         {/* Honeypot */}
         <div className="absolute -left-[9999px]" aria-hidden="true">
-          <label>
+          <label htmlFor={`${baseId}-website`}>
             Website
-            <input type="text" name="_website" tabIndex={-1} autoComplete="off" />
+            <input id={`${baseId}-website`} type="text" name="_website" tabIndex={-1} autoComplete="off" />
           </label>
         </div>
         <input ref={startedAtInputRef} type="hidden" name="formStartedAt" />
 
         <div className="mt-6 grid gap-4">
-          <label className="grid min-w-0 gap-2 text-sm font-semibold text-grey-700">
-            Intake path
-            <select required name="intakePath" className="focus-ring min-h-12 w-full min-w-0 rounded border border-grey-200 bg-white px-4 font-normal" defaultValue="">
+          <div>
+            <label htmlFor={`${baseId}-intakePath`} className="block text-sm font-semibold text-grey-700 mb-1">
+              Intake path <span className="text-grey-600">*</span>
+            </label>
+            <select
+              id={`${baseId}-intakePath`}
+              required
+              aria-required="true"
+              name="intakePath"
+              className="focus-ring min-h-12 w-full min-w-0 rounded border border-grey-200 bg-white px-4 font-normal"
+              defaultValue=""
+            >
               <option value="" disabled>Select how this request is starting</option>
               {intakePaths.map((path) => (
                 <option key={path}>{path}</option>
               ))}
             </select>
-          </label>
+          </div>
           {[
             ["name", "Contact name", "text"],
             ["company", "Company / agency", "text"],
@@ -322,31 +333,47 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
             ["phone", "Phone", "tel"],
             ["location", "Delivery location", "text"],
             ["targetDate", "Target date / deadline", "date"],
-          ].map(([key, label, type]) => (
-            <label key={key} className="grid min-w-0 gap-2 text-sm font-semibold text-grey-700">
-              {label}
-              <input
-                required
-                type={type}
-                name={key}
-                autoComplete={
-                  key === "name"
-                    ? "name"
-                    : key === "company"
-                      ? "organization"
-                      : key === "email"
-                        ? "email"
-                        : key === "phone"
-                          ? "tel"
-                          : undefined
-                }
-                className="focus-ring min-h-12 w-full min-w-0 rounded border border-grey-200 bg-white px-4 font-normal"
-              />
+          ].map(([key, label, type]) => {
+            const inputId = `${baseId}-${key}`;
+            return (
+              <div key={key}>
+                <label htmlFor={inputId} className="block text-sm font-semibold text-grey-700 mb-1">
+                  {label} <span className="text-grey-600">*</span>
+                </label>
+                <input
+                  id={inputId}
+                  required
+                  aria-required="true"
+                  type={type}
+                  name={key}
+                  autoComplete={
+                    key === "name"
+                      ? "name"
+                      : key === "company"
+                        ? "organization"
+                        : key === "email"
+                          ? "email"
+                          : key === "phone"
+                            ? "tel"
+                            : undefined
+                  }
+                  className="focus-ring min-h-12 w-full min-w-0 rounded border border-grey-200 bg-white px-4 font-normal"
+                />
+              </div>
+            );
+          })}
+          <div>
+            <label htmlFor={`${baseId}-procurementType`} className="block text-sm font-semibold text-grey-700 mb-1">
+              Procurement type <span className="text-grey-600">*</span>
             </label>
-          ))}
-          <label className="grid min-w-0 gap-2 text-sm font-semibold text-grey-700">
-            Procurement type
-            <select required name="procurementType" className="focus-ring min-h-12 w-full min-w-0 rounded border border-grey-200 bg-white px-4 font-normal" defaultValue="">
+            <select
+              id={`${baseId}-procurementType`}
+              required
+              aria-required="true"
+              name="procurementType"
+              className="focus-ring min-h-12 w-full min-w-0 rounded border border-grey-200 bg-white px-4 font-normal"
+              defaultValue=""
+            >
               <option value="" disabled>Select procurement type</option>
               <option>Corporate</option>
               <option>Institutional</option>
@@ -354,30 +381,43 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
               <option>Project-based</option>
               <option>Reseller / integrator</option>
             </select>
-          </label>
-          <label className="grid min-w-0 gap-2 text-sm font-semibold text-grey-700">
-            Budget range <span className="font-normal text-grey-600">(optional)</span>
-            <select name="budgetRange" className="focus-ring min-h-12 w-full min-w-0 rounded border border-grey-200 bg-white px-4 font-normal" defaultValue="">
+          </div>
+          <div>
+            <label htmlFor={`${baseId}-budgetRange`} className="block text-sm font-semibold text-grey-700 mb-1">
+              Budget range <span className="font-normal text-grey-600">(optional)</span>
+            </label>
+            <select
+              id={`${baseId}-budgetRange`}
+              name="budgetRange"
+              className="focus-ring min-h-12 w-full min-w-0 rounded border border-grey-200 bg-white px-4 font-normal"
+              defaultValue=""
+            >
               <option value="">Not specified</option>
               <option>Under PHP 50,000</option>
               <option>PHP 50,000 - PHP 250,000</option>
               <option>PHP 250,000 - PHP 1,000,000</option>
               <option>Project budget to be discussed</option>
             </select>
-          </label>
-          <label className="grid min-w-0 gap-2 text-sm font-semibold text-grey-700">
-            Requirement details <span className="font-normal text-grey-600">(required unless a file is included)</span>
+          </div>
+          <div>
+            <label htmlFor={`${baseId}-notes`} className="block text-sm font-semibold text-grey-700 mb-1">
+              Requirement details <span className="font-normal text-grey-600">(required unless a file is included)</span>
+            </label>
             <textarea
+              id={`${baseId}-notes`}
               name="notes"
               rows={5}
               aria-label="Notes or specifications"
               placeholder="Describe the product, quantity, equivalent options, delivery location, deadline, item list, or anything HACIEN should review."
               className="focus-ring w-full min-w-0 rounded border border-grey-200 bg-white px-4 py-3 font-normal"
             />
-          </label>
-          <label className="grid min-w-0 gap-2 text-sm font-semibold text-grey-700">
-            Attachment <span className="font-normal text-grey-600">(item list, specifications, supplier quote, PDF, Excel, image, or ZIP)</span>
+          </div>
+          <div>
+            <label htmlFor={`${baseId}-attachment`} className="block text-sm font-semibold text-grey-700 mb-1">
+              Attachment <span className="font-normal text-grey-600">(item list, specifications, supplier quote, PDF, Excel, image, or ZIP)</span>
+            </label>
             <input
+              id={`${baseId}-attachment`}
               name="attachment"
               type="file"
               accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg,.zip"
@@ -400,7 +440,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
                 setAttachmentInfo(`${file.name} selected (${Math.round(file.size / 1024)} KB).`);
               }}
             />
-          </label>
+          </div>
           {fileError ? <p className="text-sm font-semibold text-red-600">{fileError}</p> : null}
           {attachmentInfo ? <p className="text-sm font-semibold text-ink">{attachmentInfo}</p> : null}
           <p className="rounded border border-grey-200 bg-grey-50 p-3 text-xs leading-5 text-grey-600">

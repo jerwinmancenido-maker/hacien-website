@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
+import { useId, useRef, useState, useTransition } from "react";
 import { parseDocument, type ParsedDocumentResult } from "@/app/actions/parse-document";
 
 const tooLargeMessage = "Document is too large. Maximum supported playground size is 10 MB.";
@@ -30,6 +30,8 @@ export function AiDocumentParser() {
     });
   }
 
+  const fileInputId = useId();
+
   return (
     <div className="overflow-hidden rounded-lg border border-slate-200 bg-white shadow-xl shadow-slate-950/8">
       <div className="relative bg-[#0A0A0A] p-6 text-white">
@@ -41,12 +43,13 @@ export function AiDocumentParser() {
         </p>
       </div>
       <form ref={formRef} onSubmit={handleSubmit} className="grid gap-5 p-6">
-        <label className="grid min-h-[180px] cursor-pointer place-items-center rounded-lg border border-dashed border-grey-300 bg-grey-50 p-6 text-center">
+        <label htmlFor={fileInputId} className="grid min-h-[180px] cursor-pointer place-items-center rounded-lg border border-dashed border-grey-300 bg-grey-50 p-6 text-center">
           <span>
             <span className="block text-sm font-bold text-slate-950">{fileName || "Drop or choose a PDF, image, or TXT file"}</span>
             <span className="mt-2 block text-xs leading-5 text-slate-600">Maximum playground size: 10 MB. No official record is created.</span>
           </span>
           <input
+            id={fileInputId}
             type="file"
             name="document"
             accept=".pdf,.png,.jpg,.jpeg,.txt"

@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useId } from "react";
 import Link from "next/link";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
 import { replyTime } from "@/data/companyContact";
 import { TurnstileField } from "@/components/TurnstileField";
 
 export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: string }) {
+  const baseId = useId();
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [referenceNumber, setReferenceNumber] = useState("");
@@ -122,12 +123,13 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
       >
         <h3 className="text-xl font-bold text-ink">Request a quotation</h3>
         <p className="mt-2 text-sm leading-6 text-grey-600">{replyTime}</p>
+        <p className="mt-1 text-xs text-grey-600">* required</p>
 
         {/* Honeypot */}
         <div className="absolute -left-[9999px]" aria-hidden="true">
-          <label htmlFor="rfq-website">
+          <label htmlFor={`${baseId}-website`}>
             Website
-            <input id="rfq-website" type="text" name="_website" tabIndex={-1} autoComplete="off" />
+            <input id={`${baseId}-website`} type="text" name="_website" tabIndex={-1} autoComplete="off" />
           </label>
         </div>
         <input ref={startedAtInputRef} type="hidden" name="formStartedAt" />
@@ -135,15 +137,15 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
         <div className="mt-5 grid grid-cols-2 gap-2 text-xs font-bold uppercase tracking-[0.12em]">
           <div
             className={`rounded px-3 py-2 ${
- step === 1 ? "bg-ink text-white" : "bg-grey-100 text-grey-600"
- }`}
+              step === 1 ? "bg-ink text-white" : "bg-grey-100 text-grey-600"
+            }`}
           >
             1 Requirement
           </div>
           <div
             className={`rounded px-3 py-2 ${
- step === 2 ? "bg-ink text-white" : "bg-grey-100 text-grey-600"
- }`}
+              step === 2 ? "bg-ink text-white" : "bg-grey-100 text-grey-600"
+            }`}
           >
             2 Buyer Details
           </div>
@@ -151,138 +153,163 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
         <div className="mt-5 grid gap-4">
           {step === 1 ? (
             <>
-              <label htmlFor="rfq-requirement-type" className="sr-only">
-                Requirement type
-              </label>
-              <select
-                id="rfq-requirement-type"
-                required
-                name="requirementType"
-                aria-label="Requirement type"
-                className="focus-ring rounded border border-grey-200 px-3 py-2"
-                defaultValue=""
-              >
-                <option value="" disabled>
-                  Requirement type
-                </option>
-                <option>Hardware procurement</option>
-                <option>Software licensing</option>
-                <option>Network / infrastructure project</option>
-                <option>Security / surveillance project</option>
-                <option>Institutional procurement support</option>
-              </select>
-              <label htmlFor="rfq-budget-range" className="sr-only">
-                Budget range
-              </label>
-              <select
-                id="rfq-budget-range"
-                required
-                name="budgetRange"
-                aria-label="Budget range"
-                className="focus-ring rounded border border-grey-200 px-3 py-2"
-                defaultValue=""
-              >
-                <option value="" disabled>
-                  Budget range
-                </option>
-                <option>Under PHP 50,000</option>
-                <option>PHP 50,000 - PHP 250,000</option>
-                <option>PHP 250,000 - PHP 1,000,000</option>
-                <option>Project budget to be discussed</option>
-              </select>
-              <label htmlFor="rfq-timeline" className="sr-only">
-                Target timeline
-              </label>
-              <select
-                id="rfq-timeline"
-                required
-                name="timeline"
-                aria-label="Target timeline"
-                className="focus-ring rounded border border-grey-200 px-3 py-2"
-                defaultValue=""
-              >
-                <option value="" disabled>
-                  Target timeline
-                </option>
-                <option>Immediate / urgent</option>
-                <option>Within 2-4 weeks</option>
-                <option>Within this quarter</option>
-                <option>Planning stage</option>
-              </select>
-              <label htmlFor="rfq-message" className="sr-only">
-                Requirement details
-              </label>
-              <textarea
-                id="rfq-message"
-                required
-                name="message"
-                aria-label="Requirement details"
-                placeholder="Describe products, specifications, quantities, or the delivery location"
-                rows={5}
-                className="focus-ring rounded border border-grey-200 px-3 py-2"
-              />
+              <div>
+                <label htmlFor={`${baseId}-requirement-type`} className="block text-sm font-semibold text-grey-700 mb-1">
+                  Requirement type <span className="text-grey-600">*</span>
+                </label>
+                <select
+                  id={`${baseId}-requirement-type`}
+                  required
+                  aria-required="true"
+                  name="requirementType"
+                  aria-label="Requirement type"
+                  className="focus-ring w-full rounded border border-grey-200 px-3 py-2"
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Requirement type
+                  </option>
+                  <option>Hardware procurement</option>
+                  <option>Software licensing</option>
+                  <option>Network / infrastructure project</option>
+                  <option>Security / surveillance project</option>
+                  <option>Institutional procurement support</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor={`${baseId}-budget-range`} className="block text-sm font-semibold text-grey-700 mb-1">
+                  Budget range <span className="text-grey-600">*</span>
+                </label>
+                <select
+                  id={`${baseId}-budget-range`}
+                  required
+                  aria-required="true"
+                  name="budgetRange"
+                  aria-label="Budget range"
+                  className="focus-ring w-full rounded border border-grey-200 px-3 py-2"
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Budget range
+                  </option>
+                  <option>Under PHP 50,000</option>
+                  <option>PHP 50,000 - PHP 250,000</option>
+                  <option>PHP 250,000 - PHP 1,000,000</option>
+                  <option>Project budget to be discussed</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor={`${baseId}-timeline`} className="block text-sm font-semibold text-grey-700 mb-1">
+                  Target timeline <span className="text-grey-600">*</span>
+                </label>
+                <select
+                  id={`${baseId}-timeline`}
+                  required
+                  aria-required="true"
+                  name="timeline"
+                  aria-label="Target timeline"
+                  className="focus-ring w-full rounded border border-grey-200 px-3 py-2"
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Target timeline
+                  </option>
+                  <option>Immediate / urgent</option>
+                  <option>Within 2-4 weeks</option>
+                  <option>Within this quarter</option>
+                  <option>Planning stage</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor={`${baseId}-message`} className="block text-sm font-semibold text-grey-700 mb-1">
+                  Requirement details <span className="text-grey-600">*</span>
+                </label>
+                <textarea
+                  id={`${baseId}-message`}
+                  required
+                  aria-required="true"
+                  name="message"
+                  aria-label="Requirement details"
+                  placeholder="Describe products, specifications, quantities, or the delivery location"
+                  rows={5}
+                  className="focus-ring w-full rounded border border-grey-200 px-3 py-2"
+                />
+              </div>
             </>
           ) : (
             <>
-              <label htmlFor="rfq-name" className="sr-only">
-                Name
-              </label>
-              <input
-                id="rfq-name"
-                required
-                name="name"
-                aria-label="Name"
-                autoComplete="name"
-                placeholder="Name"
-                className="focus-ring rounded border border-grey-200 px-3 py-2"
-              />
-              <label htmlFor="rfq-company" className="sr-only">
-                Company or organization
-              </label>
-              <input
-                id="rfq-company"
-                required
-                name="company"
-                aria-label="Company or organization"
-                autoComplete="organization"
-                placeholder="Company / organization"
-                className="focus-ring rounded border border-grey-200 px-3 py-2"
-              />
-              <label htmlFor="rfq-email" className="sr-only">
-                Email
-              </label>
-              <input
-                id="rfq-email"
-                required
-                name="email"
-                type="email"
-                aria-label="Email"
-                autoComplete="email"
-                placeholder="Email"
-                className="focus-ring rounded border border-grey-200 px-3 py-2"
-              />
-              <label htmlFor="rfq-phone" className="sr-only">
-                Phone number
-              </label>
-              <input
-                id="rfq-phone"
-                name="phone"
-                aria-label="Phone number"
-                autoComplete="tel"
-                placeholder="Phone number"
-                className="focus-ring rounded border border-grey-200 px-3 py-2"
-              />
-              <label htmlFor="rfq-industry" className="sr-only">
-                Industry or organization type
-              </label>
-              <input
-                id="rfq-industry"
-                name="industry"
-                aria-label="Industry or organization type"
-                autoComplete="organization-title"
-                placeholder="Industry / organization type"
-                className="focus-ring rounded border border-grey-200 px-3 py-2"
-              />
+              <div>
+                <label htmlFor={`${baseId}-name`} className="block text-sm font-semibold text-grey-700 mb-1">
+                  Name <span className="text-grey-600">*</span>
+                </label>
+                <input
+                  id={`${baseId}-name`}
+                  required
+                  aria-required="true"
+                  name="name"
+                  aria-label="Name"
+                  autoComplete="name"
+                  placeholder="Name"
+                  className="focus-ring w-full rounded border border-grey-200 px-3 py-2"
+                />
+              </div>
+              <div>
+                <label htmlFor={`${baseId}-company`} className="block text-sm font-semibold text-grey-700 mb-1">
+                  Company or organization <span className="text-grey-600">*</span>
+                </label>
+                <input
+                  id={`${baseId}-company`}
+                  required
+                  aria-required="true"
+                  name="company"
+                  aria-label="Company or organization"
+                  autoComplete="organization"
+                  placeholder="Company / organization"
+                  className="focus-ring w-full rounded border border-grey-200 px-3 py-2"
+                />
+              </div>
+              <div>
+                <label htmlFor={`${baseId}-email`} className="block text-sm font-semibold text-grey-700 mb-1">
+                  Email <span className="text-grey-600">*</span>
+                </label>
+                <input
+                  id={`${baseId}-email`}
+                  required
+                  aria-required="true"
+                  name="email"
+                  type="email"
+                  aria-label="Email"
+                  autoComplete="email"
+                  placeholder="Email"
+                  className="focus-ring w-full rounded border border-grey-200 px-3 py-2"
+                />
+              </div>
+              <div>
+                <label htmlFor={`${baseId}-phone`} className="block text-sm font-semibold text-grey-700 mb-1">
+                  Phone number
+                </label>
+                <input
+                  id={`${baseId}-phone`}
+                  name="phone"
+                  aria-label="Phone number"
+                  autoComplete="tel"
+                  placeholder="Phone number"
+                  className="focus-ring w-full rounded border border-grey-200 px-3 py-2"
+                />
+              </div>
+              <div>
+                <label htmlFor={`${baseId}-industry`} className="block text-sm font-semibold text-grey-700 mb-1">
+                  Industry or organization type
+                </label>
+                <input
+                  id={`${baseId}-industry`}
+                  name="industry"
+                  aria-label="Industry or organization type"
+                  autoComplete="organization-title"
+                  placeholder="Industry / organization type"
+                  className="focus-ring w-full rounded border border-grey-200 px-3 py-2"
+                />
+              </div>
             </>
           )}
 
