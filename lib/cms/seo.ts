@@ -16,14 +16,14 @@ const cmsSeoRecords: Record<CmsSeoKey, CmsSeoRecord> = {
     route: "/",
     title: "What we supply",
     description:
-      "IT hardware, networking and peripherals. Licensed software. Tools and hardware materials. Office and general merchandise. Except products that need a special regulatory license (for example an FDA or DOH License to Operate).",
+      "IT & Office Technology. Tools, Hardware Materials & General Merchandise (excluding products requiring special regulatory licenses such as FDA or DOH-LTO).",
   },
   about: {
     key: "about",
     route: "/about",
     title: "About",
     description:
-      "Founded in 2026 in Pasig City to give Philippine businesses and government offices a clear, dependable quotation-to-delivery channel for IT equipment, tools, hardware materials and general procurement.",
+      "Founded in 2026 (DTI registered June 2026) in Ortigas Center, Pasig City to provide fast, quotation-driven, BIR- and PhilGEPS-compliant multi-category procurement for Philippine businesses and government agencies.",
   },
   solutions: {
     key: "solutions",
@@ -37,7 +37,7 @@ const cmsSeoRecords: Record<CmsSeoKey, CmsSeoRecord> = {
     route: "/industries",
     title: "Industries Served",
     description:
-      "Explore how HACIEN supports business, education, healthcare, construction, enterprise, and organization buyers with RFQ-first technology support.",
+      "Explore how HACIEN supports government, corporate & commercial, education, healthcare, and construction buyers with RFQ-first procurement.",
   },
   faq: {
     key: "faq",

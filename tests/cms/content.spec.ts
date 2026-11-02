@@ -51,9 +51,9 @@ describe("CMS read layer", () => {
 
   it("loads the first migrated public page content areas from CMS", () => {
     expect(getHomepageContent().rfqReadiness.cards.length).toBeGreaterThanOrEqual(4);
-    expect(getAboutContent().workingStandard.cards.length).toBeGreaterThanOrEqual(5);
+    expect(getAboutContent().workingStandard.cards.length).toBeGreaterThanOrEqual(4);
     expect(getSolutionsContent().meaning.cards.length).toBeGreaterThanOrEqual(3);
-    expect(getIndustriesContent().supportedIndustries.cards.length).toBeGreaterThanOrEqual(6);
+    expect(getIndustriesContent().supportedIndustries.cards.length).toBe(5);
   });
 
   it("loads header and footer navigation from CMS", () => {

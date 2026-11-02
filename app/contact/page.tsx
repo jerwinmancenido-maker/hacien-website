@@ -138,7 +138,7 @@ export default function ContactPage() {
 
               <div className="mt-8 grid gap-5 text-sm leading-7 text-slate-700">
                 <div className="rounded border border-slate-200 bg-slate-50 p-5">
-                  <div className="font-bold text-slate-950">Per order</div>
+                  <div className="font-bold text-slate-950">Appointments</div>
                   <p className="mt-2">{companyContact.showroomNote}</p>
                 </div>
 
@@ -151,6 +151,15 @@ export default function ContactPage() {
                       </span>
                     ))}
                   </address>
+                </div>
+
+                <div className="rounded border border-slate-200 bg-slate-50 p-5">
+                  <div className="font-bold text-slate-950">General contact</div>
+                  <p className="mt-2">
+                    <a href={`mailto:${companyContact.email}`} className="font-medium text-[#2563EB] hover:underline">
+                      {companyContact.email}
+                    </a>
+                  </p>
                 </div>
 
                 <div className="rounded border border-slate-200 bg-slate-50 p-5">

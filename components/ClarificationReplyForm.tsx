@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { replyToClarification } from "@/app/actions/reply-clarification";
+import { replyTime } from "@/data/companyContact";
 
 export function ClarificationReplyForm({ referenceNumber }: { referenceNumber: string }) {
   const router = useRouter();
@@ -48,6 +49,7 @@ export function ClarificationReplyForm({ referenceNumber }: { referenceNumber: s
       <p className="mt-2 text-sm leading-6 text-grey-600">
         Add the requested information using the same reference. HACIEN will continue review after receiving your reply.
       </p>
+      <p className="mt-1 text-xs text-grey-600">{replyTime}</p>
       <textarea
         id="clarification-message"
         name="message"

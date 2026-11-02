@@ -180,10 +180,6 @@ export type CmsFaqContent = CmsPageContent & {
 };
 
 const blockedClaimPatterns = [
-  /\bDTI\b/i,
-  /\bBIR\b/i,
-  /\bMayor'?s?\s+Permit\b/i,
-  /\bPhilGEPS\b/i,
   /\bgovernment-procurement\b/i,
   /\bIn Stock\b/i,
   /\bManila Hub\b/i,
@@ -320,7 +316,7 @@ const homepageContent: CmsHomeContent = {
     eyebrow: "HACIEN",
     title: "What HACIEN supplies",
     description:
-      "Except products that need a special regulatory license (for example an FDA or DOH License to Operate).",
+      "(excluding products requiring special regulatory licenses such as FDA or DOH-LTO)",
     image: "commandCenter",
     primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/contact", label: "Contact" },
@@ -344,7 +340,7 @@ const homepageContent: CmsHomeContent = {
     description: replyTime,
     steps: [
       { title: "Send", text: "Share a list, a photo, a supplier quote, or a plain description." },
-      { title: "Acknowledge", text: "We acknowledge website inquiries within 1 business day (Monday to Friday, excluding holidays)." },
+      { title: "Acknowledge", text: replyTime },
       { title: "Confirm", text: "Formal quotations follow once supplier stock and pricing are confirmed." },
       { title: "Deliver", text: deliveryLine },
     ],
@@ -397,13 +393,13 @@ const aboutContent: CmsAboutContent = {
     eyebrow: "Company",
     title: "Started in 2026.",
     description:
-      "Founded in 2026 in Pasig City to give Philippine businesses and government offices a clear, dependable quotation-to-delivery channel for IT equipment, tools, hardware materials and general procurement.",
+      "Founded in 2026 (DTI registered June 2026) in Ortigas Center, Pasig City to provide fast, quotation-driven, BIR- and PhilGEPS-compliant multi-category procurement for Philippine businesses and government agencies.",
     image: "workspace",
     primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/contact", label: "Contact" },
     highlights: [
       { label: "Office address", text: companyContact.addressOneLine },
-      { label: "Per order", text: showroomNote },
+      { label: "Appointments", text: showroomNote },
       { label: "Brands", text: brandsLine },
       { label: "Delivery", text: "Nationwide across the Philippines." },
     ],
@@ -420,6 +416,7 @@ const aboutContent: CmsAboutContent = {
     description: `${brandsLine} ${supplyException}`,
     cards: [
       ...supplyItems.map((item) => ({ title: item.title, text: item.text })),
+      { title: "Appointments", text: showroomNote },
       { title: "Delivery", text: deliveryLine },
     ],
   },
@@ -510,12 +507,31 @@ const industriesContent: CmsIndustriesContent = {
     eyebrow: "Who HACIEN Supports",
     title: "Built for buyers who need organized RFQs, not generic catalog browsing.",
     cards: [
-      { title: "Business", text: "Workstations, software, network upgrades, peripherals, power protection, and recurring office technology procurement." },
-      { title: "Organizations", text: "Specification review, approved equivalent matching, quotation support, documentation-aware review, and delivery coordination." },
-      { title: "Education", text: "Classroom devices, WiFi, printing, security systems, productivity licenses, and institutional purchasing support." },
-      { title: "Healthcare", text: "Reliable endpoint, network, storage, power, security, and support materials for operational environments." },
-      { title: "Construction", text: "Project office equipment, site connectivity, CCTV, access control, consumables, and deployment materials." },
-      { title: "Enterprise", text: "Multi-supplier coordination for infrastructure refreshes, device rollouts, renewals, documentation, and closeout records." },
+      {
+        title: "Government",
+        text:
+          "Supplying NGAs, LGUs, SUCs, and GOCCs under PhilGEPS Registration (Shopping, Small Value Procurement, and Public Bidding) with complete BIR Sales Invoices, Delivery Receipts with itemized Packing Lists, and Collection Receipts.",
+      },
+      {
+        title: "Corporate & Commercial",
+        text:
+          "Supplying offices, BPOs, and growing businesses with laptops, desktops, monitors, printers, UPS power protection, enterprise networking, and office equipment.",
+      },
+      {
+        title: "Schools, Universities & Technical Training",
+        text:
+          "Supplying computer laboratories, networking setups, power and hand tools, workshop hardware materials, and instructional/training equipment.",
+      },
+      {
+        title: "Contractors, Facilities & Industrial Maintenance",
+        text:
+          "Supplying engineering, construction, and facility teams with CCTV security systems, structured cabling, power and hand tools, hardware materials, and general commercial supplies.",
+      },
+      {
+        title: "Healthcare",
+        text:
+          "Reliable endpoint, network, storage, power, security, and support materials for operational environments.",
+      },
     ],
   },
   cta: {

@@ -82,7 +82,7 @@ export default function CompanyProfilePage() {
           <AnimatedContent delay={100}>
             <div className="grid gap-5 text-sm leading-7 text-slate-700">
               <div>
-                <div className="font-bold text-slate-950">Per order</div>
+                <div className="font-bold text-slate-950">Appointments</div>
                 <p className="mt-1">{companyContact.showroomNote}</p>
               </div>
               <div>
