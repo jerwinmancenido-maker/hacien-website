@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useId, useMemo, useState } from "react";
 import Link from "next/link";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
 
@@ -204,10 +204,12 @@ function getTemplate(key: string) {
 }
 
 function FieldControl({
+  id,
   field,
   value,
   onChange,
 }: {
+  id?: string;
   field: FieldDefinition;
   value: string;
   onChange: (value: string) => void;
@@ -215,10 +217,11 @@ function FieldControl({
   if (field.type === "textarea") {
     return (
       <textarea
+        id={id}
         rows={3}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="rounded border border-grey-200 px-3 py-2 font-normal"
+        className="w-full rounded border border-grey-200 px-3 py-2 font-normal"
       />
     );
   }
@@ -226,9 +229,10 @@ function FieldControl({
   if (field.type === "select") {
     return (
       <select
+        id={id}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="rounded border border-grey-200 px-3 py-2 font-normal"
+        className="w-full rounded border border-grey-200 px-3 py-2 font-normal"
       >
         {field.options?.map((option) => (
           <option key={option}>{option}</option>
@@ -239,14 +243,16 @@ function FieldControl({
 
   return (
     <input
+      id={id}
       value={value}
       onChange={(event) => onChange(event.target.value)}
-      className="rounded border border-grey-200 px-3 py-2 font-normal"
+      className="w-full rounded border border-grey-200 px-3 py-2 font-normal"
     />
   );
 }
 
 export function RequirementBuilder({ initialCategory = "computers-laptops" }: { initialCategory?: string }) {
+  const baseId = useId();
   const { addRequirement, totalRequirements } = useQuoteCart();
   const [category, setCategory] = useState(initialCategory);
   const template = getTemplate(category);
@@ -310,12 +316,15 @@ export function RequirementBuilder({ initialCategory = "computers-laptops" }: { 
       </div>
 
       <div className="mt-4 grid gap-3 lg:grid-cols-2 lg:gap-4">
-        <label className="grid gap-2 text-sm font-semibold text-grey-700">
-          Technology area
+        <div>
+          <label htmlFor={`${baseId}-category`} className="block text-sm font-semibold text-grey-700 mb-1">
+            Technology area
+          </label>
           <select
+            id={`${baseId}-category`}
             value={category}
             onChange={(event) => resetForCategory(event.target.value)}
-            className="rounded border border-grey-200 px-3 py-2 font-normal"
+            className="w-full rounded border border-grey-200 px-3 py-2 font-normal"
           >
             {templates.map((item) => (
               <option key={item.key} value={item.key}>
@@ -323,16 +332,19 @@ export function RequirementBuilder({ initialCategory = "computers-laptops" }: { 
               </option>
             ))}
           </select>
-        </label>
+        </div>
 
-        <label className="grid gap-2 text-sm font-semibold text-grey-700">
-          Quantity / scope
+        <div>
+          <label htmlFor={`${baseId}-quantity`} className="block text-sm font-semibold text-grey-700 mb-1">
+            Quantity / scope
+          </label>
           <input
+            id={`${baseId}-quantity`}
             value={quantity}
             onChange={(event) => setQuantity(event.target.value)}
-            className="rounded border border-grey-200 px-3 py-2 font-normal"
+            className="w-full rounded border border-grey-200 px-3 py-2 font-normal"
           />
-        </label>
+        </div>
       </div>
 
       <p className="mt-3 rounded border border-grey-200 bg-grey-100 p-3 text-sm leading-6 text-grey-600 sm:mt-4 sm:p-4">
@@ -340,83 +352,107 @@ export function RequirementBuilder({ initialCategory = "computers-laptops" }: { 
       </p>
 
       <div className="mt-4 grid gap-3 lg:grid-cols-2 lg:gap-4">
-        <label className="grid gap-1.5 text-sm font-semibold text-grey-700 sm:gap-2">
-          Preferred brand / vendor
+        <div>
+          <label htmlFor={`${baseId}-brandPreference`} className="block text-sm font-semibold text-grey-700 mb-1">
+            Preferred brand / vendor
+          </label>
           <select
+            id={`${baseId}-brandPreference`}
             value={brandPreference}
             onChange={(event) => setBrandPreference(event.target.value)}
-            className="rounded border border-grey-200 px-3 py-2 font-normal"
+            className="w-full rounded border border-grey-200 px-3 py-2 font-normal"
           >
             {template.brands.map((brand) => (
               <option key={brand}>{brand}</option>
             ))}
           </select>
-        </label>
+        </div>
 
-        <label className="grid gap-1.5 text-sm font-semibold text-grey-700 sm:gap-2">
-          Equivalent options accepted?
+        <div>
+          <label htmlFor={`${baseId}-equivalentAccepted`} className="block text-sm font-semibold text-grey-700 mb-1">
+            Equivalent options accepted?
+          </label>
           <select
+            id={`${baseId}-equivalentAccepted`}
             value={equivalentAccepted}
             onChange={(event) => setEquivalentAccepted(event.target.value)}
-            className="rounded border border-grey-200 px-3 py-2 font-normal"
+            className="w-full rounded border border-grey-200 px-3 py-2 font-normal"
           >
             {equivalentOptions.map((option) => (
               <option key={option}>{option}</option>
             ))}
           </select>
-        </label>
+        </div>
 
         {brandPreference === "Other / not listed" ? (
-          <label className="grid gap-1.5 text-sm font-semibold text-grey-700 sm:gap-2 lg:col-span-2">
-            Specify brand, vendor, model, or reference
+          <div className="lg:col-span-2">
+            <label htmlFor={`${baseId}-otherBrand`} className="block text-sm font-semibold text-grey-700 mb-1">
+              Specify brand, vendor, model, or reference
+            </label>
             <input
+              id={`${baseId}-otherBrand`}
               value={otherBrand}
               onChange={(event) => setOtherBrand(event.target.value)}
-              className="rounded border border-grey-200 px-3 py-2 font-normal"
+              className="w-full rounded border border-grey-200 px-3 py-2 font-normal"
             />
-          </label>
+          </div>
         ) : null}
 
-        {template.fields.map((field) => (
-          <label key={field.key} className="grid gap-1.5 text-sm font-semibold text-grey-700 sm:gap-2">
-            {field.label}
-            <FieldControl
-              field={field}
-              value={activeFields[field.key]}
-              onChange={(value) => setFields((current) => ({ ...current, [field.key]: value }))}
-            />
-          </label>
-        ))}
+        {template.fields.map((field) => {
+          const fieldId = `${baseId}-field-${field.key}`;
+          return (
+            <div key={field.key}>
+              <label htmlFor={fieldId} className="block text-sm font-semibold text-grey-700 mb-1">
+                {field.label}
+              </label>
+              <FieldControl
+                id={fieldId}
+                field={field}
+                value={activeFields[field.key]}
+                onChange={(value) => setFields((current) => ({ ...current, [field.key]: value }))}
+              />
+            </div>
+          );
+        })}
 
-        <label className="grid gap-1.5 text-sm font-semibold text-grey-700 sm:gap-2">
-          Deadline <span className="font-normal text-grey-600">(optional)</span>
+        <div>
+          <label htmlFor={`${baseId}-deadline`} className="block text-sm font-semibold text-grey-700 mb-1">
+            Deadline <span className="font-normal text-grey-600">(optional)</span>
+          </label>
           <input
+            id={`${baseId}-deadline`}
             type="date"
             value={deadline}
             onChange={(event) => setDeadline(event.target.value)}
-            className="rounded border border-grey-200 px-3 py-2 font-normal"
+            className="w-full rounded border border-grey-200 px-3 py-2 font-normal"
           />
-        </label>
+        </div>
 
-        <label className="grid gap-1.5 text-sm font-semibold text-grey-700 sm:gap-2">
-          Delivery location <span className="font-normal text-grey-600">(optional)</span>
+        <div>
+          <label htmlFor={`${baseId}-deliveryLocation`} className="block text-sm font-semibold text-grey-700 mb-1">
+            Delivery location <span className="font-normal text-grey-600">(optional)</span>
+          </label>
           <input
+            id={`${baseId}-deliveryLocation`}
             value={deliveryLocation}
             onChange={(event) => setDeliveryLocation(event.target.value)}
-            className="rounded border border-grey-200 px-3 py-2 font-normal"
+            className="w-full rounded border border-grey-200 px-3 py-2 font-normal"
           />
-        </label>
+        </div>
 
-        <label className="grid gap-1.5 text-sm font-semibold text-grey-700 sm:gap-2 lg:col-span-2">
-          Notes <span className="font-normal text-grey-600">(optional)</span>
+        <div className="lg:col-span-2">
+          <label htmlFor={`${baseId}-notes`} className="block text-sm font-semibold text-grey-700 mb-1">
+            Notes <span className="font-normal text-grey-600">(optional)</span>
+          </label>
           <textarea
+            id={`${baseId}-notes`}
             rows={2}
             value={notes}
             onChange={(event) => setNotes(event.target.value)}
             placeholder="Add details, BOQ references, exact model requirements, preferred warranty, site context, or anything HACIEN should review."
-            className="rounded border border-grey-200 px-3 py-2 font-normal"
+            className="w-full rounded border border-grey-200 px-3 py-2 font-normal"
           />
-        </label>
+        </div>
       </div>
 
       <div className="mt-5 flex flex-col gap-2 sm:mt-6 sm:flex-row sm:items-center sm:gap-3">

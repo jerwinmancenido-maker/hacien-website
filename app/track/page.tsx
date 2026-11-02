@@ -15,7 +15,7 @@ export default async function TrackLookupPage({ searchParams }: TrackLookupPageP
   const showError = params.error === "1";
 
   return (
-    <main>
+    <div>
       <section className="mx-auto max-w-4xl px-6 py-12">
         <SectionHeading
           eyebrow="Request Tracking"
@@ -29,6 +29,6 @@ export default async function TrackLookupPage({ searchParams }: TrackLookupPageP
           errorMessage={showError ? TRACK_LOOKUP_GENERIC_MESSAGE : undefined}
         />
       </section>
-    </main>
+    </div>
   );
 }

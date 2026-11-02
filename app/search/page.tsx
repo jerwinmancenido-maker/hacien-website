@@ -53,9 +53,10 @@ export default async function SearchPage({
               <input
                 id="hq-search"
                 name="q"
+                type="search"
                 defaultValue={params.q || ""}
                 placeholder="Search products, solutions, insights..."
-                className="focus-ring min-h-14 flex-1 rounded-full border border-white/60 bg-white/80 px-5 text-sm text-slate-950 shadow-inner shadow-slate-950/5 outline-none placeholder:text-grey-600"
+                className="focus-ring min-h-14 w-full flex-1 rounded-full border border-white/60 bg-white/80 px-5 text-sm text-slate-950 shadow-inner shadow-slate-950/5 outline-none placeholder:text-grey-600"
               />
               <button className="button-glow focus-ring rounded bg-[#2563EB] px-7 py-3 text-sm font-bold text-white shadow-lg shadow-black/10 cursor-pointer" type="submit">
                 Search

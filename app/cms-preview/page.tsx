@@ -46,7 +46,7 @@ export default function CmsPreviewPage() {
   const data = getCmsPreviewData();
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(180deg,#f8fbff_0%,#eef7f8_48%,#f8fafc_100%)] px-4 py-8 text-slate-950 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[linear-gradient(180deg,#f8fbff_0%,#eef7f8_48%,#f8fafc_100%)] px-4 py-8 text-slate-950 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <section className="rounded border border-slate-200 bg-white/82 p-5 shadow-sm backdrop-blur md:p-7">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -197,6 +197,6 @@ export default function CmsPreviewPage() {
           </div>
         </section>
       </div>
-    </main>
+    </div>
   );
 }
