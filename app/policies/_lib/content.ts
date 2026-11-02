@@ -55,7 +55,7 @@ export const policiesPage: LegalPageModel = {
           "Manufacturer or supplier warranty, and how to make a claim",
           "v1.1",
         ],
-        ["[Privacy Policy](/privacy)", "What personal data we keep, why, and your rights", "v2.2"],
+        ["[Privacy Policy](/privacy)", "What personal data we keep, why, and your rights", "v2.3"],
         ["[Website Terms of Use](/terms)", "Rules for using haciensolutions.com", "v2.0"],
         [
           "[Business and Legal Information](/legal)",
@@ -78,13 +78,13 @@ export const privacyPage: LegalPageModel = {
   title: "Privacy Policy",
   description:
     "We collect business and contact details to answer requests, prepare quotations, deliver orders, issue BIR documents and keep proper records.",
-  versionLine: version("2.2", "Replaces version 2.1 (effective November 2, 2026)"),
+  versionLine: version("2.3", "Replaces version 2.2 (effective November 2, 2026)"),
   historyLink: true,
   showContents: true,
   meta: [
-    { label: "Version", value: "2.2" },
+    { label: "Version", value: "2.3" },
     { label: "Effective", value: published },
-    { label: "Replaces", value: "2.1 (November 2, 2026)" },
+    { label: "Replaces", value: "2.2 (November 2, 2026)" },
   ],
   intro: [],
   sections: [
@@ -98,6 +98,7 @@ export const privacyPage: LegalPageModel = {
           "We text order updates to the mobile number on your order. We never send promotional texts.",
           "We send marketing emails only if you sign up for them, and you can unsubscribe in any email.",
           "Some of these services store data outside the Philippines. Our website and email are hosted by Hostinger in Singapore, and our staff app by Hostinger in Indonesia.",
+          "With your consent, we use Google Analytics to see how visitors use our website. It stays off unless you click Accept in our cookie notice.",
           "We do not sell your data.",
           "To see, correct or delete your data, email privacy@haciensolutions.com.",
         ]),
@@ -177,6 +178,11 @@ export const privacyPage: LegalPageModel = {
               "Website visitors (automatic)",
             ],
             [
+              "Website use (only if you accept)",
+              "Pages viewed, device and browser type, approximate location (city or country), and how you reached our site, through Google Analytics",
+              "Website visitors who click Accept",
+            ],
+            [
               "Browser storage",
               "Your draft RFQ list, kept only in your own browser",
               "Website visitors (stays on your device)",
@@ -228,6 +234,11 @@ export const privacyPage: LegalPageModel = {
               "Send bulk marketing emails, such as new products, offers and newsletters",
               "Email address, name, company",
               "Your consent (Sec. 12(a)). We ask with a separate checkbox that is **not ticked** for you. Every marketing email has an unsubscribe link.",
+            ],
+            [
+              "Understand how visitors use our website so we can improve it",
+              "Website use data (Google Analytics)",
+              "Your consent (Sec. 12(a)), given by clicking Accept in our cookie notice. You can withdraw it at any time (section 9).",
             ],
             ["Keep the website and forms secure", "Website and security data", "Legitimate interest"],
           ],
@@ -340,6 +351,11 @@ export const privacyPage: LegalPageModel = {
               "Marketing email list and sending",
               "Hostinger and its cloud service providers, which may be located outside the Philippines",
             ],
+            [
+              "Google LLC (Google Analytics)",
+              "Website visit statistics, only if you accept",
+              "Google's servers, which may be outside the Philippines",
+            ],
           ],
         },
         p("**Processing outside the Philippines:** these services, and the companies they use (their sub-processors, such as cloud providers), may store or process data outside the Philippines. We use them under their own data protection terms, and we remain responsible for your data."),
@@ -349,7 +365,8 @@ export const privacyPage: LegalPageModel = {
       title: "9. Website, cookies and the bot check",
       blocks: [
         ul([
-          "**Cookies:** the HACIEN website does not use tracking, advertising or analytics cookies, and does not use Google Analytics.",
+          "**Cookies:** we do not use advertising cookies. We use Google Analytics cookies only if you click Accept in our cookie notice. Until then, and if you click Decline, Google Analytics stays off.",
+          "**Google Analytics:** it shows us pages viewed, device and browser type, approximate location (city or country), and how visitors reached our site. Google Analytics 4 does not log or store IP addresses. We keep this data for 2 months. Advertising features and Google signals are turned off. To withdraw consent, click **Cookie settings** in the footer and choose Decline, or clear your browser's cookies for our site.",
           "**Cloudflare bot check:** our contact, support and quote forms use Cloudflare Turnstile to stop spam. Cloudflare handles technical data for this under its own privacy policy (https://www.cloudflare.com/privacypolicy/).",
           "**Browser storage:** your RFQ list on our Products pages is saved in your own browser. It is not sent to us until you submit the form. You can clear it by clearing your browser's site data.",
           "**Document tool (Help page):** files you check with this tool are checked in memory on our web server for file type, size (up to 10 MB) and file name only. No outside or AI service reads them, they are not stored after the check finishes, and the tool does not create an official record.",
@@ -381,6 +398,7 @@ export const privacyPage: LegalPageModel = {
             ],
             ["Warranty claim records", "10 years", "Handling the claim"],
             ["Website security logs and bot-check data", "90 days to 1 year", "Security"],
+            ["Google Analytics data (only if you accept)", "2 months", "Website statistics"],
             [
               "Order-text logs (number, status sent, delivery result)",
               "1 year in SMS gateway logs for delivery support; up to 10 years where order status forms part of the main order record",
@@ -963,7 +981,7 @@ export const policyHistoryPage: LegalPageModel = {
       rows: [
         ["[Terms of Sale](/terms-of-sale)", "v1.1", published],
         ["[Warranty and Returns](/warranty)", "v1.1", published],
-        ["[Privacy Policy](/privacy)", "v2.2", published],
+        ["[Privacy Policy](/privacy)", "v2.3", published],
         ["[Website Terms of Use](/terms)", "v2.0", published],
         ["[Business and Legal Information](/legal)", "v2.0", published],
         ["[HACIEN Policies](/policies)", "v1.0", published],
@@ -980,6 +998,7 @@ export const policyHistoryPage: LegalPageModel = {
           rows: [
             ["Terms of Sale", "v1.0", "November 2, 2026"],
             ["Warranty and Returns", "v1.0", "November 2, 2026"],
+            ["Privacy Policy", "v2.2", "November 2, 2026"],
             ["Privacy Policy", "v2.1", "November 2, 2026"],
             ["Privacy Policy", "v2.0", "November 2, 2026"],
             ["Privacy Policy", "v1.0", "July 1, 2026"],
@@ -994,6 +1013,10 @@ export const policyHistoryPage: LegalPageModel = {
         p("**Warranty and Returns: changes from v1.0**"),
         ul([
           "Warranty and Returns v1.1: warranty drop-offs at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
+        ]),
+        p("**Privacy Policy: Changes from v2.2**"),
+        ul([
+          "Added Google Analytics, used only if you click Accept in our cookie notice; data kept 2 months; no advertising features; Google LLC added as a service provider.",
         ]),
         p("**Privacy Policy: Changes from v2.1**"),
         ul([

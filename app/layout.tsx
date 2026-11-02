@@ -3,6 +3,7 @@ import { Archivo_Black, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { CookieNotice } from "@/components/CookieNotice";
 import { GlobalCinematicBackdrop } from "@/components/GlobalCinematicBackdrop";
 import { QuoteCartProvider } from "@/components/QuoteCartProvider";
 import { LenisProvider } from "@/components/motion/LenisProvider";
@@ -77,6 +78,7 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const gaId = process.env.NEXT_PUBLIC_HACIEN_GA4_ID?.trim();
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -103,6 +105,29 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
+        {gaId ? (
+          <>
+            <script
+              id="google-consent-default"
+              dangerouslySetInnerHTML={{
+                __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+window.gtag = gtag;
+gtag('consent', 'default', {
+  'analytics_storage': 'denied',
+  'ad_storage': 'denied',
+  'ad_user_data': 'denied',
+  'ad_personalization': 'denied'
+});
+gtag('config', '${gaId}', {
+  'allow_google_signals': false,
+  'allow_ad_personalization_signals': false
+});`,
+              }}
+            />
+            <CookieNotice gaId={gaId} />
+          </>
+        ) : null}
         <LenisProvider>
           <QuoteCartProvider>
             <GlobalCinematicBackdrop />

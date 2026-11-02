@@ -3,6 +3,7 @@ import { BrandLogo } from "@/components/BrandLogo";
 import { siteFooterPolicyLinks } from "@/app/policies/_lib/links";
 import { companyContact } from "@/data/companyContact";
 import { getNavigationContent } from "@/lib/cms/content";
+import { CookieSettingsButton } from "@/components/CookieNotice";
 
 /** Second caption line. Shown even when BIR_RSN is unset. */
 export const birRmcCaption = "per BIR RMC No. 38-2026";
@@ -75,6 +76,7 @@ export function Footer() {
                     {link.label}
                   </Link>
                 ))}
+                {group.title === "Legal" ? <CookieSettingsButton /> : null}
               </div>
             </div>
           ))}

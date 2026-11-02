@@ -18,10 +18,8 @@ import { renderDocumentTitle } from "@/lib/seo/document-title";
 
 const analyticsBlockPhrases = [
   "PENDING ANALYTICS",
-  "Google Analytics 4",
   "GA4",
   "_ga",
-  "Cookie settings",
   "gaoptout",
   'click "Accept"',
 ];
@@ -82,9 +80,9 @@ describe("legal page content", () => {
     const historyText = history ? legalPagePlainText(history) : "";
     const termsOfSaleText = termsOfSale ? legalPagePlainText(termsOfSale) : "";
     const warrantyText = warranty ? legalPagePlainText(warranty) : "";
-    expect(privacyText).toContain("Version 2.2");
-    expect(privacyText).toContain("Replaces version 2.1 (effective November 2, 2026)");
-    expect(privacyText).not.toContain("Version 2.1");
+    expect(privacyText).toContain("Version 2.3");
+    expect(privacyText).toContain("Replaces version 2.2 (effective November 2, 2026)");
+    expect(privacyText).not.toContain("Version 2.2");
     expect(privacyText).not.toContain("Not for the website");
     expect(privacyText).not.toContain("we don't send promo newsletters");
     expect(termsOfSaleText).toContain("Version 1.1");
@@ -100,18 +98,23 @@ describe("legal page content", () => {
       "[Warranty and Returns](/warranty) Manufacturer or supplier warranty, and how to make a claim v1.1",
     );
     expect(policies && legalPagePlainText(policies)).toContain(
-      "[Privacy Policy](/privacy) What personal data we keep, why, and your rights v2.2",
+      "[Privacy Policy](/privacy) What personal data we keep, why, and your rights v2.3",
     );
     expect(historyText).toContain("[Terms of Sale](/terms-of-sale) v1.1");
     expect(historyText).toContain("[Warranty and Returns](/warranty) v1.1");
-    expect(historyText).toContain("[Privacy Policy](/privacy) v2.2");
+    expect(historyText).toContain("[Privacy Policy](/privacy) v2.3");
     expect(historyText).toContain("Terms of Sale v1.0 November 2, 2026");
     expect(historyText).toContain("Warranty and Returns v1.0 November 2, 2026");
+    expect(historyText).toContain("Privacy Policy v2.2 November 2, 2026");
     expect(historyText).toContain("Privacy Policy v2.1 November 2, 2026");
     expect(historyText).toContain("Privacy Policy v2.0 November 2, 2026");
     expect(historyText).toContain("Terms of Sale: changes from v1.0");
     expect(historyText).toContain("Warranty and Returns: changes from v1.0");
+    expect(historyText).toContain("Privacy Policy: Changes from v2.2");
     expect(historyText).toContain("Privacy Policy: Changes from v2.1");
+    expect(historyText).toContain(
+      "Added Google Analytics, used only if you click Accept in our cookie notice; data kept 2 months; no advertising features; Google LLC added as a service provider.",
+    );
     expect(historyText).toContain("Changes from v2.0");
     expect(historyText).toContain(
       'Added order-status texts: we text order updates from sender name "HACIEN" to the mobile number on an order. No promotional texts.',
@@ -132,12 +135,51 @@ describe("legal page content", () => {
     }
     const privacy = legalPages.find((page) => page.path === "/privacy");
     const privacyText = privacy ? legalPagePlainText(privacy) : "";
-    expect(privacyText).toContain("does not use Google Analytics");
+    expect(privacyText).toContain("We use Google Analytics cookies only if you click Accept");
+    expect(privacyText).not.toContain("does not use Google Analytics");
     expect(privacyText).toContain("up to 10 MB");
     expect(privacyText).toContain("Hostinger, Singapore");
     expect(privacyText).toContain("Hostinger, Jakarta, Indonesia");
     expect(privacyText).not.toContain("Southeast Asia");
     expect(combined).not.toContain("erp.haciensolutions.com");
+
+    // Exact-text checks for Privacy v2.3 per brief section B (B1-B6)
+    // B1: In short bullet
+    expect(privacyText).toContain(
+      "With your consent, we use Google Analytics to see how visitors use our website. It stays off unless you click Accept in our cookie notice.",
+    );
+    // B2: Section 3 table row
+    expect(privacyText).toContain("Website use (only if you accept)");
+    expect(privacyText).toContain(
+      "Pages viewed, device and browser type, approximate location (city or country), and how you reached our site, through Google Analytics",
+    );
+    expect(privacyText).toContain("Website visitors who click Accept");
+    // B3: Section 4 table row
+    expect(privacyText).toContain("Understand how visitors use our website so we can improve it");
+    expect(privacyText).toContain("Website use data (Google Analytics)");
+    expect(privacyText).toContain(
+      "Your consent (Sec. 12(a)), given by clicking Accept in our cookie notice. You can withdraw it at any time (section 9).",
+    );
+    // B4: Section 8 table row
+    expect(privacyText).toContain("Google LLC (Google Analytics)");
+    expect(privacyText).toContain("Website visit statistics, only if you accept");
+    expect(privacyText).toContain("Google's servers, which may be outside the Philippines");
+    // B5: Section 9 bullets
+    expect(privacyText).toContain(
+      "**Cookies:** we do not use advertising cookies. We use Google Analytics cookies only if you click Accept in our cookie notice. Until then, and if you click Decline, Google Analytics stays off.",
+    );
+    expect(privacyText).toContain(
+      "**Google Analytics:** it shows us pages viewed, device and browser type, approximate location (city or country), and how visitors reached our site. Google Analytics 4 does not log or store IP addresses. We keep this data for 2 months. Advertising features and Google signals are turned off. To withdraw consent, click **Cookie settings** in the footer and choose Decline, or clear your browser's cookies for our site.",
+    );
+    // B6: Section 10 table row
+    expect(privacyText).toContain("Google Analytics data (only if you accept)");
+    expect(privacyText).toContain("2 months");
+    expect(privacyText).toContain("Website statistics");
+
+    // History Earlier versions row check
+    const history = legalPages.find((page) => page.path === "/policies/history");
+    const historyText = history ? legalPagePlainText(history) : "";
+    expect(historyText).toContain("Privacy Policy v2.2 November 2, 2026");
   });
 
   it("shows the BIR registration serial only when BIR_RSN is set", () => {
@@ -248,12 +290,12 @@ describe("legal page content", () => {
       "Drop-offs at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
     );
 
-    // Privacy Policy v2.2
+    // Privacy Policy v2.3
     expect(privacy?.versionLine).toBe(
-      "Version 2.2 · Effective November 2, 2026 · Replaces version 2.1 (effective November 2, 2026)",
+      "Version 2.3 · Effective November 2, 2026 · Replaces version 2.2 (effective November 2, 2026)",
     );
-    expect(privacy?.meta.find((item) => item.label === "Version")?.value).toBe("2.2");
-    expect(privacy?.meta.find((item) => item.label === "Replaces")?.value).toBe("2.1 (November 2, 2026)");
+    expect(privacy?.meta.find((item) => item.label === "Version")?.value).toBe("2.3");
+    expect(privacy?.meta.find((item) => item.label === "Replaces")?.value).toBe("2.2 (November 2, 2026)");
     expect(privacyText).toContain("Receiver and pick-up checks");
     expect(privacyText).toContain(
       "Name of the receiver named on your PO or order, and their signature on our Delivery Receipt. For high-value deliveries or pick-ups, we look at a company or valid ID to confirm who is receiving. We do not photograph, copy, upload or keep the ID.",
@@ -285,6 +327,10 @@ describe("legal page content", () => {
     expect(privacyText).not.toContain("Southeast Asia");
 
     // History page changelog entries
+    expect(historyText).toContain("Privacy Policy: Changes from v2.2");
+    expect(historyText).toContain(
+      "Added Google Analytics, used only if you click Accept in our cookie notice; data kept 2 months; no advertising features; Google LLC added as a service provider.",
+    );
     expect(historyText).toContain(
       "Terms of Sale v1.1: Section 6 now explains naming a receiver, sharing their mobile number, order-status texts only (no ads, no links), and your responsibility for the number; quotation validity now reads 15 days unless the quotation states otherwise; added office pick-up by prior appointment.",
     );
@@ -385,6 +431,8 @@ describe("legal routes", () => {
       for (const phrase of analyticsBlockPhrases) {
         expect(html, page.path).not.toContain(phrase);
       }
+      expect(html, page.path).not.toContain("googletagmanager.com");
+      expect(html, page.path).not.toContain("We'd like to use Google Analytics cookies");
     }
 
     const policies = await fetch(`${baseUrl}/policies`, { redirect: "manual" });
@@ -392,13 +440,13 @@ describe("legal routes", () => {
     expect(policies.status).toBe(200);
     expect(policies.headers.get("location")).toBeNull();
     expect(policiesHtml).toContain("v1.1");
-    expect(policiesHtml).toContain("v2.2");
+    expect(policiesHtml).toContain("v2.3");
 
     const privacy = await fetch(`${baseUrl}/privacy`, { redirect: "manual" });
     const privacyHtml = await privacy.text();
     expect(privacy.status).toBe(200);
-    expect(privacyHtml).toContain("Version 2.2");
-    expect(privacyHtml).toContain("Replaces version 2.1 (effective November 2, 2026)");
+    expect(privacyHtml).toContain("Version 2.3");
+    expect(privacyHtml).toContain("Replaces version 2.2 (effective November 2, 2026)");
     expect(privacyHtml).not.toContain("Southeast Asia");
     expect(privacyHtml).not.toContain("Valid government IDs of a customer's authorized purchasing or receiving staff");
     expect(privacyHtml).not.toContain("Not for the website");
@@ -413,8 +461,10 @@ describe("legal routes", () => {
     expect(historyHtml).toContain("v2.0");
     expect(historyHtml).toContain("v2.1");
     expect(historyHtml).toContain("v2.2");
+    expect(historyHtml).toContain("v2.3");
     expect(historyHtml).toContain("Terms of Sale: changes from v1.0");
     expect(historyHtml).toContain("Warranty and Returns: changes from v1.0");
+    expect(historyHtml).toContain("Privacy Policy: Changes from v2.2");
     expect(historyHtml).toContain("Privacy Policy: Changes from v2.1");
     expect(historyHtml).toContain("Changes from v2.0");
     expect(historyHtml).not.toContain("Not for the website");

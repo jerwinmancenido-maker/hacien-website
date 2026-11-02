@@ -89,16 +89,16 @@ const nextConfig: NextConfig = {
 
     const scriptSrc =
       process.env.NODE_ENV === "production"
-        ? "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com"
-        : "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com";
+        ? "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://www.googletagmanager.com"
+        : "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://challenges.cloudflare.com https://www.googletagmanager.com";
     const csp = [
       "default-src 'self'",
       scriptSrc,
       "style-src 'self' 'unsafe-inline'",
-      "img-src 'self' data:",
+      "img-src 'self' data: https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com",
       "media-src 'self' data:",
       "font-src 'self'",
-      "connect-src 'self' https://challenges.cloudflare.com",
+      "connect-src 'self' https://challenges.cloudflare.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com",
       "frame-src https://challenges.cloudflare.com",
       "frame-ancestors 'none'",
       "object-src 'none'",

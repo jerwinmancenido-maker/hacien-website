@@ -450,7 +450,7 @@ const privacySections: LegacyPolicySection[] = [
       },
       {
         label: "Analytics Tools",
-        text: "We may use analytics services, such as Google Analytics, to understand how visitors interact with the Website. These tools process anonymized IP addresses and usage patterns.",
+        text: "With your consent, we use Google Analytics 4 to see which pages are visited. It stays off until you click Accept in our cookie notice, and Google Analytics 4 does not store IP addresses. See our Privacy Policy, section 9.",
       },
       {
         label: "Opt-Out Control",
