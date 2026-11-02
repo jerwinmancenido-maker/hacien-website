@@ -7,6 +7,7 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import { EnterprisePhotoPanel } from "@/components/EnterpriseImagery";
 import { StaggerContainer } from "@/components/motion";
 import { getSolution, solutions } from "@/data/solutions";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 export function generateStaticParams() {
   return solutions.map((solution) => ({ slug: solution.slug }));
@@ -15,10 +16,11 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const solution = getSolution(slug);
-  return {
+  return buildPageMetadata({
     title: solution ? solution.seoTitle : "Solution",
     description: solution?.seoDescription ?? "Explore HACIEN IT infrastructure, procurement, and systems integration solutions.",
-  };
+    path: `/solutions/${slug}`,
+  });
 }
 
 export default async function SolutionDetailPage({ params }: { params: Promise<{ slug: string }> }) {

@@ -3,13 +3,15 @@ import Link from "next/link";
 import { DocumentClause, DocumentIntro, DocumentPageShell, DocumentSection } from "@/components/DocumentLayout";
 import type { CmsDocumentBullet, CmsDocumentRecord } from "@/lib/cms/documents";
 import { getCmsDocumentRecord } from "@/lib/cms/documents";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 const trustcenterDocument = getCmsDocumentRecord("trust-center");
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: trustcenterDocument.title,
   description: trustcenterDocument.description,
-};
+  path: "/trust-center",
+});
 
 function bulletText(bullet: CmsDocumentBullet) {
   return typeof bullet === "string" ? bullet : bullet.text;

@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   title: "Customer Signup",
   description:
     "Create an open customer account request for HACIEN. This remains a request/verification flow while ERP integration is prepared.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function SignupPage() {

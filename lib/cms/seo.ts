@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { validateCmsContent } from "@/lib/cms/content";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 export type CmsSeoKey = "homepage" | "about" | "solutions" | "industries" | "faq" | "help";
 
@@ -63,10 +64,11 @@ export function getCmsSeoRecord(key: CmsSeoKey) {
 
 export function getCmsMetadata(key: CmsSeoKey): Metadata {
   const record = getCmsSeoRecord(key);
-  return {
+  return buildPageMetadata({
     title: record.title,
     description: record.description,
-  };
+    path: record.route,
+  });
 }
 
 export function validateCmsSeoRecords(records: CmsSeoRecord[] = getCmsSeoRecords()) {

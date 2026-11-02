@@ -7,6 +7,10 @@ export const metadata: Metadata = {
   title: "Customer Workspace",
   description:
     "HACIEN Customer Workspace direction for future RFQ tracking, quotation visibility, documents, support, and account continuity.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 const availableNow = [

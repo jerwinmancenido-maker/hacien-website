@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 import {
   EnterpriseMediaImage,
   enterpriseCardSizes,
@@ -9,11 +10,12 @@ import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/mo
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { SectionHeading } from "@/components/SectionHeading";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Enterprise Technology",
   description:
     "Explore HACIEN enterprise technology domains including computing, networking, cybersecurity, cloud, software, storage, power, structured cabling, and professional services.",
-};
+  path: "/technology",
+});
 
 const technologyDomains = [
   ["Enterprise Computing", "Business endpoints, workstations, servers, and computing environments for serious operations.", "computers-laptops"],

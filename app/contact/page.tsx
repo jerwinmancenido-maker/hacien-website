@@ -5,11 +5,13 @@ import { ContactForm } from "@/components/ContactForm";
 import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { brandsLine, companyContact, deliveryLine } from "@/data/companyContact";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Contact",
   description: companyContact.replyTime,
-};
+  path: "/contact",
+});
 
 const contactPaths = [
   {

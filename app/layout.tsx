@@ -48,6 +48,9 @@ export const metadata: Metadata = {
     "general procurement",
     "Philippines",
   ],
+  alternates: {
+    canonical: "https://haciensolutions.com",
+  },
   icons: {
     icon: [
       { url: "/brand/favicon.ico" },
@@ -90,14 +93,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
-    name: "HACIEN",
+    name: "HACIEN Information Technology Solutions",
     alternateName: "HACIEN",
     url: "https://haciensolutions.com",
+    logo: "https://haciensolutions.com/brand/icon-512.png",
     ...(companyContact.email ? { email: companyContact.email } : {}),
     address: {
       "@type": "PostalAddress",
-      streetAddress: "Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, San Antonio",
-      addressLocality: "City of Pasig",
+      streetAddress: "Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, Brgy. San Antonio",
+      addressLocality: "Pasig City",
       addressRegion: "Metro Manila",
       postalCode: "1605",
       addressCountry: "PH",

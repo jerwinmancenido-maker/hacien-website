@@ -4,6 +4,7 @@ import { ProductDetail } from "@/components/ProductDetail";
 import { getCategory, getProduct, products } from "@/data/products";
 import { getErpCatalogProduct } from "@/lib/erp/ecommerce-client";
 import { erpCatalogProductToWebsiteProduct } from "@/lib/erp/catalog-products";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 export function generateStaticParams() {
   return products.flatMap((product) => {
@@ -28,35 +29,40 @@ export async function generateMetadata({
   params: Promise<{ category: string; product: string }>;
 }): Promise<Metadata> {
   const { category: categorySlug, product: productSlug } = await params;
+  const path = `/products/${categorySlug}/${productSlug}`;
   const category = getCategory(categorySlug);
   const erpProduct = await resolveErpProduct(productSlug);
   if (erpProduct?.categorySlug === categorySlug) {
-    return {
+    return buildPageMetadata({
       title: erpProduct.name,
       description: erpProduct.shortDescription,
-    };
+      path,
+    });
   }
 
   const product = getProduct(productSlug);
 
   if (!category || !product) {
-    return {
+    return buildPageMetadata({
       title: "Product Detail",
       description: "Product profile not found.",
-    };
+      path,
+    });
   }
 
   if (product.categorySlug !== category.slug) {
-    return {
+    return buildPageMetadata({
       title: "Product Detail",
       description: "Product not found in this category.",
-    };
+      path,
+    });
   }
 
-  return {
+  return buildPageMetadata({
     title: product.name,
     description: product.shortDescription,
-  };
+    path,
+  });
 }
 
 export default async function ProductCategoryProductPage({

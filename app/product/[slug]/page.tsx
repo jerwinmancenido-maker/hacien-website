@@ -25,6 +25,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     return {
       title: erpProduct.name,
       description: erpProduct.shortDescription,
+      robots: { index: false, follow: false },
     };
   }
 
@@ -32,6 +33,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return {
     title: product ? product.name : "Product Detail",
     description: product?.shortDescription ?? "View HACIEN product details and request a quotation.",
+    robots: { index: false, follow: false },
   };
 }
 

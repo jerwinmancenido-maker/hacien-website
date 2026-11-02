@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { cookies, headers } from "next/headers";
 import { SectionHeading } from "@/components/SectionHeading";
 import { TrackReferenceLookup } from "@/components/TrackReferenceLookup";
@@ -10,6 +11,15 @@ import {
   hasValidTrackLookupGrant,
 } from "@/lib/security/track-lookup-guard";
 import { parseTrackReference } from "@/lib/security/track-reference";
+
+export const metadata: Metadata = {
+  title: "Track Reference",
+  description: "Customer-safe status and dates for reference tracking.",
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
 
 type TrackingPageProps = {
   params: Promise<{ referenceNumber: string }>;
