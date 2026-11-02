@@ -31,7 +31,7 @@ export function Hero() {
       <div className="cinematic-sweep pointer-events-none absolute inset-y-0 left-0 w-[74%] opacity-0" />
       {/* Handoff: do not place the logo over the hero photo. */}
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
-      <div className="relative mx-auto grid min-h-[450px] max-w-7xl items-center gap-5 px-4 py-7 sm:min-h-[520px] sm:gap-8 sm:px-6 sm:py-9 lg:min-h-[560px] lg:grid-cols-[1fr_0.86fr] lg:gap-10 lg:px-8 lg:py-12">
+      <div className="relative mx-auto grid min-h-[450px] max-w-7xl items-center gap-5 px-4 py-7 sm:min-h-[520px] sm:gap-8 sm:px-6 sm:py-9 lg:min-h-[560px] lg:grid-cols-[1.22fr_1fr] lg:gap-10 lg:px-8 lg:py-12">
         <div className="flex flex-col justify-center">
           <FadeIn>
             <div className="mb-3 inline-flex w-fit rounded border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur sm:mb-5">
@@ -71,7 +71,7 @@ export function Hero() {
         <SlideUp delay={220} className="h-full">
           <div className="relative overflow-hidden rounded-lg border border-white/15 bg-[#0A0A0A] p-3 shadow-2xl shadow-black/40 sm:p-4">
             <div className="relative space-y-3">
-              <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
                 {content.heroSignals.map((item, index) => (
                   <div
                     key={item.title}

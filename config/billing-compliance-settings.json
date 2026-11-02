@@ -1,8 +1,8 @@
 {
   "prototype_document_label": "Prototype Review Document",
   "quote_summary_label": "Draft Request Summary",
-  "quote_validity_badge_label": "Formal quote validity set by document",
-  "quote_validity_disclaimer": "This draft request does not set a default validity period. Pricing, availability, and lead time remain subject to HACIEN review, verified supplier input, and any formal quotation issued for the specific request.",
+  "quote_validity_badge_label": "Quotation validity",
+  "quote_validity_disclaimer": "A quotation is valid for 15 days unless the quotation states otherwise.",
   "stock_badges": {
     "rfq_required": "Distributor channel review",
     "track_stock": "Stock status requires ERP verification",
