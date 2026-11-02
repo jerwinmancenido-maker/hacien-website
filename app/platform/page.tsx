@@ -64,9 +64,7 @@ export default function PlatformPage() {
                   ? "md:col-span-2 lg:col-span-3"
                   : index === 1
                     ? "md:col-span-1 lg:col-span-3"
-                    : index === 2 || index === 3
-                      ? "md:col-span-1 lg:col-span-2"
-                      : "md:col-span-2 lg:col-span-2";
+                    : "md:col-span-1 lg:col-span-2";
               return (
                 <AnimatedCard key={title} className={`h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm ${spanClass}`}>
                   <div
