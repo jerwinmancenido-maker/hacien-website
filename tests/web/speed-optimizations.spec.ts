@@ -2,11 +2,16 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import React from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
+vi.mock("server-only", () => ({}));
 
 import { enterpriseHeroSizes } from "@/components/EnterpriseImagery";
 import { Hero } from "@/components/Hero";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
+import { ProductDetail } from "@/components/ProductDetail";
+import { QuoteCartProvider } from "@/components/QuoteCartProvider";
+import { products } from "@/data/products";
 import nextConfig from "@/next.config";
 
 const ROOT = process.cwd();
@@ -50,7 +55,7 @@ describe("PR 4 Speed Optimizations (F16, N01, G12, F30)", () => {
   });
 
   describe("F30: Spec table responsive behavior", () => {
-    it("ensures the spec table wrapper allows horizontal scroll and stacks on narrow screens", () => {
+    it("ensures the spec table wrapper allows horizontal scroll, stacks on narrow screens, and has no scroll hint or tabIndex", () => {
       const productDetailSource = readFileSync(
         path.join(ROOT, "components/ProductDetail.tsx"),
         "utf8",
@@ -67,8 +72,31 @@ describe("PR 4 Speed Optimizations (F16, N01, G12, F30)", () => {
       // Rows must stack below sm (flex-col) and become table-row on sm+
       expect(productDetailSource).toMatch(/flex\s+flex-col[^"]*sm:table-row/);
 
-      // Scroll affordance must be provided
-      expect(productDetailSource).toMatch(/Scroll table|scroll/i);
+      // Spec table wrapper must not have tabIndex or role="region" since mobile stacks
+      expect(productDetailSource).not.toMatch(/tabIndex/);
+      expect(productDetailSource).not.toMatch(/role="region"/);
+
+      // 'Scroll table' hint span must be removed entirely
+      expect(productDetailSource).not.toMatch(/Scroll table/i);
+    });
+
+    it("ensures ProductDetail rendered output contains no 'Scroll table' hint and spec table wrapper has no tabIndex", () => {
+      const renderedHtml = renderToStaticMarkup(
+        React.createElement(
+          QuoteCartProvider,
+          null,
+          React.createElement(ProductDetail, { product: products[0] }),
+        ),
+      );
+
+      // Rendered HTML must not have 'Scroll table' text
+      expect(renderedHtml).not.toMatch(/Scroll table/i);
+
+      // Spec table wrapper with overflow-x-auto must not have a tabindex or role="region"
+      const specWrapperMatch = renderedHtml.match(/<div[^>]*overflow-x-auto[^>]*>/);
+      expect(specWrapperMatch).toBeTruthy();
+      expect(specWrapperMatch?.[0]).not.toMatch(/tabindex/i);
+      expect(specWrapperMatch?.[0]).not.toMatch(/role="region"/i);
     });
   });
 

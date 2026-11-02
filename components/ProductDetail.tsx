@@ -110,11 +110,8 @@ export function ProductDetail({ product }: { product: Product }) {
                   These are RFQ planning targets, not guaranteed stock, pricing, or final model commitments.
                 </p>
               </div>
-              <span className="text-xs font-semibold text-blue sm:hidden">
-                Scroll table &rarr;
-              </span>
             </div>
-            <div className="w-full max-w-full overflow-x-auto" tabIndex={0} role="region" aria-label="Technical specification table">
+            <div className="w-full max-w-full overflow-x-auto">
               <table className="w-full min-w-0 sm:min-w-[520px] border-collapse text-left text-sm">
                 <thead className="hidden sm:table-header-group bg-white text-xs uppercase tracking-[0.12em] text-grey-600">
                   <tr>
