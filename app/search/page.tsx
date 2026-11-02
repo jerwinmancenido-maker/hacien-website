@@ -56,7 +56,7 @@ export default async function SearchPage({
                 placeholder="Search products, solutions, insights..."
                 className="focus-ring min-h-14 flex-1 rounded-full border border-white/60 bg-white/80 px-5 text-sm text-slate-950 shadow-inner shadow-slate-950/5 outline-none placeholder:text-grey-600"
               />
-              <button className="button-glow focus-ring rounded bg-[#2563EB] px-7 py-3 text-sm font-bold text-white shadow-lg shadow-blue-900/15" type="submit">
+              <button className="button-glow focus-ring rounded bg-[#2563EB] px-7 py-3 text-sm font-bold text-white shadow-lg shadow-black/10" type="submit">
                 Search
               </button>
             </div>
@@ -102,7 +102,7 @@ export default async function SearchPage({
                         <Link href={item.href} className="group block h-full focus-ring">
                           <SpotlightCard className="h-full rounded border border-slate-200 bg-white p-6 shadow-sm transition group-hover:-translate-y-1 group-hover:border-[#2563EB]/35 group-hover:shadow-xl group-hover:shadow-slate-950/10">
                             <div className="flex items-center justify-between gap-4">
-                              <span className="rounded-full border border-blue-100 bg-blue-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-[#2563EB]">
+                              <span className="rounded-full border border-grey-200 bg-grey-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.12em] text-grey-700">
                                 {item.group}
                               </span>
                               <span aria-hidden="true" className="text-lg text-grey-200 transition group-hover:translate-x-1 group-hover:text-[#2563EB]">

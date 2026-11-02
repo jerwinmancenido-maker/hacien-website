@@ -7,7 +7,7 @@ export default function NotFoundPage() {
       <div className="surface mx-auto max-w-2xl rounded p-8 text-center sm:p-12">
         <div className="mx-auto flex flex-col items-center gap-4">
           <BrandLogo variant="icon" height={56} />
-          <span className="inline-flex items-center rounded bg-blue-tint px-3.5 py-1 text-xs font-semibold text-blue ring-1 ring-inset ring-blue/10">
+          <span className="inline-flex items-center rounded border border-grey-200 bg-grey-50 px-3.5 py-1 text-xs font-semibold text-grey-700">
             Error Code 404
           </span>
         </div>

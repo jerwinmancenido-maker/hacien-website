@@ -37,7 +37,7 @@ export default function IndustriesPage() {
             <AnimatedContent delay={260} className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href={content.hero.primaryAction.href}
-                className="button-glow focus-ring rounded bg-[#2563EB] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
+                className="button-glow focus-ring rounded bg-[#2563EB] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-black/10"
               >
                 {content.hero.primaryAction.label}
               </Link>
@@ -102,7 +102,7 @@ export default function IndustriesPage() {
             <GradientBackground className="opacity-[0.36]" />
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
-                <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">
                   {content.cta.eyebrow}
                 </div>
                 <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">

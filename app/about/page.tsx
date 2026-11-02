@@ -63,7 +63,7 @@ export default function AboutPage() {
             <GradientBackground className="opacity-[0.36]" />
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
-                <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">
                   {content.cta.eyebrow}
                 </div>
                 <h2 className="mt-3 max-w-3xl text-xl font-bold tracking-tight sm:mt-4 sm:text-3xl">

@@ -26,7 +26,7 @@ export function InteractivePortalPreview() {
       date: "Sample date",
       title: "IT refresh request - laptops and network equipment",
       status: "Quote Review",
-      badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
+      badgeColor: "bg-grey-100 text-grey-800 border-grey-200",
       totalAmount: "Estimate pending",
       itemsCount: 3,
       items: [
@@ -41,7 +41,7 @@ export function InteractivePortalPreview() {
       date: "Sample date",
       title: "Backup appliance and UPS sizing request",
       status: "Sourcing Review",
-      badgeColor: "bg-blue-50 text-blue-700 border-blue-200",
+      badgeColor: "bg-grey-100 text-grey-800 border-grey-200",
       totalAmount: "Estimate pending",
       itemsCount: 2,
       items: [
@@ -118,8 +118,8 @@ export function InteractivePortalPreview() {
       <div className="bg-[#0A0A0A] p-6 text-white sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 rounded bg-blue-500/20 px-3 py-1 text-xs font-semibold text-blue-300 border border-blue-400/30">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+              <span className="inline-flex items-center gap-1.5 rounded bg-white/10 px-3 py-1 text-xs font-semibold text-white border border-white/20">
+                <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse"></span>
               Illustrative Portal Preview
             </span>
             <span className="text-xs text-grey-300">Sample workspace data</span>
@@ -134,7 +134,7 @@ export function InteractivePortalPreview() {
         <div className="flex items-center gap-3">
           <Link
             href="/quote"
-            className="rounded bg-[#2563EB] px-4 py-2 text-xs font-semibold text-white shadow-md hover:bg-blue-600 transition"
+            className="rounded bg-[#2563EB] px-4 py-2 text-xs font-semibold text-white shadow-md hover:bg-[#1D4ED8] transition"
           >
             New RFQ Intake
           </Link>
@@ -160,7 +160,7 @@ export function InteractivePortalPreview() {
           >
             <FileText className="h-4 w-4" />
             Sample RFQs & Quotes
-            <span className="rounded bg-blue-100 px-2 py-0.5 text-xs text-blue-700 font-bold">
+            <span className="rounded bg-grey-100 px-2 py-0.5 text-xs text-grey-800 font-bold">
               {rfqs.length}
             </span>
           </button>
@@ -175,7 +175,7 @@ export function InteractivePortalPreview() {
           >
             <Truck className="h-4 w-4" />
             Procurement Planning
-            <span className="rounded-full bg-emerald-100 px-2 py-0.5 text-xs text-emerald-700 font-bold">
+            <span className="rounded-full bg-grey-100 px-2 py-0.5 text-xs text-grey-800 font-bold border border-grey-200">
               1 Active
             </span>
           </button>
@@ -227,10 +227,10 @@ export function InteractivePortalPreview() {
                   key={rfq.id}
                   onClick={() => setSelectedRfq(rfq.id)}
                   className={`text-left rounded border p-4 transition ${
- selectedRfq === rfq.id
- ? "border-[#2563EB] bg-blue-50/40 shadow-sm"
- : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50"
- }`}
+                    selectedRfq === rfq.id
+                      ? "border-[#2563EB] bg-grey-50 shadow-sm"
+                      : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50"
+                  }`}
                 >
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold text-slate-500">{rfq.id}</span>
@@ -293,8 +293,8 @@ export function InteractivePortalPreview() {
               </div>
 
               {/* Notes */}
-              <div className="mt-4 rounded border border-blue-200/80 bg-blue-50/60 p-3.5 text-xs text-blue-900">
-                <span className="font-bold">Status Note: </span>
+              <div className="mt-4 rounded border border-grey-200 bg-grey-50 p-3.5 text-xs text-grey-700">
+                <span className="font-bold text-ink">Status Note: </span>
                 {selectedRfqData.notes}
               </div>
             </div>
@@ -310,7 +310,7 @@ export function InteractivePortalPreview() {
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-bold text-slate-500">{order.id}</span>
-                      <span className="rounded-full bg-emerald-100 border border-emerald-300 px-2.5 py-0.5 text-[11px] font-bold text-emerald-800">
+                      <span className="rounded-full bg-grey-100 border border-grey-300 px-2.5 py-0.5 text-[11px] font-bold text-grey-800">
                         {order.status}
                       </span>
                     </div>
@@ -333,16 +333,16 @@ export function InteractivePortalPreview() {
                         <div className="flex items-center gap-2">
                           <div
                             className={`grid h-7 w-7 place-items-center rounded-full text-xs font-bold ${
- step.completed
- ? "bg-emerald-600 text-white"
- : step.current
- ? "bg-[#2563EB] text-white ring-4 ring-blue-100 animate-pulse"
- : "bg-slate-200 text-slate-500"
- }`}
+                              step.completed
+                                ? "bg-[#0A0A0A] text-white"
+                                : step.current
+                                ? "bg-[#2563EB] text-white ring-4 ring-grey-200 animate-pulse"
+                                : "bg-slate-200 text-slate-500"
+                            }`}
                           >
                             {step.completed ? <CheckCircle2 className="h-4 w-4" /> : idx + 1}
                           </div>
-                          <div className={`h-1 flex-1 rounded-full ${step.completed ? "bg-emerald-500" : "bg-slate-200"}`} />
+                          <div className={`h-1 flex-1 rounded-full ${step.completed ? "bg-[#0A0A0A]" : "bg-slate-200"}`} />
                         </div>
                         <span className="mt-1 text-xs font-bold text-slate-800">{step.label}</span>
                         <span className="text-[11px] text-slate-500">{step.date}</span>
@@ -376,8 +376,8 @@ export function InteractivePortalPreview() {
                     <td className="py-3 px-4 text-slate-600">{t.category}</td>
                     <td className="py-3 px-4">
                       <span className={`inline-block rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
- t.status.includes("Resolved") ? "bg-slate-100 text-slate-700 border border-slate-300" : "bg-blue-50 text-blue-700 border border-blue-200"
- }`}>
+                        t.status.includes("Resolved") ? "bg-slate-100 text-slate-700 border border-slate-300" : "bg-grey-100 text-grey-800 border border-grey-200"
+                      }`}>
                         {t.status}
                       </span>
                     </td>
@@ -395,7 +395,7 @@ export function InteractivePortalPreview() {
             {documents.map((doc, idx) => (
               <div key={idx} className="flex items-center justify-between rounded border border-slate-200 p-4 bg-slate-50/50 hover:bg-white hover:shadow-sm transition">
                 <div className="flex items-center gap-3">
-                  <div className="grid h-10 w-10 place-items-center rounded-lg bg-blue-100 text-[#2563EB]">
+                  <div className="grid h-10 w-10 place-items-center rounded-lg bg-grey-100 text-grey-800">
                     <FileCheck className="h-5 w-5" />
                   </div>
                   <div>

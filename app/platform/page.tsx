@@ -63,13 +63,13 @@ export default function PlatformPage() {
                 <div
                   className="h-32 bg-slate-950"
                   style={{
-                    backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.04), rgba(7, 20, 38, 0.74)), url(${enterpriseImages[platformImages[String(title)] || "network"]})`,
+                    backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.74)), url(${enterpriseImages[platformImages[String(title)] || "network"]})`,
                     backgroundPosition: "center",
                     backgroundSize: "cover",
                   }}
                 />
                 <div className="p-7">
-                <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">HACIEN Platform</div>
+                <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">HACIEN Platform</div>
                 <h2 className="mt-5 text-2xl font-bold tracking-tight text-slate-950">{title}</h2>
                 <p className="mt-4 text-sm leading-7 text-slate-600">{text}</p>
                 </div>

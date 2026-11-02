@@ -113,7 +113,7 @@ export default async function ProductsPage() {
                         className="absolute inset-0"
                         style={{
                           backgroundImage:
-                            "linear-gradient(180deg, rgba(7, 20, 38, 0.03), rgba(7, 20, 38, 0.78))",
+                            "linear-gradient(180deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.78))",
                         }}
                       />
                       <div className="absolute bottom-4 left-4 rounded border border-white/16 bg-white/12 px-3 py-2 text-xs font-bold uppercase tracking-[0.14em] text-white backdrop-blur">

@@ -69,10 +69,10 @@ export function ProductDetail({ product }: { product: Product }) {
               official order or invoice step.
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
-              <span className="rounded-full border border-blue-200 bg-white px-3 py-1 text-xs font-bold text-blue-800">
+              <span className="rounded-full border border-grey-200 bg-white px-3 py-1 text-xs font-bold text-grey-700">
                 {stockBadgeLabel}
               </span>
-              <span className="rounded-full border border-amber-200 bg-white px-3 py-1 text-xs font-bold text-amber-800">
+              <span className="rounded-full border border-grey-200 bg-white px-3 py-1 text-xs font-bold text-grey-700">
                 Price review available
               </span>
             </div>
@@ -137,7 +137,7 @@ export function ProductDetail({ product }: { product: Product }) {
             </div>
           </div>
 
-          <div className="mt-6 rounded border border-blue-100 bg-blue-tint p-5 text-sm leading-6 text-grey-700">
+          <div className="mt-6 rounded border border-grey-200 bg-grey-50 p-5 text-sm leading-6 text-grey-700">
             <strong className="text-ink">Procurement note:</strong> {product.procurementNotes}
           </div>
 
@@ -165,7 +165,7 @@ export function ProductDetail({ product }: { product: Product }) {
             </Link>
             <Link
               href={`/quote?product=${encodeURIComponent(product.slug)}&context=price-review`}
-              className="interactive-link focus-ring rounded border border-amber-300 bg-amber-50 px-5 py-3 text-sm font-bold text-amber-900"
+              className="interactive-link focus-ring rounded border border-grey-200 bg-white px-5 py-3 text-sm font-bold text-ink hover:bg-grey-50"
             >
               Request price review
             </Link>
@@ -187,17 +187,17 @@ export function ProductDetail({ product }: { product: Product }) {
               </p>
             </div>
           ) : canCheckout(product) ? (
-            <p className="mt-4 rounded border border-blue-200 bg-blue-tint px-4 py-3 text-sm font-semibold text-blue-800">
+            <p className="mt-4 rounded border border-grey-200 bg-grey-50 px-4 py-3 text-sm font-semibold text-grey-700">
               Order intent is available only after ERP publication settings enable manual payment review.
             </p>
           ) : null}
           {showSandboxPaymentNotice ? (
-            <p className="mt-4 rounded border border-amber-200 bg-amber-50 px-4 py-3 text-sm font-semibold text-amber-800">
+            <p className="mt-4 rounded border border-grey-200 bg-grey-50 px-4 py-3 text-sm font-semibold text-grey-700">
               Sandbox payment testing is enabled for this ERP publication. Live payment collection is not enabled.
             </p>
           ) : null}
           {added ? (
-            <p className="mt-4 rounded border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700">
+            <p className="mt-4 rounded border border-grey-200 bg-grey-50 px-4 py-3 text-sm font-semibold text-ink">
               Added to the RFQ package. Continue to RFQ when ready to submit.
             </p>
           ) : null}

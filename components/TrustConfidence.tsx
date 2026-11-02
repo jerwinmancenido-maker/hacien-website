@@ -41,7 +41,7 @@ export function OurCommitment({ className = "" }: { className?: string }) {
     <AnimatedSection className={`bg-white px-4 py-12 sm:px-6 lg:px-8 ${className}`}>
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Our Commitment</div>
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Our Commitment</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             Dependable procurement support is built from small, visible disciplines.
           </h2>
@@ -68,7 +68,7 @@ export function CapabilityResources({ inverse = false }: { inverse?: boolean }) 
     <section className={`${inverse ? "bg-[#0A0A0A] text-white" : "bg-slate-50 text-slate-950"} px-4 py-12 sm:px-6 lg:px-8`}>
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
-          <div className={`text-xs font-bold uppercase tracking-[0.18em] ${inverse ? "text-blue-300" : "text-[#2563EB]"}`}>
+          <div className={`text-xs font-bold uppercase tracking-[0.18em] ${inverse ? "text-grey-400" : "text-grey-600"}`}>
             Capability Resources
           </div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">
@@ -86,7 +86,7 @@ export function CapabilityResources({ inverse = false }: { inverse?: boolean }) 
  inverse ? "border-white/12 bg-white/[0.06]" : "border-slate-200 bg-white shadow-sm"
  }`}
             >
-              <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue">
+              <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">
                 {status}
               </div>
               <h3 className="mt-4 text-base font-bold">{title}</h3>
@@ -104,7 +104,7 @@ export function CustomerJourneyConfidence() {
     <AnimatedSection className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">What Happens Next</div>
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">What Happens Next</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             New customers should know what happens after they contact HACIEN.
           </h2>
@@ -116,7 +116,7 @@ export function CustomerJourneyConfidence() {
           {journey.map(([title, text], index) => (
             <BorderGlow key={title} className="rounded-lg bg-white p-5 shadow-sm">
               <div className="flex gap-4">
-                <div className="grid h-11 w-11 shrink-0 place-items-center rounded bg-[#2563EB] text-sm font-bold text-white">
+                <div className="grid h-11 w-11 shrink-0 place-items-center rounded bg-[#0A0A0A] text-sm font-bold text-white">
                   {String(index + 1).padStart(2, "0")}
                 </div>
                 <div>
@@ -147,7 +147,7 @@ export function FutureProofAssets() {
     <section className="bg-white px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Future Proof Assets</div>
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Future Proof Assets</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             Proof should be added only when it is real, approved, and supportable.
           </h2>
@@ -175,7 +175,7 @@ export function TrustCta() {
         <BorderGlow className="rounded-lg bg-[#0A0A0A] p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
           <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
             <div>
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Procurement Confidence</div>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">Procurement Confidence</div>
               <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
                 Have a requirement that needs careful review before quotation?
               </h2>
@@ -198,7 +198,7 @@ export function CompanyCredentials() {
     <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Registrations</div>
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Registrations</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             {registeredCompanyName}
           </h2>
@@ -242,14 +242,14 @@ export function ControlledAccessPreview({
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">{eyebrow}</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">{eyebrow}</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               {title}
             </h2>
             <p className="mt-4 text-base leading-7 text-slate-600">
               {description}
             </p>
-            <div className="mt-6 rounded border border-amber-200 bg-amber-50 p-4 text-sm font-semibold leading-6 text-amber-900">
+            <div className="mt-6 rounded border border-grey-200 bg-grey-50 p-4 text-sm font-semibold leading-6 text-grey-700">
               {statusNote}
             </div>
           </div>
@@ -257,10 +257,10 @@ export function ControlledAccessPreview({
             <div className="rounded border border-slate-200 bg-[#0A0A0A] p-4 text-white">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue-200">HACIEN Customer Workspace</div>
+                  <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-400">HACIEN Customer Workspace</div>
                   <div className="mt-1 text-lg font-bold">{dashboardTitle}</div>
                 </div>
-                <span className="rounded-full border border-amber-200/40 bg-amber-300/12 px-3 py-1 text-xs font-bold text-amber-100">
+                <span className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-bold text-white">
                   Preview Only
                 </span>
               </div>
@@ -273,7 +273,7 @@ export function ControlledAccessPreview({
                       <h3 className="text-sm font-bold text-slate-950">{title}</h3>
                       <p className="mt-1 text-xs font-semibold text-slate-500">{label}</p>
                     </div>
-                    <span className="rounded-full border border-blue-100 bg-blue-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-[#2563EB]">
+                    <span className="rounded-full border border-grey-200 bg-grey-50 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-grey-700">
                       {status}
                     </span>
                   </div>

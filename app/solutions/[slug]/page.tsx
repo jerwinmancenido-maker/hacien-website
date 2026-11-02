@@ -87,7 +87,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
           <div className="progress-line mt-8 grid gap-4 md:grid-cols-4 md:[&::before]:hidden">
             {solution.workflow.map((step, index) => (
               <div key={step} className="relative rounded border border-slate-200 bg-white p-5">
-                <div className="grid h-10 w-10 place-items-center rounded bg-[#2563EB] text-sm font-bold text-white">{index + 1}</div>
+                <div className="grid h-10 w-10 place-items-center rounded bg-[#0A0A0A] text-sm font-bold text-white">{index + 1}</div>
                 <div className="mt-4 font-bold text-slate-950">{step}</div>
               </div>
             ))}

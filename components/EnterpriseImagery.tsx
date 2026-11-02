@@ -60,23 +60,23 @@ export function EnterprisePhotoPanel({
 }) {
   return (
     <div
-      className={`relative min-h-[220px] overflow-hidden rounded-lg bg-slate-950 shadow-2xl shadow-slate-950/18 sm:min-h-[270px] ${className}`}
+      className={`relative min-h-[220px] overflow-hidden rounded-lg bg-[#0A0A0A] shadow-2xl shadow-slate-950/18 sm:min-h-[270px] ${className}`}
     >
       <div className="cinematic-photo absolute inset-0">
         <EnterpriseMediaImage image={image} sizes={enterprisePanelSizes} />
         <div
           className="absolute inset-0"
           style={{
-            backgroundImage: "linear-gradient(180deg, rgba(7, 20, 38, 0.08), rgba(7, 20, 38, 0.74))",
+            backgroundImage: "linear-gradient(180deg, rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0.74))",
           }}
         />
       </div>
-      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(7,20,38,0.72),transparent_54%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,0,0,0.72),transparent_54%)]" />
       <div className="cinematic-lines pointer-events-none absolute inset-0 opacity-25" />
       <div className="relative flex min-h-[220px] flex-col justify-end p-4 text-white sm:min-h-[270px] sm:p-5">
-        <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">{eyebrow}</div>
+        <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-300">{eyebrow}</div>
         <h3 className="mt-3 max-w-xl text-xl font-bold tracking-tight sm:text-2xl">{title}</h3>
-        {caption ? <p className="mt-3 max-w-lg text-sm leading-6 text-slate-200">{caption}</p> : null}
+        {caption ? <p className="mt-3 max-w-lg text-sm leading-6 text-grey-200">{caption}</p> : null}
       </div>
     </div>
   );
@@ -84,10 +84,10 @@ export function EnterprisePhotoPanel({
 
 export function PremiumStatementBand() {
   return (
-    <section className="bg-[linear-gradient(180deg,#ffffff_0%,#f5fbfc_100%)] px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
+    <section className="bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_100%)] px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div className="max-w-2xl">
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Company</div>
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-700">Company</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             Started in 2026.
           </h2>

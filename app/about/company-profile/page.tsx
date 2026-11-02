@@ -25,7 +25,7 @@ export default function CompanyProfilePage() {
         <div className="absolute inset-0 hq-grid opacity-80" />
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
-            <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
+            <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">
               Company Profile
             </AnimatedContent>
             <h1 className="mt-5 max-w-5xl text-3xl font-bold tracking-tight sm:text-5xl">
@@ -34,7 +34,7 @@ export default function CompanyProfilePage() {
             <p className="mt-6 max-w-2xl text-lg leading-8 text-grey-300">{founderLine}</p>
           </div>
           <BorderGlow tone="dark" className="rounded-lg bg-white/[0.07] p-6">
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">Verification Snapshot</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">Verification Snapshot</div>
             <div className="mt-6 grid gap-3">
               {verification.map(([field, status]) => (
                 <div key={field} className="flex items-center justify-between gap-4 rounded border border-white/12 bg-white/[0.06] px-4 py-3">
@@ -44,7 +44,7 @@ export default function CompanyProfilePage() {
               ))}
             </div>
             <p className="mt-4 text-sm leading-6 text-grey-300">{registrationPapersNote}</p>
-            <Link href="/compliance" className="mt-4 inline-flex text-sm font-bold text-blue-200">
+            <Link href="/compliance" className="mt-4 inline-flex text-sm font-bold text-blue hover:underline">
               See Government Compliance
             </Link>
           </BorderGlow>

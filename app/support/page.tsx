@@ -63,7 +63,7 @@ export default function SupportPage() {
                     <div
                       className="relative min-h-[170px]"
                       style={{
-                        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.05), rgba(7, 20, 38, 0.76)), url(${enterpriseImages[image as keyof typeof enterpriseImages]})`,
+                        backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.76)), url(${enterpriseImages[image as keyof typeof enterpriseImages]})`,
                         backgroundPosition: "center",
                         backgroundSize: "cover",
                       }}

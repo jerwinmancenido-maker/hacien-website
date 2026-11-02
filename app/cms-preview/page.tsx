@@ -16,18 +16,18 @@ export const metadata: Metadata = {
 };
 
 const ownerTone = {
-  cms: "border-emerald-200 bg-emerald-50 text-emerald-800",
-  config: "border-sky-200 bg-sky-50 text-sky-800",
+  cms: "border-grey-300 bg-grey-100 text-grey-800",
+  config: "border-grey-200 bg-grey-50 text-grey-800",
   code: "border-slate-200 bg-slate-50 text-slate-700",
-  erp: "border-amber-200 bg-amber-50 text-amber-800",
+  erp: "border-grey-300 bg-grey-100 text-grey-800",
   blocked: "border-red-200 bg-red-50 text-red-800",
 };
 
 const readinessTone = {
-  ready: "border-emerald-200 bg-emerald-50 text-emerald-800",
-  "needs-model": "border-amber-200 bg-amber-50 text-amber-800",
+  ready: "border-grey-300 bg-grey-100 text-grey-800",
+  "needs-model": "border-grey-200 bg-grey-50 text-grey-800",
   blocked: "border-red-200 bg-red-50 text-red-800",
-  "future-db": "border-indigo-200 bg-indigo-50 text-indigo-800",
+  "future-db": "border-grey-200 bg-grey-50 text-grey-800",
 };
 
 function Pill({ children, className }: { children: ReactNode; className: string }) {
@@ -113,7 +113,7 @@ export default function CmsPreviewPage() {
                       <Pill className={ownerTone[item.ownerType]}>{item.ownerType}</Pill>
                     </td>
                     <td className="border-b border-slate-100 px-3 py-3">
-                      <span className={item.editableNow ? "font-bold text-emerald-700" : "font-bold text-slate-500"}>
+                      <span className={item.editableNow ? "font-bold text-ink" : "font-bold text-slate-500"}>
                         {item.editableNow ? "Yes" : "No"}
                       </span>
                     </td>
@@ -142,7 +142,7 @@ export default function CmsPreviewPage() {
                 <div key={entry.slug} className="rounded-lg border border-slate-200 bg-slate-50 p-4">
                   <div className="flex items-center justify-between gap-3">
                     <div className="font-bold text-slate-950">{entry.hero.title}</div>
-                    <Pill className="border-emerald-200 bg-emerald-50 text-emerald-800">{entry.status}</Pill>
+                    <Pill className="border-grey-300 bg-grey-100 text-grey-800">{entry.status}</Pill>
                   </div>
                   <div className="mt-2 font-mono text-xs text-slate-500">{entry.slug}</div>
                   <p className="mt-2 text-sm leading-6 text-slate-600">{entry.hero.description}</p>

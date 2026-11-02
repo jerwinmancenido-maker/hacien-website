@@ -75,10 +75,10 @@ export default function PortalPage() {
         </div>
       </section>
 
-      <section className="bg-[linear-gradient(180deg,#f8fbff_0%,#eef7f8_100%)] px-4 py-12 sm:px-6 lg:px-8">
+      <section className="bg-grey-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue">
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">
               Planned Workspace
             </div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-ink sm:text-3xl">
@@ -97,7 +97,7 @@ export default function PortalPage() {
             ].map(([title, text], index) => (
               <AnimatedContent key={title} delay={index * 60}>
                 <SpotlightCard className="rounded-lg border border-grey-200 bg-white p-4 shadow-sm">
-                  <div className="text-xs font-bold text-blue">{String(index + 1).padStart(2, "0")}</div>
+                  <div className="text-xs font-bold text-grey-700">{String(index + 1).padStart(2, "0")}</div>
                   <h3 className="mt-2 text-base font-bold text-ink">{title}</h3>
                   <p className="mt-2 text-sm leading-6 text-grey-600">{text}</p>
                 </SpotlightCard>
@@ -110,7 +110,7 @@ export default function PortalPage() {
       <section className="bg-ink px-4 py-12 text-white sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-center">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">
               Account Continuity
             </div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">
@@ -147,7 +147,7 @@ export default function PortalPage() {
           <BorderGlow className="relative overflow-hidden rounded bg-ink p-8 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
-                <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">
                   Start now
                 </div>
                 <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
