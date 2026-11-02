@@ -44,10 +44,7 @@ export function ClarificationReplyForm({ referenceNumber }: { referenceNumber: s
 
   return (
     <form onSubmit={handleSubmit} className="mt-5 rounded border border-grey-200 bg-grey-50 p-4">
-      <label htmlFor={`${baseId}-website`} className="sr-only">
-        Website
-      </label>
-      <input id={`${baseId}-website`} type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
+      <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
       <label htmlFor={`${baseId}-message`} className="text-sm font-bold text-ink">
         Reply to HACIEN <span className="text-grey-600">*</span>
       </label>

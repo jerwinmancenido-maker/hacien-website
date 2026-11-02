@@ -24,6 +24,15 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
       expect(layout).toMatch(/<main id="content" tabIndex=\{-1\}>/);
     });
 
+    it("renders the skip to content link before CookieNotice in the layout source", () => {
+      const layout = readFileSync(path.join(ROOT, "app/layout.tsx"), "utf8");
+      const skipIndex = layout.indexOf('href="#content"');
+      const cookieNoticeIndex = layout.indexOf("<CookieNotice");
+      expect(skipIndex).toBeGreaterThan(-1);
+      expect(cookieNoticeIndex).toBeGreaterThan(-1);
+      expect(skipIndex).toBeLessThan(cookieNoticeIndex);
+    });
+
     it("ensures inner pages app/track/page.tsx and app/cms-preview/page.tsx do not render duplicate main tags", () => {
       const trackPage = readFileSync(path.join(ROOT, "app/track/page.tsx"), "utf8");
       expect(trackPage).not.toContain("<main");
@@ -158,6 +167,18 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
       expect(form).toMatch(/htmlFor=\{`\$\{baseId\}-message`\}/);
     });
 
+    it("excludes honeypots (website, _website) from the label-association test explicitly and asserts they have no label and are hidden/aria-hidden", () => {
+      // ClarificationReplyForm: honeypot 'website' has no label and is hidden/aria-hidden with tabIndex -1
+      const clarification = readFileSync(path.join(ROOT, "components/ClarificationReplyForm.tsx"), "utf8");
+      expect(clarification).not.toMatch(/<label[^>]*website/i);
+      expect(clarification).toMatch(/<input[^>]*name="website"[^>]*tabIndex=\{-1\}[^>]*autoComplete="off"[^>]*className="hidden"[^>]*aria-hidden="true"/);
+
+      // ContactForm: honeypot '_website' markup matches main exactly, inside aria-hidden div, not wrapped in a new label
+      const contact = readFileSync(path.join(ROOT, "components/ContactForm.tsx"), "utf8");
+      expect(contact).not.toMatch(/htmlFor=\{`\$\{baseId\}-website`\}/);
+      expect(contact).toMatch(/<div className="absolute -left-\[9999px\]" aria-hidden="true">\s*<label htmlFor="contact-website">\s*Website\s*<input id="contact-website" type="text" name="_website" tabIndex=\{-1\} autoComplete="off" \/>\s*<\/label>\s*<\/div>/);
+    });
+
     it("verifies TrackReferenceLookup has tied label and aria-required", () => {
       const form = readFileSync(path.join(ROOT, "components/TrackReferenceLookup.tsx"), "utf8");
       expect(form).toContain("useId");
@@ -182,6 +203,64 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
       const searchPage = readFileSync(path.join(ROOT, "app/search/page.tsx"), "utf8");
       expect(searchPage).toMatch(/htmlFor="hq-search"/);
       expect(searchPage).toMatch(/id="hq-search"/);
+    });
+
+    it("asserts form controls in these components keep w-full", () => {
+      // RequirementBuilder: FieldControl and other form controls keep w-full
+      const builder = readFileSync(path.join(ROOT, "components/RequirementBuilder.tsx"), "utf8");
+      expect(builder).toMatch(/function FieldControl[\s\S]*?<textarea[\s\S]*?className="[^"]*w-full/);
+      expect(builder).toMatch(/function FieldControl[\s\S]*?<select[\s\S]*?className="[^"]*w-full/);
+      expect(builder).toMatch(/function FieldControl[\s\S]*?<input[\s\S]*?className="[^"]*w-full/);
+      expect(builder).toMatch(/id=\{`\$\{baseId\}-category`\}[\s\S]*?className="[^"]*w-full/);
+      expect(builder).toMatch(/id=\{`\$\{baseId\}-quantity`\}[\s\S]*?className="[^"]*w-full/);
+      expect(builder).toMatch(/id=\{`\$\{baseId\}-brandPreference`\}[\s\S]*?className="[^"]*w-full/);
+      expect(builder).toMatch(/id=\{`\$\{baseId\}-equivalentAccepted`\}[\s\S]*?className="[^"]*w-full/);
+      expect(builder).toMatch(/id=\{`\$\{baseId\}-deadline`\}[\s\S]*?className="[^"]*w-full/);
+      expect(builder).toMatch(/id=\{`\$\{baseId\}-deliveryLocation`\}[\s\S]*?className="[^"]*w-full/);
+      expect(builder).toMatch(/id=\{`\$\{baseId\}-notes`\}[\s\S]*?className="[^"]*w-full/);
+
+      // QuoteRequestForm
+      const quoteForm = readFileSync(path.join(ROOT, "components/QuoteRequestForm.tsx"), "utf8");
+      expect(quoteForm).toMatch(/name="requirementType"[\s\S]*?className="[^"]*w-full/);
+      expect(quoteForm).toMatch(/name="budgetRange"[\s\S]*?className="[^"]*w-full/);
+      expect(quoteForm).toMatch(/name="timeline"[\s\S]*?className="[^"]*w-full/);
+      expect(quoteForm).toMatch(/name="message"[\s\S]*?className="[^"]*w-full/);
+      expect(quoteForm).toMatch(/name="name"[\s\S]*?className="[^"]*w-full/);
+      expect(quoteForm).toMatch(/name="company"[\s\S]*?className="[^"]*w-full/);
+      expect(quoteForm).toMatch(/name="email"[\s\S]*?className="[^"]*w-full/);
+
+      // QuoteCart
+      const quoteCart = readFileSync(path.join(ROOT, "components/QuoteCart.tsx"), "utf8");
+      expect(quoteCart).toMatch(/name="intakePath"[\s\S]*?className="[^"]*w-full/);
+      expect(quoteCart).toMatch(/name=\{key\}[\s\S]*?className="[^"]*w-full/);
+      expect(quoteCart).toMatch(/name="procurementType"[\s\S]*?className="[^"]*w-full/);
+      expect(quoteCart).toMatch(/name="budgetRange"[\s\S]*?className="[^"]*w-full/);
+      expect(quoteCart).toMatch(/name="notes"[\s\S]*?className="[^"]*w-full/);
+      expect(quoteCart).toMatch(/name="attachment"[\s\S]*?className="[^"]*w-full/);
+
+      // ContactForm
+      const contactForm = readFileSync(path.join(ROOT, "components/ContactForm.tsx"), "utf8");
+      expect(contactForm).toMatch(/name="name"[\s\S]*?className="[^"]*w-full/);
+      expect(contactForm).toMatch(/name="company"[\s\S]*?className="[^"]*w-full/);
+      expect(contactForm).toMatch(/name="email"[\s\S]*?className="[^"]*w-full/);
+      expect(contactForm).toMatch(/name="inquiryType"[\s\S]*?className="[^"]*w-full/);
+      expect(contactForm).toMatch(/name="message"[\s\S]*?className="[^"]*w-full/);
+
+      // ClarificationReplyForm
+      const clarification = readFileSync(path.join(ROOT, "components/ClarificationReplyForm.tsx"), "utf8");
+      expect(clarification).toMatch(/name="message"[\s\S]*?className="[^"]*w-full/);
+
+      // TrackReferenceLookup
+      const trackLookup = readFileSync(path.join(ROOT, "components/TrackReferenceLookup.tsx"), "utf8");
+      expect(trackLookup).toMatch(/name="referenceNumber"[\s\S]*?className="[^"]*w-full/);
+
+      // FaqSearch
+      const faqSearch = readFileSync(path.join(ROOT, "components/FaqSearch.tsx"), "utf8");
+      expect(faqSearch).toMatch(/type="search"[\s\S]*?className="[^"]*w-full/);
+
+      // SearchPage
+      const searchPage = readFileSync(path.join(ROOT, "app/search/page.tsx"), "utf8");
+      expect(searchPage).toMatch(/id="hq-search"[\s\S]*?className="[^"]*w-full/);
     });
   });
 });

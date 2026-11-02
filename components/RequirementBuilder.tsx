@@ -221,7 +221,7 @@ function FieldControl({
         rows={3}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="rounded border border-grey-200 px-3 py-2 font-normal"
+        className="w-full rounded border border-grey-200 px-3 py-2 font-normal"
       />
     );
   }
@@ -232,7 +232,7 @@ function FieldControl({
         id={id}
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="rounded border border-grey-200 px-3 py-2 font-normal"
+        className="w-full rounded border border-grey-200 px-3 py-2 font-normal"
       >
         {field.options?.map((option) => (
           <option key={option}>{option}</option>
@@ -246,7 +246,7 @@ function FieldControl({
       id={id}
       value={value}
       onChange={(event) => onChange(event.target.value)}
-      className="rounded border border-grey-200 px-3 py-2 font-normal"
+      className="w-full rounded border border-grey-200 px-3 py-2 font-normal"
     />
   );
 }

@@ -141,9 +141,9 @@ export function ContactForm({
 
       {/* Honeypot — hidden from humans, visible to bots */}
       <div className="absolute -left-[9999px]" aria-hidden="true">
-        <label htmlFor={`${baseId}-website`}>
+        <label htmlFor="contact-website">
           Website
-          <input id={`${baseId}-website`} type="text" name="_website" tabIndex={-1} autoComplete="off" />
+          <input id="contact-website" type="text" name="_website" tabIndex={-1} autoComplete="off" />
         </label>
       </div>
       <input ref={startedAtInputRef} type="hidden" name="formStartedAt" />
