@@ -44,7 +44,7 @@ describe("searchCatalog (F05)", () => {
 
     expect(results.length).toBeGreaterThan(0);
     expect(titles).toContain("Power & UPS");
-    expect(titles).toContain("APC Smart-UPS-class Power Protection");
+    expect(titles).toContain("APC, CyberPower, and Eaton UPS");
     expect(hrefs).toContain("/products/power-ups");
   });
 

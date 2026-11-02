@@ -147,18 +147,18 @@ export const categories: ProductCategory[] = [
 const rawProducts: RawProduct[] = [
   {
     id: "HAC-LTP-001",
-    slug: "business-laptop-i5-16gb",
+    slug: "business-laptop-16gb",
     categorySlug: "computers-laptops",
     name: "Business Laptop Class",
     shortDescription: "Business notebook sourcing for office, field, and institutional end-user computing requirements.",
     longDescription:
       "A business notebook requirement profile for teams that need reliable office, field, or institutional computing without locking the RFQ to a single brand before availability is reviewed.",
-    specs: ["Intel Core i5 class processor", "16GB memory target", "512GB SSD target", "Windows-ready deployment"],
+    specs: ["Business processor class", "16GB memory target", "512GB SSD target", "Office deployment"],
     technicalSpecs: [
-      { label: "Processor class", value: "Intel Core i5 / Ryzen 5 class or approved equivalent" },
+      { label: "Processor class", value: "Business processor class or approved equivalent" },
       { label: "Memory target", value: "16GB RAM baseline" },
       { label: "Storage target", value: "512GB SSD baseline" },
-      { label: "Deployment context", value: "Windows-ready office, field, or institution endpoint" },
+      { label: "Deployment context", value: "Office, field, or institution endpoint" },
     ],
     procurementNotes: "Brand and exact model subject to availability and approved equivalent specifications.",
     unit: "unit",
@@ -206,16 +206,16 @@ const rawProducts: RawProduct[] = [
   },
   {
     id: "HAC-SRV-002",
-    slug: "hpe-proliant-class-rack-server-options",
+    slug: "dell-lenovo-rack-server-options",
     categorySlug: "servers-storage",
-    name: "HPE ProLiant-class Rack Server Options",
+    name: "Dell and Lenovo Rack Server Options",
     shortDescription: "Rack server sourcing for virtualization, local applications, file services, and branch workloads.",
     longDescription:
       "A rack server requirement profile for organizations that need a physical compute node sized around processor class, memory, storage redundancy, warranty coverage, and deployment environment.",
-    specs: ["1U or 2U rack server class", "Xeon or EPYC class processor options", "RAID controller options", "On-site warranty options"],
+    specs: ["1U or 2U rack server class", "Server processor class options", "RAID controller options", "On-site warranty options"],
     technicalSpecs: [
-      { label: "Server class", value: "HPE ProLiant-class, Dell PowerEdge-class, Lenovo ThinkSystem-class, or equivalent" },
-      { label: "Processor target", value: "Single or dual socket Xeon / EPYC class options" },
+      { label: "Server class", value: "Dell, Lenovo, or equivalent" },
+      { label: "Processor target", value: "Single or dual socket server processor class options" },
       { label: "Memory range", value: "32GB to 128GB+ depending on workload" },
       { label: "Storage and warranty", value: "RAID-ready storage with warranty terms confirmed by RFQ" },
     ],
@@ -225,15 +225,15 @@ const rawProducts: RawProduct[] = [
   },
   {
     id: "HAC-SRV-003",
-    slug: "synology-class-nas-backup-appliance",
+    slug: "nas-backup-appliance",
     categorySlug: "servers-storage",
-    name: "Synology-class NAS Backup Appliance",
+    name: "NAS Backup Appliance",
     shortDescription: "NAS appliance sourcing for shared storage, backup targets, and small-office continuity planning.",
     longDescription:
       "A NAS backup appliance requirement profile for organizations planning shared storage, backup retention, user access, and drive expansion without committing to a final drive set before review.",
     specs: ["4-bay to 8-bay NAS class", "Drive capacity planning", "RAID and snapshot options", "Network backup use case"],
     technicalSpecs: [
-      { label: "Appliance class", value: "Synology-class, QNAP-class, or approved equivalent NAS" },
+      { label: "Appliance class", value: "NAS, or approved equivalent" },
       { label: "Bay count", value: "4-bay to 8-bay class options" },
       { label: "Storage planning", value: "Drive capacity, RAID level, and retention reviewed before quotation" },
       { label: "Network use", value: "Shared storage, backup target, or small-office continuity" },
@@ -283,15 +283,15 @@ const rawProducts: RawProduct[] = [
   },
   {
     id: "HAC-NET-003",
-    slug: "fortinet-class-firewall-options",
+    slug: "cisco-firewall-options",
     categorySlug: "network-equipment",
-    name: "Fortinet-class Firewall Options",
+    name: "Cisco Firewall Options",
     shortDescription: "Firewall appliance sourcing for secure internet edge, VPN, and branch protection requirements.",
     longDescription:
       "A firewall requirement profile for organizations reviewing perimeter protection, VPN, routing, content security, and subscription coverage before formal quotation.",
-    specs: ["Fortinet-class or equivalent firewall", "VPN support", "Security subscription options", "Throughput reviewed by site size"],
+    specs: ["Cisco or equivalent firewall", "VPN support", "Security subscription options", "Throughput reviewed by site size"],
     technicalSpecs: [
-      { label: "Appliance class", value: "Fortinet-class, Sophos-class, Cisco-class, or approved equivalent firewall" },
+      { label: "Appliance class", value: "Cisco, or equivalent firewall" },
       { label: "Security use", value: "Internet edge, VPN, branch, or small data room protection" },
       { label: "Subscription review", value: "Threat, web, or support subscriptions quoted only when required" },
       { label: "Sizing basis", value: "User count, bandwidth, VPN users, and policy needs" },
@@ -321,15 +321,15 @@ const rawProducts: RawProduct[] = [
   },
   {
     id: "HAC-PRN-002",
-    slug: "epson-ecotank-class-mfp-options",
+    slug: "epson-brother-canon-mfp-options",
     categorySlug: "printers-peripherals",
-    name: "Epson EcoTank-class MFP Options",
+    name: "Epson, Brother, and Canon MFP Options",
     shortDescription: "Multifunction printer sourcing for admin offices, schools, and departments with recurring print needs.",
     longDescription:
       "A multifunction printer requirement profile for buyers comparing ink tank, laser, scanner, and network-ready options around monthly volume and consumables planning.",
     specs: ["Print, scan, and copy functions", "Ink tank or laser class options", "A4 office document workflows", "Network model options"],
     technicalSpecs: [
-      { label: "Device class", value: "Epson EcoTank-class, Canon MegaTank-class, Brother-class, or equivalent MFP" },
+      { label: "Device class", value: "Epson, Brother, Canon, or equivalent MFP" },
       { label: "Functions", value: "Print, scan, and copy baseline" },
       { label: "Paper size", value: "A4 office document workflows unless otherwise specified" },
       { label: "Connectivity", value: "USB, Ethernet, or WiFi options depending on model availability" },
@@ -361,13 +361,13 @@ const rawProducts: RawProduct[] = [
     id: "HAC-SW-002",
     slug: "endpoint-security-license-options",
     categorySlug: "licensed-software",
-    name: "ESET-class Endpoint Security License Options",
+    name: "Endpoint Security License Options",
     shortDescription: "Endpoint security license sourcing for desktops, laptops, and mixed user/device environments.",
     longDescription:
       "An endpoint security license requirement profile for organizations comparing device coverage, term length, admin console needs, and renewal timing before quotation.",
     specs: ["Endpoint protection license class", "Device or user coverage", "Annual term options", "Admin console options"],
     technicalSpecs: [
-      { label: "Security class", value: "ESET-class, Bitdefender-class, Sophos-class, or approved equivalent endpoint security" },
+      { label: "Security class", value: "Endpoint security, or approved equivalent" },
       { label: "Coverage basis", value: "Device or user count depending on vendor program" },
       { label: "Term", value: "Annual or multi-year options where available" },
       { label: "Administration", value: "Cloud or local management console options reviewed before quotation" },
@@ -405,7 +405,7 @@ const rawProducts: RawProduct[] = [
       "An IP surveillance requirement profile for sites planning network cameras, NVR recording, storage retention, and optional remote monitoring without treating any brand as guaranteed.",
     specs: ["IP camera class options", "8-channel or 16-channel NVR target", "PoE camera planning", "Retention storage sizing"],
     technicalSpecs: [
-      { label: "Camera class", value: "Hikvision-class, Dahua-class, Ubiquiti-class, or approved equivalent IP cameras" },
+      { label: "Camera class", value: "Hikvision, Dahua, Ubiquiti, or approved equivalent IP cameras" },
       { label: "Recorder target", value: "8-channel or 16-channel NVR class options" },
       { label: "Power and network", value: "PoE switch or NVR PoE options reviewed against cable plan" },
       { label: "Retention", value: "Drive capacity sized by resolution, frame rate, and retention days" },
@@ -435,15 +435,15 @@ const rawProducts: RawProduct[] = [
   },
   {
     id: "HAC-PWR-001",
-    slug: "apc-smart-ups-class-power-protection",
+    slug: "apc-cyberpower-eaton-power-protection",
     categorySlug: "power-ups",
-    name: "APC Smart-UPS-class Power Protection",
+    name: "APC, CyberPower, and Eaton UPS",
     shortDescription: "UPS sourcing for workstations, network closets, and small server rooms that need runtime planning.",
     longDescription:
       "A UPS requirement profile for protecting endpoints, switches, firewalls, NAS units, or server room equipment where load and runtime must be sized before quotation.",
     specs: ["Line-interactive or online UPS class", "Load and runtime sizing", "Tower or rackmount options", "Battery replacement planning"],
     technicalSpecs: [
-      { label: "UPS class", value: "APC Smart-UPS-class, Eaton-class, Vertiv-class, or approved equivalent" },
+      { label: "UPS class", value: "APC, CyberPower, Eaton, or equivalent" },
       { label: "Topology", value: "Line-interactive or online UPS depending on criticality" },
       { label: "Runtime basis", value: "Load wattage and target runtime reviewed before quotation" },
       { label: "Form factor", value: "Tower or rackmount options depending on location" },

@@ -30,8 +30,35 @@ export const supplyException =
 export const supplyLead =
   "IT hardware, networking and peripherals. Licensed software. Tools and hardware materials. Office and general merchandise.";
 
-export const brandsLine =
-  "Major IT brands, sourced per order through Philippine distributors, plus approved equivalents to your specifications.";
+/** Brands HACIEN carries, in Jerwin's order and spelling. */
+export const carriedBrands = [
+  "Dell",
+  "HP",
+  "Lenovo",
+  "Asus",
+  "Acer",
+  "Apple",
+  "Cisco",
+  "Ubiquiti",
+  "TP-Link",
+  "MikroTik",
+  "Hikvision",
+  "Dahua",
+  "APC",
+  "CyberPower",
+  "Eaton",
+  "Epson",
+  "Brother",
+  "Canon",
+  "Microsoft",
+] as const;
+
+export const brandPhrases = [
+  "leading industrial tool and hardware brands upon client specification",
+  "sourced via authorized Philippine distributors",
+] as const;
+
+export const brandsLine = [...carriedBrands, ...brandPhrases].join(", ");
 
 export const deliveryLine =
   "Nationwide across the Philippines. Metro Manila direct/courier delivery; provincial shipping via partner couriers/cargo. Delivery fee quoted per order. No walk-in store pickup.";
