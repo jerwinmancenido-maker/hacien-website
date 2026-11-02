@@ -58,7 +58,7 @@ export function ProductDetail({ product }: { product: Product }) {
         <SlideUp delay={120} className="min-w-0">
         <div className="min-w-0">
           <div className="text-sm font-semibold text-grey-600">{categoryLabel}</div>
-          <h1 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-3xl">{product.name}</h1>
+          <h1 className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-5xl">{product.name}</h1>
           <p className="mt-4 text-base leading-7 text-grey-600">{product.longDescription}</p>
 
           <div className="mt-6 rounded-lg border border-grey-200 bg-grey-100 p-5">
@@ -93,7 +93,7 @@ export function ProductDetail({ product }: { product: Product }) {
           </div>
 
           <div className="mt-6">
-            <h2 className="font-bold text-ink">Typical request targets</h2>
+            <h2 className="text-2xl font-bold text-ink sm:text-3xl">Typical request targets</h2>
             <ul className="mt-4 grid gap-3 text-sm text-grey-700">
               {product.specs.map((spec) => (
                 <li key={spec} className="flex gap-3">
@@ -106,7 +106,7 @@ export function ProductDetail({ product }: { product: Product }) {
 
           <div className="mt-6 overflow-hidden rounded-lg border border-grey-200">
             <div className="border-b border-grey-200 bg-grey-100 px-5 py-4">
-              <h2 className="font-bold text-ink">Technical specification table</h2>
+              <h2 className="text-2xl font-bold text-ink sm:text-3xl">Technical specification table</h2>
               <p className="mt-1 text-sm leading-6 text-grey-600">
                 These are RFQ planning targets, not guaranteed stock, pricing, or final model commitments.
               </p>
@@ -146,7 +146,7 @@ export function ProductDetail({ product }: { product: Product }) {
               <button
                 type="button"
                 onClick={handleAddToRfq}
-                className="button-glow focus-ring rounded bg-blue px-5 py-3 text-sm font-bold text-white hover:bg-blue-dark"
+                className="button-glow focus-ring rounded bg-blue px-5 py-3 text-sm font-bold text-white hover:bg-blue-dark cursor-pointer"
               >
                 Add to RFQ
               </button>

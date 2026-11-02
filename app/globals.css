@@ -59,6 +59,59 @@
   --radius-3xl: 6px;
 }
 
+/* G17: Hand pointer on all buttons */
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+  cursor: pointer;
+}
+
+/* G06: 4-tier fixed heading scale
+ * Tier 1 (H1 Page Title): 30px mobile -> 48px sm/desktop (text-3xl sm:text-5xl)
+ * Tier 2 (H2 Section Heading): 24px mobile -> 30px sm/desktop (text-2xl sm:text-3xl)
+ * Tier 3 (H3 Card/Subsection): 20px (text-xl or text-lg sm:text-xl)
+ * Tier 4 (H4 Feature/Sub-item): 16px (text-base)
+ */
+.heading-h1 {
+  font-size: 1.875rem; /* 30px */
+  line-height: 2.25rem;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+@media (min-width: 640px) {
+  .heading-h1 {
+    font-size: 3rem; /* 48px */
+    line-height: 1.1;
+  }
+}
+
+.heading-h2 {
+  font-size: 1.5rem; /* 24px */
+  line-height: 2rem;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+@media (min-width: 640px) {
+  .heading-h2 {
+    font-size: 1.875rem; /* 30px */
+    line-height: 2.25rem;
+  }
+}
+
+.heading-h3 {
+  font-size: 1.25rem; /* 20px */
+  line-height: 1.75rem;
+  font-weight: 700;
+}
+
+.heading-h4 {
+  font-size: 1rem; /* 16px */
+  line-height: 1.5rem;
+  font-weight: 700;
+}
+
 :root {
   color-scheme: light;
   --ink: #0a0a0a;
@@ -458,7 +511,7 @@ main {
 }
 
 .rb-split-word:not(:last-child) {
-  margin-right: 0.16em;
+  margin-right: 0.28em;
 }
 
 .rb-split-text.is-visible .rb-split-word {

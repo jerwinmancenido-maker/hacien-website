@@ -42,12 +42,12 @@ export default function AboutPage() {
         highlights={[]}
       />
 
-      <section className="px-4 py-9 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
-        <div className="mx-auto grid max-w-7xl gap-3 sm:grid-cols-2">
+      <section className="py-9 sm:py-12 lg:py-14">
+        <div className="mx-auto grid max-w-7xl gap-3 px-4 sm:px-6 sm:grid-cols-2 lg:px-8">
           {factCards.map((card, index) => (
             <AnimatedContent key={`${card.title}-${index}`} delay={index * 40}>
               <SpotlightCard className="h-full rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
-                <h2 className="text-sm font-bold text-slate-950">{card.title}</h2>
+                <h3 className="text-base font-bold text-slate-950">{card.title}</h3>
                 {card.text ? <p className="mt-2 text-sm leading-6 text-slate-600">{card.text}</p> : null}
               </SpotlightCard>
             </AnimatedContent>
@@ -57,8 +57,8 @@ export default function AboutPage() {
 
       <CompanyCredentials />
 
-      <section className="px-4 py-9 sm:px-6 sm:py-12 lg:px-8">
-        <AnimatedContent className="mx-auto max-w-7xl">
+      <section className="py-9 sm:py-12 lg:py-14">
+        <AnimatedContent className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <BorderGlow className="relative overflow-hidden rounded-lg bg-ink p-5 text-white shadow-2xl shadow-slate-950/18 sm:p-10">
             <GradientBackground className="opacity-[0.36]" />
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
@@ -66,7 +66,7 @@ export default function AboutPage() {
                 <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">
                   {content.cta.eyebrow}
                 </div>
-                <h2 className="mt-3 max-w-3xl text-xl font-bold tracking-tight sm:mt-4 sm:text-3xl">
+                <h2 className="mt-3 max-w-3xl text-2xl font-bold tracking-tight sm:mt-4 sm:text-3xl">
                   {content.cta.title}
                 </h2>
                 <p className="mt-3 max-w-3xl text-sm leading-6 text-grey-300 sm:mt-4">

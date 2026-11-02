@@ -57,7 +57,7 @@ export function AiDocumentParser() {
         <button
           type="submit"
           disabled={isPending}
-          className="button-glow rounded bg-[#2563EB] px-5 py-3 text-sm font-bold text-white disabled:bg-slate-300"
+          className="button-glow rounded bg-[#2563EB] px-5 py-3 text-sm font-bold text-white disabled:bg-slate-300 cursor-pointer"
         >
           {isPending ? "Scanning..." : "Run prototype scan"}
         </button>

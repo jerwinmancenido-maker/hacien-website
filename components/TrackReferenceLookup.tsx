@@ -50,7 +50,7 @@ export function TrackReferenceLookup({
         </div>
         <button
           type="submit"
-          className="button-glow self-end rounded bg-ink px-5 py-3 text-sm font-bold text-white transition hover:bg-blue"
+          className="button-glow self-end rounded bg-ink px-5 py-3 text-sm font-bold text-white transition hover:bg-blue cursor-pointer"
         >
           Track request
         </button>

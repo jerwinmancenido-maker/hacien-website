@@ -54,7 +54,7 @@ export default async function InsightDetailPage({
             {insight.category}
           </div>
 
-          <h1 className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
+          <h1 className="text-3xl font-bold tracking-tight text-slate-950 sm:text-5xl">
             {insight.title}
           </h1>
 
@@ -67,7 +67,7 @@ export default async function InsightDetailPage({
           <div className="mt-10 space-y-10">
             {insight.sections.map((section) => (
               <div key={section.heading}>
-                <h2 className="text-xl font-bold text-slate-950">{section.heading}</h2>
+                <h2 className="text-2xl font-bold text-slate-950 sm:text-3xl">{section.heading}</h2>
                 <p className="mt-3 text-sm leading-7 text-slate-600">{section.body}</p>
               </div>
             ))}
@@ -75,7 +75,7 @@ export default async function InsightDetailPage({
 
           {/* Checklist */}
           <AnimatedSection className="mt-12 rounded-lg border border-grey-200 bg-grey-50 p-6">
-            <h2 className="text-lg font-bold text-slate-950">Practical checklist</h2>
+            <h2 className="text-2xl font-bold text-slate-950 sm:text-3xl">Practical checklist</h2>
             <ul className="mt-4 space-y-3">
               {insight.checklist.map((item) => (
                 <li key={item} className="flex gap-3 text-sm text-slate-700">
@@ -88,7 +88,7 @@ export default async function InsightDetailPage({
 
           {/* Procurement Notes */}
           <div className="mt-10 rounded-lg border border-slate-200 bg-slate-50 p-6">
-            <h2 className="text-base font-bold text-slate-950">Procurement notes</h2>
+            <h2 className="text-2xl font-bold text-slate-950 sm:text-3xl">Procurement notes</h2>
             <p className="mt-2 text-sm leading-7 text-slate-600">{insight.procurementNotes}</p>
           </div>
 
@@ -120,18 +120,18 @@ export default async function InsightDetailPage({
       {relatedInsights.length > 0 && (
         <section className="bg-slate-50 px-4 py-14 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-3xl">
-            <h2 className="text-xl font-bold text-slate-950">Related articles</h2>
+            <h2 className="text-2xl font-bold text-slate-950 sm:text-3xl">Related articles</h2>
             <div className="mt-6 grid gap-4 sm:grid-cols-2">
               {relatedInsights.map((related) => (
                 <Link
                   key={related.slug}
                   href={`/insights/${related.slug}`}
-                  className="lift group block rounded-lg border border-slate-200 bg-white p-5 hover:border-[#2563EB]/40"
+                  className="lift group block rounded-lg border border-slate-200 bg-white p-5 hover:border-[#2563EB]/40 cursor-pointer"
                 >
                   <div className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-grey-600">
                     {related.category}
                   </div>
-                  <h3 className="text-sm font-bold text-slate-950 group-hover:text-[#2563EB] leading-snug">
+                  <h3 className="text-base font-bold text-slate-950 group-hover:text-[#2563EB] leading-snug">
                     {related.title}
                   </h3>
                   <div className="mt-3 text-xs font-semibold text-[#2563EB]">Read →</div>

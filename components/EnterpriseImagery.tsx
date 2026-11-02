@@ -105,7 +105,7 @@ export function PremiumStatementBand() {
         </div>
         <EnterprisePhotoPanel
           image="network"
-          eyebrow="Per order"
+          eyebrow="Appointments"
           title={showroomNote}
           caption=""
         />

@@ -27,10 +27,9 @@ export function ProductCard({ product }: { product: Product }) {
         </Link>
       ) : null}
       <div className="flex flex-1 flex-col p-5">
-          <div className="flex items-center justify-between gap-2 text-xs font-semibold text-grey-600">
-            <span>{product.availability}</span>
-            <span>{modes.length > 0 ? modes.join(" + ") : "RFQ"}</span>
-          </div>
+        <div className="flex items-center justify-between gap-2 text-xs font-semibold text-grey-600">
+          <span>{product.availability}</span>
+        </div>
         <Link href={productHref}>
           <h3 className="mt-2 text-lg font-semibold text-ink hover:text-blue">{product.name}</h3>
         </Link>
@@ -43,14 +42,14 @@ export function ProductCard({ product }: { product: Product }) {
           </div>
           <Link
             href={productHref}
-            className="rounded bg-blue px-4 py-2 text-sm font-medium text-white hover:bg-blue-dark"
+            className="shrink-0 whitespace-nowrap rounded bg-blue px-4 py-2 text-center text-sm font-medium text-white hover:bg-blue-dark cursor-pointer"
           >
             View details
           </Link>
         </div>
         <Link
           href={productHref}
-          className="interactive-link mt-4 inline-flex text-sm font-medium text-blue"
+          className="interactive-link mt-4 inline-flex text-sm font-medium text-blue cursor-pointer"
         >
           Review technical targets
         </Link>
