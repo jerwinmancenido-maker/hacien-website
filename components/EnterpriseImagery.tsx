@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { deliveryLine, founderLine, showroomNote } from "@/data/companyContact";
+import { founderLine, showroomNote } from "@/data/companyContact";
 import { getCmsMediaRecord, getCmsMediaSourceMap, type CmsMediaKey } from "@/lib/cms/media";
 
 export const enterpriseImages = getCmsMediaSourceMap();
@@ -76,7 +76,7 @@ export function EnterprisePhotoPanel({
       <div className="relative flex min-h-[220px] flex-col justify-end p-4 text-white sm:min-h-[270px] sm:p-5">
         <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">{eyebrow}</div>
         <h3 className="mt-3 max-w-xl text-xl font-bold tracking-tight sm:text-2xl">{title}</h3>
-        <p className="mt-3 max-w-lg text-sm leading-6 text-slate-200">{caption}</p>
+        {caption ? <p className="mt-3 max-w-lg text-sm leading-6 text-slate-200">{caption}</p> : null}
       </div>
     </div>
   );
@@ -87,7 +87,7 @@ export function PremiumStatementBand() {
     <section className="bg-[linear-gradient(180deg,#ffffff_0%,#f5fbfc_100%)] px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
       <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div className="max-w-2xl">
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Started in 2026</div>
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Company</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
             Started in 2026.
           </h2>
@@ -107,7 +107,7 @@ export function PremiumStatementBand() {
           image="network"
           eyebrow="Per order"
           title={showroomNote}
-          caption={deliveryLine}
+          caption=""
         />
       </div>
     </section>

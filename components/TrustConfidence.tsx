@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
 import { BorderGlow, SpotlightCard } from "@/app/components/reactbits";
-import { birBadgeAlt } from "@/components/Footer";
 import {
   registeredCompanyName,
   registrationPapersNote,
@@ -214,16 +213,9 @@ export function CompanyCredentials() {
           ))}
         </div>
         <div className="mt-8">
-          {/* Official BIR seal. Scale only: the file is served unaltered so the QR stays scannable. */}
-          {/* eslint-disable-next-line @next/next/no-img-element -- BIR RMC No. 38-2026 requires the seal unaltered; next/image recompresses it */}
-          <img
-            src="/brand/bir-registration-badge.png"
-            alt={birBadgeAlt()}
-            width={1626}
-            height={582}
-            className="block h-auto w-auto max-h-[120px] max-w-full"
-            decoding="async"
-          />
+          <Link href="/compliance" className="text-sm font-bold text-[#2563EB] hover:underline">
+            See Government Compliance
+          </Link>
         </div>
       </div>
     </section>

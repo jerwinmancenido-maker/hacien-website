@@ -16,15 +16,13 @@ export default function QuotePage() {
       <PremiumPageHero
         eyebrow="Quotation request"
         title="Request a quotation."
-        description={replyTime}
+        description="Attach an item list, a supplier quote, an image, a spreadsheet, a PDF, or a ZIP."
         image="commandCenter"
         primaryAction={{ href: "#rfq-form", label: "Request a Quote" }}
         secondaryAction={{ href: "/products", label: "Technology list" }}
         highlights={[
-          { label: "Item list", text: "Attach an item list, a supplier quote, an image, a spreadsheet, a PDF, or a ZIP." },
           { label: "Plain description", text: "Describe the product, quantity, delivery location, and deadline." },
           { label: "Reference", text: "You receive a reference number after you send the request." },
-          { label: "Reply time", text: replyTime },
         ]}
       />
 

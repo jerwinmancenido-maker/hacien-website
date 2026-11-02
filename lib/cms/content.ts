@@ -6,12 +6,12 @@ import {
   deliveryClauses,
   deliveryLine,
   founderLine,
+  registeredCompanyName,
   registrationPapersNote,
   replyTime,
   showroomNote,
   supplyException,
   supplyItems,
-  supplyLead,
 } from "@/data/companyContact";
 
 export type CmsStatus = "published" | "draft" | "archived";
@@ -262,7 +262,7 @@ const navigationContent: CmsNavigationContent = {
     quoteAction: { href: "/quote", label: "Request a Quote" },
   },
   footer: {
-    statement: "Started in 2026.",
+    statement: "",
     groups: [
       {
         title: "Company",
@@ -319,7 +319,7 @@ const homepageContent: CmsHomeContent = {
   hero: {
     eyebrow: "HACIEN",
     title: "What HACIEN supplies",
-    description: `${supplyLead} ${supplyException}`,
+    description: supplyException,
     image: "commandCenter",
     primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/contact", label: "Contact" },
@@ -333,8 +333,8 @@ const homepageContent: CmsHomeContent = {
     cards: deliveryClauses.map((clause) => ({ title: clause, text: "" })),
     imagePanel: {
       eyebrow: "Delivery",
-      title: "Nationwide across the Philippines.",
-      caption: deliveryLine,
+      title: "Delivery",
+      caption: "",
     },
   },
   howItWorks: {
@@ -373,15 +373,11 @@ const homepageContent: CmsHomeContent = {
     action: { href: "/contact", label: "Contact" },
   },
   trustPreview: {
-    eyebrow: "Started in 2026",
-    title: "Started in 2026.",
-    description: founderLine,
-    cards: [
-      { title: "Office address", text: companyContact.addressOneLine },
-      { title: "Per order", text: showroomNote },
-      { title: "Papers", text: registrationPapersNote },
-    ],
-    action: { href: "/about/company-profile", label: "Read HACIEN company profile →" },
+    eyebrow: "Registrations",
+    title: registeredCompanyName,
+    description: registrationPapersNote,
+    cards: [],
+    action: { href: "/compliance", label: "See Government Compliance" },
   },
   accessPreview: {
     eyebrow: "Contact",

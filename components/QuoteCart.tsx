@@ -341,7 +341,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue">Customer Details</div>
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink">Request a formal quotation review</h2>
         <p className="mt-2 text-sm text-grey-600">
-          {replyTime} No online payment is collected. Every request receives a reference number and is reviewed before a quotation is prepared.
+          No online payment is collected. Every request receives a reference number and is reviewed before a quotation is prepared.
         </p>
 
         {/* Honeypot */}

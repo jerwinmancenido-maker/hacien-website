@@ -4,7 +4,7 @@ import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/rea
 import { ContactForm } from "@/components/ContactForm";
 import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
-import { brandsLine, companyContact, deliveryLine, showroomNote } from "@/data/companyContact";
+import { brandsLine, companyContact, deliveryLine } from "@/data/companyContact";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -54,10 +54,8 @@ export default function ContactPage() {
         primaryAction={{ href: "/quote", label: "Request a Quote" }}
         secondaryAction={{ href: "#contact-form", label: "Send Inquiry" }}
         highlights={[
-          { label: "Office address", text: companyContact.addressOneLine },
-          { label: "Per order", text: showroomNote },
-          { label: "Delivery", text: deliveryLine },
           { label: "Brands", text: brandsLine },
+          { label: "Delivery", text: deliveryLine },
         ]}
       />
 
@@ -88,9 +86,9 @@ export default function ContactPage() {
                       </div>
                     </div>
                     <div className="p-6">
-                      <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#2563EB]">{path.title}</h3>
+                      <h3 className="text-lg font-bold text-slate-950">{path.title}</h3>
                       <p className="mt-3 text-sm leading-6 text-slate-600">{path.text}</p>
-                      <div className="mt-5 text-sm font-bold text-[#2563EB]">{path.action}</div>
+                      <div className="mt-5 text-sm font-bold text-slate-950">{path.action}</div>
                     </div>
                   </SpotlightCard>
                 </Link>
@@ -137,14 +135,8 @@ export default function ContactPage() {
               <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">
                 Send a business inquiry.
               </h2>
-              <p className="mt-4 text-sm leading-7 text-slate-600">{companyContact.replyTime}</p>
 
               <div className="mt-8 grid gap-5 text-sm leading-7 text-slate-700">
-                <div className="rounded border border-slate-200 bg-slate-50 p-5">
-                  <div className="font-bold text-slate-950">Reply time</div>
-                  <p className="mt-2">{companyContact.replyTime}</p>
-                </div>
-
                 <div className="rounded border border-slate-200 bg-slate-50 p-5">
                   <div className="font-bold text-slate-950">Per order</div>
                   <p className="mt-2">{companyContact.showroomNote}</p>
@@ -166,7 +158,7 @@ export default function ContactPage() {
                   <p className="mt-2">
                     Formal legal notices must follow the published Legal page requirements.
                   </p>
-                  <Link href="/legal" className="mt-3 inline-flex text-sm font-bold text-[#2563EB]">
+                  <Link href="/legal" className="mt-3 inline-flex text-sm font-bold text-slate-950">
                     Review Legal Information
                   </Link>
                 </div>

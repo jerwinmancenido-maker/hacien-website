@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/reactbits";
-import { birBadgeAlt } from "@/components/Footer";
 import {
   companyContact,
   founderLine,
@@ -17,10 +16,7 @@ export const metadata: Metadata = {
   description: founderLine,
 };
 
-const verification = [
-  ["Company name", registeredCompanyName],
-  ...registrationStatuses.map((item) => [item.label, item.status] as const),
-];
+const verification = registrationStatuses.map((item) => [item.label, item.status] as const);
 
 export default function CompanyProfilePage() {
   return (
@@ -48,16 +44,9 @@ export default function CompanyProfilePage() {
               ))}
             </div>
             <p className="mt-4 text-sm leading-6 text-grey-300">{registrationPapersNote}</p>
-            {/* Official BIR seal. Scale only: the file is served unaltered so the QR stays scannable. */}
-            {/* eslint-disable-next-line @next/next/no-img-element -- BIR RMC No. 38-2026 requires the seal unaltered; next/image recompresses it */}
-            <img
-              src="/brand/bir-registration-badge.png"
-              alt={birBadgeAlt()}
-              width={1626}
-              height={582}
-              className="mt-5 block h-auto w-auto max-h-[96px] max-w-full"
-              decoding="async"
-            />
+            <Link href="/compliance" className="mt-4 inline-flex text-sm font-bold text-blue-200">
+              See Government Compliance
+            </Link>
           </BorderGlow>
         </div>
       </section>
@@ -89,7 +78,6 @@ export default function CompanyProfilePage() {
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Contact Details</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">Office address</h2>
-            <p className="mt-4 max-w-2xl text-sm leading-6 text-slate-600">{companyContact.replyTime}</p>
           </AnimatedContent>
           <AnimatedContent delay={100}>
             <div className="grid gap-5 text-sm leading-7 text-slate-700">

@@ -15,13 +15,13 @@ const cmsSeoRecords: Record<CmsSeoKey, CmsSeoRecord> = {
   homepage: {
     key: "homepage",
     route: "/",
-    title: "What HACIEN supplies",
+    title: "What we supply",
     description: `${supplyLead} ${supplyException}`,
   },
   about: {
     key: "about",
     route: "/about",
-    title: "Started in 2026",
+    title: "About | IT Procurement & Technology Solutions",
     description: founderLine,
   },
   solutions: {

@@ -12,7 +12,7 @@ export const supplyItems = [
   },
   {
     title: "Licensed software",
-    text: "operating systems, office productivity, security, business licences",
+    text: "operating systems, office productivity, security, business licenses",
   },
   {
     title: "Tools and hardware materials",
@@ -34,16 +34,17 @@ export const brandsLine =
   "Major IT brands, sourced per order through Philippine distributors, plus approved equivalents to your specifications.";
 
 export const deliveryLine =
-  "Nationwide across the Philippines. Metro Manila direct/courier delivery; provincial shipping via partner couriers/cargo. Delivery fee quoted per order. No walk-in store pickup.";
+  "Nationwide across the Philippines. Metro Manila direct/courier delivery. Provincial shipping via partner couriers/cargo. Delivery fee quoted per order.";
 
 export const deliveryClauses = [
   "Nationwide across the Philippines.",
-  "Metro Manila direct/courier delivery; provincial shipping via partner couriers/cargo.",
+  "Metro Manila direct/courier delivery.",
+  "Provincial shipping via partner couriers/cargo.",
   "Delivery fee quoted per order.",
-  "No walk-in store pickup.",
 ] as const;
 
-export const showroomNote = "We work per order; no walk-in showroom.";
+export const showroomNote =
+  "We source per order through Philippine distributors. No walk-in showroom or store pickup.";
 
 export const replyTime =
   "We acknowledge website inquiries within 1 business day (Monday to Friday, excluding holidays). Formal quotations follow once supplier stock and pricing are confirmed.";
@@ -55,7 +56,7 @@ export const registrationPapersNote =
 export const registrationStatuses = [
   { label: "DTI", status: "Sole proprietorship" },
   { label: "BIR", status: "Registered, Non-VAT" },
-  { label: "Pasig City Mayor's/Business Permit", status: "Mayor's/Business Permit" },
+  { label: "Pasig City Mayor's/Business Permit", status: "Secured" },
   { label: "PhilGEPS", status: "Registered" },
 ] as const;
 
@@ -64,7 +65,8 @@ export const insightAuthor = "HACIEN Team";
 export const companyContact = {
   legalName: "HACIEN Information Technology Solutions",
   email: "",
-  contactInstruction: replyTime,
+  contactInstruction:
+    "Use the RFQ, support, or contact form so HACIEN can route the inquiry to the right team.",
   addressLabel: "Office address",
   addressLines: [
     "Unit D, 6th Floor, Suntree Tower",

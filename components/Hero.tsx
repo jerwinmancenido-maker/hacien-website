@@ -85,7 +85,7 @@ export function Hero() {
                     key={item.title}
                     className="rounded-lg border border-white/12 bg-white/10 p-3 backdrop-blur transition-transform duration-200 hover:-translate-y-1"
                   >
-                    <div className="text-xs font-bold text-blue-200">{String(index + 1).padStart(2, "0")}</div>
+                    <div className="text-xs font-bold text-grey-300">{String(index + 1).padStart(2, "0")}</div>
                     <div className="mt-2 text-sm font-bold text-white">{item.title}</div>
                     <p className="mt-2 text-xs leading-5 text-grey-300">{item.text}</p>
                   </div>
