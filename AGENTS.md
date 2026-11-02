@@ -12,6 +12,7 @@ Prisma **7.10.1** (MySQL/MariaDB via `@prisma/adapter-mariadb`). Next.js **16.4.
 Cursor cloud agents: branch from `main`, implement, open a PR to `main`.
 **Never** merge, deploy, publish, run migrations against any real database, or change env vars, secrets, DNS, hosting, or `.npmrc`.
 CTO (separate reviewer) reviews and merges — **only with the owner's yes**.
+- Don't poll CI, Bugbot or security checks, and don't post interim 'still waiting' or 'already reported' notes. Report once, when checks have settled or when a real finding needs fixing.
 
 ## Checks (before every push)
 
