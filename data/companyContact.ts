@@ -3,32 +3,24 @@
 export const registeredCompanyName = "HACIEN INFORMATION TECHNOLOGY SOLUTIONS";
 
 export const founderLine =
-  "Founded in 2026 in Pasig City to give Philippine businesses and government offices a clear, dependable quotation-to-delivery channel for IT equipment, tools, hardware materials and general procurement.";
+  "Founded in 2026 (DTI registered June 2026) in Ortigas Center, Pasig City to provide fast, quotation-driven, BIR-registered and PhilGEPS-registered multi-category procurement for Philippine businesses and government agencies.";
 
 export const supplyItems = [
   {
-    title: "IT hardware, networking and peripherals",
-    text: "computers, laptops, servers, NAS/storage, switches, routers, firewalls, CCTV/security, printers, scanners, monitors, UPS/AVR",
+    title: "IT & Office Technology",
+    text: "Laptops, desktops, workstations, monitors, printers/scanners, UPS & power protection, enterprise networking & Wi-Fi, CCTV & security systems, structured cabling, and licensed software.",
   },
   {
-    title: "Licensed software",
-    text: "operating systems, office productivity, security, business licences",
-  },
-  {
-    title: "Tools and hardware materials",
-    text: "hand and power tools, electrical and facility hardware materials, technical/training supplies, workshop equipment",
-  },
-  {
-    title: "Office and general merchandise",
-    text: "office equipment, institutional supplies, and other commercial items sourced per order",
+    title: "Tools, Hardware Materials & General Merchandise",
+    text: "Power and hand tools, hardware and maintenance materials, training/workshop equipment, office supplies, and custom-sourced commercial items (excluding products requiring special regulatory licenses such as FDA or DOH-LTO).",
   },
 ] as const;
 
 export const supplyException =
-  "Except products that need a special regulatory license (for example an FDA or DOH License to Operate).";
+  "(excluding products requiring special regulatory licenses such as FDA or DOH-LTO)";
 
 export const supplyLead =
-  "IT hardware, networking and peripherals. Licensed software. Tools and hardware materials. Office and general merchandise.";
+  "IT & Office Technology. Tools, Hardware Materials & General Merchandise.";
 
 /** Brands HACIEN carries, in Jerwin's order and spelling. */
 export const carriedBrands = [
@@ -61,47 +53,53 @@ export const brandPhrases = [
 export const brandsLine = [...carriedBrands, ...brandPhrases].join(", ");
 
 export const deliveryLine =
-  "Nationwide across the Philippines. Metro Manila direct/courier delivery; provincial shipping via partner couriers/cargo. Delivery fee quoted per order. No walk-in store pickup.";
+  "Nationwide across the Philippines. Direct dispatch in Metro Manila (NCR) and nearby provinces, and insured land/air/sea cargo forwarding to Luzon, Visayas, and Mindanao. Delivery fee quoted per order.";
 
 export const deliveryClauses = [
   "Nationwide across the Philippines.",
-  "Metro Manila direct/courier delivery; provincial shipping via partner couriers/cargo.",
+  "Direct dispatch in Metro Manila (NCR) and nearby provinces.",
+  "Insured land/air/sea cargo forwarding to Luzon, Visayas, and Mindanao.",
   "Delivery fee quoted per order.",
-  "No walk-in store pickup.",
 ] as const;
 
-export const showroomNote = "We work per order; no walk-in showroom.";
+export const showroomNote = "Walk-in visits and pick-ups are by prior appointment.";
+export const appointmentNote = showroomNote;
 
 export const replyTime =
-  "We acknowledge website inquiries within 1 business day (Monday to Friday, excluding holidays). Formal quotations follow once supplier stock and pricing are confirmed.";
+  "Within 1 business day (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).";
 
 export const registrationPapersNote =
   "Registration papers are provided on request for quotation or accreditation.";
 
 /** Status only. Never a registration number. */
 export const registrationStatuses = [
-  { label: "DTI (sole proprietorship)", status: "" },
-  { label: "BIR registered, Non-VAT", status: "" },
-  { label: "Pasig City Mayor's/Business Permit", status: "" },
-  { label: "PhilGEPS registered", status: "" },
+  { label: "DTI Registered Sole Proprietorship (National Scope)", status: "" },
+  {
+    label:
+      "BIR Registered Taxpayer (RDO 043 - Pasig City, Non-VAT — issues official BIR Sales Invoices, Delivery Receipts, and Collection Receipts)",
+    status: "",
+  },
+  { label: "Pasig City Mayor's / Business Permit Accredited", status: "" },
+  { label: "PhilGEPS Registered Supplier (Red Registration Approved)", status: "" },
 ] as const;
 
 export const insightAuthor = "HACIEN Team";
 
 export const companyContact = {
   legalName: "HACIEN Information Technology Solutions",
-  email: "",
+  email: "info@haciensolutions.com",
   contactInstruction:
     "Use the RFQ, support, or contact form so HACIEN can route the inquiry to the right team.",
   addressLabel: "Office address",
   addressLines: [
     "Unit D, 6th Floor, Suntree Tower",
     "13 Meralco Avenue, Ortigas Center",
-    "San Antonio, City of Pasig, Metro Manila",
-    "Philippines 1605",
+    "Brgy. San Antonio, Pasig City",
+    "Metro Manila 1605, Philippines",
   ],
   addressOneLine:
-    "Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, San Antonio, City of Pasig, Metro Manila, Philippines 1605",
+    "Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, Brgy. San Antonio, Pasig City, Metro Manila 1605, Philippines",
+  appointmentNote,
   showroomNote,
   replyTime,
 };

@@ -289,7 +289,7 @@ export const insights: Insight[] = [
       },
       {
         heading: "Memory and storage",
-        body: "16GB RAM is the practical minimum for business laptops in 2024–2025. 8GB is acceptable only for light task users. For storage, 256GB SSD is minimum; 512GB is preferred for users who work with large files. Confirm whether storage is expandable before specifying.",
+        body: "16GB RAM is the practical minimum for business laptops. 8GB is acceptable only for light task users. For storage, 256GB SSD is minimum; 512GB is preferred for users who work with large files. Confirm whether storage is expandable before specifying.",
       },
       {
         heading: "Display and form factor",

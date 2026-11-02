@@ -52,6 +52,11 @@ export function Footer() {
                 {companyContact.addressLabel}
               </span>
               <span>{companyContact.addressLines.join(", ")}</span>
+              <span className="mt-2 block">
+                <a href={`mailto:${companyContact.email}`} className="text-white hover:underline">
+                  {companyContact.email}
+                </a>
+              </span>
             </address>
           </div>
         </div>
