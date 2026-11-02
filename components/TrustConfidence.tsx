@@ -208,7 +208,7 @@ export function CompanyCredentials() {
           {registrationStatuses.map((item) => (
             <SpotlightCard key={item.label} className="h-full rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
               <h3 className="text-lg font-bold text-slate-950">{item.label}</h3>
-              <p className="mt-3 text-sm leading-6 text-slate-600">{item.status}</p>
+              {item.status ? <p className="mt-3 text-sm leading-6 text-slate-600">{item.status}</p> : null}
             </SpotlightCard>
           ))}
         </div>

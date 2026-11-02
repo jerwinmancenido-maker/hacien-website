@@ -233,7 +233,7 @@ export function TrustV3() {
           {registrationStatuses.map((item) => (
             <AnimatedCard key={item.label} className="rounded-lg border border-slate-200 bg-slate-50 p-4 sm:p-5">
               <div className="font-bold text-slate-950">{item.label}</div>
-              <p className="mt-2 text-sm leading-6 text-slate-600">{item.status}</p>
+              {item.status ? <p className="mt-2 text-sm leading-6 text-slate-600">{item.status}</p> : null}
             </AnimatedCard>
           ))}
         </StaggerContainer>

@@ -21,7 +21,7 @@ const cmsSeoRecords: Record<CmsSeoKey, CmsSeoRecord> = {
   about: {
     key: "about",
     route: "/about",
-    title: "About | IT Procurement & Technology Solutions",
+    title: "About",
     description:
       "Founded in 2026 in Pasig City to give Philippine businesses and government offices a clear, dependable quotation-to-delivery channel for IT equipment, tools, hardware materials and general procurement.",
   },

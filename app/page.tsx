@@ -3,7 +3,6 @@ import { replyTime } from "@/data/companyContact";
 import {
   CTABand,
   PremiumStatementBand,
-  SolutionsV3,
   TechnologyEcosystem,
   TrustV3,
 } from "@/components/HomeV3Sections";
@@ -17,7 +16,6 @@ export default function Home() {
       <Hero />
       <PremiumStatementBand />
       <TechnologyEcosystem />
-      <SolutionsV3 />
       <TrustV3 />
       <CTABand
         title="Request a quotation."

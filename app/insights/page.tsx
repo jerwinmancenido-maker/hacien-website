@@ -115,7 +115,7 @@ export default function InsightsPage() {
                     <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue-200">{insight.category}</div>
                     <h3 className="mt-4 text-xl font-bold text-white group-hover:text-blue-200">{insight.title}</h3>
                     <p className="mt-3 line-clamp-4 text-sm leading-6 text-grey-300">{insight.summary}</p>
-                    <div className="mt-5 text-xs font-bold text-blue-200">
+                    <div className="mt-5 text-xs font-bold text-grey-300">
                       {insightAuthor} · {insight.readingTime}
                     </div>
                     </div>
@@ -166,7 +166,7 @@ export default function InsightsPage() {
                         <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">{insight.category}</div>
                         <h3 className="mt-3 text-lg font-bold text-slate-950 group-hover:text-[#2563EB]">{insight.title}</h3>
                         <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">{insight.summary}</p>
-                        <p className="mt-3 text-xs font-bold text-[#2563EB]">{insightAuthor}</p>
+                        <p className="mt-3 text-xs font-bold text-slate-600">{insightAuthor}</p>
                       </div>
                     </div>
                   </BorderGlow>

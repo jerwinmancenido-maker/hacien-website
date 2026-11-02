@@ -39,7 +39,7 @@ export default function CompanyProfilePage() {
               {verification.map(([field, status]) => (
                 <div key={field} className="flex items-center justify-between gap-4 rounded border border-white/12 bg-white/[0.06] px-4 py-3">
                   <span className="text-sm font-semibold text-slate-200">{field}</span>
-                  <span className="text-right text-sm font-semibold text-white">{status}</span>
+                  {status ? <span className="text-right text-sm font-semibold text-white">{status}</span> : null}
                 </div>
               ))}
             </div>

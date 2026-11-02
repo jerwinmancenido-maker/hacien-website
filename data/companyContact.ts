@@ -12,7 +12,7 @@ export const supplyItems = [
   },
   {
     title: "Licensed software",
-    text: "operating systems, office productivity, security, business licenses",
+    text: "operating systems, office productivity, security, business licences",
   },
   {
     title: "Tools and hardware materials",
@@ -34,17 +34,16 @@ export const brandsLine =
   "Major IT brands, sourced per order through Philippine distributors, plus approved equivalents to your specifications.";
 
 export const deliveryLine =
-  "Nationwide across the Philippines. Metro Manila direct/courier delivery. Provincial shipping via partner couriers/cargo. Delivery fee quoted per order.";
+  "Nationwide across the Philippines. Metro Manila direct/courier delivery; provincial shipping via partner couriers/cargo. Delivery fee quoted per order. No walk-in store pickup.";
 
 export const deliveryClauses = [
   "Nationwide across the Philippines.",
-  "Metro Manila direct/courier delivery.",
-  "Provincial shipping via partner couriers/cargo.",
+  "Metro Manila direct/courier delivery; provincial shipping via partner couriers/cargo.",
   "Delivery fee quoted per order.",
+  "No walk-in store pickup.",
 ] as const;
 
-export const showroomNote =
-  "We source per order through Philippine distributors. No walk-in showroom or store pickup.";
+export const showroomNote = "We work per order; no walk-in showroom.";
 
 export const replyTime =
   "We acknowledge website inquiries within 1 business day (Monday to Friday, excluding holidays). Formal quotations follow once supplier stock and pricing are confirmed.";
@@ -54,10 +53,10 @@ export const registrationPapersNote =
 
 /** Status only. Never a registration number. */
 export const registrationStatuses = [
-  { label: "DTI", status: "Sole proprietorship" },
-  { label: "BIR", status: "Registered, Non-VAT" },
-  { label: "Pasig City Mayor's/Business Permit", status: "Secured" },
-  { label: "PhilGEPS", status: "Registered" },
+  { label: "DTI (sole proprietorship)", status: "" },
+  { label: "BIR registered, Non-VAT", status: "" },
+  { label: "Pasig City Mayor's/Business Permit", status: "" },
+  { label: "PhilGEPS registered", status: "" },
 ] as const;
 
 export const insightAuthor = "HACIEN Team";

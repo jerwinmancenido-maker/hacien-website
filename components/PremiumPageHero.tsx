@@ -81,7 +81,7 @@ export function PremiumPageHero({
         </div>
 
         {highlights.length > 0 ? (
-        <SlideUp delay={220} className="hidden h-full md:block">
+        <SlideUp delay={220} className="h-full">
           {/* Darker glass so grey-300 body copy stays AA over bright hero photos (e.g. products laptop). */}
           <div className="relative overflow-hidden rounded-lg border border-white/15 bg-[#05101C]/90 p-3 shadow-2xl shadow-black/40 backdrop-blur-xl sm:p-4">
             <div className="absolute inset-0 bg-gradient-to-br from-white/6 via-[#05101C]/35 to-black/50" />

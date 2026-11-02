@@ -262,7 +262,7 @@ const navigationContent: CmsNavigationContent = {
     quoteAction: { href: "/quote", label: "Request a Quote" },
   },
   footer: {
-    statement: "",
+    statement: "Technology procurement clarified before anyone quotes.",
     groups: [
       {
         title: "Company",
