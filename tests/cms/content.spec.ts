@@ -120,6 +120,34 @@ describe("CMS read layer", () => {
     );
   });
 
+  it("blocks registration and permit numbers while allowing approved status copy", () => {
+    const numberedStrings = [
+      "DTI No. 1234567",
+      "TIN 000-000-000-000",
+      "PhilGEPS Reg. No. 12345",
+    ];
+    for (const text of numberedStrings) {
+      const result = validateCmsContent({ text });
+      expect(result.ok, `expected "${text}" to be blocked`).toBe(false);
+      expect(result.blockedClaims.length).toBeGreaterThan(0);
+    }
+
+    const birLine =
+      "BIR Registered Taxpayer (RDO 043 - Pasig City, Non-VAT — issues official BIR Sales Invoices, Delivery Receipts, and Collection Receipts)";
+    const statusStrings = [
+      "DTI registered",
+      "BIR registered (Non-VAT)",
+      "PhilGEPS registered",
+      "Mayor's Permit: active",
+      birLine,
+    ];
+    for (const text of statusStrings) {
+      const result = validateCmsContent({ text });
+      expect(result.ok, `expected "${text}" to pass`).toBe(true);
+      expect(result.blockedClaims).toHaveLength(0);
+    }
+  });
+
   it("declares ownership for every expected public content area", () => {
     const inventory = getCmsInventory();
     const result = validateCmsInventory(inventory);

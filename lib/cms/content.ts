@@ -191,6 +191,8 @@ const blockedClaimPatterns = [
   /\btax[-\s]?ready\b/i,
   /\bpayment approval\b/i,
   /\bcashier approval\b/i,
+  /\b\d{3}[-\s]\d{3}[-\s]\d{3}[-\s](?:\d{3}|\d{5})\b/,
+  /\b(?:DTI|BN|Business Name|(?:Mayor(?:'s)?(?:\s*\/\s*Business)?|Business)\s+Permit|PhilGEPS|BIR|ATP|OCN|RSN)\b(?:\s*\(?Reg(?:istration)?\.?(?:\s*(?:No|Number)\.?)?\)?|\s*(?:No|Number)\.?|\s*#)?\s*[:#-]?\s*\d+/i,
 ];
 
 function collectText(value: unknown, output: string[] = []): string[] {
@@ -393,7 +395,7 @@ const aboutContent: CmsAboutContent = {
     eyebrow: "Company",
     title: "Started in 2026.",
     description:
-      "Founded in 2026 (DTI registered June 2026) in Ortigas Center, Pasig City to provide fast, quotation-driven, BIR- and PhilGEPS-compliant multi-category procurement for Philippine businesses and government agencies.",
+      "Founded in 2026 (DTI registered June 2026) in Ortigas Center, Pasig City to provide fast, quotation-driven, BIR-registered and PhilGEPS-registered multi-category procurement for Philippine businesses and government agencies.",
     image: "workspace",
     primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/contact", label: "Contact" },

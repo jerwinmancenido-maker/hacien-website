@@ -3,7 +3,7 @@
 export const registeredCompanyName = "HACIEN INFORMATION TECHNOLOGY SOLUTIONS";
 
 export const founderLine =
-  "Founded in 2026 (DTI registered June 2026) in Ortigas Center, Pasig City to provide fast, quotation-driven, BIR- and PhilGEPS-compliant multi-category procurement for Philippine businesses and government agencies.";
+  "Founded in 2026 (DTI registered June 2026) in Ortigas Center, Pasig City to provide fast, quotation-driven, BIR-registered and PhilGEPS-registered multi-category procurement for Philippine businesses and government agencies.";
 
 export const supplyItems = [
   {

@@ -2,7 +2,7 @@ import { readFileSync, readdirSync, statSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 
-import { companyContact, replyTime } from "@/data/companyContact";
+import { companyContact, founderLine, replyTime } from "@/data/companyContact";
 import { getIndustriesContent } from "@/lib/cms/content";
 
 function walkSource(dir: string): string[] {
@@ -129,6 +129,11 @@ describe("W03: Facts and Industries Conformance", () => {
       const source = readFileSync(path.join(process.cwd(), relPath), "utf8");
       expect(tinOrPermitPattern.test(source)).toBe(false);
     }
+  });
+
+  it("uses approved founding copy with BIR-registered and PhilGEPS-registered", () => {
+    expect(founderLine).toContain("BIR-registered and PhilGEPS-registered");
+    expect(founderLine).not.toContain("compliant");
   });
 
   it("preserves privacy@ and leaves the 4 legal pages untouched", () => {
