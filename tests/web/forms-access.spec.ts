@@ -12,6 +12,7 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
       expect(layout).toMatch(/href="#content"[^>]*>[\s\S]*?Skip to content/);
       expect(layout).toContain("sr-only");
       expect(layout).toContain("focus:not-sr-only");
+      expect(layout).toContain("focus:z-[100]");
 
       // Verify the skip link appears before <Header
       const skipIndex = layout.indexOf('href="#content"');
