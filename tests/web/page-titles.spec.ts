@@ -16,15 +16,13 @@ describe("page document titles", () => {
     expect(staticPageTitleSegments["/contact"]).toBe("Contact");
     expect(staticPageTitleSegments["/access"]).toBe("Access");
     expect(staticPageTitleSegments["/platform"]).toBe("Platform | Operating Model");
-    expect(getCmsSeoRecord("about").title).toBe("About | IT Procurement & Technology Solutions");
+    expect(getCmsSeoRecord("about").title).toBe("About");
 
     expect(readAppSource("app/contact/page.tsx")).toContain('title: "Contact"');
     expect(readAppSource("app/contact/page.tsx")).not.toContain('title: "Contact HACIEN"');
     expect(readAppSource("app/access/page.tsx")).toContain('title: "Access"');
     expect(readAppSource("app/platform/page.tsx")).toContain('title: "Platform | Operating Model"');
-    expect(readAppSource("lib/cms/seo.ts")).toContain(
-      'title: "About | IT Procurement & Technology Solutions"',
-    );
+    expect(readAppSource("lib/cms/seo.ts")).toContain('title: "About",');
     expect(readAppSource("lib/cms/seo.ts")).not.toContain(
       'title: "About HACIEN | IT Procurement & Technology Solutions"',
     );

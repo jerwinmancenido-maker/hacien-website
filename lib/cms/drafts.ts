@@ -479,6 +479,13 @@ export function validateCmsDraft(draft: unknown): CmsDraftValidationResult {
         continue;
       }
 
+      if (contentKey === "navigation.footer" && fieldName === "statement") {
+        if (typeof value !== "string") {
+          errors.push(`Draft field ${fieldName} is required for ${contentKey}.`);
+        }
+        continue;
+      }
+
       if (typeof value !== "string" || value.trim().length === 0) {
         errors.push(`Draft field ${fieldName} is required for ${contentKey}.`);
       }

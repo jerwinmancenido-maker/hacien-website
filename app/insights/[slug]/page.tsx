@@ -4,6 +4,7 @@ import Link from "next/link";
 import { CTABand } from "@/components/CTABand";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { AnimatedSection } from "@/components/motion";
+import { insightAuthor } from "@/data/companyContact";
 import { getInsight, insights } from "@/data/insights";
 
 export function generateStaticParams() {
@@ -57,7 +58,9 @@ export default async function InsightDetailPage({
             {insight.title}
           </h1>
 
-          <div className="mt-3 text-sm text-slate-500">{insight.readingTime}</div>
+          <div className="mt-3 text-sm text-slate-500">
+            {insightAuthor} · {insight.readingTime}
+          </div>
 
           <p className="mt-6 text-base leading-7 text-slate-600">{insight.intro}</p>
 

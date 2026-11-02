@@ -108,7 +108,7 @@ export const privacyPage: LegalPageModel = {
       blocks: [
         p('HACIEN INFORMATION TECHNOLOGY SOLUTIONS ("HACIEN") is a sole proprietorship registered with the DTI. Our office is at Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, San Antonio, City of Pasig, Metro Manila, Philippines 1605.'),
         p("HACIEN is the **personal information controller** for the data in this policy, under the Data Privacy Act of 2012 (Republic Act No. 10173), its Implementing Rules, and the rules of the National Privacy Commission (NPC)."),
-        p("Our Data Protection Officer is **The Proprietor**. Email: **privacy@haciensolutions.com**."),
+        p("The Proprietor (Data Protection Officer), privacy@haciensolutions.com."),
       ],
     },
     {

@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
+
 import { describe, expect, it } from "vitest";
 
 import {
@@ -1027,5 +1030,112 @@ describe("CMS read layer", () => {
 
     expect(nextSource).toContain('title: "Updated About Title",');
     expect(nextSource).toContain('description: "Updated about description for local review.",');
+  });
+
+  it("replaces quoted homepage, about, and SEO descriptions without duplicating them", () => {
+    const contentSource = readFileSync(path.join(process.cwd(), "lib/cms/content.ts"), "utf8");
+    const seoSource = readFileSync(path.join(process.cwd(), "lib/cms/seo.ts"), "utf8");
+    const homepage = createCmsDraft({
+      id: "ready-homepage-live-source",
+      contentKey: "homepage",
+      status: "ready",
+      fields: {
+        title: "Updated homepage title",
+        description: "Updated homepage description for local review.",
+        sections: [{ heading: "Section", body: "Body" }],
+        reviewNotes: "Review before apply.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const about = createCmsDraft({
+      id: "ready-about-live-source",
+      contentKey: "about",
+      status: "ready",
+      fields: {
+        title: "Updated about title",
+        description: "Updated about description for local review.",
+        sections: [{ heading: "Section", body: "Body" }],
+        reviewNotes: "Review before apply.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const homepageSeo = createCmsDraft({
+      id: "ready-homepage-seo-live-source",
+      contentKey: "seo.metadata",
+      status: "ready",
+      fields: {
+        route: "/",
+        title: "Updated homepage seo title",
+        description: "Updated homepage seo description.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const aboutSeo = createCmsDraft({
+      id: "ready-about-seo-live-source",
+      contentKey: "seo.metadata",
+      status: "ready",
+      fields: {
+        route: "/about",
+        title: "Updated about seo title",
+        description: "Updated about seo description.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+
+    const nextHomepage = applyCmsDraftToSource(contentSource, validateCmsDraftApplyPlan(homepage));
+    const nextAbout = applyCmsDraftToSource(contentSource, validateCmsDraftApplyPlan(about));
+    const nextHomepageSeo = applyCmsDraftToSource(seoSource, validateCmsDraftApplyPlan(homepageSeo));
+    const nextAboutSeo = applyCmsDraftToSource(seoSource, validateCmsDraftApplyPlan(aboutSeo));
+
+    expect(nextHomepage).toContain("Updated homepage description for local review.");
+    expect(nextHomepage).not.toContain("Except products that need a special regulatory license");
+    expect(nextAbout).toContain("Updated about description for local review.");
+    expect(nextAbout).not.toContain("Founded in 2026 in Pasig City");
+    expect(nextHomepageSeo.match(/description:/g)?.length).toBe(seoSource.match(/description:/g)?.length);
+    expect(nextAboutSeo.match(/description:/g)?.length).toBe(seoSource.match(/description:/g)?.length);
+    expect(nextHomepageSeo).toContain("Updated homepage seo description.");
+    expect(nextAboutSeo).toContain("Updated about seo description.");
+  });
+
+  it("applies a footer draft whose statement is blank", () => {
+    const draft = createCmsDraft({
+      id: "ready-blank-footer-statement",
+      contentKey: "navigation.footer",
+      status: "ready",
+      fields: {
+        title: "Footer navigation",
+        statement: "",
+        groups: [{ title: "Company", links: [{ label: "About", href: "/about" }] }],
+        reviewNotes: "Route crawl before apply.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+
+    expect(plan.applySupported).toBe(true);
+    expect(plan.errors).toEqual([]);
+
+    const source = `const navigationContent = {\n  footer: {\n    statement: \"\",\n    groups: [\n      {\n        title: \"Old\",\n        links: [\n          { href: \"/old\", label: \"Old\" },\n        ],\n      },\n    ],\n  },\n};\n`;
+    expect(applyCmsDraftToSource(source, plan)).toContain('statement: "",');
+  });
+
+  it("rejects a footer draft that omits the statement field", () => {
+    const draft = {
+      id: "ready-missing-footer-statement",
+      contentKey: "navigation.footer",
+      ownerType: "cms",
+      riskLevel: 3,
+      status: "ready",
+      updatedAt: "2026-07-09T00:00:00.000Z",
+      fields: {
+        title: "Footer navigation",
+        groups: [{ title: "Company", links: [{ label: "About", href: "/about" }] }],
+        reviewNotes: "Route crawl before apply.",
+      },
+    };
+    const plan = validateCmsDraftApplyPlan(draft as never);
+
+    expect(plan.applySupported).toBe(false);
+    expect(plan.errors).toContain("Footer navigation statement is required.");
   });
 });

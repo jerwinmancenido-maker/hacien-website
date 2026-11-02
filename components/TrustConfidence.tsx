@@ -1,6 +1,11 @@
 import Link from "next/link";
 import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
 import { BorderGlow, SpotlightCard } from "@/app/components/reactbits";
+import {
+  registeredCompanyName,
+  registrationPapersNote,
+  registrationStatuses,
+} from "@/data/companyContact";
 
 const commitments = [
   ["Clear communication", "Requirements, timelines, assumptions, and open questions should be visible before quotation work moves forward."],
@@ -189,34 +194,28 @@ export function TrustCta() {
 }
 
 export function CompanyCredentials() {
-  const credentials = [
-    ["Company information", "HACIEN Information Technology Solutions operates as a Philippine IT procurement and technology solutions business."],
-    ["Industries served", "Business, education, healthcare, construction, enterprise, and institutional buyers."],
-    ["Core expertise", "IT infrastructure requirement review, systems integration support, software licensing, networking, security, project delivery, and procurement coordination."],
-    ["Service coverage", "Requirement review, supplier-input review, quotation support, procurement coordination, delivery detail review, and post-delivery follow-up when transaction records exist."],
-    ["Procurement method", "RFQ-first review that prioritizes documented requirements, technical validation, reviewed supplier inputs, and clear assumptions."],
-    ["Transparency commitment", "Company details and downloadable materials are shared only when verified, approved for release, and relevant to the business request."],
-  ];
-
   return (
     <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">
         <div className="max-w-3xl">
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Company Credentials</div>
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Registrations</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-            Trust is presented through verifiable operating facts, not inflated credentials.
+            {registeredCompanyName}
           </h2>
-          <p className="mt-4 text-base leading-7 text-slate-600">
-            HACIEN shares formal business details through approved communication when relevant. The public website focuses on what the company does and how it operates.
-          </p>
+          <p className="mt-4 text-base leading-7 text-slate-600">{registrationPapersNote}</p>
         </div>
-        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {credentials.map(([title, text]) => (
-            <SpotlightCard key={title} className="h-full rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-              <h3 className="text-lg font-bold text-slate-950">{title}</h3>
-              <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
+        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
+          {registrationStatuses.map((item) => (
+            <SpotlightCard key={item.label} className="h-full rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
+              <h3 className="text-lg font-bold text-slate-950">{item.label}</h3>
+              {item.status ? <p className="mt-3 text-sm leading-6 text-slate-600">{item.status}</p> : null}
             </SpotlightCard>
           ))}
+        </div>
+        <div className="mt-8">
+          <Link href="/compliance" className="text-sm font-bold text-[#2563EB] hover:underline">
+            See Government Compliance
+          </Link>
         </div>
       </div>
     </section>

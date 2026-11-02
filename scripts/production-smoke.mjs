@@ -28,10 +28,10 @@ const REQUIRED_ROUTES = [
 
 const TURNSTILE_ROUTES = ["/quote", "/contact", "/support"];
 const QUOTE_REQUIRED_MARKERS = [
-  "Universal RFQ Gateway",
-  "Universal Gateway Intake",
-  "Start with the requirement. Catalog is optional.",
-  "Your RFQ can start without catalog products.",
+  "Request a quotation",
+  "Quotation request",
+  "Your request can start without catalog products.",
+  "We acknowledge website inquiries within 1 business day",
 ];
 const QUOTE_REJECTED_MARKERS = [
   "RFQ Cart",
@@ -174,7 +174,7 @@ async function checkUniversalGatewayIntake() {
   const ok = res.ok && missing.length === 0 && stale.length === 0;
 
   if (ok) {
-    console.log(`PASS ${res.status} Universal Gateway Intake /quote${attemptSuffix(attempts)}`);
+    console.log(`PASS ${res.status} Quotation request /quote${attemptSuffix(attempts)}`);
     return true;
   }
 
@@ -185,7 +185,7 @@ async function checkUniversalGatewayIntake() {
     .filter(Boolean)
     .join("; ");
 
-  console.log(`FAIL ${res.status} Universal Gateway Intake /quote${attemptSuffix(attempts)}${details ? ` (${details})` : ""}`);
+  console.log(`FAIL ${res.status} Quotation request /quote${attemptSuffix(attempts)}${details ? ` (${details})` : ""}`);
   return false;
 }
 

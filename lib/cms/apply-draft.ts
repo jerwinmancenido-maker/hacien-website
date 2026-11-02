@@ -527,7 +527,7 @@ export function validateCmsDraftApplyPlan(draft: CmsDraftRecord, mode: "dry-run"
     const statement = getStringField(draft, "statement");
     const groups = getDraftNavigationGroups(draft);
 
-    if (!statement) {
+    if (typeof draft.fields.statement !== "string") {
       errors.push("Footer navigation statement is required.");
     }
     errors.push(...validateNavigationGroups(groups));

@@ -10,6 +10,7 @@ import {
 } from "@/components/EnterpriseImagery";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
+import { registeredCompanyName, registrationPapersNote, registrationStatuses } from "@/data/companyContact";
 import { categories } from "@/data/products";
 import { solutions } from "@/data/solutions";
 import { getHomepageContent } from "@/lib/cms/content";
@@ -52,9 +53,9 @@ export function TechnologyEcosystem() {
           </p>
           <StaggerContainer className="mt-5 grid gap-2 sm:mt-7 sm:grid-cols-2 sm:gap-3">
             {homepageContent.rfqReadiness.cards.map((item, index) => (
-              <AnimatedCard key={item.title} className={`group rounded-lg border border-white/12 bg-white/[0.06] p-4 backdrop-blur sm:p-5 ${index > 1 ? "hidden sm:block" : ""}`}>
+              <AnimatedCard key={`${item.title}-${index}`} className="group rounded-lg border border-white/12 bg-white/[0.06] p-4 backdrop-blur sm:p-5">
                 <div className="text-base font-bold">{item.title}</div>
-                <p className="mt-2 text-sm leading-6 text-grey-300">{item.text}</p>
+                {item.text ? <p className="mt-2 text-sm leading-6 text-grey-300">{item.text}</p> : null}
               </AnimatedCard>
             ))}
           </StaggerContainer>
@@ -123,20 +124,19 @@ export function SolutionsV3() {
                     }}
                   />
                   <div className="relative grid h-12 w-12 place-items-center rounded bg-white/90 text-xs font-bold text-[#0A0A0A] shadow-lg shadow-slate-950/20">
-                    {solution.icon}
+                    {String(index + 1).padStart(2, "0")}
                   </div>
                 </div>
                 <div className="p-4 sm:p-6">
-                  <div className="text-lg font-bold text-slate-950 group-hover:text-[#2563EB] sm:text-xl">{solution.title}</div>
-                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600 sm:mt-3 sm:line-clamp-none">{solution.summary}</p>
-                  <div className="mt-3 text-sm font-bold text-[#2563EB] sm:mt-5">Explore solution</div>
+                  <div className="text-lg font-bold text-slate-950 sm:text-xl">{solution.title}</div>
+                  <div className="mt-3 text-sm font-bold text-slate-700 sm:mt-5">Explore solution</div>
                 </div>
               </AnimatedCard>
             </Link>
           ))}
         </StaggerContainer>
         <div className="mt-6 sm:mt-10">
-          <Link href="/solutions" className="interactive-link text-sm font-bold text-[#2563EB] hover:underline">
+          <Link href="/solutions" className="interactive-link text-sm font-bold text-slate-950 hover:underline">
             {homepageContent.solutionsPreview.viewAllLabel}
           </Link>
         </div>
@@ -225,24 +225,21 @@ export function TrustV3() {
     <AnimatedSection className="bg-transparent px-4 py-9 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
       <div className="mx-auto max-w-7xl">
         <SectionHeading
-          eyebrow={homepageContent.trustPreview.eyebrow}
-          title={homepageContent.trustPreview.title}
-          description={homepageContent.trustPreview.description}
+          eyebrow="Registrations"
+          title={registeredCompanyName}
+          description={registrationPapersNote}
         />
-        <StaggerContainer className="mt-6 grid gap-3 md:mt-10 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
-          {homepageContent.trustPreview.cards.map((item) => (
-            <AnimatedCard key={item.title} className="rounded-lg border border-slate-200 bg-slate-50 p-4 sm:p-5">
-              <div className="font-bold text-slate-950">{item.title}</div>
-              <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
+        <StaggerContainer className="mt-6 grid gap-3 md:mt-10 md:grid-cols-2 md:gap-5 lg:grid-cols-4">
+          {registrationStatuses.map((item) => (
+            <AnimatedCard key={item.label} className="rounded-lg border border-slate-200 bg-slate-50 p-4 sm:p-5">
+              <div className="font-bold text-slate-950">{item.label}</div>
+              {item.status ? <p className="mt-2 text-sm leading-6 text-slate-600">{item.status}</p> : null}
             </AnimatedCard>
           ))}
         </StaggerContainer>
         <div className="mt-8">
-          <Link
-            href={homepageContent.trustPreview.action.href}
-            className="interactive-link inline-flex text-sm font-bold text-[#2563EB] hover:underline"
-          >
-            {homepageContent.trustPreview.action.label}
+          <Link href="/compliance" className="interactive-link inline-flex text-sm font-bold text-[#2563EB] hover:underline">
+            See Government Compliance
           </Link>
         </div>
       </div>

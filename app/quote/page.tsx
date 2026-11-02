@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { QuoteCart } from "@/components/QuoteCart";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
+import { replyTime } from "@/data/companyContact";
 
 export const metadata: Metadata = {
-  title: "Universal RFQ Gateway",
-  description:
-    "Submit an RFQ procurement request to HACIEN with or without catalog products. No online payment is collected.",
+  title: "Request a quotation",
+  description: replyTime,
 };
 
 export default function QuotePage() {
@@ -14,17 +14,15 @@ export default function QuotePage() {
   return (
     <>
       <PremiumPageHero
-        eyebrow="Universal Gateway Intake"
-        title="Send the requirement in whatever form you have."
-        description="Use a BOQ, supplier quote, photo, spreadsheet, product link, or plain description. HACIEN reviews the details before any formal quote or business record is treated as ready."
+        eyebrow="Quotation request"
+        title="Request a quotation."
+        description="Attach an item list, a supplier quote, an image, a spreadsheet, a PDF, or a ZIP."
         image="commandCenter"
         primaryAction={{ href: "#rfq-form", label: "Request a Quote" }}
-        secondaryAction={{ href: "/products", label: "Use RFQ Builder" }}
+        secondaryAction={{ href: "/products", label: "Technology list" }}
         highlights={[
-          { label: "Plain language", text: "Describe the need without perfect specs." },
-          { label: "Files", text: "Attach BOQ, quote, image, spreadsheet, PDF, or ZIP." },
-          { label: "Reference", text: "Receive a tracking reference after submission." },
-          { label: "Review first", text: "HACIEN reviews before formal next steps." },
+          { label: "Plain description", text: "Describe the product, quantity, delivery location, and deadline." },
+          { label: "Reference", text: "You receive a reference number after you send the request." },
         ]}
       />
 

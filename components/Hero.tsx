@@ -68,24 +68,17 @@ export function Hero() {
           </SlideUp>
         </div>
 
-        <SlideUp delay={220} className="hidden h-full md:block">
+        <SlideUp delay={220} className="h-full">
           <div className="relative overflow-hidden rounded-lg border border-white/15 bg-white/[0.08] p-3 shadow-2xl shadow-black/20 backdrop-blur-xl sm:p-4">
             <div className="absolute inset-0 bg-gradient-to-br from-white/12 via-transparent to-blue-500/10" />
             <div className="relative space-y-3">
-              <div className="rounded-lg border border-white/12 bg-white/10 p-4">
-                <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">First response focus</div>
-                <p className="mt-3 text-sm leading-6 text-grey-200">
-                  The website captures the request. HACIEN checks it before any formal quote, delivery, payment, or
-                  document commitment exists.
-                </p>
-              </div>
               <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
                 {content.heroSignals.map((item, index) => (
                   <div
                     key={item.title}
                     className="rounded-lg border border-white/12 bg-white/10 p-3 backdrop-blur transition-transform duration-200 hover:-translate-y-1"
                   >
-                    <div className="text-xs font-bold text-blue-200">{String(index + 1).padStart(2, "0")}</div>
+                    <div className="text-xs font-bold text-grey-300">{String(index + 1).padStart(2, "0")}</div>
                     <div className="mt-2 text-sm font-bold text-white">{item.title}</div>
                     <p className="mt-2 text-xs leading-5 text-grey-300">{item.text}</p>
                   </div>

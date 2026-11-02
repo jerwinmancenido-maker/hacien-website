@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { DocumentPageShell } from "@/components/DocumentLayout";
 import { birBadgeAlt, birBadgeLabel, birRmcCaption } from "@/components/Footer";
+import { registrationPapersNote, registrationStatuses } from "@/data/companyContact";
 
 const registrationSentence = "HACIEN Information Technology Solutions is registered with the Bureau of Internal Revenue.";
 
@@ -33,13 +34,12 @@ export default function CompliancePage() {
       </p>
       <p>Scan the QR code on the badge to verify our registration with the BIR.</p>
       <ul className="list-disc space-y-2 pl-5 text-ink">
-        <li>DTI registered</li>
-        <li>BIR registered (Non-VAT)</li>
-        <li>Pasig City Mayor&apos;s Permit</li>
-        <li>PhilGEPS registered</li>
+        {registrationStatuses.map((item) => (
+          <li key={item.label}>{item.label}</li>
+        ))}
       </ul>
       <p>
-        Copies of our registration documents are provided on quotation or accreditation.{" "}
+        {registrationPapersNote}{" "}
         <Link href="/legal" className={linkClass}>
           See Business and Legal Information
         </Link>

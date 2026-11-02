@@ -20,7 +20,7 @@ export function CTABand({
               Request a Quote
             </Link>
             <Link href="/contact" className="interactive-link rounded border border-white/20 px-5 py-3 text-center text-sm font-medium text-white hover:bg-white/5">
-              Talk to HACIEN
+              Contact
             </Link>
           </div>
         </div>

@@ -6,7 +6,7 @@ import { Footer } from "@/components/Footer";
 import { GlobalCinematicBackdrop } from "@/components/GlobalCinematicBackdrop";
 import { QuoteCartProvider } from "@/components/QuoteCartProvider";
 import { LenisProvider } from "@/components/motion/LenisProvider";
-import { companyContact } from "@/data/companyContact";
+import { companyContact, founderLine } from "@/data/companyContact";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,16 +30,15 @@ export const metadata: Metadata = {
     default: "HACIEN Information Technology Solutions",
     template: "%s | HACIEN",
   },
-  description:
-    "IT infrastructure, procurement, systems integration, and project-based technology solutions for Philippine organizations.",
+  description: founderLine,
   applicationName: "HACIEN Information Technology Solutions",
   keywords: [
     "HACIEN",
-    "IT infrastructure Philippines",
-    "IT procurement Philippines",
-    "systems integrator Philippines",
-    "institutional procurement support",
-    "technology solutions provider",
+    "IT equipment",
+    "licensed software",
+    "tools and hardware materials",
+    "general procurement",
+    "Philippines",
   ],
   icons: {
     icon: [
@@ -54,7 +53,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "HACIEN Information Technology Solutions",
     description:
-      "IT infrastructure, procurement, systems integration, and project-based technology solutions for Philippine organizations.",
+      founderLine,
     url: "https://haciensolutions.com",
     siteName: "HACIEN Information Technology Solutions",
     images: [
@@ -72,7 +71,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "HACIEN Information Technology Solutions",
     description:
-      "IT infrastructure, procurement, systems integration, and project-based technology solutions for Philippine organizations.",
+      founderLine,
     images: ["/opengraph-image"],
   },
 };
@@ -89,13 +88,12 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       "@type": "PostalAddress",
       streetAddress: "Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, San Antonio",
       addressLocality: "City of Pasig",
-      addressRegion: "NCR",
+      addressRegion: "Metro Manila",
       postalCode: "1605",
       addressCountry: "PH",
     },
     areaServed: "Philippines",
-    description:
-      "HACIEN is a procurement-first technology solutions headquarters for RFQ review, solutions consulting, sourcing coordination, and customer success.",
+    description: founderLine,
   };
 
   return (

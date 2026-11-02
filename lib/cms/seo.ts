@@ -14,16 +14,16 @@ const cmsSeoRecords: Record<CmsSeoKey, CmsSeoRecord> = {
   homepage: {
     key: "homepage",
     route: "/",
-    title: "Technology Procurement Clarified Before Quoting",
+    title: "What we supply",
     description:
-      "HACIEN helps organizations turn IT requirements, BOQs, supplier quotes, and rough ideas into usable RFQ conversations.",
+      "IT hardware, networking and peripherals. Licensed software. Tools and hardware materials. Office and general merchandise. Except products that need a special regulatory license (for example an FDA or DOH License to Operate).",
   },
   about: {
     key: "about",
     route: "/about",
-    title: "About | IT Procurement & Technology Solutions",
+    title: "About",
     description:
-      "HACIEN Information Technology Solutions helps Philippine organizations prepare technology requirements, review supplier inputs, and move RFQs into formal business communication.",
+      "Founded in 2026 in Pasig City to give Philippine businesses and government offices a clear, dependable quotation-to-delivery channel for IT equipment, tools, hardware materials and general procurement.",
   },
   solutions: {
     key: "solutions",

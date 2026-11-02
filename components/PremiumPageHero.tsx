@@ -80,7 +80,8 @@ export function PremiumPageHero({
           </SlideUp>
         </div>
 
-        <SlideUp delay={220} className="hidden h-full md:block">
+        {highlights.length > 0 ? (
+        <SlideUp delay={220} className="h-full">
           {/* Darker glass so grey-300 body copy stays AA over bright hero photos (e.g. products laptop). */}
           <div className="relative overflow-hidden rounded-lg border border-white/15 bg-[#05101C]/90 p-3 shadow-2xl shadow-black/40 backdrop-blur-xl sm:p-4">
             <div className="absolute inset-0 bg-gradient-to-br from-white/6 via-[#05101C]/35 to-black/50" />
@@ -90,7 +91,7 @@ export function PremiumPageHero({
                   key={item.label}
                   className={`rounded-lg border border-white/12 bg-black/65 p-3 backdrop-blur-md transition-transform duration-200 hover:-translate-y-1 ${index > 1 ? "hidden sm:block" : ""}`}
                 >
-                  <div className="text-xs font-bold text-blue-200">{String(index + 1).padStart(2, "0")}</div>
+                  <div className="text-xs font-bold text-grey-300">{String(index + 1).padStart(2, "0")}</div>
                   <div className="mt-2 text-sm font-bold text-white">{item.label}</div>
                   <p className="mt-2 text-xs leading-5 text-grey-300 sm:text-sm sm:leading-6">{item.text}</p>
                 </div>
@@ -98,6 +99,7 @@ export function PremiumPageHero({
             </StaggerContainer>
           </div>
         </SlideUp>
+        ) : null}
       </div>
     </section>
   );

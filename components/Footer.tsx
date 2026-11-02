@@ -39,16 +39,14 @@ export function Footer() {
               BrandLogo adds clear space X = 0.286×CH. Never retype HACIEN — SVG only.
             */}
             <BrandLogo variant="full-white" width={280} />
-            <p className="mt-4 max-w-lg text-sm leading-6 text-grey-300">
-              {navigationContent.footer.statement}
-            </p>
+            {navigationContent.footer.statement ? (
+              <p className="mt-4 max-w-lg text-sm leading-6 text-grey-300">
+                {navigationContent.footer.statement}
+              </p>
+            ) : null}
           </div>
 
-          <div className="grid gap-4 rounded border border-white/10 bg-white/[0.04] p-5 text-sm text-grey-300 md:grid-cols-[0.9fr_1.1fr]">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-[0.08em] text-grey-300">Contact</div>
-              <p className="mt-2 font-medium leading-6 text-white">{companyContact.contactInstruction}</p>
-            </div>
+          <div className="rounded border border-white/10 bg-white/[0.04] p-5 text-sm text-grey-300">
             <address className="not-italic leading-6">
               <span className="block text-xs font-semibold uppercase tracking-[0.08em] text-grey-300">
                 {companyContact.addressLabel}
