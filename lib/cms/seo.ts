@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { validateCmsContent } from "@/lib/cms/content";
-import { founderLine, supplyException, supplyLead } from "@/data/companyContact";
 
 export type CmsSeoKey = "homepage" | "about" | "solutions" | "industries" | "faq" | "help";
 
@@ -16,13 +15,15 @@ const cmsSeoRecords: Record<CmsSeoKey, CmsSeoRecord> = {
     key: "homepage",
     route: "/",
     title: "What we supply",
-    description: `${supplyLead} ${supplyException}`,
+    description:
+      "IT hardware, networking and peripherals. Licensed software. Tools and hardware materials. Office and general merchandise. Except products that need a special regulatory license (for example an FDA or DOH License to Operate).",
   },
   about: {
     key: "about",
     route: "/about",
     title: "About | IT Procurement & Technology Solutions",
-    description: founderLine,
+    description:
+      "Founded in 2026 in Pasig City to give Philippine businesses and government offices a clear, dependable quotation-to-delivery channel for IT equipment, tools, hardware materials and general procurement.",
   },
   solutions: {
     key: "solutions",

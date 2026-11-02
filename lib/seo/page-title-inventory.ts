@@ -19,7 +19,7 @@ export type PageTitleEntry = {
 export const staticPageTitleSegments: Record<string, string> = {
   "/products": "Products",
   "/technology": "Enterprise Technology",
-  "/quote": "Universal RFQ Gateway",
+  "/quote": "Request a quotation",
   "/support": "Support",
   "/search": "Search",
   "/contact": "Contact",

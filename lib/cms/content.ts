@@ -319,7 +319,8 @@ const homepageContent: CmsHomeContent = {
   hero: {
     eyebrow: "HACIEN",
     title: "What HACIEN supplies",
-    description: supplyException,
+    description:
+      "Except products that need a special regulatory license (for example an FDA or DOH License to Operate).",
     image: "commandCenter",
     primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/contact", label: "Contact" },
@@ -395,7 +396,8 @@ const aboutContent: CmsAboutContent = {
   hero: {
     eyebrow: "Company",
     title: "Started in 2026.",
-    description: founderLine,
+    description:
+      "Founded in 2026 in Pasig City to give Philippine businesses and government offices a clear, dependable quotation-to-delivery channel for IT equipment, tools, hardware materials and general procurement.",
     image: "workspace",
     primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/contact", label: "Contact" },
