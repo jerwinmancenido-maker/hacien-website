@@ -82,10 +82,7 @@ function getSnapshot(): string | null {
   }
 }
 
-function getServerSnapshot(): string | null {
-  if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
-    return getSnapshot();
-  }
+export function getServerSnapshot(): string | null {
   return null;
 }
 

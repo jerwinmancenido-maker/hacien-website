@@ -2,6 +2,25 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { renderToStaticMarkup } from "react-dom/server";
 import React from "react";
 
+let mockUseClientStore = false;
+
+vi.mock("react", async (importOriginal) => {
+  const actual = await importOriginal<typeof import("react")>();
+  return {
+    ...actual,
+    useSyncExternalStore: (
+      subscribe: (onStoreChange: () => void) => () => void,
+      getSnapshot: () => unknown,
+      getServerSnapshot?: () => unknown,
+    ) => {
+      if (mockUseClientStore) {
+        return getSnapshot();
+      }
+      return getServerSnapshot ? getServerSnapshot() : getSnapshot();
+    },
+  };
+});
+
 vi.mock("next/font/google", () => ({
   Inter: () => ({ variable: "font-sans" }),
   Archivo_Black: () => ({ variable: "font-display" }),
@@ -22,6 +41,7 @@ import RootLayout from "@/app/layout";
 import {
   CookieNotice,
   CookieSettingsButton,
+  getServerSnapshot,
   handleAccept,
   handleDecline,
   handleCookieSettings,
@@ -199,10 +219,13 @@ describe("CookieNotice consent transitions and gtag updates", () => {
 
     vi.stubGlobal("window", fakeWindow);
     vi.stubGlobal("localStorage", fakeWindow.localStorage);
+    mockUseClientStore = true;
     resetPushedConsentForTesting();
   });
 
   afterEach(() => {
+    mockUseClientStore = false;
+    vi.restoreAllMocks();
     vi.unstubAllGlobals();
     resetPushedConsentForTesting();
   });
@@ -313,5 +336,37 @@ describe("CookieNotice consent transitions and gtag updates", () => {
 
     // Must have pushed consent denied update
     expect(gtagCalls.at(-1)).toEqual(["consent", "update", { analytics_storage: "denied" }]);
+  });
+});
+
+describe("Returning visitor first render and server snapshot", () => {
+  it("server snapshot is null even when localStorage holds 'granted' or 'denied', and server markup is identical in both cases", () => {
+    const mockStorage = new Map<string, string>();
+    const fakeWindow = {
+      localStorage: {
+        getItem: (k: string) => mockStorage.get(k) ?? null,
+        setItem: (k: string, v: string) => mockStorage.set(k, v),
+        removeItem: (k: string) => mockStorage.delete(k),
+        clear: () => mockStorage.clear(),
+      },
+    };
+    vi.stubGlobal("window", fakeWindow);
+    vi.stubGlobal("localStorage", fakeWindow.localStorage);
+
+    mockStorage.set("hacien-consent", "granted");
+    expect(getServerSnapshot()).toBeNull();
+    const grantedMarkup = renderToStaticMarkup(
+      React.createElement(CookieNotice, { gaId: "G-TEST000" }),
+    );
+
+    mockStorage.set("hacien-consent", "denied");
+    expect(getServerSnapshot()).toBeNull();
+    const deniedMarkup = renderToStaticMarkup(
+      React.createElement(CookieNotice, { gaId: "G-TEST000" }),
+    );
+
+    expect(grantedMarkup).toBe(deniedMarkup);
+
+    vi.unstubAllGlobals();
   });
 });
