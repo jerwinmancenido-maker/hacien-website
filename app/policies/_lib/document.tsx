@@ -9,6 +9,7 @@ export const LEGAL_PUBLISH_DATE = "November 2, 2026";
 export type ListItem = {
   text: string;
   bullets?: string[];
+  ordered?: string[];
 };
 
 export type LegalBlock =
@@ -139,6 +140,15 @@ function Items({ items, ordered }: { items: ListItem[]; ordered: boolean }) {
               ))}
             </ul>
           ) : null}
+          {item.ordered?.length ? (
+            <ol className="mt-2 list-decimal space-y-2 pl-5">
+              {item.ordered.map((subItem) => (
+                <li key={subItem}>
+                  <Rich text={subItem} />
+                </li>
+              ))}
+            </ol>
+          ) : null}
         </li>
       ))}
     </ListTag>
@@ -237,7 +247,7 @@ function sectionPlainText(section: LegalSection) {
 function blockPlainText(block: LegalBlock) {
   if (block.kind === "p") return block.text;
   if (block.kind === "ul" || block.kind === "ol") {
-    return block.items.map((item) => [item.text, ...(item.bullets ?? [])].join("\n")).join("\n");
+    return block.items.map((item) => [item.text, ...(item.bullets ?? []), ...(item.ordered ?? [])].join("\n")).join("\n");
   }
   if (block.kind === "pairs") return block.rows.map((row) => row.join(" ")).join("\n");
   return [block.headers.join(" "), ...block.rows.map((row) => row.join(" "))].join("\n");

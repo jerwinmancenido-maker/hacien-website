@@ -48,14 +48,14 @@ export const policiesPage: LegalPageModel = {
         [
           "[Terms of Sale](/terms-of-sale)",
           "Quotations, orders, delivery, payment, cancellations and returns",
-          "v1.0",
+          "v1.1",
         ],
         [
           "[Warranty and Returns](/warranty)",
           "Manufacturer or supplier warranty, and how to make a claim",
-          "v1.0",
+          "v1.1",
         ],
-        ["[Privacy Policy](/privacy)", "What personal data we keep, why, and your rights", "v2.1"],
+        ["[Privacy Policy](/privacy)", "What personal data we keep, why, and your rights", "v2.2"],
         ["[Website Terms of Use](/terms)", "Rules for using haciensolutions.com", "v2.0"],
         [
           "[Business and Legal Information](/legal)",
@@ -78,13 +78,13 @@ export const privacyPage: LegalPageModel = {
   title: "Privacy Policy",
   description:
     "We collect business and contact details to answer requests, prepare quotations, deliver orders, issue BIR documents and keep proper records.",
-  versionLine: version("2.1", "Replaces version 2.0 (effective November 2, 2026)"),
+  versionLine: version("2.2", "Replaces version 2.1 (effective November 2, 2026)"),
   historyLink: true,
   showContents: true,
   meta: [
-    { label: "Version", value: "2.1" },
+    { label: "Version", value: "2.2" },
     { label: "Effective", value: published },
-    { label: "Replaces", value: "2.0 (November 2, 2026)" },
+    { label: "Replaces", value: "2.1 (November 2, 2026)" },
   ],
   intro: [],
   sections: [
@@ -97,7 +97,7 @@ export const privacyPage: LegalPageModel = {
           "We share data only when needed: with suppliers and brands, couriers, government offices when the law requires, and the services that run our website, email, files and order texts.",
           "We text order updates to the mobile number on your order. We never send promotional texts.",
           "We send marketing emails only if you sign up for them, and you can unsubscribe in any email.",
-          "Some of these services store data outside the Philippines. Our website and email are hosted by Hostinger in Southeast Asia.",
+          "Some of these services store data outside the Philippines. Our website and email are hosted by Hostinger in Singapore, and our staff app by Hostinger in Indonesia.",
           "We do not sell your data.",
           "To see, correct or delete your data, email privacy@haciensolutions.com.",
         ]),
@@ -147,8 +147,8 @@ export const privacyPage: LegalPageModel = {
               "Customers, suppliers",
             ],
             [
-              "Government IDs",
-              "Valid government IDs of a customer's authorized purchasing or receiving staff",
+              "Receiver and pick-up checks",
+              "Name of the receiver named on your PO or order, and their signature on our Delivery Receipt. For high-value deliveries or pick-ups, we look at a company or valid ID to confirm who is receiving. We do not photograph, copy, upload or keep the ID.",
               "Customers",
             ],
             [
@@ -183,7 +183,7 @@ export const privacyPage: LegalPageModel = {
             ],
           ],
         },
-        p("Government IDs, and some tax details of individuals, may be **sensitive personal information** under the law. We protect them with the extra limits in sections 6 and 11."),
+        p("Some tax details of individuals may be **sensitive personal information** under the law. We protect them with the extra limits in sections 6 and 11."),
         p("Please don't send government IDs, tax papers, card numbers or passwords through the website forms. If we need a document for your order, we will ask for it and tell you how to send it."),
       ],
     },
@@ -205,9 +205,9 @@ export const privacyPage: LegalPageModel = {
               "Legal obligation under the Tax Code and the Ease of Paying Taxes (EOPT) Act (Sec. 12(c), 13(b))",
             ],
             [
-              "Accredit customers, check credit, verify purchasing and receiving staff",
-              "DTI/SEC papers, Mayor's Permit, PhilGEPS details, government IDs",
-              "Steps before a contract and our legitimate interest (Sec. 12(b), 12(f)). For government IDs and other sensitive personal information: your explicit consent, and protecting legal claims (Sec. 13(a), 13(f))",
+              "Accredit customers, check credit, confirm who receives a delivery or pick-up",
+              "DTI/SEC papers, Mayor's Permit, PhilGEPS details, receiver's name and signature, and a sight-check of a company or valid ID for high-value deliveries or pick-ups (not copied or kept)",
+              "Steps before a contract and our legitimate interest (Sec. 12(b), 12(f)). For sensitive personal information: your explicit consent, and protecting legal claims (Sec. 13(a), 13(f))",
             ],
             [
               "Share end-user details with brands and distributors for project pricing, deal registration, licensing and warranty",
@@ -251,7 +251,7 @@ export const privacyPage: LegalPageModel = {
       blocks: [
         ul([
           "Customer and supplier records are kept in HACIEN's staff app, which only HACIEN personnel can log into.",
-          "**TINs, tax papers, government IDs and other uploaded documents can be seen only by the Proprietor and authorized HACIEN staff.**",
+          "**TINs, tax papers and other uploaded documents can be seen only by the Proprietor and authorized HACIEN staff.**",
           "We do not give outside accountants or bookkeepers access. Our books are prepared in the staff app and filed directly with the BIR.",
           "All HACIEN staff follow written confidentiality rules.",
         ]),
@@ -316,9 +316,9 @@ export const privacyPage: LegalPageModel = {
             [
               "Hostinger",
               "Website hosting and HACIEN email (including sales@ and privacy@)",
-              "Hostinger, Southeast Asia",
+              "Hostinger, Singapore",
             ],
-            ["HACIEN staff app", "Customer, supplier and order records", "Hostinger, Southeast Asia"],
+            ["HACIEN staff app", "Customer, supplier and order records", "Hostinger, Jakarta, Indonesia"],
             [
               "Google (Gmail, Google Drive)",
               "Email and document storage",
@@ -375,7 +375,7 @@ export const privacyPage: LegalPageModel = {
               "Tax and accounting rules",
             ],
             [
-              "BIR Form 2303, DTI/SEC papers, permits, government IDs",
+              "BIR Form 2303, DTI/SEC papers, permits",
               "10 years",
               "Invoicing and tax compliance",
             ],
@@ -577,12 +577,13 @@ export const termsOfSalePage: LegalPageModel = {
   eyebrow: "Terms of Sale",
   title: "Terms of Sale",
   description: "We buy every item per order and keep no stock. Prices and lead times depend on our suppliers.",
-  versionLine: version("1.0"),
+  versionLine: version("1.1", "Replaces version 1.0 (effective November 2, 2026)"),
   historyLink: true,
   showContents: true,
   meta: [
-    { label: "Version", value: "1.0" },
+    { label: "Version", value: "1.1" },
     { label: "Effective", value: published },
+    { label: "Replaces", value: "1.0 (November 2, 2026)" },
   ],
   intro: [],
   sections: [
@@ -591,7 +592,7 @@ export const termsOfSalePage: LegalPageModel = {
       blocks: [
         ul([
           "We buy every item **per order** and keep no stock. Prices and lead times depend on our suppliers.",
-          "A quotation is valid for **15 days** unless it says otherwise.",
+          "A quotation is valid for **15 days** unless the quotation states otherwise.",
           "Standard payment is **50% down and 50% on delivery**. Software and special orders are paid **100% upfront**.",
           "When you sign our Delivery Receipt, you confirm the **box count and outside condition** only. You then have **3 days** to report problems with what's inside (**24 hours** for visible physical damage). Your legal rights for hidden defects are not affected.",
           "Warranty is the **manufacturer's or supplier's warranty only**. We help you claim it.",
@@ -618,7 +619,7 @@ export const termsOfSalePage: LegalPageModel = {
       blocks: [
         ul([
           "Our quotation lists the items, quantities, prices, delivery terms and any conditions.",
-          "A quotation is valid for **15 days** from its date, unless it states a different period.",
+          "A quotation is valid for **15 days** from its date, unless the quotation states otherwise.",
           "Because we buy per order, supplier prices and stock can change. If they change before we confirm your order, we will send a revised quotation.",
           "**Exchange rates:** prices of imported items may change if the exchange rate moves before we place the supplier order. We will tell you and send a revised quotation before ordering.",
         ]),
@@ -661,8 +662,17 @@ export const termsOfSalePage: LegalPageModel = {
       blocks: [
         ul([
           "**Delivery areas:** nationwide.",
+          "**Office pick-up:** pick-ups at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
           "**Schedule:** we agree a delivery date and time with your contact person. Please tell us early about gate passes, building rules, receiving hours or site requirements.",
-          "**Who may receive:** anyone at the delivery address may receive and sign for the delivery, unless your PO names specific receivers.",
+          {
+            text: "**Who may receive and delivery contact number:**",
+            ordered: [
+              "**Naming a receiver:** You may name another person—such as your staff, warehouse personnel, or a building or site guard—to receive and sign for the delivery on your behalf. Their signature on our Delivery Receipt counts as delivery to you. If your PO does not name a specific receiver, anyone present at your delivery address may receive and sign for the order.",
+              "**Permission to share their details:** If you give us another person's name and mobile number, you confirm that you have their permission to share those details with HACIEN for the order.",
+              "**Order-status texts only (no ads, no links):** We text that mobile number only for order status updates (**order confirmed**, **delivered**, and **payment received**). Our texts never contain ads, promotions, or clickable links.",
+              "**Your responsibility:** You are responsible if the mobile number you give us is wrong, out of date, or shared without that person's permission, and for any missed delivery note or claim that results from it.",
+            ],
+          },
           "**Delivery Receipt (DR):** every delivery comes with our BIR-accredited Delivery Receipt. The receiver writes their printed name, signature, and the date, and adds a company stamp if available.",
           "**What signing the DR means:** the signed DR confirms the **number of boxes** and their **visible outside condition** only. It does not confirm what is inside the boxes. Please note any missing boxes or visible damage on the DR before signing.",
           "**Reporting problems after delivery:** report missing, wrong or damaged contents within **3 days** of delivery. Report **visible physical damage within 24 hours**. Report by email (sales@haciensolutions.com) or Viber, with your DR number and photos.",
@@ -779,12 +789,13 @@ export const warrantyPage: LegalPageModel = {
   eyebrow: "Warranty",
   title: "Warranty and Returns",
   description: "HACIEN does not give its own warranty.",
-  versionLine: version("1.0"),
+  versionLine: version("1.1", "Replaces version 1.0 (effective November 2, 2026)"),
   historyLink: true,
   showContents: false,
   meta: [
-    { label: "Version", value: "1.0" },
+    { label: "Version", value: "1.1" },
     { label: "Effective", value: published },
+    { label: "Replaces", value: "1.0 (November 2, 2026)" },
   ],
   intro: [],
   sections: [
@@ -829,7 +840,7 @@ export const warrantyPage: LegalPageModel = {
             ],
           },
           "**Dead on arrival (within 7 days of delivery):** if an item doesn't work when first used, report it within 7 days. **We pay shipping both ways** and swap the item if the supplier allows.",
-          "**After 7 days:** bring or ship the item to the brand's service center, or to HACIEN. If you bring it to us, we handle the claim with the distributor for you. You pay the shipping only for this later warranty help, and only where the law allows. **Shipping is free whenever the law requires it**, for example for defective items bought online (RA 11967 Sec. 20) or under the Consumer Act (RA 7394).",
+          "**After 7 days:** bring or ship the item to the brand's service center, or to HACIEN. Drop-offs at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays). If you bring it to us, we handle the claim with the distributor for you. You pay the shipping only for this later warranty help, and only where the law allows. **Shipping is free whenever the law requires it**, for example for defective items bought online (RA 11967 Sec. 20) or under the Consumer Act (RA 7394).",
           "**The brand or distributor checks the item.** Their checking time is outside our control. We update you whenever the claim status changes.",
           "**Before sending equipment**, back up and remove your data (see [Terms of Sale, section 14](/terms-of-sale#14-responsibility-for-loss-liability)).",
         ]),
@@ -950,9 +961,9 @@ export const policyHistoryPage: LegalPageModel = {
       kind: "table",
       headers: ["Policy", "Version", "Effective"],
       rows: [
-        ["[Terms of Sale](/terms-of-sale)", "v1.0", published],
-        ["[Warranty and Returns](/warranty)", "v1.0", published],
-        ["[Privacy Policy](/privacy)", "v2.1", published],
+        ["[Terms of Sale](/terms-of-sale)", "v1.1", published],
+        ["[Warranty and Returns](/warranty)", "v1.1", published],
+        ["[Privacy Policy](/privacy)", "v2.2", published],
         ["[Website Terms of Use](/terms)", "v2.0", published],
         ["[Business and Legal Information](/legal)", "v2.0", published],
         ["[HACIEN Policies](/policies)", "v1.0", published],
@@ -967,13 +978,29 @@ export const policyHistoryPage: LegalPageModel = {
           kind: "table",
           headers: ["Policy", "Version", "Effective"],
           rows: [
+            ["Terms of Sale", "v1.0", "November 2, 2026"],
+            ["Warranty and Returns", "v1.0", "November 2, 2026"],
+            ["Privacy Policy", "v2.1", "November 2, 2026"],
             ["Privacy Policy", "v2.0", "November 2, 2026"],
             ["Privacy Policy", "v1.0", "July 1, 2026"],
             ["Website Terms of Use", "v1.0", "July 1, 2026"],
             ["Business and Legal Information", "v1.0", "June 30, 2026"],
           ],
         },
-        p("**Changes from v2.0**"),
+        p("**Terms of Sale: changes from v1.0**"),
+        ul([
+          "Terms of Sale v1.1: Section 6 now explains naming a receiver, sharing their mobile number, order-status texts only (no ads, no links), and your responsibility for the number; quotation validity now reads 15 days unless the quotation states otherwise; added office pick-up by prior appointment.",
+        ]),
+        p("**Warranty and Returns: changes from v1.0**"),
+        ul([
+          "Warranty and Returns v1.1: warranty drop-offs at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
+        ]),
+        p("**Privacy Policy: Changes from v2.1**"),
+        ul([
+          "We no longer collect or keep copies of receiving staff's government IDs. For high-value deliveries or pick-ups we only look at a company or valid ID (no photo, upload or storage).",
+          "Named where our hosting is: website and email in Singapore, staff app in Jakarta, Indonesia.",
+        ]),
+        p("**Privacy Policy: Changes from v2.0**"),
         ul([
           'Added order-status texts: we text order updates from sender name "HACIEN" to the mobile number on an order. No promotional texts.',
           "Added opt-in bulk marketing email through Hostinger Reach, with a separate unticked checkbox and an unsubscribe link in every email. Removed the line saying we don't send promo newsletters.",

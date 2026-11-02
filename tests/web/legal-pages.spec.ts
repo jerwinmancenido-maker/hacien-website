@@ -13,6 +13,7 @@ import { sendInquiryEmail } from "@/app/actions/send-inquiry";
 import { legalPages } from "@/app/policies/_lib/content";
 import { LEGAL_PUBLISH_DATE, legalMetadata, legalPagePlainText } from "@/app/policies/_lib/document";
 import { birBadgeAlt, birBadgeLabel, birRmcCaption } from "@/components/Footer";
+import { cmsDocumentRecords } from "@/lib/cms/documents";
 import { renderDocumentTitle } from "@/lib/seo/document-title";
 
 const analyticsBlockPhrases = [
@@ -72,24 +73,45 @@ describe("legal page content", () => {
 
     const privacy = legalPages.find((page) => page.path === "/privacy");
     const terms = legalPages.find((page) => page.path === "/terms");
+    const termsOfSale = legalPages.find((page) => page.path === "/terms-of-sale");
+    const warranty = legalPages.find((page) => page.path === "/warranty");
     const legal = legalPages.find((page) => page.path === "/legal");
     const policies = legalPages.find((page) => page.path === "/policies");
     const history = legalPages.find((page) => page.path === "/policies/history");
     const privacyText = privacy ? legalPagePlainText(privacy) : "";
     const historyText = history ? legalPagePlainText(history) : "";
-    expect(privacyText).toContain("Version 2.1");
-    expect(privacyText).toContain("Replaces version 2.0 (effective November 2, 2026)");
-    expect(privacyText).not.toContain("Version 2.0");
+    const termsOfSaleText = termsOfSale ? legalPagePlainText(termsOfSale) : "";
+    const warrantyText = warranty ? legalPagePlainText(warranty) : "";
+    expect(privacyText).toContain("Version 2.2");
+    expect(privacyText).toContain("Replaces version 2.1 (effective November 2, 2026)");
+    expect(privacyText).not.toContain("Version 2.1");
     expect(privacyText).not.toContain("Not for the website");
     expect(privacyText).not.toContain("we don't send promo newsletters");
+    expect(termsOfSaleText).toContain("Version 1.1");
+    expect(termsOfSaleText).toContain("Replaces version 1.0 (effective November 2, 2026)");
+    expect(warrantyText).toContain("Version 1.1");
+    expect(warrantyText).toContain("Replaces version 1.0 (effective November 2, 2026)");
     expect(terms && legalPagePlainText(terms)).toContain("Replaces version 1.0 (effective July 1, 2026)");
     expect(legal && legalPagePlainText(legal)).toContain("Replaces version 1.0 (effective June 30, 2026)");
     expect(policies && legalPagePlainText(policies)).toContain(
-      "[Privacy Policy](/privacy) What personal data we keep, why, and your rights v2.1",
+      "[Terms of Sale](/terms-of-sale) Quotations, orders, delivery, payment, cancellations and returns v1.1",
     );
-    expect(historyText).toContain("v1.0");
-    expect(historyText).toContain("[Privacy Policy](/privacy) v2.1");
+    expect(policies && legalPagePlainText(policies)).toContain(
+      "[Warranty and Returns](/warranty) Manufacturer or supplier warranty, and how to make a claim v1.1",
+    );
+    expect(policies && legalPagePlainText(policies)).toContain(
+      "[Privacy Policy](/privacy) What personal data we keep, why, and your rights v2.2",
+    );
+    expect(historyText).toContain("[Terms of Sale](/terms-of-sale) v1.1");
+    expect(historyText).toContain("[Warranty and Returns](/warranty) v1.1");
+    expect(historyText).toContain("[Privacy Policy](/privacy) v2.2");
+    expect(historyText).toContain("Terms of Sale v1.0 November 2, 2026");
+    expect(historyText).toContain("Warranty and Returns v1.0 November 2, 2026");
+    expect(historyText).toContain("Privacy Policy v2.1 November 2, 2026");
     expect(historyText).toContain("Privacy Policy v2.0 November 2, 2026");
+    expect(historyText).toContain("Terms of Sale: changes from v1.0");
+    expect(historyText).toContain("Warranty and Returns: changes from v1.0");
+    expect(historyText).toContain("Privacy Policy: Changes from v2.1");
     expect(historyText).toContain("Changes from v2.0");
     expect(historyText).toContain(
       'Added order-status texts: we text order updates from sender name "HACIEN" to the mobile number on an order. No promotional texts.',
@@ -112,7 +134,9 @@ describe("legal page content", () => {
     const privacyText = privacy ? legalPagePlainText(privacy) : "";
     expect(privacyText).toContain("does not use Google Analytics");
     expect(privacyText).toContain("up to 10 MB");
-    expect(privacyText).toContain("Hostinger, Southeast Asia");
+    expect(privacyText).toContain("Hostinger, Singapore");
+    expect(privacyText).toContain("Hostinger, Jakarta, Indonesia");
+    expect(privacyText).not.toContain("Southeast Asia");
     expect(combined).not.toContain("erp.haciensolutions.com");
   });
 
@@ -162,6 +186,143 @@ describe("legal page content", () => {
     });
     expect(rejected.success).toBe(false);
     expect(rejected.error).toBe("Please choose a valid inquiry type.");
+  });
+
+  it("conforms to the Legal update brief (Terms of Sale v1.1, Warranty v1.1, Privacy v2.2, CMS record)", () => {
+    const tos = legalPages.find((page) => page.path === "/terms-of-sale");
+    const warranty = legalPages.find((page) => page.path === "/warranty");
+    const privacy = legalPages.find((page) => page.path === "/privacy");
+    const policies = legalPages.find((page) => page.path === "/policies");
+    const history = legalPages.find((page) => page.path === "/policies/history");
+
+    expect(tos).toBeDefined();
+    expect(warranty).toBeDefined();
+    expect(privacy).toBeDefined();
+    expect(policies).toBeDefined();
+    expect(history).toBeDefined();
+
+    const tosText = tos ? legalPagePlainText(tos) : "";
+    const warrantyText = warranty ? legalPagePlainText(warranty) : "";
+    const privacyText = privacy ? legalPagePlainText(privacy) : "";
+    const historyText = history ? legalPagePlainText(history) : "";
+
+    // Terms of Sale v1.1
+    expect(tos?.versionLine).toBe(
+      "Version 1.1 · Effective November 2, 2026 · Replaces version 1.0 (effective November 2, 2026)",
+    );
+    expect(tos?.meta.find((item) => item.label === "Version")?.value).toBe("1.1");
+    expect(tos?.meta.find((item) => item.label === "Replaces")?.value).toBe("1.0 (November 2, 2026)");
+    expect(tosText).toContain(
+      "**Office pick-up:** pick-ups at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
+    );
+    expect(tosText).toContain("**Who may receive and delivery contact number:**");
+    expect(tosText).toContain(
+      "**Naming a receiver:** You may name another person—such as your staff, warehouse personnel, or a building or site guard—to receive and sign for the delivery on your behalf. Their signature on our Delivery Receipt counts as delivery to you. If your PO does not name a specific receiver, anyone present at your delivery address may receive and sign for the order.",
+    );
+    expect(tosText).toContain(
+      "**Permission to share their details:** If you give us another person's name and mobile number, you confirm that you have their permission to share those details with HACIEN for the order.",
+    );
+    expect(tosText).toContain(
+      "**Order-status texts only (no ads, no links):** We text that mobile number only for order status updates (**order confirmed**, **delivered**, and **payment received**). Our texts never contain ads, promotions, or clickable links.",
+    );
+    expect(tosText).toContain(
+      "**Your responsibility:** You are responsible if the mobile number you give us is wrong, out of date, or shared without that person's permission, and for any missed delivery note or claim that results from it.",
+    );
+    expect(tosText).not.toContain(
+      "anyone at the delivery address may receive and sign for the delivery, unless your PO names specific receivers",
+    );
+    expect(tosText).toContain("A quotation is valid for **15 days** unless the quotation states otherwise.");
+    expect(tosText).toContain(
+      "A quotation is valid for **15 days** from its date, unless the quotation states otherwise.",
+    );
+    expect(tosText).not.toContain("unless it states a different period");
+    expect(tosText).not.toContain("unless it says otherwise");
+
+    // Warranty and Returns v1.1
+    expect(warranty?.versionLine).toBe(
+      "Version 1.1 · Effective November 2, 2026 · Replaces version 1.0 (effective November 2, 2026)",
+    );
+    expect(warranty?.meta.find((item) => item.label === "Version")?.value).toBe("1.1");
+    expect(warranty?.meta.find((item) => item.label === "Replaces")?.value).toBe("1.0 (November 2, 2026)");
+    expect(warrantyText).toContain(
+      "Drop-offs at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
+    );
+
+    // Privacy Policy v2.2
+    expect(privacy?.versionLine).toBe(
+      "Version 2.2 · Effective November 2, 2026 · Replaces version 2.1 (effective November 2, 2026)",
+    );
+    expect(privacy?.meta.find((item) => item.label === "Version")?.value).toBe("2.2");
+    expect(privacy?.meta.find((item) => item.label === "Replaces")?.value).toBe("2.1 (November 2, 2026)");
+    expect(privacyText).toContain("Receiver and pick-up checks");
+    expect(privacyText).toContain(
+      "Name of the receiver named on your PO or order, and their signature on our Delivery Receipt. For high-value deliveries or pick-ups, we look at a company or valid ID to confirm who is receiving. We do not photograph, copy, upload or keep the ID.",
+    );
+    expect(privacyText).toContain(
+      "Some tax details of individuals may be **sensitive personal information** under the law. We protect them with the extra limits in sections 6 and 11.",
+    );
+    expect(privacyText).toContain(
+      "Accredit customers, check credit, confirm who receives a delivery or pick-up",
+    );
+    expect(privacyText).toContain(
+      "DTI/SEC papers, Mayor's Permit, PhilGEPS details, receiver's name and signature, and a sight-check of a company or valid ID for high-value deliveries or pick-ups (not copied or kept)",
+    );
+    expect(privacyText).toContain(
+      "For sensitive personal information: your explicit consent, and protecting legal claims (Sec. 13(a), 13(f))",
+    );
+    expect(privacyText).toContain(
+      "**TINs, tax papers and other uploaded documents can be seen only by the Proprietor and authorized HACIEN staff.**",
+    );
+    expect(privacyText).toContain("BIR Form 2303, DTI/SEC papers, permits 10 years Invoicing and tax compliance");
+    expect(privacyText).toContain(
+      "Our website and email are hosted by Hostinger in Singapore, and our staff app by Hostinger in Indonesia.",
+    );
+    expect(privacyText).toContain("Hostinger, Singapore");
+    expect(privacyText).toContain("Hostinger, Jakarta, Indonesia");
+    expect(privacyText).not.toContain(
+      "Valid government IDs of a customer's authorized purchasing or receiving staff",
+    );
+    expect(privacyText).not.toContain("Southeast Asia");
+
+    // History page changelog entries
+    expect(historyText).toContain(
+      "Terms of Sale v1.1: Section 6 now explains naming a receiver, sharing their mobile number, order-status texts only (no ads, no links), and your responsibility for the number; quotation validity now reads 15 days unless the quotation states otherwise; added office pick-up by prior appointment.",
+    );
+    expect(historyText).toContain(
+      "Warranty and Returns v1.1: warranty drop-offs at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
+    );
+    expect(historyText).toContain(
+      "We no longer collect or keep copies of receiving staff's government IDs. For high-value deliveries or pick-ups we only look at a company or valid ID (no photo, upload or storage).",
+    );
+    expect(historyText).toContain(
+      "Named where our hosting is: website and email in Singapore, staff app in Jakarta, Indonesia.",
+    );
+
+    // CMS documents record conformance
+    const cmsLegal = cmsDocumentRecords.legal;
+    const cmsPrivacy = cmsDocumentRecords.privacy;
+    const cmsTerms = cmsDocumentRecords.terms;
+    const cmsCombined = JSON.stringify({ cmsLegal, cmsPrivacy, cmsTerms });
+
+    expect(cmsCombined).toContain(
+      "Quotations are valid for 15 days unless the quotation states otherwise. Cost estimates and commercial proposals are valid only for the period and conditions stated in the specific written document. The website does not set default pricing, availability, warranty, delivery, payment, or tax terms.",
+    );
+    expect(cmsCombined).toContain("A quotation is valid for 15 days unless the quotation states otherwise.");
+    expect(cmsCombined).toContain(
+      "Sharing client names and configurations for deal registration and discount activation, such as registering Microsoft Azure, AWS, or Cisco quotes.",
+    );
+    expect(cmsCombined).toContain(
+      "Some data may be processed on cloud infrastructure hosted outside the Philippines, such as Hostinger (Singapore and Indonesia), Google (Gmail, Google Drive), and Apple iCloud, matching section 8 of our Privacy Policy. HACIEN seeks to use cloud providers that maintain strict data privacy compliance standards.",
+    );
+    expect(cmsCombined).not.toContain("Fortinet");
+    expect(cmsCombined).not.toContain("Microsoft 365");
+    expect(cmsCombined).not.toContain("The website does not set default quotation validity");
+    expect(cmsCombined).not.toContain("The website does not set a default validity period");
+
+    // No TIN pattern added anywhere in legal pages
+    for (const page of legalPages) {
+      expect(legalPagePlainText(page)).not.toMatch(/\d{3}-\d{3}-\d{3}/);
+    }
   });
 });
 
@@ -230,13 +391,16 @@ describe("legal routes", () => {
     const policiesHtml = await policies.text();
     expect(policies.status).toBe(200);
     expect(policies.headers.get("location")).toBeNull();
-    expect(policiesHtml).toContain("v2.1");
+    expect(policiesHtml).toContain("v1.1");
+    expect(policiesHtml).toContain("v2.2");
 
     const privacy = await fetch(`${baseUrl}/privacy`, { redirect: "manual" });
     const privacyHtml = await privacy.text();
     expect(privacy.status).toBe(200);
-    expect(privacyHtml).toContain("Version 2.1");
-    expect(privacyHtml).toContain("Replaces version 2.0 (effective November 2, 2026)");
+    expect(privacyHtml).toContain("Version 2.2");
+    expect(privacyHtml).toContain("Replaces version 2.1 (effective November 2, 2026)");
+    expect(privacyHtml).not.toContain("Southeast Asia");
+    expect(privacyHtml).not.toContain("Valid government IDs of a customer's authorized purchasing or receiving staff");
     expect(privacyHtml).not.toContain("Not for the website");
     expect(privacyHtml).not.toContain("for the Policy history page");
     expect(privacyHtml).not.toMatch(/\d{3}-\d{3}-\d{3}/);
@@ -245,13 +409,29 @@ describe("legal routes", () => {
     const historyHtml = await history.text();
     expect(history.status).toBe(200);
     expect(historyHtml).toContain("v1.0");
+    expect(historyHtml).toContain("v1.1");
     expect(historyHtml).toContain("v2.0");
     expect(historyHtml).toContain("v2.1");
+    expect(historyHtml).toContain("v2.2");
+    expect(historyHtml).toContain("Terms of Sale: changes from v1.0");
+    expect(historyHtml).toContain("Warranty and Returns: changes from v1.0");
+    expect(historyHtml).toContain("Privacy Policy: Changes from v2.1");
     expect(historyHtml).toContain("Changes from v2.0");
     expect(historyHtml).not.toContain("Not for the website");
     expect(historyHtml).toContain(LEGAL_PUBLISH_DATE);
     expect(historyHtml).toContain(">BIR Registered<");
     expect(historyHtml).not.toContain("RSN");
+
+    const termsOfSale = await fetch(`${baseUrl}/terms-of-sale`, { redirect: "manual" });
+    const termsOfSaleHtml = await termsOfSale.text();
+    expect(termsOfSale.status).toBe(200);
+    expect(termsOfSaleHtml).toContain("Version 1.1");
+    expect(termsOfSaleHtml).toContain("Replaces version 1.0 (effective November 2, 2026)");
+    expect(termsOfSaleHtml).toContain("Who may receive and delivery contact number:");
+    expect(termsOfSaleHtml).toContain("person—such as your staff, warehouse personnel, or a building or site guard—to receive");
+    expect(termsOfSaleHtml).not.toContain("anyone at the delivery address may receive and sign for the delivery, unless your PO names specific receivers");
+    expect(termsOfSaleHtml).not.toContain("unless it states a different period");
+    expect(termsOfSaleHtml).not.toContain("unless it says otherwise");
 
     const contact = await fetch(`${baseUrl}/contact`, { redirect: "manual" });
     const contactHtml = await contact.text();
