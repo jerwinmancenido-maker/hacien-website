@@ -39,7 +39,7 @@ export function Hero() {
             </div>
           </FadeIn>
           <SlideUp delay={80}>
-            <h1 className="font-display max-w-4xl text-balance text-2xl tracking-tight sm:text-4xl lg:text-5xl">
+            <h1 className="font-display max-w-4xl text-balance text-2xl tracking-tight hyphens-none sm:text-4xl lg:text-5xl">
               {content.hero.title}
             </h1>
           </SlideUp>
@@ -52,14 +52,14 @@ export function Hero() {
             <div className="mt-5 flex flex-col gap-2 sm:mt-7 sm:flex-row sm:gap-3">
               <Link
                 href={content.hero.primaryAction.href}
-                className="rounded bg-blue px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-dark sm:px-6 sm:py-3"
+                className="rounded bg-blue px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-dark sm:px-6 sm:py-3 cursor-pointer"
               >
                 {content.hero.primaryAction.label}
               </Link>
               {content.hero.secondaryAction ? (
                 <Link
                   href={content.hero.secondaryAction.href}
-                  className="interactive-link rounded border border-white/25 bg-transparent px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-white/5 sm:px-6 sm:py-3"
+                  className="interactive-link rounded border border-white/25 bg-transparent px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-white/5 sm:px-6 sm:py-3 cursor-pointer"
                 >
                   {content.hero.secondaryAction.label}
                 </Link>
@@ -78,8 +78,8 @@ export function Hero() {
                     className="rounded-lg border border-white/12 bg-[#141414] p-3 sm:p-4 transition-transform duration-200 hover:-translate-y-1"
                   >
                     <div className="text-xs font-bold text-grey-300">{String(index + 1).padStart(2, "0")}</div>
-                    <div className="mt-2 text-sm font-bold text-white">{item.title}</div>
-                    <p className="mt-2 text-xs leading-5 text-grey-200 sm:text-sm sm:leading-6">{item.text}</p>
+                    <div className="mt-2 text-sm font-bold text-white hyphens-none">{item.title}</div>
+                    <p className="mt-2 text-xs leading-5 text-grey-200 hyphens-none sm:text-sm sm:leading-6">{item.text}</p>
                   </div>
                 ))}
               </div>

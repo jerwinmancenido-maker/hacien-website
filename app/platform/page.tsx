@@ -50,40 +50,50 @@ export default function PlatformPage() {
         ]}
       />
 
-      <AnimatedSection className="bg-white px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+      <AnimatedSection className="bg-white py-12 lg:py-14">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <SectionHeading
             eyebrow="Operating Layers"
             title="One company, connected through one operating model."
             description="Platform does not market an ERP. It explains how HACIEN keeps customer accounts, internal operations, and future continuity connected."
           />
-          <StaggerContainer className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {platformLayers.map(([title, text]) => (
-              <AnimatedCard key={title} className="h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm">
-                <div
-                  className="h-32 bg-slate-950"
-                  style={{
-                    backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.74)), url(${enterpriseImages[platformImages[String(title)] || "network"]})`,
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                  }}
-                />
-                <div className="p-7">
-                <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">HACIEN Platform</div>
-                <h2 className="mt-5 text-2xl font-bold tracking-tight text-slate-950">{title}</h2>
-                <p className="mt-4 text-sm leading-7 text-slate-600">{text}</p>
-                </div>
-              </AnimatedCard>
-            ))}
+          <StaggerContainer className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-6">
+            {platformLayers.map(([title, text], index) => {
+              const spanClass =
+                index === 0
+                  ? "md:col-span-2 lg:col-span-3"
+                  : index === 1
+                    ? "md:col-span-1 lg:col-span-3"
+                    : index === 2 || index === 3
+                      ? "md:col-span-1 lg:col-span-2"
+                      : "md:col-span-2 lg:col-span-2";
+              return (
+                <AnimatedCard key={title} className={`h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm ${spanClass}`}>
+                  <div
+                    className="h-32 bg-slate-950"
+                    style={{
+                      backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.74)), url(${enterpriseImages[platformImages[String(title)] || "network"]})`,
+                      backgroundPosition: "center",
+                      backgroundSize: "cover",
+                    }}
+                  />
+                  <div className="p-7">
+                    <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">HACIEN Platform</div>
+                    <h2 className="mt-5 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">{title}</h2>
+                    <p className="mt-4 text-sm leading-7 text-slate-600">{text}</p>
+                  </div>
+                </AnimatedCard>
+              );
+            })}
           </StaggerContainer>
         </div>
       </AnimatedSection>
 
-      <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.86fr_1.14fr]">
+      <section className="bg-slate-50 py-12 lg:py-14">
+        <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.86fr_1.14fr] lg:px-8">
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Platform Discipline</div>
-            <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">
+            <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Built through operational reality, not claims.
             </h2>
             <p className="mt-5 text-sm leading-7 text-slate-600">
@@ -93,7 +103,7 @@ export default function PlatformPage() {
           <div className="grid gap-4 md:grid-cols-2">
             {operatingPrinciples.map(([title, text]) => (
               <div key={title} className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-                <h3 className="font-bold text-slate-950">{title}</h3>
+                <h3 className="font-bold text-slate-950 sm:text-lg">{title}</h3>
                 <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
               </div>
             ))}

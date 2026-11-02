@@ -43,8 +43,8 @@ const categoryImages: Record<string, keyof typeof enterpriseImages> = {
 
 export function TechnologyEcosystem() {
   return (
-    <AnimatedSection className="glass-section-dark px-4 py-9 text-white sm:px-6 sm:py-12 lg:px-8 lg:py-14">
-      <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+    <AnimatedSection className="glass-section-dark py-9 text-white sm:py-12 lg:py-14">
+      <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:px-8">
         <div>
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">{homepageContent.rfqReadiness.eyebrow}</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">{homepageContent.rfqReadiness.title}</h2>
@@ -73,8 +73,8 @@ export function TechnologyEcosystem() {
 
 export function HowHacienWorks() {
   return (
-    <AnimatedSection className="glass-section px-4 py-9 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
-      <div className="mx-auto max-w-7xl">
+    <AnimatedSection className="glass-section py-9 sm:py-12 lg:py-14">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow={homepageContent.howItWorks.eyebrow}
           title={homepageContent.howItWorks.title}
@@ -100,8 +100,8 @@ export function HowHacienWorks() {
 
 export function SolutionsV3() {
   return (
-    <AnimatedSection className="bg-transparent px-4 py-9 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
-      <div className="mx-auto max-w-7xl">
+    <AnimatedSection className="bg-transparent py-9 sm:py-12 lg:py-14">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow={homepageContent.solutionsPreview.eyebrow}
           title={homepageContent.solutionsPreview.title}
@@ -222,8 +222,8 @@ export function ErpPreviewV3() {
 
 export function TrustV3() {
   return (
-    <AnimatedSection className="bg-transparent px-4 py-9 sm:px-6 sm:py-12 lg:px-8 lg:py-14">
-      <div className="mx-auto max-w-7xl">
+    <AnimatedSection className="bg-transparent py-9 sm:py-12 lg:py-14">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <SectionHeading
           eyebrow="Registrations"
           title={registeredCompanyName}
@@ -251,8 +251,8 @@ export { PremiumStatementBand };
 
 export function ExistingCustomerV3() {
   return (
-    <AnimatedSection className="glass-section px-4 py-12 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
+    <AnimatedSection className="glass-section py-12 lg:py-14">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">{homepageContent.accessPreview.eyebrow}</div>

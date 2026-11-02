@@ -71,7 +71,7 @@ export function Header() {
       }`}
     >
       <div
-        className={`mx-auto flex max-w-7xl items-center justify-between gap-2 px-3 sm:px-5 lg:gap-4 lg:px-8 ${
+        className={`mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 sm:px-6 lg:gap-4 lg:px-8 ${
           scrolled ? "py-1.5" : "py-2"
         }`}
       >
@@ -79,10 +79,11 @@ export function Header() {
           Wordmark 28px tall (within 24–32). BrandLogo adds clear space X = 0.286×CH.
           Width at 28px tall ≈ 142px (≥ 96px minimum). Never retype HACIEN in a font.
           F18: keep wordmark on phone and tablet (not icon-only).
+          G09: -ml-[7px] offsets BrandLogo internal clear space so visual letter 'H' aligns with container edge at 1440.
         */}
         <Link
           href="/"
-          className="group inline-flex min-h-11 min-w-11 shrink-0 items-center rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+          className="group -ml-[7px] inline-flex min-h-11 min-w-11 shrink-0 items-center rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
           aria-label="HACIEN home"
         >
           <BrandLogo variant="wordmark" height={28} priority />

@@ -57,22 +57,22 @@ export function PremiumPageHero({
             </div>
           </FadeIn>
           <SlideUp delay={80}>
-            <h1 className="font-display max-w-4xl text-3xl tracking-tight sm:text-5xl">
+            <h1 className="font-display max-w-4xl text-3xl tracking-tight hyphens-none sm:text-5xl">
               {title}
             </h1>
           </SlideUp>
           <SlideUp delay={170}>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-grey-200 sm:mt-5 sm:text-base sm:leading-7">
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-grey-200 hyphens-none sm:mt-5 sm:text-base sm:leading-7">
               {description}
             </p>
           </SlideUp>
           <SlideUp delay={260}>
             <div className="mt-5 flex flex-col gap-2 sm:mt-7 sm:flex-row sm:gap-3">
-              <Link href={primaryAction.href} className="rounded bg-blue px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-dark sm:px-6 sm:py-3">
+              <Link href={primaryAction.href} className="rounded bg-blue px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-dark sm:px-6 sm:py-3 cursor-pointer">
                 {primaryAction.label}
               </Link>
               {secondaryAction ? (
-                <Link href={secondaryAction.href} className="interactive-link rounded border border-white/25 bg-transparent px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-white/5 sm:px-6 sm:py-3">
+                <Link href={secondaryAction.href} className="interactive-link rounded border border-white/25 bg-transparent px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-white/5 sm:px-6 sm:py-3 cursor-pointer">
                   {secondaryAction.label}
                 </Link>
               ) : null}

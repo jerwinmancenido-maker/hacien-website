@@ -12,6 +12,7 @@ export function SectionHeading({
   as?: "h1" | "h2";
 }) {
   const HeadingTag = as;
+  const isH1 = as === "h1";
 
   return (
     <div className={align === "center" ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
@@ -21,7 +22,7 @@ export function SectionHeading({
           {eyebrow}
         </div>
       ) : null}
-      <HeadingTag className="font-display text-2xl tracking-tight text-ink sm:text-3xl">{title}</HeadingTag>
+      <HeadingTag className={`font-display tracking-tight text-ink ${isH1 ? "text-3xl sm:text-5xl" : "text-2xl sm:text-3xl"}`}>{title}</HeadingTag>
       {description ? <p className="mt-4 text-base leading-7 text-grey-600">{description}</p> : null}
     </div>
   );

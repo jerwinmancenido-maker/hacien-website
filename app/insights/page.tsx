@@ -66,8 +66,8 @@ export default function InsightsPage() {
         ]}
       />
 
-      <section className="glass-section px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
+      <section className="glass-section py-12 lg:py-14">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.88fr_1.12fr] lg:items-start lg:px-8">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Educational Authority</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
@@ -78,7 +78,7 @@ export default function InsightsPage() {
             {knowledgeAreas.map(([title, text], index) => (
               <AnimatedContent key={title} delay={index * 80}>
                 <SpotlightCard className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-                  <h3 className="text-lg font-bold text-slate-950">{title}</h3>
+                  <h3 className="text-lg font-bold text-slate-950 sm:text-xl">{title}</h3>
                   <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
                 </SpotlightCard>
               </AnimatedContent>
@@ -87,8 +87,8 @@ export default function InsightsPage() {
         </div>
       </section>
 
-      <section className="glass-section-dark px-4 py-12 text-white sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
+      <section className="glass-section-dark py-12 text-white lg:py-14">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">Featured Guides</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
@@ -113,7 +113,7 @@ export default function InsightsPage() {
                     <div className="p-6">
                     <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-400">{insight.category}</div>
                     <h3 className="mt-4 text-xl font-bold text-white group-hover:text-grey-200">{insight.title}</h3>
-                    <p className="mt-3 line-clamp-4 text-sm leading-6 text-grey-300">{insight.summary}</p>
+                    <p className="mt-3 text-sm leading-6 text-grey-300">{insight.summary}</p>
                     <div className="mt-5 text-xs font-bold text-grey-300">
                       {insightAuthor} · {insight.readingTime}
                     </div>
@@ -126,8 +126,8 @@ export default function InsightsPage() {
         </div>
       </section>
 
-      <section className="bg-transparent px-4 py-12 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr]">
+      <section className="bg-transparent py-12 lg:py-14">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.88fr_1.12fr] lg:px-8">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Browse the Library</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
@@ -164,7 +164,7 @@ export default function InsightsPage() {
                       <div className="p-5">
                         <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">{insight.category}</div>
                         <h3 className="mt-3 text-lg font-bold text-slate-950 group-hover:text-[#2563EB]">{insight.title}</h3>
-                        <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">{insight.summary}</p>
+                        <p className="mt-2 text-sm leading-6 text-slate-600">{insight.summary}</p>
                         <p className="mt-3 text-xs font-bold text-slate-600">{insightAuthor}</p>
                       </div>
                     </div>

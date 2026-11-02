@@ -55,10 +55,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
             </div>
             <div className="surface overflow-hidden rounded-lg p-6">
               <div className="animated-grid rounded-lg p-6">
-                <div className="grid h-16 w-16 place-items-center rounded bg-[#0A0A0A] text-sm font-bold text-white">
-                  {solution.icon}
-                </div>
-                <h2 className="mt-8 text-2xl font-bold text-slate-950">What this supports</h2>
+                <h2 className="text-2xl font-bold text-slate-950 sm:text-3xl">What this supports</h2>
                 <StaggerContainer className="mt-5 grid gap-3">
                   {solution.outcomes.map((item) => (
                     <div key={item} className="rounded border border-white/70 bg-white/90 p-4 text-sm font-semibold text-slate-800">
@@ -98,7 +95,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
       {related.length > 0 && (
         <section className="px-4 py-14 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-7xl">
-            <h2 className="text-xl font-bold text-slate-950">Related solutions</h2>
+            <h2 className="text-2xl font-bold text-slate-950 sm:text-3xl">Related solutions</h2>
             <div className="mt-6 grid gap-4 md:grid-cols-3">
               {related.map((s) => (
                 <Link

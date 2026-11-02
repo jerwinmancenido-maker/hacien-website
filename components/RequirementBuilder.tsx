@@ -423,7 +423,7 @@ export function RequirementBuilder({ initialCategory = "computers-laptops" }: { 
         <button
           type="button"
           onClick={handleAddRequirement}
-          className="button-glow rounded bg-blue px-5 py-3 text-sm font-bold text-white"
+          className="button-glow rounded bg-blue px-5 py-3 text-sm font-bold text-white cursor-pointer"
         >
           Add requirement to RFQ
         </button>

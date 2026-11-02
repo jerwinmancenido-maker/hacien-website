@@ -279,7 +279,7 @@ export function ContactForm({
         <button
           type="submit"
           disabled={status === "sending"}
-          className="button-glow rounded bg-blue px-5 py-3 text-sm font-bold text-white hover:bg-blue-dark disabled:cursor-not-allowed disabled:opacity-60"
+          className="button-glow rounded bg-blue px-5 py-3 text-sm font-bold text-white hover:bg-blue-dark disabled:cursor-not-allowed disabled:opacity-60 cursor-pointer"
         >
           {status === "sending" ? "Sending..." : "Send Inquiry"}
         </button>

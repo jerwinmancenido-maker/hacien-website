@@ -210,60 +210,11 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   }
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_0.88fr]">
-      <div className="surface min-w-0 rounded p-5 sm:p-6">
-        <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">Quotation request</div>
-        <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink">Request a quotation</h2>
-        <p className="mt-2 text-sm leading-6 text-grey-600">{replyTime}</p>
-        <p className="mt-2 text-sm leading-6 text-grey-600">
-          Your request can start without catalog products. Start with a requirement, an item list, a supplier quote,
-          a specification, an image, a ZIP file, a technology area, or a plain description.
-        </p>
-        <div className="mt-4 rounded-lg border border-grey-200 bg-grey-50 p-4">
-          <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-700">
-            {billingSettings.quote_validity_badge_label}
-          </div>
-          <p className="mt-2 text-xs leading-5 text-grey-700">{billingSettings.quote_validity_disclaimer}</p>
-          <p className="mt-2 text-xs leading-5 text-grey-600">{billingSettings.compliance_disclaimer}</p>
-        </div>
-        <div className="mt-5 grid gap-3 sm:grid-cols-5">
-          {[
-            "Describe or Upload",
-            "Optional Reference",
-            "Reference number",
-            "HACIEN reviews",
-            "Quotation if ready",
-          ].map((stepText, index) => (
-            <div
-              key={stepText}
-              className="rounded-lg border border-grey-200 bg-white/80 p-3 text-sm shadow-sm"
-            >
-              <div className="grid h-8 w-8 place-items-center rounded bg-ink text-xs font-bold text-white">
-                {index + 1}
-              </div>
-              <div className="mt-2 font-semibold text-slate-800">{stepText}</div>
-            </div>
-          ))}
-        </div>
-        {requirements.length === 0 ? (
-          <div className="mt-5 rounded border border-dashed border-grey-200 bg-grey-50 p-5 text-center sm:p-6">
-            <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-white text-base font-bold text-ink shadow-sm border border-grey-200">
-              Quote
-            </div>
-            <p className="mt-4 font-semibold text-slate-800">
-              Your request can start with any requirement.
-            </p>
-            <p className="mt-2 text-sm leading-6 text-grey-600">
-              Build one or more requirement blocks, describe the requirement, or upload an item list, specification, supplier quote, image, or ZIP file.
-            </p>
-            <Link
-              href="/products"
-              className="button-glow mt-5 inline-flex rounded bg-ink px-5 py-3 text-sm font-bold text-white"
-            >
-              Build a requirement
-            </Link>
-          </div>
-        ) : (
+    <div className="mx-auto max-w-4xl space-y-8">
+      {requirements.length > 0 ? (
+        <div className="surface min-w-0 rounded p-6 sm:p-8">
+          <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">Requirement Package</div>
+          <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-3xl">Added requirements ({requirements.length})</h2>
           <StaggerContainer className="mt-6 grid gap-4">
             {requirements.map((requirement) => (
               <AnimatedCard
@@ -309,7 +260,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
                     <button
                       type="button"
                       onClick={() => removeRequirement(requirement.id)}
-                      className="rounded border border-grey-200 px-3 py-2 text-sm font-semibold text-grey-700 hover:border-red-300 hover:text-red-600"
+                      className="rounded border border-grey-200 px-3 py-2 text-sm font-semibold text-grey-700 hover:border-red-300 hover:text-red-600 cursor-pointer"
                     >
                       Remove
                     </button>
@@ -323,13 +274,13 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
               <p className="mt-2 text-sm leading-6 text-grey-300">
                 HACIEN reviews the complete package, recommends suitable options, and clarifies details before preparing a formal quotation.
               </p>
-              <Link href="/products" className="mt-4 inline-flex text-sm font-bold text-grey-300 hover:text-white">
+              <Link href="/products" className="mt-4 inline-flex text-sm font-bold text-grey-300 hover:text-white cursor-pointer">
                 Add another requirement
               </Link>
             </div>
           </StaggerContainer>
-        )}
-      </div>
+        </div>
+      ) : null}
 
       <form
         ref={formRef}
@@ -338,8 +289,9 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         onSubmit={handleSubmit}
         className="surface min-w-0 rounded p-6 sm:p-8"
       >
-        <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">Customer Details</div>
-        <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink">Request a formal quotation review</h2>
+        <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">Quotation request</div>
+        <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-3xl">Request a quotation</h2>
+        <p className="mt-2 text-sm leading-6 text-grey-600">{replyTime}</p>
         <p className="mt-2 text-sm text-grey-600">
           No online payment is collected. Every request receives a reference number and is reviewed before a quotation is prepared.
         </p>
@@ -475,12 +427,56 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           <button
             type="submit"
             disabled={status === "sending" || Boolean(fileError)}
-            className="button-glow rounded bg-blue px-6 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-300"
+            className="button-glow rounded bg-blue px-6 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-300 cursor-pointer"
           >
             {status === "sending" ? "Sending..." : "Request a Quote"}
           </button>
         </div>
       </form>
+
+      {/* Procurement Process & Validity context */}
+      <div className="surface min-w-0 rounded p-6 sm:p-8">
+        <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">Procurement Process</div>
+        <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-3xl">How quotation review works</h2>
+        <p className="mt-2 text-sm leading-6 text-grey-600">
+          Your request can start without catalog products. Start with a requirement, an item list, a supplier quote,
+          a specification, an image, a ZIP file, a technology area, or a plain description.
+        </p>
+        <div className="mt-5 grid gap-3 sm:grid-cols-5">
+          {[
+            "Describe or Upload",
+            "Optional Reference",
+            "Reference number",
+            "HACIEN reviews",
+            "Quotation if ready",
+          ].map((stepText, index) => (
+            <div
+              key={stepText}
+              className="rounded-lg border border-grey-200 bg-white/80 p-3 text-sm shadow-sm"
+            >
+              <div className="grid h-8 w-8 place-items-center rounded bg-ink text-xs font-bold text-white">
+                {index + 1}
+              </div>
+              <div className="mt-2 font-semibold text-slate-800">{stepText}</div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-6 rounded-lg border border-grey-200 bg-grey-50 p-4">
+          <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-700">
+            {billingSettings.quote_validity_badge_label}
+          </div>
+          <p className="mt-2 text-xs leading-5 text-grey-700">{billingSettings.quote_validity_disclaimer}</p>
+          <p className="mt-2 text-xs leading-5 text-grey-600">{billingSettings.compliance_disclaimer}</p>
+        </div>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <Link
+            href="/products"
+            className="interactive-link rounded border border-grey-200 px-5 py-3 text-center text-sm font-bold text-ink hover:bg-grey-50 cursor-pointer"
+          >
+            Browse technology areas
+          </Link>
+        </div>
+      </div>
     </div>
   );
 }
