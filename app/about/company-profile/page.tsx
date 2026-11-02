@@ -44,7 +44,7 @@ export default function CompanyProfilePage() {
               ))}
             </div>
             <p className="mt-4 text-sm leading-6 text-grey-300">{registrationPapersNote}</p>
-            <Link href="/compliance" className="mt-4 inline-flex text-sm font-bold text-blue hover:underline">
+            <Link href="/compliance" className="mt-4 inline-flex text-sm font-bold text-white underline decoration-blue">
               See Government Compliance
             </Link>
           </BorderGlow>

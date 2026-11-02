@@ -620,11 +620,13 @@ main {
     animation: cinematic-aurora-drift 16s var(--ease-premium-in-out) infinite alternate;
   }
 
-  .global-cinematic-backdrop__glow--cyan {
+  .global-cinematic-backdrop__glow--cyan,
+  .global-cinematic-backdrop__glow--neutral-a {
     animation: global-cinematic-cyan 22s var(--ease-premium-in-out) infinite alternate;
   }
 
-  .global-cinematic-backdrop__glow--amber {
+  .global-cinematic-backdrop__glow--amber,
+  .global-cinematic-backdrop__glow--neutral-b {
     animation: global-cinematic-amber 26s var(--ease-premium-in-out) infinite alternate;
   }
 

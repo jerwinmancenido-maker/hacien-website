@@ -325,7 +325,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
               Save local drafts for review. This does not write live CMS modules, publish website pages, or touch databases.
             </p>
           </div>
-          <div className="rounded-lg border border-grey-200 bg-grey-50 px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] text-grey-800">
+          <div className="rounded-lg border border-grey-200 bg-grey-50 px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] text-grey-700">
             Draft only
           </div>
         </div>
@@ -650,7 +650,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
           <button
             type="button"
             onClick={() => void saveDraft("ready")}
-            className="rounded-lg border border-grey-300 bg-grey-50 px-4 py-3 text-sm font-bold text-grey-800 transition hover:bg-grey-100"
+            className="rounded-lg border border-grey-300 bg-grey-50 px-4 py-3 text-sm font-bold text-grey-700 transition hover:bg-grey-100"
           >
             Mark Ready
           </button>
@@ -675,11 +675,11 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                 Draft
               </div>
               <div className="rounded-lg border border-grey-200 bg-grey-50 px-2 py-2">
-                <div className="text-grey-800">{countDraftsByStatus(drafts, "needs-review")}</div>
+                <div className="text-grey-700">{countDraftsByStatus(drafts, "needs-review")}</div>
                 Review
               </div>
               <div className="rounded-lg border border-grey-200 bg-grey-50 px-2 py-2">
-                <div className="text-grey-800">{countDraftsByStatus(drafts, "ready")}</div>
+                <div className="text-grey-700">{countDraftsByStatus(drafts, "ready")}</div>
                 Ready
               </div>
             </div>

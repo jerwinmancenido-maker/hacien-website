@@ -26,7 +26,7 @@ export function InteractivePortalPreview() {
       date: "Sample date",
       title: "IT refresh request - laptops and network equipment",
       status: "Quote Review",
-      badgeColor: "bg-grey-100 text-grey-800 border-grey-200",
+      badgeColor: "bg-grey-100 text-grey-700 border-grey-200",
       totalAmount: "Estimate pending",
       itemsCount: 3,
       items: [
@@ -41,7 +41,7 @@ export function InteractivePortalPreview() {
       date: "Sample date",
       title: "Backup appliance and UPS sizing request",
       status: "Sourcing Review",
-      badgeColor: "bg-grey-100 text-grey-800 border-grey-200",
+      badgeColor: "bg-grey-100 text-grey-700 border-grey-200",
       totalAmount: "Estimate pending",
       itemsCount: 2,
       items: [
@@ -160,7 +160,7 @@ export function InteractivePortalPreview() {
           >
             <FileText className="h-4 w-4" />
             Sample RFQs & Quotes
-            <span className="rounded bg-grey-100 px-2 py-0.5 text-xs text-grey-800 font-bold">
+            <span className="rounded bg-grey-100 px-2 py-0.5 text-xs text-grey-700 font-bold">
               {rfqs.length}
             </span>
           </button>
@@ -175,7 +175,7 @@ export function InteractivePortalPreview() {
           >
             <Truck className="h-4 w-4" />
             Procurement Planning
-            <span className="rounded-full bg-grey-100 px-2 py-0.5 text-xs text-grey-800 font-bold border border-grey-200">
+            <span className="rounded-full bg-grey-100 px-2 py-0.5 text-xs text-grey-700 font-bold border border-grey-200">
               1 Active
             </span>
           </button>
@@ -310,7 +310,7 @@ export function InteractivePortalPreview() {
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-xs font-bold text-slate-500">{order.id}</span>
-                      <span className="rounded-full bg-grey-100 border border-grey-300 px-2.5 py-0.5 text-[11px] font-bold text-grey-800">
+                      <span className="rounded-full bg-grey-100 border border-grey-300 px-2.5 py-0.5 text-[11px] font-bold text-grey-700">
                         {order.status}
                       </span>
                     </div>
@@ -376,7 +376,7 @@ export function InteractivePortalPreview() {
                     <td className="py-3 px-4 text-slate-600">{t.category}</td>
                     <td className="py-3 px-4">
                       <span className={`inline-block rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${
-                        t.status.includes("Resolved") ? "bg-slate-100 text-slate-700 border border-slate-300" : "bg-grey-100 text-grey-800 border border-grey-200"
+                        t.status.includes("Resolved") ? "bg-slate-100 text-slate-700 border border-slate-300" : "bg-grey-100 text-grey-700 border border-grey-200"
                       }`}>
                         {t.status}
                       </span>
@@ -395,7 +395,7 @@ export function InteractivePortalPreview() {
             {documents.map((doc, idx) => (
               <div key={idx} className="flex items-center justify-between rounded border border-slate-200 p-4 bg-slate-50/50 hover:bg-white hover:shadow-sm transition">
                 <div className="flex items-center gap-3">
-                  <div className="grid h-10 w-10 place-items-center rounded-lg bg-grey-100 text-grey-800">
+                  <div className="grid h-10 w-10 place-items-center rounded-lg bg-grey-100 text-grey-700">
                     <FileCheck className="h-5 w-5" />
                   </div>
                   <div>

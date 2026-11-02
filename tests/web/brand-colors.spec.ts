@@ -276,5 +276,39 @@ describe("HACIEN brand colors", () => {
 
     expect(offenders, offenders.join("\n")).toEqual([]);
   });
+
+  it("ensures every grey-NNN class used in app/ and components/ exists in the theme defined in app/globals.css", () => {
+    const globalsCss = readFileSync(join(ROOT, "app/globals.css"), "utf8");
+    const themeMatch = globalsCss.match(/@theme\s*\{([^}]+)\}/);
+    expect(themeMatch).toBeTruthy();
+    const themeContent = themeMatch ? themeMatch[1] : "";
+    const themeGreyTokens = new Set(
+      Array.from(themeContent.matchAll(/--color-grey-(\d+)/g), (m) => m[1])
+    );
+    expect(themeGreyTokens.size).toBeGreaterThan(0);
+
+    const roots = [join(ROOT, "app"), join(ROOT, "components")];
+    const files = roots
+      .flatMap((root) => walk(root))
+      .filter((file) => !file.endsWith(".css"));
+
+    const greyClassPattern = /\b(?:[a-zA-Z0-9:-]+-)?grey-(\d+)\b/g;
+    const offenders: string[] = [];
+
+    for (const file of files) {
+      const rel = relative(ROOT, file);
+      const content = readFileSync(file, "utf8");
+      for (const [index, line] of content.split("\n").entries()) {
+        for (const match of line.matchAll(greyClassPattern)) {
+          const token = match[1];
+          if (!themeGreyTokens.has(token)) {
+            offenders.push(`${rel}:${index + 1}: uses undefined theme token grey-${token}: ${line.trim()}`);
+          }
+        }
+      }
+    }
+
+    expect(offenders, offenders.join("\n")).toEqual([]);
+  });
 });
 
