@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import Link from "next/link";
 import { contactInquiryTypes } from "@/app/actions/contact-inquiry";
+import { replyTime } from "@/data/companyContact";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
 import { TurnstileField } from "@/components/TurnstileField";
 
@@ -128,6 +129,7 @@ export function ContactForm({
     >
       <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue">Support Channel</div>
       <h3 className="mt-3 text-2xl font-bold tracking-tight text-ink">{type} Inquiry</h3>
+      <p className="mt-3 text-sm leading-6 text-grey-600">{replyTime}</p>
 
       {/* Honeypot — hidden from humans, visible to bots */}
       <div className="absolute -left-[9999px]" aria-hidden="true">

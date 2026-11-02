@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { validateCmsContent } from "@/lib/cms/content";
+import { founderLine, supplyException, supplyLead } from "@/data/companyContact";
 
 export type CmsSeoKey = "homepage" | "about" | "solutions" | "industries" | "faq" | "help";
 
@@ -14,16 +15,14 @@ const cmsSeoRecords: Record<CmsSeoKey, CmsSeoRecord> = {
   homepage: {
     key: "homepage",
     route: "/",
-    title: "Technology Procurement Clarified Before Quoting",
-    description:
-      "HACIEN helps organizations turn IT requirements, BOQs, supplier quotes, and rough ideas into usable RFQ conversations.",
+    title: "What HACIEN supplies",
+    description: `${supplyLead} ${supplyException}`,
   },
   about: {
     key: "about",
     route: "/about",
-    title: "About | IT Procurement & Technology Solutions",
-    description:
-      "HACIEN Information Technology Solutions helps Philippine organizations prepare technology requirements, review supplier inputs, and move RFQs into formal business communication.",
+    title: "Started in 2026",
+    description: founderLine,
   },
   solutions: {
     key: "solutions",

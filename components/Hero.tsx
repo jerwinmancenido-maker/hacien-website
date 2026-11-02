@@ -68,7 +68,7 @@ export function Hero() {
           </SlideUp>
         </div>
 
-        <SlideUp delay={220} className="hidden h-full md:block">
+        <SlideUp delay={220} className="h-full">
           <div className="relative overflow-hidden rounded-lg border border-white/15 bg-white/[0.08] p-3 shadow-2xl shadow-black/20 backdrop-blur-xl sm:p-4">
             <div className="absolute inset-0 bg-gradient-to-br from-white/12 via-transparent to-blue-500/10" />
             <div className="relative space-y-3">

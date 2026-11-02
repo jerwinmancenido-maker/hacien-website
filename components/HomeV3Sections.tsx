@@ -52,9 +52,9 @@ export function TechnologyEcosystem() {
           </p>
           <StaggerContainer className="mt-5 grid gap-2 sm:mt-7 sm:grid-cols-2 sm:gap-3">
             {homepageContent.rfqReadiness.cards.map((item, index) => (
-              <AnimatedCard key={item.title} className={`group rounded-lg border border-white/12 bg-white/[0.06] p-4 backdrop-blur sm:p-5 ${index > 1 ? "hidden sm:block" : ""}`}>
+              <AnimatedCard key={`${item.title}-${index}`} className="group rounded-lg border border-white/12 bg-white/[0.06] p-4 backdrop-blur sm:p-5">
                 <div className="text-base font-bold">{item.title}</div>
-                <p className="mt-2 text-sm leading-6 text-grey-300">{item.text}</p>
+                {item.text ? <p className="mt-2 text-sm leading-6 text-grey-300">{item.text}</p> : null}
               </AnimatedCard>
             ))}
           </StaggerContainer>
@@ -123,12 +123,11 @@ export function SolutionsV3() {
                     }}
                   />
                   <div className="relative grid h-12 w-12 place-items-center rounded bg-white/90 text-xs font-bold text-[#0A0A0A] shadow-lg shadow-slate-950/20">
-                    {solution.icon}
+                    {String(index + 1).padStart(2, "0")}
                   </div>
                 </div>
                 <div className="p-4 sm:p-6">
                   <div className="text-lg font-bold text-slate-950 group-hover:text-[#2563EB] sm:text-xl">{solution.title}</div>
-                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600 sm:mt-3 sm:line-clamp-none">{solution.summary}</p>
                   <div className="mt-3 text-sm font-bold text-[#2563EB] sm:mt-5">Explore solution</div>
                 </div>
               </AnimatedCard>

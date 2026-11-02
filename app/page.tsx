@@ -1,4 +1,5 @@
 import { Hero } from "@/components/Hero";
+import { replyTime } from "@/data/companyContact";
 import {
   CTABand,
   PremiumStatementBand,
@@ -18,7 +19,10 @@ export default function Home() {
       <TechnologyEcosystem />
       <SolutionsV3 />
       <TrustV3 />
-      <CTABand />
+      <CTABand
+        title="Request a quotation."
+        description={replyTime}
+      />
     </>
   );
 }

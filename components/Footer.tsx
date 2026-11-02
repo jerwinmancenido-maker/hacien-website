@@ -54,6 +54,7 @@ export function Footer() {
                 {companyContact.addressLabel}
               </span>
               <span>{companyContact.addressLines.join(", ")}</span>
+              <span className="mt-2 block">{companyContact.showroomNote}</span>
             </address>
           </div>
         </div>

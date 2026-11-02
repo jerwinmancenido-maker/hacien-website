@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import Link from "next/link";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
+import { replyTime } from "@/data/companyContact";
 import { TurnstileField } from "@/components/TurnstileField";
 
 export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: string }) {
@@ -75,7 +76,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
     return (
       <div className="surface rounded-lg p-6">
         <div className="motion-slide-up rounded border border-emerald-200 bg-emerald-50 p-5">
-          <div className="text-sm font-bold text-emerald-800">RFQ request sent</div>
+          <div className="text-sm font-bold text-emerald-800">Quotation request sent</div>
           <p className="mt-2 text-sm leading-6 text-emerald-700">
             Thank you. HACIEN received your request and will review the requirement details before any formal quotation is prepared.
           </p>
@@ -119,11 +120,8 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
         onChangeCapture={markFormStarted}
         onSubmit={handleSubmit}
       >
-        <h3 className="text-xl font-bold text-ink">Request for Quotation</h3>
-        <p className="mt-2 text-sm leading-6 text-grey-600">
-          No fixed prices are published. HACIEN will review availability, equivalent options,
-          warranty, delivery terms, and supplier quotations before issuing a formal quote.
-        </p>
+        <h3 className="text-xl font-bold text-ink">Request a quotation</h3>
+        <p className="mt-2 text-sm leading-6 text-grey-600">{replyTime}</p>
 
         {/* Honeypot */}
         <div className="absolute -left-[9999px]" aria-hidden="true">
@@ -219,7 +217,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
                 required
                 name="message"
                 aria-label="Requirement details"
-                placeholder="Describe products, specifications, quantities, delivery location, or RFQ details"
+                placeholder="Describe products, specifications, quantities, or the delivery location"
                 rows={5}
                 className="focus-ring rounded border border-grey-200 px-3 py-2"
               />
@@ -315,7 +313,7 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
               ? "Sending..."
               : step === 1
                 ? "Continue to buyer details"
-                : "Submit RFQ"}
+                : "Request a Quote"}
           </button>
           {step === 2 && (
             <button

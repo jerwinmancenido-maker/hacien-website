@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
 import { AnimatedCard, StaggerContainer } from "@/components/motion";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
+import { replyTime } from "@/data/companyContact";
 import { TurnstileField } from "@/components/TurnstileField";
 import billingSettings from "@/config/billing-compliance-settings.json";
 
@@ -31,7 +32,7 @@ const allowedAttachmentExtensions = [".pdf", ".doc", ".docx", ".xls", ".xlsx", "
 
 const intakePaths = [
   "Describe requirements",
-  "Upload BOQ",
+  "Upload an item list",
   "Upload formal specifications",
   "Upload existing supplier quote",
   "Upload file / image / ZIP",
@@ -98,7 +99,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
     const notes = String(data.get("notes") || "").trim();
     const submittedAttachmentInfo =
       file && file.size > 0
-        ? `${file.name} (${Math.round(file.size / 1024)} KB, ${file.type || "unknown type"}) — uploaded through RFQ form`
+        ? `${file.name} (${Math.round(file.size / 1024)} KB, ${file.type || "unknown type"}) — uploaded with the quotation request`
         : "No attachment selected";
     const hasAttachment = Boolean(file && file.size > 0);
     const hasRequirements = requirements.length > 0;
@@ -135,7 +136,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
       attachmentSizeKb: hasAttachment ? Math.round((file?.size || 0) / 1024) : 0,
       acceptsZeroCatalogProducts: true,
       procurementNote:
-        "HACIEN accepts RFQs with or without listed technology. Gateway review comes before Opportunity creation.",
+        "HACIEN accepts a quotation request with or without listed technology. The request is reviewed before a quotation is prepared.",
       submittedAt: new Date().toISOString(),
     };
 
@@ -160,7 +161,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
     return (
       <div className="surface min-w-0 motion-slide-up mx-auto max-w-3xl rounded p-8 text-center">
         <div className="text-sm font-bold uppercase tracking-[0.18em] text-blue">
-          RFQ request received
+          Quotation request received
         </div>
         <h1 className="mt-4 text-3xl font-bold text-ink">
           Thank you. HACIEN will review your request.
@@ -193,7 +194,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           Unable to send
         </div>
         <h1 className="mt-4 text-2xl font-bold text-ink">
-          Your RFQ request could not be sent.
+          Your quotation request could not be sent.
         </h1>
         <p className="mt-4 text-grey-600">
           {errorMessage}
@@ -211,11 +212,12 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_0.88fr]">
       <div className="surface min-w-0 rounded p-5 sm:p-6">
-        <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue">Gateway Package</div>
-        <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink">Universal RFQ intake</h2>
+        <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue">Quotation request</div>
+        <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink">Request a quotation</h2>
+        <p className="mt-2 text-sm leading-6 text-grey-600">{replyTime}</p>
         <p className="mt-2 text-sm leading-6 text-grey-600">
-          Your RFQ can start without catalog products. Start with a requirement, BOQ, supplier quote,
-          formal specification, image, ZIP file, technology area, or plain description.
+          Your request can start without catalog products. Start with a requirement, an item list, a supplier quote,
+          a specification, an image, a ZIP file, a technology area, or a plain description.
         </p>
         <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4">
           <div className="text-xs font-bold uppercase tracking-[0.16em] text-amber-800">
@@ -228,9 +230,9 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           {[
             "Describe or Upload",
             "Optional Reference",
-            "Gateway Reference",
-            "HACIEN Reviews",
-            "Opportunity if Ready",
+            "Reference number",
+            "HACIEN reviews",
+            "Quotation if ready",
           ].map((stepText, index) => (
             <div
               key={stepText}
@@ -246,13 +248,13 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         {requirements.length === 0 ? (
           <div className="mt-5 rounded border border-dashed border-blue-200 bg-blue-tint/60 p-5 text-center sm:p-6">
             <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-white text-base font-bold text-blue shadow-sm">
-              RFQ
+              Quote
             </div>
             <p className="mt-4 font-semibold text-slate-800">
-              Your RFQ package can start with any requirement.
+              Your request can start with any requirement.
             </p>
             <p className="mt-2 text-sm leading-6 text-grey-600">
-              Build one or more requirement blocks, describe the requirement, or upload a BOQ, specification, supplier quote, image, or ZIP file.
+              Build one or more requirement blocks, describe the requirement, or upload an item list, specification, supplier quote, image, or ZIP file.
             </p>
             <Link
               href="/products"
@@ -316,8 +318,8 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
               </AnimatedCard>
             ))}
             <div className="rounded bg-slate-950 p-5 text-white">
-              <div className="text-sm text-grey-300">RFQ package note</div>
-              <div className="mt-1 text-lg font-bold">Each block stays inside one Gateway submission.</div>
+              <div className="text-sm text-grey-300">Request note</div>
+              <div className="mt-1 text-lg font-bold">Each block stays in one request.</div>
               <p className="mt-2 text-sm leading-6 text-grey-300">
                 HACIEN reviews the complete package, recommends suitable options, and clarifies details before preparing a formal quotation.
               </p>
@@ -339,7 +341,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue">Customer Details</div>
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink">Request a formal quotation review</h2>
         <p className="mt-2 text-sm text-grey-600">
-          No online payment will be collected. Every request enters the Gateway first, receives a reference number, and is reviewed before it becomes an Opportunity.
+          {replyTime} No online payment is collected. Every request receives a reference number and is reviewed before a quotation is prepared.
         </p>
 
         {/* Honeypot */}
@@ -355,7 +357,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           <label className="grid min-w-0 gap-2 text-sm font-semibold text-grey-700">
             Intake path
             <select required name="intakePath" className="focus-ring min-h-12 w-full min-w-0 rounded border border-grey-200 bg-white px-4 font-normal" defaultValue="">
-              <option value="" disabled>Select how this RFQ is starting</option>
+              <option value="" disabled>Select how this request is starting</option>
               {intakePaths.map((path) => (
                 <option key={path}>{path}</option>
               ))}
@@ -417,12 +419,12 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
               name="notes"
               rows={5}
               aria-label="Notes or specifications"
-              placeholder="Describe the product, outcome, quantity, model, equivalent options, delivery location, deadline, BOQ details, or anything HACIEN should review."
+              placeholder="Describe the product, quantity, equivalent options, delivery location, deadline, item list, or anything HACIEN should review."
               className="focus-ring w-full min-w-0 rounded border border-grey-200 bg-white px-4 py-3 font-normal"
             />
           </label>
           <label className="grid min-w-0 gap-2 text-sm font-semibold text-grey-700">
-            Attachment <span className="font-normal text-grey-600">(BOQ, formal specs, supplier quote, PDF, Excel, image, or ZIP)</span>
+            Attachment <span className="font-normal text-grey-600">(item list, specifications, supplier quote, PDF, Excel, image, or ZIP)</span>
             <input
               name="attachment"
               type="file"
@@ -450,7 +452,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           {fileError ? <p className="text-sm font-semibold text-red-600">{fileError}</p> : null}
           {attachmentInfo ? <p className="text-sm font-semibold text-emerald-700">{attachmentInfo}</p> : null}
           <p className="rounded border border-blue-100 bg-blue-tint p-3 text-xs leading-5 text-grey-600">
-            Attachment metadata will enter the Gateway with the request. Accepted files: PDF, DOC, DOCX, XLS, XLSX, CSV, PNG, JPG, ZIP. Maximum size: 10 MB.
+            The file is sent with the request. Accepted files: PDF, DOC, DOCX, XLS, XLSX, CSV, PNG, JPG, ZIP. Maximum size: 10 MB.
           </p>
           <p className="rounded border border-grey-200 bg-grey-100 p-3 text-xs leading-5 text-grey-600">
             <span className="font-bold text-slate-800">{billingSettings.quote_summary_label}:</span>{" "}
@@ -475,7 +477,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
             disabled={status === "sending" || Boolean(fileError)}
             className="button-glow rounded bg-blue px-6 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:bg-slate-300"
           >
-            {status === "sending" ? "Sending..." : "Submit RFQ"}
+            {status === "sending" ? "Sending..." : "Request a Quote"}
           </button>
         </div>
       </form>

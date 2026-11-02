@@ -1,5 +1,18 @@
 import faqData from "../../config/faq-data.json";
 import type { CmsMediaKey } from "@/lib/cms/media";
+import {
+  brandsLine,
+  companyContact,
+  deliveryClauses,
+  deliveryLine,
+  founderLine,
+  registrationPapersNote,
+  replyTime,
+  showroomNote,
+  supplyException,
+  supplyItems,
+  supplyLead,
+} from "@/data/companyContact";
 
 export type CmsStatus = "published" | "draft" | "archived";
 
@@ -249,7 +262,7 @@ const navigationContent: CmsNavigationContent = {
     quoteAction: { href: "/quote", label: "Request a Quote" },
   },
   footer: {
-    statement: "Technology procurement clarified before anyone quotes.",
+    statement: "Started in 2026.",
     groups: [
       {
         title: "Company",
@@ -275,16 +288,16 @@ const navigationContent: CmsNavigationContent = {
         links: [
           { href: "/quote", label: "Request Quote" },
           { href: "/track", label: "Track Request" },
-          { href: "/products", label: "Technology RFQ Builder" },
+          { href: "/products", label: "Technology list" },
           { href: "/support", label: "Support" },
           { href: "/help", label: "Help Center" },
-          { href: "/faq", label: "B2B FAQ" },
+          { href: "/faq", label: "FAQ" },
         ],
       },
       {
         title: "Tools",
         links: [
-          { href: "/customer-workspace", label: "Customer Workspace" },
+          { href: "/customer-workspace", label: "Customer account" },
           { href: "/search", label: "Search" },
         ],
       },
@@ -304,52 +317,35 @@ const homepageContent: CmsHomeContent = {
   slug: "homepage",
   status: "published",
   hero: {
-    eyebrow: "HACIEN IT Solutions",
-    title: "Technology procurement, clarified before anyone quotes.",
-    description:
-      "Send a requirement list, BOQ, photo, supplier quote, or rough idea. HACIEN organizes the details and flags what still needs supplier review before price, stock, payment, or delivery is treated as confirmed.",
+    eyebrow: "HACIEN",
+    title: "What HACIEN supplies",
+    description: `${supplyLead} ${supplyException}`,
     image: "commandCenter",
     primaryAction: { href: "/quote", label: "Request a Quote" },
-    secondaryAction: { href: "/technology", label: "Explore Technology" },
-    highlights: [
-      { label: "RFQ review", text: "Specs, BOQs, photos, and plain requests are shaped before quoting." },
-      { label: "Supplier checks", text: "Availability, warranty, lead time, and assumptions stay visible when checked." },
-      { label: "Trackable follow-up", text: "Every request gets a reference so the conversation can continue." },
-    ],
+    secondaryAction: { href: "/contact", label: "Contact" },
+    highlights: supplyItems.map((item) => ({ label: item.title, text: item.text })),
   },
-  heroSignals: [
-    { title: "RFQ review", text: "Specs, BOQs, photos, and plain requests are shaped before quoting." },
-    { title: "Supplier checks", text: "Availability, warranty, lead time, and assumptions stay visible when checked." },
-    { title: "Trackable follow-up", text: "Every request gets a reference so the conversation can continue." },
-  ],
+  heroSignals: supplyItems.map((item) => ({ title: item.title, text: item.text })),
   rfqReadiness: {
-    eyebrow: "RFQ Readiness",
-    title: "Turn incomplete specs into a usable request.",
-    description:
-      "The first job is not to sell a model. It is to make the request clear enough for responsible checking and practical follow-up.",
-    cards: [
-      { title: "What is needed", text: "Users, quantity, site, deadline, and the business reason behind the request." },
-      { title: "What is unclear", text: "Missing specs, compatibility questions, equivalents, and assumptions that affect review." },
-      { title: "What can be checked", text: "Supplier inputs, warranty terms, lead time, and commercial conditions when evidence is available." },
-      { title: "What happens next", text: "A usable RFQ with a reference number and written follow-up." },
-    ],
+    eyebrow: "Brands and delivery",
+    title: "Brands",
+    description: brandsLine,
+    cards: deliveryClauses.map((clause) => ({ title: clause, text: "" })),
     imagePanel: {
-      eyebrow: "Details before quote",
-      title: "The useful detail is usually hidden in the first conversation.",
-      caption:
-        "HACIEN helps surface assumptions, options, and missing details before a formal quotation path is treated as ready.",
+      eyebrow: "Delivery",
+      title: "Nationwide across the Philippines.",
+      caption: deliveryLine,
     },
   },
   howItWorks: {
-    eyebrow: "How HACIEN Works",
-    title: "A short path for requests that are not yet perfect.",
-    description:
-      "The public RFQ experience is designed for real buyers: sometimes you have a BOQ, sometimes a model, and sometimes only the outcome you need.",
+    eyebrow: "Quotation",
+    title: "Request a quotation.",
+    description: replyTime,
     steps: [
-      { title: "Send", text: "Share a list, BOQ, photo, supplier quote, or plain description." },
-      { title: "Clarify", text: "HACIEN checks what is missing or risky before quotation work begins." },
-      { title: "Review", text: "Supplier and technical inputs are organized when available." },
-      { title: "Respond", text: "You receive the next practical step with the original request preserved." },
+      { title: "Send", text: "Share a list, a photo, a supplier quote, or a plain description." },
+      { title: "Acknowledge", text: "We acknowledge website inquiries within 1 business day (Monday to Friday, excluding holidays)." },
+      { title: "Confirm", text: "Formal quotations follow once supplier stock and pricing are confirmed." },
+      { title: "Deliver", text: deliveryLine },
     ],
   },
   solutionsPreview: {
@@ -362,39 +358,35 @@ const homepageContent: CmsHomeContent = {
   productCatalogPreview: {
     eyebrow: "Technology",
     title: "Technology categories without fake certainty.",
-    description:
-      "Use product categories to describe what you need. Final models, prices, and commercial terms still require RFQ review.",
+    description: "Use product categories to describe what you need. Formal quotations follow once supplier stock and pricing are confirmed.",
   },
   platformPreview: {
-    eyebrow: "HACIEN Platform",
-    title: "HACIEN keeps each request tied to its history.",
-    description:
-      "Workspace, Timeline, Guardian, and Customer Workspace help keep inquiries, operations, and account history connected. Public availability is announced only when mature.",
+    eyebrow: "Requests",
+    title: "Each request stays tied to its history.",
+    description: replyTime,
     layers: [
-      { title: "Workspace", text: "Secure internal operations" },
-      { title: "Timeline", text: "Relationship memory" },
-      { title: "Guardian", text: "Operational guidance" },
-      { title: "Customer Workspace", text: "Future customer continuity" },
+      { title: "Request", text: "Share a list, a photo, a supplier quote, or a plain description." },
+      { title: "History", text: "Each request stays tied to its history." },
+      { title: "Quotation", text: "Formal quotations follow once supplier stock and pricing are confirmed." },
+      { title: "Contact", text: "Contact HACIEN about a request." },
     ],
-    action: { href: "/platform", label: "Explore Platform" },
+    action: { href: "/contact", label: "Contact" },
   },
   trustPreview: {
-    eyebrow: "Trust & Confidence",
-    title: "Trust without overstatement.",
-    description:
-      "HACIEN keeps public claims bounded, formal terms document-controlled, and customer communication clear.",
+    eyebrow: "Started in 2026",
+    title: "Started in 2026.",
+    description: founderLine,
     cards: [
-      { title: "Bounded identity", text: "Public company information stays limited to what is appropriate for public review." },
-      { title: "Quotation discipline", text: "Pricing, warranty, delivery, payment, and tax treatment are confirmed through formal quotation and written communication." },
-      { title: "Customer continuity", text: "Inquiries, quotations, delivery, support, and follow-up are treated as one continuing account record." },
+      { title: "Office address", text: companyContact.addressOneLine },
+      { title: "Per order", text: showroomNote },
+      { title: "Papers", text: registrationPapersNote },
     ],
     action: { href: "/about/company-profile", label: "Read HACIEN company profile →" },
   },
   accessPreview: {
-    eyebrow: "Access HACIEN",
-    title: "Continue through one connected access point.",
-    description:
-      "Internal personnel can open Workspace. Customers can track requests, learn about the future Customer Workspace, or contact HACIEN for support.",
+    eyebrow: "Contact",
+    title: "Contact HACIEN.",
+    description: replyTime,
     actions: [
       { href: "/contact", label: "Contact HACIEN" },
     ],
@@ -406,54 +398,37 @@ const aboutContent: CmsAboutContent = {
   status: "published",
   hero: {
     eyebrow: "Company",
-    title: "A technology partner for requests that need sharper definition.",
-    description:
-      "HACIEN helps organizations turn rough requirements, product lists, and project notes into clearer RFQ conversations.",
+    title: "Started in 2026.",
+    description: founderLine,
     image: "workspace",
     primaryAction: { href: "/quote", label: "Request a Quote" },
-    secondaryAction: { href: "/solutions", label: "Explore Solutions" },
+    secondaryAction: { href: "/contact", label: "Contact" },
     highlights: [
-      { label: "RFQ-first", text: "The website captures the request before formal quotation work." },
-      { label: "Review discipline", text: "Missing details and assumptions stay visible." },
-      { label: "Continuity", text: "Requests stay connected through follow-up." },
-      { label: "Bounded claims", text: "Public pages avoid unsupported commercial promises." },
+      { label: "Office address", text: companyContact.addressOneLine },
+      { label: "Per order", text: showroomNote },
+      { label: "Brands", text: brandsLine },
+      { label: "Delivery", text: "Nationwide across the Philippines." },
     ],
   },
   story: {
-    eyebrow: "Why HACIEN Exists",
-    title: "Technology buying often gets messy before the first quote is useful.",
-    paragraphs: [
-      "Many teams already know what they need in practical terms: faster devices, a stable network, licensed software, better security, or a project closeout that will not fall apart. The hard part is turning that need into a request suppliers can answer clearly.",
-      "HACIEN was built around that gap. We help collect the details, surface the missing details, and keep the request organized before commercial terms are treated as final.",
-    ],
-    signals: [
-      "Supplier quotes arrive in different formats",
-      "Specs are incomplete or hard to compare",
-      "Follow-ups disappear across inboxes",
-      "Assumptions are not written down early enough",
-    ],
+    eyebrow: "Started in 2026",
+    title: "Started in 2026.",
+    paragraphs: [founderLine],
+    signals: [...deliveryClauses],
   },
   workingStandard: {
-    eyebrow: "Working Standard",
-    title: "Good buying is calm, specific, and written down.",
-    description:
-      "HACIEN keeps the request grounded in visible details: what is known, what is missing, what needs supplier input, and what should happen next.",
+    eyebrow: "What HACIEN supplies",
+    title: "What HACIEN supplies",
+    description: `${brandsLine} ${supplyException}`,
     cards: [
-      { title: "Start with the real business need.", text: "A useful request explains who will use the technology, where it will operate, and what outcome matters." },
-      { title: "Make uncertainty visible.", text: "Equivalents, missing specifications, assumptions, warranty terms, and lead-time questions should be clear before decisions harden." },
-      { title: "Keep follow-up connected.", text: "A customer should not need to repeat the same story each time a request moves from inquiry to quote to support." },
-      { title: "Requirement", text: "Need, quantity, location, timeline, and decision basis are clarified." },
-      { title: "Review", text: "Missing details, compatibility questions, and practical alternatives are surfaced." },
-      { title: "Supplier Input", text: "Supplier-provided details are reviewed when available and relevant." },
-      { title: "Quote Context", text: "Assumptions and exclusions are made visible before formal terms are relied on." },
-      { title: "Follow-up", text: "The request reference keeps the next conversation connected." },
+      ...supplyItems.map((item) => ({ title: item.title, text: item.text })),
+      { title: "Delivery", text: deliveryLine },
     ],
   },
   cta: {
-    eyebrow: "Start with clarity",
-    title: "Need an IT supplier that can turn scattered requirements into a clear RFQ?",
-    description:
-      "Send your requirement list, deadline, delivery location, and supporting specifications. HACIEN will help turn it into a usable RFQ.",
+    eyebrow: "Reply time",
+    title: "Request a quotation.",
+    description: replyTime,
     action: { href: "/quote", label: "Request a Quote" },
   },
 };

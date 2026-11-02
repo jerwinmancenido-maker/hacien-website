@@ -4,32 +4,31 @@ import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/rea
 import { ContactForm } from "@/components/ContactForm";
 import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
-import { companyContact } from "@/data/companyContact";
+import { brandsLine, companyContact, deliveryLine, showroomNote } from "@/data/companyContact";
 
 export const metadata: Metadata = {
   title: "Contact",
-  description:
-    "Contact HACIEN Information Technology Solutions for business inquiries, RFQ direction, support routing, supplier introductions, and review-first communication.",
+  description: companyContact.replyTime,
 };
 
 const contactPaths = [
   {
     title: "Request a quotation",
-    text: "For BOQs, product lists, specifications, files, organization requirements, or quotation review.",
+    text: "For an item list, specifications, files, or a quotation.",
     href: "/quote",
-    action: "Start RFQ",
+    action: "Request a Quote",
     image: "documentation",
   },
   {
     title: "Ask for support",
-    text: "For follow-up, delivery details, warranty questions tied to formal documents, replacements, or an existing request.",
+    text: "For follow-up on an existing request, a delivery detail, or a warranty question.",
     href: "/support",
     action: "Open Support",
     image: "workspace",
   },
   {
     title: "Send a business inquiry",
-    text: "For supplier introductions, partnership questions, company communication, and general coordination.",
+    text: "For supplier introductions, partnership questions, and company questions.",
     href: "#contact-form",
     action: "Use Contact Form",
     image: "office",
@@ -37,9 +36,9 @@ const contactPaths = [
 ];
 
 const communicationStandards = [
-  "Use Request Quote when the inquiry needs pricing, BOQ review, or files.",
-  "Use Support when the inquiry continues an existing request, delivery detail, warranty question, or follow-up.",
-  "Use Contact for business communication that does not yet belong to a formal RFQ or support path.",
+  "Use Request a Quote when you need pricing, an item list, or files.",
+  "Use Support when the question continues an existing request, a delivery detail, or a warranty question.",
+  "Use Contact for a business message that is not yet a quotation request or a support question.",
 ];
 
 export default function ContactPage() {
@@ -49,16 +48,16 @@ export default function ContactPage() {
     <>
       <PremiumPageHero
         eyebrow="Contact"
-        title="Reach HACIEN through the right business path."
-        description="HACIEN keeps communication structured so inquiries, RFQs, supplier introductions, and support questions reach the right team."
+        title="Contact HACIEN."
+        description={companyContact.replyTime}
         image="office"
         primaryAction={{ href: "/quote", label: "Request a Quote" }}
         secondaryAction={{ href: "#contact-form", label: "Send Inquiry" }}
         highlights={[
-          { label: "Business Contact", text: "Public inquiry routing through HACIEN's contact channel." },
-          { label: "RFQ Direction", text: "Requirements and files move through the Gateway intake path." },
-          { label: "Support Routing", text: "Follow-ups are routed with reference details." },
-          { label: "Formal Notices", text: "Legal notice handling must be confirmed through written communication." },
+          { label: "Office address", text: companyContact.addressOneLine },
+          { label: "Per order", text: showroomNote },
+          { label: "Delivery", text: deliveryLine },
+          { label: "Brands", text: brandsLine },
         ]}
       />
 
@@ -138,15 +137,17 @@ export default function ContactPage() {
               <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">
                 Send a business inquiry.
               </h2>
-              <p className="mt-4 text-sm leading-7 text-slate-600">
-                Use this channel for general business communication, supplier introductions, partnership
-                questions, company information, and inquiries that do not yet need an RFQ review.
-              </p>
+              <p className="mt-4 text-sm leading-7 text-slate-600">{companyContact.replyTime}</p>
 
               <div className="mt-8 grid gap-5 text-sm leading-7 text-slate-700">
                 <div className="rounded border border-slate-200 bg-slate-50 p-5">
-                  <div className="font-bold text-slate-950">Inquiry routing</div>
-                  <p className="mt-2">{companyContact.contactInstruction}</p>
+                  <div className="font-bold text-slate-950">Reply time</div>
+                  <p className="mt-2">{companyContact.replyTime}</p>
+                </div>
+
+                <div className="rounded border border-slate-200 bg-slate-50 p-5">
+                  <div className="font-bold text-slate-950">Per order</div>
+                  <p className="mt-2">{companyContact.showroomNote}</p>
                 </div>
 
                 <div className="rounded border border-slate-200 bg-slate-50 p-5">
