@@ -160,7 +160,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   if (status === "success") {
     return (
       <div className="surface min-w-0 motion-slide-up mx-auto max-w-3xl rounded p-8 text-center">
-        <div className="text-sm font-bold uppercase tracking-[0.18em] text-blue">
+        <div className="text-sm font-bold uppercase tracking-[0.18em] text-grey-600">
           Quotation request received
         </div>
         <h1 className="mt-4 text-3xl font-bold text-ink">
@@ -170,7 +170,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           HACIEN will review availability, equivalent options, warranty, delivery terms, and supplier quotation details before preparing a formal response.
         </p>
         {referenceNumber ? (
-          <div className="mx-auto mt-6 max-w-sm rounded border border-emerald-200 bg-emerald-50 p-4 text-sm text-emerald-800">
+          <div className="mx-auto mt-6 max-w-sm rounded border border-grey-200 bg-grey-50 p-4 text-sm text-ink">
             Reference: <span className="font-bold">{referenceNumber}</span>
             <Link href={`/track/${referenceNumber}`} className="ml-3 font-bold text-blue hover:underline">
               Track request
@@ -212,15 +212,15 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   return (
     <div className="grid gap-6 lg:grid-cols-[1fr_0.88fr]">
       <div className="surface min-w-0 rounded p-5 sm:p-6">
-        <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue">Quotation request</div>
+        <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">Quotation request</div>
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink">Request a quotation</h2>
         <p className="mt-2 text-sm leading-6 text-grey-600">{replyTime}</p>
         <p className="mt-2 text-sm leading-6 text-grey-600">
           Your request can start without catalog products. Start with a requirement, an item list, a supplier quote,
           a specification, an image, a ZIP file, a technology area, or a plain description.
         </p>
-        <div className="mt-4 rounded-lg border border-amber-200 bg-amber-50 p-4">
-          <div className="text-xs font-bold uppercase tracking-[0.16em] text-amber-800">
+        <div className="mt-4 rounded-lg border border-grey-200 bg-grey-50 p-4">
+          <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-700">
             {billingSettings.quote_validity_badge_label}
           </div>
           <p className="mt-2 text-xs leading-5 text-grey-700">{billingSettings.quote_validity_disclaimer}</p>
@@ -246,8 +246,8 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           ))}
         </div>
         {requirements.length === 0 ? (
-          <div className="mt-5 rounded border border-dashed border-blue-200 bg-blue-tint/60 p-5 text-center sm:p-6">
-            <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-white text-base font-bold text-blue shadow-sm">
+          <div className="mt-5 rounded border border-dashed border-grey-200 bg-grey-50 p-5 text-center sm:p-6">
+            <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-white text-base font-bold text-ink shadow-sm border border-grey-200">
               Quote
             </div>
             <p className="mt-4 font-semibold text-slate-800">
@@ -281,7 +281,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
                         {requirement.brandPreference}
                         {requirement.otherBrand ? `: ${requirement.otherBrand}` : ""}
                       </span>
-                      <span className="rounded bg-blue-tint px-3 py-1 text-blue">
+                      <span className="rounded bg-grey-100 px-3 py-1 text-grey-700">
                         {requirement.equivalentAccepted}
                       </span>
                     </div>
@@ -323,7 +323,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
               <p className="mt-2 text-sm leading-6 text-grey-300">
                 HACIEN reviews the complete package, recommends suitable options, and clarifies details before preparing a formal quotation.
               </p>
-              <Link href="/products" className="mt-4 inline-flex text-sm font-bold text-blue-200 hover:text-white">
+              <Link href="/products" className="mt-4 inline-flex text-sm font-bold text-grey-300 hover:text-white">
                 Add another requirement
               </Link>
             </div>
@@ -338,7 +338,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         onSubmit={handleSubmit}
         className="surface min-w-0 rounded p-6 sm:p-8"
       >
-        <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue">Customer Details</div>
+        <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">Customer Details</div>
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink">Request a formal quotation review</h2>
         <p className="mt-2 text-sm text-grey-600">
           No online payment is collected. Every request receives a reference number and is reviewed before a quotation is prepared.
@@ -450,8 +450,8 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
             />
           </label>
           {fileError ? <p className="text-sm font-semibold text-red-600">{fileError}</p> : null}
-          {attachmentInfo ? <p className="text-sm font-semibold text-emerald-700">{attachmentInfo}</p> : null}
-          <p className="rounded border border-blue-100 bg-blue-tint p-3 text-xs leading-5 text-grey-600">
+          {attachmentInfo ? <p className="text-sm font-semibold text-ink">{attachmentInfo}</p> : null}
+          <p className="rounded border border-grey-200 bg-grey-50 p-3 text-xs leading-5 text-grey-600">
             The file is sent with the request. Accepted files: PDF, DOC, DOCX, XLS, XLSX, CSV, PNG, JPG, ZIP. Maximum size: 10 MB.
           </p>
           <p className="rounded border border-grey-200 bg-grey-100 p-3 text-xs leading-5 text-grey-600">

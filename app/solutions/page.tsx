@@ -50,7 +50,7 @@ export default function SolutionsPage() {
       <section className="glass-section px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">{content.meaning.eyebrow}</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">{content.meaning.eyebrow}</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               {content.meaning.title}
             </h2>
@@ -71,7 +71,7 @@ export default function SolutionsPage() {
       <section className="bg-transparent px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">{content.activeAreas.eyebrow}</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">{content.activeAreas.eyebrow}</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               {content.activeAreas.title}
             </h2>
@@ -94,12 +94,12 @@ export default function SolutionsPage() {
                           className="absolute inset-0"
                           style={{
                             backgroundImage:
-                              "linear-gradient(180deg, rgba(7, 20, 38, 0.04), rgba(7, 20, 38, 0.72))",
+                              "linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.72))",
                           }}
                         />
                       </div>
                       <div className="min-w-0">
-                        <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">{solution.category}</div>
+                        <div className="text-xs font-bold uppercase tracking-[0.14em] text-grey-600">{solution.category}</div>
                         <h3 className="mt-1 text-base font-bold text-slate-950 group-hover:text-[#2563EB]">
                           {solution.title}
                         </h3>
@@ -132,7 +132,7 @@ export default function SolutionsPage() {
             <GradientBackground className="opacity-[0.36]" />
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
-                <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">
                   {content.cta.eyebrow}
                 </div>
                 <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">

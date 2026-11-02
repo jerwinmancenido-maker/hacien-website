@@ -304,8 +304,8 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
               type="button"
               onClick={() => selectKey(option.key)}
               className={`rounded-lg border px-3 py-3 text-left transition ${
- option.key === selectedKey ? "border-[#2563EB] bg-blue-50 text-slate-950" : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
- }`}
+                option.key === selectedKey ? "border-[#2563EB] bg-grey-100 text-slate-950 font-bold" : "border-slate-200 bg-white text-slate-700 hover:border-slate-300"
+              }`}
             >
               <div className="font-bold">{option.label}</div>
               <div className="mt-1 text-xs uppercase tracking-[0.12em] text-slate-500">
@@ -319,13 +319,13 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
       <section className="rounded border border-slate-200 bg-white/90 p-4 shadow-sm md:p-5">
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">Local draft editor</div>
+            <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">Local draft editor</div>
             <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-950">{selectedOption.label}</h1>
             <p className="mt-2 text-sm leading-6 text-slate-600">
               Save local drafts for review. This does not write live CMS modules, publish website pages, or touch databases.
             </p>
           </div>
-          <div className="rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] text-amber-800">
+          <div className="rounded-lg border border-grey-200 bg-grey-50 px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] text-grey-700">
             Draft only
           </div>
         </div>
@@ -365,7 +365,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
               <div className="mt-4 grid gap-4">
                 {documentSections.map((section, index) => (
                   <div key={index} className="rounded-lg border border-slate-200 bg-white p-3">
-                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">Section {index + 1}</div>
+                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-grey-600">Section {index + 1}</div>
                     <label className="mt-3 grid gap-2">
                       <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Heading</span>
                       <textarea
@@ -444,7 +444,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                   <div className="mt-4 grid gap-4">
                     {draftNavigationGroups.map((group, groupIndex) => (
                       <div key={groupIndex} className="rounded-lg border border-slate-200 bg-white p-3">
-                        <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">Group {groupIndex + 1}</div>
+                        <div className="text-xs font-bold uppercase tracking-[0.14em] text-grey-600">Group {groupIndex + 1}</div>
                         <label className="mt-3 grid gap-2">
                           <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Group title</span>
                           <textarea
@@ -510,7 +510,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
               <div className="mt-4 grid gap-4">
                 {draftLinks.map((link, index) => (
                   <div key={index} className="rounded-lg border border-slate-200 bg-white p-3">
-                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">Link {index + 1}</div>
+                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-grey-600">Link {index + 1}</div>
                     <label className="mt-3 grid gap-2">
                       <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Label</span>
                       <textarea
@@ -650,13 +650,13 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
           <button
             type="button"
             onClick={() => void saveDraft("ready")}
-            className="rounded-lg border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm font-bold text-emerald-800 transition hover:border-emerald-400"
+            className="rounded-lg border border-grey-300 bg-grey-50 px-4 py-3 text-sm font-bold text-grey-700 transition hover:bg-grey-100"
           >
             Mark Ready
           </button>
           <div
             className={`text-sm ${
- saveState.status === "error" ? "font-bold text-red-700" : saveState.status === "success" ? "font-bold text-emerald-700" : "text-slate-500"
+ saveState.status === "error" ? "font-bold text-red-700" : saveState.status === "success" ? "font-bold text-ink" : "text-slate-500"
  }`}
           >
             {saveState.message}
@@ -674,12 +674,12 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                 <div className="text-slate-950">{countDraftsByStatus(drafts, "draft")}</div>
                 Draft
               </div>
-              <div className="rounded-lg border border-amber-200 bg-amber-50 px-2 py-2">
-                <div className="text-amber-800">{countDraftsByStatus(drafts, "needs-review")}</div>
+              <div className="rounded-lg border border-grey-200 bg-grey-50 px-2 py-2">
+                <div className="text-grey-700">{countDraftsByStatus(drafts, "needs-review")}</div>
                 Review
               </div>
-              <div className="rounded-lg border border-emerald-200 bg-emerald-50 px-2 py-2">
-                <div className="text-emerald-800">{countDraftsByStatus(drafts, "ready")}</div>
+              <div className="rounded-lg border border-grey-200 bg-grey-50 px-2 py-2">
+                <div className="text-grey-700">{countDraftsByStatus(drafts, "ready")}</div>
                 Ready
               </div>
             </div>

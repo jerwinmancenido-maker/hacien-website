@@ -8,7 +8,7 @@ export function RemotionCinematicPreview() {
   return (
     <div className="grid gap-6 lg:grid-cols-[0.84fr_1.16fr] lg:items-center">
       <div>
-        <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Remotion Scene System</div>
+        <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">Remotion Scene System</div>
         <h2 className="mt-4 text-2xl font-bold tracking-tight text-white sm:text-3xl">
           Cinematic previews now read from the Phase 3 scene configuration.
         </h2>
@@ -20,7 +20,7 @@ export function RemotionCinematicPreview() {
         <div className="mt-6 grid gap-3 text-sm text-slate-200 sm:grid-cols-2">
           {Object.values(remotionScenes).map((scene) => (
             <div key={scene.eyebrow} className="rounded-lg border border-white/12 bg-white/[0.06] p-4">
-              <div className="text-xs font-bold uppercase tracking-[0.14em] text-blue-200">{scene.eyebrow}</div>
+              <div className="text-xs font-bold uppercase tracking-[0.14em] text-grey-400">{scene.eyebrow}</div>
               <div className="mt-2 font-semibold text-white">{scene.title}</div>
             </div>
           ))}

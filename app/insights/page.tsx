@@ -69,7 +69,7 @@ export default function InsightsPage() {
       <section className="glass-section px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Educational Authority</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Educational Authority</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Clearer buying starts before the RFQ is submitted.
             </h2>
@@ -90,7 +90,7 @@ export default function InsightsPage() {
       <section className="glass-section-dark px-4 py-12 text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">Featured Guides</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">Featured Guides</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">
               Start with the procurement decisions buyers ask about most.
             </h2>
@@ -101,19 +101,18 @@ export default function InsightsPage() {
                 <Link href={`/insights/${insight.slug}`} className="group block h-full">
                   <SpotlightCard
                     className="h-full overflow-hidden rounded-lg border border-white/12 bg-white/[0.06]"
-                    spotlightColor="rgba(96, 165, 250, 0.14)"
                   >
                     <div
                       className="h-40 bg-slate-900"
                       style={{
-                        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.76)), url(${insightImage(insight.category, insight.slug)})`,
+                        backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.76)), url(${insightImage(insight.category, insight.slug)})`,
                         backgroundPosition: "center",
                         backgroundSize: "cover",
                       }}
                     />
                     <div className="p-6">
-                    <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue-200">{insight.category}</div>
-                    <h3 className="mt-4 text-xl font-bold text-white group-hover:text-blue-200">{insight.title}</h3>
+                    <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-400">{insight.category}</div>
+                    <h3 className="mt-4 text-xl font-bold text-white group-hover:text-grey-200">{insight.title}</h3>
                     <p className="mt-3 line-clamp-4 text-sm leading-6 text-grey-300">{insight.summary}</p>
                     <div className="mt-5 text-xs font-bold text-grey-300">
                       {insightAuthor} · {insight.readingTime}
@@ -130,7 +129,7 @@ export default function InsightsPage() {
       <section className="bg-transparent px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr]">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Browse the Library</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Browse the Library</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Articles grouped by buying intent.
             </h2>
@@ -157,13 +156,13 @@ export default function InsightsPage() {
                       <div
                         className="min-h-32 bg-slate-950"
                         style={{
-                          backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.72)), url(${insightImage(insight.category, insight.slug)})`,
+                          backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.72)), url(${insightImage(insight.category, insight.slug)})`,
                           backgroundPosition: "center",
                           backgroundSize: "cover",
                         }}
                       />
                       <div className="p-5">
-                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">{insight.category}</div>
+                        <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">{insight.category}</div>
                         <h3 className="mt-3 text-lg font-bold text-slate-950 group-hover:text-[#2563EB]">{insight.title}</h3>
                         <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600">{insight.summary}</p>
                         <p className="mt-3 text-xs font-bold text-slate-600">{insightAuthor}</p>
@@ -180,13 +179,13 @@ export default function InsightsPage() {
                     <div
                       className="min-h-32 bg-slate-950"
                       style={{
-                        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.72)), url(${enterpriseImages.workspace})`,
+                        backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.72)), url(${enterpriseImages.workspace})`,
                         backgroundPosition: "center",
                         backgroundSize: "cover",
                       }}
                     />
                     <div className="p-5">
-                      <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">Platform Direction</div>
+                      <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">Platform Direction</div>
                       <h3 className="mt-3 text-lg font-bold text-slate-950 group-hover:text-[#2563EB]">
                         HACIEN operating platform and procurement continuity
                       </h3>
@@ -208,7 +207,7 @@ export default function InsightsPage() {
             <GradientBackground className="opacity-[0.36]" />
             <div className="relative grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
-                <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">
                   Ready to act
                 </div>
                 <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight sm:text-3xl">

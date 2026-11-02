@@ -22,7 +22,7 @@ function renderDocumentSections(document: CmsDocumentRecord) {
         {section.clauses.map((clause) => (
           <DocumentClause key={clause.heading} title={clause.heading}>
             {clause.status ? (
-              <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">{clause.status}</div>
+              <div className="text-xs font-bold uppercase tracking-[0.14em] text-grey-600">{clause.status}</div>
             ) : null}
             {clause.paragraphs?.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
@@ -69,7 +69,7 @@ export default function TrustCenterPage() {
             </div>
           </div>
           <div className="rounded-lg border border-slate-200 bg-slate-50/80 p-4">
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Current public status</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Current public status</div>
             <div className="mt-4 grid gap-2">
               {[
                 ["Company information", "Bounded"],
@@ -80,7 +80,7 @@ export default function TrustCenterPage() {
               ].map(([label, status]) => (
                 <div key={label} className="flex items-center justify-between gap-4 rounded border border-slate-200 bg-white/80 px-4 py-3">
                   <span className="text-sm font-semibold text-slate-700">{label}</span>
-                  <span className="text-right text-xs font-bold uppercase tracking-[0.12em] text-[#2563EB]">{status}</span>
+                  <span className="text-right text-xs font-bold uppercase tracking-[0.12em] text-grey-600">{status}</span>
                 </div>
               ))}
             </div>

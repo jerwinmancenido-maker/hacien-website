@@ -25,7 +25,7 @@ export default function CompanyProfilePage() {
         <div className="absolute inset-0 hq-grid opacity-80" />
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
-            <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
+            <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">
               Company Profile
             </AnimatedContent>
             <h1 className="mt-5 max-w-5xl text-3xl font-bold tracking-tight sm:text-5xl">
@@ -34,7 +34,7 @@ export default function CompanyProfilePage() {
             <p className="mt-6 max-w-2xl text-lg leading-8 text-grey-300">{founderLine}</p>
           </div>
           <BorderGlow tone="dark" className="rounded-lg bg-white/[0.07] p-6">
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-200">Verification Snapshot</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">Verification Snapshot</div>
             <div className="mt-6 grid gap-3">
               {verification.map(([field, status]) => (
                 <div key={field} className="flex items-center justify-between gap-4 rounded border border-white/12 bg-white/[0.06] px-4 py-3">
@@ -44,7 +44,7 @@ export default function CompanyProfilePage() {
               ))}
             </div>
             <p className="mt-4 text-sm leading-6 text-grey-300">{registrationPapersNote}</p>
-            <Link href="/compliance" className="mt-4 inline-flex text-sm font-bold text-blue-200">
+            <Link href="/compliance" className="mt-4 inline-flex text-sm font-bold text-white underline decoration-blue">
               See Government Compliance
             </Link>
           </BorderGlow>
@@ -54,7 +54,7 @@ export default function CompanyProfilePage() {
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">What HACIEN supplies</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">What HACIEN supplies</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               What HACIEN supplies
             </h2>
@@ -76,7 +76,7 @@ export default function CompanyProfilePage() {
       <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-2">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Contact Details</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Contact Details</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">Office address</h2>
           </AnimatedContent>
           <AnimatedContent delay={100}>
@@ -103,7 +103,7 @@ export default function CompanyProfilePage() {
       <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Next public action</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Next public action</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">Request a quotation.</h2>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">{companyContact.replyTime}</p>
           </div>

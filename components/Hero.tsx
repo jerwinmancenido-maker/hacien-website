@@ -22,7 +22,7 @@ export function Hero() {
           className="absolute inset-0"
           style={{
             backgroundImage:
-              "linear-gradient(105deg, rgba(5, 16, 28, 0.98), rgba(8, 45, 62, 0.76) 48%, rgba(132, 91, 44, 0.22))",
+              "linear-gradient(105deg, rgba(10, 10, 10, 0.96) 0%, rgba(10, 10, 10, 0.82) 48%, rgba(10, 10, 10, 0.35) 100%)",
           }}
         />
       </div>
@@ -34,7 +34,7 @@ export function Hero() {
       <div className="relative mx-auto grid min-h-[450px] max-w-7xl items-center gap-5 px-4 py-7 sm:min-h-[520px] sm:gap-8 sm:px-6 sm:py-9 lg:min-h-[560px] lg:grid-cols-[1fr_0.86fr] lg:gap-10 lg:px-8 lg:py-12">
         <div className="flex flex-col justify-center">
           <FadeIn>
-            <div className="mb-3 inline-flex w-fit rounded border border-blue-300/30 bg-white/8 px-3 py-1.5 text-xs font-semibold text-blue-100 backdrop-blur sm:mb-5">
+            <div className="mb-3 inline-flex w-fit rounded border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur sm:mb-5">
               {content.hero.eyebrow}
             </div>
           </FadeIn>
@@ -69,18 +69,17 @@ export function Hero() {
         </div>
 
         <SlideUp delay={220} className="h-full">
-          <div className="relative overflow-hidden rounded-lg border border-white/15 bg-white/[0.08] p-3 shadow-2xl shadow-black/20 backdrop-blur-xl sm:p-4">
-            <div className="absolute inset-0 bg-gradient-to-br from-white/12 via-transparent to-blue-500/10" />
+          <div className="relative overflow-hidden rounded-lg border border-white/15 bg-[#0A0A0A] p-3 shadow-2xl shadow-black/40 sm:p-4">
             <div className="relative space-y-3">
               <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
                 {content.heroSignals.map((item, index) => (
                   <div
                     key={item.title}
-                    className="rounded-lg border border-white/12 bg-white/10 p-3 backdrop-blur transition-transform duration-200 hover:-translate-y-1"
+                    className="rounded-lg border border-white/12 bg-[#141414] p-3 sm:p-4 transition-transform duration-200 hover:-translate-y-1"
                   >
                     <div className="text-xs font-bold text-grey-300">{String(index + 1).padStart(2, "0")}</div>
                     <div className="mt-2 text-sm font-bold text-white">{item.title}</div>
-                    <p className="mt-2 text-xs leading-5 text-grey-300">{item.text}</p>
+                    <p className="mt-2 text-xs leading-5 text-grey-200 sm:text-sm sm:leading-6">{item.text}</p>
                   </div>
                 ))}
               </div>

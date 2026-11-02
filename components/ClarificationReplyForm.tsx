@@ -41,7 +41,7 @@ export function ClarificationReplyForm({ referenceNumber }: { referenceNumber: s
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-5 rounded border border-amber-200 bg-amber-50 p-4">
+    <form onSubmit={handleSubmit} className="mt-5 rounded border border-grey-200 bg-grey-50 p-4">
       <input type="text" name="website" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden="true" />
       <label htmlFor="clarification-message" className="text-sm font-bold text-ink">
         Reply to HACIEN
@@ -55,14 +55,14 @@ export function ClarificationReplyForm({ referenceNumber }: { referenceNumber: s
         name="message"
         required
         rows={4}
-        className="mt-4 w-full rounded border border-amber-200 bg-white px-4 py-3 text-sm text-ink outline-none transition focus:border-[#2563EB] focus:ring-2 focus:ring-blue-100"
+        className="mt-4 w-full rounded border border-grey-200 bg-white px-4 py-3 text-sm text-ink outline-none transition focus:border-[#2563EB] focus:ring-2 focus:ring-grey-200"
         placeholder="Provide the requested clarification..."
       />
       {status === "error" ? (
         <p className="mt-3 text-sm font-semibold text-red-700">{errorMessage}</p>
       ) : null}
       {status === "success" ? (
-        <p className="mt-3 text-sm font-semibold text-emerald-700">
+        <p className="mt-3 text-sm font-semibold text-ink">
           Clarification received. HACIEN will continue the review.
         </p>
       ) : null}

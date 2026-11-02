@@ -71,7 +71,7 @@ export default async function ProductsPage() {
           {erpProducts.length > 0 ? (
             <div className="mb-12">
               <AnimatedContent>
-                <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">ERP-published catalog</div>
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">ERP-published catalog</div>
                 <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
                   Products currently published from HACIEN ERP.
                 </h2>
@@ -91,7 +91,7 @@ export default async function ProductsPage() {
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Technology Areas</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Technology Areas</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Common categories HACIEN can discuss with customers.
             </h2>
@@ -113,7 +113,7 @@ export default async function ProductsPage() {
                         className="absolute inset-0"
                         style={{
                           backgroundImage:
-                            "linear-gradient(180deg, rgba(7, 20, 38, 0.03), rgba(7, 20, 38, 0.78))",
+                            "linear-gradient(180deg, rgba(0, 0, 0, 0.03), rgba(0, 0, 0, 0.78))",
                         }}
                       />
                       <div className="absolute bottom-4 left-4 rounded border border-white/16 bg-white/12 px-3 py-2 text-xs font-bold uppercase tracking-[0.14em] text-white backdrop-blur">
@@ -147,7 +147,7 @@ export default async function ProductsPage() {
           <BorderGlow className="relative overflow-hidden rounded-lg bg-white p-5 shadow-sm sm:p-10">
             <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
               <div>
-                <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">
+                <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">
                   How to start
                 </div>
                 <h2 className="mt-3 max-w-3xl text-xl font-bold tracking-tight text-slate-950 sm:mt-4 sm:text-3xl">

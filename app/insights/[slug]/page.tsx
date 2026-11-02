@@ -50,7 +50,7 @@ export default async function InsightDetailPage({
             ]}
           />
 
-          <div className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">
+          <div className="mb-4 text-xs font-bold uppercase tracking-[0.16em] text-grey-600">
             {insight.category}
           </div>
 
@@ -74,12 +74,12 @@ export default async function InsightDetailPage({
           </div>
 
           {/* Checklist */}
-          <AnimatedSection className="mt-12 rounded-lg border border-blue-100 bg-blue-50/60 p-6">
+          <AnimatedSection className="mt-12 rounded-lg border border-grey-200 bg-grey-50 p-6">
             <h2 className="text-lg font-bold text-slate-950">Practical checklist</h2>
             <ul className="mt-4 space-y-3">
               {insight.checklist.map((item) => (
                 <li key={item} className="flex gap-3 text-sm text-slate-700">
-                  <span className="mt-0.5 shrink-0 text-[#2563EB]">✓</span>
+                  <span className="mt-0.5 shrink-0 text-grey-700">✓</span>
                   <span>{item}</span>
                 </li>
               ))}
@@ -93,9 +93,9 @@ export default async function InsightDetailPage({
           </div>
 
           {/* Disclaimer */}
-          <div className="mt-6 rounded border border-amber-100 bg-amber-50/60 p-4">
-            <p className="text-xs leading-6 text-amber-800">
-              <strong>Disclaimer:</strong> {insight.disclaimer}
+          <div className="mt-6 rounded border border-grey-200 bg-grey-50 p-4">
+            <p className="text-xs leading-6 text-grey-600">
+              <strong className="text-ink">Disclaimer:</strong> {insight.disclaimer}
             </p>
           </div>
 
@@ -128,7 +128,7 @@ export default async function InsightDetailPage({
                   href={`/insights/${related.slug}`}
                   className="lift group block rounded-lg border border-slate-200 bg-white p-5 hover:border-[#2563EB]/40"
                 >
-                  <div className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">
+                  <div className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-grey-600">
                     {related.category}
                   </div>
                   <h3 className="text-sm font-bold text-slate-950 group-hover:text-[#2563EB] leading-snug">

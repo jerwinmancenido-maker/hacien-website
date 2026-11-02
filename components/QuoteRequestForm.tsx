@@ -75,13 +75,13 @@ export function QuoteRequestForm({ turnstileSiteKey }: { turnstileSiteKey: strin
   if (status === "success") {
     return (
       <div className="surface rounded-lg p-6">
-        <div className="motion-slide-up rounded border border-emerald-200 bg-emerald-50 p-5">
-          <div className="text-sm font-bold text-emerald-800">Quotation request sent</div>
-          <p className="mt-2 text-sm leading-6 text-emerald-700">
+        <div className="motion-slide-up rounded border border-grey-200 bg-grey-50 p-5">
+          <div className="text-sm font-bold text-ink">Quotation request sent</div>
+          <p className="mt-2 text-sm leading-6 text-grey-700">
             Thank you. HACIEN received your request and will review the requirement details before any formal quotation is prepared.
           </p>
           {referenceNumber ? (
-            <div className="mt-4 rounded border border-emerald-200 bg-white p-3 text-sm text-emerald-800">
+            <div className="mt-4 rounded border border-grey-200 bg-white p-3 text-sm text-ink">
               Reference: <span className="font-bold">{referenceNumber}</span>
               <Link href={`/track/${referenceNumber}`} className="ml-3 font-bold text-blue hover:underline">
                 Track request

@@ -62,7 +62,7 @@ export default function ContactPage() {
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Contact Paths</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Contact Paths</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Choose the route that matches the work.
             </h2>
@@ -76,7 +76,7 @@ export default function ContactPage() {
                     <div
                       className="relative min-h-[190px]"
                       style={{
-                        backgroundImage: `linear-gradient(180deg, rgba(7, 20, 38, 0.02), rgba(7, 20, 38, 0.74)), url(${enterpriseImages[path.image as keyof typeof enterpriseImages]})`,
+                        backgroundImage: `linear-gradient(180deg, rgba(0, 0, 0, 0.02), rgba(0, 0, 0, 0.74)), url(${enterpriseImages[path.image as keyof typeof enterpriseImages]})`,
                         backgroundPosition: "center",
                         backgroundSize: "cover",
                       }}
@@ -101,7 +101,7 @@ export default function ContactPage() {
       <section className="bg-[#0A0A0A] px-4 py-12 text-white sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">
               Communication Standard
             </div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">
@@ -129,7 +129,7 @@ export default function ContactPage() {
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
           <AnimatedContent>
             <BorderGlow className="rounded bg-white p-6 shadow-sm sm:p-8">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">
                 Public Inquiry
               </div>
               <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">

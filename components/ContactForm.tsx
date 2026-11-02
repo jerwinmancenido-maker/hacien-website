@@ -82,13 +82,13 @@ export function ContactForm({
   if (status === "success") {
     return (
       <div className="surface rounded p-6">
-        <div className="motion-slide-up rounded border border-emerald-200 bg-emerald-50 p-5">
-          <div className="text-sm font-bold text-emerald-800">Inquiry sent</div>
-          <p className="mt-2 text-sm leading-6 text-emerald-700">
+        <div className="motion-slide-up rounded border border-grey-200 bg-grey-50 p-5">
+          <div className="text-sm font-bold text-ink">Inquiry sent</div>
+          <p className="mt-2 text-sm leading-6 text-grey-700">
             Thank you. Your {type.toLowerCase()} inquiry has been received and is under HACIEN review.
           </p>
           {referenceNumber ? (
-            <div className="mt-4 rounded border border-emerald-200 bg-white p-3 text-sm text-emerald-800">
+            <div className="mt-4 rounded border border-grey-200 bg-white p-3 text-sm text-ink">
               Reference: <span className="font-bold">{referenceNumber}</span>
               <Link href={`/track/${referenceNumber}`} className="ml-3 font-bold text-blue hover:underline">
                 Track request
@@ -127,7 +127,7 @@ export function ContactForm({
       onSubmit={handleSubmit}
       className="surface rounded p-6 sm:p-8"
     >
-      <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue">Support Channel</div>
+      <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">Support Channel</div>
       <h3 className="mt-3 text-2xl font-bold tracking-tight text-ink">{type} Inquiry</h3>
       <p className="mt-3 text-sm leading-6 text-grey-600">{replyTime}</p>
       <p className="mt-1 text-xs text-grey-600">

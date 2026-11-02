@@ -165,7 +165,7 @@ export default async function TrackReferencePage({ params }: TrackingPageProps) 
         ) : (
           <div className="mt-8 grid gap-6">
             <div className="surface rounded-lg p-6">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">
                 {publicResult.status}
               </div>
               <h2 className="mt-3 text-2xl font-bold text-slate-950">Request status</h2>

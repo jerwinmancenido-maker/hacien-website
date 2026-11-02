@@ -298,13 +298,13 @@ export function RequirementBuilder({ initialCategory = "computers-laptops" }: { 
     <section className="rounded-lg border border-grey-200 bg-white p-4 shadow-sm sm:p-6">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
         <div>
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue">Technology RFQ Builder</div>
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Technology RFQ Builder</div>
           <h2 className="mt-2 text-2xl font-bold tracking-tight text-ink sm:mt-3 sm:text-3xl">Build a requirement package.</h2>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-grey-600 sm:mt-3">
             Add one or more technology requirements, then submit them together as one RFQ. Lists help speed up intake; they never limit what you can request.
           </p>
         </div>
-        <div className="rounded border border-blue-100 bg-blue-tint px-3 py-2 text-sm font-bold text-blue sm:px-4 sm:py-3">
+        <div className="rounded border border-grey-200 bg-grey-50 px-3 py-2 text-sm font-bold text-grey-700 sm:px-4 sm:py-3">
           {totalRequirements} requirement{totalRequirements === 1 ? "" : "s"} in RFQ
         </div>
       </div>
@@ -434,7 +434,7 @@ export function RequirementBuilder({ initialCategory = "computers-laptops" }: { 
           Continue to submit
         </Link>
         {added ? (
-          <span className="rounded border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm font-semibold text-emerald-700">
+          <span className="rounded border border-grey-200 bg-grey-50 px-4 py-3 text-sm font-semibold text-ink">
             Requirement added. Add another or continue to submit.
           </span>
         ) : null}

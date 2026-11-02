@@ -46,7 +46,7 @@ export function TechnologyEcosystem() {
     <AnimatedSection className="glass-section-dark px-4 py-9 text-white sm:px-6 sm:py-12 lg:px-8 lg:py-14">
       <div className="mx-auto grid max-w-7xl gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
         <div>
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">{homepageContent.rfqReadiness.eyebrow}</div>
+          <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">{homepageContent.rfqReadiness.eyebrow}</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">{homepageContent.rfqReadiness.title}</h2>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-grey-300 sm:mt-4 sm:text-base sm:leading-7">
             {homepageContent.rfqReadiness.description}
@@ -120,7 +120,7 @@ export function SolutionsV3() {
                     className="absolute inset-0"
                     style={{
                       backgroundImage:
-                        "linear-gradient(180deg, rgba(7, 20, 38, 0.04), rgba(7, 20, 38, 0.76))",
+                        "linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.76))",
                     }}
                   />
                   <div className="relative grid h-12 w-12 place-items-center rounded bg-white/90 text-xs font-bold text-[#0A0A0A] shadow-lg shadow-slate-950/20">
@@ -169,12 +169,12 @@ export function ProductCatalogV3() {
                       className="absolute inset-0"
                       style={{
                         backgroundImage:
-                          "linear-gradient(180deg, rgba(7, 20, 38, 0.06), rgba(7, 20, 38, 0.7))",
+                          "linear-gradient(180deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.7))",
                       }}
                     />
                   </div>
                   <div className="min-w-0">
-                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">Technology</div>
+                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-grey-600">Technology</div>
                     <h3 className="mt-1 text-base font-bold tracking-tight text-slate-950 group-hover:text-[#2563EB]">{category.name}</h3>
                     <p className="mt-1 line-clamp-2 text-sm leading-5 text-slate-600">{category.summary}</p>
                     <div className="mt-3 text-sm font-bold text-[#2563EB]">Build this requirement</div>
@@ -196,7 +196,7 @@ export function ErpPreviewV3() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue-300">{homepageContent.platformPreview.eyebrow}</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">{homepageContent.platformPreview.eyebrow}</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">{homepageContent.platformPreview.title}</h2>
             <p className="mt-5 leading-7 text-grey-300">
               {homepageContent.platformPreview.description}
@@ -208,7 +208,7 @@ export function ErpPreviewV3() {
           <StaggerContainer className="grid gap-4 sm:grid-cols-2">
             {homepageContent.platformPreview.layers.map((item, index) => (
               <div key={item.title} className="rounded-lg border border-white/12 bg-white/[0.07] p-5">
-                <div className="text-xs font-bold text-blue-200">0{index + 1}</div>
+                <div className="text-xs font-bold text-grey-400">0{index + 1}</div>
                 <div className="mt-3 text-lg font-bold">{item.title}</div>
                 <p className="mt-2 text-sm leading-6 text-grey-300">{item.text}</p>
               </div>
@@ -255,7 +255,7 @@ export function ExistingCustomerV3() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">{homepageContent.accessPreview.eyebrow}</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">{homepageContent.accessPreview.eyebrow}</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               {homepageContent.accessPreview.title}
             </h2>
@@ -266,7 +266,7 @@ export function ExistingCustomerV3() {
           <div className="flex flex-col gap-3 sm:flex-row">
             <Link
               href={homepageContent.accessPreview.actions[0].href}
-              className="button-glow rounded bg-[#2563EB] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-blue-900/15"
+              className="button-glow rounded bg-[#2563EB] px-5 py-3 text-center text-sm font-bold text-white shadow-lg shadow-black/10"
             >
               {homepageContent.accessPreview.actions[0].label}
             </Link>

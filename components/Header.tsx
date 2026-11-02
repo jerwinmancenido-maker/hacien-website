@@ -96,7 +96,7 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 className={`relative inline-flex items-center gap-2 rounded px-3 py-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue ${
-                  active ? "bg-blue-tint font-semibold text-ink" : "hover:bg-grey-100 hover:text-ink"
+                  active ? "bg-grey-100 font-semibold text-ink" : "hover:bg-grey-100 hover:text-ink"
                 }`}
               >
                 {active ? <span className="pixel-marker !mr-0" aria-hidden="true" /> : null}
@@ -154,7 +154,7 @@ export function Header() {
                 href={item.href}
                 onClick={closeMenu}
                 className={`inline-flex min-h-11 items-center gap-2 rounded px-3 py-3 transition-colors ${
-                  isActive(item.href) ? "bg-blue-tint font-semibold text-ink" : "hover:bg-grey-100 hover:text-ink"
+                  isActive(item.href) ? "bg-grey-100 font-semibold text-ink" : "hover:bg-grey-100 hover:text-ink"
                 }`}
               >
                 {isActive(item.href) ? <span className="pixel-marker !mr-0" aria-hidden="true" /> : null}

@@ -133,5 +133,182 @@ describe("HACIEN brand colors", () => {
     }
     expect(offenders, offenders.join("\n")).toEqual([]);
   });
+
+  it("ensures no amber, green, teal, cyan, or non-brand blue colour values are in public components", () => {
+    const compDir = join(ROOT, "components");
+    const files = walk(compDir).filter((file) => {
+      const rel = relative(ROOT, file);
+      // Exclude auth, checkout, account per security/payment boundary rules
+      return (
+        !rel.startsWith("components/auth") &&
+        !rel.startsWith("components/checkout") &&
+        !rel.startsWith("components/account")
+      );
+    });
+
+    const forbiddenClasses =
+      /\b(?:amber|emerald|green|teal|cyan|pink|purple|violet|sky|indigo|rose|yellow|orange)(?:-\d{2,3}(?:\/\d{1,3})?)?\b|\b(?:text|bg|border)-blue-(?:50|100|200|300|400|500|600|700|800|900)(?:\/\d{1,3})?\b/;
+    const forbiddenHexes =
+      /#(?:05101C|00f2fe|ffb300|38bdf8|f59e0b|fbbf24|22d3ee|06b6d4|fcd34d|60a5fa)/i;
+    const forbiddenOverlays =
+      /rgba\(\s*(?:7,\s*20,\s*38|5,\s*16,\s*28|8,\s*45,\s*62|132,\s*91,\s*44)/;
+
+    const offenders: string[] = [];
+    for (const file of files) {
+      const rel = relative(ROOT, file);
+      const content = readFileSync(file, "utf8");
+      for (const [index, line] of content.split("\n").entries()) {
+        if (forbiddenClasses.test(line) || forbiddenHexes.test(line) || forbiddenOverlays.test(line)) {
+          offenders.push(`${rel}:${index + 1}: ${line.trim()}`);
+        }
+      }
+    }
+
+    expect(offenders, offenders.join("\n")).toEqual([]);
+  });
+
+  it("ensures hero box text meets WCAG AA (4.5:1) at 390 and 1280 on all 15 hero pages", () => {
+    const heroPages = [
+      { name: "Home", file: "app/page.tsx", component: "Hero" },
+      { name: "About", file: "app/about/page.tsx", component: "PremiumPageHero" },
+      { name: "Access", file: "app/access/page.tsx", component: "PremiumPageHero" },
+      { name: "Quote", file: "app/quote/page.tsx", component: "PremiumPageHero" },
+      { name: "Products", file: "app/products/page.tsx", component: "PremiumPageHero" },
+      { name: "Technology", file: "app/technology/page.tsx", component: "PremiumPageHero" },
+      { name: "Platform", file: "app/platform/page.tsx", component: "PremiumPageHero" },
+      { name: "Solutions", file: "app/solutions/page.tsx", component: "PremiumPageHero" },
+      { name: "Contact", file: "app/contact/page.tsx", component: "PremiumPageHero" },
+      { name: "Support", file: "app/support/page.tsx", component: "PremiumPageHero" },
+      { name: "Customer Workspace", file: "app/portal/page.tsx", component: "PremiumPageHero" },
+      { name: "FAQ", file: "app/faq/page.tsx", component: "PremiumPageHero" },
+      { name: "Help", file: "app/help/page.tsx", component: "PremiumPageHero" },
+      { name: "Search", file: "app/search/page.tsx", component: "PremiumPageHero" },
+      { name: "Insights", file: "app/insights/page.tsx", component: "PremiumPageHero" },
+    ];
+
+    expect(heroPages.length).toBe(15);
+
+    // Verify all 15 hero pages import and render their hero component
+    for (const page of heroPages) {
+      const source = readFileSync(join(ROOT, page.file), "utf8");
+      expect(source, `${page.name} should use ${page.component}`).toContain(page.component);
+    }
+
+    // WCAG 2.1 relative luminance and contrast calculation
+    function relativeLuminance(hex: string): number {
+      const clean = hex.replace("#", "");
+      const num = parseInt(clean, 16);
+      const r = (num >> 16) & 255;
+      const g = (num >> 8) & 255;
+      const b = num & 255;
+      const toLinear = (c: number) => {
+        const s = c / 255;
+        return s <= 0.04045 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+      };
+      return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
+    }
+
+    function contrastRatio(hex1: string, hex2: string): number {
+      const l1 = relativeLuminance(hex1);
+      const l2 = relativeLuminance(hex2);
+      const lighter = Math.max(l1, l2);
+      const darker = Math.min(l1, l2);
+      return (lighter + 0.05) / (darker + 0.05);
+    }
+
+    // Verify solid dark backgrounds used in hero boxes
+    const heroSource = readFileSync(join(ROOT, "components/Hero.tsx"), "utf8");
+    const premiumHeroSource = readFileSync(join(ROOT, "components/PremiumPageHero.tsx"), "utf8");
+
+    // Both hero components must use solid dark box containers to prevent photo bleed-through
+    expect(heroSource).toMatch(/bg-\[#0A0A0A\]/);
+    expect(heroSource).toMatch(/bg-\[#141414\]/);
+    expect(premiumHeroSource).toMatch(/bg-\[#0A0A0A\]/);
+    expect(premiumHeroSource).toMatch(/bg-\[#141414\]/);
+
+    // Text colors used on the solid dark hero box (#141414 / #0A0A0A)
+    const cardBg = "#141414";
+    const boxBg = "#0A0A0A";
+    const whiteText = "#FFFFFF";
+    const grey200Text = "#E5E5E5";
+    const grey300Text = "#D4D4D4";
+
+    const textColors = [
+      { name: "white (headings)", hex: whiteText },
+      { name: "grey-200 (body)", hex: grey200Text },
+      { name: "grey-300 (eyebrow/signals)", hex: grey300Text },
+    ];
+
+    for (const text of textColors) {
+      const ratioCard = contrastRatio(text.hex, cardBg);
+      const ratioBox = contrastRatio(text.hex, boxBg);
+      expect(ratioCard, `${text.name} on ${cardBg} must meet WCAG AA (>= 4.5)`).toBeGreaterThanOrEqual(4.5);
+      expect(ratioBox, `${text.name} on ${boxBg} must meet WCAG AA (>= 4.5)`).toBeGreaterThanOrEqual(4.5);
+    }
+  });
+
+  it("rejects blue text classes on uppercase tracking eyebrow labels in app/ and components/", () => {
+    const roots = [join(ROOT, "app"), join(ROOT, "components")];
+    const files = roots
+      .flatMap((root) => walk(root))
+      .filter((file) => {
+        const rel = relative(ROOT, file);
+        return (
+          !rel.startsWith("components/auth") &&
+          !rel.startsWith("components/checkout") &&
+          !rel.startsWith("components/account")
+        );
+      });
+
+    const uppercaseTrackingPattern = /\buppercase\b.*\btracking-|\btracking-.*\buppercase\b/;
+    const blueTextClassPattern = /(?:^|[\s"'`])text-(?:blue\b|\[#2563[eE][bB]\]|blue-[0-9]+)/;
+
+    const offenders: string[] = [];
+    for (const file of files) {
+      const rel = relative(ROOT, file);
+      const content = readFileSync(file, "utf8");
+      for (const [index, line] of content.split("\n").entries()) {
+        if (uppercaseTrackingPattern.test(line) && blueTextClassPattern.test(line)) {
+          offenders.push(`${rel}:${index + 1}: ${line.trim()}`);
+        }
+      }
+    }
+
+    expect(offenders, offenders.join("\n")).toEqual([]);
+  });
+
+  it("ensures every grey-NNN class used in app/ and components/ exists in the theme defined in app/globals.css", () => {
+    const globalsCss = readFileSync(join(ROOT, "app/globals.css"), "utf8");
+    const themeMatch = globalsCss.match(/@theme\s*\{([^}]+)\}/);
+    expect(themeMatch).toBeTruthy();
+    const themeContent = themeMatch ? themeMatch[1] : "";
+    const themeGreyTokens = new Set(
+      Array.from(themeContent.matchAll(/--color-grey-(\d+)/g), (m) => m[1])
+    );
+    expect(themeGreyTokens.size).toBeGreaterThan(0);
+
+    const roots = [join(ROOT, "app"), join(ROOT, "components")];
+    const files = roots
+      .flatMap((root) => walk(root))
+      .filter((file) => !file.endsWith(".css"));
+
+    const greyClassPattern = /\b(?:[a-zA-Z0-9:-]+-)?grey-(\d+)\b/g;
+    const offenders: string[] = [];
+
+    for (const file of files) {
+      const rel = relative(ROOT, file);
+      const content = readFileSync(file, "utf8");
+      for (const [index, line] of content.split("\n").entries()) {
+        for (const match of line.matchAll(greyClassPattern)) {
+          const token = match[1];
+          if (!themeGreyTokens.has(token)) {
+            offenders.push(`${rel}:${index + 1}: uses undefined theme token grey-${token}: ${line.trim()}`);
+          }
+        }
+      }
+    }
+
+    expect(offenders, offenders.join("\n")).toEqual([]);
+  });
 });
 
