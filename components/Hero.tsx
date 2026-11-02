@@ -4,7 +4,6 @@ import {
   enterpriseHeroSizes,
   enterpriseImages,
 } from "@/components/EnterpriseImagery";
-import { FadeIn, SlideUp } from "@/components/motion";
 import { getHomepageContent } from "@/lib/cms/content";
 
 export function Hero() {
@@ -33,42 +32,34 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
       <div className="relative mx-auto grid min-h-[450px] max-w-7xl items-center gap-5 px-4 py-7 sm:min-h-[520px] sm:gap-8 sm:px-6 sm:py-9 lg:min-h-[560px] lg:grid-cols-[1.22fr_1fr] lg:gap-10 lg:px-8 lg:py-12">
         <div className="flex flex-col justify-center">
-          <FadeIn>
-            <div className="mb-3 inline-flex w-fit rounded border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur sm:mb-5">
-              {content.hero.eyebrow}
-            </div>
-          </FadeIn>
-          <SlideUp delay={80}>
-            <h1 className="font-display max-w-4xl text-balance text-2xl tracking-tight hyphens-none sm:text-4xl lg:text-5xl">
-              {content.hero.title}
-            </h1>
-          </SlideUp>
-          <SlideUp delay={170}>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-grey-200 sm:mt-5 sm:text-base sm:leading-7">
-              {content.hero.description}
-            </p>
-          </SlideUp>
-          <SlideUp delay={260}>
-            <div className="mt-5 flex flex-col gap-2 sm:mt-7 sm:flex-row sm:gap-3">
+          <div className="mb-3 inline-flex w-fit rounded border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur sm:mb-5">
+            {content.hero.eyebrow}
+          </div>
+          <h1 className="font-display max-w-4xl text-balance text-2xl tracking-tight hyphens-none sm:text-4xl lg:text-5xl">
+            {content.hero.title}
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-grey-200 sm:mt-5 sm:text-base sm:leading-7">
+            {content.hero.description}
+          </p>
+          <div className="mt-5 flex flex-col gap-2 sm:mt-7 sm:flex-row sm:gap-3">
+            <Link
+              href={content.hero.primaryAction.href}
+              className="rounded bg-blue px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-dark sm:px-6 sm:py-3 cursor-pointer"
+            >
+              {content.hero.primaryAction.label}
+            </Link>
+            {content.hero.secondaryAction ? (
               <Link
-                href={content.hero.primaryAction.href}
-                className="rounded bg-blue px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-dark sm:px-6 sm:py-3 cursor-pointer"
+                href={content.hero.secondaryAction.href}
+                className="interactive-link rounded border border-white/25 bg-transparent px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-white/5 sm:px-6 sm:py-3 cursor-pointer"
               >
-                {content.hero.primaryAction.label}
+                {content.hero.secondaryAction.label}
               </Link>
-              {content.hero.secondaryAction ? (
-                <Link
-                  href={content.hero.secondaryAction.href}
-                  className="interactive-link rounded border border-white/25 bg-transparent px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-white/5 sm:px-6 sm:py-3 cursor-pointer"
-                >
-                  {content.hero.secondaryAction.label}
-                </Link>
-              ) : null}
-            </div>
-          </SlideUp>
+            ) : null}
+          </div>
         </div>
 
-        <SlideUp delay={220} className="h-full">
+        <div className="h-full">
           <div className="relative overflow-hidden rounded-lg border border-white/15 bg-[#0A0A0A] p-3 shadow-2xl shadow-black/40 sm:p-4">
             <div className="relative space-y-3">
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
@@ -85,7 +76,7 @@ export function Hero() {
               </div>
             </div>
           </div>
-        </SlideUp>
+        </div>
       </div>
     </section>
   );

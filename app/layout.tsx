@@ -15,6 +15,9 @@ const inter = Inter({
   weight: ["400", "500", "600"],
   variable: "--font-inter",
   display: "swap",
+  preload: true,
+  fallback: ["Arial", "sans-serif"],
+  adjustFontFallback: true,
 });
 
 const archivoBlack = Archivo_Black({
@@ -22,6 +25,9 @@ const archivoBlack = Archivo_Black({
   weight: "400",
   variable: "--font-archivo-black",
   display: "swap",
+  preload: true,
+  fallback: ["Arial", "sans-serif"],
+  adjustFontFallback: true,
 });
 
 export const revalidate = 300;

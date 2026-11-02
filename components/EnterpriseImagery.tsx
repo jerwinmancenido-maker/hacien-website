@@ -8,7 +8,7 @@ export const enterpriseImages = getCmsMediaSourceMap();
 export const enterpriseMediaQuality = 70;
 
 /** Full-bleed page heroes (only these should pass priority). Cap desktop src near source width. */
-export const enterpriseHeroSizes = "(max-width: 768px) 100vw, 1600px";
+export const enterpriseHeroSizes = "(max-width: 768px) 100vw, (max-width: 1280px) 100vw, 1440px";
 
 /** Large photo panels beside copy (~half viewport on desktop). */
 export const enterprisePanelSizes = "(max-width: 1024px) 100vw, 50vw";

@@ -4,7 +4,6 @@ import { useState } from "react";
 import Link from "next/link";
 import type { Product } from "@/data/products";
 import { getCategory } from "@/data/products";
-import { SlideUp } from "@/components/motion";
 import { canCheckout, canRequestQuote, formatPrice } from "@/lib/products/purchase-mode";
 import { ManualPaymentIntentForm } from "@/components/checkout/ManualPaymentIntentForm";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
@@ -47,15 +46,14 @@ export function ProductDetail({ product }: { product: Product }) {
     <section className="bg-white">
       <div className={`mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:px-8 lg:py-14 ${product.image ? "lg:grid-cols-[0.82fr_1.18fr]" : ""}`}>
         {product.image ? (
-          <SlideUp className="min-w-0">
+          <div className="min-w-0">
             <div className="surface overflow-hidden rounded-lg">
               {/* eslint-disable-next-line @next/next/no-img-element -- ERP photo URLs are not in the image optimizer allowlist */}
-              <img src={product.image} alt={product.name} className="h-full max-h-[480px] w-full object-cover" />
+              <img src={product.image} alt={product.name} fetchPriority="high" className="h-full max-h-[480px] w-full object-cover" />
             </div>
-          </SlideUp>
+          </div>
         ) : null}
 
-        <SlideUp delay={120} className="min-w-0">
         <div className="min-w-0">
           <div className="text-sm font-semibold text-grey-600">{categoryLabel}</div>
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-5xl">{product.name}</h1>
@@ -104,16 +102,21 @@ export function ProductDetail({ product }: { product: Product }) {
             </ul>
           </div>
 
-          <div className="mt-6 overflow-hidden rounded-lg border border-grey-200">
-            <div className="border-b border-grey-200 bg-grey-100 px-5 py-4">
-              <h2 className="text-2xl font-bold text-ink sm:text-3xl">Technical specification table</h2>
-              <p className="mt-1 text-sm leading-6 text-grey-600">
-                These are RFQ planning targets, not guaranteed stock, pricing, or final model commitments.
-              </p>
+          <div className="mt-6 rounded-lg border border-grey-200">
+            <div className="flex flex-col gap-1 border-b border-grey-200 bg-grey-100 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-ink sm:text-3xl">Technical specification table</h2>
+                <p className="mt-1 text-sm leading-6 text-grey-600">
+                  These are RFQ planning targets, not guaranteed stock, pricing, or final model commitments.
+                </p>
+              </div>
+              <span className="text-xs font-semibold text-blue sm:hidden">
+                Scroll table &rarr;
+              </span>
             </div>
-            <div className="max-w-full overflow-x-auto">
-              <table className="w-full min-w-[520px] border-collapse text-left text-sm">
-                <thead className="bg-white text-xs uppercase tracking-[0.12em] text-grey-600">
+            <div className="w-full max-w-full overflow-x-auto" tabIndex={0} role="region" aria-label="Technical specification table">
+              <table className="w-full min-w-0 sm:min-w-[520px] border-collapse text-left text-sm">
+                <thead className="hidden sm:table-header-group bg-white text-xs uppercase tracking-[0.12em] text-grey-600">
                   <tr>
                     <th scope="col" className="border-b border-grey-200 px-5 py-3 font-bold">
                       Field
@@ -125,11 +128,11 @@ export function ProductDetail({ product }: { product: Product }) {
                 </thead>
                 <tbody className="divide-y divide-slate-100 bg-white">
                   {product.technicalSpecs.map((spec) => (
-                    <tr key={spec.label}>
-                      <th scope="row" className="w-48 px-5 py-4 align-top font-semibold text-ink">
+                    <tr key={spec.label} className="flex flex-col px-5 py-3.5 sm:table-row sm:px-0 sm:py-0">
+                      <th scope="row" className="font-semibold text-ink sm:w-48 sm:px-5 sm:py-4 sm:align-top">
                         {spec.label}
                       </th>
-                      <td className="px-5 py-4 leading-6 text-grey-600">{spec.value}</td>
+                      <td className="mt-1 leading-6 text-grey-600 sm:mt-0 sm:px-5 sm:py-4">{spec.value}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -202,7 +205,6 @@ export function ProductDetail({ product }: { product: Product }) {
             </p>
           ) : null}
         </div>
-        </SlideUp>
       </div>
     </section>
   );

@@ -19,8 +19,8 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     // Allow quality={70} used by EnterpriseMediaImage (Next default allowlist is [75] only).
     qualities: [70, 75],
-    // Include 1600 so hero sizes≈1600px do not jump to 1920.
-    deviceSizes: [640, 750, 828, 1080, 1200, 1600, 1920],
+    // Include 390 for mobile phones, 1440 for desktop, and 1600 so hero sizes do not jump to 1920.
+    deviceSizes: [390, 640, 750, 828, 1080, 1200, 1440, 1600, 1920],
   },
   experimental: {
     serverActions: {

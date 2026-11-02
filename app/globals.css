@@ -654,7 +654,8 @@ main {
   }
 
   .page-dissolve {
-    animation: page-dissolve-in 720ms var(--ease-premium-in-out) both;
+    /* Stabilized: no initial blanking or 12px jump on server HTML */
+    min-height: 100%;
   }
 
   .cinematic-photo {
@@ -815,14 +816,21 @@ main {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
   }
 
+  .motion-fade,
+  .motion-slide-up,
+  .motion-card,
+  .page-dissolve,
   .motion-section {
-    opacity: 1;
-    transform: none;
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
   }
 
   .rb-animated-content,

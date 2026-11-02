@@ -4,7 +4,7 @@ import {
   enterpriseHeroSizes,
   enterpriseImages,
 } from "@/components/EnterpriseImagery";
-import { FadeIn, SlideUp, StaggerContainer } from "@/components/motion";
+import { StaggerContainer } from "@/components/motion";
 
 type HeroAction = {
   href: string;
@@ -51,37 +51,29 @@ export function PremiumPageHero({
       <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
       <div className="relative mx-auto grid min-h-[400px] max-w-7xl items-center gap-5 px-4 py-7 sm:min-h-[500px] sm:gap-8 sm:px-6 sm:py-9 lg:min-h-[540px] lg:grid-cols-[1fr_0.88fr] lg:px-8 lg:py-12">
         <div className="flex flex-col justify-center">
-          <FadeIn>
-            <div className="mb-3 inline-flex w-fit rounded border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur sm:mb-5">
-              {eyebrow}
-            </div>
-          </FadeIn>
-          <SlideUp delay={80}>
-            <h1 className="font-display max-w-4xl text-3xl tracking-tight hyphens-none sm:text-5xl">
-              {title}
-            </h1>
-          </SlideUp>
-          <SlideUp delay={170}>
-            <p className="mt-3 max-w-2xl text-sm leading-6 text-grey-200 hyphens-none sm:mt-5 sm:text-base sm:leading-7">
-              {description}
-            </p>
-          </SlideUp>
-          <SlideUp delay={260}>
-            <div className="mt-5 flex flex-col gap-2 sm:mt-7 sm:flex-row sm:gap-3">
-              <Link href={primaryAction.href} className="rounded bg-blue px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-dark sm:px-6 sm:py-3 cursor-pointer">
-                {primaryAction.label}
+          <div className="mb-3 inline-flex w-fit rounded border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur sm:mb-5">
+            {eyebrow}
+          </div>
+          <h1 className="font-display max-w-4xl text-3xl tracking-tight hyphens-none sm:text-5xl">
+            {title}
+          </h1>
+          <p className="mt-3 max-w-2xl text-sm leading-6 text-grey-200 hyphens-none sm:mt-5 sm:text-base sm:leading-7">
+            {description}
+          </p>
+          <div className="mt-5 flex flex-col gap-2 sm:mt-7 sm:flex-row sm:gap-3">
+            <Link href={primaryAction.href} className="rounded bg-blue px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-dark sm:px-6 sm:py-3 cursor-pointer">
+              {primaryAction.label}
+            </Link>
+            {secondaryAction ? (
+              <Link href={secondaryAction.href} className="interactive-link rounded border border-white/25 bg-transparent px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-white/5 sm:px-6 sm:py-3 cursor-pointer">
+                {secondaryAction.label}
               </Link>
-              {secondaryAction ? (
-                <Link href={secondaryAction.href} className="interactive-link rounded border border-white/25 bg-transparent px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-white/5 sm:px-6 sm:py-3 cursor-pointer">
-                  {secondaryAction.label}
-                </Link>
-              ) : null}
-            </div>
-          </SlideUp>
+            ) : null}
+          </div>
         </div>
 
         {highlights.length > 0 ? (
-        <SlideUp delay={220} className="h-full">
+        <div className="h-full">
           <div className="relative overflow-hidden rounded-lg border border-white/15 bg-[#0A0A0A] p-3 shadow-2xl shadow-black/40 sm:p-4">
             <StaggerContainer className="relative grid gap-2 sm:grid-cols-2 sm:gap-3">
               {highlights.map((item, index) => (
@@ -96,7 +88,7 @@ export function PremiumPageHero({
               ))}
             </StaggerContainer>
           </div>
-        </SlideUp>
+        </div>
         ) : null}
       </div>
     </section>
