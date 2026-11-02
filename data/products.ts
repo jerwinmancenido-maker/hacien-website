@@ -147,7 +147,7 @@ export const categories: ProductCategory[] = [
 const rawProducts: RawProduct[] = [
   {
     id: "HAC-LTP-001",
-    slug: "business-laptop-i5-16gb",
+    slug: "business-laptop-16gb",
     categorySlug: "computers-laptops",
     name: "Business Laptop Class",
     shortDescription: "Business notebook sourcing for office, field, and institutional end-user computing requirements.",
@@ -475,29 +475,12 @@ const rawProducts: RawProduct[] = [
 
 export const products: Product[] = rawProducts.map(normalizeProduct);
 
-const retiredProductSlugs: Record<string, string> = {
-  "hpe-proliant-class-rack-server-options": "dell-lenovo-rack-server-options",
-  "synology-class-nas-backup-appliance": "nas-backup-appliance",
-  "fortinet-class-firewall-options": "cisco-firewall-options",
-  "epson-ecotank-class-mfp-options": "epson-brother-canon-mfp-options",
-  "apc-smart-ups-class-power-protection": "apc-cyberpower-eaton-power-protection",
-};
-
 export function getCategory(slug: string) {
   return categories.find((category) => category.slug === slug);
 }
 
-export function canonicalProductSlug(slug: string) {
-  if (products.some((product) => product.slug === slug)) return slug;
-  const retired = retiredProductSlugs[slug];
-  if (retired && products.some((product) => product.slug === retired)) return retired;
-  return undefined;
-}
-
 export function getProduct(slug: string) {
-  const canonical = canonicalProductSlug(slug);
-  if (!canonical) return undefined;
-  return products.find((product) => product.slug === canonical);
+  return products.find((product) => product.slug === slug);
 }
 
 export function getProductsByCategory(categorySlug: string) {

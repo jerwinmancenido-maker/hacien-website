@@ -277,7 +277,7 @@ export const solutions: Solution[] = [
     sections: [
       {
         heading: "Microsoft and productivity licensing",
-        body: "Microsoft productivity licenses are user-based annual or monthly subscriptions. HACIEN helps organizations count active users, review plan tiers, and prepare renewal requests. Licensing must be confirmed through appropriate vendor channels.",
+        body: "HACIEN helps organizations count active users, review plan tiers, and prepare renewal requests for Microsoft productivity licenses. Subscription products are user-based annual or monthly subscriptions. Licensing must be confirmed through appropriate vendor channels.",
       },
       {
         heading: "Endpoint security software",
@@ -398,7 +398,7 @@ export const solutions: Solution[] = [
       },
       {
         heading: "Operating systems",
-        body: "Microsoft and Apple operating system licenses, including OEM, volume, and upgrade options, should be reviewed through appropriate vendor channel rules. License type affects transferability and support terms.",
+        body: "Microsoft operating system licenses, including OEM, volume, and upgrade options, and Apple operating system licenses should be reviewed through appropriate vendor channel rules. License type affects transferability and support terms.",
       },
       {
         heading: "Vertical and line-of-business applications",

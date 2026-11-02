@@ -1,11 +1,13 @@
+import { spawn, type ChildProcess } from "node:child_process";
 import { readdirSync, readFileSync, statSync } from "node:fs";
+import { createServer } from "node:net";
 import path from "node:path";
 
-import { describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
 import { requirementBuilderOptions } from "@/components/RequirementBuilder";
 import { brandPhrases, brandsLine, carriedBrands } from "@/data/companyContact";
-import { canonicalProductSlug, categories, getProduct, products } from "@/data/products";
+import { categories, products } from "@/data/products";
 import { solutions } from "@/data/solutions";
 import { getAboutContent, getHomepageContent, getPublishedCmsContent } from "@/lib/cms/content";
 import { getCmsSeoRecords } from "@/lib/cms/seo";
@@ -94,19 +96,111 @@ describe("carried brands", () => {
     }
   });
 
-  it("sends retired product slugs to the current slug", () => {
-    const retired: Array<[string, string]> = [
-      ["hpe-proliant-class-rack-server-options", "dell-lenovo-rack-server-options"],
-      ["synology-class-nas-backup-appliance", "nas-backup-appliance"],
-      ["fortinet-class-firewall-options", "cisco-firewall-options"],
-      ["epson-ecotank-class-mfp-options", "epson-brother-canon-mfp-options"],
-      ["apc-smart-ups-class-power-protection", "apc-cyberpower-eaton-power-protection"],
-    ];
+});
 
-    for (const [previous, current] of retired) {
-      expect(canonicalProductSlug(previous)).toBe(current);
-      expect(getProduct(previous)?.slug).toBe(current);
-      expect(products.some((product) => product.slug === previous)).toBe(false);
+const retiredProductRedirects = [
+  {
+    from: "/products/servers-storage/hpe-proliant-class-rack-server-options",
+    also: "/product/hpe-proliant-class-rack-server-options",
+    to: "/products/servers-storage/dell-lenovo-rack-server-options",
+  },
+  {
+    from: "/products/servers-storage/synology-class-nas-backup-appliance",
+    also: "/product/synology-class-nas-backup-appliance",
+    to: "/products/servers-storage/nas-backup-appliance",
+  },
+  {
+    from: "/products/network-equipment/fortinet-class-firewall-options",
+    also: "/product/fortinet-class-firewall-options",
+    to: "/products/network-equipment/cisco-firewall-options",
+  },
+  {
+    from: "/products/printers-peripherals/epson-ecotank-class-mfp-options",
+    also: "/product/epson-ecotank-class-mfp-options",
+    to: "/products/printers-peripherals/epson-brother-canon-mfp-options",
+  },
+  {
+    from: "/products/power-ups/apc-smart-ups-class-power-protection",
+    also: "/product/apc-smart-ups-class-power-protection",
+    to: "/products/power-ups/apc-cyberpower-eaton-power-protection",
+  },
+  {
+    from: "/products/computers-laptops/business-laptop-i5-16gb",
+    also: "/product/business-laptop-i5-16gb",
+    to: "/products/computers-laptops/business-laptop-16gb",
+  },
+] as const;
+
+function freePort() {
+  return new Promise<number>((resolve, reject) => {
+    const server = createServer();
+    server.listen(0, "127.0.0.1", () => {
+      const address = server.address();
+      if (!address || typeof address === "string") {
+        reject(new Error("Could not reserve a port"));
+        return;
+      }
+      const { port } = address;
+      server.close(() => resolve(port));
+    });
+    server.on("error", reject);
+  });
+}
+
+describe("retired product redirects", () => {
+  let child: ChildProcess | undefined;
+  let baseUrl = "";
+  let serverLog = "";
+
+  beforeAll(async () => {
+    const port = await freePort();
+    baseUrl = `http://127.0.0.1:${port}`;
+    child = spawn(process.execPath, [path.join(process.cwd(), "node_modules/next/dist/bin/next"), "dev", "--port", String(port)], {
+      cwd: process.cwd(),
+      env: process.env,
+      detached: true,
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    child.stdout?.on("data", (chunk: Buffer) => {
+      serverLog += chunk.toString();
+    });
+    child.stderr?.on("data", (chunk: Buffer) => {
+      serverLog += chunk.toString();
+    });
+
+    const started = Date.now();
+    while (Date.now() - started < 90_000) {
+      if (child.exitCode != null) {
+        throw new Error(`next dev exited ${child.exitCode}\n${serverLog.slice(-4000)}`);
+      }
+      try {
+        const response = await fetch(`${baseUrl}${retiredProductRedirects[0].from}`, { redirect: "manual" });
+        if (response.status === 308) return;
+      } catch {
+        // Server is still booting.
+      }
+      await new Promise((resolve) => setTimeout(resolve, 400));
+    }
+    throw new Error(`next dev did not become ready\n${serverLog.slice(-4000)}`);
+  }, 120_000);
+
+  afterAll(() => {
+    if (!child?.pid) return;
+    try {
+      process.kill(-child.pid, "SIGTERM");
+    } catch {
+      child.kill("SIGTERM");
+    }
+  });
+
+  it("returns 308 and the current product location for each old slug", async () => {
+    for (const redirect of retiredProductRedirects) {
+      for (const source of [redirect.from, redirect.also]) {
+        const response = await fetch(`${baseUrl}${source}`, { redirect: "manual" });
+        const location = response.headers.get("location") ?? "";
+        expect(response.status, source).toBe(308);
+        expect(location === redirect.to || location.endsWith(redirect.to), `${source} -> ${location}`).toBe(true);
+      }
     }
   });
 });

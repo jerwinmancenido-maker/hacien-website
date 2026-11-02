@@ -33,6 +33,49 @@ const nextConfig: NextConfig = {
     workerThreads: true,
   },
 
+  async redirects() {
+    const retired: Array<{ category: string; from: string; to: string }> = [
+      {
+        category: "servers-storage",
+        from: "hpe-proliant-class-rack-server-options",
+        to: "dell-lenovo-rack-server-options",
+      },
+      {
+        category: "servers-storage",
+        from: "synology-class-nas-backup-appliance",
+        to: "nas-backup-appliance",
+      },
+      {
+        category: "network-equipment",
+        from: "fortinet-class-firewall-options",
+        to: "cisco-firewall-options",
+      },
+      {
+        category: "printers-peripherals",
+        from: "epson-ecotank-class-mfp-options",
+        to: "epson-brother-canon-mfp-options",
+      },
+      {
+        category: "power-ups",
+        from: "apc-smart-ups-class-power-protection",
+        to: "apc-cyberpower-eaton-power-protection",
+      },
+      {
+        category: "computers-laptops",
+        from: "business-laptop-i5-16gb",
+        to: "business-laptop-16gb",
+      },
+    ];
+
+    return retired.flatMap(({ category, from, to }) => {
+      const destination = `/products/${category}/${to}`;
+      return [
+        { source: `/products/${category}/${from}`, destination, permanent: true },
+        { source: `/product/${from}`, destination, permanent: true },
+      ];
+    });
+  },
+
   async headers() {
     const securityEnv = {
       HSTS_ENABLE: process.env.HSTS_ENABLE,
