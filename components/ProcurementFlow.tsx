@@ -5,7 +5,7 @@ const steps = ["Requirement", "Sourcing", "Canvassing", "Quotation", "Delivery"]
 export function ProcurementFlow() {
   return (
     <div className="rounded-lg border border-white/70 bg-white/85 p-5 backdrop-blur">
-      <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">RFQ workflow</div>
+      <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">RFQ workflow</div>
       <StaggerContainer className="mt-5 grid gap-3 sm:grid-cols-5">
         {steps.map((step, index) => (
           <div key={step} className="relative rounded border border-slate-200 bg-white p-4">

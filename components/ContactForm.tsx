@@ -127,7 +127,7 @@ export function ContactForm({
       onSubmit={handleSubmit}
       className="surface rounded p-6 sm:p-8"
     >
-      <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue">Support Channel</div>
+      <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">Support Channel</div>
       <h3 className="mt-3 text-2xl font-bold tracking-tight text-ink">{type} Inquiry</h3>
       <p className="mt-3 text-sm leading-6 text-grey-600">{replyTime}</p>
       <p className="mt-1 text-xs text-grey-600">

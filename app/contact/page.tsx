@@ -129,7 +129,7 @@ export default function ContactPage() {
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
           <AnimatedContent>
             <BorderGlow className="rounded bg-white p-6 shadow-sm sm:p-8">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">
                 Public Inquiry
               </div>
               <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">

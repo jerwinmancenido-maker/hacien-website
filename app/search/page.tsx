@@ -45,7 +45,7 @@ export default async function SearchPage({
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-6xl">
           <form className="glass-control rounded p-4 sm:p-5" action="/search" role="search">
-            <label htmlFor="hq-search" className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">
+            <label htmlFor="hq-search" className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">
               Search public headquarters
             </label>
             <div className="mt-4 flex flex-col gap-3 sm:flex-row">
@@ -76,7 +76,7 @@ export default async function SearchPage({
           <AnimatedContent className="mt-10">
             <div className="flex flex-col gap-3 border-b border-slate-200 pb-5 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">
+                <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">
                   {query ? "Search Results" : "Suggested Paths"}
                 </div>
                 <h2 className="mt-3 text-3xl font-bold tracking-tight text-slate-950">

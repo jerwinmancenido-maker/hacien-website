@@ -246,5 +246,35 @@ describe("HACIEN brand colors", () => {
       expect(ratioBox, `${text.name} on ${boxBg} must meet WCAG AA (>= 4.5)`).toBeGreaterThanOrEqual(4.5);
     }
   });
+
+  it("rejects blue text classes on uppercase tracking eyebrow labels in app/ and components/", () => {
+    const roots = [join(ROOT, "app"), join(ROOT, "components")];
+    const files = roots
+      .flatMap((root) => walk(root))
+      .filter((file) => {
+        const rel = relative(ROOT, file);
+        return (
+          !rel.startsWith("components/auth") &&
+          !rel.startsWith("components/checkout") &&
+          !rel.startsWith("components/account")
+        );
+      });
+
+    const uppercaseTrackingPattern = /\buppercase\b.*\btracking-|\btracking-.*\buppercase\b/;
+    const blueTextClassPattern = /(?:^|[\s"'`])text-(?:blue\b|\[#2563[eE][bB]\]|blue-[0-9]+)/;
+
+    const offenders: string[] = [];
+    for (const file of files) {
+      const rel = relative(ROOT, file);
+      const content = readFileSync(file, "utf8");
+      for (const [index, line] of content.split("\n").entries()) {
+        if (uppercaseTrackingPattern.test(line) && blueTextClassPattern.test(line)) {
+          offenders.push(`${rel}:${index + 1}: ${line.trim()}`);
+        }
+      }
+    }
+
+    expect(offenders, offenders.join("\n")).toEqual([]);
+  });
 });
 

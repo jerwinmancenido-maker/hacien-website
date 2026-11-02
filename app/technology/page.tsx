@@ -117,7 +117,7 @@ export default function TechnologyPage() {
       <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto grid max-w-7xl gap-6 rounded-lg border border-slate-200 bg-white p-6 shadow-sm sm:p-8 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Product references remain optional</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Product references remain optional</div>
             <h2 className="mt-4 max-w-3xl text-3xl font-bold tracking-tight text-slate-950">
               Start with a product, a category, a BOQ, a photo, or only the outcome.
             </h2>

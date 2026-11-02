@@ -319,7 +319,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
       <section className="rounded border border-slate-200 bg-white/90 p-4 shadow-sm md:p-5">
         <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.16em] text-[#2563EB]">Local draft editor</div>
+            <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">Local draft editor</div>
             <h1 className="mt-2 text-2xl font-bold tracking-tight text-slate-950">{selectedOption.label}</h1>
             <p className="mt-2 text-sm leading-6 text-slate-600">
               Save local drafts for review. This does not write live CMS modules, publish website pages, or touch databases.
@@ -365,7 +365,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
               <div className="mt-4 grid gap-4">
                 {documentSections.map((section, index) => (
                   <div key={index} className="rounded-lg border border-slate-200 bg-white p-3">
-                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">Section {index + 1}</div>
+                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-grey-600">Section {index + 1}</div>
                     <label className="mt-3 grid gap-2">
                       <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Heading</span>
                       <textarea
@@ -444,7 +444,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
                   <div className="mt-4 grid gap-4">
                     {draftNavigationGroups.map((group, groupIndex) => (
                       <div key={groupIndex} className="rounded-lg border border-slate-200 bg-white p-3">
-                        <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">Group {groupIndex + 1}</div>
+                        <div className="text-xs font-bold uppercase tracking-[0.14em] text-grey-600">Group {groupIndex + 1}</div>
                         <label className="mt-3 grid gap-2">
                           <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Group title</span>
                           <textarea
@@ -510,7 +510,7 @@ export function CmsDraftEditor({ options, initialDrafts }: { options: EditorOpti
               <div className="mt-4 grid gap-4">
                 {draftLinks.map((link, index) => (
                   <div key={index} className="rounded-lg border border-slate-200 bg-white p-3">
-                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">Link {index + 1}</div>
+                    <div className="text-xs font-bold uppercase tracking-[0.14em] text-grey-600">Link {index + 1}</div>
                     <label className="mt-3 grid gap-2">
                       <span className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">Label</span>
                       <textarea

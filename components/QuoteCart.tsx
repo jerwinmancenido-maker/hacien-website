@@ -160,7 +160,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   if (status === "success") {
     return (
       <div className="surface min-w-0 motion-slide-up mx-auto max-w-3xl rounded p-8 text-center">
-        <div className="text-sm font-bold uppercase tracking-[0.18em] text-blue">
+        <div className="text-sm font-bold uppercase tracking-[0.18em] text-grey-600">
           Quotation request received
         </div>
         <h1 className="mt-4 text-3xl font-bold text-ink">
@@ -338,7 +338,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
         onSubmit={handleSubmit}
         className="surface min-w-0 rounded p-6 sm:p-8"
       >
-        <div className="text-xs font-bold uppercase tracking-[0.16em] text-blue">Customer Details</div>
+        <div className="text-xs font-bold uppercase tracking-[0.16em] text-grey-600">Customer Details</div>
         <h2 className="mt-3 text-2xl font-bold tracking-tight text-ink">Request a formal quotation review</h2>
         <p className="mt-2 text-sm text-grey-600">
           No online payment is collected. Every request receives a reference number and is reviewed before a quotation is prepared.

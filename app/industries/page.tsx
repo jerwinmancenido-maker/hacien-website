@@ -21,7 +21,7 @@ export default function IndustriesPage() {
         <GradientBackground />
         <div className="relative mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
           <div>
-            <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">
+            <AnimatedContent className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">
               {content.hero.eyebrow}
             </AnimatedContent>
             <SplitText
@@ -54,7 +54,7 @@ export default function IndustriesPage() {
 
           <AnimatedContent delay={140} direction="left">
             <BorderGlow className="rounded-lg bg-white/[0.86] p-6">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">
                 {content.buyerContext.eyebrow}
               </div>
               <h2 className="mt-3 text-xl font-bold text-slate-950 sm:text-2xl">
@@ -78,7 +78,7 @@ export default function IndustriesPage() {
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">{content.supportedIndustries.eyebrow}</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">{content.supportedIndustries.eyebrow}</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               {content.supportedIndustries.title}
             </h2>

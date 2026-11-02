@@ -50,7 +50,7 @@ export default function SupportPage() {
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Support Paths</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Support Paths</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Choose the path that matches the work.
             </h2>
@@ -88,7 +88,7 @@ export default function SupportPage() {
       <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr]">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Expectations</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Expectations</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Clear support keeps each request moving with the right details.
             </h2>
@@ -113,7 +113,7 @@ export default function SupportPage() {
       <section id="support-form" className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Contact Form</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Contact Form</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Send the details HACIEN needs to respond usefully.
             </h2>

@@ -32,7 +32,7 @@ export function DocumentPageShell({
       <div className="relative mx-auto max-w-7xl">
         <div className="grid gap-5 lg:grid-cols-[0.82fr_1.18fr] lg:items-end">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">{eyebrow}</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">{eyebrow}</div>
             <h1 className="mt-3 max-w-4xl text-3xl font-bold tracking-tight text-slate-950 sm:text-5xl">
               {title}
             </h1>
@@ -43,7 +43,7 @@ export function DocumentPageShell({
               <div className="mt-4 grid gap-2 sm:grid-cols-3">
                 {meta.map((item) => (
                   <div key={item.label} className="rounded border border-slate-200/80 bg-white/76 p-3">
-                    <div className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#2563EB]">
+                    <div className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-grey-600">
                       {item.label}
                     </div>
                     <div className="mt-1 text-sm font-bold text-slate-950">{item.value}</div>

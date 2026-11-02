@@ -54,7 +54,7 @@ export default function CompanyProfilePage() {
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">What HACIEN supplies</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">What HACIEN supplies</div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               What HACIEN supplies
             </h2>
@@ -76,7 +76,7 @@ export default function CompanyProfilePage() {
       <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-2">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Contact Details</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Contact Details</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">Office address</h2>
           </AnimatedContent>
           <AnimatedContent delay={100}>
@@ -103,7 +103,7 @@ export default function CompanyProfilePage() {
       <section className="bg-slate-50 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-8 rounded-lg border border-slate-200 bg-white p-8 shadow-sm lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Next public action</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Next public action</div>
             <h2 className="mt-4 text-3xl font-bold tracking-tight text-slate-950">Request a quotation.</h2>
             <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">{companyContact.replyTime}</p>
           </div>

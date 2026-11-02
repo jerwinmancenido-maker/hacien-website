@@ -106,7 +106,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
                   href={`/solutions/${s.slug}`}
                   className="lift group block rounded-lg border border-slate-200 bg-white p-5 hover:border-[#2563EB]/40"
                 >
-                  <div className="text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">{s.category}</div>
+                  <div className="text-xs font-bold uppercase tracking-[0.14em] text-grey-600">{s.category}</div>
                   <div className="mt-2 font-bold text-slate-950 group-hover:text-[#2563EB]">{s.title}</div>
                   <p className="mt-1 text-sm text-slate-500">{s.summary}</p>
                 </Link>

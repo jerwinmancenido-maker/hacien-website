@@ -42,7 +42,7 @@ export default function PortalPage() {
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.86fr_1.14fr] lg:items-start">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue">
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">
               Available Now
             </div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-ink sm:text-3xl">

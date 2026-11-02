@@ -51,7 +51,7 @@ export default function CmsPreviewPage() {
         <section className="rounded border border-slate-200 bg-white/82 p-5 shadow-sm backdrop-blur md:p-7">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Local CMS Preview</div>
+              <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Local CMS Preview</div>
               <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
                 HACIEN repo-backed CMS inspection.
               </h1>

@@ -128,7 +128,7 @@ export default async function InsightDetailPage({
                   href={`/insights/${related.slug}`}
                   className="lift group block rounded-lg border border-slate-200 bg-white p-5 hover:border-[#2563EB]/40"
                 >
-                  <div className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-[#2563EB]">
+                  <div className="mb-2 text-xs font-bold uppercase tracking-[0.14em] text-grey-600">
                     {related.category}
                   </div>
                   <h3 className="text-sm font-bold text-slate-950 group-hover:text-[#2563EB] leading-snug">

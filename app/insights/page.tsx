@@ -69,7 +69,7 @@ export default function InsightsPage() {
       <section className="glass-section px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Educational Authority</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Educational Authority</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Clearer buying starts before the RFQ is submitted.
             </h2>
@@ -129,7 +129,7 @@ export default function InsightsPage() {
       <section className="bg-transparent px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.88fr_1.12fr]">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#2563EB]">Browse the Library</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Browse the Library</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Articles grouped by buying intent.
             </h2>

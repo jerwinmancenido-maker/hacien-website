@@ -57,12 +57,12 @@ export function ProductDetail({ product }: { product: Product }) {
 
         <SlideUp delay={120} className="min-w-0">
         <div className="min-w-0">
-          <div className="text-sm font-semibold text-blue">{categoryLabel}</div>
+          <div className="text-sm font-semibold text-grey-600">{categoryLabel}</div>
           <h1 className="mt-3 text-2xl font-bold tracking-tight text-ink sm:text-3xl">{product.name}</h1>
           <p className="mt-4 text-base leading-7 text-grey-600">{product.longDescription}</p>
 
           <div className="mt-6 rounded-lg border border-grey-200 bg-grey-100 p-5">
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue">Quotation review</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Quotation review</div>
             <p className="mt-3 text-sm leading-6 text-grey-600">
               This page explains a technology type HACIEN can review. Final model, quantity, pricing,
               warranty, supplier availability, delivery terms, and payment review are confirmed before any
