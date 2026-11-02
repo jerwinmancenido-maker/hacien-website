@@ -6,6 +6,7 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import { AnimatedSection } from "@/components/motion";
 import { insightAuthor } from "@/data/companyContact";
 import { getInsight, insights } from "@/data/insights";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 export function generateStaticParams() {
   return insights.map((insight) => ({ slug: insight.slug }));
@@ -18,12 +19,13 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const insight = getInsight(slug);
-  return {
+  return buildPageMetadata({
     title: insight ? insight.seoTitle : "Insights",
     description:
       insight?.seoDescription ??
       "Practical IT procurement guides and resources from HACIEN.",
-  };
+    path: `/insights/${slug}`,
+  });
 }
 
 export default async function InsightDetailPage({

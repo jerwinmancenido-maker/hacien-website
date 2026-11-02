@@ -21,6 +21,7 @@ export const staticPageTitleSegments: Record<string, string> = {
   "/technology": "Enterprise Technology",
   "/quote": "Request a quotation",
   "/support": "Support",
+  "/track": "Track a Request",
   "/search": "Search",
   "/contact": "Contact",
   "/access": "Access",

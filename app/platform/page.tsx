@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { SectionHeading } from "@/components/SectionHeading";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Platform | Operating Model",
   description:
     "HACIEN operates through its own enterprise operating platform supporting Workspace, Timeline, Guardian, Customer Workspace, and account continuity.",
-};
+  path: "/platform",
+});
 
 const platformLayers = [
   ["Workspace", "The secure internal operating workspace HACIEN uses to review requests, manage work, and keep operations moving."],

@@ -8,6 +8,10 @@ export const metadata: Metadata = {
   title: "Customer Login",
   description:
     "Customer account sign-in preview for HACIEN. Public access to RFQ and workspace request paths remains active.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default function LoginPage() {

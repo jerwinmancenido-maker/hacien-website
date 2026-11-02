@@ -9,6 +9,7 @@ import { RequirementBuilder } from "@/components/RequirementBuilder";
 import { categories, getCategory, getProductsByCategory } from "@/data/products";
 import { listErpCatalog } from "@/lib/erp/ecommerce-client";
 import { erpCatalogToWebsiteProducts } from "@/lib/erp/catalog-products";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 export function generateStaticParams() {
   return categories.map((category) => ({ category: category.slug }));
@@ -26,10 +27,11 @@ async function getErpProducts() {
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
   const { category: categorySlug } = await params;
   const category = getCategory(categorySlug);
-  return {
+  return buildPageMetadata({
     title: category ? category.seoTitle.replace("Products", "Technology") : "Technology Category",
-    description: category?.seoDescription ?? "Review HACIEN technology categories and request a quotation.",
-  };
+    description: category?.heroCopy ?? category?.seoDescription ?? "Review HACIEN technology categories and request a quotation.",
+    path: `/products/${categorySlug}`,
+  });
 }
 
 export default async function ProductCategoryPage({ params }: { params: Promise<{ category: string }> }) {

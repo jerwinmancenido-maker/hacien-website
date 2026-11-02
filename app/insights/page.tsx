@@ -10,12 +10,14 @@ import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { insightAuthor } from "@/data/companyContact";
 import { insights } from "@/data/insights";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Enterprise Technology Knowledge Center | Insights",
   description:
     "Read HACIEN insights for enterprise technology, RFQ preparation, buyer checklists, infrastructure, cybersecurity, cloud, and best practices.",
-};
+  path: "/insights",
+});
 
 const knowledgeAreas = [
   ["Enterprise Technology", "Practical preparation for RFQs, technology domains, supplier comparison, and technical requirements."],

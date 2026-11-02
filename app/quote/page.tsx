@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
 import { QuoteCart } from "@/components/QuoteCart";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
-import { replyTime } from "@/data/companyContact";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Request a quotation",
-  description: replyTime,
-};
+  description: "Attach an item list, a supplier quote, an image, a spreadsheet, a PDF, or a ZIP.",
+  path: "/quote",
+});
 
 export default function QuotePage() {
   const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "";

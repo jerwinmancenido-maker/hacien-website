@@ -1,7 +1,16 @@
+import type { Metadata } from "next";
 import { SectionHeading } from "@/components/SectionHeading";
 import { TrackReferenceLookup } from "@/components/TrackReferenceLookup";
 import { TRACK_LOOKUP_GENERIC_MESSAGE } from "@/lib/security/track-lookup-guard";
 import { parseTrackReference } from "@/lib/security/track-reference";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Track a Request",
+  description:
+    "Use the reference number from your RFQ confirmation or support message to view customer-safe progress.",
+  path: "/track",
+});
 
 type TrackLookupPageProps = {
   searchParams: Promise<{ referenceNumber?: string; error?: string }>;

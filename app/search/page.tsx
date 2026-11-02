@@ -3,12 +3,14 @@ import Link from "next/link";
 import { AnimatedContent, SpotlightCard } from "@/app/components/reactbits";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { buildSearchIndex, searchCatalog } from "@/lib/search-index";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 import { getSearchCardSpan, getSearchGridCols } from "./search-grid";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Search",
   description: "Search HACIEN products, categories, solutions, and insights.",
-};
+  path: "/search",
+});
 
 const suggestedSearches = ["laptop", "cctv", "ups", "RFQ", "network", "procurement"];
 

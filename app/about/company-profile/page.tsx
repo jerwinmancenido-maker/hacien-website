@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/reactbits";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 import {
   companyContact,
   founderLine,
@@ -11,10 +12,11 @@ import {
   supplyItems,
 } from "@/data/companyContact";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Company Profile",
-  description: founderLine,
-};
+  description: registrationPapersNote,
+  path: "/about/company-profile",
+});
 
 const verification = registrationStatuses.map((item) => [item.label, item.status] as const);
 

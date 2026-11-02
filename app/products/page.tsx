@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/reactbits";
 import {
   EnterpriseMediaImage,
@@ -13,11 +14,12 @@ import { categories } from "@/data/products";
 import { listErpCatalog } from "@/lib/erp/ecommerce-client";
 import { erpCatalogToWebsiteProducts } from "@/lib/erp/catalog-products";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Products",
   description:
     "Build one RFQ package with multiple technology requirements, optional brand preferences, and supporting details before sending it to HACIEN.",
-};
+  path: "/products",
+});
 
 const supportNotes = [
   ["Not an online store", "This page explains the kinds of technology HACIEN can help source or coordinate. It does not publish prices or guarantee stock."],

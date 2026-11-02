@@ -3,13 +3,15 @@ import Link from "next/link";
 import { DocumentPageShell } from "@/components/DocumentLayout";
 import { birBadgeAlt, birBadgeLabel, birRmcCaption } from "@/components/Footer";
 import { registrationPapersNote, registrationStatuses } from "@/data/companyContact";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 const registrationSentence = "HACIEN Information Technology Solutions is registered with the Bureau of Internal Revenue.";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Government Compliance",
   description: registrationSentence,
-};
+  path: "/compliance",
+});
 
 const linkClass = "font-semibold text-blue hover:text-blue-dark";
 

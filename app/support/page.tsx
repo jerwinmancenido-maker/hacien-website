@@ -4,12 +4,14 @@ import { AnimatedContent, SpotlightCard } from "@/app/components/reactbits";
 import { ContactForm } from "@/components/ContactForm";
 import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Support",
   description:
     "HACIEN support entry point for RFQ follow-up, warranty questions tied to formal documents, delivery details, supplier inquiries, and general business support.",
-};
+  path: "/support",
+});
 
 const supportPaths = [
   ["RFQ follow-up", "Clarify submitted requirements, quantities, deadlines, or product details.", "/quote", "documentation"],

@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { DocumentIntro, DocumentPageShell, DocumentSection } from "@/components/DocumentLayout";
 import { policyFooterLinks } from "@/app/policies/_lib/links";
+import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 export const LEGAL_PUBLISH_DATE = "November 2, 2026";
 
@@ -264,10 +265,11 @@ export function legalPagePlainText(page: LegalPageModel) {
 }
 
 export function legalMetadata(page: LegalPageModel): Metadata {
-  return {
+  return buildPageMetadata({
     title: page.title.includes("HACIEN") ? { absolute: page.title } : page.title,
     description: page.description,
-  };
+    path: page.path,
+  });
 }
 
 export function LegalDocument({ page }: { page: LegalPageModel }) {
