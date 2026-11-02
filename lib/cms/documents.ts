@@ -128,7 +128,7 @@ const legalSections: LegacyLegalSection[] = [
       {
         heading: "4.1 Quotation Issuance and Validity",
         paragraphs: [
-          "Quotations, cost estimates, and commercial proposals are valid only for the period and conditions stated in the specific written document. The website does not set default quotation validity, pricing, availability, warranty, delivery, payment, or tax terms.",
+          "Quotations are valid for 15 days unless the quotation states otherwise. Cost estimates and commercial proposals are valid only for the period and conditions stated in the specific written document. The website does not set default pricing, availability, warranty, delivery, payment, or tax terms.",
         ],
       },
       {
@@ -486,7 +486,7 @@ const privacySections: LegacyPolicySection[] = [
     bullets: [
       {
         label: "Principal Manufacturers/OEMs",
-        text: "Sharing client names and configurations for deal registration and discount activation, such as registering Microsoft Azure, AWS, Fortinet, or Cisco quotes.",
+        text: "Sharing client names and configurations for deal registration and discount activation, such as registering Microsoft Azure, AWS, or Cisco quotes.",
       },
       {
         label: "Authorized Distributors",
@@ -498,7 +498,7 @@ const privacySections: LegacyPolicySection[] = [
       },
       {
         label: "Cross-Border Transfers",
-        text: "Some data may be processed on cloud infrastructure hosted outside the Philippines, such as Google Workspace, Microsoft 365, or AWS cloud servers. HACIEN seeks to use cloud providers that maintain strict data privacy compliance standards.",
+        text: "Some data may be processed on cloud infrastructure hosted outside the Philippines, such as Hostinger (Singapore and Indonesia), Google (Gmail, Google Drive), and Apple iCloud, matching section 8 of our Privacy Policy. HACIEN seeks to use cloud providers that maintain strict data privacy compliance standards.",
       },
     ],
   },
@@ -626,7 +626,7 @@ const termsSections: LegacyPolicySection[] = [
     bullets: [
       {
         label: "Default Validity",
-        text: "Quotation validity is controlled by the specific written quotation or commercial document. The website does not set a default validity period.",
+        text: "A quotation is valid for 15 days unless the quotation states otherwise.",
       },
       {
         label: "Price Volatility",
