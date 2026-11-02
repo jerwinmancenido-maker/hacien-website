@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { CookieNotice } from "@/components/CookieNotice";
+import { isValidGaId } from "@/lib/ga4";
 import { GlobalCinematicBackdrop } from "@/components/GlobalCinematicBackdrop";
 import { QuoteCartProvider } from "@/components/QuoteCartProvider";
 import { LenisProvider } from "@/components/motion/LenisProvider";
@@ -78,7 +79,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  const gaId = process.env.NEXT_PUBLIC_HACIEN_GA4_ID?.trim();
+  const rawGaId = process.env.NEXT_PUBLIC_HACIEN_GA4_ID?.trim();
+  const gaId = isValidGaId(rawGaId) ? rawGaId : undefined;
   const organizationJsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
