@@ -67,13 +67,23 @@ const nextConfig: NextConfig = {
       },
     ];
 
-    return retired.flatMap(({ category, from, to }) => {
+    const retiredRedirects = retired.flatMap(({ category, from, to }) => {
       const destination = `/products/${category}/${to}`;
       return [
         { source: `/products/${category}/${from}`, destination, permanent: true },
         { source: `/product/${from}`, destination, permanent: true },
       ];
     });
+
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.haciensolutions.com" }],
+        destination: "https://haciensolutions.com/:path*",
+        permanent: true,
+      },
+      ...retiredRedirects,
+    ];
   },
 
   async headers() {
