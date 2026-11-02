@@ -1,5 +1,4 @@
-import { notFound } from "next/navigation";
-import { redirect } from "next/navigation";
+import { notFound, permanentRedirect, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { ProductDetail } from "@/components/ProductDetail";
 import { getCategory, getProduct, products } from "@/data/products";
@@ -52,7 +51,9 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   const category = getCategory(product.categorySlug);
   if (category) {
-    redirect(`/products/${category.slug}/${product.slug}`);
+    const target = `/products/${category.slug}/${product.slug}`;
+    if (slug !== product.slug) permanentRedirect(target);
+    redirect(target);
   }
 
   return (

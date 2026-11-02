@@ -187,7 +187,7 @@ export const insights: Insight[] = [
       },
       {
         heading: "What is a server?",
-        body: "A server is a general-purpose computing system that can run operating systems like Windows Server or Linux and host applications, databases, virtual machines, and other services in addition to file storage. Servers are more flexible but more expensive and complex to manage than NAS devices.",
+        body: "A server is a general-purpose computing system that can run a server operating system and host applications, databases, virtual machines, and other services in addition to file storage. Servers are more flexible but more expensive and complex to manage than NAS devices.",
       },
       {
         heading: "When to choose NAS",
@@ -285,7 +285,7 @@ export const insights: Insight[] = [
       },
       {
         heading: "Specifying processor and performance",
-        body: "Processor generation matters more than model name. Specify by generation class (e.g., Intel Core i5 13th generation or equivalent) rather than exact model number to enable approved equivalent matching. For office productivity, an i5 with 16GB RAM handles most workloads. For design, CAD, or data work, specify i7 or above.",
+        body: "Processor generation matters more than model name. Specify by processor class or approved equivalent rather than an exact model number. For office productivity, 16GB RAM handles most workloads. For design, CAD, or data work, specify a higher processor class.",
       },
       {
         heading: "Memory and storage",
@@ -306,7 +306,7 @@ export const insights: Insight[] = [
       "Minimum 512GB SSD for primary users",
       "State display size, resolution, and type",
       "Specify warranty type and duration (on-site preferred)",
-      "Confirm operating system requirement (Windows 11 Pro vs. Home)",
+      "Confirm the operating system edition required for the deployment",
       "State required accessories (bag, mouse, adapter)",
       "Include warranty and support documentation requirements",
     ],

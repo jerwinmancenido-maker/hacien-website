@@ -25,7 +25,7 @@ const commonBrands = [
   "Dell",
   "HP",
   "Lenovo",
-  "ASUS",
+  "Asus",
   "Acer",
   "Apple",
   "Other / not listed",
@@ -40,7 +40,7 @@ const templates: TemplateDefinition[] = [
     fields: [
       { key: "deviceType", label: "Device type", type: "select", options: ["Not sure", "Laptop", "Desktop", "Workstation", "Mini PC", "All-in-one", "Other / not listed"] },
       { key: "useCase", label: "Use case", type: "select", options: ["Not sure", "Office work", "Field work", "Design / creative", "Engineering", "School / classroom", "Executive", "General use", "Other / not listed"] },
-      { key: "processor", label: "Processor class", type: "select", options: ["Any suitable option", "Not sure", "Intel Core i3 / Ryzen 3 class", "Intel Core i5 / Ryzen 5 class", "Intel Core i7 / Ryzen 7 class", "Apple silicon", "Workstation class", "Other / not listed"] },
+      { key: "processor", label: "Processor class", type: "select", options: ["Any suitable option", "Not sure", "Entry processor class", "Office processor class", "Higher processor class", "Workstation class", "Other / not listed"] },
       { key: "memory", label: "Memory", type: "select", options: ["Any suitable option", "Not sure", "8GB", "16GB", "32GB", "64GB+", "Other / not listed"] },
       { key: "storage", label: "Storage", type: "select", options: ["Any suitable option", "Not sure", "256GB SSD", "512GB SSD", "1TB SSD", "Larger storage", "Other / not listed"] },
       { key: "accessories", label: "Accessories", type: "text" },
@@ -50,7 +50,7 @@ const templates: TemplateDefinition[] = [
     key: "servers-storage",
     label: "Servers & Storage",
     description: "Servers, NAS, backup storage, drives, storage expansion, and continuity requirements.",
-    brands: ["Any suitable option", "Not sure", "Dell", "HPE", "Lenovo", "Synology", "QNAP", "Seagate", "Western Digital", "Other / not listed"],
+    brands: ["Any suitable option", "Not sure", "Dell", "Lenovo", "Other / not listed"],
     fields: [
       { key: "serverType", label: "Requirement type", type: "select", options: ["Not sure", "Tower server", "Rack server", "NAS", "Backup storage", "Drive expansion", "Other / not listed"] },
       { key: "capacity", label: "Storage capacity", type: "text" },
@@ -63,7 +63,7 @@ const templates: TemplateDefinition[] = [
     key: "network-equipment",
     label: "Networking",
     description: "Switches, routers, firewalls, access points, racks, and connectivity infrastructure.",
-    brands: ["Any suitable option", "Not sure", "Cisco", "Ubiquiti", "TP-Link", "Ruijie", "Fortinet", "MikroTik", "D-Link", "Other / not listed"],
+    brands: ["Any suitable option", "Not sure", "Cisco", "Ubiquiti", "TP-Link", "MikroTik", "Other / not listed"],
     fields: [
       { key: "networkType", label: "Device type", type: "select", options: ["Not sure", "Switch", "Router", "Firewall", "Access point", "Controller", "Rack accessory", "Other / not listed"] },
       { key: "ports", label: "Port count", type: "select", options: ["Not sure", "8 ports", "16 ports", "24 ports", "48 ports", "Other / not listed"] },
@@ -76,7 +76,7 @@ const templates: TemplateDefinition[] = [
     key: "licensed-software",
     label: "Software",
     description: "Productivity, security, OS, design, accounting, backup, collaboration, and SaaS.",
-    brands: ["Any suitable option", "Not sure", "Microsoft", "Google", "Adobe", "Autodesk", "ESET", "Bitdefender", "Kaspersky", "Acronis", "Other / not listed"],
+    brands: ["Any suitable option", "Not sure", "Microsoft", "Other / not listed"],
     fields: [
       { key: "softwareType", label: "Software type", type: "select", options: ["Not sure", "Productivity", "Security", "Operating system", "Design / creative", "Accounting", "Backup", "Cloud / SaaS", "Collaboration", "Other / not listed"] },
       { key: "licenseType", label: "License type", type: "select", options: ["Not sure", "New license", "Renewal", "Upgrade", "Subscription", "Perpetual", "Other / not listed"] },
@@ -89,7 +89,7 @@ const templates: TemplateDefinition[] = [
     key: "security-surveillance",
     label: "Cybersecurity & Surveillance",
     description: "Endpoint protection, firewalls, email security, CCTV, access control, and monitoring.",
-    brands: ["Any suitable option", "Not sure", "Fortinet", "Sophos", "ESET", "Bitdefender", "Hikvision", "Dahua", "Ubiquiti", "Other / not listed"],
+    brands: ["Any suitable option", "Not sure", "Ubiquiti", "Hikvision", "Dahua", "Other / not listed"],
     fields: [
       { key: "securityType", label: "Security type", type: "select", options: ["Not sure", "Endpoint protection", "Firewall", "Email security", "CCTV", "NVR / DVR", "Access control", "Other / not listed"] },
       { key: "scope", label: "Users / devices / cameras", type: "text" },
@@ -101,7 +101,7 @@ const templates: TemplateDefinition[] = [
     key: "power-ups",
     label: "Power & UPS",
     description: "UPS, AVR, PDU, rack power, and power protection for technology environments.",
-    brands: ["Any suitable option", "Not sure", "APC", "Eaton", "Vertiv", "CyberPower", "AWP", "Other / not listed"],
+    brands: ["Any suitable option", "Not sure", "APC", "CyberPower", "Eaton", "Other / not listed"],
     fields: [
       { key: "powerType", label: "Power requirement", type: "select", options: ["Not sure", "UPS", "AVR", "PDU", "Rack power", "Power protection", "Other / not listed"] },
       { key: "load", label: "Load / devices protected", type: "text" },
@@ -113,7 +113,7 @@ const templates: TemplateDefinition[] = [
     key: "printers-peripherals",
     label: "Printers & Peripherals",
     description: "Printers, scanners, monitors, keyboards, mice, headsets, docks, and office IT devices.",
-    brands: ["Any suitable option", "Not sure", "HP", "Epson", "Canon", "Brother", "Logitech", "Dell", "Lenovo", "Other / not listed"],
+    brands: ["Any suitable option", "Not sure", "Dell", "HP", "Lenovo", "Epson", "Brother", "Canon", "Other / not listed"],
     fields: [
       { key: "peripheralType", label: "Peripheral type", type: "select", options: ["Not sure", "Printer", "Scanner", "Monitor", "Keyboard / mouse", "Headset", "Dock", "Other / not listed"] },
       { key: "volume", label: "Volume / size", type: "text" },
@@ -125,7 +125,7 @@ const templates: TemplateDefinition[] = [
     key: "structured-cabling",
     label: "Structured Cabling",
     description: "Network points, cables, patch panels, racks, cabinets, faceplates, and installation materials.",
-    brands: ["Any suitable option", "Not sure", "Panduit", "Commscope", "D-Link", "TP-Link", "Other / not listed"],
+    brands: ["Any suitable option", "Not sure", "TP-Link", "Other / not listed"],
     fields: [
       { key: "nodes", label: "Number of nodes", type: "text" },
       { key: "cableType", label: "Cable type", type: "select", options: ["Not sure", "Cat6", "Cat6A", "Fiber", "Other / not listed"] },
@@ -137,7 +137,7 @@ const templates: TemplateDefinition[] = [
     key: "accessories-consumables",
     label: "Accessories & Consumables",
     description: "Cables, adapters, printer supplies, storage media, labels, and deployment essentials.",
-    brands: ["Any suitable option", "Not sure", "Belkin", "UGREEN", "D-Link", "TP-Link", "Kingston", "SanDisk", "HP", "Epson", "Canon", "Other / not listed"],
+    brands: ["Any suitable option", "Not sure", "HP", "TP-Link", "Epson", "Canon", "Other / not listed"],
     fields: [
       { key: "itemType", label: "Item type", type: "select", options: ["Not sure", "Cable", "Adapter", "Printer supply", "Storage media", "Label / cable management", "Deployment accessory", "Other / not listed"] },
       { key: "specification", label: "Specification or compatibility", type: "text" },
@@ -180,6 +180,24 @@ const templates: TemplateDefinition[] = [
     ],
   },
 ];
+
+const equivalentOptions = [
+  "Yes, equivalent options may be reviewed",
+  "No, exact brand/model only",
+  "Not sure",
+];
+
+/** Select values shown on the public requirement form. */
+export function requirementBuilderOptions(): string[] {
+  const options = new Set<string>(equivalentOptions);
+  for (const template of templates) {
+    for (const brand of template.brands) options.add(brand);
+    for (const field of template.fields) {
+      for (const option of field.options ?? []) options.add(option);
+    }
+  }
+  return [...options];
+}
 
 function getTemplate(key: string) {
   return templates.find((template) => template.key === key) || templates[0];
@@ -342,9 +360,9 @@ export function RequirementBuilder({ initialCategory = "computers-laptops" }: { 
             onChange={(event) => setEquivalentAccepted(event.target.value)}
             className="rounded border border-grey-200 px-3 py-2 font-normal"
           >
-            <option>Yes, equivalent options may be reviewed</option>
-            <option>No, exact brand/model only</option>
-            <option>Not sure</option>
+            {equivalentOptions.map((option) => (
+              <option key={option}>{option}</option>
+            ))}
           </select>
         </label>
 

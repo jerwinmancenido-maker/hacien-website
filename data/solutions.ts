@@ -276,8 +276,8 @@ export const solutions: Solution[] = [
     workflow: ["Count users", "Validate license terms", "Quote subscriptions", "Support onboarding"],
     sections: [
       {
-        heading: "Microsoft 365 and productivity licensing",
-        body: "Microsoft 365 licenses are user-based annual or monthly subscriptions. HACIEN helps organizations count active users, review plan tiers, and prepare renewal requests. Licensing must be confirmed through appropriate vendor channels.",
+        heading: "Microsoft and productivity licensing",
+        body: "Microsoft productivity licenses are user-based annual or monthly subscriptions. HACIEN helps organizations count active users, review plan tiers, and prepare renewal requests. Licensing must be confirmed through appropriate vendor channels.",
       },
       {
         heading: "Endpoint security software",
@@ -294,7 +294,7 @@ export const solutions: Solution[] = [
     icon: "SaaS",
     seoTitle: "Cloud & Productivity Licensing",
     seoDescription:
-      "HACIEN reviews RFQ requests for Microsoft 365, endpoint security, and cloud productivity licenses for Philippine organizations.",
+      "HACIEN reviews RFQ requests for Microsoft, endpoint security, and cloud productivity licenses for Philippine organizations.",
   },
   {
     slug: "cybersecurity",
@@ -398,7 +398,7 @@ export const solutions: Solution[] = [
       },
       {
         heading: "Operating systems",
-        body: "Windows OEM and volume licenses, macOS business purchasing, and operating system upgrade licensing should be reviewed through appropriate vendor channel rules. License type affects transferability and support terms.",
+        body: "Microsoft and Apple operating system licenses, including OEM, volume, and upgrade options, should be reviewed through appropriate vendor channel rules. License type affects transferability and support terms.",
       },
       {
         heading: "Vertical and line-of-business applications",

@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import type { Metadata } from "next";
 import { ProductDetail } from "@/components/ProductDetail";
 import { getCategory, getProduct, products } from "@/data/products";
@@ -75,6 +75,10 @@ export default async function ProductCategoryProductPage({
 
   if (!category || !product || product.categorySlug !== category.slug) {
     notFound();
+  }
+
+  if (product.slug !== productSlug) {
+    permanentRedirect(`/products/${product.categorySlug}/${product.slug}`);
   }
 
   return <ProductDetail product={product} />;
