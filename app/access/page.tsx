@@ -7,6 +7,10 @@ export const metadata: Metadata = {
   title: "Access",
   description:
     "Access HACIEN Workspace, learn about the future Customer Workspace, or contact HACIEN support.",
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 const erpUrl =

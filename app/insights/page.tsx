@@ -55,7 +55,7 @@ export default function InsightsPage() {
         title="Procurement knowledge for better technology buying."
         description="Insights help buyers prepare clearer requirements, compare options, understand RFQs, and navigate technology decisions with more confidence."
         image="knowledge"
-        primaryAction={{ href: "/quote", label: "Prepare an RFQ" }}
+        primaryAction={{ href: "/quote", label: "Request a Quote" }}
         secondaryAction={{ href: "/solutions", label: "Explore Solutions" }}
         highlights={[
           { label: "RFQ Preparation", text: "Practical guidance for clearer requirements and supplier review." },
@@ -115,7 +115,7 @@ export default function InsightsPage() {
                     <h3 className="mt-4 text-xl font-bold text-white group-hover:text-blue-200">{insight.title}</h3>
                     <p className="mt-3 line-clamp-4 text-sm leading-6 text-grey-300">{insight.summary}</p>
                     <div className="mt-5 text-xs font-bold text-blue-200">
-                      {insight.publishedAt} / {insight.readingTime}
+                      {insight.readingTime}
                     </div>
                     </div>
                   </SpotlightCard>
@@ -220,7 +220,7 @@ export default function InsightsPage() {
                 href="/quote"
                 className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#0A0A0A]"
               >
-                Submit RFQ
+                Request a Quote
               </Link>
             </div>
           </BorderGlow>

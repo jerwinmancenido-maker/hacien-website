@@ -30,8 +30,7 @@ export default function PortalPage() {
         title="A future workspace for customer continuity."
         description="Customer Workspace is HACIEN's planned customer layer for tracking requests, viewing approved documents, continuing support, and preserving procurement history."
         image="workspace"
-        primaryAction={{ href: "/quote", label: "Request Quote" }}
-        secondaryAction={{ href: "/access", label: "Access HACIEN" }}
+        primaryAction={{ href: "/quote", label: "Request a Quote" }}
         highlights={[
           { label: "Coming Soon", text: "Private customer access will be introduced when ready." },
           { label: "Controlled Visibility", text: "Customer-facing records will follow approved visibility rules." },
@@ -164,7 +163,7 @@ export default function PortalPage() {
                   href="/quote"
                   className="button-glow focus-ring rounded bg-white px-6 py-3 text-center text-sm font-bold text-[#0A0A0A]"
                 >
-                  Request Quote
+                  Request a Quote
                 </Link>
                 <Link
                   href="/contact"

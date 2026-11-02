@@ -10,6 +10,7 @@ import type {
 } from "@/lib/cms/drafts";
 import { validateCmsDraft } from "@/lib/cms/drafts";
 import { getCmsMediaRecords } from "@/lib/cms/media";
+import { getNavigationContent } from "@/lib/cms/content";
 import { getCmsSeoRecords } from "@/lib/cms/seo";
 
 export type CmsDraftApplyTarget =
@@ -348,11 +349,10 @@ function renderLink(link: CmsDraftLink) {
 }
 
 function renderHeaderNavigationBlock(links: CmsDraftLink[]) {
-  const primaryItems = links.slice(0, 6);
-  const accessAction = links[6];
-  const quoteAction = links[7];
+  const primaryItems = links.slice(0, -1);
+  const quoteAction = links[links.length - 1];
 
-  return `\n  header: {\n    primaryItems: [\n${primaryItems.map((link) => `      ${renderLink(link)},`).join("\n")}\n    ],\n    accessAction: ${renderLink(accessAction)},\n    quoteAction: ${renderLink(quoteAction)},\n  },`;
+  return `\n  header: {\n    primaryItems: [\n${primaryItems.map((link) => `      ${renderLink(link)},`).join("\n")}\n    ],\n    quoteAction: ${renderLink(quoteAction)},\n  },`;
 }
 
 function renderFooterNavigationBlock(statement: string, groups: CmsDraftNavigationGroup[]) {
@@ -500,8 +500,11 @@ export function validateCmsDraftApplyPlan(draft: CmsDraftRecord, mode: "dry-run"
 
   if (draft.contentKey === "navigation.header") {
     const links = getDraftLinks(draft);
-    if (links.length !== 8) {
-      errors.push("Header navigation apply requires exactly 8 links: 6 primary links, access action, and quote action.");
+    const expectedLinkCount = getNavigationContent().header.primaryItems.length + 1;
+    if (links.length !== expectedLinkCount) {
+      errors.push(
+        `Header navigation apply requires ${expectedLinkCount} links: the current primary links and a quote action.`,
+      );
     }
     errors.push(...validateNavigationLinks(links));
 

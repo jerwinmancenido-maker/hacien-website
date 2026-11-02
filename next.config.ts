@@ -4,6 +4,9 @@ import {
   shouldUpgradeInsecureRequests,
 } from "./lib/security/hsts-headers";
 
+/** Above the 10 MB file check so multipart overhead is not rejected first. */
+const uploadBodyLimitBytes = 11 * 1024 * 1024;
+
 const nextConfig: NextConfig = {
   output: "standalone",
   reactStrictMode: true,
@@ -20,6 +23,10 @@ const nextConfig: NextConfig = {
     deviceSizes: [640, 750, 828, 1080, 1200, 1600, 1920],
   },
   experimental: {
+    serverActions: {
+      bodySizeLimit: uploadBodyLimitBytes,
+    },
+    proxyClientMaxBodySize: uploadBodyLimitBytes,
     cpus: Number(process.env.NEXT_BUILD_CPUS || 2),
     staticGenerationMaxConcurrency: Number(process.env.NEXT_STATIC_GENERATION_MAX_CONCURRENCY || 2),
     staticGenerationMinPagesPerWorker: Number(process.env.NEXT_STATIC_GENERATION_MIN_PAGES_PER_WORKER || 25),

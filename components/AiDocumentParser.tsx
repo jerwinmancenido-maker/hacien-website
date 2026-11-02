@@ -3,6 +3,14 @@
 import { useRef, useState, useTransition } from "react";
 import { parseDocument, type ParsedDocumentResult } from "@/app/actions/parse-document";
 
+const tooLargeMessage = "Document is too large. Maximum supported playground size is 10 MB.";
+
+export function documentScanErrorMessage(error: unknown) {
+  const text = error instanceof Error ? error.message : "";
+  if (text.includes("Body exceeded")) return tooLargeMessage;
+  return "The document could not be checked. Please try again.";
+}
+
 export function AiDocumentParser() {
   const [result, setResult] = useState<ParsedDocumentResult | null>(null);
   const [fileName, setFileName] = useState("");
@@ -13,8 +21,12 @@ export function AiDocumentParser() {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     startTransition(async () => {
-      const nextResult = await parseDocument(formData);
-      setResult(nextResult);
+      try {
+        const nextResult = await parseDocument(formData);
+        setResult(nextResult);
+      } catch (error) {
+        setResult({ success: false, message: documentScanErrorMessage(error) });
+      }
     });
   }
 
@@ -32,7 +44,7 @@ export function AiDocumentParser() {
         <label className="grid min-h-[180px] cursor-pointer place-items-center rounded-lg border border-dashed border-blue-200 bg-blue-50/60 p-6 text-center">
           <span>
             <span className="block text-sm font-bold text-slate-950">{fileName || "Drop or choose a PDF, image, or TXT file"}</span>
-            <span className="mt-2 block text-xs leading-5 text-slate-600">Maximum playground size: 8MB. No official record is created.</span>
+            <span className="mt-2 block text-xs leading-5 text-slate-600">Maximum playground size: 10 MB. No official record is created.</span>
           </span>
           <input
             type="file"

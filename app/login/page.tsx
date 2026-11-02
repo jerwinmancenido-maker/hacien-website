@@ -29,7 +29,7 @@ export default function LoginPage() {
               href="/quote"
               className="inline-flex rounded bg-[#2563EB] px-5 py-3 text-sm font-bold text-white"
             >
-              Start with a Quote
+              Request a Quote
             </Link>
             <Link
               href={workspaceUrl}

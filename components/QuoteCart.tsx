@@ -21,7 +21,11 @@ const allowedAttachmentTypes = [
   "application/x-zip-compressed",
 ];
 
-const maxAttachmentSize = 10 * 1024 * 1024;
+export const maxAttachmentSize = 10 * 1024 * 1024;
+
+export function exceedsQuoteAttachmentLimit(size: number) {
+  return size > maxAttachmentSize;
+}
 
 const allowedAttachmentExtensions = [".pdf", ".doc", ".docx", ".xls", ".xlsx", ".csv", ".png", ".jpg", ".jpeg", ".zip"];
 
@@ -434,8 +438,8 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
                   event.currentTarget.value = "";
                   return;
                 }
-                if (file.size > maxAttachmentSize) {
-                  setFileError("File is too large. Maximum file size is 10MB.");
+                if (exceedsQuoteAttachmentLimit(file.size)) {
+                  setFileError("File is too large. Maximum file size is 10 MB.");
                   event.currentTarget.value = "";
                   return;
                 }
@@ -446,7 +450,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           {fileError ? <p className="text-sm font-semibold text-red-600">{fileError}</p> : null}
           {attachmentInfo ? <p className="text-sm font-semibold text-emerald-700">{attachmentInfo}</p> : null}
           <p className="rounded border border-blue-100 bg-blue-tint p-3 text-xs leading-5 text-grey-600">
-            Attachment metadata will enter the Gateway with the request. Accepted files: PDF, DOC, DOCX, XLS, XLSX, CSV, PNG, JPG, ZIP. Maximum size: 10MB.
+            Attachment metadata will enter the Gateway with the request. Accepted files: PDF, DOC, DOCX, XLS, XLSX, CSV, PNG, JPG, ZIP. Maximum size: 10 MB.
           </p>
           <p className="rounded border border-grey-200 bg-grey-100 p-3 text-xs leading-5 text-grey-600">
             <span className="font-bold text-slate-800">{billingSettings.quote_summary_label}:</span>{" "}

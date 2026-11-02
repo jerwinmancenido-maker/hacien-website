@@ -108,16 +108,6 @@ export function Header() {
 
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
           <Link
-            href={navigationContent.header.accessAction.href}
-            className={`rounded border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue ${
-              pathname === navigationContent.header.accessAction.href
-                ? "border-blue bg-blue-tint text-blue"
-                : "border-grey-200 bg-white text-ink hover:bg-grey-100"
-            }`}
-          >
-            {navigationContent.header.accessAction.label}
-          </Link>
-          <Link
             href={navigationContent.header.quoteAction.href}
             className="rounded bg-blue px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
           >
@@ -171,23 +161,15 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
-            <div className="mt-3 border-t border-grey-200 pt-4 text-xs font-semibold uppercase tracking-[0.08em] text-grey-700">
-              Access
+            <div className="mt-3 border-t border-grey-200 pt-4">
+              <Link
+                href={navigationContent.header.quoteAction.href}
+                onClick={closeMenu}
+                className="inline-flex min-h-11 w-full items-center justify-center rounded bg-blue px-4 py-3 text-center font-medium text-white hover:bg-blue-dark"
+              >
+                {navigationContent.header.quoteAction.label}
+              </Link>
             </div>
-            <Link
-              href={navigationContent.header.accessAction.href}
-              onClick={closeMenu}
-              className="inline-flex min-h-11 items-center rounded px-3 py-3 hover:bg-grey-100 hover:text-ink"
-            >
-              {navigationContent.header.accessAction.label}
-            </Link>
-            <Link
-              href={navigationContent.header.quoteAction.href}
-              onClick={closeMenu}
-              className="mt-1 inline-flex min-h-11 items-center justify-center rounded bg-blue px-4 py-3 text-center font-medium text-white hover:bg-blue-dark"
-            >
-              {navigationContent.header.quoteAction.label}
-            </Link>
           </nav>
         </div>
       ) : null}

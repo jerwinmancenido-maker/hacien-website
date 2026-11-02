@@ -15,6 +15,7 @@ import {
 import {
   createCmsDraft,
   editableCmsDraftKeys,
+  getCmsDraftSeedFields,
   getEditableCmsDraftInventory,
   validateCmsDraft,
 } from "@/lib/cms/drafts";
@@ -519,10 +520,11 @@ describe("CMS read layer", () => {
           { label: "Home", href: "/" },
           { label: "Solutions", href: "/solutions" },
           { label: "Technology", href: "/technology" },
+          { label: "Products", href: "/products" },
           { label: "Platform", href: "/platform" },
           { label: "Insights", href: "/insights" },
           { label: "Company", href: "/about" },
-          { label: "Access HACIEN", href: "/access" },
+          { label: "Contact", href: "/contact" },
           { label: "Request Quote", href: "/quote" },
         ],
         reviewNotes: "Route crawl before apply.",
@@ -570,10 +572,11 @@ describe("CMS read layer", () => {
           { label: "Home", href: "/" },
           { label: "Solutions", href: "/solutions" },
           { label: "Technology", href: "/technology" },
+          { label: "Products", href: "/products" },
           { label: "Platform", href: "/platform" },
           { label: "Insights", href: "/insights" },
           { label: "Company", href: "/about" },
-          { label: "Access HACIEN", href: "/access" },
+          { label: "Contact", href: "/contact" },
           { label: "Request Quote", href: "/quote" },
         ],
         reviewNotes: "Route crawl before apply.",
@@ -894,10 +897,11 @@ describe("CMS read layer", () => {
           { label: "Home", href: "/" },
           { label: "Solutions", href: "/solutions" },
           { label: "Technology", href: "/technology" },
+          { label: "Products", href: "/products" },
           { label: "Platform", href: "/platform" },
           { label: "Insights", href: "/insights" },
           { label: "Company", href: "/about" },
-          { label: "Access HACIEN", href: "/access" },
+          { label: "Contact", href: "/contact" },
           { label: "Request Quote", href: "/quote" },
         ],
         reviewNotes: "Route crawl before apply.",
@@ -909,8 +913,50 @@ describe("CMS read layer", () => {
     const nextSource = applyCmsDraftToSource(source, plan);
 
     expect(nextSource).toContain('{ href: "/solutions", label: "Solutions" },');
-    expect(nextSource).toContain('accessAction: { href: "/access", label: "Access HACIEN" },');
+    expect(nextSource).not.toContain("accessAction");
     expect(nextSource).toContain('quoteAction: { href: "/quote", label: "Request Quote" },');
+  });
+
+  it("applies a seeded header draft without dropping live primary links", () => {
+    const draft = createCmsDraft({
+      id: "seeded-header-navigation",
+      contentKey: "navigation.header",
+      status: "ready",
+      fields: getCmsDraftSeedFields("navigation.header"),
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+    const source = `const navigationContent = {\n  header: {\n    primaryItems: [\n      { href: \"/old\", label: \"Old\" },\n    ],\n    quoteAction: { href: \"/old-quote\", label: \"Old Quote\" },\n  },\n};\n`;
+    const nextSource = applyCmsDraftToSource(source, plan);
+
+    expect(plan.applySupported).toBe(true);
+    expect(plan.errors).toEqual([]);
+    expect(nextSource).toContain('{ href: "/products", label: "Products" },');
+    expect(nextSource).toContain('{ href: "/contact", label: "Contact" },');
+    expect(nextSource).toContain('quoteAction: { href: "/quote", label: "Request a Quote" },');
+  });
+
+  it("rejects a short header draft that would replace the live navigation", () => {
+    const draft = createCmsDraft({
+      id: "short-header-navigation",
+      contentKey: "navigation.header",
+      status: "ready",
+      fields: {
+        title: "Header navigation",
+        links: [
+          { label: "Home", href: "/" },
+          { label: "Request Quote", href: "/quote" },
+        ],
+        reviewNotes: "Route crawl before apply.",
+      },
+      updatedAt: "2026-07-09T00:00:00.000Z",
+    });
+    const plan = validateCmsDraftApplyPlan(draft);
+
+    expect(plan.applySupported).toBe(false);
+    expect(plan.errors).toContain(
+      "Header navigation apply requires 9 links: the current primary links and a quote action.",
+    );
   });
 
   it("updates grouped footer navigation source snippets without writing during dry-run", () => {

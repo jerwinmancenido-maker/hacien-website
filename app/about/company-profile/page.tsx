@@ -118,7 +118,7 @@ export default function CompanyProfilePage() {
             </p>
           </div>
           <Link href="/quote" className="button-glow rounded bg-[#2563EB] px-5 py-3 text-center text-sm font-bold text-white">
-            Submit RFQ
+            Request a Quote
           </Link>
         </div>
       </section>

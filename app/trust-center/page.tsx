@@ -61,7 +61,7 @@ export default function TrustCenterPage() {
             ))}
             <div className="mt-4 flex flex-col gap-3 sm:flex-row">
               <Link href="/quote" className="button-glow rounded bg-[#0A0A0A] px-5 py-3 text-center text-sm font-bold text-white">
-                Submit RFQ
+                Request a Quote
               </Link>
               <Link href="/support" className="interactive-link rounded border border-slate-300 bg-white/80 px-5 py-3 text-center text-sm font-bold text-slate-900">
                 Contact support

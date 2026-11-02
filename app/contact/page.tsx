@@ -52,7 +52,7 @@ export default function ContactPage() {
         title="Reach HACIEN through the right business path."
         description="HACIEN keeps communication structured so inquiries, RFQs, supplier introductions, and support questions reach the right team."
         image="office"
-        primaryAction={{ href: "/quote", label: "Request Quote" }}
+        primaryAction={{ href: "/quote", label: "Request a Quote" }}
         secondaryAction={{ href: "#contact-form", label: "Send Inquiry" }}
         highlights={[
           { label: "Business Contact", text: "Public inquiry routing through HACIEN's contact channel." },

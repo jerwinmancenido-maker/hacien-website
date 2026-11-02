@@ -45,21 +45,15 @@ export function ProductDetail({ product }: { product: Product }) {
 
   return (
     <section className="bg-white">
-      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[0.82fr_1.18fr] lg:px-8 lg:py-14">
-        <SlideUp className="min-w-0">
-        <div className="surface lift relative min-h-[240px] overflow-hidden rounded-lg p-4 sm:min-h-[320px] sm:p-5">
-          <div className="absolute inset-0 animated-grid" />
-          <div className="relative flex h-full flex-col justify-end">
-            <div className="rounded border border-white/70 bg-white/90 p-4 backdrop-blur sm:p-5">
-              <div className="text-xs font-bold uppercase tracking-[0.18em] text-blue">
-                {categoryLabel}
-              </div>
-              <div className="mt-3 text-2xl font-bold text-ink">Requirement review</div>
-              <p className="mt-3 text-sm text-grey-600">{product.availability}</p>
+      <div className={`mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:px-8 lg:py-14 ${product.image ? "lg:grid-cols-[0.82fr_1.18fr]" : ""}`}>
+        {product.image ? (
+          <SlideUp className="min-w-0">
+            <div className="surface overflow-hidden rounded-lg">
+              {/* eslint-disable-next-line @next/next/no-img-element -- ERP photo URLs are not in the image optimizer allowlist */}
+              <img src={product.image} alt={product.name} className="h-full max-h-[480px] w-full object-cover" />
             </div>
-          </div>
-        </div>
-        </SlideUp>
+          </SlideUp>
+        ) : null}
 
         <SlideUp delay={120} className="min-w-0">
         <div className="min-w-0">
