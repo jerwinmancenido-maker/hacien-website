@@ -10,6 +10,7 @@ import {
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { ProductGrid } from "@/components/ProductGrid";
 import { RequirementBuilder } from "@/components/RequirementBuilder";
+import { SimpleRequestBox } from "@/components/SimpleRequestBox";
 import { categories } from "@/data/products";
 import { listErpCatalog } from "@/lib/erp/ecommerce-client";
 import { erpCatalogToWebsiteProducts } from "@/lib/erp/catalog-products";
@@ -55,18 +56,24 @@ export default async function ProductsPage() {
     <>
       <PremiumPageHero
         eyebrow="Technology RFQ Builder"
-        title="Build one request from many technology needs."
-        description="Add endpoints, servers, networking, software, power, cabling, services, files, or anything not listed into one RFQ package. HACIEN reviews the requirement before formal quotation."
+        title="Tell us what you need."
+        description="Describe it in your own words, or attach a list. HACIEN checks suppliers and sends a quotation within 1 business day."
         image="workstation"
-        primaryAction={{ href: "/quote", label: "Submit RFQ Package" }}
+        primaryAction={{ href: "#simple-request", label: "Send a Request" }}
         secondaryAction={{ href: "/technology", label: "Explore Technology" }}
         highlights={[
-          { label: "Multiple Blocks", text: "Combine different requirements into one request." },
+          { label: "One simple request", text: "Describe what you need in your own words — no package to build." },
           { label: "Optional Brands", text: "Choose a preference or keep HACIEN flexible." },
           { label: "Files Welcome", text: "Attach BOQ, specs, images, Excel, or PDF." },
           { label: "Not Listed", text: "Describe the need even when no category fits." },
         ]}
       />
+
+      <section id="simple-request" className="scroll-mt-24 px-4 py-9 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <SimpleRequestBox />
+        </div>
+      </section>
 
       <section className="bg-slate-50 px-4 py-9 sm:px-6 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-7xl">
@@ -86,7 +93,17 @@ export default async function ProductsPage() {
               </div>
             </div>
           ) : null}
-          <RequirementBuilder initialCategory="computers-laptops" />
+          <details className="rounded-lg border border-slate-200 bg-white p-5 sm:p-6">
+            <summary className="cursor-pointer text-base font-bold text-slate-950">
+              Need exact specs? Use the detailed builder
+            </summary>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              Only use this if you want to specify every field. Most requests do not need it — the simple request above is enough.
+            </p>
+            <div className="mt-5">
+              <RequirementBuilder initialCategory="computers-laptops" />
+            </div>
+          </details>
         </div>
       </section>
 
