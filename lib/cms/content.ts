@@ -393,9 +393,9 @@ const aboutContent: CmsAboutContent = {
   status: "published",
   hero: {
     eyebrow: "Company",
-    title: "Started in 2026.",
+    title: "About HACIEN.",
     description:
-      "Founded in 2026 (DTI registered June 2026) in Ortigas Center, Pasig City to provide fast, quotation-driven, BIR-registered and PhilGEPS-registered multi-category procurement for Philippine businesses and government agencies.",
+      "Based in Ortigas Center, Pasig City, HACIEN provides quotation-driven, multi-category procurement for Philippine businesses and government agencies.",
     image: "workspace",
     primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/contact", label: "Contact" },
@@ -407,8 +407,8 @@ const aboutContent: CmsAboutContent = {
     ],
   },
   story: {
-    eyebrow: "Started in 2026",
-    title: "Started in 2026.",
+    eyebrow: "Company",
+    title: "Based in Ortigas Center, Pasig City.",
     paragraphs: [founderLine],
     signals: [...deliveryClauses],
   },

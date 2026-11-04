@@ -89,7 +89,7 @@ export function PremiumStatementBand() {
         <div className="max-w-2xl">
           <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-700">Company</div>
           <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-            Started in 2026.
+            About HACIEN.
           </h2>
           <p className="mt-4 text-base leading-7 text-slate-600">
             {founderLine}
