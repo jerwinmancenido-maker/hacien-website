@@ -131,8 +131,15 @@ describe("W03: Facts and Industries Conformance", () => {
     }
   });
 
-  it("uses approved founding copy with BIR-registered and PhilGEPS-registered", () => {
-    expect(founderLine).toContain("BIR-registered and PhilGEPS-registered");
+  it("uses approved founding copy without registration details online", () => {
+    // Owner decision 2026-11-04 (PR #33): no registration details online —
+    // no BIR/PhilGEPS detail, no date, no "fast" framing. The generic
+    // registration list lives in companyContact, not in the founder line.
+    expect(founderLine).toBe(
+      "Based in Ortigas Center, Pasig City, HACIEN provides quotation-driven, multi-category procurement for Philippine businesses and government agencies.",
+    );
+    expect(founderLine).not.toContain("BIR-registered");
+    expect(founderLine).not.toContain("PhilGEPS-registered");
     expect(founderLine).not.toContain("compliant");
   });
 
