@@ -6,6 +6,7 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import { AnimatedSection } from "@/components/motion";
 import { ProductGrid } from "@/components/ProductGrid";
 import { RequirementBuilder } from "@/components/RequirementBuilder";
+import { SimpleRequestBox } from "@/components/SimpleRequestBox";
 import { categories, getCategory, getProductsByCategory } from "@/data/products";
 import { listErpCatalog } from "@/lib/erp/ecommerce-client";
 import { erpCatalogToWebsiteProducts } from "@/lib/erp/catalog-products";
@@ -79,8 +80,19 @@ export default async function ProductCategoryPage({ params }: { params: Promise<
             </div>
           ) : null}
           <div className="mt-10">
-            <RequirementBuilder initialCategory={category.slug} />
+            <SimpleRequestBox category={category.slug} categoryLabel={category.name} />
           </div>
+          <details className="mt-10 rounded-lg border border-slate-200 bg-white p-5 sm:p-6">
+            <summary className="cursor-pointer text-base font-bold text-slate-950">
+              Need exact specs? Use the detailed builder
+            </summary>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              Only use this if you want to specify every field. Most requests do not need it — the simple request above is enough.
+            </p>
+            <div className="mt-5">
+              <RequirementBuilder initialCategory={category.slug} />
+            </div>
+          </details>
           <AnimatedSection className="mt-12 rounded-lg border border-slate-200 bg-slate-50 p-5 text-sm text-slate-600">
             <strong className="text-slate-800">Procurement note:</strong>{" "}
             {category.summary} You may choose a preferred brand, select any suitable option, describe a specification, or add details that are not listed. Final pricing is confirmed through formal quotation after supplier availability, equivalent options, warranty terms, and delivery requirements are reviewed.

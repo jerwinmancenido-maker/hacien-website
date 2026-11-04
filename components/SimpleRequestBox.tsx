@@ -10,7 +10,7 @@ import { useQuoteCart } from "@/components/QuoteCartProvider";
  * who want to specify every field — it is no longer the first thing a
  * customer has to build.
  */
-export function SimpleRequestBox() {
+export function SimpleRequestBox({ category = "other", categoryLabel = "Other / Not Listed" }: { category?: string; categoryLabel?: string }) {
   const router = useRouter();
   const { addRequirement } = useQuoteCart();
   const [description, setDescription] = useState("");
@@ -20,8 +20,8 @@ export function SimpleRequestBox() {
     const text = description.trim();
     if (!text) return;
     addRequirement({
-      category: "other",
-      categoryLabel: "Other / Not Listed",
+      category,
+      categoryLabel,
       quantity: quantity || "1",
       brandPreference: "Any suitable option",
       otherBrand: "",
