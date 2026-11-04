@@ -17,6 +17,7 @@ export type Insight = {
   ctaLabel: string;
   ctaUrl: string;
   readingTime: string;
+  updated: string;
   seoTitle: string;
   seoDescription: string;
 };
@@ -24,32 +25,40 @@ export type Insight = {
 export const insights: Insight[] = [
   {
     slug: "it-procurement-guide",
-    title: "IT Procurement Guide for Philippine Organizations",
+    title: "How do I buy IT for my organization?",
     category: "Procurement Basics",
     summary:
-      "A practical introduction to IT procurement — how to define requirements, source suppliers, and manage the quotation process for business and institutional buyers.",
+      "Define your requirements, get comparable quotations, and check delivery against your specifications. HACIEN replies within 1 business day.",
     intro:
-      "IT procurement is the process of acquiring technology products and services in a structured, cost-effective, and reviewable manner. For Philippine organizations — whether private businesses, institutions, or educational organizations — procurement involves more than just buying products online. It requires specification, supplier engagement, quotation comparison, and often formal documentation. This guide introduces the key steps and considerations.",
+      "Define what you need, get quotations you can compare line by line, and check delivery against your specifications. That is the whole process, and HACIEN handles the middle of it: supplier checks, quotation preparation, and delivery coordination.",
     sections: [
       {
         heading: "Step 1: Define your requirements clearly",
-        body: "Procurement failures most often start with unclear requirements. Before approaching any supplier, document what you need: product type, technical specifications, quantity, delivery location, warranty requirements, and budget range. Vague requirements lead to mismatched quotations and delivery disputes.",
+        body: "Most procurement failures start with unclear requirements. Before approaching any supplier, document what you need: product type, technical specifications, quantity, delivery location, warranty requirements, and budget range. Vague requirements lead to mismatched quotations and delivery disputes.",
       },
       {
         heading: "Step 2: Identify the right product category",
-        body: "IT products span computers, servers, networking, software, security, and peripherals. Each category has its own procurement considerations: computers are specified by processor, memory, and storage; networks by port count and throughput; software by user count and license type. Understanding the category helps you ask the right questions.",
+        body: "IT products span computers, servers, networking, software, security, and peripherals. Each category has its own questions: computers are specified by processor, memory, and storage; networks by port count and throughput; software by user count and license type. Knowing the category helps you ask the right questions.",
       },
       {
         heading: "Step 3: Engage qualified suppliers",
-        body: "Not all suppliers can handle all product types. Some specialize in consumer electronics; others in enterprise hardware. When sourcing IT equipment for business or institutional use, engage suppliers who can provide warranty documentation, product data sheets, and formal quotations—not just retail pricing.",
+        body: "Not all suppliers can handle all product types. For business or institutional use, work with suppliers who provide warranty documentation, product data sheets, and formal quotations — not just retail pricing.",
       },
       {
         heading: "Step 4: Compare quotations carefully",
-        body: "Price is not the only comparison factor. Lead time, warranty terms, inclusion of accessories, delivery scope, and after-sales support all affect the total cost and risk of a purchase. Compare quotations line by line against your original specifications.",
+        body: "Price is not the only comparison factor. Lead time, warranty terms, included accessories, delivery scope, and after-sales support all affect the total cost and risk of a purchase. Compare quotations line by line against your original specifications.",
       },
       {
         heading: "Step 5: Manage delivery and acceptance",
-        body: "Procurement does not end at purchase order issuance. Equipment should be checked against specifications, accepted by the buyer's designated receiver, and documented according to the buyer's own process. Serial numbers, warranty documents, and delivery receipts should be recorded when available.",
+        body: "Procurement does not end at purchase order issuance. Check equipment against specifications, have your designated receiver accept it, and record serial numbers, warranty documents, and delivery receipts when available.",
+      },
+      {
+        heading: "What to send",
+        body: "Your item list with specifications and quantities, delivery location, warranty requirements, and budget range. A photo, a supplier quote, or a plain description works when you do not have a full specification yet.",
+      },
+      {
+        heading: "What HACIEN checks",
+        body: "Supplier availability evidence, warranty terms, and lead times for each item, then a formal quotation valid 15 days, with payment terms as stated in the quotation. HACIEN replies within 1 business day.",
       },
     ],
     checklist: [
@@ -69,22 +78,23 @@ export const insights: Insight[] = [
     ctaLabel: "Submit Your Requirements",
     ctaUrl: "/quote",
     readingTime: "7 min read",
-    seoTitle: "IT Procurement Guide for Philippine Organizations | Insights",
+    updated: "November 2026",
+    seoTitle: "How Do I Buy IT for My Organization? | HACIEN Insights",
     seoDescription:
-      "A practical guide to IT procurement in the Philippines — defining requirements, sourcing suppliers, comparing quotations, and managing delivery.",
+      "Define requirements, compare quotations line by line, and check delivery against specifications. HACIEN replies within 1 business day.",
   },
   {
     slug: "how-to-prepare-rfq",
-    title: "How to Prepare an IT Request for Quotation (RFQ)",
+    title: "How do I prepare an IT RFQ?",
     category: "Procurement Basics",
     summary:
-      "Step-by-step guidance on preparing a complete and effective IT RFQ that suppliers can respond to accurately.",
+      "An RFQ suppliers can answer accurately: complete items, specifications, quantities, delivery, warranty, and a validity period.",
     intro:
-      "A Request for Quotation (RFQ) is the formal document that communicates your procurement requirements to suppliers. A well-prepared RFQ gets you accurate, comparable quotations. A poorly prepared RFQ leads to mismatched offers, delays, and procurement failures. This article covers the essential elements of an effective IT RFQ.",
+      "A good RFQ gets you accurate, comparable quotations. A poor one gets mismatched offers and delays. Include complete items, specifications, quantities, delivery details, and warranty requirements, and give suppliers one deadline and one contact.",
     sections: [
       {
         heading: "What an RFQ must contain",
-        body: "An IT RFQ must include: the complete item list with technical specifications, required quantities, delivery location and timeline, warranty requirements, validity period for the quotation, and any specific compliance or documentation requirements. Missing any of these elements invites supplier assumptions that may not match your needs.",
+        body: "An IT RFQ must include: the complete item list with technical specifications, required quantities, delivery location and timeline, warranty requirements, validity period for the quotation, and any compliance or documentation requirements. Missing any of these invites supplier assumptions that may not match your needs.",
       },
       {
         heading: "Writing technical specifications",
@@ -92,7 +102,7 @@ export const insights: Insight[] = [
       },
       {
         heading: "Setting the validity period",
-        body: "Quotation validity defines how long a supplier's pricing remains binding. The validity period should be stated in the specific quotation or commercial document. Validity that expires before buyer approval creates pricing uncertainty.",
+        body: "Quotation validity defines how long a supplier's pricing remains binding. State the validity period in the quotation itself. Validity that expires before buyer approval creates pricing uncertainty. HACIEN quotations are valid 15 days.",
       },
       {
         heading: "Requesting the right documentation",
@@ -100,7 +110,15 @@ export const insights: Insight[] = [
       },
       {
         heading: "Distributing the RFQ",
-        body: "Send your RFQ to at least three qualified suppliers to enable price comparison. Provide the same specifications to all suppliers to ensure comparable responses. Set a clear response deadline and communicate who the quotations should be submitted to.",
+        body: "Send your RFQ to at least three qualified suppliers to enable price comparison. Provide the same specifications to all suppliers so responses are comparable. Set a clear response deadline and say who quotations should be submitted to.",
+      },
+      {
+        heading: "What to send",
+        body: "Your item list with specifications and quantities, delivery location and date, warranty type and duration, and any documents you require with the quotation.",
+      },
+      {
+        heading: "What HACIEN checks",
+        body: "Your RFQ against supplier availability evidence, then a formal quotation valid 15 days, with payment terms as stated in the quotation. HACIEN replies within 1 business day, and can help organize RFQ documentation as part of quotation support without claiming buyer-side approval authority.",
       },
     ],
     checklist: [
@@ -108,7 +126,7 @@ export const insights: Insight[] = [
       "Include quantity and unit of measure for each item",
       "State delivery location and required delivery date",
       "Specify warranty type and duration for each product",
-      "Set a quotation validity period (minimum 30 days)",
+      "Set a quotation validity period (HACIEN quotations are valid 15 days)",
       "List required supporting documents (data sheets, warranty certs)",
       "Provide a clear submission deadline and contact",
       "Send to at least three qualified suppliers",
@@ -121,22 +139,23 @@ export const insights: Insight[] = [
     ctaLabel: "Get RFQ Support from HACIEN",
     ctaUrl: "/quote",
     readingTime: "6 min read",
-    seoTitle: "How to Prepare an IT RFQ | Insights",
+    updated: "November 2026",
+    seoTitle: "How Do I Prepare an IT RFQ? | HACIEN Insights",
     seoDescription:
-      "Step-by-step guide to preparing a complete IT Request for Quotation — covering specifications, documentation, validity, and supplier engagement.",
+      "Prepare an RFQ suppliers can answer: complete items, specifications, quantities, delivery, warranty, and validity. HACIEN replies within 1 business day.",
   },
   {
     slug: "approved-equivalent-explained",
-    title: "Approved Equivalent: What It Means in IT Procurement",
+    title: "What does 'approved equivalent' mean?",
     category: "Institutional Procurement",
     summary:
-      "A plain-language explanation of approved equivalent provisions in procurement — when they apply, how they work, and what buyers and suppliers need to know.",
+      "An approved equivalent meets or exceeds the specified item's technical parameters, from a different brand — and only the buyer can accept it.",
     intro:
-      "In institutional procurement, 'approved equivalent' refers to a product that meets or exceeds the technical specifications of a specified item, even if it comes from a different brand or manufacturer. Understanding when and how approved equivalents apply can speed up procurement, reduce costs, and prevent delivery failures when specified brands are unavailable.",
+      "An approved equivalent is a product that meets or exceeds the technical specifications of a specified item, even from a different brand. It applies when the specified brand is unavailable or overpriced — and acceptance always belongs to the buyer, never the supplier.",
     sections: [
       {
         heading: "Why specifications sometimes restrict competition",
-        body: "Procurement specifications written around a specific brand can inadvertently restrict the number of suppliers who can respond, drive up prices, or create delivery failures when that specific brand is out of stock. Performance-based specifications can help buyers review equivalent options without losing the technical intent.",
+        body: "Specifications written around a specific brand can restrict how many suppliers can respond, drive up prices, or cause delivery failures when that brand is out of stock. Performance-based specifications let buyers review equivalent options without losing the technical intent.",
       },
       {
         heading: "When approved equivalents apply",
@@ -144,11 +163,19 @@ export const insights: Insight[] = [
       },
       {
         heading: "How to document an approved equivalent",
-        body: "The supplier or buyer prepares a technical comparison document showing that the proposed alternative meets or exceeds each specification parameter. This typically includes a side-by-side comparison of key specs and the product data sheet for the proposed alternative. The buyer's technical team reviews and accepts or rejects the equivalent.",
+        body: "The supplier or buyer prepares a technical comparison showing that the proposed alternative meets or exceeds each specification parameter. This typically includes a side-by-side comparison of key specs and the product data sheet for the proposed alternative. The buyer's technical team reviews and accepts or rejects the equivalent.",
       },
       {
         heading: "Common IT categories where equivalents arise",
         body: "Approved equivalent situations are common in: computers and laptops (processor generation equivalents), network switches (port count and throughput equivalents), printers (print speed and resolution equivalents), and UPS/power (VA rating equivalents). Software is generally not interchangeable by equivalent.",
+      },
+      {
+        heading: "What to send",
+        body: "The original specification, the key technical parameters (not brand features), and whether your buyer allows equivalents at all.",
+      },
+      {
+        heading: "What HACIEN checks",
+        body: "Each parameter of the proposed alternative against the original specification, documented side by side with the product data sheet. HACIEN organizes the comparison and supports the technical review; acceptance remains with the buyer, and suppliers cannot force acceptance of an equivalent.",
       },
     ],
     checklist: [
@@ -168,26 +195,27 @@ export const insights: Insight[] = [
     ctaLabel: "Get Equivalent Matching Support",
     ctaUrl: "/quote",
     readingTime: "5 min read",
-    seoTitle: "Approved Equivalent in IT Procurement | Insights",
+    updated: "November 2026",
+    seoTitle: "What Does 'Approved Equivalent' Mean? | HACIEN Insights",
     seoDescription:
-      "Plain-language explanation of approved equivalent review in IT procurement — when it applies, how it works, and what documentation is useful.",
+      "An approved equivalent meets or exceeds the specified item's parameters from a different brand — and only the buyer can accept it.",
   },
   {
     slug: "server-vs-nas-storage",
-    title: "Server vs. NAS: Choosing the Right Storage for Your Organization",
+    title: "Should I choose a server or a NAS?",
     category: "Technology Sourcing",
     summary:
-      "A practical comparison of server-based and NAS storage options to help buyers choose the right solution for their file, backup, and application needs.",
+      "Choose a NAS for shared files and backup; choose a server when you need to run applications, databases, or virtual machines.",
     intro:
-      "When organizations need centralized storage for files, backups, or applications, they typically choose between a traditional server or a Network-Attached Storage (NAS) appliance. Both serve legitimate purposes, but they differ significantly in cost, complexity, and capability. This guide helps non-technical buyers understand the key differences.",
+      "Choose a NAS when your main need is shared file storage and backup. Choose a server when you need to run applications, databases, or virtual machines. The deciding factors are workload, user count, and whether anyone administers the system.",
     sections: [
       {
         heading: "What is a NAS?",
-        body: "A Network-Attached Storage (NAS) device is a purpose-built appliance designed primarily for file storage, sharing, and backup. NAS units are simpler to set up than servers, typically run dedicated storage operating systems, and are sized by drive bays and storage capacity rather than processor performance. They are ideal for shared file storage and backup in small to medium offices.",
+        body: "A Network-Attached Storage (NAS) device is a purpose-built appliance for file storage, sharing, and backup. NAS units are simpler to set up than servers, run dedicated storage operating systems, and are sized by drive bays and storage capacity rather than processor performance. They suit shared file storage and backup in small to medium offices.",
       },
       {
         heading: "What is a server?",
-        body: "A server is a general-purpose computing system that can run a server operating system and host applications, databases, virtual machines, and other services in addition to file storage. Servers are more flexible but more expensive and complex to manage than NAS devices.",
+        body: "A server is a general-purpose system that runs a server operating system and hosts applications, databases, virtual machines, and other services in addition to file storage. Servers are more flexible but more expensive and complex to manage than NAS devices.",
       },
       {
         heading: "When to choose NAS",
@@ -200,6 +228,14 @@ export const insights: Insight[] = [
       {
         heading: "Procurement considerations",
         body: "Both NAS and servers require careful sizing before purchase. For NAS, consider number of drive bays, total storage capacity, RAID configuration, and network connectivity. For servers, consider processor, memory, storage, and operating system licensing. Both require warranty and support planning.",
+      },
+      {
+        heading: "What to send",
+        body: "Your primary use case (files, backup, applications, or virtualization), current and 3-year storage needs, concurrent user count, and RAID and redundancy requirements.",
+      },
+      {
+        heading: "What HACIEN checks",
+        body: "Sizing for both options against your workload and user count, warranty and support terms, and a formal quotation valid 15 days, with payment terms as stated in the quotation. HACIEN replies within 1 business day. Get quotes for both options before deciding — the price difference may justify a full server, or a NAS for simpler needs.",
       },
     ],
     checklist: [
@@ -219,26 +255,27 @@ export const insights: Insight[] = [
     ctaLabel: "Get Storage Quotation",
     ctaUrl: "/quote",
     readingTime: "6 min read",
-    seoTitle: "Server vs. NAS Storage: Buyer's Guide | Insights",
+    updated: "November 2026",
+    seoTitle: "Should I Choose a Server or a NAS? | HACIEN Insights",
     seoDescription:
-      "Practical comparison of server and NAS storage options for Philippine organizations — helping buyers choose the right solution for their needs and budget.",
+      "NAS for shared files and backup; a server for applications, databases, and virtual machines. HACIEN replies within 1 business day.",
   },
   {
     slug: "network-equipment-buying-guide",
-    title: "Network Equipment Buying Guide for Organizations",
+    title: "How do I buy network equipment?",
     category: "Technology Sourcing",
     summary:
-      "A practical guide to buying network equipment — switches, access points, firewalls, and routers — for office, campus, and facility deployments.",
+      "Size switches by ports and PoE, access points by coverage plan, and firewalls by users and bandwidth — then include cabling in the budget.",
     intro:
-      "Network equipment procurement is one of the most technically sensitive areas of IT purchasing. Unlike computers where specs are relatively straightforward, network equipment requires careful attention to port count, throughput, PoE budget, VLAN support, and management capability. This guide provides practical guidance for business and institutional buyers.",
+      "Size switches by port count and PoE budget, access points by a coverage plan (never by guesswork), and firewalls by user count and bandwidth with security features on. And budget structured cabling with the equipment, not after it.",
     sections: [
       {
         heading: "Switches: the foundation of your network",
-        body: "Managed switches form the access layer of office and campus networks. When procuring switches, specify: port count (8, 16, 24, or 48 ports), PoE capability and budget (in watts), uplink speed (1GbE or 10GbE), VLAN and QoS support, and management method (web, CLI, or cloud). Unmanaged switches are acceptable for simple, flat networks but lack flexibility for growth.",
+        body: "Managed switches form the access layer of office and campus networks. When procuring switches, specify: port count (8, 16, 24, or 48 ports), PoE capability and budget (in watts), uplink speed (1GbE or 10GbE), VLAN and QoS support, and management method (web, CLI, or cloud). Unmanaged switches suit simple, flat networks but lack flexibility for growth.",
       },
       {
         heading: "Wireless access points",
-        body: "Access point count is determined by floor area, wall density, and user load. Do not purchase access points without a coverage plan. Specify: WiFi standard (WiFi 5 or WiFi 6), indoor or outdoor type, PoE requirement, controller-based or standalone management, and maximum user capacity. Purchasing too few access points creates coverage gaps; too many creates interference.",
+        body: "Access point count is determined by floor area, wall density, and user load. Do not purchase access points without a coverage plan. Specify: WiFi standard (WiFi 5 or WiFi 6), indoor or outdoor type, PoE requirement, controller-based or standalone management, and maximum user capacity. Too few access points create coverage gaps; too many create interference.",
       },
       {
         heading: "Firewalls and routers",
@@ -246,7 +283,15 @@ export const insights: Insight[] = [
       },
       {
         heading: "Structured cabling",
-        body: "Network equipment is only as good as the cable infrastructure connecting it. Structured cabling—Cat6 or Cat6A for most office deployments—is a long-term investment that should be planned before equipment procurement. Include cable, patch panels, keystones, and conduit in network project budgets.",
+        body: "Network equipment is only as good as the cable infrastructure connecting it. Structured cabling — Cat6 or Cat6A for most office deployments — is a long-term investment to plan before equipment procurement. Include cable, patch panels, keystones, and conduit in network project budgets.",
+      },
+      {
+        heading: "What to send",
+        body: "Required switch port count (with a buffer for growth), total PoE budget, access point locations or floor area, user count and bandwidth, and whether cabling is included.",
+      },
+      {
+        heading: "What HACIEN checks",
+        body: "Sizing against your port count, PoE budget, coverage plan, and firewall throughput with security features on, plus warranty and support terms (on-site vs. advance replacement). Business-grade equipment with a minimum 3-year warranty is recommended for production network deployments. HACIEN replies within 1 business day, with a formal quotation valid 15 days.",
       },
     ],
     checklist: [
@@ -266,18 +311,19 @@ export const insights: Insight[] = [
     ctaLabel: "Get Network Equipment Quotation",
     ctaUrl: "/quote",
     readingTime: "7 min read",
-    seoTitle: "Network Equipment Buying Guide | Insights",
+    updated: "November 2026",
+    seoTitle: "How Do I Buy Network Equipment? | HACIEN Insights",
     seoDescription:
-      "Practical guide to buying switches, access points, firewalls, and routers for Philippine organization deployments.",
+      "Buy switches, access points, firewalls, and routers by sizing them to your site: ports, PoE, coverage, users, and bandwidth.",
   },
   {
     slug: "business-laptop-procurement-guide",
-    title: "Business Laptop Procurement Guide",
+    title: "How do I choose business laptops?",
     category: "Technology Sourcing",
     summary:
-      "How to specify, source, and compare business laptops for office, remote work, and institutional deployments.",
+      "Specify by processor class (not exact model), 16GB RAM, 512GB SSD for primary users, and a warranty the local distributor can actually service.",
     intro:
-      "Business laptops are among the most frequently procured IT items for Philippine organizations. Whether you are equipping a new team, replacing aging devices, or responding to a formal procurement requirement, choosing the right laptop specifications requires balancing performance, durability, budget, and procurement timeline. This guide covers the key decisions.",
+      "Choose business-class laptops, specify by processor class rather than exact model so equivalents stay possible, and insist on a warranty your local distributor can service. For most business users: 16GB RAM and 512GB SSD.",
     sections: [
       {
         heading: "Consumer vs. business-class laptops",
@@ -297,7 +343,15 @@ export const insights: Insight[] = [
       },
       {
         heading: "Warranty and support",
-        body: "Business laptops should carry warranty coverage appropriate to the request. Warranty terms should match specification requirements. Confirm warranty is provided by the local distributor, not just the manufacturer, to ensure serviceability.",
+        body: "Business laptops should carry warranty coverage appropriate to the request. Confirm warranty is provided by the local distributor, not just the manufacturer, to ensure serviceability.",
+      },
+      {
+        heading: "What to send",
+        body: "User count and user types, processor class, RAM and storage needs, display size and resolution, operating system edition, and required accessories (bag, mouse, adapter).",
+      },
+      {
+        heading: "What HACIEN checks",
+        body: "Stock availability before award, a backup equivalent option in case the primary specification is unavailable, warranty terms the local distributor can service, and a formal quotation valid 15 days. Laptop availability fluctuates, and popular configurations may carry 2–4 week lead times. HACIEN replies within 1 business day.",
       },
     ],
     checklist: [
@@ -318,9 +372,10 @@ export const insights: Insight[] = [
     ctaLabel: "Get Laptop Quotation",
     ctaUrl: "/quote",
     readingTime: "6 min read",
-    seoTitle: "Business Laptop Procurement Guide | Insights",
+    updated: "November 2026",
+    seoTitle: "How Do I Choose Business Laptops? | HACIEN Insights",
     seoDescription:
-      "How to specify and source business laptops for Philippine organizations — covering processor, memory, storage, warranty, and procurement considerations.",
+      "Choose business laptops by processor class, 16GB RAM, 512GB SSD, and a locally serviceable warranty. HACIEN replies within 1 business day.",
   },
 ];
 
