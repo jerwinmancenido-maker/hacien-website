@@ -595,13 +595,13 @@ export const termsOfSalePage: LegalPageModel = {
   eyebrow: "Terms of Sale",
   title: "Terms of Sale",
   description: "We buy every item per order and keep no stock. Prices and lead times depend on our suppliers.",
-  versionLine: version("1.1", "Replaces version 1.0 (effective November 2, 2026)"),
+  versionLine: version("1.2", "Replaces version 1.1"),
   historyLink: true,
   showContents: true,
   meta: [
-    { label: "Version", value: "1.1" },
+    { label: "Version", value: "1.2" },
     { label: "Effective", value: published },
-    { label: "Replaces", value: "1.0 (November 2, 2026)" },
+    { label: "Replaces", value: "1.1" },
   ],
   intro: [],
   sections: [
@@ -611,7 +611,7 @@ export const termsOfSalePage: LegalPageModel = {
         ul([
           "We buy every item **per order** and keep no stock. Prices and lead times depend on our suppliers.",
           "A quotation is valid for **15 days** unless the quotation states otherwise.",
-          "Standard payment is **50% down and 50% on delivery**. Software and special orders are paid **100% upfront**.",
+          "Payment terms are as stated in your quotation. Unless your quotation states approved credit terms, payment is due before ordering and delivery. Software and special orders are paid **100% upfront**.",
           "When you sign our Delivery Receipt, you confirm the **box count and outside condition** only. You then have **3 days** to report problems with what's inside (**24 hours** for visible physical damage). Your legal rights for hidden defects are not affected.",
           "Warranty is the **manufacturer's or supplier's warranty only**. We help you claim it.",
           "Once we order from the supplier, the order can't be cancelled. No change-of-mind returns, but defective, damaged or wrong items are always covered.",
@@ -715,10 +715,10 @@ export const termsOfSalePage: LegalPageModel = {
       title: "8. Payment",
       blocks: [
         ul([
-          "**Standard terms:** 50% down payment when you order, and 50% on delivery.",
+          "**Payment terms:** as stated in your quotation. Unless your quotation states approved credit terms, payment is due as stated in your quotation before ordering and delivery.",
           "**Software and special orders:** 100% payment before we order.",
-          "**Credit terms:** 30 days, only for approved corporate and government accounts.",
-          "Unless otherwise arranged in writing, payment is **cash upon presentation of bills** (as printed on our Sales Invoice).",
+          "**Credit terms:** 30 days, only for approved corporate and government accounts, and only when stated in your quotation.",
+          "Payment is applied to your order only when received in the account printed on your quotation.",
           "**Payment methods:** bank transfer, check, or cash.",
           "**Where to pay:** only to the payee name and bank account printed on your HACIEN quotation or Delivery Details sheet. Checks are payable to **HACIEN INFORMATION TECHNOLOGY SOLUTIONS**.",
           "**HACIEN will never change its bank details by email or chat alone.** If anyone asks you to pay a different account, call or email us at sales@haciensolutions.com before paying.",
