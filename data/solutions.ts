@@ -36,7 +36,7 @@ export const solutions: Solution[] = [
     summary: "A quotation-ready package for an infrastructure build: endpoints, servers, networking, power, and site connectivity.",
     heroCopy: "HACIEN prepares a quotation-ready package for your infrastructure build, from branch networks to server rooms.",
     detail:
-      "HACIEN prepares a quotation-ready package for your infrastructure build. Whether you are upgrading a branch network, planning a server room, or refreshing workstations across a facility, HACIEN turns your requirements into a package suppliers can quote.",
+      "Whether you are upgrading a branch network, planning a server room, or refreshing workstations across a facility, HACIEN turns your requirements into a package suppliers can quote.",
     outcomes: [
       "Endpoints and workstations",
       "Servers and storage",
@@ -65,7 +65,7 @@ export const solutions: Solution[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "Your bill of materials against supplier availability evidence. If an exact brand cannot be met, HACIEN identifies a technically equivalent alternative that meets the original performance and form-factor requirements, and only proceeds with your approval. Delivery scheduling, site readiness, and staged delivery are confirmed before quotation.",
+        body: "HACIEN checks your bill of materials against supplier availability evidence. If an exact brand cannot be met, HACIEN identifies a technically equivalent alternative that meets the original performance and form-factor requirements, and only proceeds with your approval. Delivery scheduling, site readiness, and staged delivery are confirmed before quotation.",
       },
     ],
     relatedSlugs: ["network-connectivity", "servers-storage", "systems-integration"],
@@ -113,7 +113,7 @@ export const solutions: Solution[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "Supplier availability evidence, warranty terms, and lead times for each item. Licensing terms are confirmed against vendor program rules, user count, and confirmed channel availability. Equivalents are offered only with your approval.",
+        body: "HACIEN checks supplier availability evidence, warranty terms, and lead times for each item. Licensing terms are confirmed against vendor program rules, user count, and confirmed channel availability. Equivalents are offered only with your approval.",
       },
     ],
     relatedSlugs: ["software-licensing", "it-infrastructure", "project-delivery-support"],
@@ -161,7 +161,7 @@ export const solutions: Solution[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "Supplier delivery schedules against your rollout plan, that accessories are included with the equipment, and that acceptance documentation is prepared for sign-off. HACIEN supports implementation teams; it does not replace them.",
+        body: "HACIEN checks supplier delivery schedules against your rollout plan, that accessories are included with the equipment, and that acceptance documentation is prepared for sign-off. HACIEN supports implementation teams; it does not replace them.",
       },
     ],
     relatedSlugs: ["it-infrastructure", "managed-it-support", "project-delivery-support"],
@@ -209,7 +209,7 @@ export const solutions: Solution[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "Lifecycle needs against your current devices, availability and pricing evidence for replacements and renewals, and whether the request follows the right inquiry or RFQ path for your situation.",
+        body: "HACIEN checks lifecycle needs against your current devices, availability and pricing evidence for replacements and renewals, and whether the request follows the right inquiry or RFQ path for your situation.",
       },
     ],
     relatedSlugs: ["hardware-software-procurement", "it-infrastructure", "project-delivery-support"],
@@ -257,7 +257,7 @@ export const solutions: Solution[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "PoE budget, uplink requirements, and VLAN support against your user count and site layout, plus firewall sizing against user count and traffic profile, subject to vendor program availability.",
+        body: "HACIEN checks PoE budget, uplink requirements, and VLAN support against your user count and site layout, plus firewall sizing against user count and traffic profile, subject to vendor program availability.",
       },
     ],
     relatedSlugs: ["it-infrastructure", "cybersecurity", "servers-storage"],
@@ -305,7 +305,7 @@ export const solutions: Solution[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "Server class, memory configuration, storage capacity, and warranty level against your workload, plus redundancy and retention needs, before any purchase is committed.",
+        body: "HACIEN checks server class, memory configuration, storage capacity, and warranty level against your workload, plus redundancy and retention needs, before any purchase is committed.",
       },
     ],
     relatedSlugs: ["it-infrastructure", "network-connectivity", "systems-integration"],
@@ -353,7 +353,7 @@ export const solutions: Solution[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "Plan tiers against your user count, license type, and subscription terms, confirmed through appropriate vendor channels. Licensing is confirmed through vendor channels, not assumed.",
+        body: "HACIEN checks plan tiers against your user count, license type, and subscription terms, confirmed through appropriate vendor channels. Licensing is confirmed through vendor channels, not assumed.",
       },
     ],
     relatedSlugs: ["software-licensing", "cybersecurity", "hardware-software-procurement"],
@@ -401,7 +401,7 @@ export const solutions: Solution[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "Sizing against user count and traffic profile, licensing model, and vendor support terms. Products vary significantly in capability and licensing, so confirm technical requirements with a qualified security professional before finalizing specifications.",
+        body: "HACIEN checks sizing against user count and traffic profile, licensing model, and vendor support terms. Products vary significantly in capability and licensing, so confirm technical requirements with a qualified security professional before finalizing specifications.",
       },
     ],
     relatedSlugs: ["network-connectivity", "cloud-productivity", "security-surveillance"],
@@ -449,7 +449,7 @@ export const solutions: Solution[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "Camera package, NVR/DVR, and storage expansion against your site details, access control hardware against door count and integration requirements, and installation material lists through the quotation review process.",
+        body: "HACIEN checks camera package, NVR/DVR, and storage expansion against your site details, access control hardware against door count and integration requirements, and installation material lists through the quotation review process.",
       },
     ],
     relatedSlugs: ["cybersecurity", "it-infrastructure", "network-connectivity"],
@@ -497,7 +497,7 @@ export const solutions: Solution[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "License type against your organization size and use case, transferability and support terms, and vendor channel rules. Licensing terms and availability depend on vendor program participation.",
+        body: "HACIEN checks license type against your organization size and use case, transferability and support terms, and vendor channel rules. Licensing terms and availability depend on vendor program participation.",
       },
     ],
     relatedSlugs: ["cloud-productivity", "hardware-software-procurement", "cybersecurity"],
@@ -545,7 +545,7 @@ export const solutions: Solution[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "Availability, pricing, and lead times through supplier evidence before issuing or relying on quotations. Availability and pricing vary significantly by item type and supplier, so nothing is quoted without that evidence.",
+        body: "HACIEN checks availability, pricing, and lead times through supplier evidence before issuing or relying on quotations. Availability and pricing vary significantly by item type and supplier, so nothing is quoted without that evidence.",
       },
     ],
     relatedSlugs: ["hardware-software-procurement", "project-delivery-support", "managed-it-support"],
@@ -593,7 +593,7 @@ export const solutions: Solution[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "Delivery schedules against project timelines, physical inspection, serial number recording, and warranty documentation at delivery, plus follow-up routing for missing items, warranty questions, or replacements when product, quotation, supplier, and delivery details are available.",
+        body: "HACIEN checks delivery schedules against project timelines, physical inspection, serial number recording, and warranty documentation at delivery, plus follow-up routing for missing items, warranty questions, or replacements when product, quotation, supplier, and delivery details are available.",
       },
     ],
     relatedSlugs: ["systems-integration", "managed-it-support", "hardware-software-procurement"],
