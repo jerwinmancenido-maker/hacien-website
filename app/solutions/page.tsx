@@ -37,6 +37,7 @@ export default function SolutionsPage() {
 
   return (
     <>
+      {/* No hero highlights: they duplicated the meaning cards and solution list below. */}
       <PremiumPageHero
         eyebrow={content.hero.eyebrow}
         title={content.hero.title}
@@ -44,7 +45,7 @@ export default function SolutionsPage() {
         image={content.hero.image}
         primaryAction={content.hero.primaryAction}
         secondaryAction={content.hero.secondaryAction}
-        highlights={content.hero.highlights}
+        highlights={[]}
       />
 
       <section className="glass-section py-12 lg:py-14">
