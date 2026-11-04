@@ -44,14 +44,14 @@ export function Hero() {
           <div className="mt-5 flex flex-col gap-2 sm:mt-7 sm:flex-row sm:gap-3">
             <Link
               href={content.hero.primaryAction.href}
-              className="rounded bg-blue px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-dark sm:px-6 sm:py-3 cursor-pointer"
+              className="inline-flex min-h-11 items-center justify-center rounded bg-blue px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-dark sm:px-6 sm:py-3 cursor-pointer"
             >
               {content.hero.primaryAction.label}
             </Link>
             {content.hero.secondaryAction ? (
               <Link
                 href={content.hero.secondaryAction.href}
-                className="interactive-link rounded border border-white/25 bg-transparent px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-white/5 sm:px-6 sm:py-3 cursor-pointer"
+                className="interactive-link inline-flex min-h-11 items-center justify-center rounded border border-white/25 bg-transparent px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-white/5 sm:px-6 sm:py-3 cursor-pointer"
               >
                 {content.hero.secondaryAction.label}
               </Link>
