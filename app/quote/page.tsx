@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { QuoteCart } from "@/components/QuoteCart";
+import { BuyingTimeline } from "@/components/BuyingTimeline";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
@@ -26,6 +27,8 @@ export default function QuotePage() {
           { label: "Reference", text: "You receive a reference number after you send the request." },
         ]}
       />
+
+      <BuyingTimeline />
 
       <section id="rfq-form" className="scroll-mt-24 px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto max-w-7xl">

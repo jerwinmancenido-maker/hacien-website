@@ -162,6 +162,9 @@ export default function ContactPage() {
                       {companyContact.email}
                     </a>
                   </p>
+                  <p className="mt-2">
+                    Prefer a call? Write &quot;Please call me back&quot; and your number in the form below, and HACIEN will call you.
+                  </p>
                 </div>
 
                 <div className="rounded border border-slate-200 bg-slate-50 p-5">
