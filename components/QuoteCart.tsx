@@ -447,8 +447,8 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
             The file is sent with the request. Accepted files: PDF, DOC, DOCX, XLS, XLSX, CSV, PNG, JPG, ZIP. Maximum size: 10 MB.
           </p>
           <p className="rounded border border-grey-200 bg-grey-100 p-3 text-xs leading-5 text-grey-600">
-            <span className="font-bold text-slate-800">{billingSettings.quote_summary_label}:</span>{" "}
-            {billingSettings.review_notice}
+            <span className="font-bold text-slate-800">Please note:</span>{" "}
+            Every request is reviewed before a quotation is prepared. No online payment is collected.
           </p>
 
           <p className="text-xs text-grey-600">

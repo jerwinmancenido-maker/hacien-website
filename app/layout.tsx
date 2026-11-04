@@ -152,6 +152,10 @@ gtag('config', '${gaId}', {
             <Header />
             <main id="content" tabIndex={-1}>{children}</main>
             <Footer />
+            {/* Bottom scroll room: at maximum scroll the sticky header would
+                otherwise cover the first line of the section above the footer,
+                because the document ends and the page cannot scroll further. */}
+            <div aria-hidden="true" className="h-20 bg-ink" />
           </QuoteCartProvider>
         </LenisProvider>
       </body>

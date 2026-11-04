@@ -58,7 +58,7 @@ export const insights: Insight[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "Supplier availability evidence, warranty terms, and lead times for each item, then a formal quotation valid 15 days, with payment terms as stated in the quotation. HACIEN replies within 1 business day.",
+        body: "HACIEN checks supplier availability evidence, warranty terms, and lead times for each item, then a formal quotation valid 15 days, with payment terms as stated in the quotation. HACIEN replies within 1 business day.",
       },
     ],
     checklist: [
@@ -118,7 +118,7 @@ export const insights: Insight[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "Your RFQ against supplier availability evidence, then a formal quotation valid 15 days, with payment terms as stated in the quotation. HACIEN replies within 1 business day, and can help organize RFQ documentation as part of quotation support without claiming buyer-side approval authority.",
+        body: "HACIEN checks your RFQ against supplier availability evidence, then a formal quotation valid 15 days, with payment terms as stated in the quotation. HACIEN replies within 1 business day, and can help organize RFQ documentation as part of quotation support without claiming buyer-side approval authority.",
       },
     ],
     checklist: [
@@ -175,7 +175,7 @@ export const insights: Insight[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "Each parameter of the proposed alternative against the original specification, documented side by side with the product data sheet. HACIEN organizes the comparison and supports the technical review; acceptance remains with the buyer, and suppliers cannot force acceptance of an equivalent.",
+        body: "HACIEN checks each parameter of the proposed alternative against the original specification, documented side by side with the product data sheet. HACIEN organizes the comparison and supports the technical review; acceptance remains with the buyer, and suppliers cannot force acceptance of an equivalent.",
       },
     ],
     checklist: [
@@ -235,7 +235,7 @@ export const insights: Insight[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "Sizing for both options against your workload and user count, warranty and support terms, and a formal quotation valid 15 days, with payment terms as stated in the quotation. HACIEN replies within 1 business day. Get quotes for both options before deciding — the price difference may justify a full server, or a NAS for simpler needs.",
+        body: "HACIEN checks sizing for both options against your workload and user count, warranty and support terms, and a formal quotation valid 15 days, with payment terms as stated in the quotation. HACIEN replies within 1 business day. Get quotes for both options before deciding — the price difference may justify a full server, or a NAS for simpler needs.",
       },
     ],
     checklist: [
@@ -291,7 +291,7 @@ export const insights: Insight[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "Sizing against your port count, PoE budget, coverage plan, and firewall throughput with security features on, plus warranty and support terms (on-site vs. advance replacement). Business-grade equipment with a minimum 3-year warranty is recommended for production network deployments. HACIEN replies within 1 business day, with a formal quotation valid 15 days.",
+        body: "HACIEN checks sizing against your port count, PoE budget, coverage plan, and firewall throughput with security features on, plus warranty and support terms (on-site vs. advance replacement). Business-grade equipment with a minimum 3-year warranty is recommended for production network deployments. HACIEN replies within 1 business day, with a formal quotation valid 15 days.",
       },
     ],
     checklist: [
@@ -351,7 +351,7 @@ export const insights: Insight[] = [
       },
       {
         heading: "What HACIEN checks",
-        body: "Stock availability before award, a backup equivalent option in case the primary specification is unavailable, warranty terms the local distributor can service, and a formal quotation valid 15 days. Laptop availability fluctuates, and popular configurations may carry 2–4 week lead times. HACIEN replies within 1 business day.",
+        body: "HACIEN checks stock availability before award, a backup equivalent option in case the primary specification is unavailable, warranty terms the local distributor can service, and a formal quotation valid 15 days. Laptop availability fluctuates, and popular configurations may carry 2–4 week lead times. HACIEN replies within 1 business day.",
       },
     ],
     checklist: [
