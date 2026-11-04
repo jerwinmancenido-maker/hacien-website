@@ -53,6 +53,7 @@ function insightImage(category: string, slug?: string) {
 export default function InsightsPage() {
   return (
     <>
+      {/* No hero highlights: they duplicated the knowledge areas and article list below. */}
       <PremiumPageHero
         eyebrow="Insights"
         title="Procurement knowledge for better technology buying."
@@ -60,18 +61,13 @@ export default function InsightsPage() {
         image="knowledge"
         primaryAction={{ href: "/quote", label: "Request a Quote" }}
         secondaryAction={{ href: "/solutions", label: "Explore Solutions" }}
-        highlights={[
-          { label: "RFQ Preparation", text: "Practical guidance for clearer requirements and supplier review." },
-          { label: "Institutional Procurement", text: "Specification, equivalent, documentation, and quotation context." },
-          { label: "Infrastructure", text: "Technology foundations explained for better buying decisions." },
-          { label: "Best Practices", text: "Operational clarity for security, cloud, continuity, and support." },
-        ]}
+        highlights={[]}
       />
 
       <section className="glass-section py-12 lg:py-14">
         <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.88fr_1.12fr] lg:items-start lg:px-8">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Educational Authority</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Educational Guidance</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Clearer buying starts before the RFQ is submitted.
             </h2>
