@@ -7,7 +7,7 @@ export default function Loading() {
           <div className="h-3 rounded bg-slate-100" />
           <div className="h-3 w-2/3 rounded bg-slate-100" />
         </div>
-        <p className="mt-6 text-sm font-medium text-slate-500">Preparing the next headquarters view...</p>
+        <p className="mt-6 text-sm font-medium text-slate-500">Loading...</p>
       </div>
     </section>
   );
