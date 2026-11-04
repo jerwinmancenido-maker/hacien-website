@@ -66,7 +66,7 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b border-grey-200 bg-white/95 backdrop-blur-md transition-shadow duration-300 ${
+      className={`sticky top-0 z-50 border-b border-grey-200 bg-white transition-shadow duration-300 ${
         scrolled ? "shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : ""
       }`}
     >
