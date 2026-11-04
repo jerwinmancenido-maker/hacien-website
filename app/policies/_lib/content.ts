@@ -850,7 +850,7 @@ export const warrantyPage: LegalPageModel = {
       blocks: [
         ol([
           {
-            text: "**Contact us** by email (sales@haciensolutions.com) or by phone or Viber, with:",
+            text: "**Contact us** by email (sales@haciensolutions.com), or request a callback through the contact form, with:",
             bullets: [
               "your Sales Invoice or DR number, or your warranty card;",
               "the product model and serial number;",
@@ -913,7 +913,7 @@ export const legalPage: LegalPageModel = {
               "Office address",
               "Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, San Antonio, City of Pasig, Metro Manila, Philippines 1605",
             ],
-            ["Tax registration", "Non-VAT registered with the BIR"],
+            ["Tax registration", "Registered with the BIR"],
             ["Email", "sales@haciensolutions.com"],
             ["Privacy contact", "The Proprietor (Data Protection Officer), privacy@haciensolutions.com"],
           ],
