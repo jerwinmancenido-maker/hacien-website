@@ -9,6 +9,6 @@
     "preorder": "Pre-order review required",
     "not_tracked": "Availability not tracked on website"
   },
-  "compliance_disclaimer": "This website prototype does not issue receipts, invoices, tax documents, payment confirmations, or collection approvals.",
+  "compliance_disclaimer": "Receipts, invoices, tax documents, payment confirmations, and collection approvals are issued through approved business records, not through this website.",
   "review_notice": "Billing, tax, payment, and official document handling must remain evidence-gated and confirmed only through approved business records."
 }
