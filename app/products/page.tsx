@@ -22,7 +22,7 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 const supportNotes = [
-  ["Not an online store", "This page explains the kinds of technology HACIEN can help source or coordinate. It does not publish prices or guarantee stock."],
+  ["Sourced per order", "Tell us the model or requirement. HACIEN checks authorized Philippine distributors and confirms the exact model, lead time, and price in a formal quotation. Every order is checked fresh, so no price or availability is assumed before that check."],
   ["Quote-first review", "Exact models, quantities, warranty, lead time, delivery conditions, and commercial terms are confirmed through formal quotation."],
   ["Open-ended requirements", "Customers may send a product name, BOQ, specification, existing quote, picture, spreadsheet, or a plain description of the need."],
 ];

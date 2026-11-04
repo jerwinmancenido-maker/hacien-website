@@ -3,7 +3,7 @@
 export const registeredCompanyName = "HACIEN INFORMATION TECHNOLOGY SOLUTIONS";
 
 export const founderLine =
-  "Founded in 2026 (DTI registered June 2026) in Ortigas Center, Pasig City to provide fast, quotation-driven, BIR-registered and PhilGEPS-registered multi-category procurement for Philippine businesses and government agencies.";
+  "Based in Ortigas Center, Pasig City, HACIEN provides quotation-driven, multi-category procurement for Philippine businesses and government agencies.";
 
 export const supplyItems = [
   {
@@ -69,18 +69,18 @@ export const replyTime =
   "Within 1 business day (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).";
 
 export const registrationPapersNote =
-  "Registration papers are provided on request for quotation or accreditation.";
+  "Registration papers are not published online. They are provided on private request for accreditation.";
 
-/** Status only. Never a registration number. */
+/** Status only. No registration numbers or tax/registration details. */
 export const registrationStatuses = [
-  { label: "DTI Registered Sole Proprietorship (National Scope)", status: "" },
+  { label: "DTI Registered Sole Proprietorship", status: "" },
   {
     label:
-      "BIR Registered Taxpayer (RDO 043 - Pasig City, Non-VAT — issues official BIR Sales Invoices, Delivery Receipts, and Collection Receipts)",
+      "BIR Registered Taxpayer",
     status: "",
   },
-  { label: "Pasig City Mayor's / Business Permit Accredited", status: "" },
-  { label: "PhilGEPS Registered Supplier (Red Registration Approved)", status: "" },
+  { label: "Pasig City Mayor's / Business Permit", status: "" },
+  { label: "PhilGEPS Registered Supplier", status: "" },
 ] as const;
 
 export const insightAuthor = "HACIEN Team";

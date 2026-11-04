@@ -1,4 +1,5 @@
 import { Hero } from "@/components/Hero";
+import { BuyingTimeline } from "@/components/BuyingTimeline";
 import { replyTime } from "@/data/companyContact";
 import {
   CTABand,
@@ -17,6 +18,7 @@ export default function Home() {
       <PremiumStatementBand />
       <TechnologyEcosystem />
       <TrustV3 />
+      <BuyingTimeline />
       <CTABand
         title="Request a quotation."
         description={replyTime}
