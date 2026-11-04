@@ -58,7 +58,15 @@ describe("Sitemap link hygiene", () => {
   it("no private / auth / preview route leaks into the sitemap", () => {
     const urls = sitemap().map((entry) => entry.url);
     for (const blocked of DISALLOWED) {
-      expect(urls.some((url) => url.includes(blocked))).toBe(false);
+      // Match the blocked route as a whole first path segment, not as a
+      // substring: the public category "accessories-consumables" contains
+      // "access" but is not the private "/access" route.
+      expect(
+        urls.some((url) => {
+          const path = new URL(url).pathname;
+          return path === blocked || path.startsWith(`${blocked}/`);
+        }),
+      ).toBe(false);
     }
   });
 });
