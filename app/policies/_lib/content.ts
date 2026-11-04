@@ -48,7 +48,7 @@ export const policiesPage: LegalPageModel = {
         [
           "[Terms of Sale](/terms-of-sale)",
           "Quotations, orders, delivery, payment, cancellations and returns",
-          "v1.1",
+          "v1.2",
         ],
         [
           "[Warranty and Returns](/warranty)",
@@ -979,7 +979,7 @@ export const policyHistoryPage: LegalPageModel = {
       kind: "table",
       headers: ["Policy", "Version", "Effective"],
       rows: [
-        ["[Terms of Sale](/terms-of-sale)", "v1.1", published],
+        ["[Terms of Sale](/terms-of-sale)", "v1.2", published],
         ["[Warranty and Returns](/warranty)", "v1.1", published],
         ["[Privacy Policy](/privacy)", "v2.3", published],
         ["[Website Terms of Use](/terms)", "v2.0", published],
@@ -996,6 +996,7 @@ export const policyHistoryPage: LegalPageModel = {
           kind: "table",
           headers: ["Policy", "Version", "Effective"],
           rows: [
+            ["Terms of Sale", "v1.1", "November 2, 2026"],
             ["Terms of Sale", "v1.0", "November 2, 2026"],
             ["Warranty and Returns", "v1.0", "November 2, 2026"],
             ["Privacy Policy", "v2.2", "November 2, 2026"],
@@ -1009,6 +1010,10 @@ export const policyHistoryPage: LegalPageModel = {
         p("**Terms of Sale: changes from v1.0**"),
         ul([
           "Terms of Sale v1.1: Section 6 now explains naming a receiver, sharing their mobile number, order-status texts only (no ads, no links), and your responsibility for the number; quotation validity now reads 15 days unless the quotation states otherwise; added office pick-up by prior appointment.",
+        ]),
+        p("**Terms of Sale: changes from v1.1**"),
+        ul([
+          "Terms of Sale v1.2: Payment terms are as stated in your quotation. Unless your quotation states approved credit terms, payment is due before ordering and delivery. The 50% down / 50% on delivery default is removed; software and special orders remain 100% upfront; credit terms apply only when stated in your quotation.",
         ]),
         p("**Warranty and Returns: changes from v1.0**"),
         ul([

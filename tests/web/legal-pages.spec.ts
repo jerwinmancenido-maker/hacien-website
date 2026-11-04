@@ -85,14 +85,14 @@ describe("legal page content", () => {
     expect(privacyText).not.toContain("Version 2.2");
     expect(privacyText).not.toContain("Not for the website");
     expect(privacyText).not.toContain("we don't send promo newsletters");
-    expect(termsOfSaleText).toContain("Version 1.1");
-    expect(termsOfSaleText).toContain("Replaces version 1.0 (effective November 2, 2026)");
+    expect(termsOfSaleText).toContain("Version 1.2");
+    expect(termsOfSaleText).toContain("Replaces version 1.1");
     expect(warrantyText).toContain("Version 1.1");
     expect(warrantyText).toContain("Replaces version 1.0 (effective November 2, 2026)");
     expect(terms && legalPagePlainText(terms)).toContain("Replaces version 1.0 (effective July 1, 2026)");
     expect(legal && legalPagePlainText(legal)).toContain("Replaces version 1.0 (effective June 30, 2026)");
     expect(policies && legalPagePlainText(policies)).toContain(
-      "[Terms of Sale](/terms-of-sale) Quotations, orders, delivery, payment, cancellations and returns v1.1",
+      "[Terms of Sale](/terms-of-sale) Quotations, orders, delivery, payment, cancellations and returns v1.2",
     );
     expect(policies && legalPagePlainText(policies)).toContain(
       "[Warranty and Returns](/warranty) Manufacturer or supplier warranty, and how to make a claim v1.1",
@@ -100,7 +100,8 @@ describe("legal page content", () => {
     expect(policies && legalPagePlainText(policies)).toContain(
       "[Privacy Policy](/privacy) What personal data we keep, why, and your rights v2.3",
     );
-    expect(historyText).toContain("[Terms of Sale](/terms-of-sale) v1.1");
+    expect(historyText).toContain("[Terms of Sale](/terms-of-sale) v1.2");
+    expect(historyText).toContain("Terms of Sale v1.1 November 2, 2026");
     expect(historyText).toContain("[Warranty and Returns](/warranty) v1.1");
     expect(historyText).toContain("[Privacy Policy](/privacy) v2.3");
     expect(historyText).toContain("Terms of Sale v1.0 November 2, 2026");
@@ -230,7 +231,7 @@ describe("legal page content", () => {
     expect(rejected.error).toBe("Please choose a valid inquiry type.");
   });
 
-  it("conforms to the Legal update brief (Terms of Sale v1.1, Warranty v1.1, Privacy v2.2, CMS record)", () => {
+  it("conforms to the Legal update brief (Terms of Sale v1.2, Warranty v1.1, Privacy v2.2, CMS record)", () => {
     const tos = legalPages.find((page) => page.path === "/terms-of-sale");
     const warranty = legalPages.find((page) => page.path === "/warranty");
     const privacy = legalPages.find((page) => page.path === "/privacy");
@@ -248,12 +249,12 @@ describe("legal page content", () => {
     const privacyText = privacy ? legalPagePlainText(privacy) : "";
     const historyText = history ? legalPagePlainText(history) : "";
 
-    // Terms of Sale v1.1
+    // Terms of Sale v1.2
     expect(tos?.versionLine).toBe(
-      "Version 1.1 · Effective November 2, 2026 · Replaces version 1.0 (effective November 2, 2026)",
+      "Version 1.2 · Effective November 2, 2026 · Replaces version 1.1",
     );
-    expect(tos?.meta.find((item) => item.label === "Version")?.value).toBe("1.1");
-    expect(tos?.meta.find((item) => item.label === "Replaces")?.value).toBe("1.0 (November 2, 2026)");
+    expect(tos?.meta.find((item) => item.label === "Version")?.value).toBe("1.2");
+    expect(tos?.meta.find((item) => item.label === "Replaces")?.value).toBe("1.1");
     expect(tosText).toContain(
       "**Office pick-up:** pick-ups at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
     );
@@ -333,6 +334,9 @@ describe("legal page content", () => {
     );
     expect(historyText).toContain(
       "Terms of Sale v1.1: Section 6 now explains naming a receiver, sharing their mobile number, order-status texts only (no ads, no links), and your responsibility for the number; quotation validity now reads 15 days unless the quotation states otherwise; added office pick-up by prior appointment.",
+    );
+    expect(historyText).toContain(
+      "Terms of Sale v1.2: Payment terms are as stated in your quotation. Unless your quotation states approved credit terms, payment is due before ordering and delivery. The 50% down / 50% on delivery default is removed; software and special orders remain 100% upfront; credit terms apply only when stated in your quotation.",
     );
     expect(historyText).toContain(
       "Warranty and Returns v1.1: warranty drop-offs at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
@@ -463,6 +467,7 @@ describe("legal routes", () => {
     expect(historyHtml).toContain("v2.2");
     expect(historyHtml).toContain("v2.3");
     expect(historyHtml).toContain("Terms of Sale: changes from v1.0");
+    expect(historyHtml).toContain("Terms of Sale: changes from v1.1");
     expect(historyHtml).toContain("Warranty and Returns: changes from v1.0");
     expect(historyHtml).toContain("Privacy Policy: Changes from v2.2");
     expect(historyHtml).toContain("Privacy Policy: Changes from v2.1");
@@ -475,8 +480,8 @@ describe("legal routes", () => {
     const termsOfSale = await fetch(`${baseUrl}/terms-of-sale`, { redirect: "manual" });
     const termsOfSaleHtml = await termsOfSale.text();
     expect(termsOfSale.status).toBe(200);
-    expect(termsOfSaleHtml).toContain("Version 1.1");
-    expect(termsOfSaleHtml).toContain("Replaces version 1.0 (effective November 2, 2026)");
+    expect(termsOfSaleHtml).toContain("Version 1.2");
+    expect(termsOfSaleHtml).toContain("Replaces version 1.1");
     expect(termsOfSaleHtml).toContain("Who may receive and delivery contact number:");
     expect(termsOfSaleHtml).toContain("person—such as your staff, warehouse personnel, or a building or site guard—to receive");
     expect(termsOfSaleHtml).not.toContain("anyone at the delivery address may receive and sign for the delivery, unless your PO names specific receivers");
