@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import billingSettings from "@/config/billing-compliance-settings.json";
 import { insights } from "@/data/insights";
 import { solutions } from "@/data/solutions";
 
@@ -27,6 +28,11 @@ describe("visual inspection fixes (sticky header, checks verbs, duplication, quo
     expect(infra).toBeDefined();
     expect(infra?.detail.startsWith("HACIEN prepares a quotation-ready package")).toBe(false);
     expect(infra?.detail).toContain("turns your requirements into a package suppliers can quote");
+  });
+
+  it("removes prototype wording from the /quote validity disclaimer", () => {
+    expect(billingSettings.compliance_disclaimer).not.toMatch(/prototype/i);
+    expect(billingSettings.compliance_disclaimer).toContain("approved business records");
   });
 
   it("replaces the internal-sounding Draft Request Summary box on /quote", () => {
