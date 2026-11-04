@@ -48,8 +48,8 @@ export default function TechnologyPage() {
     <>
       <PremiumPageHero
         eyebrow="Technology"
-        title="Technology categories for clearer requests."
-        description="Use this page to frame the request. HACIEN reviews the details before any model, price, delivery, or commercial term is treated as confirmed."
+        title="Technology is what a solution is built from."
+        description="These are the products and domains behind the work: computing, networking, security, cloud, software, storage, power, and cabling. If you need a full job done rather than a product list, see Solutions."
         image="silicon"
         primaryAction={{ href: "/quote", label: "Request a Quote" }}
         secondaryAction={{ href: "/solutions", label: "View Solutions" }}

@@ -435,9 +435,9 @@ const solutionsContent: CmsSolutionsContent = {
   status: "published",
   hero: {
     eyebrow: "Solutions",
-    title: "IT solution areas for clearer requests.",
+    title: "Solutions are jobs to be done.",
     description:
-      "Use these pages to describe the work HACIEN should review: infrastructure, integration, workplace technology, software, security, and support needs.",
+      "A solution is a piece of work HACIEN takes on, from your request to delivery: infrastructure, integration, workplace technology, software, security, and support needs. Technology pages, by contrast, describe the products a solution is built from.",
     image: "commandCenter",
     primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/technology", label: "Explore Technology" },
