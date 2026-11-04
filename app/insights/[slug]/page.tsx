@@ -61,7 +61,7 @@ export default async function InsightDetailPage({
           </h1>
 
           <div className="mt-3 text-sm text-slate-500">
-            {insightAuthor} · {insight.readingTime}
+            {insightAuthor} · {insight.readingTime} · Updated {insight.updated}
           </div>
 
           <p className="mt-6 text-base leading-7 text-slate-600">{insight.intro}</p>
