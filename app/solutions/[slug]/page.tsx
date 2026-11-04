@@ -38,6 +38,7 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
           <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
             <div>
               <SectionHeading eyebrow={solution.category} as="h1" title={solution.title} description={solution.heroCopy} />
+              <p className="mt-6 text-base leading-7 text-slate-700">{solution.detail}</p>
               <div className="mt-6 space-y-6">
                 {solution.sections.map((section) => (
                   <div key={section.heading}>
@@ -85,9 +86,10 @@ export default async function SolutionDetailPage({ params }: { params: Promise<{
           <SectionHeading eyebrow="Process" title={`${solution.shortTitle} review sequence`} />
           <div className="progress-line mt-8 grid gap-4 md:grid-cols-4 md:[&::before]:hidden">
             {solution.workflow.map((step, index) => (
-              <div key={step} className="relative rounded border border-slate-200 bg-white p-5">
+              <div key={step.step} className="relative rounded border border-slate-200 bg-white p-5">
                 <div className="grid h-10 w-10 place-items-center rounded bg-[#0A0A0A] text-sm font-bold text-white">{index + 1}</div>
-                <div className="mt-4 font-bold text-slate-950">{step}</div>
+                <div className="mt-4 font-bold text-slate-950">{step.step}</div>
+                <p className="mt-1 text-sm leading-6 text-slate-600">{step.detail}</p>
               </div>
             ))}
           </div>
