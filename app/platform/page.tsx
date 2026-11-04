@@ -8,7 +8,7 @@ import { SectionHeading } from "@/components/SectionHeading";
 export const metadata: Metadata = buildPageMetadata({
   title: "Platform | Operating Model",
   description:
-    "HACIEN operates through its own enterprise operating platform supporting Workspace, Timeline, Guardian, Customer Workspace, and account continuity.",
+    "HACIEN's internal operating platform for request intake, account memory, and operational guidance. It is not a product for sale; customer continuity features are future.",
   path: "/platform",
 });
 
@@ -41,7 +41,7 @@ export default function PlatformPage() {
       <PremiumPageHero
         eyebrow="Platform"
         title="The operating platform behind HACIEN."
-        description="HACIEN operates through its own enterprise platform for request intake, account memory, operational guidance, and future customer continuity."
+        description="This is the system HACIEN runs on, not a product you buy. It keeps your requests, quotations, deliveries, and support tied to one account record."
         image="network"
         primaryAction={{ href: "/quote", label: "Request a Quote" }}
         highlights={[
@@ -57,7 +57,7 @@ export default function PlatformPage() {
           <SectionHeading
             eyebrow="Operating Layers"
             title="One company, connected through one operating model."
-            description="Platform does not market an ERP. It explains how HACIEN keeps customer accounts, internal operations, and future continuity connected."
+            description="HACIEN runs its own operations on this platform. It is not sold as a product. What it means for you: your account history stays in one place, and follow-ups do not restart the story."
           />
           <StaggerContainer className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-6">
             {platformLayers.map(([title, text], index) => {

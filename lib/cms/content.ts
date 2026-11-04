@@ -318,7 +318,7 @@ const homepageContent: CmsHomeContent = {
     eyebrow: "HACIEN",
     title: "What HACIEN supplies",
     description:
-      "(excluding products requiring special regulatory licenses such as FDA or DOH-LTO)",
+      "Tell HACIEN what you need. HACIEN checks authorized Philippine distributors and sends a verified quotation within 1 business day.",
     image: "commandCenter",
     primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/contact", label: "Contact" },
@@ -349,20 +349,21 @@ const homepageContent: CmsHomeContent = {
   },
   solutionsPreview: {
     eyebrow: "Solutions",
-    title: "Common IT needs, organized for review.",
+    title: "Work HACIEN takes on.",
     description:
-      "These solution areas help buyers describe work across infrastructure, workplace technology, cybersecurity, cloud, and support without needing perfect specifications first.",
+      "Pick the work closest to yours — infrastructure, workplace technology, cybersecurity, cloud, and support — and send the details HACIEN needs to quote it. You do not need perfect specifications first.",
     viewAllLabel: "View all solutions →",
   },
   productCatalogPreview: {
     eyebrow: "Technology",
-    title: "Technology categories without fake certainty.",
-    description: "Use product categories to describe what you need. Formal quotations follow once supplier stock and pricing are confirmed.",
+    title: "Technology is what a solution is built from.",
+    description: "Browse product categories to describe what you need. Prices and availability are confirmed in a formal quotation, never assumed.",
   },
   platformPreview: {
     eyebrow: "Requests",
     title: "Each request stays tied to its history.",
-    description: replyTime,
+    description:
+      "Your requests, quotations, deliveries, and support stay tied to one account record, so follow-ups never restart the story.",
     layers: [
       { title: "Request", text: "Share a list, a photo, a supplier quote, or a plain description." },
       { title: "History", text: "Each request stays tied to its history." },
@@ -481,9 +482,9 @@ const industriesContent: CmsIndustriesContent = {
   status: "published",
   hero: {
     eyebrow: "Industries",
-    title: "Procurement support shaped around each buyer's operating reality.",
+    title: "Different buyers, different requirements.",
     description:
-      "HACIEN supports organizations whose technology needs depend on specifications, supplier timing, warranty terms, delivery coordination, and procurement documentation.",
+      "HACIEN shapes each RFQ around the buyer's operating reality: specifications, supplier timing, warranty terms, delivery coordination, and procurement documentation.",
     image: "strategy",
     primaryAction: { href: "/solutions", label: "Explore Solutions" },
     secondaryAction: { href: "/quote", label: "Start RFQ" },
@@ -539,7 +540,7 @@ const industriesContent: CmsIndustriesContent = {
   cta: {
     eyebrow: "Industry-specific review",
     title: "Have a requirement with site, policy, or delivery constraints?",
-    description: "Send the requirement details, and HACIEN will help shape the RFQ path.",
+    description: "Send the requirement details — site, policy, or delivery constraints included — and HACIEN shapes the RFQ path around them.",
     action: { href: "/quote", label: "Request a Quote" },
   },
 };

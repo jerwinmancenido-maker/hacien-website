@@ -18,14 +18,14 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 const technologyDomains = [
-  ["Enterprise Computing", "Business endpoints, workstations, servers, and computing environments for serious operations.", "computers-laptops"],
-  ["Networking", "Reliable connectivity for offices, facilities, campuses, and institutional environments.", "network-equipment"],
-  ["Cybersecurity", "Security technologies that help protect users, devices, networks, and critical operations.", "security-surveillance"],
-  ["Cloud", "Cloud services, backup, SaaS, storage, and hybrid technology environments.", "/solutions/cloud-productivity"],
-  ["Software", "Business software, productivity platforms, security licensing, and professional software sourcing.", "licensed-software"],
-  ["Storage", "Data storage, backup, continuity, and scalable infrastructure foundations.", "servers-storage"],
-  ["Power", "UPS, rack power, and continuity equipment for technology environments.", "power-ups"],
-  ["Structured Cabling", "Cabling, racks, cabinets, network rooms, and physical infrastructure coordination.", "network-equipment"],
+  ["Enterprise Computing", "Business endpoints, workstations, and servers for offices and facilities.", "computers-laptops"],
+  ["Networking", "Switches, wireless access points, firewalls, and structured cabling for offices, facilities, and campuses.", "network-equipment"],
+  ["Cybersecurity", "Endpoint protection, firewall appliances, and network security devices.", "security-surveillance"],
+  ["Cloud", "Cloud services, backup, SaaS, and storage subscriptions, quoted by user count.", "/solutions/cloud-productivity"],
+  ["Software", "Licensed business software, productivity platforms, and security licensing.", "licensed-software"],
+  ["Storage", "Servers, NAS, backup storage, and rack equipment sized to your workload.", "servers-storage"],
+  ["Power", "UPS and rack power equipment for continuity.", "power-ups"],
+  ["Structured Cabling", "Cabling, racks, cabinets, and network rooms.", "network-equipment"],
   ["Professional Services", "Specification review, procurement support, deployment coordination, and lifecycle assistance.", null],
 ];
 
