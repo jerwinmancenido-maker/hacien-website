@@ -46,12 +46,12 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
   });
 
   describe("F31: Accessible FAQ disclosure", () => {
-    it("FAQ question count remains exactly 8", () => {
+    it("FAQ question count remains exactly 9", () => {
       const totalQuestions = faqData.sections.reduce(
         (sum, section) => sum + section.items.length,
         0,
       );
-      expect(totalQuestions).toBe(8);
+      expect(totalQuestions).toBe(9);
     });
 
     it("uses accessible disclosure semantics in components/FaqSearch.tsx", () => {
