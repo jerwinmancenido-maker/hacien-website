@@ -11,15 +11,18 @@ function read(rel: string) {
 // Draft prepared 2026-11-04 for jerwinmancenido-maker/hacien-website.
 // Follows the repo's existing source-test pattern (see tests/web/buttons-cursor.spec.ts):
 // no DOM renderer, assertions are on the source that ships.
-// Tests marked IMPROVEMENT fail on main at 2fbfa0a on purpose: they encode the
-// scroll-lag fix, so they turn green only once that fix lands. Do not loosen
-// them to make them pass without the fix.
+// 2026-11-05: Lenis was removed entirely (native scrolling everywhere) after
+// scroll-lag reports persisted on desktop; the old Lenis guard tests were
+// replaced by native-scroll assertions, not loosened.
 
 describe("Scroll performance: smooth scroll, header blur, scroll animations", () => {
   describe("Guardrails that already pass on main", () => {
-    it("Lenis respects prefers-reduced-motion", () => {
-      const lenis = read("components/motion/LenisProvider.tsx");
-      expect(lenis).toMatch(/prefers-reduced-motion:\s*reduce/);
+    it("No smooth-scroll library is instantiated (native scrolling everywhere)", () => {
+      const provider = read("components/motion/LenisProvider.tsx");
+      expect(provider).not.toMatch(/new Lenis\(/);
+      expect(provider).not.toMatch(/from "lenis"/);
+      expect(provider).not.toMatch(/requestAnimationFrame/);
+      expect(provider).toContain("return children;");
     });
 
     it("Header scroll listener is passive", () => {
@@ -40,11 +43,12 @@ describe("Scroll performance: smooth scroll, header blur, scroll animations", ()
   });
 
   describe("IMPROVEMENT: scroll-lag fixes (fail on main until the fix lands)", () => {
-    it("Lenis smooth scroll is skipped on coarse pointers / touch devices", () => {
-      // Lenis smoothWheel with a 1.08s easing is the prime suspect for the
-      // "lag when scrolling down" report. Touch users should get native scroll.
-      const lenis = read("components/motion/LenisProvider.tsx");
-      expect(lenis).toMatch(/pointer:\s*coarse|matchMedia\("\(pointer/);
+    it("Lenis provider does not gate scrolling on pointer type", () => {
+      // Lenis is gone, so there is no pointer-type branch left to misbehave:
+      // phones and desktops alike get the browser's native scroll.
+      const provider = read("components/motion/LenisProvider.tsx");
+      expect(provider).not.toMatch(/pointer:\s*coarse/);
+      expect(provider).not.toMatch(/prefers-reduced-motion/);
     });
 
     it("Sticky header does not use backdrop-blur (re-blurs content on every scroll frame)", () => {
