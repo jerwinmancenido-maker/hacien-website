@@ -79,7 +79,7 @@ export const insights: Insight[] = [
     ctaUrl: "/quote",
     readingTime: "7 min read",
     updated: "November 2026",
-    seoTitle: "How Do I Buy IT for My Organization? | HACIEN Insights",
+    seoTitle: "How Do I Buy IT for My Organization?",
     seoDescription:
       "Define requirements, compare quotations line by line, and check delivery against specifications. HACIEN replies within 1 business day.",
   },
@@ -140,7 +140,7 @@ export const insights: Insight[] = [
     ctaUrl: "/quote",
     readingTime: "6 min read",
     updated: "November 2026",
-    seoTitle: "How Do I Prepare an IT RFQ? | HACIEN Insights",
+    seoTitle: "How Do I Prepare an IT RFQ?",
     seoDescription:
       "Prepare an RFQ suppliers can answer: complete items, specifications, quantities, delivery, warranty, and validity. HACIEN replies within 1 business day.",
   },
@@ -196,7 +196,7 @@ export const insights: Insight[] = [
     ctaUrl: "/quote",
     readingTime: "5 min read",
     updated: "November 2026",
-    seoTitle: "What Does 'Approved Equivalent' Mean? | HACIEN Insights",
+    seoTitle: "What Does 'Approved Equivalent' Mean?",
     seoDescription:
       "An approved equivalent meets or exceeds the specified item's parameters from a different brand — and only the buyer can accept it.",
   },
@@ -256,7 +256,7 @@ export const insights: Insight[] = [
     ctaUrl: "/quote",
     readingTime: "6 min read",
     updated: "November 2026",
-    seoTitle: "Should I Choose a Server or a NAS? | HACIEN Insights",
+    seoTitle: "Should I Choose a Server or a NAS?",
     seoDescription:
       "NAS for shared files and backup; a server for applications, databases, and virtual machines. HACIEN replies within 1 business day.",
   },
@@ -312,7 +312,7 @@ export const insights: Insight[] = [
     ctaUrl: "/quote",
     readingTime: "7 min read",
     updated: "November 2026",
-    seoTitle: "How Do I Buy Network Equipment? | HACIEN Insights",
+    seoTitle: "How Do I Buy Network Equipment?",
     seoDescription:
       "Buy switches, access points, firewalls, and routers by sizing them to your site: ports, PoE, coverage, users, and bandwidth.",
   },
@@ -373,7 +373,7 @@ export const insights: Insight[] = [
     ctaUrl: "/quote",
     readingTime: "6 min read",
     updated: "November 2026",
-    seoTitle: "How Do I Choose Business Laptops? | HACIEN Insights",
+    seoTitle: "How Do I Choose Business Laptops?",
     seoDescription:
       "Choose business laptops by processor class, 16GB RAM, 512GB SSD, and a locally serviceable warranty. HACIEN replies within 1 business day.",
   },
