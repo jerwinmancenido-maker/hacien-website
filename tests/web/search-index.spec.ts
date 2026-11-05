@@ -21,7 +21,7 @@ describe("searchCatalog (F05)", () => {
     expect(results.length).toBeGreaterThan(0);
     expect(titles).toContain("Business Laptop Class");
     expect(titles).toContain("Computers & Laptops");
-    expect(titles).toContain("Business Laptop Procurement Guide");
+    expect(titles).toContain("How do I choose business laptops?");
     expect(hrefs).toContain("/products/computers-laptops");
     expect(hrefs).toContain("/insights/business-laptop-procurement-guide");
   });
