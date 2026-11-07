@@ -48,10 +48,13 @@ export const AI_INTAKE_FIELDS: Record<AiChatPath, string[]> = {
   callback: ["name", "phone", "bestTime", "topic"],
 };
 
-/** Required before the review card may be shown — the same fields the
- *  guided steps mark required, plus the substance of the request. */
+/** Required before the review card may be shown — the fields the
+ *  guided steps mark required, plus the substance of the request.
+ *  One deliberate exception: procurementType (buyer type) is required
+ *  in the guided steps but never blocks the AI card — the visitor
+ *  states it or it stays blank (owner decision, Nov 8, 2026). */
 export const AI_INTAKE_REQUIRED: Record<AiChatPath, string[]> = {
-  quote: ["need", "name", "email", "phone", "targetDate"],
+  quote: ["need", "name", "company", "email", "phone", "location", "targetDate"],
   inquiry: ["inquiryType", "need", "name", "email"],
   callback: ["name", "phone"],
 };
