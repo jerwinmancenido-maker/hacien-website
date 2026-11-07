@@ -64,6 +64,25 @@ describe("AI chat panel wiring", () => {
     expect(ai).toContain("findTrackUrl");
   });
 
+  it("keeps the staged progress cards up at least 2 seconds so the animation plays", () => {
+    const ai = read("components/AiChat.tsx");
+    expect(ai).toContain("const MIN_STAGED_VIEW_MS = 2_000;");
+    expect(ai).toContain("lookupElapsed < MIN_STAGED_VIEW_MS");
+    expect(ai).toContain("turnElapsed < MIN_STAGED_VIEW_MS");
+  });
+
+  it("gates the AI behind Turnstile from the first turn, with no daily cap", () => {
+    const ai = read("components/AiChat.tsx");
+    const action = read("app/actions/ai-chat.ts");
+    expect(ai).toContain("gatePass");
+    expect(ai).toContain('result.reason === "verification-failed"');
+    expect(action).toContain("passGate");
+    expect(action).toContain("verification-failed");
+    expect(action).not.toContain("daily-cap");
+    expect(action).not.toContain("DAILY_CAP");
+    expect(ai).not.toContain("daily-cap");
+  });
+
   it("answers a pasted reference with a code-built tracking link, and the review card asks for confirmation", () => {
     const ai = read("components/AiChat.tsx");
     expect(ai).toContain("const trackUrl = findTrackUrl(text);");
@@ -130,10 +149,12 @@ describe("AI chat knowledge sheet", () => {
     expect(prompt).toContain("Never promise or estimate a delivery date");
   });
 
-  it("never lets the model fill buyer type, and walks a callback name first, then phone", () => {
+  it("never lets the model fill or ASK for buyer type, and walks a callback name first, then phone", () => {
     const prompt = buildAiChatSystemPrompt();
     expect(prompt).toContain("never guess or infer a value");
-    expect(prompt).toContain("never fill procurementType (buyer type) unless the visitor states it");
+    expect(prompt).toContain("Buyer type (procurementType): NEVER ask for it");
+    expect(prompt).toContain("Never ask for information the visitor has already given");
+    expect(prompt).not.toContain("if it has not been said, ask for it");
     expect(prompt).toContain("collect the name first and the phone number second");
   });
 
@@ -441,6 +462,93 @@ describe("sendAiChatMessage guards", () => {
       messages: [{ role: "user", content: "Hello" }],
     });
     expect(result).toEqual({ ok: false, fallback: true, reason: "api-error" });
+  });
+});
+
+describe("sendAiChatMessage Turnstile front gate", () => {
+  const ORIGINAL_SITE_KEY = process.env.TURNSTILE_SITE_KEY;
+  const ORIGINAL_SECRET = process.env.TURNSTILE_SECRET_KEY;
+
+  beforeEach(() => {
+    process.env.ANTHROPIC_API_KEY = "test-key";
+    process.env.TURNSTILE_SITE_KEY = "test-site-key";
+    process.env.TURNSTILE_SECRET_KEY = "test-secret";
+  });
+
+  afterEach(() => {
+    if (ORIGINAL_SITE_KEY === undefined) delete process.env.TURNSTILE_SITE_KEY;
+    else process.env.TURNSTILE_SITE_KEY = ORIGINAL_SITE_KEY;
+    if (ORIGINAL_SECRET === undefined) delete process.env.TURNSTILE_SECRET_KEY;
+    else process.env.TURNSTILE_SECRET_KEY = ORIGINAL_SECRET;
+    vi.unstubAllGlobals();
+  });
+
+  function stubGate(siteverifyOk: boolean) {
+    const calls = { siteverify: 0, anthropic: 0 };
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string) => {
+        if (String(url).includes("challenges.cloudflare.com")) {
+          calls.siteverify++;
+          return new Response(JSON.stringify({ success: siteverifyOk }), { status: 200 });
+        }
+        calls.anthropic++;
+        return anthropicToolResponse({
+          reply: "Sure — what would you like quoted?",
+          path: "quote",
+          fields: { need: "10 laptops" },
+          readyToReview: false,
+        });
+      }),
+    );
+    return calls;
+  }
+
+  it("blocks the model call when no token is presented", async () => {
+    const calls = stubGate(true);
+    const result = await sendAiChatMessage({
+      messages: [{ role: "user", content: "I need 10 laptops quoted" }],
+    });
+    expect(result).toEqual({ ok: false, fallback: true, reason: "verification-failed" });
+    // An empty token is refused before siteverify is even called.
+    expect(calls.siteverify).toBe(0);
+    expect(calls.anthropic).toBe(0);
+  });
+
+  it("verifies the token, calls the model, and issues a reusable gate pass", async () => {
+    const calls = stubGate(true);
+    const first = await sendAiChatMessage({
+      messages: [{ role: "user", content: "I need 10 laptops quoted" }],
+      turnstileToken: "token-1",
+    });
+    expect(first.ok).toBe(true);
+    if (!first.ok) throw new Error("expected an ok result");
+    expect(typeof first.gatePass).toBe("string");
+    expect(calls.siteverify).toBe(1);
+    expect(calls.anthropic).toBe(1);
+
+    const second = await sendAiChatMessage({
+      messages: [
+        { role: "user", content: "I need 10 laptops quoted" },
+        { role: "assistant", content: "Sure — what would you like quoted?" },
+        { role: "user", content: "For our office in Pasig" },
+      ],
+      gatePass: first.gatePass,
+    });
+    expect(second.ok).toBe(true);
+    // The pass carried the second turn: no new siteverify, model called.
+    expect(calls.siteverify).toBe(1);
+    expect(calls.anthropic).toBe(2);
+  });
+
+  it("rejects a forged gate pass and falls back to the token check", async () => {
+    const calls = stubGate(true);
+    const result = await sendAiChatMessage({
+      messages: [{ role: "user", content: "Hello" }],
+      gatePass: "Zm9yZ2Vk.signature",
+    });
+    expect(result).toEqual({ ok: false, fallback: true, reason: "verification-failed" });
+    expect(calls.anthropic).toBe(0);
   });
 });
 
