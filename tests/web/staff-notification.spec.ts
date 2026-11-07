@@ -29,9 +29,22 @@ describe("staff notification email", () => {
     expect(built?.html).toContain("Maria Santos");
     expect(built?.html).toContain("Acme Corp");
     expect(built?.html).toContain("buyer@acme.ph");
-    expect(built?.html).toContain("What you need: 10 laptops");
-    expect(built?.html).toContain("Requirement package: 1 item");
+    // Summary lines render as label/value rows on the shared template.
+    expect(built?.html).toContain("What you need");
+    expect(built?.html).toContain("10 laptops");
+    expect(built?.html).toContain("Requirement package");
+    expect(built?.html).toContain("1 item");
     expect(built?.html).toContain("status RECEIVED");
+  });
+
+  it("is built on the shared email template shell", () => {
+    const built = buildStaffNotificationEmail(SAMPLE, "sales@haciensolutions.com");
+    expect(built?.html).toContain("<!doctype html>");
+    expect(built?.html).toContain("background-color:#0A0A0A");
+    expect(built?.html).toContain("REFERENCE NUMBER");
+    expect(built?.html).toContain("RFQ-2026-000009");
+    expect(built?.html).toContain("HACIEN Information Technology Solutions");
+    expect(built?.html).toContain("This is an automatic notification from the HACIEN website.");
   });
 
   it("labels callbacks and plain inquiries in the subject", () => {
@@ -119,5 +132,11 @@ describe("staff notification wiring", () => {
     const sender = read("lib/email/staff-notification.ts");
     expect(sender).toContain("process.env.SALES_TO_EMAIL");
     expect(sender).not.toContain("sales@haciensolutions.com");
+  });
+
+  it("the body is composed from the shared email template, not hand-rolled HTML", () => {
+    const sender = read("lib/email/staff-notification.ts");
+    expect(sender).toContain('from "@/lib/email/template"');
+    expect(sender).toContain("buildEmailShell");
   });
 });

@@ -1,4 +1,13 @@
 import { sendEmail } from "@/lib/email/resend-client";
+import {
+  buildEmailParagraph,
+  buildEmailShell,
+  buildFactsSection,
+  buildReferenceBox,
+  buildSummarySection,
+  escapeHtml,
+  type EmailFact,
+} from "@/lib/email/template";
 
 /**
  * Staff notification sent to the sales inbox after a website submission
@@ -10,6 +19,9 @@ import { sendEmail } from "@/lib/email/resend-client";
  * It is still best-effort: it fails closed when SALES_TO_EMAIL or the
  * mail provider is not configured, and a failed send never fails the
  * submission itself.
+ *
+ * The body is built on the shared email template (lib/email/template.ts)
+ * — the same shell as the customer confirmation email.
  */
 
 export type StaffNotificationInput = {
@@ -30,14 +42,6 @@ export type StaffNotificationEmail = {
   html: string;
 };
 
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
 function getNotificationKind(type: string): string {
   const normalized = type.toLowerCase();
   if (normalized.includes("quote") || normalized.includes("rfq")) {
@@ -48,6 +52,10 @@ function getNotificationKind(type: string): string {
   }
   return "inquiry";
 }
+
+/** Labels the submission flow itself puts in front of summary lines —
+ * the same set the customer confirmation email uses. */
+const SUMMARY_LABELS = ["What you need", "Requirement package", "Type", "Your message"];
 
 export function buildStaffNotificationEmail(
   input: StaffNotificationInput,
@@ -62,40 +70,22 @@ export function buildStaffNotificationEmail(
   const name = input.name?.trim();
   const company = input.company?.trim();
 
-  const factRows: Array<[string, string]> = [
-    ["Reference", referenceNumber],
-    ["Type", kind],
-  ];
-  if (name) factRows.push(["Customer", name]);
-  if (company) factRows.push(["Company", company]);
-  if (customerEmail) factRows.push(["Customer email", customerEmail]);
+  const facts: EmailFact[] = [{ label: "Type", value: kind }];
+  if (name) facts.push({ label: "Customer", value: name });
+  if (company) facts.push({ label: "Company", value: company });
+  if (customerEmail) {
+    facts.push({ label: "Customer email", value: customerEmail, href: `mailto:${customerEmail}` });
+  }
 
-  const facts = factRows
-    .map(
-      ([label, value]) =>
-        `      <tr><td style="padding:6px 12px 6px 0;font-weight:bold;vertical-align:top;">${escapeHtml(label)}</td><td style="padding:6px 0;">${escapeHtml(value)}</td></tr>`,
-    )
-    .join("\n");
+  const closing = customerEmail
+    ? `The request is stored in the Gateway with status RECEIVED and needs review. Reply to the customer at <a href="mailto:${escapeHtml(customerEmail)}" style="color:#2563EB;text-decoration:none;">${escapeHtml(customerEmail)}</a> and mention the reference number.`
+    : "The request is stored in the Gateway with status RECEIVED and needs review.";
 
-  const summaryItems = input.summaryLines
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => `      <li>${escapeHtml(line)}</li>`)
-    .join("\n");
-
-  const html = [
-    `<div style="font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:1.6;color:#111;">`,
-    `  <p style="font-size:16px;"><strong>New ${escapeHtml(kind)} from the website</strong></p>`,
-    `  <table style="border-collapse:collapse;">`,
-    facts,
-    `  </table>`,
-    summaryItems ? `  <p><strong>What they sent</strong></p>\n  <ul>\n${summaryItems}\n  </ul>` : "",
-    `  <p>The request is stored in the Gateway with status RECEIVED and needs review.${
-      customerEmail
-        ? ` Reply to the customer at <a href="mailto:${escapeHtml(customerEmail)}">${escapeHtml(customerEmail)}</a> and mention the reference number.`
-        : ""
-    }</p>`,
-    `</div>`,
+  const bodyHtml = [
+    buildReferenceBox(referenceNumber),
+    buildFactsSection("Submission", facts),
+    buildSummarySection("What they sent", input.summaryLines, SUMMARY_LABELS),
+    buildEmailParagraph(closing, "0"),
   ]
     .filter(Boolean)
     .join("\n");
@@ -103,7 +93,11 @@ export function buildStaffNotificationEmail(
   return {
     to,
     subject: `New ${kind} — ${referenceNumber} · HACIEN website`,
-    html,
+    html: buildEmailShell({
+      heading: `New ${kind}`,
+      bodyHtml,
+      footnote: "This is an automatic notification from the HACIEN website.",
+    }),
   };
 }
 
