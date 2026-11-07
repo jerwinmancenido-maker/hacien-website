@@ -371,6 +371,21 @@ describe("guided chat wiring", () => {
     expect(chat).toContain('name="formStartedAt"');
   });
 
+  it("the send button waits for the security-check token instead of sending without one", () => {
+    // Regression: the widget mounts only on the review screen, so its token
+    // could lag behind the customer; sends went out token-less and the
+    // server rejected them ("Turnstile token missing" in the live logs,
+    // 2026-11-07, including from the owner's own phone).
+    const chat = read("components/GuidedChat.tsx");
+    const field = read("components/TurnstileField.tsx");
+    expect(field).toContain("onTokenChange");
+    expect(field).toContain('"expired-callback"');
+    expect(chat).toContain("onTokenChange={setTurnstileToken}");
+    expect(chat).toContain("turnstilePending");
+    expect(chat).toContain("disabled={turnstilePending}");
+    expect(chat).toContain("Completing security check…");
+  });
+
   it("the chat reads like a support chat: team voice, review summary, and staged processing", () => {
     const chat = read("components/GuidedChat.tsx");
     expect(chat).toContain("HACIEN Team");
