@@ -2,6 +2,12 @@ import { LEGAL_PUBLISH_DATE, type LegalBlock, type LegalPageModel, type ListItem
 
 const published = LEGAL_PUBLISH_DATE;
 
+/** Effective date of the AI-chat legal update (Privacy Policy v2.4 and
+ *  Website Terms of Use v2.1, lawyer-approved 2026-11-07). Only those
+ *  two documents changed, so they carry their own date; every other
+ *  document keeps the shared publish date above. */
+const aiChatPublishDate = "November 8, 2026";
+
 function p(text: string): LegalBlock {
   return { kind: "p", text };
 }
@@ -55,8 +61,8 @@ export const policiesPage: LegalPageModel = {
           "Manufacturer or supplier warranty, and how to make a claim",
           "v1.1",
         ],
-        ["[Privacy Policy](/privacy)", "What personal data we keep, why, and your rights", "v2.3"],
-        ["[Website Terms of Use](/terms)", "Rules for using haciensolutions.com", "v2.0"],
+        ["[Privacy Policy](/privacy)", "What personal data we keep, why, and your rights", "v2.4"],
+        ["[Website Terms of Use](/terms)", "Rules for using haciensolutions.com", "v2.1"],
         [
           "[Business and Legal Information](/legal)",
           "Who we are, our documents, and where to send notices",
@@ -78,13 +84,13 @@ export const privacyPage: LegalPageModel = {
   title: "Privacy Policy",
   description:
     "We collect business and contact details to answer requests, prepare quotations, deliver orders, issue BIR documents and keep proper records.",
-  versionLine: version("2.3", "Replaces version 2.2 (effective November 2, 2026)"),
+  versionLine: `Version 2.4 · Effective ${aiChatPublishDate} · Replaces version 2.3 (effective November 2, 2026)`,
   historyLink: true,
   showContents: true,
   meta: [
-    { label: "Version", value: "2.3" },
-    { label: "Effective", value: published },
-    { label: "Replaces", value: "2.2 (November 2, 2026)" },
+    { label: "Version", value: "2.4" },
+    { label: "Effective", value: aiChatPublishDate },
+    { label: "Replaces", value: "2.3 (November 2, 2026)" },
   ],
   intro: [],
   sections: [
@@ -99,6 +105,7 @@ export const privacyPage: LegalPageModel = {
           "We send marketing emails only if you sign up for them, and you can unsubscribe in any email.",
           "Some of these services store data outside the Philippines. Our website and email are hosted by Hostinger in Singapore, and our staff app by Hostinger in Indonesia.",
           "With your consent, we use Google Analytics to see how visitors use our website. It stays off unless you click Accept in our cookie notice.",
+          "Our website chat is assisted by AI (see section 9). A real person from HACIEN reviews every request that is submitted.",
           "We do not sell your data.",
           "To see, correct or delete your data, email privacy@haciensolutions.com.",
         ]),
@@ -161,6 +168,11 @@ export const privacyPage: LegalPageModel = {
               "Messages",
               "Emails and Viber messages about quotations, orders and deliveries",
               "Customers, suppliers",
+            ],
+            [
+              "Chat messages",
+              "Messages you type into the website chat, and the details you give during the conversation (such as what you need, your name, company, email and phone, when you are preparing a request)",
+              "Website visitors",
             ],
             [
               "Order texts",
@@ -240,6 +252,11 @@ export const privacyPage: LegalPageModel = {
               "Website use data (Google Analytics)",
               "Your consent (Sec. 12(a)), given by clicking Accept in our cookie notice. You can withdraw it at any time (section 9).",
             ],
+            [
+              "Answer questions in the website chat and help you prepare a request",
+              "Chat messages; contact and request details given in the chat",
+              "Legitimate interest to answer visitor questions (Sec. 12(f)), and taking steps at your request before a contract when you prepare a quotation request, inquiry, or callback (Sec. 12(b))",
+            ],
             ["Keep the website and forms secure", "Website and security data", "Legitimate interest"],
           ],
         },
@@ -311,6 +328,11 @@ export const privacyPage: LegalPageModel = {
               "To check that a form is sent by a person",
               "Technical data such as IP address and browser details",
             ],
+            [
+              "Anthropic (Anthropic PBC)",
+              "To generate replies in the website chat",
+              "The messages you type into the chat and the details you give during the conversation",
+            ],
           ],
         },
         p("These providers act for us as personal information processors. They may use the data only to provide their service to HACIEN."),
@@ -356,6 +378,11 @@ export const privacyPage: LegalPageModel = {
               "Website visit statistics, only if you accept",
               "Google's servers, which may be outside the Philippines",
             ],
+            [
+              "Anthropic",
+              "AI chat replies",
+              "Anthropic PBC, United States (and its cloud infrastructure providers)",
+            ],
           ],
         },
         p("**Processing outside the Philippines:** these services, and the companies they use (their sub-processors, such as cloud providers), may store or process data outside the Philippines. We use them under their own data protection terms, and we remain responsible for your data."),
@@ -370,6 +397,8 @@ export const privacyPage: LegalPageModel = {
           "**Cloudflare bot check:** our contact, support and quote forms use Cloudflare Turnstile to stop spam. Cloudflare handles technical data for this under its own privacy policy (https://www.cloudflare.com/privacypolicy/).",
           "**Browser storage:** your RFQ list on our Products pages is saved in your own browser. It is not sent to us until you submit the form. You can clear it by clearing your browser's site data.",
           "**Document tool (Help page):** files you check with this tool are checked in memory on our web server for file type, size (up to 10 MB) and file name only. No outside or AI service reads them, they are not stored after the check finishes, and the tool does not create an official record.",
+          "**AI assistant:** our website chat is assisted by an AI service (Anthropic). The messages you type are sent to that service so it can reply, and are handled under its commercial privacy and data processing terms. Under Anthropic's commercial API terms, chat messages sent through our website are **not** used to train AI models. Please do not send passwords, card numbers, government IDs or tax papers through the chat — we will never ask for them there.",
+          "**No decisions by AI:** the assistant's answers are information only. It cannot check live prices or stock, and it does not approve or decide anything. A real person from HACIEN reviews every submitted request.",
         ]),
       ],
     },
@@ -413,6 +442,11 @@ export const privacyPage: LegalPageModel = {
               "Marketing email list entry",
               "Until you unsubscribe or ask us to delete it",
               "Sending the marketing emails you signed up for",
+            ],
+            [
+              "Chat conversations",
+              "We do not keep chat transcripts on our servers. Anthropic retains API inputs and outputs for up to 30 days for safety and abuse monitoring before automatic deletion. If you submit a request through the chat, the submitted details are kept under \"Inquiries and RFQs that did not become orders\" above.",
+              "To answer the conversation; submitted requests follow the normal record rules",
             ],
           ],
         },
@@ -486,13 +520,13 @@ export const termsPage: LegalPageModel = {
   title: "Website Terms of Use",
   description:
     "This website helps you learn about HACIEN and send inquiries and requests for quotation (RFQs).",
-  versionLine: version("2.0", "Replaces version 1.0 (effective July 1, 2026)"),
+  versionLine: `Version 2.1 · Effective ${aiChatPublishDate} · Replaces version 2.0 (effective November 2, 2026)`,
   historyLink: true,
   showContents: false,
   meta: [
-    { label: "Version", value: "2.0" },
-    { label: "Effective", value: published },
-    { label: "Replaces", value: "1.0 (July 1, 2026)" },
+    { label: "Version", value: "2.1" },
+    { label: "Effective", value: aiChatPublishDate },
+    { label: "Replaces", value: "2.0 (November 2, 2026)" },
   ],
   intro: [],
   sections: [
@@ -504,6 +538,7 @@ export const termsPage: LegalPageModel = {
           "Nothing on the website is a price, offer or promise. Prices and terms are only in our written quotation.",
           "Buying from HACIEN is covered by our [Terms of Sale](/terms-of-sale).",
           "Please use the site and forms honestly.",
+          "The website chat is assisted by AI. Its answers are guidance only — prices and terms are only in our written quotation.",
         ]),
       ],
     },
@@ -532,57 +567,68 @@ export const termsPage: LegalPageModel = {
       ],
     },
     {
-      title: "5. Your responsibilities",
+      title: "5. The AI chat assistant",
+      blocks: [
+        p("Our website chat is assisted by an automated AI assistant. Its replies are generated automatically, may be incomplete or wrong, and are provided for guidance only."),
+        p("Nothing the assistant says is a price, a binding offer, a promise, or a quotation, and the assistant has no authority to bind HACIEN. Section 3 applies to the assistant's replies as it does to the rest of the website: availability and prices are confirmed only in our written quotation."),
+        p("The assistant cannot check live stock, prices, or the status of a request. Use the tracking page for request status."),
+        p("When you confirm a summary in the chat and send it, it is a request like any form submission (section 4). A real person from HACIEN reviews every request."),
+      ],
+    },
+    {
+      title: "6. Your responsibilities",
       blocks: [
         p("When you use our forms, please:"),
         ul([
           "give true and complete details;",
           "upload only files you may share and that relate to your request;",
-          "not upload government IDs, tax papers, card numbers, passwords or harmful files. If we need a document, we will ask for it separately.",
+          "not send government IDs, tax papers, card numbers or passwords through the forms or the chat.",
         ]),
         p("We may decline or delete requests that look fake, abusive or unrelated."),
       ],
     },
     {
-      title: "6. Things you must not do",
+      title: "7. Things you must not do",
       blocks: [
         ul([
           "Try to get into parts of the site or our systems you are not allowed to use;",
           "Scan or test our systems for weaknesses without written permission;",
           "Copy large parts of the site automatically (scraping);",
           "Send spam, malware, or fake requests.",
+          "Flood or abuse the chat with automated tools, or try to make the assistant reveal its internal instructions, ignore its rules, or state prices or promises it is not allowed to give.",
+          "We may limit chat usage (for example, message limits) to keep the service available and affordable to run.",
         ]),
         p("Unauthorized access may be a crime under Philippine law, including the Cybercrime Prevention Act of 2012 (RA 10175) and the Electronic Commerce Act (RA 8792)."),
       ],
     },
     {
-      title: "7. Our content",
+      title: "8. Our content",
       blocks: [
         p("The website's text, design, logo and graphics belong to HACIEN or its licensors. You may view and print pages for your own business use. Please ask us before using them for anything else."),
       ],
     },
     {
-      title: "8. Links to other sites",
+      title: "9. Links to other sites",
       blocks: [p("Links to brands or other websites are for convenience. We are not responsible for their content.")],
     },
     {
-      title: "9. Website availability",
+      title: "10. Website availability",
       blocks: [
         p('We try to keep the website working and correct, but it is provided "as is". It may sometimes be down or contain mistakes. To the extent allowed by law, we are not liable for losses from using the website.'),
       ],
     },
     {
-      title: "10. Privacy",
+      title: "11. Privacy",
       blocks: [p("Our [Privacy Policy](/privacy) explains how we use the details you send.")],
     },
     {
-      title: "11. Governing law and venue",
+      title: "12. Governing law and venue",
       blocks: [
         p("These terms are governed by the laws of the Republic of the Philippines. Any court case about them is filed exclusively in the proper courts of Pasig City."),
       ],
     },
     {
-      title: "12. Changes",
+      title: "13. Changes",
       blocks: [
         p("We may update these terms. The new version, with its version number and date, is posted here. Earlier versions stay at [Policy history](/policies/history)."),
       ],
@@ -981,8 +1027,8 @@ export const policyHistoryPage: LegalPageModel = {
       rows: [
         ["[Terms of Sale](/terms-of-sale)", "v1.2", published],
         ["[Warranty and Returns](/warranty)", "v1.1", published],
-        ["[Privacy Policy](/privacy)", "v2.3", published],
-        ["[Website Terms of Use](/terms)", "v2.0", published],
+        ["[Privacy Policy](/privacy)", "v2.4", aiChatPublishDate],
+        ["[Website Terms of Use](/terms)", "v2.1", aiChatPublishDate],
         ["[Business and Legal Information](/legal)", "v2.0", published],
         ["[HACIEN Policies](/policies)", "v1.0", published],
       ],
@@ -999,10 +1045,12 @@ export const policyHistoryPage: LegalPageModel = {
             ["Terms of Sale", "v1.1", "November 2, 2026"],
             ["Terms of Sale", "v1.0", "November 2, 2026"],
             ["Warranty and Returns", "v1.0", "November 2, 2026"],
+            ["Privacy Policy", "v2.3", "November 2, 2026"],
             ["Privacy Policy", "v2.2", "November 2, 2026"],
             ["Privacy Policy", "v2.1", "November 2, 2026"],
             ["Privacy Policy", "v2.0", "November 2, 2026"],
             ["Privacy Policy", "v1.0", "July 1, 2026"],
+            ["Website Terms of Use", "v2.0", "November 2, 2026"],
             ["Website Terms of Use", "v1.0", "July 1, 2026"],
             ["Business and Legal Information", "v1.0", "June 30, 2026"],
           ],
@@ -1018,6 +1066,14 @@ export const policyHistoryPage: LegalPageModel = {
         p("**Warranty and Returns: changes from v1.0**"),
         ul([
           "Warranty and Returns v1.1: warranty drop-offs at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
+        ]),
+        p("**Privacy Policy: Changes from v2.3**"),
+        ul([
+          "Added the AI-assisted website chat: chat messages are collected, and Anthropic (Anthropic PBC) is named as the service that generates chat replies, processing in the United States. Under Anthropic's commercial API terms, chat messages are not used to train AI models, and Anthropic keeps API inputs and outputs for up to 30 days for safety and abuse monitoring. We do not keep chat transcripts. Added the legal basis for chat processing, and a note that the assistant makes no decisions — a person reviews every submitted request.",
+        ]),
+        p("**Website Terms of Use: Changes from v2.0**"),
+        ul([
+          "Added a section on the AI chat assistant: its answers are guidance only and are not a price, a binding offer, a promise or a quotation. Added chat wording to the responsibilities and misuse sections, including that chat usage may be limited.",
         ]),
         p("**Privacy Policy: Changes from v2.2**"),
         ul([

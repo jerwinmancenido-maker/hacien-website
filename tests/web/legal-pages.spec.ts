@@ -48,7 +48,7 @@ function freePort() {
 }
 
 describe("legal page content", () => {
-  it("uses one publish date on every legal page, the hub, and history", () => {
+  it("uses the shared publish date, with the AI-chat update carrying its own date", () => {
     expect(LEGAL_PUBLISH_DATE).toBe("November 2, 2026");
     expect(legalPages.map((page) => page.path)).toEqual([
       "/policies",
@@ -61,12 +61,21 @@ describe("legal page content", () => {
     ]);
 
     for (const page of legalPages) {
-      expect(page.versionLine).toContain(LEGAL_PUBLISH_DATE);
       expect(page.versionLine).not.toContain("November 1, 2026");
-      expect(page.meta.find((item) => item.label === "Effective")?.value).toBe(LEGAL_PUBLISH_DATE);
+      expect(legalPagePlainText(page)).not.toContain("November 1, 2026");
+      if (page.path === "/privacy" || page.path === "/terms") {
+        // The AI-chat update (Privacy v2.4, Terms v2.1) carries its own
+        // effective date; the other documents keep the shared date.
+        expect(page.versionLine).toContain("November 8, 2026");
+        expect(page.meta.find((item) => item.label === "Effective")?.value).toBe(
+          "November 8, 2026",
+        );
+      } else {
+        expect(page.versionLine).toContain(LEGAL_PUBLISH_DATE);
+        expect(page.meta.find((item) => item.label === "Effective")?.value).toBe(LEGAL_PUBLISH_DATE);
+      }
       const reviewed = page.meta.find((item) => item.label === "Last reviewed");
       if (reviewed) expect(reviewed.value).toBe(LEGAL_PUBLISH_DATE);
-      expect(legalPagePlainText(page)).not.toContain("November 1, 2026");
     }
 
     const privacy = legalPages.find((page) => page.path === "/privacy");
@@ -80,8 +89,8 @@ describe("legal page content", () => {
     const historyText = history ? legalPagePlainText(history) : "";
     const termsOfSaleText = termsOfSale ? legalPagePlainText(termsOfSale) : "";
     const warrantyText = warranty ? legalPagePlainText(warranty) : "";
-    expect(privacyText).toContain("Version 2.3");
-    expect(privacyText).toContain("Replaces version 2.2 (effective November 2, 2026)");
+    expect(privacyText).toContain("Version 2.4");
+    expect(privacyText).toContain("Replaces version 2.3 (effective November 2, 2026)");
     expect(privacyText).not.toContain("Version 2.2");
     expect(privacyText).not.toContain("Not for the website");
     expect(privacyText).not.toContain("we don't send promo newsletters");
@@ -89,7 +98,9 @@ describe("legal page content", () => {
     expect(termsOfSaleText).toContain("Replaces version 1.1");
     expect(warrantyText).toContain("Version 1.1");
     expect(warrantyText).toContain("Replaces version 1.0 (effective November 2, 2026)");
-    expect(terms && legalPagePlainText(terms)).toContain("Replaces version 1.0 (effective July 1, 2026)");
+    expect(terms && legalPagePlainText(terms)).toContain(
+      "Replaces version 2.0 (effective November 2, 2026)",
+    );
     expect(legal && legalPagePlainText(legal)).toContain("Replaces version 1.0 (effective June 30, 2026)");
     expect(policies && legalPagePlainText(policies)).toContain(
       "[Terms of Sale](/terms-of-sale) Quotations, orders, delivery, payment, cancellations and returns v1.2",
@@ -98,12 +109,16 @@ describe("legal page content", () => {
       "[Warranty and Returns](/warranty) Manufacturer or supplier warranty, and how to make a claim v1.1",
     );
     expect(policies && legalPagePlainText(policies)).toContain(
-      "[Privacy Policy](/privacy) What personal data we keep, why, and your rights v2.3",
+      "[Privacy Policy](/privacy) What personal data we keep, why, and your rights v2.4",
     );
     expect(historyText).toContain("[Terms of Sale](/terms-of-sale) v1.2");
     expect(historyText).toContain("Terms of Sale v1.1 November 2, 2026");
     expect(historyText).toContain("[Warranty and Returns](/warranty) v1.1");
-    expect(historyText).toContain("[Privacy Policy](/privacy) v2.3");
+    expect(historyText).toContain("[Privacy Policy](/privacy) v2.4");
+    expect(historyText).toContain("Privacy Policy v2.3 November 2, 2026");
+    expect(historyText).toContain("Website Terms of Use v2.0 November 2, 2026");
+    expect(historyText).toContain("Privacy Policy: Changes from v2.3");
+    expect(historyText).toContain("Website Terms of Use: Changes from v2.0");
     expect(historyText).toContain("Terms of Sale v1.0 November 2, 2026");
     expect(historyText).toContain("Warranty and Returns v1.0 November 2, 2026");
     expect(historyText).toContain("Privacy Policy v2.2 November 2, 2026");
@@ -291,12 +306,45 @@ describe("legal page content", () => {
       "Drop-offs at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
     );
 
-    // Privacy Policy v2.3
+    // Privacy Policy v2.4
     expect(privacy?.versionLine).toBe(
-      "Version 2.3 · Effective November 2, 2026 · Replaces version 2.2 (effective November 2, 2026)",
+      "Version 2.4 · Effective November 8, 2026 · Replaces version 2.3 (effective November 2, 2026)",
     );
-    expect(privacy?.meta.find((item) => item.label === "Version")?.value).toBe("2.3");
-    expect(privacy?.meta.find((item) => item.label === "Replaces")?.value).toBe("2.2 (November 2, 2026)");
+    expect(privacy?.meta.find((item) => item.label === "Version")?.value).toBe("2.4");
+    expect(privacy?.meta.find((item) => item.label === "Replaces")?.value).toBe(
+      "2.3 (November 2, 2026)",
+    );
+
+    // AI chat update (lawyer-approved text, 2026-11-07)
+    expect(privacyText).toContain("Chat messages");
+    expect(privacyText).toContain(
+      "Messages you type into the website chat, and the details you give during the conversation",
+    );
+    expect(privacyText).toContain("Anthropic (Anthropic PBC)");
+    expect(privacyText).toContain("To generate replies in the website chat");
+    expect(privacyText).toContain(
+      "Anthropic PBC, United States (and its cloud infrastructure providers)",
+    );
+    expect(privacyText).toContain("are **not** used to train AI models");
+    expect(privacyText).toContain("**No decisions by AI:**");
+    expect(privacyText).toContain("Chat conversations");
+    expect(privacyText).toContain("up to 30 days for safety and abuse monitoring");
+    expect(privacyText).toContain(
+      "Our website chat is assisted by AI (see section 9). A real person from HACIEN reviews every request that is submitted.",
+    );
+    const terms = legalPages.find((page) => page.path === "/terms");
+    const termsText = terms ? legalPagePlainText(terms) : "";
+    expect(terms?.versionLine).toBe(
+      "Version 2.1 · Effective November 8, 2026 · Replaces version 2.0 (effective November 2, 2026)",
+    );
+    expect(termsText).toContain("5. The AI chat assistant");
+    expect(termsText).toContain("the assistant has no authority to bind HACIEN");
+    expect(termsText).toContain(
+      "not send government IDs, tax papers, card numbers or passwords through the forms or the chat",
+    );
+    expect(termsText).toContain("Flood or abuse the chat with automated tools");
+    expect(termsText).toContain("6. Your responsibilities");
+    expect(termsText).toContain("13. Changes");
     expect(privacyText).toContain("Receiver and pick-up checks");
     expect(privacyText).toContain(
       "Name of the receiver named on your PO or order, and their signature on our Delivery Receipt. For high-value deliveries or pick-ups, we look at a company or valid ID to confirm who is receiving. We do not photograph, copy, upload or keep the ID.",
@@ -444,13 +492,13 @@ describe("legal routes", () => {
     expect(policies.status).toBe(200);
     expect(policies.headers.get("location")).toBeNull();
     expect(policiesHtml).toContain("v1.1");
-    expect(policiesHtml).toContain("v2.3");
+    expect(policiesHtml).toContain("v2.4");
 
     const privacy = await fetch(`${baseUrl}/privacy`, { redirect: "manual" });
     const privacyHtml = await privacy.text();
     expect(privacy.status).toBe(200);
-    expect(privacyHtml).toContain("Version 2.3");
-    expect(privacyHtml).toContain("Replaces version 2.2 (effective November 2, 2026)");
+    expect(privacyHtml).toContain("Version 2.4");
+    expect(privacyHtml).toContain("Replaces version 2.3 (effective November 2, 2026)");
     expect(privacyHtml).not.toContain("Southeast Asia");
     expect(privacyHtml).not.toContain("Valid government IDs of a customer's authorized purchasing or receiving staff");
     expect(privacyHtml).not.toContain("Not for the website");
@@ -466,6 +514,7 @@ describe("legal routes", () => {
     expect(historyHtml).toContain("v2.1");
     expect(historyHtml).toContain("v2.2");
     expect(historyHtml).toContain("v2.3");
+    expect(historyHtml).toContain("v2.4");
     expect(historyHtml).toContain("Terms of Sale: changes from v1.0");
     expect(historyHtml).toContain("Terms of Sale: changes from v1.1");
     expect(historyHtml).toContain("Warranty and Returns: changes from v1.0");
