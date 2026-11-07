@@ -12,9 +12,9 @@ describe("G17: Hand pointer on all buttons", () => {
   });
 
   it("applies cursor pointer on key interactive action buttons", () => {
-    // Add to RFQ in ProductDetail
+    // Add to my request in ProductDetail
     const productDetail = readFileSync(path.join(ROOT, "components/ProductDetail.tsx"), "utf8");
-    expect(productDetail).toMatch(/Add to RFQ[\s\S]*?cursor-pointer|<button[^>]*cursor-pointer[^>]*>[\s\S]*?Add to RFQ/);
+    expect(productDetail).toMatch(/Add to my request[\s\S]*?cursor-pointer|<button[^>]*cursor-pointer[^>]*>[\s\S]*?Add to my request/);
 
     // Add requirement to RFQ in RequirementBuilder
     const reqBuilder = readFileSync(path.join(ROOT, "components/RequirementBuilder.tsx"), "utf8");

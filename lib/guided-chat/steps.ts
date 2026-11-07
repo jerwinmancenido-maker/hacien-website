@@ -221,7 +221,7 @@ export const CHAT_PATHS: ChatPath[] = [
         question: "What is your reference number?",
         kind: "text",
         required: true,
-        placeholder: "RFQ-2026-000000",
+        placeholder: "LEAD-2026-000000",
         hint: "From your confirmation or support message.",
       },
     ],

@@ -292,7 +292,7 @@ export function AiChat({
     // not ready yet, hold the message in the composer and say so —
     // the model is never called unverified.
     if (!gatePass && turnstileSiteKey && !turnstileToken) {
-      setNotice("One moment — completing the security check. Press send again in a few seconds.");
+      setNotice("One moment — completing the security check. If a \u2018Verify you are human\u2019 box appears above, tick it, then press send again.");
       return;
     }
     if (startedAt === null) setStartedAt(Date.now());

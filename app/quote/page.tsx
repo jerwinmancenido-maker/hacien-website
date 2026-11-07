@@ -20,7 +20,7 @@ export default function QuotePage() {
         description="Attach an item list, a supplier quote, an image, a spreadsheet, a PDF, or a ZIP."
         image="commandCenter"
         primaryAction={{ href: "#start-chat", label: "Request a Quote" }}
-        secondaryAction={{ href: "/products", label: "Technology list" }}
+        secondaryAction={{ href: "/products", label: "Product list" }}
         highlights={[
           { label: "Plain description", text: "Describe the product, quantity, delivery location, and deadline." },
           { label: "Reference", text: "You receive a reference number after you send the request." },

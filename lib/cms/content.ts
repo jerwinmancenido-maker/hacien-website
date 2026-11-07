@@ -252,7 +252,6 @@ const navigationContent: CmsNavigationContent = {
       { href: "/solutions", label: "Solutions" },
       { href: "/technology", label: "Technology" },
       { href: "/products", label: "Products" },
-      { href: "/platform", label: "Platform" },
       { href: "/insights", label: "Insights" },
       { href: "/about", label: "Company" },
       { href: "/contact", label: "Contact" },
@@ -284,18 +283,18 @@ const navigationContent: CmsNavigationContent = {
       {
         title: "Start",
         links: [
-          { href: "/quote", label: "Request Quote" },
+          { href: "/quote", label: "Request a Quote" },
           { href: "/track", label: "Track Request" },
-          { href: "/products", label: "Technology list" },
+          { href: "/products", label: "Product list" },
           { href: "/support", label: "Support" },
-          { href: "/help", label: "Help Center" },
+          { href: "/support", label: "Help Center" },
           { href: "/faq", label: "FAQ" },
         ],
       },
       {
         title: "Tools",
         links: [
-          { href: "/customer-workspace", label: "Customer account" },
+          { href: "/customer-workspace", label: "Customer Workspace" },
           { href: "/search", label: "Search" },
         ],
       },
@@ -487,7 +486,7 @@ const industriesContent: CmsIndustriesContent = {
       "HACIEN shapes each RFQ around the buyer's operating reality: specifications, supplier timing, warranty terms, delivery coordination, and procurement documentation.",
     image: "strategy",
     primaryAction: { href: "/solutions", label: "Explore Solutions" },
-    secondaryAction: { href: "/quote", label: "Start RFQ" },
+    secondaryAction: { href: "/quote", label: "Request a Quote" },
     highlights: [
       { label: "Specs", text: "Procurement requirements vary by industry." },
       { label: "Review", text: "Technical specifications need working details." },
@@ -555,7 +554,7 @@ const faqContent: CmsFaqContent = {
       "Search common questions about RFQ intake, payment posture, documents, warranty questions, and request tracking.",
     image: "knowledge",
     primaryAction: { href: "/quote", label: "Request a Quote" },
-    secondaryAction: { href: "/help", label: "Open Help Center" },
+    secondaryAction: { href: "/support", label: "Get support" },
     highlights: [
       { label: "RFQ-first", text: "Requests are reviewed before business records." },
       { label: "No checkout claim", text: "Live online payment is not claimed here." },

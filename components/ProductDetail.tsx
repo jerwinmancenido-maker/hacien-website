@@ -148,26 +148,26 @@ export function ProductDetail({ product }: { product: Product }) {
                 onClick={handleAddToRfq}
                 className="button-glow focus-ring rounded bg-blue px-5 py-3 text-sm font-bold text-white hover:bg-blue-dark cursor-pointer"
               >
-                Add to RFQ
+                Add to my request
               </button>
             ) : null}
             <Link
               href="/quote"
               className="interactive-link focus-ring rounded border border-grey-200 px-5 py-3 text-sm font-bold text-ink"
             >
-              Continue to RFQ
+              Continue to my request
             </Link>
             <Link
               href="/products"
               className="interactive-link focus-ring rounded border border-grey-200 px-5 py-3 text-sm font-bold text-ink"
             >
-              View technology areas
+              Browse all products
             </Link>
             <Link
               href={`/quote?product=${encodeURIComponent(product.slug)}&context=price-review`}
               className="interactive-link focus-ring rounded border border-grey-200 bg-white px-5 py-3 text-sm font-bold text-ink hover:bg-grey-50"
             >
-              Request price review
+              Request a Quote
             </Link>
           </div>
           {priceText ? <p className="mt-4 text-sm font-semibold text-ink">Starting at {priceText}</p> : null}
@@ -198,7 +198,7 @@ export function ProductDetail({ product }: { product: Product }) {
           ) : null}
           {added ? (
             <p className="mt-4 rounded border border-grey-200 bg-grey-50 px-4 py-3 text-sm font-semibold text-ink">
-              Added to the RFQ package. Continue to RFQ when ready to submit.
+              Added to your request. Continue to my request when ready to submit.
             </p>
           ) : null}
         </div>

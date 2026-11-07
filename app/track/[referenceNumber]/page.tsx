@@ -170,7 +170,7 @@ export default async function TrackReferencePage({ params }: TrackingPageProps) 
         {!publicResult ? (
           <div className="surface mt-6 rounded-lg p-6">
             <h2 className="text-xl font-bold text-slate-950">Reference not found</h2>
-            <p className="mt-3 text-sm leading-6 text-slate-600">{TRACK_LOOKUP_GENERIC_MESSAGE}</p>
+            <p className="mt-3 text-sm leading-6 text-slate-600">We could not find a request with that reference number. Check the number and try again — or open the chat and we will help you find it.</p>
           </div>
         ) : (
           <div className="mt-8 grid gap-6">
@@ -196,6 +196,11 @@ export default async function TrackReferencePage({ params }: TrackingPageProps) 
                   </div>
                 ) : null}
               </div>
+              <p className="mt-4 border-t border-grey-200 pt-4 text-sm leading-6 text-slate-600">
+                What happens next: a real person from the HACIEN team reviews your request, and we
+                reply by email within 1 business day (Monday to Friday, 9:00 AM – 6:00 PM PHT,
+                excluding holidays).
+              </p>
             </div>
           </div>
         )}

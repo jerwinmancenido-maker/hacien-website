@@ -14,10 +14,10 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 const supportPaths = [
-  ["RFQ follow-up", "Clarify submitted requirements, quantities, deadlines, or product details.", "/quote", "documentation"],
+  ["RFQ follow-up", "Check the status of a submitted request, or clarify requirements, quantities, deadlines, or product details.", "/track", "documentation"],
   ["Procurement question", "Ask about supplier availability, equivalent options, or quotation assumptions for review.", "/contact", "network"],
-  ["Delivery coordination", "Share delivery details or receiver requirements for review.", "/contact", "cabling"],
-  ["Warranty or replacement", "Route questions with the product, quotation, supplier, and delivery details available for review.", "/contact", "storage"],
+  ["Delivery coordination", "Share delivery details or receiver requirements for review.", "/track", "cabling"],
+  ["Warranty or replacement", "Route questions with the product, quotation, supplier, and delivery details available for review.", "/warranty", "storage"],
   ["Supplier or partner", "Introduce supply, fulfillment, implementation, or service capability.", "/contact", "workspace"],
   ["Policy question", "Review Trust & Compliance before relying on a commercial term.", "/trust-center", "cybersecurity"],
 ];
@@ -38,7 +38,7 @@ export default function SupportPage() {
         description="HACIEN support is designed around RFQ review, quotation assumptions, delivery details, warranty questions tied to documents, and follow-up."
         image="workspace"
         primaryAction={{ href: "#start-chat", label: "Contact Support" }}
-        secondaryAction={{ href: "/quote", label: "Request Quote" }}
+        secondaryAction={{ href: "/quote", label: "Request a Quote" }}
         highlights={[
           { label: "RFQ Follow-Up", text: "Continue from a reference or submitted requirement." },
           { label: "Delivery", text: "Share receiver, schedule, and site access details." },
