@@ -57,6 +57,7 @@ export function GuidedChat({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   const [referenceNumber, setReferenceNumber] = useState("");
   const [confirmationSent, setConfirmationSent] = useState(false);
   const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
+  const [turnstileToken, setTurnstileToken] = useState("");
   const [startedAt, setStartedAt] = useState<number | null>(null);
 
   function resetAll() {
@@ -71,6 +72,7 @@ export function GuidedChat({ turnstileSiteKey }: { turnstileSiteKey: string }) {
     setReferenceNumber("");
     setConfirmationSent(false);
     setTurnstileResetSignal((value) => value + 1);
+    setTurnstileToken("");
     setStartedAt(null);
   }
 
@@ -184,7 +186,7 @@ export function GuidedChat({ turnstileSiteKey }: { turnstileSiteKey: string }) {
     const meta = {
       website: "",
       formStartedAt: String(startedAt),
-      turnstileToken: String(data.get("cf-turnstile-response") || ""),
+      turnstileToken: turnstileToken || String(data.get("cf-turnstile-response") || ""),
     };
     const payload =
       pathId === "quote"
@@ -206,16 +208,23 @@ export function GuidedChat({ turnstileSiteKey }: { turnstileSiteKey: string }) {
       setStatus("success");
       if (pathId === "quote") clearRequirements();
       setTurnstileResetSignal((value) => value + 1);
+      setTurnstileToken("");
     } else {
       setStatus("error");
       setErrorMessage(result.error || "Unable to send. Please try again later.");
       setTurnstileResetSignal((value) => value + 1);
+      setTurnstileToken("");
     }
   }
 
   const path = pathId ? getChatPath(pathId) : null;
   const steps = path?.steps ?? [];
   const isConfirm = path !== null && stepIndex >= steps.length;
+  // The security check only starts when the review screen mounts, so its
+  // token can lag behind the customer. Never let a send go out without the
+  // token — the server rejects token-less sends, which reads to the
+  // customer as a broken form. Wait for the token instead.
+  const turnstilePending = Boolean(turnstileSiteKey) && turnstileToken.length === 0;
   const totalSteps = steps.length + 1;
   const progress = path ? Math.round(((stepIndex + (isConfirm ? 1 : 0)) / totalSteps) * 100) : 0;
 
@@ -389,13 +398,14 @@ export function GuidedChat({ turnstileSiteKey }: { turnstileSiteKey: string }) {
               .
             </p>
             <div className="mt-4">
-              <TurnstileField siteKey={turnstileSiteKey} resetSignal={turnstileResetSignal} />
+              <TurnstileField siteKey={turnstileSiteKey} resetSignal={turnstileResetSignal} onTokenChange={setTurnstileToken} />
             </div>
             <button
               type="submit"
-              className="button-glow mt-4 min-h-11 cursor-pointer rounded-full bg-blue px-6 py-3 text-sm font-bold text-white"
+              disabled={turnstilePending}
+              className={`button-glow mt-4 min-h-11 rounded-full bg-blue px-6 py-3 text-sm font-bold text-white ${turnstilePending ? "cursor-wait opacity-60" : "cursor-pointer"}`}
             >
-              Looks good — send request
+              {turnstilePending ? "Completing security check…" : "Looks good — send request"}
             </button>
           </div>
         </form>

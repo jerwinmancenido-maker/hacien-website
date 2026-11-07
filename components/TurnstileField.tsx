@@ -28,9 +28,13 @@ declare global {
 export function TurnstileField({
   siteKey,
   resetSignal,
+  onTokenChange,
 }: {
   siteKey: string;
   resetSignal?: number;
+  /** Notified with the fresh token, and with "" when the token is lost
+   *  (expired, errored, or reset) so callers can gate submit on it. */
+  onTokenChange?: (token: string) => void;
 }) {
   const id = useId().replace(/:/g, "");
   const containerRef = useRef<HTMLDivElement>(null);
@@ -38,6 +42,10 @@ export function TurnstileField({
   const widgetIdRef = useRef<string | null>(null);
   const [scriptReady, setScriptReady] = useState(false);
   const [widgetMessage, setWidgetMessage] = useState("");
+  const onTokenChangeRef = useRef(onTokenChange);
+  useEffect(() => {
+    onTokenChangeRef.current = onTokenChange;
+  }, [onTokenChange]);
 
   useEffect(() => {
     if (!siteKey || !scriptReady || !containerRef.current || !window.turnstile) {
@@ -57,13 +65,21 @@ export function TurnstileField({
       callback: (value) => {
         if (inputRef.current) inputRef.current.value = value;
         setWidgetMessage("");
+        onTokenChangeRef.current?.(value);
       },
       "expired-callback": () => {
         if (inputRef.current) inputRef.current.value = "";
+        onTokenChangeRef.current?.("");
         setWidgetMessage("Security check expired. Please try again.");
+        // Issue a fresh token straight away so the caller is not stuck
+        // waiting on a token that will never arrive on its own.
+        if (widgetIdRef.current && window.turnstile) {
+          window.turnstile.reset(widgetIdRef.current);
+        }
       },
       "error-callback": () => {
         if (inputRef.current) inputRef.current.value = "";
+        onTokenChangeRef.current?.("");
         setWidgetMessage("Security check could not complete. Please retry.");
       },
     });
@@ -78,6 +94,7 @@ export function TurnstileField({
 
   useEffect(() => {
     if (inputRef.current) inputRef.current.value = "";
+    onTokenChangeRef.current?.("");
     if (widgetIdRef.current && window.turnstile) {
       window.turnstile.reset(widgetIdRef.current);
     }
