@@ -28,12 +28,10 @@ describe("G17: Hand pointer on all buttons", () => {
     const trackLookup = readFileSync(path.join(ROOT, "components/TrackReferenceLookup.tsx"), "utf8");
     expect(trackLookup).toMatch(/<button[^>]*cursor-pointer[^>]*>[\s\S]*?Track request/);
 
-    // Form send button in QuoteCart
-    const quoteCart = readFileSync(path.join(ROOT, "components/QuoteCart.tsx"), "utf8");
-    expect(quoteCart).toMatch(/<button[^>]*cursor-pointer[^>]*>[\s\S]*?Request a Quote/);
-
-    // Form send button in ContactForm
-    const contactForm = readFileSync(path.join(ROOT, "components/ContactForm.tsx"), "utf8");
-    expect(contactForm).toMatch(/<button[^>]*cursor-pointer[^>]*>[\s\S]*?Send Inquiry/);
+    // Chat invitation button (the full forms are gone — Step B)
+    const chatInvitation = readFileSync(path.join(ROOT, "components/ChatInvitation.tsx"), "utf8");
+    expect(chatInvitation).toMatch(/<button[\s\S]*?cursor-pointer[\s\S]*?\{buttonLabel\}/);
+    const quotePage = readFileSync(path.join(ROOT, "app/quote/page.tsx"), "utf8");
+    expect(quotePage).toContain('buttonLabel="Start a quotation request"');
   });
 });

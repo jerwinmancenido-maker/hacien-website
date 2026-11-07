@@ -320,7 +320,7 @@ const cmsInventorySeeds: CmsInventorySeed[] = [
     label: "Contact page",
     route: "/contact",
     ownerType: "cms",
-    currentSource: "app/contact/page.tsx, components/ContactForm.tsx, data/companyContact.ts",
+    currentSource: "app/contact/page.tsx, components/ChatInvitation.tsx, data/companyContact.ts",
     editableNow: true,
     publishRisk: "medium",
     validationRequirements: ["claim-safety scan", "contact data review", "route screenshot QA"],

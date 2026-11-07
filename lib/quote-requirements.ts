@@ -1,6 +1,6 @@
 /** Shared formatting for quote requirement blocks (the cart items a buyer added
- *  from /products). Used by both the full QuoteCart form and the guided chat so
- *  the text HACIEN receives is identical either way. */
+ *  from /products). Used by the guided chat so the text HACIEN receives
+ *  matches the package the buyer built. */
 
 export type QuoteRequirementInput = {
   categoryLabel: string;

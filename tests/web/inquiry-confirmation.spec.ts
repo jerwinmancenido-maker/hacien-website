@@ -87,13 +87,11 @@ describe("inquiry confirmation email", () => {
     expect(action).toContain("result.referenceNumber");
   });
 
-  it("the quote, inquiry, and chat success screens mention the confirmation email", () => {
-    for (const rel of [
-      "components/QuoteCart.tsx",
-      "components/ContactForm.tsx",
-      "components/GuidedChat.tsx",
-    ]) {
-      expect(read(rel)).toContain("A confirmation email is on its way to your inbox.");
-    }
+  it("the chat success screen mentions the confirmation email", () => {
+    // The full forms are gone (Step B) — the guided chat is the only
+    // success screen left, and it carries the confirmation line.
+    expect(read("components/GuidedChat.tsx")).toContain(
+      "A confirmation email is on its way to your inbox.",
+    );
   });
 });

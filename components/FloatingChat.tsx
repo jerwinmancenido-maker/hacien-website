@@ -1,13 +1,37 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import { GuidedChat } from "@/components/GuidedChat";
+import { OPEN_CHAT_EVENT } from "@/components/ChatInvitation";
 
-/** The guided chat lives in this floating panel on every page — the
- *  quote, contact, and support pages show their full forms instead. */
+/** Pages where sending a request is the whole point: the chat panel opens
+ *  by itself when one of them loads. */
+const AUTO_OPEN_PATHS = ["/quote", "/contact", "/support"];
+
+/** The guided chat lives in this floating panel on every page. On the
+ *  quote, contact, and support pages it opens by itself — those pages show
+ *  an invitation card behind it as the fallback. If the visitor closes the
+ *  panel it stays closed for that page view. */
 export function FloatingChat({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const autoOpenedFor = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (!pathname || !AUTO_OPEN_PATHS.includes(pathname)) return;
+    if (autoOpenedFor.current === pathname) return;
+    autoOpenedFor.current = pathname;
+    setOpen(true);
+  }, [pathname]);
+
+  useEffect(() => {
+    function onOpenRequest() {
+      setOpen(true);
+    }
+    window.addEventListener(OPEN_CHAT_EVENT, onOpenRequest);
+    return () => window.removeEventListener(OPEN_CHAT_EVENT, onOpenRequest);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -35,7 +59,7 @@ export function FloatingChat({ turnstileSiteKey }: { turnstileSiteKey: string })
             ✕
           </button>
           <div className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-5">
-            <GuidedChat turnstileSiteKey={turnstileSiteKey} form={<FloatingFormLinks />} />
+            <GuidedChat turnstileSiteKey={turnstileSiteKey} />
           </div>
         </div>
       ) : null}
@@ -57,28 +81,5 @@ export function FloatingChat({ turnstileSiteKey }: { turnstileSiteKey: string })
         </svg>
       </button>
     </>
-  );
-}
-
-/** The full forms live on their own pages — the chat asks the same questions. */
-function FloatingFormLinks() {
-  return (
-    <div className="space-y-3">
-      <p className="text-sm leading-6 text-grey-700">
-        The full forms live on their own pages — the chat asks the same questions.
-      </p>
-      <Link
-        href="/quote"
-        className="block min-h-11 rounded-full bg-blue px-5 py-3 text-center text-sm font-bold text-white hover:bg-blue-dark"
-      >
-        Open the full quote form
-      </Link>
-      <Link
-        href="/contact"
-        className="block min-h-11 rounded-full border border-grey-300 bg-white px-5 py-3 text-center text-sm font-bold text-ink hover:bg-grey-50"
-      >
-        Open the full contact form
-      </Link>
-    </div>
   );
 }

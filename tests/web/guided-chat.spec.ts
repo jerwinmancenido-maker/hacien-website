@@ -250,7 +250,7 @@ describe("guided chat payloads", () => {
 });
 
 describe("shared requirement formatting", () => {
-  it("formats a requirement block exactly like the QuoteCart did", () => {
+  it("formats a requirement block in the shared format", () => {
     expect(formatRequirementLines([SAMPLE_REQUIREMENT])).toBe(
       [
         "1. Computers & Laptops — quantity/scope: 10",
@@ -265,9 +265,9 @@ describe("shared requirement formatting", () => {
     expect(formatRequirementLines([])).toBe("");
   });
 
-  it("QuoteCart uses the shared formatter, not its own copy", () => {
-    expect(read("components/QuoteCart.tsx")).toContain("formatRequirementLines(requirements)");
-    expect(read("components/QuoteCart.tsx")).toContain('from "@/lib/quote-requirements"');
+  it("the chat payloads use the shared formatter, not their own copy", () => {
+    expect(read("lib/guided-chat/payloads.ts")).toContain("formatRequirementLines(requirements)");
+    expect(read("lib/guided-chat/payloads.ts")).toContain('from "@/lib/quote-requirements"');
   });
 });
 
@@ -342,34 +342,28 @@ describe("guided chat upload", () => {
 });
 
 describe("guided chat wiring", () => {
-  it("quote page shows the full QuoteCart directly — the chat lives only in the floating panel", () => {
+  it("quote page shows the chat invitation — the chat lives only in the floating panel", () => {
     const page = read("app/quote/page.tsx");
-    expect(page).toContain("<QuoteCart");
-    expect(page).toContain("turnstileSiteKey={turnstileSiteKey}");
+    expect(page).toContain("<ChatInvitation");
+    expect(page).toContain('buttonLabel="Start a quotation request"');
     expect(page).not.toContain("GuidedChat");
+    expect(page).not.toContain("QuoteCart");
   });
 
-  it("contact and support pages show the full ContactForm directly — the chat lives only in the floating panel", () => {
+  it("contact and support pages show the chat invitation — the chat lives only in the floating panel", () => {
     for (const rel of ["app/contact/page.tsx", "app/support/page.tsx"]) {
       const page = read(rel);
-      expect(page).toContain("<ContactForm");
-      expect(page).toContain("turnstileSiteKey={turnstileSiteKey}");
+      expect(page).toContain("<ChatInvitation");
+      expect(page).toContain('buttonLabel="Start a conversation"');
       expect(page).not.toContain("GuidedChat");
+      expect(page).not.toContain("ContactForm");
     }
   });
 
-  it("the contact form shows a completeness checklist above the message box", () => {
-    const form = read("components/ContactForm.tsx");
-    expect(form).toContain("Please include:");
-    expect(form).toContain("Quantity and specifications");
-    expect(form).toContain("Delivery location, if it matters");
-    expect(form).toContain("When you need it");
-  });
-
-  it("the chat offers the full form and a way back, and never calls itself AI", () => {
+  it("the chat is the only mode — no full-form switch — and never calls itself AI", () => {
     const chat = read("components/GuidedChat.tsx");
-    expect(chat).toContain("Prefer the full form?");
-    expect(chat).toContain("Back to the guided chat");
+    expect(chat).not.toContain("Prefer the full form?");
+    expect(chat).not.toContain("Back to the guided chat");
     expect(chat).not.toMatch(/AI agent|artificial intelligence/i);
     expect(chat).toContain("{replyTime}");
     expect(chat).toContain("<TurnstileField");
