@@ -79,6 +79,28 @@ export function cleanTitleName(title: string): string | null {
   return parts[0] ?? null;
 }
 
+/** Registrable domain ("eTLD+1") for a host: the last two labels, or
+ *  three when the suffix is a common two-part public suffix
+ *  (com.ph, co.uk, ...). Used to decide whether a redirect stayed on
+ *  the company's own domain (www / country subdomains included). */
+const TWO_PART_SUFFIXES = new Set([
+  "com.ph", "net.ph", "org.ph", "co.uk", "org.uk", "com.au", "net.au",
+  "co.jp", "co.kr", "com.sg", "com.my", "co.id", "com.vn", "com.hk",
+  "com.tw", "com.br", "com.mx", "co.in", "com.co", "com.ng", "co.za",
+]);
+
+export function registrableDomain(host: string): string {
+  const labels = host.toLowerCase().split(".").filter(Boolean);
+  if (labels.length <= 2) return labels.join(".");
+  const lastTwo = labels.slice(-2).join(".");
+  return TWO_PART_SUFFIXES.has(lastTwo) ? labels.slice(-3).join(".") : lastTwo;
+}
+
+/** True when both hosts belong to the same registrable domain. */
+export function isSameSiteHost(a: string, b: string): boolean {
+  return registrableDomain(a) === registrableDomain(b);
+}
+
 /** Extract the likeliest company name from homepage HTML, in source
  *  order of trust: og:site_name, structured-data organization name,
  *  then the cleaned <title>. Returns null when nothing usable. */

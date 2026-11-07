@@ -10,15 +10,23 @@
  *
  * Safety: personal-mail domains are refused up front; every host is
  * DNS-resolved and rejected if it points at a private, loopback or
- * link-local address; redirects are followed manually (max 3, https
- * only, same site); the read is time- and size-capped; a per-IP
- * rate limit keeps the action from being used as a general fetcher.
+ * link-local address; redirects are followed manually (max 6, https
+ * only, same registrable domain); the read is time- and size-capped;
+ * a per-IP rate limit keeps the action from being used as a general
+ * fetcher. Only successful finds are cached — a miss is re-checked
+ * next time, so the progress card never flashes past on a cached
+ * failure.
  */
 
 import { lookup } from "node:dns/promises";
 import { headers } from "next/headers";
 import { Ratelimit } from "@upstash/ratelimit";
-import { emailDomain, extractCompanyName, isFreeMailDomain } from "@/lib/ai/company-lookup";
+import {
+  emailDomain,
+  extractCompanyName,
+  isFreeMailDomain,
+  isSameSiteHost,
+} from "@/lib/ai/company-lookup";
 import { getClientIp } from "@/lib/security/client-ip";
 import { redis } from "@/lib/redis/upstash";
 
@@ -102,19 +110,36 @@ async function hostIsPublic(host: string): Promise<boolean> {
   }
 }
 
-/** Fetch a homepage's HTML with SSRF guards: https only, the host
- *  must resolve publicly, redirects are followed manually (max 3,
- *  staying on the same site), and the body read is size-capped. */
-async function fetchHomepageHtml(host: string): Promise<string | null> {
-  let current = host;
-  for (let hop = 0; hop <= 3; hop++) {
-    if (!(await hostIsPublic(current))) return null;
+const MAX_REDIRECTS = 6;
+const LOOKUP_DEADLINE_MS = 12_000;
+/** A plain browser user agent — several corporate edges refuse
+ *  obvious bot agents outright. */
+const BROWSER_USER_AGENT =
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36";
+
+/** Fetch a homepage's HTML with SSRF guards: https only, every host
+ *  must resolve publicly, redirects are followed manually (max 6 —
+ *  big corporate sites chain apex → www → country page → home),
+ *  staying inside the same registrable domain, one shared deadline
+ *  across all hops and hosts, and the body read is size-capped. */
+async function fetchHomepageHtml(startHost: string, deadline: number): Promise<string | null> {
+  let url = `https://${startHost}/`;
+  for (let hop = 0; hop <= MAX_REDIRECTS; hop++) {
+    const remaining = deadline - Date.now();
+    if (remaining < 500) return null;
+    let host: string;
+    try {
+      host = new URL(url).hostname.toLowerCase();
+    } catch {
+      return null;
+    }
+    if (!(await hostIsPublic(host))) return null;
     let response: Response;
     try {
-      response = await fetch(`https://${current}/`, {
+      response = await fetch(url, {
         redirect: "manual",
-        headers: { "user-agent": "Mozilla/5.0 (compatible; HACIEN-website/1.0)" },
-        signal: AbortSignal.timeout(FETCH_TIMEOUT_MS),
+        headers: { "user-agent": BROWSER_USER_AGENT, accept: "text/html,application/xhtml+xml" },
+        signal: AbortSignal.timeout(Math.min(FETCH_TIMEOUT_MS, remaining)),
       });
     } catch {
       return null;
@@ -124,16 +149,13 @@ async function fetchHomepageHtml(host: string): Promise<string | null> {
       if (!location) return null;
       let next: URL;
       try {
-        next = new URL(location, `https://${current}/`);
+        next = new URL(location, url);
       } catch {
         return null;
       }
       if (next.protocol !== "https:") return null;
-      const nextHost = next.hostname.toLowerCase();
-      const sameSite =
-        nextHost === current || nextHost === `www.${current}` || current === `www.${nextHost}`;
-      if (!sameSite) return null;
-      current = nextHost;
+      if (!isSameSiteHost(next.hostname, startHost)) return null;
+      url = next.toString();
       continue;
     }
     if (!response.ok) return null;
@@ -181,8 +203,9 @@ export async function lookupCompanyFromEmail(email: string): Promise<CompanyLook
   if (!(await ipAllowed(ip))) return { found: false, reason: "rate-limited" };
 
   let result: CompanyLookupResult = { found: false, reason: "not-found" };
+  const deadline = Date.now() + LOOKUP_DEADLINE_MS;
   for (const host of domain.startsWith("www.") ? [domain] : [domain, `www.${domain}`]) {
-    const html = await fetchHomepageHtml(host);
+    const html = await fetchHomepageHtml(host, deadline);
     if (!html) continue;
     const companyName = extractCompanyName(html, domain);
     if (companyName) {
@@ -190,6 +213,9 @@ export async function lookupCompanyFromEmail(email: string): Promise<CompanyLook
       break;
     }
   }
-  cache.set(domain, { result, at: Date.now() });
+  // Cache finds only: a cached miss made the re-check (and the
+  // progress card) finish instantly, and a site that was briefly
+  // unreachable would stay "not found" for an hour.
+  if (result.found) cache.set(domain, { result, at: Date.now() });
   return result;
 }
