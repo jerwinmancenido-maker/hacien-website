@@ -6,6 +6,7 @@ import { useQuoteCart } from "@/components/QuoteCartProvider";
 import { AnimatedCard, StaggerContainer } from "@/components/motion";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
 import { replyTime } from "@/data/companyContact";
+import { formatRequirementLines } from "@/lib/quote-requirements";
 import { TurnstileField } from "@/components/TurnstileField";
 import billingSettings from "@/config/billing-compliance-settings.json";
 
@@ -79,23 +80,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
     const honeypot = data.get("_website") as string;
     if (honeypot) return;
 
-    const requirementLines = requirements.map((requirement, index) => {
-      const fieldLines = Object.entries(requirement.fields)
-        .filter(([, value]) => value)
-        .map(([key, value]) => `  - ${key}: ${value}`);
-
-      return [
-        `${index + 1}. ${requirement.categoryLabel} — quantity/scope: ${requirement.quantity}`,
-        `  - Preferred brand/vendor: ${requirement.brandPreference}${requirement.otherBrand ? ` (${requirement.otherBrand})` : ""}`,
-        `  - Equivalent options: ${requirement.equivalentAccepted}`,
-        requirement.deadline ? `  - Deadline: ${requirement.deadline}` : "",
-        requirement.deliveryLocation ? `  - Delivery location: ${requirement.deliveryLocation}` : "",
-        ...fieldLines,
-        requirement.notes ? `  - Notes: ${requirement.notes}` : "",
-      ]
-        .filter(Boolean)
-        .join("\n");
-    });
+    const requirementLines = formatRequirementLines(requirements);
     const file = data.get("attachment") as File | null;
     const notes = String(data.get("notes") || "").trim();
     const submittedAttachmentInfo =
@@ -128,7 +113,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
       targetDate: data.get("targetDate"),
       budgetRange: data.get("budgetRange"),
       notes,
-      requirements: requirementLines.join("\n\n"),
+      requirements: requirementLines,
       requirementBlocks: requirements,
       requirementCount: requirements.length,
       attachmentInfo: submittedAttachmentInfo,
