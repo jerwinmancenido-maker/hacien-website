@@ -161,6 +161,13 @@ describe("AI chat knowledge sheet", () => {
     expect(prompt).toContain("remind the visitor not to share IDs or tax papers in chat");
   });
 
+  it("collects the quote email before the company, and hands the company lookup to the chat", () => {
+    const prompt = buildAiChatSystemPrompt();
+    expect(prompt).toContain("collect the email address BEFORE the company name");
+    expect(prompt).toContain("the chat looks the company up from the email's domain");
+    expect(prompt).toContain("ask for the company name yourself");
+  });
+
   it("routes the human situations: no memory between visits, no bank details, change/cancel, no-email visitors", () => {
     const prompt = buildAiChatSystemPrompt();
     expect(prompt).toContain("You have no memory of earlier visits or other conversations");
@@ -560,5 +567,22 @@ describe("AI chat document UI wiring", () => {
     expect(ai).toContain("Reading · Your document");
     expect(ai).toContain("Extracting the items and quantities");
     expect(ai).toContain("Documents are read only to prepare your quotation request");
+  });
+
+  it("looks the company up from a work email and asks the visitor to confirm it", () => {
+    const ai = read("components/AiChat.tsx");
+    expect(ai).toContain("lookupCompanyFromEmail");
+    expect(ai).toContain("maybeLookupCompany");
+    expect(ai).toContain("Looking up · Your company");
+    expect(ai).toContain("Checking the email domain");
+    expect(ai).toContain("is this your company?");
+    expect(ai).toContain("Yes, that&rsquo;s my company");
+  });
+
+  it("starts lowered and centered like the Tourly chat, gliding up on the first message", () => {
+    const ai = read("components/AiChat.tsx");
+    expect(ai).toContain("const started = messages.length > 0");
+    expect(ai).toContain("pt-[9vh]");
+    expect(ai).toContain("transition-[padding] duration-500");
   });
 });

@@ -45,8 +45,8 @@ describe("Floating chat button", () => {
 
   it("goes near full-screen on phones and a small card on desktop", () => {
     expect(floating).toContain("inset-x-4 bottom-24 top-20");
-    expect(floating).toContain("sm:w-[380px]");
-    expect(floating).toContain("sm:h-[560px]");
+    expect(floating).toContain("sm:w-[440px]");
+    expect(floating).toContain("sm:h-[640px]");
   });
 
   it("sits below the cookie banner so it never covers Accept or Decline", () => {

@@ -55,7 +55,7 @@ export function FloatingChat({ turnstileSiteKey }: { turnstileSiteKey: string })
         <div
           role="dialog"
           aria-label="Chat with the HACIEN team"
-          className="fixed inset-x-4 bottom-24 top-20 z-40 flex flex-col overflow-hidden rounded-3xl border border-grey-200 bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:top-auto sm:h-[560px] sm:w-[380px] sm:max-h-[calc(100dvh-8rem)]"
+          className="fixed inset-x-4 bottom-24 top-20 z-40 flex flex-col overflow-hidden rounded-3xl border border-grey-200 bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:top-auto sm:h-[640px] sm:w-[440px] sm:max-h-[calc(100dvh-8rem)]"
         >
           <button
             type="button"
