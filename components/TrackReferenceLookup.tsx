@@ -45,7 +45,7 @@ export function TrackReferenceLookup({
             name="referenceNumber"
             value={referenceNumber}
             onChange={(event) => setReferenceNumber(event.target.value)}
-            placeholder="Example: RFQ-2026-000001"
+            placeholder="Example: LEAD-2026-000001"
             className="mt-2 w-full rounded border border-grey-200 bg-white px-4 py-3 text-sm font-semibold text-ink shadow-inner outline-none transition focus:border-[#2563EB] focus:ring-4 focus:ring-blue-100"
             required
             aria-required="true"
@@ -59,6 +59,7 @@ export function TrackReferenceLookup({
           Track request
         </button>
       </div>
+      <p className="text-xs leading-5 text-grey-600">Your reference number is in the confirmation email we sent you. Lost it? Open the chat and we will help you find it.</p>
       <TurnstileField siteKey={turnstileSiteKey} resetSignal={turnstileResetSignal} />
     </form>
   );

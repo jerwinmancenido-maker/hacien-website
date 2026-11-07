@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 };
 
 const availableNow = [
-  ["Request Quote", "Submit requirements, BOQs, files, existing quotes, or project details through the Gateway.", "/quote"],
+  ["Request a Quote", "Submit requirements, BOQs, files, existing quotes, or project details through the Gateway.", "/quote"],
   ["Track Reference", "Use a reference number to view request status and continue the inquiry path.", "/track"],
   ["Contact Support", "Send follow-up details for quotation, fulfillment questions, or company communication.", "/support"],
 ];

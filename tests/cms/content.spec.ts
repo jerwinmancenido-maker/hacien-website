@@ -60,10 +60,10 @@ describe("CMS read layer", () => {
     const navigation = getNavigationContent();
 
     expect(navigation.header.primaryItems.map((item) => item.href)).toEqual(
-      expect.arrayContaining(["/", "/solutions", "/technology", "/platform", "/insights", "/about"]),
+      expect.arrayContaining(["/", "/solutions", "/technology", "/products", "/insights", "/about"]),
     );
     expect(navigation.footer.groups.flatMap((group) => group.links.map((link) => link.href))).toEqual(
-      expect.arrayContaining(["/help", "/faq", "/track", "/privacy", "/terms", "/legal"]),
+      expect.arrayContaining(["/support", "/faq", "/track", "/privacy", "/terms", "/legal"]),
     );
   });
 
@@ -552,7 +552,6 @@ describe("CMS read layer", () => {
           { label: "Solutions", href: "/solutions" },
           { label: "Technology", href: "/technology" },
           { label: "Products", href: "/products" },
-          { label: "Platform", href: "/platform" },
           { label: "Insights", href: "/insights" },
           { label: "Company", href: "/about" },
           { label: "Contact", href: "/contact" },
@@ -604,7 +603,6 @@ describe("CMS read layer", () => {
           { label: "Solutions", href: "/solutions" },
           { label: "Technology", href: "/technology" },
           { label: "Products", href: "/products" },
-          { label: "Platform", href: "/platform" },
           { label: "Insights", href: "/insights" },
           { label: "Company", href: "/about" },
           { label: "Contact", href: "/contact" },
@@ -929,7 +927,6 @@ describe("CMS read layer", () => {
           { label: "Solutions", href: "/solutions" },
           { label: "Technology", href: "/technology" },
           { label: "Products", href: "/products" },
-          { label: "Platform", href: "/platform" },
           { label: "Insights", href: "/insights" },
           { label: "Company", href: "/about" },
           { label: "Contact", href: "/contact" },
@@ -986,7 +983,7 @@ describe("CMS read layer", () => {
 
     expect(plan.applySupported).toBe(false);
     expect(plan.errors).toContain(
-      "Header navigation apply requires 9 links: the current primary links and a quote action.",
+      "Header navigation apply requires 8 links: the current primary links and a quote action.",
     );
   });
 
