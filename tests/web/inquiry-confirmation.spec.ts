@@ -21,10 +21,13 @@ describe("inquiry confirmation email", () => {
     expect(built?.subject).toContain("Quotation request received");
     expect(built?.subject).toContain("RFQ-2026-000009");
     expect(built?.html).toContain("Hi Maria Santos,");
-    expect(built?.html).toContain("<strong>RFQ-2026-000009</strong>");
+    expect(built?.html).toContain("REFERENCE NUMBER");
+    expect(built?.html).toContain("RFQ-2026-000009");
     expect(built?.html).toContain("https://haciensolutions.com/track/RFQ-2026-000009");
-    expect(built?.html).toContain("What you need: 10 laptops");
-    expect(built?.html).toContain("Requirement package: 1 item");
+    expect(built?.html).toContain("What you need");
+    expect(built?.html).toContain("10 laptops");
+    expect(built?.html).toContain("Requirement package");
+    expect(built?.html).toContain("1 item");
     expect(built?.html).toContain("Within 1 business day");
     expect(built?.html).toContain("info@haciensolutions.com");
   });
@@ -37,7 +40,8 @@ describe("inquiry confirmation email", () => {
       summaryLines: ["Your message: We supply servers."],
     });
     expect(inquiry?.subject).toContain("Inquiry received");
-    expect(inquiry?.html).toContain("Your message: We supply servers.");
+    expect(inquiry?.html).toContain("Your message");
+    expect(inquiry?.html).toContain("We supply servers.");
 
     const callback = buildInquiryConfirmationEmail({
       type: "Callback Request",
@@ -46,6 +50,8 @@ describe("inquiry confirmation email", () => {
       summaryLines: ["Please call me back at 09171234567."],
     });
     expect(callback?.subject).toContain("Callback request received");
+    // A summary line without a known label renders whole, as one row.
+    expect(callback?.html).toContain("Please call me back at 09171234567.");
   });
 
   it("returns null without an email address or a reference number", () => {

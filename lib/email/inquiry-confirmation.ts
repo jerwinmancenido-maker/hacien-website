@@ -1,5 +1,13 @@
 import { companyContact, replyTime } from "@/data/companyContact";
 import { sendEmail } from "@/lib/email/resend-client";
+import {
+  buildEmailParagraph,
+  buildEmailShell,
+  buildReferenceBox,
+  buildStepsSection,
+  buildSummarySection,
+  escapeHtml,
+} from "@/lib/email/template";
 import { getCanonicalUrl } from "@/lib/seo/site-metadata";
 
 /**
@@ -9,6 +17,9 @@ import { getCanonicalUrl } from "@/lib/seo/site-metadata";
  * The submission itself never depends on this email: when the mail provider
  * is not configured (or the send fails), the caller logs it and the
  * submission still succeeds with its reference number.
+ *
+ * The body is built on the shared email template (lib/email/template.ts)
+ * — the same shell as the staff notification email.
  */
 
 export type InquiryConfirmationInput = {
@@ -27,14 +38,6 @@ export type InquiryConfirmationEmail = {
   html: string;
 };
 
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
-
 function getConfirmationKind(type: string): {
   title: string;
   kind: string;
@@ -49,6 +52,11 @@ function getConfirmationKind(type: string): {
   return { title: "Inquiry received", kind: "inquiry" };
 }
 
+/** Labels the submission flow itself puts in front of summary lines. A line
+ * starting with one of these renders as a label/value row; any other line
+ * (e.g. a customer's free-text message) renders as a full-width row. */
+const SUMMARY_LABELS = ["What you need", "Requirement package", "Type", "Your message"];
+
 export function buildInquiryConfirmationEmail(
   input: InquiryConfirmationInput,
 ): InquiryConfirmationEmail | null {
@@ -59,29 +67,34 @@ export function buildInquiryConfirmationEmail(
   const { title, kind } = getConfirmationKind(input.type);
   const name = input.name?.trim();
   const trackUrl = getCanonicalUrl(`/track/${encodeURIComponent(referenceNumber)}`);
-  const summaryItems = input.summaryLines
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => `      <li>${escapeHtml(line)}</li>`)
-    .join("\n");
+  const contactEmail = escapeHtml(companyContact.email);
 
-  const html = [
-    `<p>Hi${name ? ` ${escapeHtml(name)}` : ""},</p>`,
-    `<p>We&rsquo;ve received your ${kind}. Your reference number is <strong>${escapeHtml(referenceNumber)}</strong>.</p>`,
-    summaryItems
-      ? `<p><strong>What you sent</strong></p>\n    <ul>\n${summaryItems}\n    </ul>`
-      : "",
-    `<p>Track your request: <a href="${trackUrl}">${trackUrl}</a></p>`,
-    `<p>Reply time: ${escapeHtml(replyTime)}</p>`,
-    `<p>HACIEN Information Technology Solutions &middot; ${escapeHtml(companyContact.email)}</p>`,
-  ]
-    .filter(Boolean)
-    .join("\n");
+  const steps = buildStepsSection("What happens next", [
+    "Our team reviews your request.",
+    `Reply time: ${escapeHtml(replyTime)}`,
+    `Questions in the meantime? Email <a href="mailto:${contactEmail}" style="color:#2563EB;text-decoration:none;">${contactEmail}</a> and mention your reference number.`,
+  ]);
+
+  // No filter on purpose: an empty summary section keeps the same blank
+  // line the hand-written template produced, so the output is unchanged.
+  const bodyHtml = [
+    buildEmailParagraph(`Hi${name ? ` ${escapeHtml(name)}` : ""},`, "0 0 8px"),
+    buildEmailParagraph(
+      `Thank you — we&rsquo;ve received your ${escapeHtml(kind)}. Keep your reference number; you can use it to track your request any time.`,
+    ),
+    buildReferenceBox(referenceNumber, { url: trackUrl, label: "Track your request" }),
+    buildSummarySection("What you sent", input.summaryLines, SUMMARY_LABELS),
+    steps,
+  ].join("\n");
 
   return {
     to: email,
     subject: `${title} — ${referenceNumber} · HACIEN`,
-    html,
+    html: buildEmailShell({
+      heading: title,
+      bodyHtml,
+      footnote: "This is an automatic confirmation of your website submission.",
+    }),
   };
 }
 
