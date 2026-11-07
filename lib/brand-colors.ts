@@ -1,6 +1,6 @@
 /**
  * HACIEN brand color tokens (style guide v1).
- * Mirrors `public/brand/HACIEN-style-guide.md` and CSS variables in `app/globals.css`.
+ * Mirrors `HACIEN-style-guide.md` and CSS variables in `app/globals.css`.
  * Prefer these (or Tailwind token classes) over ad-hoc hex values.
  *
  * Blue (`--blue`) is reserved for CTAs, links, and focus rings only.

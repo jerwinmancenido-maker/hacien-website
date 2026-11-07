@@ -6,7 +6,8 @@ export function LenisProvider({ children }: Readonly<{ children: React.ReactNode
   // suspect for the scroll-lag reports on desktop (fine pointer). PR #32
   // had already restored native scrolling on coarse-pointer phones; desktop
   // still lagged, so Lenis is gone everywhere instead of tuned. The `lenis`
-  // package and the html.lenis rules in app/globals.css are left in place
-  // for now (unused, harmless) and can be removed as a follow-up.
+  // package and the html.lenis rules in app/globals.css were removed as
+  // dead code 2026-11-07; this provider stays as a no-op so call sites
+  // in app/layout.tsx do not need to change.
   return children;
 }
