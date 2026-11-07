@@ -1,5 +1,3 @@
-import "server-only";
-
 export interface SendEmailPayload {
   to: string;
   subject: string;

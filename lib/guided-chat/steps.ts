@@ -1,7 +1,10 @@
 /** Guided chat: the four paths and their steps, as plain data.
  *  No UI here, so the step lists and validation are unit-testable.
  *  Steps map 1:1 to the fields the existing QuoteCart / ContactForm submit —
- *  the chat collects the same answers, only one question at a time. */
+ *  the chat collects the same answers, only one question at a time.
+ *  One exception: the inquiry message is composed from the guided answers
+ *  (need, details, location, targetDate, message) so staff receive a
+ *  complete inquiry instead of one free-text box. */
 
 import { contactInquiryTypes } from "@/app/actions/contact-inquiry";
 
@@ -118,11 +121,39 @@ export const CHAT_PATHS: ChatPath[] = [
         required: true,
       },
       {
-        id: "message",
-        question: "What would you like to ask?",
+        id: "need",
+        question: "What do you need?",
         kind: "textarea",
         required: true,
-        placeholder: "Project description, specifications, quantities, or procurement details",
+        placeholder: "Example: 20 laptops for our office, or a supplier partnership for networking equipment",
+        hint: "Describe the item, project, or question in one or two sentences.",
+      },
+      {
+        id: "details",
+        question: "Any quantities, specifications, or details?",
+        kind: "textarea",
+        required: false,
+        placeholder: "Quantity, specs, brands, or anything else that helps us answer",
+      },
+      {
+        id: "location",
+        question: "Where should it be delivered, if it matters?",
+        kind: "text",
+        required: false,
+        placeholder: "Delivery location",
+      },
+      {
+        id: "targetDate",
+        question: "When do you need it?",
+        kind: "date",
+        required: false,
+      },
+      {
+        id: "message",
+        question: "Anything else to add?",
+        kind: "textarea",
+        required: false,
+        placeholder: "Anything else HACIEN should know",
       },
       { id: "name", question: "What is your name?", kind: "text", required: true, placeholder: "Full name" },
       {

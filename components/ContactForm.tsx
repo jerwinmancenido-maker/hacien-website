@@ -20,6 +20,7 @@ export function ContactForm({
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [referenceNumber, setReferenceNumber] = useState("");
+  const [confirmationSent, setConfirmationSent] = useState(false);
   const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
   const startedAtInputRef = useRef<HTMLInputElement>(null);
@@ -64,10 +65,12 @@ export function ContactForm({
     };
 
     setStatus("sending");
+    setConfirmationSent(false);
     const result = await sendInquiryEmail(payload);
 
     if (result.success) {
       setReferenceNumber(result.referenceNumber || "");
+      setConfirmationSent(result.confirmationSent === true);
       setStatus("success");
       form.reset();
       setTurnstileResetSignal((value) => value + 1);
@@ -95,6 +98,9 @@ export function ContactForm({
                 Track request
               </Link>
             </div>
+          ) : null}
+          {confirmationSent ? (
+            <p className="mt-3 text-sm text-grey-700">A confirmation email is on its way to your inbox.</p>
           ) : null}
         </div>
       </div>
@@ -270,6 +276,13 @@ export function ContactForm({
           </div>
         </div>
         <div>
+          <p className="mb-2 text-sm font-semibold text-grey-700">Please include:</p>
+          <ul className="mb-3 list-disc pl-5 text-sm leading-6 text-grey-700">
+            <li>What you need — item, project, or question</li>
+            <li>Quantity and specifications</li>
+            <li>Delivery location, if it matters</li>
+            <li>When you need it</li>
+          </ul>
           <label htmlFor={`${baseId}-message`} className="block text-sm font-semibold text-grey-700 mb-1">
             Project description, specifications, quantities, or procurement details <span className="text-grey-600">*</span>
           </label>
@@ -279,7 +292,7 @@ export function ContactForm({
             aria-required="true"
             name="message"
             aria-label="Project description, specifications, quantities, or procurement details"
-            placeholder="Project description, specifications, quantities, or procurement details"
+            placeholder="Example: 20 laptops for our office, 16GB, with monitors — delivery in Ortigas, needed by December"
             rows={5}
             className="focus-ring w-full rounded border border-grey-200 bg-white px-4 py-3"
           />

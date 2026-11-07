@@ -58,6 +58,15 @@ export function buildInquiryPayload(
   answers: GuidedChatAnswers,
   meta: GuidedChatMeta,
 ): Record<string, unknown> {
+  // The inquiry message is composed from the guided answers, so the
+  // submitted message is complete even when the customer skips a step.
+  const messageParts = [
+    answers.need ? `What is needed: ${answers.need}` : "",
+    answers.details ? `Details: ${answers.details}` : "",
+    answers.location ? `Delivery location: ${answers.location}` : "",
+    answers.targetDate ? `Needed by: ${answers.targetDate}` : "",
+    answers.message ? `Anything else: ${answers.message}` : "",
+  ].filter(Boolean);
   return {
     type: "Contact Inquiry",
     website: meta.website,
@@ -70,7 +79,7 @@ export function buildInquiryPayload(
     inquiryType: answers.inquiryType || "",
     budgetRange: answers.budgetRange || "",
     timeline: answers.timeline || "",
-    message: answers.message || "",
+    message: messageParts.join("\n\n"),
     submittedAt: new Date().toISOString(),
   };
 }

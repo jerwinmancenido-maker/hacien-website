@@ -3,6 +3,7 @@
 import { headers } from "next/headers";
 import { Ratelimit } from "@upstash/ratelimit";
 import { isContactInquiryType } from "@/app/actions/contact-inquiry";
+import { sendInquiryConfirmationEmail } from "@/lib/email/inquiry-confirmation";
 import { getClientIp } from "@/lib/security/client-ip";
 import { redis } from "@/lib/redis/upstash";
 
@@ -163,6 +164,8 @@ export type EmailResult = {
   referenceNumber?: string;
   status?: string;
   trackingUrl?: string;
+  /** True only when the customer confirmation email was accepted by the mail provider. */
+  confirmationSent?: boolean;
 };
 
 function getGatewaySubmissionType(formType: string) {
@@ -279,13 +282,49 @@ export async function sendInquiryEmail(
 
   try {
     const result = await submitToGateway(formData, ip);
-    if (result.success) {
-      console.info("Gateway: Submission received.", {
-        referenceNumber: result.referenceNumber,
-        status: result.status,
-      });
+    if (!result.success) return result;
+
+    console.info("Gateway: Submission received.", {
+      referenceNumber: result.referenceNumber,
+      status: result.status,
+    });
+
+    // The confirmation email is best-effort: a failure here never fails
+    // the submission — the reference number on screen is the confirmation.
+    const submissionType = getString(formData.type);
+    const normalizedType = submissionType.toLowerCase();
+    const summaryLines: string[] = [];
+    if (normalizedType.includes("quote") || normalizedType.includes("rfq")) {
+      const notes = getString(formData.notes).trim();
+      if (notes) summaryLines.push(`What you need: ${notes}`);
+      const count = Number(formData.requirementCount);
+      if (Number.isFinite(count) && count > 0) {
+        summaryLines.push(`Requirement package: ${count} item${count === 1 ? "" : "s"}`);
+      }
+    } else if (normalizedType.includes("callback")) {
+      const message = getString(formData.message).trim();
+      if (message) summaryLines.push(message);
+    } else {
+      const inquiryType = getString(formData.inquiryType).trim();
+      if (inquiryType) summaryLines.push(`Type: ${inquiryType}`);
+      const message = getString(formData.message).trim();
+      if (message) summaryLines.push(`Your message: ${message}`);
     }
-    return result;
+
+    let confirmationSent = false;
+    try {
+      confirmationSent = await sendInquiryConfirmationEmail({
+        type: submissionType,
+        email: getString(formData.email),
+        referenceNumber: result.referenceNumber || "",
+        name: getString(formData.name),
+        summaryLines,
+      });
+    } catch {
+      confirmationSent = false;
+    }
+
+    return { ...result, confirmationSent };
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Failed to send email";
 
