@@ -80,6 +80,10 @@ const CHOICE_FIELD_OPTIONS: Partial<Record<AiChatPath, Record<string, readonly s
 };
 
 const MAX_FIELD_LENGTH = 600;
+/** The substantive free-text fields can carry a whole requirements
+ *  list extracted from an attached BOQ — they get a longer cap. */
+const LONG_TEXT_FIELDS = new Set(["need", "details", "message"]);
+const MAX_LONG_FIELD_LENGTH = 4_000;
 const MAX_REPLY_LENGTH = 2_000;
 
 export function isAiChatPath(value: unknown): value is AiChatPath {
@@ -99,7 +103,8 @@ export function sanitizeIntakeFields(
   const clean: GuidedChatAnswers = {};
   for (const [key, value] of Object.entries(raw as Record<string, unknown>)) {
     if (!allowed.has(key) || typeof value !== "string") continue;
-    const trimmed = value.trim().slice(0, MAX_FIELD_LENGTH);
+    const cap = LONG_TEXT_FIELDS.has(key) ? MAX_LONG_FIELD_LENGTH : MAX_FIELD_LENGTH;
+    const trimmed = value.trim().slice(0, cap);
     if (!trimmed) continue;
     const options = choiceOptions[key];
     if (options) {

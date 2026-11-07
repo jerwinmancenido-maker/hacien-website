@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
-import { sendAiChatMessage } from "@/app/actions/ai-chat";
+import { sendAiChatDocument, sendAiChatMessage } from "@/app/actions/ai-chat";
+import { AI_DOCUMENT_ACCEPT, validateAiDocument } from "@/lib/ai/document";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
 import { replyTime } from "@/data/companyContact";
 import { AgentMessage, MessageComposer, UserBubble } from "@/components/GuidedChat";
@@ -46,6 +47,60 @@ const SUCCESS_TITLES: Record<AiChatPath, string> = {
 const GREETING =
   "Hi, I'm the HACIEN AI assistant. Ask me about what we supply, delivery, or how quoting works — or just tell me what you need and I'll prepare your request. A real person from the HACIEN team reads every submitted request.";
 
+/** Staged progress while an attached document is being read — the
+ *  same honest staging as the guided chat's processing view: the
+ *  steps advance while the read is genuinely in flight and complete
+ *  when the reply lands. No percentage — there is no truthful one. */
+const DOCUMENT_STAGES = [
+  "Uploading your document",
+  "Reading the document",
+  "Extracting the items and quantities",
+  "Preparing your summary",
+];
+
+function DocumentProcessingView() {
+  const [stage, setStage] = useState(0);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setStage((value) => Math.min(value + 1, DOCUMENT_STAGES.length - 1));
+    }, 2200);
+    return () => clearInterval(timer);
+  }, []);
+  return (
+    <div className="ml-11 rounded-3xl border border-grey-200 bg-white p-4">
+      <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-grey-600">Reading · Your document</div>
+      <div className="mt-3 h-1 overflow-hidden rounded-full bg-grey-100">
+        <div className="h-full w-1/3 animate-pulse rounded-full bg-blue" />
+      </div>
+      <ul className="mt-3 space-y-2">
+        {DOCUMENT_STAGES.map((label, index) => (
+          <li
+            key={label}
+            className={`flex items-center gap-2 text-sm ${index <= stage ? "text-ink" : "text-grey-400"}`}
+          >
+            {index < stage ? (
+              <span
+                className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-blue text-[11px] font-bold text-white"
+                aria-hidden="true"
+              >
+                ✓
+              </span>
+            ) : index === stage ? (
+              <span
+                className="h-5 w-5 shrink-0 animate-spin rounded-full border-2 border-grey-200 border-t-blue"
+                aria-hidden="true"
+              />
+            ) : (
+              <span className="h-5 w-5 shrink-0 rounded-full border border-grey-200" aria-hidden="true" />
+            )}
+            {label}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 type ChatMessage = {
   role: "user" | "assistant";
   text: string;
@@ -85,6 +140,29 @@ export function AiChat({
   const [confirmationSent, setConfirmationSent] = useState(false);
   const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
   const [turnstileToken, setTurnstileToken] = useState("");
+  const [attachment, setAttachment] = useState<File | null>(null);
+  const [attachError, setAttachError] = useState("");
+  const [dragOver, setDragOver] = useState(false);
+  const [readingDocument, setReadingDocument] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  /** Stage one file for the next message. The same validation runs
+   *  again on the server — this check is only for fast feedback. */
+  function stageFile(file: File | null) {
+    if (!file) return;
+    const check = validateAiDocument({
+      fileName: file.name || "attachment",
+      declaredType: file.type || "",
+      size: file.size,
+    });
+    if (!check.ok) {
+      setAttachError(check.message);
+      setAttachment(null);
+      return;
+    }
+    setAttachError("");
+    setAttachment(file);
+  }
 
   const turnstilePending = Boolean(turnstileSiteKey) && turnstileToken.length === 0;
   const started = messages.length > 0;
@@ -118,40 +196,56 @@ export function AiChat({
     setConfirmationSent(false);
     setTurnstileResetSignal((value) => value + 1);
     setTurnstileToken("");
+    setAttachment(null);
+    setAttachError("");
+    setReadingDocument(false);
   }
 
   async function send(rawText: string) {
-    const text = rawText.trim();
+    const file = attachment;
+    const text = rawText.trim() || (file ? "I've attached our requirements document — please read it." : "");
     if (!text || sending) return;
     if (startedAt === null) setStartedAt(Date.now());
     setDraft("");
     setNotice("");
-    const history: ChatMessage[] = [...messages, { role: "user", text }];
+    setAttachment(null);
+    setAttachError("");
+    const displayText = file ? `${text}\n📎 ${file.name}` : text;
+    const history: ChatMessage[] = [...messages, { role: "user", text: displayText }];
     setMessages(history);
 
     // A reference number mentioned anywhere in the message is answered
     // locally with its tracking link — no API call, no guessing at
     // statuses, and no lead details are ever revealed in chat.
-    const trackUrl = findTrackUrl(text);
-    if (trackUrl) {
-      setMessages([
-        ...history,
-        {
-          role: "assistant",
-          text: "Here's the tracking page for that reference:",
-          trackUrl,
-        },
-      ]);
-      return;
+    if (!file) {
+      const trackUrl = findTrackUrl(text);
+      if (trackUrl) {
+        setMessages([
+          ...history,
+          {
+            role: "assistant",
+            text: "Here's the tracking page for that reference:",
+            trackUrl,
+          },
+        ]);
+        return;
+      }
     }
 
     setSending(true);
-    const result = await sendAiChatMessage({
-      messages: history.map((message) => ({ role: message.role, content: message.text })),
-      path,
-      fields,
-    });
+    setReadingDocument(Boolean(file));
+    const apiMessages = history.map((message) => ({ role: message.role, content: message.text }));
+    let result;
+    if (file) {
+      const formData = new FormData();
+      formData.set("document", file);
+      formData.set("payload", JSON.stringify({ messages: apiMessages, path, fields }));
+      result = await sendAiChatDocument(formData);
+    } else {
+      result = await sendAiChatMessage({ messages: apiMessages, path, fields });
+    }
     setSending(false);
+    setReadingDocument(false);
 
     if (!result.ok) {
       if (result.reason === "not-configured") {
@@ -230,7 +324,31 @@ export function AiChat({
   const reviewSteps = path ? getChatPath(path).steps : [];
 
   return (
-    <div className="mx-auto max-w-3xl">
+    <div
+      className={`mx-auto max-w-3xl rounded-3xl ${dragOver ? "outline-2 outline-dashed outline-blue" : ""}`}
+      onDragOver={(event) => {
+        event.preventDefault();
+        setDragOver(true);
+      }}
+      onDragLeave={() => setDragOver(false)}
+      onDrop={(event) => {
+        event.preventDefault();
+        setDragOver(false);
+        stageFile(event.dataTransfer.files?.[0] ?? null);
+      }}
+    >
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept={AI_DOCUMENT_ACCEPT}
+        className="hidden"
+        aria-hidden="true"
+        tabIndex={-1}
+        onChange={(event) => {
+          stageFile(event.currentTarget.files?.[0] ?? null);
+          event.currentTarget.value = "";
+        }}
+      />
       <div className="flex items-center gap-3">
         <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-blue text-sm font-bold text-white" aria-hidden="true">
           H
@@ -339,7 +457,13 @@ export function AiChat({
             </div>
           ) : null}
 
-          {sending ? <p className="ml-11 text-sm text-grey-600">Typing…</p> : null}
+          {sending ? (
+            readingDocument ? (
+              <DocumentProcessingView />
+            ) : (
+              <p className="ml-11 text-sm text-grey-600">Typing…</p>
+            )
+          ) : null}
 
           {notice ? (
             <div className="space-y-3">
@@ -422,6 +546,28 @@ export function AiChat({
             <AgentMessage text="Sending your request…" />
           ) : (
             <>
+              {attachment ? (
+                <div className="flex items-center gap-2 rounded-2xl border border-grey-200 bg-grey-50 px-4 py-2 text-sm text-ink">
+                  <span aria-hidden="true">📎</span>
+                  <span className="min-w-0 flex-1 truncate font-semibold">{attachment.name}</span>
+                  <span className="shrink-0 text-xs text-grey-600">
+                    {(attachment.size / 1024).toFixed(0)} KB — read when you send
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => setAttachment(null)}
+                    className="shrink-0 cursor-pointer font-bold text-blue hover:underline"
+                    aria-label="Remove attachment"
+                  >
+                    ✕
+                  </button>
+                </div>
+              ) : null}
+              {attachError ? (
+                <p className="text-sm font-semibold text-red-600" role="alert">
+                  {attachError}
+                </p>
+              ) : null}
               <MessageComposer
                 id="ai-chat-message"
                 label="Type your message"
@@ -430,16 +576,27 @@ export function AiChat({
                 onChange={setDraft}
                 onSubmit={send}
                 placeholder="Type your message…"
-                required
                 autoFocus={false}
               />
-              <button
-                type="button"
-                onClick={onUseGuided}
-                className="cursor-pointer text-sm font-bold text-blue hover:underline"
-              >
-                Prefer step-by-step questions?
-              </button>
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="cursor-pointer text-sm font-bold text-blue hover:underline"
+                >
+                  📎 Attach a document (BOQ, RFQ, or photo)
+                </button>
+                <button
+                  type="button"
+                  onClick={onUseGuided}
+                  className="cursor-pointer text-sm font-bold text-blue hover:underline"
+                >
+                  Prefer step-by-step questions?
+                </button>
+              </div>
+              <p className="text-xs text-grey-600">
+                Documents are read only to prepare your quotation request. Please do not attach IDs or tax papers.
+              </p>
             </>
           )}
           <div ref={bottomRef} aria-hidden="true" />
