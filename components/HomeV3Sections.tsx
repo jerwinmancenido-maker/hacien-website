@@ -43,29 +43,29 @@ const categoryImages: Record<string, keyof typeof enterpriseImages> = {
 
 export function TechnologyEcosystem() {
   return (
-    <AnimatedSection className="glass-section-dark py-9 text-white sm:py-12 lg:py-14">
-      <div className="mx-auto grid max-w-7xl gap-6 px-4 sm:px-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:px-8">
-        <div>
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-400">{homepageContent.rfqReadiness.eyebrow}</div>
-          <h2 className="mt-4 text-2xl font-bold tracking-tight sm:text-3xl">{homepageContent.rfqReadiness.title}</h2>
-          <p className="mt-3 max-w-2xl text-sm leading-6 text-grey-300 sm:mt-4 sm:text-base sm:leading-7">
-            {homepageContent.rfqReadiness.description}
-          </p>
-          <StaggerContainer className="mt-5 grid gap-2 sm:mt-7 sm:grid-cols-2 sm:gap-3">
-            {homepageContent.rfqReadiness.cards.map((item, index) => (
-              <AnimatedCard key={`${item.title}-${index}`} className="group rounded-lg border border-white/12 bg-white/[0.06] p-4 backdrop-blur sm:p-5">
-                <div className="text-base font-bold">{item.title}</div>
-                {item.text ? <p className="mt-2 text-sm leading-6 text-grey-300">{item.text}</p> : null}
-              </AnimatedCard>
-            ))}
-          </StaggerContainer>
+    <AnimatedSection className="bg-white py-12 sm:py-16">
+      <div className="mx-auto max-w-3xl px-4 sm:px-6">
+        <div className="text-xs font-semibold uppercase tracking-[0.18em] text-grey-600">{homepageContent.rfqReadiness.eyebrow}</div>
+        <h2 className="mt-4 text-2xl font-bold tracking-tight text-ink sm:text-3xl">{homepageContent.rfqReadiness.title}</h2>
+        <p className="mt-4 text-base leading-7 text-grey-700">
+          {homepageContent.rfqReadiness.description}
+        </p>
+        <StaggerContainer className="mt-8 grid gap-3 sm:grid-cols-2">
+          {homepageContent.rfqReadiness.cards.map((item, index) => (
+            <AnimatedCard key={`${item.title}-${index}`} className="rounded-3xl border border-grey-200 bg-grey-50 p-5">
+              <div className="text-base font-bold text-ink">{item.title}</div>
+              {item.text ? <p className="mt-2 text-sm leading-6 text-grey-700">{item.text}</p> : null}
+            </AnimatedCard>
+          ))}
+        </StaggerContainer>
+        <div className="mt-8">
+          <EnterprisePhotoPanel
+            image="silicon"
+            eyebrow={homepageContent.rfqReadiness.imagePanel.eyebrow}
+            title={homepageContent.rfqReadiness.imagePanel.title}
+            caption={homepageContent.rfqReadiness.imagePanel.caption}
+          />
         </div>
-        <EnterprisePhotoPanel
-          image="silicon"
-          eyebrow={homepageContent.rfqReadiness.imagePanel.eyebrow}
-          title={homepageContent.rfqReadiness.imagePanel.title}
-          caption={homepageContent.rfqReadiness.imagePanel.caption}
-        />
       </div>
     </AnimatedSection>
   );
@@ -231,7 +231,7 @@ export function TrustV3() {
         />
         <StaggerContainer className="mt-6 grid gap-3 md:mt-10 md:grid-cols-2 md:gap-5 lg:grid-cols-4">
           {registrationStatuses.map((item) => (
-            <AnimatedCard key={item.label} className="rounded-lg border border-slate-200 bg-slate-50 p-4 sm:p-5">
+            <AnimatedCard key={item.label} className="rounded-3xl border border-grey-200 bg-grey-50 p-4 sm:p-5">
               <div className="font-bold text-slate-950">{item.label}</div>
               {item.status ? <p className="mt-2 text-sm leading-6 text-slate-600">{item.status}</p> : null}
             </AnimatedCard>

@@ -22,7 +22,7 @@ export function SectionHeading({
           {eyebrow}
         </div>
       ) : null}
-      <HeadingTag className={`font-display tracking-tight text-ink ${isH1 ? "text-3xl sm:text-5xl" : "text-2xl sm:text-3xl"}`}>{title}</HeadingTag>
+      <HeadingTag className={`font-bold tracking-tight text-ink ${isH1 ? "text-3xl sm:text-5xl" : "text-2xl sm:text-3xl"}`}>{title}</HeadingTag>
       {description ? <p className="mt-4 text-base leading-7 text-grey-600">{description}</p> : null}
     </div>
   );
