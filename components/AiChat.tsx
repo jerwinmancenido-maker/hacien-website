@@ -35,6 +35,11 @@ import type { AiChatPath } from "@/lib/ai/intake";
 
 const MIN_SUBMIT_TIME_MS = 3000;
 const MIN_SENDING_MS = 700;
+/** Staged progress cards (document reading, company lookup) stay on
+ *  screen at least this long so their step animation plays properly
+ *  instead of flashing past when the work is fast (owner request,
+ *  2026-11-08). */
+const MIN_STAGED_VIEW_MS = 2_000;
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -71,7 +76,7 @@ function StagedProgressView({ label, stages }: { label: string; stages: string[]
   useEffect(() => {
     const timer = setInterval(() => {
       setStage((value) => Math.min(value + 1, stages.length - 1));
-    }, 1800);
+    }, 650);
     return () => clearInterval(timer);
   }, [stages.length]);
   return (
@@ -151,6 +156,9 @@ export function AiChat({
   const [confirmationSent, setConfirmationSent] = useState(false);
   const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
   const [turnstileToken, setTurnstileToken] = useState("");
+  /** Signed pass the server issues after the first verified turn;
+   *  while it is held, later turns skip the bot check. */
+  const [gatePass, setGatePass] = useState("");
   const [attachment, setAttachment] = useState<File | null>(null);
   const [attachError, setAttachError] = useState("");
   const [dragOver, setDragOver] = useState(false);
@@ -235,7 +243,13 @@ export function AiChat({
     if (!domain || isFreeMailDomain(domain)) return;
     lookupAttemptedFor.current = email;
     setCompanyLookup({ status: "searching", email });
+    const lookupStartedAt = Date.now();
     const result = await lookupCompanyFromEmail(email);
+    // The staged card stays up at least MIN_STAGED_VIEW_MS so its
+    // step animation actually plays — a fast lookup would otherwise
+    // flash past in a blink (owner request, 2026-11-08).
+    const lookupElapsed = Date.now() - lookupStartedAt;
+    if (lookupElapsed < MIN_STAGED_VIEW_MS) await sleep(MIN_STAGED_VIEW_MS - lookupElapsed);
     if (result.found) {
       setCompanyLookup({
         status: "confirming",
@@ -273,6 +287,14 @@ export function AiChat({
     const file = attachment;
     const text = rawText.trim() || (file ? "I've attached our requirements document — please read it." : "");
     if (!text || sending) return;
+    // Front gate: without a gate pass, the first AI turn needs the
+    // Turnstile token the widget prepares in the background. If it is
+    // not ready yet, hold the message in the composer and say so —
+    // the model is never called unverified.
+    if (!gatePass && turnstileSiteKey && !turnstileToken) {
+      setNotice("One moment — completing the security check. Press send again in a few seconds.");
+      return;
+    }
     if (startedAt === null) setStartedAt(Date.now());
     setDraft("");
     setNotice("");
@@ -302,18 +324,50 @@ export function AiChat({
 
     setSending(true);
     setReadingDocument(Boolean(file));
+    const turnStartedAt = Date.now();
     const apiMessages = history.map((message) => ({ role: message.role, content: message.text }));
     let result;
     if (file) {
       const formData = new FormData();
       formData.set("document", file);
-      formData.set("payload", JSON.stringify({ messages: apiMessages, path, fields: fieldsOverride ?? fields }));
+      formData.set(
+        "payload",
+        JSON.stringify({
+          messages: apiMessages,
+          path,
+          fields: fieldsOverride ?? fields,
+          turnstileToken,
+          gatePass,
+        }),
+      );
       result = await sendAiChatDocument(formData);
     } else {
-      result = await sendAiChatMessage({ messages: apiMessages, path, fields: fieldsOverride ?? fields });
+      result = await sendAiChatMessage({
+        messages: apiMessages,
+        path,
+        fields: fieldsOverride ?? fields,
+        turnstileToken,
+        gatePass,
+      });
+    }
+    // A document read keeps its staged card up for the same minimum
+    // time as the company lookup, so the steps play properly even
+    // when the read itself is fast.
+    if (file) {
+      const turnElapsed = Date.now() - turnStartedAt;
+      if (turnElapsed < MIN_STAGED_VIEW_MS) await sleep(MIN_STAGED_VIEW_MS - turnElapsed);
     }
     setSending(false);
     setReadingDocument(false);
+
+    // A fresh gate pass means the token above was just consumed by
+    // the verification: keep the pass for later turns and let the
+    // widget issue a fresh token for the eventual send.
+    if (result.gatePass) {
+      setGatePass(result.gatePass);
+      setTurnstileResetSignal((value) => value + 1);
+      setTurnstileToken("");
+    }
 
     if (!result.ok) {
       if (result.reason === "not-configured") {
@@ -321,9 +375,11 @@ export function AiChat({
         setNotice(
           "The AI assistant isn't available right now. The guided questions take your request the same way.",
         );
-      } else if (result.reason === "daily-cap") {
+      } else if (result.reason === "verification-failed") {
+        setTurnstileResetSignal((value) => value + 1);
+        setTurnstileToken("");
         setNotice(
-          "The AI assistant has reached today's limit. The guided questions take your request the same way.",
+          "We couldn't complete the security check. Please press send again, or switch to the guided questions.",
         );
       } else if (result.reason === "turn-limit") {
         setNotice(
@@ -556,6 +612,18 @@ export function AiChat({
             </div>
           ) : null}
 
+          {/* The one Turnstile widget for the whole panel, mounted
+              from the start: its first token gates the first AI turn
+              (verified on the server before the model is called), and
+              a fresh token from the same widget later gates the send.
+              Interaction-only appearance — invisible unless Cloudflare
+              challenges this visitor. */}
+          <TurnstileField
+            siteKey={turnstileSiteKey}
+            resetSignal={turnstileResetSignal}
+            onTokenChange={setTurnstileToken}
+          />
+
           {readyToReview && path && submitStatus !== "sending" ? (
             <form onSubmit={handleConfirm} className="space-y-6">
               <div className="absolute -left-[9999px]" aria-hidden="true">
@@ -604,13 +672,6 @@ export function AiChat({
                   </Link>
                   .
                 </p>
-                <div className="mt-4">
-                  <TurnstileField
-                    siteKey={turnstileSiteKey}
-                    resetSignal={turnstileResetSignal}
-                    onTokenChange={setTurnstileToken}
-                  />
-                </div>
                 <button
                   type="submit"
                   disabled={turnstilePending}

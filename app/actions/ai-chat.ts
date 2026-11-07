@@ -6,17 +6,22 @@
  * knowledge, rules, field contract — lives in lib/ai; this action owns
  * the guards and the Anthropic call:
  *
- * - No ANTHROPIC_API_KEY, a rate limit, the daily cap, or any API
- *   failure returns { fallback: true } and the UI switches to the guided
- *   steps. The chat is never a dead end.
- * - Per-IP sliding window plus a site-wide daily message cap bound the
- *   API spend; both use Upstash when configured and an in-memory store
- *   otherwise, the same pattern as send-inquiry.
+ * - No ANTHROPIC_API_KEY, a failed bot check, a rate limit, or any
+ *   API failure returns { fallback: true } and the UI switches to the
+ *   guided steps. The chat is never a dead end.
+ * - Cloudflare Turnstile is verified BEFORE the model is called: a
+ *   client with no valid "gate pass" must present a fresh token, and
+ *   a verified client receives a signed, IP-bound, 2-hour pass so
+ *   later turns skip the check. There is no site-wide daily cap
+ *   (owner decision, 2026-11-08) — the per-IP sliding window is the
+ *   volume bound; it uses Upstash when configured and an in-memory
+ *   store otherwise, the same pattern as send-inquiry.
  * - Model output is parsed and sanitized by lib/ai/intake before it
  *   reaches the visitor; readiness for the review card is computed
  *   server-side, never taken from the model's word.
  */
 
+import { createHmac, timingSafeEqual } from "node:crypto";
 import { headers } from "next/headers";
 import { Ratelimit } from "@upstash/ratelimit";
 import { buildAiChatSystemPrompt } from "@/lib/ai/knowledge";
@@ -31,6 +36,7 @@ import {
 import type { GuidedChatAnswers } from "@/lib/guided-chat/payloads";
 import { validateAiDocument, type AiDocumentMedia } from "@/lib/ai/document";
 import { getClientIp } from "@/lib/security/client-ip";
+import { verifyTrackLookupTurnstile } from "@/lib/security/track-lookup-guard";
 import { redis } from "@/lib/redis/upstash";
 
 const MODEL = process.env.ANTHROPIC_CHAT_MODEL || "claude-haiku-5-5";
@@ -40,27 +46,26 @@ const MAX_CONVERSATION_MESSAGES = 40; // ~20 visitor turns, then hand over
 const MAX_MESSAGE_LENGTH = 2_000;
 const IP_LIMIT_MAX = 20;
 const IP_LIMIT_WINDOW_MS = 10 * 60_000; // 10 minutes
-const DAILY_CAP = 500;
 /** Document turns are far more expensive than a message: they get a
- *  tighter per-IP allowance and count fivefold toward the daily cap. */
+ *  tighter per-IP allowance. */
 const DOC_IP_LIMIT_MAX = 5;
-const DOC_DAILY_WEIGHT = 5;
 const MAX_DOCUMENT_TEXT_CHARS = 60_000;
 
 export type AiChatClientMessage = { role: "user" | "assistant"; content: string };
 
 export type AiChatActionResult =
-  | { ok: true; turn: AiChatTurn }
+  | { ok: true; turn: AiChatTurn; gatePass?: string }
   | {
       ok: false;
       fallback: true;
       reason:
         | "not-configured"
         | "rate-limited"
-        | "daily-cap"
+        | "verification-failed"
         | "turn-limit"
         | "api-error"
         | "bad-request";
+      gatePass?: string;
     };
 
 // ── Guards ─────────────────────────────────────────────────────
@@ -127,32 +132,69 @@ async function docIpAllowed(ip: string): Promise<boolean> {
   return true;
 }
 
-const dailyMemory = { day: "", count: 0 };
+// ── Turnstile gate ─────────────────────────────────────────────
 
-function manilaDayKey(): string {
-  return new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Manila" });
+/** The siteverify routine the track lookup already uses: no site key
+ *  configured → open; secret missing → closed; otherwise a real
+ *  Cloudflare verification of the presented token. */
+const verifyTurnstile = verifyTrackLookupTurnstile;
+
+const GATE_PASS_TTL_MS = 2 * 60 * 60_000;
+
+function gateSecret(): string {
+  return String(process.env.TURNSTILE_SECRET_KEY || "").trim();
 }
 
-async function underDailyCap(weight = 1): Promise<boolean> {
-  const day = manilaDayKey();
-  if (redis) {
-    try {
-      const key = `ai-chat:daily:${day}`;
-      const count = await redis.incrby(key, weight);
-      if (count === weight) {
-        await redis.expire(key, 60 * 60 * 36);
-      }
-      return count <= DAILY_CAP;
-    } catch (err) {
-      console.warn("AI chat: Upstash daily cap failed, falling back to memory.", err);
-    }
+/** Mint a signed pass after a successful verification: payload
+ *  (visitor IP + expiry) plus an HMAC keyed by the Turnstile secret,
+ *  which never leaves the server. Returns null when no pass can be
+ *  minted (verification not configured — the gate is open anyway). */
+function mintGatePass(ip: string): string | null {
+  const secret = gateSecret();
+  if (!secret || !String(process.env.TURNSTILE_SITE_KEY || "").trim()) return null;
+  const payload = Buffer.from(
+    JSON.stringify({ ip, exp: Date.now() + GATE_PASS_TTL_MS }),
+    "utf8",
+  ).toString("base64url");
+  const signature = createHmac("sha256", secret).update(payload).digest("base64url");
+  return `${payload}.${signature}`;
+}
+
+function gatePassValid(pass: string, ip: string): boolean {
+  const secret = gateSecret();
+  if (!secret) return false;
+  const [payload, signature] = pass.split(".");
+  if (!payload || !signature) return false;
+  const expected = createHmac("sha256", secret).update(payload).digest("base64url");
+  const given = Buffer.from(signature);
+  const wanted = Buffer.from(expected);
+  if (given.length !== wanted.length || !timingSafeEqual(given, wanted)) return false;
+  try {
+    const data = JSON.parse(Buffer.from(payload, "base64url").toString("utf8")) as {
+      ip?: unknown;
+      exp?: unknown;
+    };
+    return data.ip === ip && typeof data.exp === "number" && data.exp > Date.now();
+  } catch {
+    return false;
   }
-  if (dailyMemory.day !== day) {
-    dailyMemory.day = day;
-    dailyMemory.count = 0;
+}
+
+/** The front gate, checked before any model call: a valid pass lets
+ *  the turn straight through; otherwise a fresh Turnstile token must
+ *  verify, and a new pass is minted for the rest of the visit. */
+async function passGate(
+  ip: string,
+  input: { turnstileToken?: unknown; gatePass?: unknown },
+): Promise<{ ok: true; freshPass?: string } | { ok: false }> {
+  if (typeof input.gatePass === "string" && gatePassValid(input.gatePass, ip)) {
+    return { ok: true };
   }
-  dailyMemory.count += weight;
-  return dailyMemory.count <= DAILY_CAP;
+  const token = typeof input.turnstileToken === "string" ? input.turnstileToken : "";
+  const verified = await verifyTurnstile(token);
+  if (!verified.ok) return { ok: false };
+  const freshPass = mintGatePass(ip);
+  return freshPass ? { ok: true, freshPass } : { ok: true };
 }
 
 // ── Anthropic call ─────────────────────────────────────────────
@@ -369,6 +411,8 @@ export async function sendAiChatMessage(input: {
   messages: unknown;
   path?: unknown;
   fields?: unknown;
+  turnstileToken?: unknown;
+  gatePass?: unknown;
 }): Promise<AiChatActionResult> {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) return { ok: false, fallback: true, reason: "not-configured" };
@@ -378,9 +422,11 @@ export async function sendAiChatMessage(input: {
 
   const ip = await clientIp();
   if (!(await ipAllowed(ip))) return { ok: false, fallback: true, reason: "rate-limited" };
-  if (!(await underDailyCap())) return { ok: false, fallback: true, reason: "daily-cap" };
+  const gate = await passGate(ip, input);
+  if (!gate.ok) return { ok: false, fallback: true, reason: "verification-failed" };
 
-  return runTurn(apiKey, validated);
+  const result = await runTurn(apiKey, validated);
+  return gate.freshPass ? { ...result, gatePass: gate.freshPass } : result;
 }
 
 /** One chat turn with a document attached. The file arrives as
@@ -402,7 +448,13 @@ export async function sendAiChatDocument(formData: FormData): Promise<AiChatActi
   });
   if (!check.ok) return { ok: false, fallback: true, reason: "bad-request" };
 
-  let payload: { messages: unknown; path?: unknown; fields?: unknown };
+  let payload: {
+    messages: unknown;
+    path?: unknown;
+    fields?: unknown;
+    turnstileToken?: unknown;
+    gatePass?: unknown;
+  };
   try {
     payload = JSON.parse(String(formData.get("payload") || "")) as typeof payload;
   } catch {
@@ -413,7 +465,8 @@ export async function sendAiChatDocument(formData: FormData): Promise<AiChatActi
 
   const ip = await clientIp();
   if (!(await docIpAllowed(ip))) return { ok: false, fallback: true, reason: "rate-limited" };
-  if (!(await underDailyCap(DOC_DAILY_WEIGHT))) return { ok: false, fallback: true, reason: "daily-cap" };
+  const gate = await passGate(ip, payload);
+  if (!gate.ok) return { ok: false, fallback: true, reason: "verification-failed" };
 
   const buffer = Buffer.from(await file.arrayBuffer());
   const attachment: AiChatAttachment =
@@ -429,5 +482,6 @@ export async function sendAiChatDocument(formData: FormData): Promise<AiChatActi
           dataBase64: buffer.toString("base64"),
         };
 
-  return runTurn(apiKey, validated, attachment);
+  const result = await runTurn(apiKey, validated, attachment);
+  return gate.freshPass ? { ...result, gatePass: gate.freshPass } : result;
 }
