@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
+import { parseDocument } from "@/app/actions/parse-document";
 import { replyTime } from "@/data/companyContact";
 import { TurnstileField } from "@/components/TurnstileField";
 import {
@@ -118,10 +119,51 @@ export function GuidedChat({
   }
 
   function skipStep(step: ChatStep) {
-    setAnswers((current) => ({ ...current, [step.id]: "" }));
+    setAnswers((current) => {
+      const next = { ...current, [step.id]: "" };
+      // Skipping the document step drops the file details too, so a
+      // skipped-then-submitted request never carries a stale attachment.
+      if (step.id === "attachment") {
+        next.attachmentName = "";
+        next.attachmentType = "";
+        next.attachmentSizeKb = "";
+      }
+      return next;
+    });
     setDraft("");
     setFieldError("");
     setStepIndex((current) => current + 1);
+  }
+
+  /** The quote path's optional document step: the existing parse-document
+   *  action checks the file and names its likely kind from the filename —
+   *  it does not read the contents. The request carries the file details
+   *  (name, size, type), exactly like the full form's attachment. */
+  async function uploadAttachment(step: ChatStep, file: File) {
+    setFieldError("");
+    const data = new FormData();
+    data.append("document", file);
+    const result = await parseDocument(data);
+    if (!result.success) {
+      setFieldError(result.message);
+      return;
+    }
+    const sizeKb = Math.round(file.size / 1024);
+    const nextAnswers = {
+      ...answers,
+      [step.id]: `${file.name} — ${result.extractedFields.documentType}`,
+      attachmentName: file.name,
+      attachmentType: file.type,
+      attachmentSizeKb: String(sizeKb),
+    };
+    setAnswers(nextAnswers);
+    setDraft("");
+    setFieldError("");
+    if (!pathId) return;
+    const pathSteps = getChatPath(pathId).steps;
+    let next = stepIndex + 1;
+    while (next < pathSteps.length && nextAnswers[pathSteps[next].id]) next += 1;
+    setStepIndex(next);
   }
 
   function editStep(index: number) {
@@ -348,6 +390,15 @@ export function GuidedChat({
                 </p>
               </div>
             ) : null}
+            {answers.attachmentName ? (
+              <div className="border-b border-grey-200 pb-3 text-sm">
+                <div className="font-semibold text-grey-700">Attached document</div>
+                <div className="mt-1 text-ink">{answers.attachmentName}</div>
+                <p className="mt-2 text-xs text-grey-600">
+                  HACIEN reviews the document with your request.
+                </p>
+              </div>
+            ) : null}
             <p className="pt-3 text-xs leading-5 text-grey-600">
               No online payment is collected. Every request receives a reference number and is reviewed before a quotation is prepared.
             </p>
@@ -392,6 +443,7 @@ export function GuidedChat({
             onDraftChange={setDraft}
             fieldError={fieldError}
             onAnswer={(value) => answerStep(steps[stepIndex], value)}
+            onUpload={(file) => uploadAttachment(steps[stepIndex], file)}
             onSkip={() => skipStep(steps[stepIndex])}
             onBack={() => {
               if (stepIndex === 0) {
@@ -495,6 +547,7 @@ function ChatStepInput({
   onDraftChange,
   fieldError,
   onAnswer,
+  onUpload,
   onSkip,
   onBack,
 }: {
@@ -503,9 +556,14 @@ function ChatStepInput({
   onDraftChange: (value: string) => void;
   fieldError: string;
   onAnswer: (value: string) => void;
+  onUpload: (file: File) => void;
   onSkip: () => void;
   onBack: () => void;
 }) {
+  if (step.kind === "file") {
+    return <FileStepInput step={step} fieldError={fieldError} onUpload={onUpload} onSkip={onSkip} onBack={onBack} />;
+  }
+
   if (step.kind === "options") {
     return (
       <div>
@@ -572,6 +630,80 @@ function ChatStepInput({
           Back
         </button>
       </div>
+    </div>
+  );
+}
+
+/** The quote path's document step: a file picker, not a text box. The
+ *  chosen file is checked by the parse-document action; only its details
+ *  travel with the request, so the customer is told plainly that HACIEN
+ *  follows up for the file itself. */
+function FileStepInput({
+  step,
+  fieldError,
+  onUpload,
+  onSkip,
+  onBack,
+}: {
+  step: ChatStep;
+  fieldError: string;
+  onUpload: (file: File) => void;
+  onSkip: () => void;
+  onBack: () => void;
+}) {
+  const [file, setFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  return (
+    <div>
+      <AgentMessage text={step.question} />
+      {step.hint ? <p className="ml-11 mt-1 text-sm text-grey-600">{step.hint}</p> : null}
+      <div className="ml-11 mt-3 space-y-3">
+        <label className="block min-h-11 cursor-pointer rounded-2xl border border-grey-200 bg-white px-4 py-3 text-sm font-semibold text-ink hover:border-blue">
+          {file ? file.name : "Choose a file"}
+          <input
+            type="file"
+            accept=".pdf,.png,.jpg,.jpeg,.txt"
+            className="sr-only"
+            onChange={(event) => setFile(event.currentTarget.files?.[0] ?? null)}
+          />
+        </label>
+        {file ? (
+          <p className="text-sm text-grey-600">
+            {file.name} ({Math.round(file.size / 1024)} KB)
+          </p>
+        ) : null}
+        <p className="text-xs leading-5 text-grey-600">
+          The file details go with your request; HACIEN will ask for the file itself if needed.
+        </p>
+        <button
+          type="button"
+          disabled={!file || uploading}
+          onClick={async () => {
+            if (!file) return;
+            setUploading(true);
+            await onUpload(file);
+            setUploading(false);
+          }}
+          className="button-glow min-h-11 cursor-pointer rounded-full bg-blue px-6 py-3 text-sm font-bold text-white disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {uploading ? "Checking your file…" : "Upload and continue"}
+        </button>
+        <div className="flex gap-4">
+          {!step.required ? (
+            <button type="button" onClick={onSkip} className="cursor-pointer text-sm font-bold text-blue hover:underline">
+              Skip
+            </button>
+          ) : null}
+          <button type="button" onClick={onBack} className="cursor-pointer text-sm font-bold text-grey-700 hover:underline">
+            Back
+          </button>
+        </div>
+      </div>
+      {fieldError ? (
+        <p className="ml-11 mt-2 text-sm font-semibold text-red-600" role="alert">
+          {fieldError}
+        </p>
+      ) : null}
     </div>
   );
 }
