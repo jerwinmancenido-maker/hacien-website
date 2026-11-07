@@ -44,7 +44,11 @@ describe("Floating chat button", () => {
   });
 
   it("goes near full-screen on phones and a small card on desktop", () => {
-    expect(floating).toContain("inset-x-4 bottom-24 top-20");
+    expect(floating).toContain("inset-x-4 bottom-4 top-20");
+    expect(floating).toContain("sm:bottom-6");
+    // The launcher hides while the panel is open — no dead space is
+    // kept beneath the panel for a button that is not there.
+    expect(floating).toContain("{!open ? (");
     expect(floating).toContain("sm:w-[440px]");
     expect(floating).toContain("sm:h-[640px]");
   });
