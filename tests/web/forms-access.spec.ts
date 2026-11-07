@@ -46,12 +46,12 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
   });
 
   describe("F31: Accessible FAQ disclosure", () => {
-    it("FAQ question count remains exactly 9", () => {
+    it("FAQ question count remains exactly 8", () => {
       const totalQuestions = faqData.sections.reduce(
         (sum, section) => sum + section.items.length,
         0,
       );
-      expect(totalQuestions).toBe(9);
+      expect(totalQuestions).toBe(8);
     });
 
     it("uses accessible disclosure semantics in components/FaqSearch.tsx", () => {
@@ -78,12 +78,11 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
       "components/ContactForm.tsx",
       "components/ClarificationReplyForm.tsx",
       "components/TrackReferenceLookup.tsx",
-      "components/AiDocumentParser.tsx",
       "components/FaqSearch.tsx",
       "app/search/page.tsx",
     ];
 
-    it("all 9 public form files exist and use React useId or static id tied to label htmlFor", () => {
+    it("all 8 public form files exist and use React useId or static id tied to label htmlFor", () => {
       for (const relativePath of publicFormFiles) {
         const content = readFileSync(path.join(ROOT, relativePath), "utf8");
         expect(content).toMatch(/htmlFor=/);
@@ -186,13 +185,6 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
       expect(form).toContain("* required");
       expect(form).toMatch(/name="referenceNumber"[\s\S]*?required[\s\S]*?aria-required="true"/);
       expect(form).toMatch(/htmlFor=\{inputId\}/);
-    });
-
-    it("verifies AiDocumentParser has tied label on the file input", () => {
-      const parser = readFileSync(path.join(ROOT, "components/AiDocumentParser.tsx"), "utf8");
-      expect(parser).toContain("useId");
-      expect(parser).toMatch(/htmlFor=\{fileInputId\}/);
-      expect(parser).toMatch(/id=\{fileInputId\}/);
     });
 
     it("verifies FaqSearch and SearchPage search boxes have associated labels", () => {

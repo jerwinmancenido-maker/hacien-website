@@ -2,6 +2,7 @@
 
 const allowedTypes = new Set(["application/pdf", "image/png", "image/jpeg", "text/plain"]);
 const maxFileSize = 10 * 1024 * 1024;
+const tooLargeMessage = "Document is too large. Maximum supported size is 10 MB.";
 
 export type ParsedDocumentResult =
   | {
@@ -36,7 +37,7 @@ export async function parseDocument(formData: FormData): Promise<ParsedDocumentR
   }
 
   if (file.size > maxFileSize) {
-    return { success: false, message: "Document is too large. Maximum supported playground size is 10 MB." };
+    return { success: false, message: tooLargeMessage };
   }
 
   const fileName = file.name || "uploaded-document";
@@ -60,7 +61,7 @@ export async function parseDocument(formData: FormData): Promise<ParsedDocumentR
       reviewStatus: "Prototype extraction only",
     },
     warnings: [
-      "This playground does not create an RFQ, order, invoice, receipt, or payment record.",
+      "This check does not create an RFQ, order, invoice, receipt, or payment record.",
       "Extracted values must be reviewed by HACIEN before use in business records.",
     ],
   };

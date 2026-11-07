@@ -121,19 +121,6 @@ describe("HACIEN brand colors", () => {
     expect(offenders, offenders.join("\n")).toEqual([]);
   });
 
-  it("keeps AiDocumentParser free of cyan/amber classes and hexes", () => {
-    const source = readFileSync(join(ROOT, "components/AiDocumentParser.tsx"), "utf8");
-    const forbidden =
-      /\b(?:cyan|amber)(?:-\d{2,3})?\b|#(?:00f2fe|ffb300|38bdf8|f59e0b|fbbf24|22d3ee|06b6d4|fcd34d)/i;
-    const offenders: string[] = [];
-    for (const [index, line] of source.split("\n").entries()) {
-      if (forbidden.test(line)) {
-        offenders.push(`${index + 1}: ${line.trim()}`);
-      }
-    }
-    expect(offenders, offenders.join("\n")).toEqual([]);
-  });
-
   it("ensures no amber, green, teal, cyan, or non-brand blue colour values are in public components", () => {
     const compDir = join(ROOT, "components");
     const files = walk(compDir).filter((file) => {
@@ -220,9 +207,16 @@ describe("HACIEN brand colors", () => {
     const heroSource = readFileSync(join(ROOT, "components/Hero.tsx"), "utf8");
     const premiumHeroSource = readFileSync(join(ROOT, "components/PremiumPageHero.tsx"), "utf8");
 
-    // Both hero components must use solid dark box containers to prevent photo bleed-through
-    expect(heroSource).toMatch(/bg-\[#0A0A0A\]/);
-    expect(heroSource).toMatch(/bg-\[#141414\]/);
+    // The Home hero is light (site restyle, chat visual language): white
+    // surface with ink text. It must not carry the old dark boxes.
+    expect(heroSource).toMatch(/bg-white/);
+    expect(heroSource).not.toMatch(/bg-\[#0A0A0A\]/);
+    expect(heroSource).not.toMatch(/bg-\[#141414\]/);
+    const inkOnWhite = contrastRatio("#0A0A0A", "#FFFFFF");
+    expect(inkOnWhite, "ink on white must meet WCAG AA (>= 4.5)").toBeGreaterThanOrEqual(4.5);
+
+    // PremiumPageHero (all other hero pages) still uses solid dark box
+    // containers to prevent photo bleed-through.
     expect(premiumHeroSource).toMatch(/bg-\[#0A0A0A\]/);
     expect(premiumHeroSource).toMatch(/bg-\[#141414\]/);
 

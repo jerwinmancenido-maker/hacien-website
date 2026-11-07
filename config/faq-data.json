@@ -32,10 +32,6 @@
         {
           "question": "When is payment due?",
           "answer": "Payment terms, including any deposit, are stated in your quotation and confirmed before ordering."
-        },
-        {
-          "question": "Is the document parser official OCR?",
-          "answer": "No. The parser playground is a prototype aid for summarizing attachments. Extracted data requires manual review before use."
         }
       ]
     },
