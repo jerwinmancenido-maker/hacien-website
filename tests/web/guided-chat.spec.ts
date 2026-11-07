@@ -226,6 +226,38 @@ describe("shared requirement formatting", () => {
   });
 });
 
+describe("guided chat look", () => {
+  it("reads as a chat: agent messages sit in grey bubbles with a blue avatar", () => {
+    const chat = read("components/GuidedChat.tsx");
+    expect(chat).toContain("rounded-3xl rounded-tl-md bg-grey-100");
+    expect(chat).toContain(
+      'className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-blue',
+    );
+  });
+
+  it("path cards look tappable: white, bordered, blue arrow", () => {
+    const chat = read("components/GuidedChat.tsx");
+    expect(chat).toContain("border border-grey-200 bg-white px-5 py-4");
+    expect(chat).toContain("hover:border-blue");
+    expect(chat).toContain('className="shrink-0 text-xl font-bold text-blue"');
+  });
+
+  it("the path screen always shows a message box, and typing starts an inquiry with the text as the need", () => {
+    const chat = read("components/GuidedChat.tsx");
+    expect(chat).toContain("Type your message…");
+    expect(chat).toContain("startInquiryWithMessage");
+    expect(chat).toContain('choosePath("inquiry", { need: text.trim() })');
+    expect(chat).toContain("MessageComposer");
+  });
+
+  it("answering a step skips a next step that is already answered", () => {
+    const chat = read("components/GuidedChat.tsx");
+    expect(chat).toContain(
+      "while (next < pathSteps.length && nextAnswers[pathSteps[next].id]) next += 1;",
+    );
+  });
+});
+
 describe("guided chat wiring", () => {
   it("quote page shows the guided chat with the full QuoteCart as the fallback", () => {
     const page = read("app/quote/page.tsx");
