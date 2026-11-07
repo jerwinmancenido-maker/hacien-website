@@ -18,19 +18,19 @@ const ROOT = process.cwd();
 
 describe("PR 4 Speed Optimizations (F16, N01, G12, F30)", () => {
   describe("N01: Hero image priority and phone sizes", () => {
-    it("ensures only one hero image per hero component uses priority", () => {
+    it("ensures the light Home hero has no priority image and PremiumPageHero keeps exactly one", () => {
       const heroSource = readFileSync(path.join(ROOT, "components/Hero.tsx"), "utf8");
       const premiumHeroSource = readFileSync(
         path.join(ROOT, "components/PremiumPageHero.tsx"),
         "utf8",
       );
 
-      // Hero component has exactly one priority attribute on an image
+      // Home hero has no image (site restyle): nothing to prioritize.
       const heroPriorityMatches = heroSource.match(/\bpriority\b/g) || [];
       expect(
         heroPriorityMatches.length,
-        "Hero.tsx must have only one priority image",
-      ).toBe(1);
+        "Hero.tsx must have no priority image — the light hero has no photo",
+      ).toBe(0);
 
       // PremiumPageHero has exactly one priority attribute on an image
       const premiumPriorityMatches = premiumHeroSource.match(/\bpriority\b/g) || [];

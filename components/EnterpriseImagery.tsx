@@ -84,31 +84,31 @@ export function EnterprisePhotoPanel({
 
 export function PremiumStatementBand() {
   return (
-    <section className="bg-[linear-gradient(180deg,#ffffff_0%,#fafafa_100%)] px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
-      <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-        <div className="max-w-2xl">
-          <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-700">Company</div>
-          <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-            About HACIEN.
-          </h2>
-          <p className="mt-4 text-base leading-7 text-slate-600">
-            {founderLine}
-          </p>
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link href="/quote" className="button-glow rounded bg-[#0A0A0A] px-5 py-3 text-center text-sm font-bold text-white">
-              Request a Quote
-            </Link>
-            <Link href="/contact" className="interactive-link rounded border border-slate-300 px-5 py-3 text-center text-sm font-bold text-slate-900">
-              Contact
-            </Link>
-          </div>
+    <section className="bg-white px-4 py-12 sm:px-6 lg:py-16">
+      <div className="mx-auto max-w-3xl text-center">
+        <div className="text-xs font-semibold uppercase tracking-[0.18em] text-grey-600">Company</div>
+        <h2 className="mt-4 text-2xl font-bold tracking-tight text-ink sm:text-3xl">
+          About HACIEN.
+        </h2>
+        <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-grey-700">
+          {founderLine}
+        </p>
+        <div className="mt-8 flex flex-col items-center gap-2 sm:flex-row sm:justify-center sm:gap-3">
+          <Link href="/quote" className="inline-flex min-h-11 items-center justify-center rounded-full bg-blue px-6 py-3 text-center text-sm font-medium text-white hover:bg-blue-dark">
+            Request a Quote
+          </Link>
+          <Link href="/contact" className="inline-flex min-h-11 items-center justify-center rounded-full border border-grey-300 bg-white px-6 py-3 text-center text-sm font-medium text-ink hover:bg-grey-50">
+            Contact
+          </Link>
         </div>
-        <EnterprisePhotoPanel
-          image="network"
-          eyebrow="Appointments"
-          title={showroomNote}
-          caption=""
-        />
+        <div className="mt-10 text-left">
+          <EnterprisePhotoPanel
+            image="network"
+            eyebrow="Appointments"
+            title={showroomNote}
+            caption=""
+          />
+        </div>
       </div>
     </section>
   );
