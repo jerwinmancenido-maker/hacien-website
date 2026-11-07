@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { GuidedChat } from "@/components/GuidedChat";
 import { AiChat } from "@/components/AiChat";
@@ -78,6 +79,13 @@ export function FloatingChat({ turnstileSiteKey }: { turnstileSiteKey: string })
               />
             )}
           </div>
+          <p className="border-t border-grey-200 px-4 py-2 text-[11px] leading-snug text-grey-600">
+            AI-assisted chat (guidance only). Do not send passwords or IDs. See our{" "}
+            <Link href="/privacy" className="underline hover:text-blue">
+              Privacy Policy
+            </Link>
+            .
+          </p>
         </div>
       ) : null}
       <button
