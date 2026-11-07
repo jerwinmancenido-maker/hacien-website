@@ -55,7 +55,7 @@ export function FloatingChat({ turnstileSiteKey }: { turnstileSiteKey: string })
         <div
           role="dialog"
           aria-label="Chat with the HACIEN team"
-          className="fixed inset-x-4 bottom-24 top-20 z-40 flex flex-col overflow-hidden rounded-3xl border border-grey-200 bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:top-auto sm:h-[640px] sm:w-[440px] sm:max-h-[calc(100dvh-8rem)]"
+          className="fixed inset-x-4 bottom-4 top-20 z-40 flex flex-col overflow-hidden rounded-3xl border border-grey-200 bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:top-auto sm:bottom-6 sm:h-[640px] sm:w-[440px] sm:max-h-[calc(100dvh-5rem)]"
         >
           <button
             type="button"
@@ -88,13 +88,17 @@ export function FloatingChat({ turnstileSiteKey }: { turnstileSiteKey: string })
           </p>
         </div>
       ) : null}
-      <button
-        type="button"
-        onClick={() => setOpen((current) => !current)}
-        aria-label="Open chat with the HACIEN team"
-        aria-expanded={open}
-        className="fixed right-6 bottom-6 z-40 grid h-14 w-14 cursor-pointer place-items-center rounded-full bg-blue text-white shadow-2xl hover:bg-blue-dark"
-      >
+      {/* The launcher hides while the panel is open: the panel has its
+          own close button, and the panel now sits where the launcher
+          was, so no dead space is kept beneath it. */}
+      {!open ? (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          aria-label="Open chat with the HACIEN team"
+          aria-expanded={open}
+          className="fixed right-6 bottom-6 z-40 grid h-14 w-14 cursor-pointer place-items-center rounded-full bg-blue text-white shadow-2xl hover:bg-blue-dark"
+        >
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
             d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"
@@ -103,8 +107,9 @@ export function FloatingChat({ turnstileSiteKey }: { turnstileSiteKey: string })
             strokeLinecap="round"
             strokeLinejoin="round"
           />
-        </svg>
-      </button>
+          </svg>
+        </button>
+      ) : null}
     </>
   );
 }
