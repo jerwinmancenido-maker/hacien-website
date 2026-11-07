@@ -1,5 +1,13 @@
 import { companyContact, replyTime } from "@/data/companyContact";
 import { sendEmail } from "@/lib/email/resend-client";
+import {
+  buildEmailParagraph,
+  buildEmailShell,
+  buildReferenceBox,
+  buildStepsSection,
+  buildSummarySection,
+  escapeHtml,
+} from "@/lib/email/template";
 import { getCanonicalUrl } from "@/lib/seo/site-metadata";
 
 /**
@@ -9,6 +17,9 @@ import { getCanonicalUrl } from "@/lib/seo/site-metadata";
  * The submission itself never depends on this email: when the mail provider
  * is not configured (or the send fails), the caller logs it and the
  * submission still succeeds with its reference number.
+ *
+ * The body is built on the shared email template (lib/email/template.ts)
+ * — the same shell as the staff notification email.
  */
 
 export type InquiryConfirmationInput = {
@@ -26,14 +37,6 @@ export type InquiryConfirmationEmail = {
   subject: string;
   html: string;
 };
-
-function escapeHtml(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;");
-}
 
 function getConfirmationKind(type: string): {
   title: string;
@@ -54,30 +57,6 @@ function getConfirmationKind(type: string): {
  * (e.g. a customer's free-text message) renders as a full-width row. */
 const SUMMARY_LABELS = ["What you need", "Requirement package", "Type", "Your message"];
 
-function buildSummaryRows(summaryLines: string[]): string {
-  const lines = summaryLines.map((line) => line.trim()).filter(Boolean);
-  if (lines.length === 0) return "";
-
-  const rows = lines
-    .map((line, index) => {
-      const label = SUMMARY_LABELS.find((candidate) => line.startsWith(`${candidate}: `));
-      const border = index === 0 ? "" : "border-top:1px solid #E5E5E5;";
-      if (label) {
-        const value = line.slice(label.length + 2);
-        return `              <tr><td style="padding:12px 16px;${border}color:#525252;font-size:13px;width:110px;vertical-align:top;">${escapeHtml(label)}</td><td style="padding:12px 16px;${border}color:#0A0A0A;font-size:14px;line-height:1.55;">${escapeHtml(value)}</td></tr>`;
-      }
-      return `              <tr><td colspan="2" style="padding:12px 16px;${border}color:#0A0A0A;font-size:14px;line-height:1.55;">${escapeHtml(line)}</td></tr>`;
-    })
-    .join("\n");
-
-  return [
-    `            <div style="color:#0A0A0A;font-size:15px;font-weight:bold;margin:0 0 10px;">What you sent</div>`,
-    `            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #E5E5E5;border-radius:8px;margin:0 0 28px;">`,
-    rows,
-    `            </table>`,
-  ].join("\n");
-}
-
 export function buildInquiryConfirmationEmail(
   input: InquiryConfirmationInput,
 ): InquiryConfirmationEmail | null {
@@ -88,79 +67,34 @@ export function buildInquiryConfirmationEmail(
   const { title, kind } = getConfirmationKind(input.type);
   const name = input.name?.trim();
   const trackUrl = getCanonicalUrl(`/track/${encodeURIComponent(referenceNumber)}`);
-  const summaryBlock = buildSummaryRows(input.summaryLines);
   const contactEmail = escapeHtml(companyContact.email);
 
-  const html = `<!doctype html>
-<html lang="en">
-<head><meta charset="utf-8"></head>
-<body style="margin:0;padding:0;background-color:#F5F5F5;font-family:Arial,Helvetica,sans-serif;">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F5F5F5;">
-  <tr>
-    <td align="center" style="padding:32px 12px;">
-      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:600px;background-color:#FFFFFF;border:1px solid #E5E5E5;border-radius:8px;overflow:hidden;">
-        <tr>
-          <td style="background-color:#0A0A0A;padding:24px 32px;">
-            <div style="color:#FFFFFF;font-size:24px;font-weight:bold;letter-spacing:3px;">HACIEN</div>
-            <div style="color:#A3A3A3;font-size:12px;letter-spacing:1px;margin-top:4px;">INFORMATION TECHNOLOGY SOLUTIONS</div>
-          </td>
-        </tr>
-        <tr><td style="background-color:#2563EB;line-height:3px;font-size:0;">&nbsp;</td></tr>
-        <tr>
-          <td style="padding:32px;">
-            <div style="color:#0A0A0A;font-size:20px;font-weight:bold;margin:0 0 12px;">${escapeHtml(title)}</div>
-            <p style="color:#404040;font-size:15px;line-height:1.6;margin:0 0 8px;">Hi${name ? ` ${escapeHtml(name)}` : ""},</p>
-            <p style="color:#404040;font-size:15px;line-height:1.6;margin:0 0 24px;">Thank you — we&rsquo;ve received your ${escapeHtml(kind)}. Keep your reference number; you can use it to track your request any time.</p>
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#F5F5F5;border:1px solid #E5E5E5;border-radius:8px;margin:0 0 28px;">
-              <tr>
-                <td align="center" style="padding:20px 24px 8px;">
-                  <div style="color:#525252;font-size:11px;font-weight:bold;letter-spacing:2px;">REFERENCE NUMBER</div>
-                  <div style="color:#0A0A0A;font-size:24px;font-weight:bold;letter-spacing:1px;margin-top:6px;">${escapeHtml(referenceNumber)}</div>
-                </td>
-              </tr>
-              <tr>
-                <td align="center" style="padding:8px 24px 22px;">
-                  <a href="${trackUrl}" style="display:inline-block;background-color:#2563EB;color:#FFFFFF;font-size:14px;font-weight:bold;text-decoration:none;padding:12px 28px;border-radius:6px;">Track your request</a>
-                </td>
-              </tr>
-            </table>
-${summaryBlock}
-            <div style="color:#0A0A0A;font-size:15px;font-weight:bold;margin:0 0 10px;">What happens next</div>
-            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 8px;">
-              <tr>
-                <td style="padding:0 10px 10px 0;color:#2563EB;font-size:15px;font-weight:bold;vertical-align:top;">1</td>
-                <td style="padding:0 0 10px;color:#404040;font-size:14px;line-height:1.55;">Our team reviews your request.</td>
-              </tr>
-              <tr>
-                <td style="padding:0 10px 10px 0;color:#2563EB;font-size:15px;font-weight:bold;vertical-align:top;">2</td>
-                <td style="padding:0 0 10px;color:#404040;font-size:14px;line-height:1.55;">Reply time: ${escapeHtml(replyTime)}</td>
-              </tr>
-              <tr>
-                <td style="padding:0 10px 0 0;color:#2563EB;font-size:15px;font-weight:bold;vertical-align:top;">3</td>
-                <td style="padding:0;color:#404040;font-size:14px;line-height:1.55;">Questions in the meantime? Email <a href="mailto:${contactEmail}" style="color:#2563EB;text-decoration:none;">${contactEmail}</a> and mention your reference number.</td>
-              </tr>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td style="background-color:#F5F5F5;border-top:1px solid #E5E5E5;padding:20px 32px;">
-            <div style="color:#525252;font-size:12px;line-height:1.6;">${escapeHtml(companyContact.legalName)}<br>
-            ${escapeHtml(companyContact.addressOneLine)}<br>
-            <a href="mailto:${contactEmail}" style="color:#2563EB;text-decoration:none;">${contactEmail}</a> &middot; <a href="https://haciensolutions.com" style="color:#2563EB;text-decoration:none;">haciensolutions.com</a></div>
-            <div style="color:#A3A3A3;font-size:11px;margin-top:10px;">This is an automatic confirmation of your website submission.</div>
-          </td>
-        </tr>
-      </table>
-    </td>
-  </tr>
-</table>
-</body>
-</html>`;
+  const steps = buildStepsSection("What happens next", [
+    "Our team reviews your request.",
+    `Reply time: ${escapeHtml(replyTime)}`,
+    `Questions in the meantime? Email <a href="mailto:${contactEmail}" style="color:#2563EB;text-decoration:none;">${contactEmail}</a> and mention your reference number.`,
+  ]);
+
+  // No filter on purpose: an empty summary section keeps the same blank
+  // line the hand-written template produced, so the output is unchanged.
+  const bodyHtml = [
+    buildEmailParagraph(`Hi${name ? ` ${escapeHtml(name)}` : ""},`, "0 0 8px"),
+    buildEmailParagraph(
+      `Thank you — we&rsquo;ve received your ${escapeHtml(kind)}. Keep your reference number; you can use it to track your request any time.`,
+    ),
+    buildReferenceBox(referenceNumber, { url: trackUrl, label: "Track your request" }),
+    buildSummarySection("What you sent", input.summaryLines, SUMMARY_LABELS),
+    steps,
+  ].join("\n");
 
   return {
     to: email,
     subject: `${title} — ${referenceNumber} · HACIEN`,
-    html,
+    html: buildEmailShell({
+      heading: title,
+      bodyHtml,
+      footnote: "This is an automatic confirmation of your website submission.",
+    }),
   };
 }
 
