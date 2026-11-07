@@ -73,16 +73,14 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
   describe("F17: Public form fields have tied labels and required fields marked", () => {
     const publicFormFiles = [
       "components/QuoteRequestForm.tsx",
-      "components/QuoteCart.tsx",
       "components/RequirementBuilder.tsx",
-      "components/ContactForm.tsx",
       "components/ClarificationReplyForm.tsx",
       "components/TrackReferenceLookup.tsx",
       "components/FaqSearch.tsx",
       "app/search/page.tsx",
     ];
 
-    it("all 8 public form files exist and use React useId or static id tied to label htmlFor", () => {
+    it("all 6 public form files exist and use React useId or static id tied to label htmlFor", () => {
       for (const relativePath of publicFormFiles) {
         const content = readFileSync(path.join(ROOT, relativePath), "utf8");
         expect(content).toMatch(/htmlFor=/);
@@ -115,22 +113,6 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
       expect(form).toMatch(/<label[^>]*htmlFor=[^>]*>\s*Email/);
     });
 
-    it("verifies QuoteCart has visible tied labels, aria-required on required fields, and * required note", () => {
-      const form = readFileSync(path.join(ROOT, "components/QuoteCart.tsx"), "utf8");
-      expect(form).toContain("useId");
-      expect(form).toContain("* required");
-
-      expect(form).toMatch(/name="intakePath"[^>]*required[\s\S]*?aria-required="true"|aria-required="true"[\s\S]*?name="intakePath"/);
-      expect(form).toMatch(/name="procurementType"[^>]*required[\s\S]*?aria-required="true"|aria-required="true"[\s\S]*?name="procurementType"/);
-      expect(form).toMatch(/name=\{key\}[^>]*required[\s\S]*?aria-required="true"|aria-required="true"[\s\S]*?name=\{key\}/);
-
-      expect(form).toMatch(/htmlFor=\{`\$\{baseId\}-intakePath`\}/);
-      expect(form).toMatch(/htmlFor=\{`\$\{baseId\}-procurementType`\}/);
-      expect(form).toMatch(/htmlFor=\{`\$\{baseId\}-budgetRange`\}/);
-      expect(form).toMatch(/htmlFor=\{`\$\{baseId\}-notes`\}/);
-      expect(form).toMatch(/htmlFor=\{`\$\{baseId\}-attachment`\}/);
-    });
-
     it("verifies RequirementBuilder has tied labels with unique ids for all inputs and controls", () => {
       const builder = readFileSync(path.join(ROOT, "components/RequirementBuilder.tsx"), "utf8");
       expect(builder).toContain("useId");
@@ -142,23 +124,6 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
       expect(builder).toMatch(/id=\{id\}/);
     });
 
-    it("verifies ContactForm has visible tied labels, aria-required on required fields, and * required note", () => {
-      const form = readFileSync(path.join(ROOT, "components/ContactForm.tsx"), "utf8");
-      expect(form).toContain("useId");
-      expect(form).toContain("* required");
-
-      expect(form).toMatch(/name="name"[^>]*required[\s\S]*?aria-required="true"|aria-required="true"[\s\S]*?name="name"/);
-      expect(form).toMatch(/name="company"[^>]*required[\s\S]*?aria-required="true"|aria-required="true"[\s\S]*?name="company"/);
-      expect(form).toMatch(/name="email"[^>]*required[\s\S]*?aria-required="true"|aria-required="true"[\s\S]*?name="email"/);
-      expect(form).toMatch(/name="message"[^>]*required[\s\S]*?aria-required="true"|aria-required="true"[\s\S]*?name="message"/);
-
-      expect(form).toMatch(/<label[^>]*htmlFor=[^>]*>\s*Full name/);
-      expect(form).toMatch(/<label[^>]*htmlFor=[^>]*>\s*Company or organization/);
-      expect(form).toMatch(/<label[^>]*htmlFor=[^>]*>\s*Email address/);
-      expect(form).toMatch(/<label[^>]*htmlFor=[^>]*>\s*Phone number/);
-      expect(form).toMatch(/<label[^>]*htmlFor=[^>]*>\s*Inquiry type/);
-    });
-
     it("verifies ClarificationReplyForm has tied label and aria-required", () => {
       const form = readFileSync(path.join(ROOT, "components/ClarificationReplyForm.tsx"), "utf8");
       expect(form).toContain("useId");
@@ -167,16 +132,12 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
       expect(form).toMatch(/htmlFor=\{`\$\{baseId\}-message`\}/);
     });
 
-    it("excludes honeypots (website, _website) from the label-association test explicitly and asserts they have no label and are hidden/aria-hidden", () => {
+    it("excludes the honeypot (website) from the label-association test explicitly and asserts it has no label and is hidden/aria-hidden", () => {
       // ClarificationReplyForm: honeypot 'website' has no label and is hidden/aria-hidden with tabIndex -1
       const clarification = readFileSync(path.join(ROOT, "components/ClarificationReplyForm.tsx"), "utf8");
       expect(clarification).not.toMatch(/<label[^>]*website/i);
       expect(clarification).toMatch(/<input[^>]*name="website"[^>]*tabIndex=\{-1\}[^>]*autoComplete="off"[^>]*className="hidden"[^>]*aria-hidden="true"/);
 
-      // ContactForm: honeypot '_website' markup matches main exactly, inside aria-hidden div, not wrapped in a new label
-      const contact = readFileSync(path.join(ROOT, "components/ContactForm.tsx"), "utf8");
-      expect(contact).not.toMatch(/htmlFor=\{`\$\{baseId\}-website`\}/);
-      expect(contact).toMatch(/<div className="absolute -left-\[9999px\]" aria-hidden="true">\s*<label htmlFor="contact-website">\s*Website\s*<input id="contact-website" type="text" name="_website" tabIndex=\{-1\} autoComplete="off" \/>\s*<\/label>\s*<\/div>/);
     });
 
     it("verifies TrackReferenceLookup has tied label and aria-required", () => {
@@ -221,23 +182,6 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
       expect(quoteForm).toMatch(/name="name"[\s\S]*?className="[^"]*w-full/);
       expect(quoteForm).toMatch(/name="company"[\s\S]*?className="[^"]*w-full/);
       expect(quoteForm).toMatch(/name="email"[\s\S]*?className="[^"]*w-full/);
-
-      // QuoteCart
-      const quoteCart = readFileSync(path.join(ROOT, "components/QuoteCart.tsx"), "utf8");
-      expect(quoteCart).toMatch(/name="intakePath"[\s\S]*?className="[^"]*w-full/);
-      expect(quoteCart).toMatch(/name=\{key\}[\s\S]*?className="[^"]*w-full/);
-      expect(quoteCart).toMatch(/name="procurementType"[\s\S]*?className="[^"]*w-full/);
-      expect(quoteCart).toMatch(/name="budgetRange"[\s\S]*?className="[^"]*w-full/);
-      expect(quoteCart).toMatch(/name="notes"[\s\S]*?className="[^"]*w-full/);
-      expect(quoteCart).toMatch(/name="attachment"[\s\S]*?className="[^"]*w-full/);
-
-      // ContactForm
-      const contactForm = readFileSync(path.join(ROOT, "components/ContactForm.tsx"), "utf8");
-      expect(contactForm).toMatch(/name="name"[\s\S]*?className="[^"]*w-full/);
-      expect(contactForm).toMatch(/name="company"[\s\S]*?className="[^"]*w-full/);
-      expect(contactForm).toMatch(/name="email"[\s\S]*?className="[^"]*w-full/);
-      expect(contactForm).toMatch(/name="inquiryType"[\s\S]*?className="[^"]*w-full/);
-      expect(contactForm).toMatch(/name="message"[\s\S]*?className="[^"]*w-full/);
 
       // ClarificationReplyForm
       const clarification = readFileSync(path.join(ROOT, "components/ClarificationReplyForm.tsx"), "utf8");

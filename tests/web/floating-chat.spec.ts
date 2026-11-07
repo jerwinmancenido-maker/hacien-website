@@ -5,13 +5,17 @@ const floating = readFileSync("components/FloatingChat.tsx", "utf8");
 const layout = readFileSync("app/layout.tsx", "utf8");
 
 describe("Floating chat button", () => {
-  it("is a client component that shows on every page, including the form pages", () => {
+  it("is a client component that shows on every page, and opens by itself on the request pages", () => {
     // The chat lives only in this panel, so there is no page where the
-    // button hides — the quote, contact, and support pages show their
-    // full forms and the button floats above them too.
+    // button hides. On /quote, /contact, and /support — where sending a
+    // request is the whole point — the panel opens by itself on load.
     expect(floating).toContain('"use client"');
     expect(floating).not.toContain("CHAT_PAGES");
-    expect(floating).not.toContain("usePathname");
+    expect(floating).toContain("usePathname");
+    expect(floating).toContain("AUTO_OPEN_PATHS");
+    expect(floating).toContain('"/quote"');
+    expect(floating).toContain('"/contact"');
+    expect(floating).toContain('"/support"');
   });
 
   it("renders a fixed blue button at the bottom right with an accessible label", () => {
@@ -52,11 +56,12 @@ describe("Floating chat button", () => {
     expect(floating).not.toContain("z-50");
   });
 
-  it("points the full-form switch at the real quote and contact pages", () => {
-    expect(floating).toContain('href="/quote"');
-    expect(floating).toContain("Open the full quote form");
-    expect(floating).toContain('href="/contact"');
-    expect(floating).toContain("Open the full contact form");
+  it("opens when a page's invitation card asks it to, and carries no form links anymore", () => {
+    expect(floating).toContain("OPEN_CHAT_EVENT");
+    expect(floating).toContain("addEventListener(OPEN_CHAT_EVENT");
+    expect(floating).not.toContain("FloatingFormLinks");
+    expect(floating).not.toContain("Open the full quote form");
+    expect(floating).not.toContain("form={");
   });
 
   it("is mounted in the layout inside the quote-cart provider, after the footer", () => {

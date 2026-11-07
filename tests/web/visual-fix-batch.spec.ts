@@ -5,7 +5,7 @@ import { insights } from "@/data/insights";
 import { solutions } from "@/data/solutions";
 
 const layout = readFileSync("app/layout.tsx", "utf8");
-const quoteCart = readFileSync("components/QuoteCart.tsx", "utf8");
+const quotePage = readFileSync("app/quote/page.tsx", "utf8");
 
 describe("visual inspection fixes (sticky header, checks verbs, duplication, quote note)", () => {
   it("gives the page bottom scroll room below the sticky header", () => {
@@ -36,9 +36,9 @@ describe("visual inspection fixes (sticky header, checks verbs, duplication, quo
   });
 
   it("replaces the internal-sounding Draft Request Summary box on /quote", () => {
-    expect(quoteCart).not.toContain("Draft Request Summary");
-    expect(quoteCart).not.toContain("evidence-gated");
-    expect(quoteCart).toContain("Please note:");
-    expect(quoteCart).toContain("No online payment is collected.");
+    expect(quotePage).not.toContain("Draft Request Summary");
+    expect(quotePage).not.toContain("evidence-gated");
+    expect(quotePage).toContain("Please note:");
+    expect(quotePage).toContain("No online payment is collected.");
   });
 });

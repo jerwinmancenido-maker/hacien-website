@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 
 import { parseDocument } from "@/app/actions/parse-document";
-import { exceedsQuoteAttachmentLimit, maxAttachmentSize } from "@/components/QuoteCart";
 
 const tenMb = 10 * 1024 * 1024;
 const tooLargeMessage = "Document is too large. Maximum supported size is 10 MB.";
@@ -32,9 +31,7 @@ describe("10 MB upload limit", () => {
     });
   });
 
-  it("accepts a quote attachment of exactly 10 MB and rejects one byte over", () => {
-    expect(maxAttachmentSize).toBe(tenMb);
-    expect(exceedsQuoteAttachmentLimit(tenMb)).toBe(false);
-    expect(exceedsQuoteAttachmentLimit(tenMb + 1)).toBe(true);
-  });
+  // The quote form's client-side limit helpers left with the form itself
+  // (Step B): the chat's document step is guarded by this same action,
+  // whose 10 MB limit the two tests above pin at the exact boundary.
 });

@@ -59,8 +59,8 @@ describe("W03: Facts and Industries Conformance", () => {
     const footer = readFileSync(path.join(process.cwd(), "components/Footer.tsx"), "utf8");
     expect(footer).toContain("companyContact.email");
 
-    const contactForm = readFileSync(path.join(process.cwd(), "components/ContactForm.tsx"), "utf8");
-    expect(contactForm).toContain("info@haciensolutions.com");
+    const confirmation = readFileSync(path.join(process.cwd(), "lib/email/inquiry-confirmation.ts"), "utf8");
+    expect(confirmation).toContain("companyContact.email");
   });
 
   it("never shows accounting@ anywhere in the codebase", () => {
@@ -102,17 +102,14 @@ describe("W03: Facts and Industries Conformance", () => {
       "Within 1 business day (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
     );
 
-    const contactForm = readFileSync(path.join(process.cwd(), "components/ContactForm.tsx"), "utf8");
-    expect(contactForm).toContain("{replyTime}");
+    const guidedChat = readFileSync(path.join(process.cwd(), "components/GuidedChat.tsx"), "utf8");
+    expect(guidedChat).toContain("{replyTime}");
 
     const quoteForm = readFileSync(
       path.join(process.cwd(), "components/QuoteRequestForm.tsx"),
       "utf8",
     );
     expect(quoteForm).toContain("{replyTime}");
-
-    const quoteCart = readFileSync(path.join(process.cwd(), "components/QuoteCart.tsx"), "utf8");
-    expect(quoteCart).toContain("{replyTime}");
   });
 
   it("shows no digit runs that look like TIN or permit numbers on /compliance, /about, /company-profile", () => {

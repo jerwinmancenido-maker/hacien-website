@@ -13,14 +13,13 @@ describe("Quote validity copy conformance", () => {
       "A quotation is valid for 15 days unless the quotation states otherwise.",
     );
 
-    // 2. Check /quote page source mounts QuoteCart
+    // 2. Check /quote page source mounts the chat invitation (the form is gone)
     const quotePageSource = readFileSync(path.join(ROOT, "app/quote/page.tsx"), "utf8");
-    expect(quotePageSource).toContain("<QuoteCart");
+    expect(quotePageSource).toContain("<ChatInvitation");
 
-    // 3. Check QuoteCart renders billingSettings.quote_validity_badge_label and quote_validity_disclaimer
-    const quoteCartSource = readFileSync(path.join(ROOT, "components/QuoteCart.tsx"), "utf8");
-    expect(quoteCartSource).toContain("billingSettings.quote_validity_badge_label");
-    expect(quoteCartSource).toContain("billingSettings.quote_validity_disclaimer");
+    // 3. Check the /quote page itself renders billingSettings.quote_validity_badge_label and quote_validity_disclaimer
+    expect(quotePageSource).toContain("billingSettings.quote_validity_badge_label");
+    expect(quotePageSource).toContain("billingSettings.quote_validity_disclaimer");
 
     // 4. Verify no old 'set by document' or 'does not set a default validity' phrasing remains in billing settings
     expect(billingSettings.quote_validity_badge_label).not.toMatch(/set by document/i);

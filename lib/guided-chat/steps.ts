@@ -1,7 +1,7 @@
 /** Guided chat: the four paths and their steps, as plain data.
  *  No UI here, so the step lists and validation are unit-testable.
- *  Steps map 1:1 to the fields the existing QuoteCart / ContactForm submit —
- *  the chat collects the same answers, only one question at a time.
+ *  Steps map 1:1 to the fields a submission carries — the chat collects
+ *  the answers one question at a time.
  *  One exception: the inquiry message is composed from the guided answers
  *  (need, details, location, targetDate, message) so staff receive a
  *  complete inquiry instead of one free-text box. */

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AnimatedContent, SpotlightCard } from "@/app/components/reactbits";
-import { ContactForm } from "@/components/ContactForm";
+import { ChatInvitation } from "@/components/ChatInvitation";
 import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { buildPageMetadata } from "@/lib/seo/site-metadata";
@@ -30,8 +30,6 @@ const expectations = [
 ];
 
 export default function SupportPage() {
-  const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "";
-
   return (
     <>
       <PremiumPageHero
@@ -39,7 +37,7 @@ export default function SupportPage() {
         title="Support begins by routing the question correctly."
         description="HACIEN support is designed around RFQ review, quotation assumptions, delivery details, warranty questions tied to documents, and follow-up."
         image="workspace"
-        primaryAction={{ href: "#support-form", label: "Contact Support" }}
+        primaryAction={{ href: "#start-chat", label: "Contact Support" }}
         secondaryAction={{ href: "/quote", label: "Request Quote" }}
         highlights={[
           { label: "RFQ Follow-Up", text: "Continue from a reference or submitted requirement." },
@@ -112,10 +110,10 @@ export default function SupportPage() {
         </div>
       </section>
 
-      <section id="support-form" className="px-4 py-12 sm:px-6 lg:px-8">
+      <section id="start-chat" className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr]">
           <AnimatedContent>
-            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Contact Form</div>
+            <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Support Request</div>
             <h2 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
               Send the details HACIEN needs to respond usefully.
             </h2>
@@ -123,7 +121,11 @@ export default function SupportPage() {
               Include RFQ reference, products, quantity, date, delivery details, quotation reference, or the policy area you need clarified.
             </p>
           </AnimatedContent>
-          <ContactForm turnstileSiteKey={turnstileSiteKey} />
+          <ChatInvitation
+            heading="Ask us in the chat"
+            text="Tap below and answer a few questions. A real person from the HACIEN team reads every request and replies within 1 business day."
+            buttonLabel="Start a conversation"
+          />
         </div>
       </section>
     </>

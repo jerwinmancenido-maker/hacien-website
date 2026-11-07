@@ -44,16 +44,8 @@ const SUCCESS_TITLES: Record<Exclude<ChatPathId, "track">, string> = {
 
 type ProcessingPhase = "checking" | "sending" | null;
 
-export function GuidedChat({
-  turnstileSiteKey,
-  form,
-}: {
-  turnstileSiteKey: string;
-  /** The full form, shown when the visitor prefers it over the chat. */
-  form: React.ReactNode;
-}) {
+export function GuidedChat({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   const { requirements, clearRequirements } = useQuoteCart();
-  const [mode, setMode] = useState<"chat" | "form">("chat");
   const [pathId, setPathId] = useState<ChatPathId | null>(null);
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<GuidedChatAnswers>({});
@@ -221,21 +213,6 @@ export function GuidedChat({
     }
   }
 
-  if (mode === "form") {
-    return (
-      <div className="mx-auto max-w-3xl space-y-4">
-        <button
-          type="button"
-          onClick={() => setMode("chat")}
-          className="min-h-11 cursor-pointer rounded-full border border-grey-200 bg-white px-4 py-2 text-sm font-bold text-ink hover:bg-grey-50"
-        >
-          Back to the guided chat
-        </button>
-        {form}
-      </div>
-    );
-  }
-
   const path = pathId ? getChatPath(pathId) : null;
   const steps = path?.steps ?? [];
   const isConfirm = path !== null && stepIndex >= steps.length;
@@ -331,7 +308,6 @@ export function GuidedChat({
             required
             autoFocus={false}
           />
-          <FormSwitch onSwitch={() => setMode("form")} />
         </div>
       ) : status === "sending" ? (
         <div className="mt-6 space-y-6">
@@ -352,7 +328,6 @@ export function GuidedChat({
           <AgentMessage text={path.steps[0].question} />
           <UserBubble value={answers.reference} />
           <TrackResult reference={answers.reference} onStartOver={resetAll} />
-          <FormSwitch onSwitch={() => setMode("form")} />
         </div>
       ) : isConfirm ? (
         <form onSubmit={handleConfirm} className="mt-6 space-y-6">
@@ -386,7 +361,7 @@ export function GuidedChat({
                   </div>
                 ))}
                 <p className="mt-2 text-xs text-grey-600">
-                  Sent with this request. To change items, use the full form below.
+                  Sent with this request.
                 </p>
               </div>
             ) : null}
@@ -423,7 +398,6 @@ export function GuidedChat({
               Looks good — send request
             </button>
           </div>
-          <FormSwitch onSwitch={() => setMode("form")} />
         </form>
       ) : (
         <div className="mt-6 space-y-6">
@@ -455,7 +429,6 @@ export function GuidedChat({
               }
             }}
           />
-          <FormSwitch onSwitch={() => setMode("form")} />
         </div>
       )}
     </div>
@@ -527,16 +500,6 @@ function UserBubble({ value, onEdit }: { value: string; onEdit?: () => void }) {
           Edit
         </button>
       ) : null}
-    </div>
-  );
-}
-
-function FormSwitch({ onSwitch }: { onSwitch: () => void }) {
-  return (
-    <div className="text-center">
-      <button type="button" onClick={onSwitch} className="min-h-11 cursor-pointer text-sm font-bold text-blue hover:underline">
-        Prefer the full form?
-      </button>
     </div>
   );
 }

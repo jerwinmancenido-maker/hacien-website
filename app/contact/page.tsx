@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/reactbits";
-import { ContactForm } from "@/components/ContactForm";
+import { ChatInvitation } from "@/components/ChatInvitation";
 import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { brandsLine, companyContact, deliveryLine } from "@/data/companyContact";
@@ -31,8 +31,8 @@ const contactPaths = [
   {
     title: "Send a business inquiry",
     text: "For supplier introductions, partnership questions, and company questions.",
-    href: "#contact-form",
-    action: "Use Contact Form",
+    href: "#start-chat",
+    action: "Use the Chat",
     image: "office",
   },
 ];
@@ -44,8 +44,6 @@ const communicationStandards = [
 ];
 
 export default function ContactPage() {
-  const turnstileSiteKey = process.env.TURNSTILE_SITE_KEY || "";
-
   return (
     <>
       <PremiumPageHero
@@ -54,7 +52,7 @@ export default function ContactPage() {
         description={companyContact.replyTime}
         image="office"
         primaryAction={{ href: "/quote", label: "Request a Quote" }}
-        secondaryAction={{ href: "#contact-form", label: "Send Inquiry" }}
+        secondaryAction={{ href: "#start-chat", label: "Send Inquiry" }}
         highlights={[
           { label: "Brands", text: brandsLine },
           { label: "Delivery", text: deliveryLine },
@@ -127,7 +125,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section id="contact-form" className="scroll-mt-24 px-4 py-12 sm:px-6 lg:px-8">
+      <section id="start-chat" className="scroll-mt-24 px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-start">
           <AnimatedContent>
             <BorderGlow className="rounded bg-white p-6 shadow-sm sm:p-8">
@@ -163,7 +161,7 @@ export default function ContactPage() {
                     </a>
                   </p>
                   <p className="mt-2">
-                    Prefer a call? Write &quot;Please call me back&quot; and your number in the form below, and HACIEN will call you.
+                    Prefer a call? Write &quot;Please call me back&quot; and your number in the chat, and HACIEN will call you.
                   </p>
                 </div>
 
@@ -180,7 +178,11 @@ export default function ContactPage() {
             </BorderGlow>
           </AnimatedContent>
 
-          <ContactForm turnstileSiteKey={turnstileSiteKey} />
+          <ChatInvitation
+            heading="Ask us in the chat"
+            text="Tap below and answer a few questions. A real person from the HACIEN team reads every request and replies within 1 business day."
+            buttonLabel="Start a conversation"
+          />
         </div>
       </section>
     </>
