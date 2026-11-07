@@ -1,0 +1,64 @@
+import { readFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
+
+const floating = readFileSync("components/FloatingChat.tsx", "utf8");
+const layout = readFileSync("app/layout.tsx", "utf8");
+
+describe("Floating chat button", () => {
+  it("is a client component that hides on the pages where the chat is already inline", () => {
+    expect(floating).toContain('"use client"');
+    expect(floating).toContain("usePathname");
+    expect(floating).toContain("Suspense");
+    expect(floating).toContain('"/quote"');
+    expect(floating).toContain('"/contact"');
+    expect(floating).toContain('"/support"');
+    expect(floating).toContain("CHAT_PAGES.includes(pathname)");
+  });
+
+  it("renders a fixed blue button at the bottom right with an accessible label", () => {
+    expect(floating).toContain("fixed right-6 bottom-6");
+    expect(floating).toContain("bg-blue");
+    expect(floating).toContain("rounded-full");
+    expect(floating).toContain("Open chat with the HACIEN team");
+    expect(floating).toContain("aria-expanded");
+    expect(floating).toContain("<svg");
+  });
+
+  it("opens the same guided chat in a panel, closable by button or Escape", () => {
+    expect(floating).toContain("GuidedChat");
+    expect(floating).toContain('role="dialog"');
+    expect(floating).toContain("Close chat");
+    expect(floating).toContain("Escape");
+    expect(floating).toContain("turnstileSiteKey={turnstileSiteKey}");
+  });
+
+  it("goes near full-screen on phones and a small card on desktop", () => {
+    expect(floating).toContain("inset-x-4 bottom-24 top-20");
+    expect(floating).toContain("sm:w-[380px]");
+    expect(floating).toContain("sm:h-[560px]");
+  });
+
+  it("sits below the cookie banner so it never covers Accept or Decline", () => {
+    // CookieNotice is z-50; the button and panel are z-40, so the banner
+    // paints above them while it is open, and they appear once it is dismissed.
+    expect(floating).toContain("z-40");
+    expect(floating).not.toContain("z-50");
+  });
+
+  it("points the full-form switch at the real quote and contact pages", () => {
+    expect(floating).toContain('href="/quote"');
+    expect(floating).toContain("Open the full quote form");
+    expect(floating).toContain('href="/contact"');
+    expect(floating).toContain("Open the full contact form");
+  });
+
+  it("is mounted in the layout inside the quote-cart provider, after the footer", () => {
+    expect(layout).toContain('import { FloatingChat } from "@/components/FloatingChat"');
+    expect(layout).toContain("<FloatingChat");
+    expect(layout).toContain("process.env.TURNSTILE_SITE_KEY");
+    const footerIndex = layout.indexOf("<Footer />");
+    const floatingIndex = layout.indexOf("<FloatingChat");
+    expect(footerIndex).toBeGreaterThan(-1);
+    expect(floatingIndex).toBeGreaterThan(footerIndex);
+  });
+});
