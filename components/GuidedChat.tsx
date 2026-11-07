@@ -44,7 +44,14 @@ const SUCCESS_TITLES: Record<Exclude<ChatPathId, "track">, string> = {
 
 type ProcessingPhase = "checking" | "sending" | null;
 
-export function GuidedChat({ turnstileSiteKey }: { turnstileSiteKey: string }) {
+export function GuidedChat({
+  turnstileSiteKey,
+  onUseAi,
+}: {
+  turnstileSiteKey: string;
+  /** When the AI assistant is available, the path screen offers a switch to it. */
+  onUseAi?: () => void;
+}) {
   const { requirements, clearRequirements } = useQuoteCart();
   const [pathId, setPathId] = useState<ChatPathId | null>(null);
   const [stepIndex, setStepIndex] = useState(0);
@@ -285,6 +292,15 @@ export function GuidedChat({ turnstileSiteKey }: { turnstileSiteKey: string }) {
           <p className="ml-11 -mt-3 text-sm text-grey-600">
             A real person from the HACIEN team reads every request.
           </p>
+          {onUseAi ? (
+            <button
+              type="button"
+              onClick={onUseAi}
+              className="ml-11 cursor-pointer text-sm font-bold text-blue hover:underline"
+            >
+              Chat with the AI assistant instead
+            </button>
+          ) : null}
           <div className="grid gap-2">
             {CHAT_PATHS.map((candidate) => (
               <button
@@ -488,7 +504,7 @@ function ChatHeader({
   );
 }
 
-function AgentMessage({ text }: { text: string }) {
+export function AgentMessage({ text }: { text: string }) {
   return (
     <div className="flex items-start gap-3">
       <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-blue text-xs font-bold text-white" aria-hidden="true">
@@ -499,7 +515,7 @@ function AgentMessage({ text }: { text: string }) {
   );
 }
 
-function UserBubble({ value, onEdit }: { value: string; onEdit?: () => void }) {
+export function UserBubble({ value, onEdit }: { value: string; onEdit?: () => void }) {
   return (
     <div className="mt-2 flex flex-col items-end gap-1">
       <div className="max-w-[85%] rounded-3xl rounded-br-md bg-blue px-4 py-2.5 text-sm leading-6 text-white">
@@ -684,7 +700,7 @@ function FileStepInput({
 /** The chat composer: rounded input with a blue send button. Shared by the
  *  step input and the message box on the path screen, so the chat always
  *  looks like a chat — a text box is visible from the first screen. */
-function MessageComposer({
+export function MessageComposer({
   id,
   label,
   kind,

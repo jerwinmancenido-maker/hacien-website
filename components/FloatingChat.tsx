@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { GuidedChat } from "@/components/GuidedChat";
+import { AiChat } from "@/components/AiChat";
 import { OPEN_CHAT_EVENT } from "@/components/ChatInvitation";
 
 /** Pages where sending a request is the whole point: the chat panel opens
@@ -15,6 +16,11 @@ const AUTO_OPEN_PATHS = ["/quote", "/contact", "/support"];
  *  panel it stays closed for that page view. */
 export function FloatingChat({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   const [open, setOpen] = useState(false);
+  /** The panel opens on the AI assistant. If the AI reports itself
+   *  unconfigured, the panel stays on the guided questions for the rest
+   *  of the session — the visitor is never shown a broken chat. */
+  const [mode, setMode] = useState<"ai" | "guided">("ai");
+  const [aiUnavailable, setAiUnavailable] = useState(false);
   const pathname = usePathname();
   const autoOpenedFor = useRef<string | null>(null);
 
@@ -59,7 +65,18 @@ export function FloatingChat({ turnstileSiteKey }: { turnstileSiteKey: string })
             ✕
           </button>
           <div className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-5">
-            <GuidedChat turnstileSiteKey={turnstileSiteKey} />
+            {mode === "ai" && !aiUnavailable ? (
+              <AiChat
+                turnstileSiteKey={turnstileSiteKey}
+                onUseGuided={() => setMode("guided")}
+                onUnavailable={() => setAiUnavailable(true)}
+              />
+            ) : (
+              <GuidedChat
+                turnstileSiteKey={turnstileSiteKey}
+                onUseAi={aiUnavailable ? undefined : () => setMode("ai")}
+              />
+            )}
           </div>
         </div>
       ) : null}
