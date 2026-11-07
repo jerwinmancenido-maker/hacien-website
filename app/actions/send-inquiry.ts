@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { Ratelimit } from "@upstash/ratelimit";
 import { isContactInquiryType } from "@/app/actions/contact-inquiry";
 import { sendInquiryConfirmationEmail } from "@/lib/email/inquiry-confirmation";
+import { sendStaffNotificationEmail } from "@/lib/email/staff-notification";
 import { getClientIp } from "@/lib/security/client-ip";
 import { redis } from "@/lib/redis/upstash";
 
@@ -322,6 +323,23 @@ export async function sendInquiryEmail(
       });
     } catch {
       confirmationSent = false;
+    }
+
+    // The staff notification is best-effort too: sales is emailed on
+    // every accepted submission, and a failure here never fails the
+    // submission. (sendStaffNotificationEmail never throws; the guard
+    // is belt and braces.)
+    try {
+      await sendStaffNotificationEmail({
+        type: submissionType,
+        email: getString(formData.email),
+        referenceNumber: result.referenceNumber || "",
+        name: getString(formData.name),
+        company: getString(formData.company),
+        summaryLines,
+      });
+    } catch {
+      // Notification failures are logged inside the sender.
     }
 
     return { ...result, confirmationSent };
