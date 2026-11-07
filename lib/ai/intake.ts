@@ -56,6 +56,26 @@ export const AI_INTAKE_REQUIRED: Record<AiChatPath, string[]> = {
   callback: ["name", "phone"],
 };
 
+/** Option-list fields and their only valid values — mirrors the guided
+ *  steps' option lists (lib/guided-chat/steps.ts QUOTE_PROCUREMENT_TYPES
+ *  and app/actions/contact-inquiry.ts contactInquiryTypes). A value the
+ *  model returns outside the list is dropped, never shown on the
+ *  review card: the visitor picks a buyer type, the model never does. */
+const CHOICE_FIELD_OPTIONS: Partial<Record<AiChatPath, Record<string, readonly string[]>>> = {
+  quote: {
+    procurementType: ["Corporate", "Institutional", "Education", "Project-based", "Reseller / integrator"],
+  },
+  inquiry: {
+    inquiryType: [
+      "Request a quote",
+      "Supplier partnership",
+      "Institutional procurement",
+      "Systems integration project",
+      "Privacy request",
+    ],
+  },
+};
+
 const MAX_FIELD_LENGTH = 600;
 const MAX_REPLY_LENGTH = 2_000;
 
@@ -63,18 +83,29 @@ export function isAiChatPath(value: unknown): value is AiChatPath {
   return value === "quote" || value === "inquiry" || value === "callback";
 }
 
-/** Keep only known fields for the path, as trimmed, capped strings. */
+/** Keep only known fields for the path, as trimmed, capped strings.
+ *  Option-list fields keep only an exact option value (matched
+ *  case-insensitively, stored in the option's canonical spelling). */
 export function sanitizeIntakeFields(
   path: AiChatPath,
   raw: unknown,
 ): GuidedChatAnswers {
   if (!raw || typeof raw !== "object" || Array.isArray(raw)) return {};
   const allowed = new Set(AI_INTAKE_FIELDS[path]);
+  const choiceOptions = CHOICE_FIELD_OPTIONS[path] || {};
   const clean: GuidedChatAnswers = {};
   for (const [key, value] of Object.entries(raw as Record<string, unknown>)) {
     if (!allowed.has(key) || typeof value !== "string") continue;
     const trimmed = value.trim().slice(0, MAX_FIELD_LENGTH);
-    if (trimmed) clean[key] = trimmed;
+    if (!trimmed) continue;
+    const options = choiceOptions[key];
+    if (options) {
+      const canonical = options.find((option) => option.toLowerCase() === trimmed.toLowerCase());
+      if (!canonical) continue;
+      clean[key] = canonical;
+    } else {
+      clean[key] = trimmed;
+    }
   }
   return clean;
 }

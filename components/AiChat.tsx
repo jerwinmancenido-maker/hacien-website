@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
 import { sendAiChatMessage } from "@/app/actions/ai-chat";
@@ -13,7 +13,7 @@ import {
   buildCallbackPayload,
   buildInquiryPayload,
   buildQuotePayload,
-  buildTrackUrl,
+  findTrackUrl,
   type GuidedChatAnswers,
 } from "@/lib/guided-chat/payloads";
 import type { AiChatPath } from "@/lib/ai/intake";
@@ -89,6 +89,21 @@ export function AiChat({
   const turnstilePending = Boolean(turnstileSiteKey) && turnstileToken.length === 0;
   const started = messages.length > 0;
 
+  // Keep the newest message in view: after every reply (and every
+  // panel state change), scroll the chat panel's scroll area to the
+  // bottom sentinel.
+  const bottomRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const node = bottomRef.current;
+    if (!node) return;
+    const container = node.closest<HTMLElement>("[data-chat-scroll]");
+    if (container) {
+      container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
+    } else if (typeof node.scrollIntoView === "function") {
+      node.scrollIntoView({ behavior: "smooth", block: "end" });
+    }
+  }, [messages, sending, readyToReview, submitStatus, notice]);
+
   function resetAll() {
     setMessages([]);
     setDraft("");
@@ -114,9 +129,10 @@ export function AiChat({
     const history: ChatMessage[] = [...messages, { role: "user", text }];
     setMessages(history);
 
-    // A pasted reference number is answered locally with its tracking
-    // link — no API call, no guessing at statuses.
-    const trackUrl = buildTrackUrl(text);
+    // A reference number mentioned anywhere in the message is answered
+    // locally with its tracking link — no API call, no guessing at
+    // statuses, and no lead details are ever revealed in chat.
+    const trackUrl = findTrackUrl(text);
     if (trackUrl) {
       setMessages([
         ...history,
@@ -349,6 +365,9 @@ export function AiChat({
               <input type="hidden" name="formStartedAt" value={startedAt ? String(startedAt) : ""} readOnly />
               <AgentMessage text="Here's what I'll send — please check it:" />
               <div className="rounded-3xl border border-grey-200 bg-white p-5">
+                <p className="text-sm font-semibold text-ink">
+                  Please confirm these details are correct before sending.
+                </p>
                 {reviewSteps.map((step) => {
                   const value = fields[step.id] || "";
                   if (!value) return null;
@@ -423,6 +442,7 @@ export function AiChat({
               </button>
             </>
           )}
+          <div ref={bottomRef} aria-hidden="true" />
         </div>
       )}
     </div>

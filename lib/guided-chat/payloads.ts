@@ -4,7 +4,7 @@
  *  The quote path has an optional document step: its file details travel as
  *  the same attachment fields the full form sends (name, size, type). */
 
-import { parseTrackReference } from "@/lib/security/track-reference";
+import { findTrackReference, parseTrackReference } from "@/lib/security/track-reference";
 import { formatRequirementLines, type QuoteRequirementInput } from "@/lib/quote-requirements";
 
 export type GuidedChatAnswers = Record<string, string>;
@@ -120,4 +120,14 @@ export function buildTrackUrl(rawReference: string): string | null {
   const parsed = parseTrackReference(rawReference);
   if (!parsed) return null;
   return `/track/${encodeURIComponent(parsed.referenceNumber)}`;
+}
+
+/** Returns the /track URL for a reference mentioned anywhere inside a
+ *  chat message (any case, with or without spaces), or null. Used by
+ *  the AI chat so a pasted reference is answered with a real link by
+ *  code, never by the model — and no lead details are ever shown. */
+export function findTrackUrl(rawText: string): string | null {
+  const reference = findTrackReference(rawText);
+  if (!reference) return null;
+  return `/track/${encodeURIComponent(reference)}`;
 }
