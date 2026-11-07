@@ -12,6 +12,7 @@ import {
   validateStepAnswer,
   type ChatPathId,
   type ChatStep,
+  type ChatStepKind,
 } from "@/lib/guided-chat/steps";
 import {
   buildCallbackPayload,
@@ -80,12 +81,21 @@ export function GuidedChat({
     setStartedAt(null);
   }
 
-  function choosePath(id: ChatPathId) {
+  function choosePath(id: ChatPathId, prefill?: GuidedChatAnswers) {
     setPathId(id);
     setStepIndex(0);
-    setAnswers({});
+    setAnswers(prefill ?? {});
     setDraft("");
     setFieldError("");
+  }
+
+  /** A typed message on the path screen starts the inquiry path with the
+   *  text already recorded as the answer to "What do you need?" — the
+   *  customer then picks the inquiry type and the need step is skipped. */
+  function startInquiryWithMessage(text: string) {
+    if (!text.trim()) return;
+    if (startedAt === null) setStartedAt(Date.now());
+    choosePath("inquiry", { need: text.trim() });
   }
 
   function answerStep(step: ChatStep, value: string) {
@@ -94,10 +104,17 @@ export function GuidedChat({
       setFieldError(error);
       return;
     }
-    setAnswers((current) => ({ ...current, [step.id]: value.trim() }));
+    const nextAnswers = { ...answers, [step.id]: value.trim() };
+    setAnswers(nextAnswers);
     setDraft("");
     setFieldError("");
-    setStepIndex((current) => current + 1);
+    if (!pathId) return;
+    // Skip past any step already answered (e.g. the need, pre-filled from
+    // a typed message on the path screen) instead of asking it again.
+    const pathSteps = getChatPath(pathId).steps;
+    let next = stepIndex + 1;
+    while (next < pathSteps.length && nextAnswers[pathSteps[next].id]) next += 1;
+    setStepIndex(next);
   }
 
   function skipStep(step: ChatStep) {
@@ -249,18 +266,29 @@ export function GuidedChat({
                   if (startedAt === null) setStartedAt(Date.now());
                   choosePath(candidate.id);
                 }}
-                className="flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-2xl bg-grey-50 px-5 py-4 text-left hover:bg-grey-100"
+                className="flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-2xl border border-grey-200 bg-white px-5 py-4 text-left shadow-sm hover:border-blue hover:shadow"
               >
                 <span>
                   <span className="block font-bold text-ink">{candidate.label}</span>
                   <span className="mt-0.5 block text-sm text-grey-600">{candidate.description}</span>
                 </span>
-                <span aria-hidden="true" className="shrink-0 text-lg font-bold text-grey-600">
+                <span aria-hidden="true" className="shrink-0 text-xl font-bold text-blue">
                   →
                 </span>
               </button>
             ))}
           </div>
+          <MessageComposer
+            id="guided-chat-message"
+            label="Type your message"
+            kind="text"
+            value={draft}
+            onChange={setDraft}
+            onSubmit={startInquiryWithMessage}
+            placeholder="Type your message…"
+            required
+            autoFocus={false}
+          />
           <FormSwitch onSwitch={() => setMode("form")} />
         </div>
       ) : status === "sending" ? (
@@ -398,7 +426,7 @@ function ChatHeader({
   return (
     <div>
       <div className="flex items-center gap-3">
-        <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-ink text-sm font-bold text-white" aria-hidden="true">
+        <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-blue text-sm font-bold text-white" aria-hidden="true">
           H
         </div>
         <div>
@@ -428,10 +456,10 @@ function ChatHeader({
 function AgentMessage({ text }: { text: string }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-ink text-xs font-bold text-white" aria-hidden="true">
+      <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-blue text-xs font-bold text-white" aria-hidden="true">
         H
       </div>
-      <p className="min-w-0 pt-1 text-base leading-7 text-ink">{text}</p>
+      <p className="min-w-0 max-w-[85%] rounded-3xl rounded-tl-md bg-grey-100 px-4 py-3 text-base leading-7 text-ink">{text}</p>
     </div>
   );
 }
@@ -518,72 +546,111 @@ function ChatStepInput({
     <div>
       <AgentMessage text={step.question} />
       {step.hint ? <p className="ml-11 mt-1 text-sm text-grey-600">{step.hint}</p> : null}
-      <form
-        className="sticky bottom-4 mt-3"
-        onSubmit={(event) => {
-          event.preventDefault();
-          onAnswer(draft);
-        }}
-      >
-        <div className="flex items-end gap-2 rounded-3xl border border-grey-200 bg-white p-2 shadow-sm focus-within:border-blue">
-          <label htmlFor={`guided-chat-${step.id}`} className="sr-only">
-            {step.question}
-          </label>
-          {step.kind === "textarea" ? (
-            <textarea
-              id={`guided-chat-${step.id}`}
-              key={step.id}
-              autoFocus
-              required={step.required}
-              aria-required={step.required}
-              rows={3}
-              value={draft}
-              onChange={(event) => onDraftChange(event.currentTarget.value)}
-              placeholder={step.placeholder}
-              className="min-w-0 flex-1 resize-none bg-transparent px-3 py-2 text-sm leading-6 outline-none"
-            />
-          ) : (
-            <input
-              id={`guided-chat-${step.id}`}
-              key={step.id}
-              autoFocus
-              required={step.required}
-              aria-required={step.required}
-              type={step.kind === "date" ? "date" : step.kind}
-              value={draft}
-              onChange={(event) => onDraftChange(event.currentTarget.value)}
-              placeholder={step.placeholder}
-              autoComplete={step.kind === "email" ? "email" : step.kind === "tel" ? "tel" : undefined}
-              className="min-h-11 min-w-0 flex-1 bg-transparent px-3 text-sm outline-none"
-            />
-          )}
-          <button
-            type="submit"
-            aria-label="Send"
-            className="grid h-11 w-11 shrink-0 cursor-pointer place-items-center rounded-full bg-blue text-white hover:bg-blue-dark"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+      <MessageComposer
+        id={`guided-chat-${step.id}`}
+        label={step.question}
+        kind={step.kind}
+        value={draft}
+        onChange={onDraftChange}
+        onSubmit={onAnswer}
+        placeholder={step.placeholder}
+        required={step.required}
+        autoFocus
+      />
+      {fieldError ? (
+        <p className="mt-2 text-sm font-semibold text-red-600" role="alert">
+          {fieldError}
+        </p>
+      ) : null}
+      <div className="mt-2 flex gap-4 pl-1">
+        {!step.required ? (
+          <button type="button" onClick={onSkip} className="cursor-pointer text-sm font-bold text-blue hover:underline">
+            Skip
           </button>
-        </div>
-        {fieldError ? (
-          <p className="mt-2 text-sm font-semibold text-red-600" role="alert">
-            {fieldError}
-          </p>
         ) : null}
-        <div className="mt-2 flex gap-4 pl-1">
-          {!step.required ? (
-            <button type="button" onClick={onSkip} className="cursor-pointer text-sm font-bold text-blue hover:underline">
-              Skip
-            </button>
-          ) : null}
-          <button type="button" onClick={onBack} className="cursor-pointer text-sm font-bold text-grey-700 hover:underline">
-            Back
-          </button>
-        </div>
-      </form>
+        <button type="button" onClick={onBack} className="cursor-pointer text-sm font-bold text-grey-700 hover:underline">
+          Back
+        </button>
+      </div>
     </div>
+  );
+}
+
+/** The chat composer: rounded input with a blue send button. Shared by the
+ *  step input and the message box on the path screen, so the chat always
+ *  looks like a chat — a text box is visible from the first screen. */
+function MessageComposer({
+  id,
+  label,
+  kind,
+  value,
+  onChange,
+  onSubmit,
+  placeholder,
+  required,
+  autoFocus,
+}: {
+  id: string;
+  label: string;
+  kind: ChatStepKind | "text";
+  value: string;
+  onChange: (value: string) => void;
+  onSubmit: (value: string) => void;
+  placeholder?: string;
+  required?: boolean;
+  autoFocus?: boolean;
+}) {
+  return (
+    <form
+      className="sticky bottom-4 mt-3"
+      onSubmit={(event) => {
+        event.preventDefault();
+        onSubmit(value);
+      }}
+    >
+      <div className="flex items-end gap-2 rounded-3xl border border-grey-200 bg-white p-2 shadow-sm focus-within:border-blue">
+        <label htmlFor={id} className="sr-only">
+          {label}
+        </label>
+        {kind === "textarea" ? (
+          <textarea
+            id={id}
+            key={id}
+            autoFocus={autoFocus}
+            required={required}
+            aria-required={required}
+            rows={3}
+            value={value}
+            onChange={(event) => onChange(event.currentTarget.value)}
+            placeholder={placeholder}
+            className="min-w-0 flex-1 resize-none bg-transparent px-3 py-2 text-sm leading-6 outline-none"
+          />
+        ) : (
+          <input
+            id={id}
+            key={id}
+            autoFocus={autoFocus}
+            required={required}
+            aria-required={required}
+            type={kind === "date" ? "date" : kind}
+            value={value}
+            onChange={(event) => onChange(event.currentTarget.value)}
+            placeholder={placeholder}
+            autoComplete={kind === "email" ? "email" : kind === "tel" ? "tel" : undefined}
+            className="min-h-11 min-w-0 flex-1 bg-transparent px-3 text-sm outline-none"
+          />
+        )}
+        <button
+          type="submit"
+          aria-label="Send"
+          className="grid h-11 w-11 shrink-0 cursor-pointer place-items-center rounded-full bg-blue text-white hover:bg-blue-dark"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </form>
   );
 }
 
