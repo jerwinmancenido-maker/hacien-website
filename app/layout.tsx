@@ -3,6 +3,7 @@ import { Archivo_Black, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { FloatingChat } from "@/components/FloatingChat";
 import { CookieNotice } from "@/components/CookieNotice";
 import { isValidGaId } from "@/lib/ga4";
 import { GlobalCinematicBackdrop } from "@/components/GlobalCinematicBackdrop";
@@ -152,6 +153,7 @@ gtag('config', '${gaId}', {
             <Header />
             <main id="content" tabIndex={-1}>{children}</main>
             <Footer />
+            <FloatingChat turnstileSiteKey={process.env.TURNSTILE_SITE_KEY || ""} />
             {/* Bottom scroll room: at maximum scroll the sticky header would
                 otherwise cover the first line of the section above the footer,
                 because the document ends and the page cannot scroll further. */}
