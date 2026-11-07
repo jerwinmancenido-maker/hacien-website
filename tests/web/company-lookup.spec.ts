@@ -4,6 +4,8 @@ import {
   emailDomain,
   extractCompanyName,
   isFreeMailDomain,
+  isSameSiteHost,
+  registrableDomain,
 } from "@/lib/ai/company-lookup";
 
 // The action resolves hosts before fetching; give it a public IP so
@@ -69,6 +71,19 @@ describe("extractCompanyName", () => {
   });
 });
 
+describe("registrableDomain / isSameSiteHost", () => {
+  it("reduces hosts to their registrable domain, incl. two-part suffixes", () => {
+    expect(registrableDomain("www.dell.com")).toBe("dell.com");
+    expect(registrableDomain("ph.hp.com")).toBe("hp.com");
+    expect(registrableDomain("www.acme.com.ph")).toBe("acme.com.ph");
+    expect(registrableDomain("shop.acme.co.uk")).toBe("acme.co.uk");
+    expect(isSameSiteHost("www.dell.com", "dell.com")).toBe(true);
+    expect(isSameSiteHost("www.dell.com", "ph.dell.com")).toBe(true);
+    expect(isSameSiteHost("www.dell.com", "dell.com.evil.example")).toBe(false);
+    expect(isSameSiteHost("acme.com.ph", "other.com.ph")).toBe(false);
+  });
+});
+
 describe("lookupCompanyFromEmail action", () => {
   beforeEach(() => {
     vi.unstubAllGlobals();
@@ -104,6 +119,106 @@ describe("lookupCompanyFromEmail action", () => {
       found: true,
       companyName: "Acme Corporation",
       domain: "acme-lookup-test.example",
+    });
+  });
+
+  it("follows a long same-domain redirect chain (apex → www → country → home)", async () => {
+    const html = `<html><head><meta property="og:site_name" content="Chain Corp"></head></html>`;
+    const hops = new Map<string, Response>([
+      [
+        "https://chain-lookup.example/",
+        new Response(null, { status: 301, headers: { location: "https://www.chain-lookup.example/" } }),
+      ],
+      [
+        "https://www.chain-lookup.example/",
+        new Response(null, { status: 302, headers: { location: "https://www.chain-lookup.example/en-ph" } }),
+      ],
+      [
+        "https://www.chain-lookup.example/en-ph",
+        new Response(null, { status: 302, headers: { location: "https://www.chain-lookup.example/en-ph/home" } }),
+      ],
+      [
+        "https://www.chain-lookup.example/en-ph/home",
+        new Response(null, { status: 302, headers: { location: "https://www.chain-lookup.example/en-ph/home/" } }),
+      ],
+      [
+        "https://www.chain-lookup.example/en-ph/home/",
+        new Response(html, { status: 200, headers: { "content-type": "text/html" } }),
+      ],
+    ]);
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string) => hops.get(url) ?? new Response(null, { status: 404 })),
+    );
+    await expect(lookupCompanyFromEmail("ana@chain-lookup.example")).resolves.toEqual({
+      found: true,
+      companyName: "Chain Corp",
+      domain: "chain-lookup.example",
+    });
+  });
+
+  it("allows a redirect to another subdomain of the same company domain", async () => {
+    const html = `<html><head><meta property="og:site_name" content="Sub Domain Inc"></head></html>`;
+    const hops = new Map<string, Response>([
+      [
+        "https://sub-lookup.example/",
+        new Response(null, { status: 302, headers: { location: "https://ph.sub-lookup.example/" } }),
+      ],
+      [
+        "https://ph.sub-lookup.example/",
+        new Response(html, { status: 200, headers: { "content-type": "text/html" } }),
+      ],
+    ]);
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string) => hops.get(url) ?? new Response(null, { status: 404 })),
+    );
+    await expect(lookupCompanyFromEmail("ana@sub-lookup.example")).resolves.toEqual({
+      found: true,
+      companyName: "Sub Domain Inc",
+      domain: "sub-lookup.example",
+    });
+  });
+
+  it("refuses a redirect that leaves the company's domain", async () => {
+    const seen: string[] = [];
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async (url: string) => {
+        seen.push(url);
+        return new Response(null, {
+          status: 302,
+          headers: { location: "https://totally-other.example/" },
+        });
+      }),
+    );
+    await expect(lookupCompanyFromEmail("ana@trap-lookup.example")).resolves.toEqual({
+      found: false,
+      reason: "not-found",
+    });
+    expect(seen.some((url) => url.includes("totally-other"))).toBe(false);
+  });
+
+  it("does not cache a miss — a later lookup re-checks the site", async () => {
+    let up = false;
+    const html = `<html><head><meta property="og:site_name" content="Flaky Corp"></head></html>`;
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        up
+          ? new Response(html, { status: 200, headers: { "content-type": "text/html" } })
+          : new Response(null, { status: 503 }),
+      ),
+    );
+    await expect(lookupCompanyFromEmail("ana@flaky-lookup.example")).resolves.toEqual({
+      found: false,
+      reason: "not-found",
+    });
+    up = true;
+    await expect(lookupCompanyFromEmail("ana@flaky-lookup.example")).resolves.toEqual({
+      found: true,
+      companyName: "Flaky Corp",
+      domain: "flaky-lookup.example",
     });
   });
 });

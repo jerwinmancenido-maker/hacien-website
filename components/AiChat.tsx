@@ -11,7 +11,7 @@ import { sendInquiryEmail } from "@/app/actions/send-inquiry";
 import { replyTime } from "@/data/companyContact";
 import { AgentMessage, MessageComposer, UserBubble } from "@/components/GuidedChat";
 import { TurnstileField } from "@/components/TurnstileField";
-import { CHAT_PATHS, getChatPath, type ChatPathId } from "@/lib/guided-chat/steps";
+import { getChatPath } from "@/lib/guided-chat/steps";
 import {
   buildCallbackPayload,
   buildInquiryPayload,
@@ -125,13 +125,6 @@ type ChatMessage = {
   trackUrl?: string;
 };
 
-const PATH_STARTERS: Record<ChatPathId, string> = {
-  quote: "I'd like a quotation.",
-  inquiry: "I have a question for the team.",
-  callback: "Please call me back.",
-  track: "I want to track my request.",
-};
-
 export function AiChat({
   turnstileSiteKey,
   onUseGuided,
@@ -192,6 +185,10 @@ export function AiChat({
   // bottom sentinel.
   const bottomRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    // Before the first message the start screen must stay where it
+    // opened (the lowered, centred greeting) — scrolling on mount
+    // pushed the greeting out of view.
+    if (!started) return;
     const node = bottomRef.current;
     if (!node) return;
     const container = node.closest<HTMLElement>("[data-chat-scroll]");
@@ -200,7 +197,7 @@ export function AiChat({
     } else if (typeof node.scrollIntoView === "function") {
       node.scrollIntoView({ behavior: "smooth", block: "end" });
     }
-  }, [messages, sending, readyToReview, submitStatus, notice]);
+  }, [messages, sending, readyToReview, submitStatus, notice, companyLookup, started]);
 
   function resetAll() {
     setMessages([]);
@@ -511,27 +508,6 @@ export function AiChat({
               </div>
             ),
           )}
-
-          {!started ? (
-            <div className="grid gap-2">
-              {CHAT_PATHS.map((candidate) => (
-                <button
-                  key={candidate.id}
-                  type="button"
-                  onClick={() => send(PATH_STARTERS[candidate.id])}
-                  className="flex min-h-11 cursor-pointer items-center justify-between gap-3 rounded-2xl border border-grey-200 bg-white px-5 py-4 text-left shadow-sm hover:border-blue hover:shadow"
-                >
-                  <span>
-                    <span className="block font-bold text-ink">{candidate.label}</span>
-                    <span className="mt-0.5 block text-sm text-grey-600">{candidate.description}</span>
-                  </span>
-                  <span aria-hidden="true" className="shrink-0 text-xl font-bold text-blue">
-                    →
-                  </span>
-                </button>
-              ))}
-            </div>
-          ) : null}
 
           {sending ? (
             readingDocument ? (

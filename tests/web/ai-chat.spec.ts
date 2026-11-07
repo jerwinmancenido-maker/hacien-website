@@ -78,7 +78,16 @@ describe("AI chat panel wiring", () => {
     expect(ai).toContain("bottomRef");
     expect(ai).toContain('closest<HTMLElement>("[data-chat-scroll]")');
     expect(ai).toContain("container.scrollTo({ top: container.scrollHeight");
-    expect(ai).toContain("[messages, sending, readyToReview, submitStatus, notice]");
+    expect(ai).toContain("[messages, sending, readyToReview, submitStatus, notice, companyLookup, started]");
+    // ...but never before the first message: the start screen stays
+    // where it opened, with the greeting in view.
+    expect(ai).toContain("if (!started) return;");
+  });
+
+  it("the start screen is only the greeting and the message box — no menu cards", () => {
+    const ai = read("components/AiChat.tsx");
+    expect(ai).not.toContain("CHAT_PATHS");
+    expect(ai).not.toContain("PATH_STARTERS");
   });
 
   it("the AI chat is honestly labelled and gates send on the security-check token", () => {
