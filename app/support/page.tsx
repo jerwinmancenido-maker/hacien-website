@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AnimatedContent, SpotlightCard } from "@/app/components/reactbits";
 import { ContactForm } from "@/components/ContactForm";
-import { GuidedChat } from "@/components/GuidedChat";
 import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { buildPageMetadata } from "@/lib/seo/site-metadata";
@@ -124,10 +123,7 @@ export default function SupportPage() {
               Include RFQ reference, products, quantity, date, delivery details, quotation reference, or the policy area you need clarified.
             </p>
           </AnimatedContent>
-          <GuidedChat
-            turnstileSiteKey={turnstileSiteKey}
-            form={<ContactForm turnstileSiteKey={turnstileSiteKey} />}
-          />
+          <ContactForm turnstileSiteKey={turnstileSiteKey} />
         </div>
       </section>
     </>

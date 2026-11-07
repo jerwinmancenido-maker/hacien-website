@@ -5,14 +5,13 @@ const floating = readFileSync("components/FloatingChat.tsx", "utf8");
 const layout = readFileSync("app/layout.tsx", "utf8");
 
 describe("Floating chat button", () => {
-  it("is a client component that hides on the pages where the chat is already inline", () => {
+  it("is a client component that shows on every page, including the form pages", () => {
+    // The chat lives only in this panel, so there is no page where the
+    // button hides — the quote, contact, and support pages show their
+    // full forms and the button floats above them too.
     expect(floating).toContain('"use client"');
-    expect(floating).toContain("usePathname");
-    expect(floating).toContain("Suspense");
-    expect(floating).toContain('"/quote"');
-    expect(floating).toContain('"/contact"');
-    expect(floating).toContain('"/support"');
-    expect(floating).toContain("CHAT_PAGES.includes(pathname)");
+    expect(floating).not.toContain("CHAT_PAGES");
+    expect(floating).not.toContain("usePathname");
   });
 
   it("renders a fixed blue button at the bottom right with an accessible label", () => {
