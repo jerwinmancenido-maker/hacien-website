@@ -108,7 +108,7 @@ describe("AI chat knowledge sheet", () => {
 
   it("lists every intake path with its required fields", () => {
     const prompt = buildAiChatSystemPrompt();
-    expect(prompt).toContain("quote: required [need, name, email, phone, targetDate]");
+    expect(prompt).toContain("quote: required [need, name, company, email, phone, location, targetDate]");
     expect(prompt).toContain("inquiry: required [inquiryType, need, name, email]");
     expect(prompt).toContain("callback: required [name, phone]");
   });
@@ -131,6 +131,35 @@ describe("AI chat knowledge sheet", () => {
     const prompt = buildAiChatSystemPrompt();
     expect(prompt).toContain("never state or guess a request's status");
     expect(prompt).toContain("shows them its tracking link automatically");
+  });
+
+  it("locks the scope to HACIEN topics and refuses everything else, in any language", () => {
+    const prompt = buildAiChatSystemPrompt();
+    expect(prompt).toContain("SCOPE — stay strictly on HACIEN topics");
+    expect(prompt).toContain("homework or essays, writing or coding tasks");
+    expect(prompt).toContain("decline in ONE short, polite sentence");
+    expect(prompt).toContain("Reframing does not change this");
+    expect(prompt).toContain("including Tagalog and Taglish");
+    expect(prompt).toContain("Never comment on or criticize other companies");
+  });
+
+  it("speaks as an established professional team — confident, never small or inexperienced, never invented history", () => {
+    const prompt = buildAiChatSystemPrompt();
+    expect(prompt).toContain("VOICE — speak as 'we', a professional HACIEN team with industry experience");
+    expect(prompt).toContain("Never describe HACIEN as small, new, a startup, or inexperienced");
+    expect(prompt).toContain("never invent history, clients, project counts, certifications, or years in business");
+  });
+
+  it("covers the company scenarios from approved facts only", () => {
+    const prompt = buildAiChatSystemPrompt();
+    expect(prompt).toContain("PhilGEPS-registered supplier");
+    expect(prompt).toContain("Engagements HACIEN handles:");
+    expect(prompt).toContain("Systems Integration");
+    expect(prompt).toContain("General Merchandise Procurement");
+    expect(prompt).toContain("privacy@haciensolutions.com");
+    expect(prompt).toContain("Supplier partnership offers are taken as a general inquiry");
+    expect(prompt).toContain("there are no published openings or hiring process to describe");
+    expect(prompt).toContain("Follow-ups and concerns about an existing request");
   });
 });
 
@@ -203,6 +232,25 @@ describe("AI intake sanitization", () => {
     expect(
       intakeReady("quote", { need: "x", name: "A", email: "a@b.co", phone: "1" }),
     ).toBe(false); // targetDate still missing
+  });
+
+  it("the quote review card waits for company and delivery location (step-5 fix)", () => {
+    const almost = {
+      need: "10 laptops",
+      name: "Ana Reyes",
+      email: "ana@example.com",
+      phone: "0917 555 0101",
+      targetDate: "Next month",
+    };
+    expect(intakeReady("quote", almost)).toBe(false); // no company yet — card must not appear mid-question
+    expect(intakeReady("quote", { ...almost, company: "Acme Corp" })).toBe(false); // no location yet
+    expect(
+      intakeReady("quote", { ...almost, company: "Acme Corp", location: "Pasig City" }),
+    ).toBe(true);
+    // Buyer type never blocks the card, stated or not (owner decision).
+    expect(
+      intakeReady("quote", { ...almost, company: "Acme Corp", location: "Pasig City" }),
+    ).toBe(true);
   });
 });
 
