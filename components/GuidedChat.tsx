@@ -61,6 +61,7 @@ export function GuidedChat({
   const [processing, setProcessing] = useState<ProcessingPhase>(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [referenceNumber, setReferenceNumber] = useState("");
+  const [confirmationSent, setConfirmationSent] = useState(false);
   const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
   const [startedAt, setStartedAt] = useState<number | null>(null);
 
@@ -74,6 +75,7 @@ export function GuidedChat({
     setProcessing(null);
     setErrorMessage("");
     setReferenceNumber("");
+    setConfirmationSent(false);
     setTurnstileResetSignal((value) => value + 1);
     setStartedAt(null);
   }
@@ -149,6 +151,7 @@ export function GuidedChat({
     setProcessing(null);
     if (result.success) {
       setReferenceNumber(result.referenceNumber || "");
+      setConfirmationSent(result.confirmationSent === true);
       setStatus("success");
       if (pathId === "quote") clearRequirements();
       setTurnstileResetSignal((value) => value + 1);
@@ -194,6 +197,9 @@ export function GuidedChat({
               {SUCCESS_TITLES[pathId]}
             </div>
             <p className="mt-3 text-sm text-grey-600">{replyTime}</p>
+            {confirmationSent ? (
+              <p className="mt-2 text-sm text-grey-600">A confirmation email is on its way to your inbox.</p>
+            ) : null}
             {referenceNumber ? (
               <div className="mx-auto mt-5 max-w-sm rounded-2xl border border-grey-200 bg-white p-4 text-sm text-ink">
                 Reference: <span className="font-bold">{referenceNumber}</span>

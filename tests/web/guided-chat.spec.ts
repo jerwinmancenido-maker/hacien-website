@@ -57,6 +57,18 @@ describe("guided chat paths", () => {
     expect(contactInquiryTypes).toContain("Privacy request");
   });
 
+  it("inquiry path asks guided questions so the message comes back complete", () => {
+    const steps = getChatPath("inquiry").steps;
+    const ids = steps.map((step) => step.id);
+    for (const id of ["inquiryType", "need", "details", "location", "targetDate", "message"]) {
+      expect(ids).toContain(id);
+    }
+    expect(steps.find((step) => step.id === "need")?.required).toBe(true);
+    for (const id of ["details", "location", "targetDate", "message"]) {
+      expect(steps.find((step) => step.id === id)?.required).toBe(false);
+    }
+  });
+
   it("callback path asks for a phone number and a best time", () => {
     const ids = getChatPath("callback").steps.map((step) => step.id);
     expect(ids).toContain("phone");
@@ -123,11 +135,15 @@ describe("guided chat payloads", () => {
     expect(payload.turnstileToken).toBe("test-token");
   });
 
-  it("inquiry payload matches the ContactForm submission shape", () => {
+  it("inquiry payload composes a complete message from the guided answers", () => {
     const payload = buildInquiryPayload(
       {
         inquiryType: "Supplier partnership",
-        message: "We supply servers.",
+        need: "Servers for a new office",
+        details: "20 units, rack-mount",
+        location: "Ortigas",
+        targetDate: "2026-12-01",
+        message: "Please send your catalog.",
         name: "Jose Reyes",
         company: "Supply Co",
         email: "jose@supply.ph",
@@ -139,8 +155,33 @@ describe("guided chat payloads", () => {
     );
     expect(payload.type).toBe("Contact Inquiry");
     expect(payload.inquiryType).toBe("Supplier partnership");
-    expect(payload.message).toBe("We supply servers.");
+    expect(payload.message).toContain("What is needed: Servers for a new office");
+    expect(payload.message).toContain("Details: 20 units, rack-mount");
+    expect(payload.message).toContain("Delivery location: Ortigas");
+    expect(payload.message).toContain("Needed by: 2026-12-01");
+    expect(payload.message).toContain("Anything else: Please send your catalog.");
     expect(payload.timeline).toBe("This quarter");
+  });
+
+  it("inquiry payload skips guided answers the customer left empty", () => {
+    const payload = buildInquiryPayload(
+      {
+        inquiryType: "Privacy request",
+        need: "Delete my data",
+        details: "",
+        location: "",
+        targetDate: "",
+        message: "",
+        name: "Ana Cruz",
+        company: "",
+        email: "ana@example.ph",
+        phone: "",
+        budgetRange: "",
+        timeline: "",
+      },
+      META,
+    );
+    expect(payload.message).toBe("What is needed: Delete my data");
   });
 
   it("callback payload carries the phone and best time in the message, with no inquiry type", () => {
@@ -199,6 +240,14 @@ describe("guided chat wiring", () => {
       expect(page).toContain("<GuidedChat");
       expect(page).toContain('form={<ContactForm turnstileSiteKey={turnstileSiteKey} />}');
     }
+  });
+
+  it("the contact form shows a completeness checklist above the message box", () => {
+    const form = read("components/ContactForm.tsx");
+    expect(form).toContain("Please include:");
+    expect(form).toContain("Quantity and specifications");
+    expect(form).toContain("Delivery location, if it matters");
+    expect(form).toContain("When you need it");
   });
 
   it("the chat offers the full form and a way back, and never calls itself AI", () => {

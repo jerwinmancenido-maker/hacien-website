@@ -46,6 +46,7 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
   const [referenceNumber, setReferenceNumber] = useState("");
+  const [confirmationSent, setConfirmationSent] = useState(false);
   const [fileError, setFileError] = useState("");
   const [attachmentInfo, setAttachmentInfo] = useState("");
   const [turnstileResetSignal, setTurnstileResetSignal] = useState(0);
@@ -127,10 +128,12 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
     };
 
     setStatus("sending");
+    setConfirmationSent(false);
     const result = await sendInquiryEmail(payload);
 
     if (result.success) {
       setReferenceNumber(result.referenceNumber || "");
+      setConfirmationSent(result.confirmationSent === true);
       setStatus("success");
       clearRequirements();
       setTurnstileResetSignal((value) => value + 1);
@@ -162,6 +165,9 @@ export function QuoteCart({ turnstileSiteKey }: { turnstileSiteKey: string }) {
               Track request
             </Link>
           </div>
+        ) : null}
+        {confirmationSent ? (
+          <p className="mt-4 text-sm text-grey-600">A confirmation email is on its way to your inbox.</p>
         ) : null}
         <Link
           href="/technology"
