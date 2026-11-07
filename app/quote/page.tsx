@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { GuidedChat } from "@/components/GuidedChat";
 import { QuoteCart } from "@/components/QuoteCart";
 import { BuyingTimeline } from "@/components/BuyingTimeline";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
@@ -32,7 +33,10 @@ export default function QuotePage() {
 
       <section id="rfq-form" className="scroll-mt-24 px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto max-w-7xl">
-          <QuoteCart turnstileSiteKey={turnstileSiteKey} />
+          <GuidedChat
+            turnstileSiteKey={turnstileSiteKey}
+            form={<QuoteCart turnstileSiteKey={turnstileSiteKey} />}
+          />
         </div>
       </section>
     </>

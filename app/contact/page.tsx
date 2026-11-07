@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/reactbits";
 import { ContactForm } from "@/components/ContactForm";
+import { GuidedChat } from "@/components/GuidedChat";
 import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { brandsLine, companyContact, deliveryLine } from "@/data/companyContact";
@@ -180,7 +181,10 @@ export default function ContactPage() {
             </BorderGlow>
           </AnimatedContent>
 
-          <ContactForm turnstileSiteKey={turnstileSiteKey} />
+          <GuidedChat
+            turnstileSiteKey={turnstileSiteKey}
+            form={<ContactForm turnstileSiteKey={turnstileSiteKey} />}
+          />
         </div>
       </section>
     </>
