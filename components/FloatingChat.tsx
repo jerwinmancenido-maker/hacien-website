@@ -1,23 +1,12 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { GuidedChat } from "@/components/GuidedChat";
 
-/** Pages where the guided chat is already open inline — no floating button. */
-const CHAT_PAGES = ["/quote", "/contact", "/support"];
-
+/** The guided chat lives in this floating panel on every page — the
+ *  quote, contact, and support pages show their full forms instead. */
 export function FloatingChat({ turnstileSiteKey }: { turnstileSiteKey: string }) {
-  return (
-    <Suspense fallback={null}>
-      <FloatingChatInner turnstileSiteKey={turnstileSiteKey} />
-    </Suspense>
-  );
-}
-
-function FloatingChatInner({ turnstileSiteKey }: { turnstileSiteKey: string }) {
-  const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -28,8 +17,6 @@ function FloatingChatInner({ turnstileSiteKey }: { turnstileSiteKey: string }) {
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open]);
-
-  if (CHAT_PAGES.includes(pathname)) return null;
 
   return (
     <>

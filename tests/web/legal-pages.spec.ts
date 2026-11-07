@@ -491,11 +491,11 @@ describe("legal routes", () => {
     const contact = await fetch(`${baseUrl}/contact`, { redirect: "manual" });
     const contactHtml = await contact.text();
     expect(contact.status).toBe(200);
-    // The contact page now serves the guided chat first: the privacy-request
-    // inquiry type is offered by the chat's inquiry path (and still by the
-    // full form one tap away), not in the initial server HTML.
-    expect(contactHtml).toContain("Guided chat");
-    expect(contactHtml).toContain("Ask a question");
+    // The contact page serves the full form directly: the guided chat
+    // lives only in the floating panel, so the form (with its
+    // completeness checklist and inquiry types) is in the initial HTML.
+    expect(contactHtml).toContain("Please include:");
+    expect(contactHtml).toContain("Privacy request");
     expect(isContactInquiryType("Privacy request")).toBe(true);
 
     const compliance = await fetch(`${baseUrl}/compliance`, { redirect: "manual" });

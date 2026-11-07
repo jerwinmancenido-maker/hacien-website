@@ -259,18 +259,19 @@ describe("guided chat look", () => {
 });
 
 describe("guided chat wiring", () => {
-  it("quote page shows the guided chat with the full QuoteCart as the fallback", () => {
+  it("quote page shows the full QuoteCart directly — the chat lives only in the floating panel", () => {
     const page = read("app/quote/page.tsx");
-    expect(page).toContain("<GuidedChat");
     expect(page).toContain("<QuoteCart");
-    expect(page).toContain('form={<QuoteCart turnstileSiteKey={turnstileSiteKey} />}');
+    expect(page).toContain("turnstileSiteKey={turnstileSiteKey}");
+    expect(page).not.toContain("GuidedChat");
   });
 
-  it("contact and support pages show the guided chat with the full ContactForm as the fallback", () => {
+  it("contact and support pages show the full ContactForm directly — the chat lives only in the floating panel", () => {
     for (const rel of ["app/contact/page.tsx", "app/support/page.tsx"]) {
       const page = read(rel);
-      expect(page).toContain("<GuidedChat");
-      expect(page).toContain('form={<ContactForm turnstileSiteKey={turnstileSiteKey} />}');
+      expect(page).toContain("<ContactForm");
+      expect(page).toContain("turnstileSiteKey={turnstileSiteKey}");
+      expect(page).not.toContain("GuidedChat");
     }
   });
 
