@@ -40,7 +40,7 @@
     "@upstash/redis": "^1.40.0",
     "lucide-react": "^1.65.0",
     "mariadb": "3.5.4",
-    "next": "16.4.3",
+    "next": "16.4.5",
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "resend": "^6.36.0"
@@ -54,7 +54,7 @@
     "@types/react-dom": "^19.3.0",
     "dotenv": "16.4.7",
     "eslint": "^9.39.5",
-    "eslint-config-next": "16.4.3",
+    "eslint-config-next": "16.4.5",
     "prisma": "7.10.1",
     "tailwindcss": "^4.3.3",
     "tsx": "^4.23.15",
@@ -62,6 +62,7 @@
     "vitest": "^4.1.12"
   },
   "overrides": {
-    "@prisma/streams-local": "$@prisma/streams-local"
+    "@prisma/streams-local": "$@prisma/streams-local",
+    "minimatch": "^11.0.1"
   }
 }
