@@ -24,12 +24,20 @@ describe("Floating chat button", () => {
     expect(floating).toContain("<svg");
   });
 
-  it("opens the same guided chat in a panel, closable by button or Escape", () => {
+  it("opens the same guided chat in a panel, closable by its own button or Escape", () => {
     expect(floating).toContain("GuidedChat");
     expect(floating).toContain('role="dialog"');
     expect(floating).toContain("Close chat");
     expect(floating).toContain("Escape");
     expect(floating).toContain("turnstileSiteKey={turnstileSiteKey}");
+  });
+
+  it("has exactly one close button — the launcher keeps the chat icon when open", () => {
+    // The launcher must not turn into a second ✕: the panel's own close
+    // button is the only one.
+    expect(floating).not.toContain('aria-label={open ? "Close chat"');
+    expect(floating).toContain('aria-label="Open chat with the HACIEN team"');
+    expect(floating).toContain('aria-label="Close chat"');
   });
 
   it("goes near full-screen on phones and a small card on desktop", () => {
