@@ -1,7 +1,8 @@
 /** Guided chat: build the exact payloads the existing forms send, so a chat
  *  submission is indistinguishable from a form submission on the HACIEN side.
  *  Pure functions — no UI, no network — so they are unit-testable.
- *  The chat has no file upload in v1; buyers with files use the full form. */
+ *  The quote path has an optional document step: its file details travel as
+ *  the same attachment fields the full form sends (name, size, type). */
 
 import { parseTrackReference } from "@/lib/security/track-reference";
 import { formatRequirementLines, type QuoteRequirementInput } from "@/lib/quote-requirements";
@@ -26,6 +27,8 @@ export function buildQuotePayload(
   meta: GuidedChatMeta,
 ): Record<string, unknown> {
   const requirementLines = formatRequirementLines(requirements);
+  const hasAttachment = Boolean(answers.attachmentName);
+  const attachmentSizeKb = hasAttachment ? Number(answers.attachmentSizeKb || 0) : 0;
   return {
     type: "Universal RFQ Gateway Submission",
     website: meta.website,
@@ -44,10 +47,12 @@ export function buildQuotePayload(
     requirements: requirementLines,
     requirementBlocks: requirements,
     requirementCount: requirements.length,
-    attachmentInfo: "No attachment selected",
-    attachmentName: "",
-    attachmentType: "",
-    attachmentSizeKb: 0,
+    attachmentInfo: hasAttachment
+      ? `${answers.attachmentName} (${attachmentSizeKb} KB, ${answers.attachmentType || "unknown type"}) — uploaded with the quotation request`
+      : "No attachment selected",
+    attachmentName: hasAttachment ? answers.attachmentName : "",
+    attachmentType: hasAttachment ? answers.attachmentType || "" : "",
+    attachmentSizeKb,
     acceptsZeroCatalogProducts: true,
     procurementNote: QUOTE_PROCUREMENT_NOTE,
     submittedAt: new Date().toISOString(),

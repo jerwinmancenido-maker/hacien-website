@@ -10,7 +10,7 @@ import { contactInquiryTypes } from "@/app/actions/contact-inquiry";
 
 export type ChatPathId = "quote" | "inquiry" | "callback" | "track";
 
-export type ChatStepKind = "options" | "text" | "email" | "tel" | "date" | "textarea";
+export type ChatStepKind = "options" | "text" | "email" | "tel" | "date" | "textarea" | "file";
 
 export type ChatStep = {
   id: string;
@@ -73,6 +73,13 @@ export const CHAT_PATHS: ChatPath[] = [
         required: true,
         placeholder: "Example: 10 laptops for office work, Dell or similar, 16GB, with monitors",
         hint: "Describe the product, quantity, and anything HACIEN should review.",
+      },
+      {
+        id: "attachment",
+        question: "Do you have a document to attach — a BOQ, spec sheet, or supplier quote?",
+        kind: "file",
+        required: false,
+        hint: "PDF, PNG, JPG, or TXT, up to 10 MB. HACIEN reviews every document before preparing a quotation.",
       },
       {
         id: "procurementType",
