@@ -51,6 +51,16 @@ describe("guided chat paths", () => {
     expect(getChatPath("quote").steps.find((step) => step.id === "need")?.required).toBe(true);
   });
 
+  it("quote path offers an optional document step right after the need", () => {
+    const steps = getChatPath("quote").steps;
+    const attachment = steps.find((step) => step.id === "attachment")!;
+    expect(attachment.kind).toBe("file");
+    expect(attachment.required).toBe(false);
+    expect(steps.map((step) => step.id).indexOf("attachment")).toBe(
+      steps.map((step) => step.id).indexOf("need") + 1,
+    );
+  });
+
   it("inquiry path uses the real inquiry types from the contact form", () => {
     const step = getChatPath("inquiry").steps.find((candidate) => candidate.id === "inquiryType");
     expect(step?.options).toEqual([...contactInquiryTypes]);
@@ -133,6 +143,41 @@ describe("guided chat payloads", () => {
     expect(payload.attachmentInfo).toBe("No attachment selected");
     expect(payload.acceptsZeroCatalogProducts).toBe(true);
     expect(payload.turnstileToken).toBe("test-token");
+  });
+
+  it("quote payload carries the attached document exactly like the full form", () => {
+    const payload = buildQuotePayload(
+      {
+        need: "10 laptops",
+        procurementType: "Corporate",
+        name: "Maria Santos",
+        company: "Acme Corp",
+        email: "buyer@acme.ph",
+        phone: "09171234567",
+        location: "Ortigas",
+        targetDate: "2026-12-01",
+        budgetRange: "",
+        attachment: "BOQ.pdf — BOQ candidate",
+        attachmentName: "BOQ.pdf",
+        attachmentType: "application/pdf",
+        attachmentSizeKb: "245",
+      },
+      [],
+      META,
+    );
+    expect(payload.attachmentInfo).toBe(
+      "BOQ.pdf (245 KB, application/pdf) — uploaded with the quotation request",
+    );
+    expect(payload.attachmentName).toBe("BOQ.pdf");
+    expect(payload.attachmentType).toBe("application/pdf");
+    expect(payload.attachmentSizeKb).toBe(245);
+  });
+
+  it("quote payload reports no attachment when none was uploaded", () => {
+    const payload = buildQuotePayload({ need: "10 laptops" }, [], META);
+    expect(payload.attachmentInfo).toBe("No attachment selected");
+    expect(payload.attachmentName).toBe("");
+    expect(payload.attachmentSizeKb).toBe(0);
   });
 
   it("inquiry payload composes a complete message from the guided answers", () => {
@@ -226,19 +271,90 @@ describe("shared requirement formatting", () => {
   });
 });
 
-describe("guided chat wiring", () => {
-  it("quote page shows the guided chat with the full QuoteCart as the fallback", () => {
-    const page = read("app/quote/page.tsx");
-    expect(page).toContain("<GuidedChat");
-    expect(page).toContain("<QuoteCart");
-    expect(page).toContain('form={<QuoteCart turnstileSiteKey={turnstileSiteKey} />}');
+describe("guided chat look", () => {
+  it("reads as a chat: agent messages sit in grey bubbles with a blue avatar", () => {
+    const chat = read("components/GuidedChat.tsx");
+    expect(chat).toContain("rounded-3xl rounded-tl-md bg-grey-100");
+    expect(chat).toContain(
+      'className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-blue',
+    );
   });
 
-  it("contact and support pages show the guided chat with the full ContactForm as the fallback", () => {
+  it("path cards look tappable: white, bordered, blue arrow", () => {
+    const chat = read("components/GuidedChat.tsx");
+    expect(chat).toContain("border border-grey-200 bg-white px-5 py-4");
+    expect(chat).toContain("hover:border-blue");
+    expect(chat).toContain('className="shrink-0 text-xl font-bold text-blue"');
+  });
+
+  it("the path screen always shows a message box, and typing starts an inquiry with the text as the need", () => {
+    const chat = read("components/GuidedChat.tsx");
+    expect(chat).toContain("Type your message…");
+    expect(chat).toContain("startInquiryWithMessage");
+    expect(chat).toContain('choosePath("inquiry", { need: text.trim() })');
+    expect(chat).toContain("MessageComposer");
+  });
+
+  it("answering a step skips a next step that is already answered", () => {
+    const chat = read("components/GuidedChat.tsx");
+    expect(chat).toContain(
+      "while (next < pathSteps.length && nextAnswers[pathSteps[next].id]) next += 1;",
+    );
+  });
+});
+
+describe("guided chat upload", () => {
+  it("the quote path's document step uses the existing parse-document action", () => {
+    const chat = read("components/GuidedChat.tsx");
+    expect(chat).toContain('import { parseDocument } from "@/app/actions/parse-document"');
+    expect(chat).toContain('data.append("document", file)');
+    expect(chat).toContain("await parseDocument(data)");
+  });
+
+  it("the document step is a file picker with the parser's own file rules", () => {
+    const chat = read("components/GuidedChat.tsx");
+    expect(chat).toContain('type="file"');
+    expect(chat).toContain('accept=".pdf,.png,.jpg,.jpeg,.txt"');
+    expect(chat).toContain("Upload and continue");
+    expect(chat).toContain("Checking your file…");
+  });
+
+  it("an uploaded document rides in the payload as the form's attachment fields", () => {
+    const chat = read("components/GuidedChat.tsx");
+    expect(chat).toContain("attachmentName: file.name");
+    expect(chat).toContain("attachmentType: file.type");
+    expect(chat).toContain("attachmentSizeKb: String(sizeKb)");
+  });
+
+  it("skipping the document step drops the file details, and the review shows an attached document", () => {
+    const chat = read("components/GuidedChat.tsx");
+    expect(chat).toContain('if (step.id === "attachment")');
+    expect(chat).toContain("Attached document");
+    expect(chat).toContain("{answers.attachmentName}");
+  });
+
+  it("the chat says plainly that only the file details travel with the request", () => {
+    const chat = read("components/GuidedChat.tsx");
+    expect(chat).toContain(
+      "The file details go with your request; HACIEN will ask for the file itself if needed.",
+    );
+  });
+});
+
+describe("guided chat wiring", () => {
+  it("quote page shows the full QuoteCart directly — the chat lives only in the floating panel", () => {
+    const page = read("app/quote/page.tsx");
+    expect(page).toContain("<QuoteCart");
+    expect(page).toContain("turnstileSiteKey={turnstileSiteKey}");
+    expect(page).not.toContain("GuidedChat");
+  });
+
+  it("contact and support pages show the full ContactForm directly — the chat lives only in the floating panel", () => {
     for (const rel of ["app/contact/page.tsx", "app/support/page.tsx"]) {
       const page = read(rel);
-      expect(page).toContain("<GuidedChat");
-      expect(page).toContain('form={<ContactForm turnstileSiteKey={turnstileSiteKey} />}');
+      expect(page).toContain("<ContactForm");
+      expect(page).toContain("turnstileSiteKey={turnstileSiteKey}");
+      expect(page).not.toContain("GuidedChat");
     }
   });
 
