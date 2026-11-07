@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
 import { sendAiChatDocument, sendAiChatMessage } from "@/app/actions/ai-chat";
+import { lookupCompanyFromEmail } from "@/app/actions/company-lookup";
+import { emailDomain, isFreeMailDomain } from "@/lib/ai/company-lookup";
 import { AI_DOCUMENT_ACCEPT, validateAiDocument } from "@/lib/ai/document";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
 import { replyTime } from "@/data/companyContact";
@@ -47,10 +49,10 @@ const SUCCESS_TITLES: Record<AiChatPath, string> = {
 const GREETING =
   "Hi, I'm the HACIEN AI assistant. Ask me about what we supply, delivery, or how quoting works — or just tell me what you need and I'll prepare your request. A real person from the HACIEN team reads every submitted request.";
 
-/** Staged progress while an attached document is being read — the
+/** Staged progress for work the chat does between messages — the
  *  same honest staging as the guided chat's processing view: the
- *  steps advance while the read is genuinely in flight and complete
- *  when the reply lands. No percentage — there is no truthful one. */
+ *  steps advance while the work is genuinely in flight and complete
+ *  when the result lands. No percentage — there is no truthful one. */
 const DOCUMENT_STAGES = [
   "Uploading your document",
   "Reading the document",
@@ -58,24 +60,30 @@ const DOCUMENT_STAGES = [
   "Preparing your summary",
 ];
 
-function DocumentProcessingView() {
+const COMPANY_LOOKUP_STAGES = [
+  "Checking the email domain",
+  "Visiting the company website",
+  "Reading the company name",
+];
+
+function StagedProgressView({ label, stages }: { label: string; stages: string[] }) {
   const [stage, setStage] = useState(0);
   useEffect(() => {
     const timer = setInterval(() => {
-      setStage((value) => Math.min(value + 1, DOCUMENT_STAGES.length - 1));
-    }, 2200);
+      setStage((value) => Math.min(value + 1, stages.length - 1));
+    }, 1800);
     return () => clearInterval(timer);
-  }, []);
+  }, [stages.length]);
   return (
     <div className="ml-11 rounded-3xl border border-grey-200 bg-white p-4">
-      <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-grey-600">Reading · Your document</div>
+      <div className="text-[11px] font-bold uppercase tracking-[0.18em] text-grey-600">{label}</div>
       <div className="mt-3 h-1 overflow-hidden rounded-full bg-grey-100">
         <div className="h-full w-1/3 animate-pulse rounded-full bg-blue" />
       </div>
       <ul className="mt-3 space-y-2">
-        {DOCUMENT_STAGES.map((label, index) => (
+        {stages.map((stageLabel, index) => (
           <li
-            key={label}
+            key={stageLabel}
             className={`flex items-center gap-2 text-sm ${index <= stage ? "text-ink" : "text-grey-400"}`}
           >
             {index < stage ? (
@@ -93,13 +101,23 @@ function DocumentProcessingView() {
             ) : (
               <span className="h-5 w-5 shrink-0 rounded-full border border-grey-200" aria-hidden="true" />
             )}
-            {label}
+            {stageLabel}
           </li>
         ))}
       </ul>
     </div>
   );
 }
+
+function DocumentProcessingView() {
+  return <StagedProgressView label="Reading · Your document" stages={DOCUMENT_STAGES} />;
+}
+
+type CompanyLookupState =
+  | { status: "idle" }
+  | { status: "searching"; email: string }
+  | { status: "confirming"; email: string; companyName: string; domain: string }
+  | { status: "done"; email: string };
 
 type ChatMessage = {
   role: "user" | "assistant";
@@ -145,6 +163,8 @@ export function AiChat({
   const [dragOver, setDragOver] = useState(false);
   const [readingDocument, setReadingDocument] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [companyLookup, setCompanyLookup] = useState<CompanyLookupState>({ status: "idle" });
+  const lookupAttemptedFor = useRef<string | null>(null);
 
   /** Stage one file for the next message. The same validation runs
    *  again on the server — this check is only for fast feedback. */
@@ -199,9 +219,60 @@ export function AiChat({
     setAttachment(null);
     setAttachError("");
     setReadingDocument(false);
+    setCompanyLookup({ status: "idle" });
+    lookupAttemptedFor.current = null;
   }
 
-  async function send(rawText: string) {
+  /** After a quote turn collects a work email but no company yet,
+   *  look the company up from the email's domain and ask the visitor
+   *  to confirm it. Personal-mail domains are skipped — the model
+   *  asks for the company name itself there (see the prompt rules). */
+  async function maybeLookupCompany(
+    turn: { path: AiChatPath | null; fields: GuidedChatAnswers },
+    historyWithReply: ChatMessage[],
+  ) {
+    const email = typeof turn.fields.email === "string" ? turn.fields.email : "";
+    if (turn.path !== "quote" || !email || turn.fields.company) return;
+    if (lookupAttemptedFor.current === email) return;
+    const domain = emailDomain(email);
+    if (!domain || isFreeMailDomain(domain)) return;
+    lookupAttemptedFor.current = email;
+    setCompanyLookup({ status: "searching", email });
+    const result = await lookupCompanyFromEmail(email);
+    if (result.found) {
+      setCompanyLookup({
+        status: "confirming",
+        email,
+        companyName: result.companyName,
+        domain: result.domain,
+      });
+    } else {
+      setCompanyLookup({ status: "done", email });
+      setMessages([
+        ...historyWithReply,
+        {
+          role: "assistant",
+          text: "I couldn't identify your company from that email. Which company or organization is this quotation for?",
+        },
+      ]);
+    }
+  }
+
+  function confirmCompany() {
+    if (companyLookup.status !== "confirming") return;
+    const nextFields = { ...fields, company: companyLookup.companyName };
+    setFields(nextFields);
+    setCompanyLookup({ status: "done", email: companyLookup.email });
+    void send(`Yes — ${companyLookup.companyName} is my company.`, nextFields);
+  }
+
+  function declineCompany() {
+    if (companyLookup.status !== "confirming") return;
+    setCompanyLookup({ status: "done", email: companyLookup.email });
+    void send("No, that's not my company.");
+  }
+
+  async function send(rawText: string, fieldsOverride?: GuidedChatAnswers) {
     const file = attachment;
     const text = rawText.trim() || (file ? "I've attached our requirements document — please read it." : "");
     if (!text || sending) return;
@@ -239,10 +310,10 @@ export function AiChat({
     if (file) {
       const formData = new FormData();
       formData.set("document", file);
-      formData.set("payload", JSON.stringify({ messages: apiMessages, path, fields }));
+      formData.set("payload", JSON.stringify({ messages: apiMessages, path, fields: fieldsOverride ?? fields }));
       result = await sendAiChatDocument(formData);
     } else {
-      result = await sendAiChatMessage({ messages: apiMessages, path, fields });
+      result = await sendAiChatMessage({ messages: apiMessages, path, fields: fieldsOverride ?? fields });
     }
     setSending(false);
     setReadingDocument(false);
@@ -273,6 +344,7 @@ export function AiChat({
     setPath(result.turn.path);
     setFields(result.turn.fields);
     setReadyToReview(result.turn.readyToReview);
+    void maybeLookupCompany(result.turn, [...history, { role: "assistant", text: result.turn.reply }]);
   }
 
   async function handleConfirm(event: React.FormEvent<HTMLFormElement>) {
@@ -322,6 +394,10 @@ export function AiChat({
   }
 
   const reviewSteps = path ? getChatPath(path).steps : [];
+  // `started` (above) drives the Tourly-style start: before the first
+  // message the greeting + composer group sits lowered; on the first
+  // send the padding glides away and the conversation takes the full
+  // column, the composer settling under the messages like a chat app.
 
   return (
     <div
@@ -416,7 +492,7 @@ export function AiChat({
           </button>
         </div>
       ) : (
-        <div className="mt-6 space-y-6">
+        <div className={`mt-6 space-y-6 transition-[padding] duration-500 ${started ? "pt-0" : "pt-[9vh]"}`}>
           <AgentMessage text={GREETING} />
           {messages.map((message, index) =>
             message.role === "user" ? (
@@ -463,6 +539,32 @@ export function AiChat({
             ) : (
               <p className="ml-11 text-sm text-grey-600">Typing…</p>
             )
+          ) : null}
+          {!sending && companyLookup.status === "searching" ? (
+            <StagedProgressView label="Looking up · Your company" stages={COMPANY_LOOKUP_STAGES} />
+          ) : null}
+          {companyLookup.status === "confirming" ? (
+            <div>
+              <AgentMessage
+                text={`I found ${companyLookup.companyName} at ${companyLookup.domain} — is this your company?`}
+              />
+              <div className="ml-11 mt-2 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={confirmCompany}
+                  className="cursor-pointer rounded-full border border-grey-200 bg-white px-4 py-2 text-sm font-semibold text-ink transition hover:border-blue hover:text-blue"
+                >
+                  Yes, that&rsquo;s my company
+                </button>
+                <button
+                  type="button"
+                  onClick={declineCompany}
+                  className="cursor-pointer rounded-full border border-grey-200 bg-white px-4 py-2 text-sm font-semibold text-ink transition hover:border-blue hover:text-blue"
+                >
+                  No, I&rsquo;ll type it
+                </button>
+              </div>
+            </div>
           ) : null}
 
           {notice ? (

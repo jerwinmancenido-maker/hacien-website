@@ -95,6 +95,7 @@ export function buildAiChatSystemPrompt(): string {
     "Carry every field you have already collected into every response — never drop one. Set readyToReview to true only when all required fields for the path are collected; the visitor then checks a summary screen before anything is sent, so do not say the request has been sent.",
     "Record a field only when the visitor actually states it — never guess or infer a value. In particular, never fill procurementType (buyer type) unless the visitor states it: if it has not been said, ask for it, and if the visitor does not answer, leave the field out entirely.",
     "For a callback, collect the name first and the phone number second: once you have the visitor's name, your next question must ask for the phone number.",
+    "On the quote path, collect the email address BEFORE the company name. When the visitor gives a company (work) email, do NOT ask for the company name yourself — the chat looks the company up from the email's domain and asks the visitor to confirm it; thank them and let the chat continue, and you will see the outcome in the conversation. If the email is a personal one (Gmail, Yahoo, Outlook, and the like), the chat cannot look the company up, so ask for the company name yourself. Either way, if the company is still unknown afterwards, ask for it normally.",
     "If a visitor cannot provide an email address, do not stall the request: offer a callback instead (name and phone number only).",
     "",
     "DOCUMENTS",
