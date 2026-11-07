@@ -10,6 +10,7 @@ import {
   parseAiChatTurn,
   sanitizeIntakeFields,
 } from "@/lib/ai/intake";
+import { findTrackUrl } from "@/lib/guided-chat/payloads";
 
 const ORIGINAL_KEY = process.env.ANTHROPIC_API_KEY;
 
@@ -59,7 +60,24 @@ describe("AI chat panel wiring", () => {
     expect(ai).toContain("buildQuotePayload");
     expect(ai).toContain("buildInquiryPayload");
     expect(ai).toContain("buildCallbackPayload");
-    expect(ai).toContain("buildTrackUrl");
+    expect(ai).toContain("findTrackUrl");
+  });
+
+  it("answers a pasted reference with a code-built tracking link, and the review card asks for confirmation", () => {
+    const ai = read("components/AiChat.tsx");
+    expect(ai).toContain("const trackUrl = findTrackUrl(text);");
+    expect(ai).toContain("Open tracking page →");
+    expect(ai).toContain("Please confirm these details are correct before sending.");
+  });
+
+  it("auto-scrolls the panel to the newest message after each reply", () => {
+    const ai = read("components/AiChat.tsx");
+    const floating = read("components/FloatingChat.tsx");
+    expect(floating).toContain("data-chat-scroll");
+    expect(ai).toContain("bottomRef");
+    expect(ai).toContain('closest<HTMLElement>("[data-chat-scroll]")');
+    expect(ai).toContain("container.scrollTo({ top: container.scrollHeight");
+    expect(ai).toContain("[messages, sending, readyToReview, submitStatus, notice]");
   });
 
   it("the AI chat is honestly labelled and gates send on the security-check token", () => {
@@ -94,6 +112,44 @@ describe("AI chat knowledge sheet", () => {
     expect(prompt).toContain("inquiry: required [inquiryType, need, name, email]");
     expect(prompt).toContain("callback: required [name, phone]");
   });
+
+  it("requires the delivery answer to carry both points: sourced per order, timing confirmed in the quotation", () => {
+    const prompt = buildAiChatSystemPrompt();
+    expect(prompt).toContain("every item is sourced per order");
+    expect(prompt).toContain("items are sourced per order, and timing is confirmed in the quotation");
+    expect(prompt).toContain("Never promise or estimate a delivery date");
+  });
+
+  it("never lets the model fill buyer type, and walks a callback name first, then phone", () => {
+    const prompt = buildAiChatSystemPrompt();
+    expect(prompt).toContain("never guess or infer a value");
+    expect(prompt).toContain("never fill procurementType (buyer type) unless the visitor states it");
+    expect(prompt).toContain("collect the name first and the phone number second");
+  });
+
+  it("forbids stating or guessing any request status or lead details", () => {
+    const prompt = buildAiChatSystemPrompt();
+    expect(prompt).toContain("never state or guess a request's status");
+    expect(prompt).toContain("shows them its tracking link automatically");
+  });
+});
+
+describe("AI chat tracking links (code-detected, never model-made)", () => {
+  it("links LEAD references in any case, with or without spaces, even inside a sentence", () => {
+    expect(findTrackUrl("LEAD-2026-000001")).toBe("/track/LEAD-2026-000001");
+    expect(findTrackUrl("lead-2026-000001")).toBe("/track/LEAD-2026-000001");
+    expect(findTrackUrl("LEAD 2026 000001")).toBe("/track/LEAD-2026-000001");
+    expect(findTrackUrl("My reference is lead 2026 000001 — any update?")).toBe(
+      "/track/LEAD-2026-000001",
+    );
+    expect(findTrackUrl("RFQ-2026-000009")).toBe("/track/RFQ-2026-000009");
+  });
+
+  it("returns no link for ordinary messages", () => {
+    expect(findTrackUrl("I need 10 laptops for the office")).toBeNull();
+    expect(findTrackUrl("order 2026 please")).toBeNull();
+    expect(findTrackUrl("LEAD-2026-123")).toBeNull();
+  });
 });
 
 describe("AI intake sanitization", () => {
@@ -106,6 +162,38 @@ describe("AI intake sanitization", () => {
       bestTime: "",
     });
     expect(clean).toEqual({ name: "Ana Reyes", phone: "0917 555 0101" });
+  });
+
+  it("drops option-list values the visitor never picked (buyer type is never model-filled)", () => {
+    expect(sanitizeIntakeFields("quote", { procurementType: "Business" })).toEqual({});
+    expect(sanitizeIntakeFields("quote", { procurementType: "Probably a company" })).toEqual({});
+    expect(sanitizeIntakeFields("quote", { procurementType: "corporate" })).toEqual({
+      procurementType: "Corporate",
+    });
+    expect(sanitizeIntakeFields("quote", { procurementType: "Reseller / integrator" })).toEqual({
+      procurementType: "Reseller / integrator",
+    });
+    expect(sanitizeIntakeFields("inquiry", { inquiryType: "General Question" })).toEqual({});
+    expect(sanitizeIntakeFields("inquiry", { inquiryType: "Privacy request" })).toEqual({
+      inquiryType: "Privacy request",
+    });
+  });
+
+  it("a callback with only a name never reaches the review card — the phone must follow", () => {
+    const turn = parseAiChatTurn({
+      reply: "Thanks, Ana — what's the best number to call you on?",
+      path: "callback",
+      fields: { name: "Ana Reyes" },
+      readyToReview: true, // the model's claim is ignored; readiness is recomputed
+    });
+    expect(turn?.readyToReview).toBe(false);
+    const complete = parseAiChatTurn({
+      reply: "Here's what I'll send — please check it:",
+      path: "callback",
+      fields: { name: "Ana Reyes", phone: "0917 555 0101" },
+      readyToReview: true,
+    });
+    expect(complete?.readyToReview).toBe(true);
   });
 
   it("computes readiness from the required list, per path", () => {

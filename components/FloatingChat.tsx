@@ -65,7 +65,7 @@ export function FloatingChat({ turnstileSiteKey }: { turnstileSiteKey: string })
           >
             ✕
           </button>
-          <div className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-5">
+          <div data-chat-scroll className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-5">
             {mode === "ai" && !aiUnavailable ? (
               <AiChat
                 turnstileSiteKey={turnstileSiteKey}
