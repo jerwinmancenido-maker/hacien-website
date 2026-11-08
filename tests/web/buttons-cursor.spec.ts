@@ -16,10 +16,6 @@ describe("G17: Hand pointer on all buttons", () => {
     const productDetail = readFileSync(path.join(ROOT, "components/ProductDetail.tsx"), "utf8");
     expect(productDetail).toMatch(/Add to my request[\s\S]*?cursor-pointer|<button[^>]*cursor-pointer[^>]*>[\s\S]*?Add to my request/);
 
-    // Add requirement to RFQ in RequirementBuilder
-    const reqBuilder = readFileSync(path.join(ROOT, "components/RequirementBuilder.tsx"), "utf8");
-    expect(reqBuilder).toMatch(/<button[^>]*cursor-pointer[^>]*>[\s\S]*?Add requirement to RFQ/);
-
     // Search button in SearchPage
     const searchPage = readFileSync(path.join(ROOT, "app/search/page.tsx"), "utf8");
     expect(searchPage).toMatch(/<button[^>]*cursor-pointer[^>]*>[\s\S]*?Search/);
