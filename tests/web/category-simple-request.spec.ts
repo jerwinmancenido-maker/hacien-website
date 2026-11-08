@@ -4,17 +4,20 @@ import { describe, expect, it } from "vitest";
 
 const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), "utf8");
 
-describe("category pages: simple request first, detailed builder optional", () => {
-  it("lets the simple box carry the category", () => {
-    const src = read("components/SimpleRequestBox.tsx");
-    expect(src).toContain('category = "other"');
-    expect(src).toContain("categoryLabel");
+// Owner decision (2026-11-08): category pages drop the simple
+// request box too — the chat takes the description, the detailed
+// builder stays for exact specs.
+describe("category pages: no simple request box — detailed builder optional", () => {
+  it("does not render the SimpleRequestBox", () => {
+    const page = read("app/products/[category]/page.tsx");
+    expect(page).not.toContain("SimpleRequestBox");
   });
 
-  it("puts the simple request before the detailed builder on category pages", () => {
+  it("keeps the detailed builder, described against the chat", () => {
     const page = read("app/products/[category]/page.tsx");
-    expect(page).toContain('<SimpleRequestBox category={category.slug} categoryLabel={category.name} />');
     expect(page).toContain("Need exact specs? Use the detailed builder");
-    expect(page.indexOf("<SimpleRequestBox")).toBeLessThan(page.indexOf("<RequirementBuilder"));
+    expect(page).toContain("describing what you need in the chat is enough.");
+    expect(page).not.toContain("the simple request above");
+    expect(page).toContain("<RequirementBuilder");
   });
 });
