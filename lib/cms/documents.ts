@@ -780,7 +780,7 @@ const termsSections: LegacyPolicySection[] = [
     bullets: [
       {
         label: "Prohibited Use",
-        text: "Visitors are prohibited from uploading files containing malware, trying to bypass site authentication, scanning HACIEN networks for vulnerabilities, or using the contact forms for spam or unrelated advertisements.",
+        text: "Visitors are prohibited from uploading files containing malware, trying to bypass site authentication, scanning HACIEN networks for vulnerabilities, or using the chat for spam or unrelated advertisements.",
       },
       {
         label: "Legal Prosecutions",
