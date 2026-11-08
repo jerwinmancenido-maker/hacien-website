@@ -152,7 +152,7 @@ export default async function ProductsPage() {
           <div className="mt-5 rounded-lg border border-slate-200 bg-slate-50 p-4 sm:mt-8 sm:p-5">
             <h3 className="text-lg font-bold text-slate-950">Need a different category?</h3>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              Use the RFQ form and describe the outcome. HACIEN can review mixed requirements without making this page a full catalog.
+              Describe the outcome in the chat. HACIEN can review mixed requirements without making this page a full catalog.
             </p>
             <Link href="/quote" className="mt-3 inline-flex text-sm font-bold text-[#2563EB]">
               Describe the requirement
