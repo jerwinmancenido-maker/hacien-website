@@ -698,6 +698,10 @@ describe("AI chat document UI wiring", () => {
     const ai = read("components/AiChat.tsx");
     expect(ai).toContain("lookupCompanyFromEmail");
     expect(ai).toContain("maybeLookupCompany");
+    // Owner decision (2026-11-08): the lookup fires right at the
+    // email step, not only once the path classifies as a quote.
+    expect(ai).toContain("lookupCompanyAtStart");
+    expect(ai).toContain("await send(email, { email });");
     expect(ai).toContain("Looking up · Your company");
     expect(ai).toContain("Checking the email domain");
     expect(ai).toContain("is this your company?");

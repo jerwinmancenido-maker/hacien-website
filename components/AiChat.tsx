@@ -297,6 +297,36 @@ export function AiChat({
     }
   }
 
+  /** The Tourly beat: the moment the email is in, the assistant
+   *  looks the company up from its domain — before the visitor has
+   *  said anything else (owner decision, 2026-11-08: look it up
+   *  right at the email step). A found company gets the confirm
+   *  card; a miss stays silent here — if a quotation follows, the
+   *  assistant asks for the company in conversation, and the
+   *  quote-path lookup above remains as the backstop for any email
+   *  given later. Personal-mail domains are skipped. */
+  async function lookupCompanyAtStart(email: string) {
+    if (lookupAttemptedFor.current === email) return;
+    const domain = emailDomain(email);
+    if (!domain || isFreeMailDomain(domain)) return;
+    lookupAttemptedFor.current = email;
+    setCompanyLookup({ status: "searching", email });
+    const lookupStartedAt = Date.now();
+    const result = await lookupCompanyFromEmail(email);
+    const lookupElapsed = Date.now() - lookupStartedAt;
+    if (lookupElapsed < MIN_STAGED_VIEW_MS) await sleep(MIN_STAGED_VIEW_MS - lookupElapsed);
+    if (result.found) {
+      setCompanyLookup({
+        status: "confirming",
+        email,
+        companyName: result.companyName,
+        domain: result.domain,
+      });
+    } else {
+      setCompanyLookup({ status: "done", email });
+    }
+  }
+
   function confirmCompany() {
     if (companyLookup.status !== "confirming") return;
     const nextFields = { ...fields, company: companyLookup.companyName };
@@ -433,7 +463,7 @@ export function AiChat({
   /** The Tourly start's one action: validate the email, hold for the
    *  security check if it is still running, then open the thread with
    *  the email as its first (pinned) message and let the AI reply. */
-  function submitEmail() {
+  async function submitEmail() {
     const email = emailDraft.trim();
     if (!EMAIL_PATTERN.test(email)) {
       setEmailError("That email doesn't look complete — check it and try again.");
@@ -449,7 +479,8 @@ export function AiChat({
     setNotice("");
     setPinnedEmail(email);
     setFields({ email });
-    void send(email, { email });
+    await send(email, { email });
+    void lookupCompanyAtStart(email);
   }
 
   async function handleConfirm(event: React.FormEvent<HTMLFormElement>) {
@@ -623,7 +654,7 @@ export function AiChat({
           <form
             onSubmit={(event) => {
               event.preventDefault();
-              submitEmail();
+              void submitEmail();
             }}
             className="mx-auto max-w-md"
           >
