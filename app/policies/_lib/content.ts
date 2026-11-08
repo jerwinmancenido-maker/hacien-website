@@ -8,6 +8,11 @@ const published = LEGAL_PUBLISH_DATE;
  *  document keeps the shared publish date above. */
 const aiChatPublishDate = "November 8, 2026";
 
+/** Effective date of the Privacy Policy v2.5 update (the pre-chat
+ *  agreement step, lawyer-approved 2026-11-08). Only the Privacy
+ *  Policy changed, so it carries its own date like the v2.4 update. */
+const privacyGateDate = "November 8, 2026";
+
 function p(text: string): LegalBlock {
   return { kind: "p", text };
 }
@@ -57,7 +62,7 @@ export const policiesPage: LegalPageModel = {
           "Manufacturer or supplier warranty, and how to make a claim",
           "v1.1",
         ],
-        ["[Privacy Policy](/privacy)", "What personal data we keep, why, and your rights", "v2.4"],
+        ["[Privacy Policy](/privacy)", "What personal data we keep, why, and your rights", "v2.5"],
         ["[Website Terms of Use](/terms)", "Rules for using haciensolutions.com", "v2.1"],
         [
           "[Business and Legal Information](/legal)",
@@ -80,13 +85,13 @@ export const privacyPage: LegalPageModel = {
   title: "Privacy Policy",
   description:
     "We collect business and contact details to answer requests, prepare quotations, deliver orders, issue BIR documents and keep proper records.",
-  versionLine: `Version 2.4 · Effective ${aiChatPublishDate} · Replaces version 2.3 (effective November 2, 2026)`,
+  versionLine: `Version 2.5 · Effective ${privacyGateDate} · Replaces version 2.4 (effective November 8, 2026)`,
   historyLink: true,
   showContents: true,
   meta: [
-    { label: "Version", value: "2.4" },
-    { label: "Effective", value: aiChatPublishDate },
-    { label: "Replaces", value: "2.3 (November 2, 2026)" },
+    { label: "Version", value: "2.5" },
+    { label: "Effective", value: privacyGateDate },
+    { label: "Replaces", value: "2.4 (November 8, 2026)" },
   ],
   intro: [],
   sections: [
@@ -166,9 +171,9 @@ export const privacyPage: LegalPageModel = {
               "Customers, suppliers",
             ],
             [
-              "Chat messages",
-              "Messages you type into the website chat, and the details you give during the conversation (such as what you need, your name, company, email and phone, when you are preparing a request)",
-              "Website visitors",
+              "AI chat details",
+              "Your work email address, chat messages, and the date, time, and policy version of your Terms of Use and Privacy Policy agreement before starting the chat",
+              "Website visitors who use the AI chat",
             ],
             [
               "Order texts",
@@ -249,9 +254,9 @@ export const privacyPage: LegalPageModel = {
               "Your consent (Sec. 12(a)), given by clicking Accept in our cookie notice. You can withdraw it at any time (section 9).",
             ],
             [
-              "Answer questions in the website chat and help you prepare a request",
-              "Chat messages; contact and request details given in the chat",
-              "Legitimate interest to answer visitor questions (Sec. 12(f)), and taking steps at your request before a contract when you prepare a quotation request, inquiry, or callback (Sec. 12(b))",
+              "Run the website AI chat and follow up on your inquiry",
+              "Work email address, chat messages, and agreement timestamp/version",
+              "Needed to take steps at your request before a contract (RA 10173 Sec. 12(b)) and our legitimate interest in answering B2B inquiries and keeping the chat secure (Sec. 12(f)). Ticking the box before starting the chat records your agreement to our Terms of Use and confirms that you were shown this Privacy Policy (Sec. 16(a)).",
             ],
             ["Keep the website and the chat secure", "Website and security data", "Legitimate interest"],
           ],
@@ -1023,7 +1028,7 @@ export const policyHistoryPage: LegalPageModel = {
       rows: [
         ["[Terms of Sale](/terms-of-sale)", "v1.2", published],
         ["[Warranty and Returns](/warranty)", "v1.1", published],
-        ["[Privacy Policy](/privacy)", "v2.4", aiChatPublishDate],
+        ["[Privacy Policy](/privacy)", "v2.5", privacyGateDate],
         ["[Website Terms of Use](/terms)", "v2.1", aiChatPublishDate],
         ["[Business and Legal Information](/legal)", "v2.0", published],
         ["[HACIEN Policies](/policies)", "v1.0", published],
@@ -1041,6 +1046,7 @@ export const policyHistoryPage: LegalPageModel = {
             ["Terms of Sale", "v1.1", "November 2, 2026"],
             ["Terms of Sale", "v1.0", "November 2, 2026"],
             ["Warranty and Returns", "v1.0", "November 2, 2026"],
+            ["Privacy Policy", "v2.4", "November 8, 2026"],
             ["Privacy Policy", "v2.3", "November 2, 2026"],
             ["Privacy Policy", "v2.2", "November 2, 2026"],
             ["Privacy Policy", "v2.1", "November 2, 2026"],
@@ -1062,6 +1068,10 @@ export const policyHistoryPage: LegalPageModel = {
         p("**Warranty and Returns: changes from v1.0**"),
         ul([
           "Warranty and Returns v1.1: warranty drop-offs at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
+        ]),
+        p("**Privacy Policy: Changes from v2.4**"),
+        ul([
+          `Version 2.5 (${privacyGateDate}): Updated the AI chat section to reflect the start-screen step where visitors enter their work email and confirm the Terms of Use and Privacy Policy (with timestamp and version recorded) before starting a chat.`,
         ]),
         p("**Privacy Policy: Changes from v2.3**"),
         ul([

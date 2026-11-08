@@ -18,7 +18,12 @@ const AUTO_OPEN_PATHS = ["/quote", "/contact", "/support"];
  *  The panel has exactly one mode: the AI assistant (owner decision,
  *  2026-11-08 — the guided questions were removed). When the AI is not
  *  configured, AiChat itself shows the honest unavailable message with
- *  the team's email address. */
+ *  the team's email address.
+ *
+ *  Desktop sizing (owner decision, 2026-11-08): 660px wide; the panel
+ *  starts at 640px tall and grows with the conversation to at most
+ *  double (1280px), and never past the screen (the dvh cap wins on
+ *  shorter screens). On phones it stays a tall sheet. */
 export function FloatingChat({
   turnstileSiteKey,
   aiConfigured,
@@ -61,7 +66,7 @@ export function FloatingChat({
         <div
           role="dialog"
           aria-label="Chat with the HACIEN team"
-          className="fixed inset-x-4 bottom-4 top-20 z-40 flex flex-col overflow-hidden rounded-3xl border border-grey-200 bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:top-auto sm:bottom-6 sm:h-[640px] sm:w-[440px] sm:max-h-[calc(100dvh-5rem)]"
+          className="fixed inset-x-4 bottom-4 top-20 z-40 flex flex-col overflow-hidden rounded-3xl border border-grey-200 bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:top-auto sm:bottom-6 sm:min-h-[640px] sm:w-[660px] sm:max-h-[min(1280px,calc(100dvh-5rem))]"
         >
           <button
             type="button"

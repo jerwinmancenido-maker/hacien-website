@@ -24,8 +24,12 @@ import type { AiChatPath } from "@/lib/ai/intake";
 /** The AI conversation for the website chat panel — its only mode
  *  (owner decision, 2026-11-08: the guided questions were removed).
  *
- *  The panel opens on a Tourly-style start: one centered question —
- *  the visitor's work email — with one input. The email becomes the
+ *  The panel opens on the agreement gate (owner + lawyer decision,
+ *  2026-11-08, Privacy Policy v2.5): the visitor ticks the Terms of
+ *  Use / Privacy Policy agreement and presses Continue — the bot
+ *  check completes at that press — and only then does the Tourly-
+ *  style start appear: one centered question — the visitor's work
+ *  email — with one input. The email becomes the
  *  first message of the thread, pinned at its top, and everything
  *  after is messaging. The assistant answers questions and collects
  *  the intake fields (see lib/ai/intake). When the intake is
@@ -63,6 +67,18 @@ const SUCCESS_TITLES: Record<AiChatPath, string> = {
 const START_TITLE = "Let's get started.";
 const START_TEXT =
   "I'm the HACIEN AI assistant. Start with your work email, and I'll take it from there — a quotation, a question, or a follow-up on an earlier request. A real person from the HACIEN team reads every submitted request.";
+
+/** The agreement gate that opens the panel, before the email step. */
+const GATE_TITLE = "Before we start.";
+const GATE_TEXT =
+  "I'm the HACIEN AI assistant. One quick step first — please confirm the two policies, and you're in.";
+/** The lawyer-approved helper line on the gate screen (2026-11-08). */
+const GATE_HELPER =
+  "AI replies are for product guidance only and are not an official quotation. Please do not enter government IDs, tax papers, or passwords.";
+/** Policy versions recorded with the agreement (the lawyer's
+ *  recording for Privacy Policy v2.5): the tick's ISO timestamp and
+ *  this version string travel with the submitted request. */
+const AGREEMENT_POLICY_VERSIONS = "terms:v2.1, privacy:v2.5";
 
 /** Mirrors the plausible-email check the server runs (lib/ai/intake). */
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -134,6 +150,28 @@ function DocumentProcessingView() {
   return <StagedProgressView label="Reading · Your document" stages={DOCUMENT_STAGES} />;
 }
 
+/** The one processing indicator for the whole chat (owner decision,
+ *  2026-11-08): the same blue ring the staged cards use, shown while
+ *  the assistant replies and while the final request sends — the old
+ *  "Typing…" text and the plain sending bubble are gone. */
+function ProcessingRow({ label }: { label?: string }) {
+  return (
+    <div className="flex items-center gap-3" role="status">
+      <div
+        className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-blue text-xs font-bold text-white"
+        aria-hidden="true"
+      >
+        H
+      </div>
+      <span
+        className="h-5 w-5 shrink-0 animate-spin rounded-full border-2 border-grey-200 border-t-blue"
+        aria-hidden="true"
+      />
+      {label ? <span className="text-sm text-grey-700">{label}</span> : null}
+    </div>
+  );
+}
+
 type CompanyLookupState =
   | { status: "idle" }
   | { status: "searching"; email: string }
@@ -187,6 +225,17 @@ export function AiChat({
   const [emailDraft, setEmailDraft] = useState("");
   const [emailError, setEmailError] = useState("");
   const [pinnedEmail, setPinnedEmail] = useState("");
+  /** Pre-chat agreement gate (lawyer-approved, Privacy Policy v2.5):
+   *  the panel opens on the gate and the email step appears only
+   *  after the agreement is ticked and Continue is pressed. The
+   *  tick's timestamp is recorded and travels with the submission.
+   *  Once passed, the gate stays passed for the panel session —
+   *  Start over returns to the email step, not the gate — so
+   *  resetAll deliberately leaves this state untouched. */
+  const [agreed, setAgreed] = useState(false);
+  const [acceptedAt, setAcceptedAt] = useState("");
+  const [gatePassed, setGatePassed] = useState(false);
+  const [gateWaiting, setGateWaiting] = useState(false);
   /** The server reported the AI unconfigured mid-conversation. */
   const [runtimeUnavailable, setRuntimeUnavailable] = useState(false);
   const unavailable = !aiConfigured || runtimeUnavailable;
@@ -460,6 +509,38 @@ export function AiChat({
     void maybeLookupCompany(result.turn, [...history, { role: "assistant", text: result.turn.reply }]);
   }
 
+  function toggleAgreed(checked: boolean) {
+    setAgreed(checked);
+    // The lawyer's recording: the ISO timestamp of the tick itself.
+    setAcceptedAt(checked ? new Date().toISOString() : "");
+  }
+
+  /** The gate's one action: with the agreement ticked, hold for the
+   *  security check if its token is not ready yet (the widget has
+   *  been loading since the panel opened, so this is normally
+   *  instant); once a token exists, the email step appears. The
+   *  server still verifies the token before the first AI turn —
+   *  this only sequences the screens. */
+  function submitGate() {
+    if (!agreed) return;
+    if (turnstileSiteKey && !gatePass && !turnstileToken) {
+      setGateWaiting(true);
+      return;
+    }
+    setGatePassed(true);
+  }
+
+  /** The widget's token callback, wrapped: while the gate is
+   *  holding for the security check, the first token that arrives
+   *  passes the gate and the email step appears. */
+  function handleTurnstileToken(token: string) {
+    setTurnstileToken(token);
+    if (gateWaiting && token) {
+      setGateWaiting(false);
+      setGatePassed(true);
+    }
+  }
+
   /** The Tourly start's one action: validate the email, hold for the
    *  security check if it is still running, then open the thread with
    *  the email as its first (pinned) message and let the AI reply. */
@@ -501,6 +582,8 @@ export function AiChat({
       website: "",
       formStartedAt: String(startedAt),
       turnstileToken: turnstileToken || String(data.get("cf-turnstile-response") || ""),
+      agreementAcceptedAt: acceptedAt,
+      agreementPolicyVersions: AGREEMENT_POLICY_VERSIONS,
     };
     const payload =
       path === "quote"
@@ -537,7 +620,7 @@ export function AiChat({
 
   return (
     <div
-      className={`mx-auto max-w-3xl rounded-3xl ${dragOver ? "outline-2 outline-dashed outline-blue" : ""}`}
+      className="relative mx-auto max-w-3xl rounded-3xl"
       onDragOver={(event) => {
         event.preventDefault();
         setDragOver(true);
@@ -561,7 +644,29 @@ export function AiChat({
           event.currentTarget.value = "";
         }}
       />
-      <div className="flex items-center gap-3">
+      {dragOver ? (
+        <div
+          className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center bg-ink/20 p-6"
+          aria-hidden="true"
+        >
+          <div className="w-full max-w-sm rounded-3xl border-2 border-dashed border-blue bg-white p-8 text-center shadow-2xl">
+            <div className="mx-auto grid h-14 w-14 place-items-center rounded-full border border-grey-200 bg-white text-2xl shadow-sm">
+              📎
+            </div>
+            <div className="mt-4 text-lg font-bold text-ink">Drop your file here</div>
+            <p className="mt-1 text-sm leading-6 text-grey-600">
+              BOQ, RFQ, or a photo of your list
+              <br />
+              PDF or image · up to 10 MB · one file
+            </p>
+          </div>
+        </div>
+      ) : null}
+      {/* Right padding keeps the title and Start over clear of the
+          panel's close button, which floats over the top-right
+          corner (owner screenshot, 2026-11-08: it clipped the
+          Start over label). */}
+      <div className="flex items-center gap-3 pr-12">
         <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-blue text-sm font-bold text-white" aria-hidden="true">
           H
         </div>
@@ -588,7 +693,7 @@ export function AiChat({
       <TurnstileField
         siteKey={turnstileSiteKey}
         resetSignal={turnstileResetSignal}
-        onTokenChange={setTurnstileToken}
+        onTokenChange={handleTurnstileToken}
       />
 
       {submitStatus === "success" && path ? (
@@ -641,6 +746,60 @@ export function AiChat({
       ) : unavailable && !started ? (
         <div className="mt-6 space-y-6 pt-[6vh]">
           <AgentMessage text={UNAVAILABLE_TEXT} />
+        </div>
+      ) : !gatePassed ? (
+        <div className="mt-6 space-y-6 pt-[6vh]">
+          <div className="text-center">
+            <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-blue text-base font-bold text-white" aria-hidden="true">
+              H
+            </div>
+            <h2 className="mt-4 text-2xl font-bold tracking-tight text-ink">{GATE_TITLE}</h2>
+            <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-grey-700">{GATE_TEXT}</p>
+          </div>
+          <div className="mx-auto max-w-md">
+            <p className="text-[13px] leading-5 text-grey-600">{GATE_HELPER}</p>
+            <label
+              htmlFor="ai-chat-agree"
+              className="mt-4 flex cursor-pointer items-start gap-2.5 text-sm leading-6 text-ink"
+            >
+              <input
+                id="ai-chat-agree"
+                type="checkbox"
+                checked={agreed}
+                onChange={(event) => toggleAgreed(event.currentTarget.checked)}
+                className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-[#2563EB]"
+              />
+              <span>
+                I agree to the{" "}
+                <Link href="/terms" className="font-semibold text-blue hover:underline">
+                  Terms of Use
+                </Link>{" "}
+                and have read the{" "}
+                <Link href="/privacy" className="font-semibold text-blue hover:underline">
+                  Privacy Policy
+                </Link>
+                .
+              </span>
+            </label>
+            <button
+              type="button"
+              onClick={submitGate}
+              disabled={!agreed || gateWaiting}
+              className={
+                agreed && !gateWaiting
+                  ? "button-glow mt-5 min-h-11 w-full cursor-pointer rounded-full bg-blue px-6 text-sm font-bold text-white hover:bg-blue-dark"
+                  : "mt-5 min-h-11 w-full cursor-not-allowed rounded-full bg-grey-200 px-6 text-sm font-bold text-grey-600"
+              }
+            >
+              {gateWaiting ? "Completing security check…" : "Continue"}
+            </button>
+            {gateWaiting ? (
+              <p className="mt-3 text-center text-sm text-grey-600">
+                One moment — completing the security check. If a &lsquo;Verify you are human&rsquo; box appears
+                above, tick it.
+              </p>
+            ) : null}
+          </div>
         </div>
       ) : !started ? (
         <div className="mt-6 space-y-6 pt-[6vh]">
@@ -711,7 +870,7 @@ export function AiChat({
               )
             ) : (
               <div key={index} className="space-y-2">
-                <AgentMessage text={message.text} />
+                <AgentMessage text={message.text} showAvatar={messages[index - 1]?.role !== "assistant"} />
                 {message.trackUrl ? (
                   <Link
                     href={message.trackUrl}
@@ -728,7 +887,7 @@ export function AiChat({
             readingDocument ? (
               <DocumentProcessingView />
             ) : (
-              <p className="ml-11 text-sm text-grey-600">Typing…</p>
+              <ProcessingRow />
             )
           ) : null}
           {!sending && companyLookup.status === "searching" ? (
@@ -820,7 +979,7 @@ export function AiChat({
               </div>
             </form>
           ) : submitStatus === "sending" ? (
-            <AgentMessage text="Sending your request…" />
+            <ProcessingRow label="Sending your request…" />
           ) : (
             <>
               {attachment ? (
@@ -854,18 +1013,10 @@ export function AiChat({
                 onSubmit={send}
                 placeholder="Type your message…"
                 autoFocus={false}
+                onAttach={() => fileInputRef.current?.click()}
               />
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-                <button
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="cursor-pointer text-sm font-bold text-blue hover:underline"
-                >
-                  📎 Attach a document (BOQ, RFQ, or photo)
-                </button>
-              </div>
               <p className="text-xs text-grey-600">
-                Documents are read only to prepare your quotation request. Please do not attach IDs or tax papers.
+                Read only to prepare your request. Please don&rsquo;t attach IDs or tax papers.
               </p>
             </>
           )}

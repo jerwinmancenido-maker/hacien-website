@@ -118,7 +118,7 @@ describe("AI chat panel wiring", () => {
     const ai = read("components/AiChat.tsx");
     expect(ai).toContain("HACIEN AI assistant");
     expect(ai).toContain("HACIEN AI assistant. Start with your work email");
-    expect(ai).toContain("onTokenChange={setTurnstileToken}");
+    expect(ai).toContain("onTokenChange={handleTurnstileToken}");
     expect(ai).toContain("Completing security check…");
     expect(ai).not.toContain("Prefer step-by-step questions?");
   });
@@ -684,14 +684,22 @@ describe("sendAiChatDocument", () => {
 describe("AI chat document UI wiring", () => {
   it("offers attach + drag-and-drop, stages one file, and shows the staged reading view", () => {
     const ai = read("components/AiChat.tsx");
+    const bubbles = read("components/ChatBubbles.tsx");
     expect(ai).toContain("sendAiChatDocument");
-    expect(ai).toContain("Attach a document (BOQ, RFQ, or photo)");
+    // The attach entry is the composer's paperclip button (owner
+    // decision, 2026-11-08): the composer carries the labelled
+    // button, AiChat wires it to the hidden file input.
+    expect(ai).toContain("onAttach={() => fileInputRef.current?.click()}");
+    expect(bubbles).toContain("Attach a document (BOQ, RFQ, or photo)");
     expect(ai).toContain("stageFile");
     expect(ai).toContain("dataTransfer.files");
+    // Dragging a file over the chat shows a real drop target, not
+    // just the old dashed outline.
+    expect(ai).toContain("Drop your file here");
     expect(ai).toContain("DocumentProcessingView");
     expect(ai).toContain("Reading · Your document");
     expect(ai).toContain("Extracting the items and quantities");
-    expect(ai).toContain("Documents are read only to prepare your quotation request");
+    expect(ai).toContain("Read only to prepare your request");
   });
 
   it("looks the company up from a work email and asks the visitor to confirm it", () => {
@@ -715,5 +723,49 @@ describe("AI chat document UI wiring", () => {
     expect(ai).toContain("sticky top-0");
     expect(ai).toContain("pinnedEmail");
     expect(ai).not.toContain("pt-[9vh]");
+  });
+});
+
+describe("AI chat agreement gate + processing UI", () => {
+  it("opens on the gate: agreement first, the email step only after Continue", () => {
+    const ai = read("components/AiChat.tsx");
+    // Owner + lawyer decision (2026-11-08, Privacy Policy v2.5): the
+    // gate is the first screen — no email box until it is passed.
+    expect(ai).toContain("!gatePassed");
+    expect(ai).toContain("Before we start.");
+    expect(ai).toContain('id="ai-chat-agree"');
+    expect(ai).toContain("I agree to the");
+    expect(ai).toContain("Terms of Use");
+    expect(ai).toContain("and have read the");
+    expect(ai).toContain("Privacy Policy");
+    // The lawyer's helper line, verbatim.
+    expect(ai).toContain(
+      "AI replies are for product guidance only and are not an official quotation. Please do not enter government IDs, tax papers, or passwords.",
+    );
+    // Continue holds for the bot-check token, then the gate passes.
+    expect(ai).toContain("submitGate");
+    expect(ai).toContain("gateWaiting");
+    // The gate branch renders before the email start branch.
+    expect(ai.indexOf("!gatePassed")).toBeLessThan(ai.indexOf('id="ai-chat-email"'));
+  });
+
+  it("records the agreement tick and sends it with the submission", () => {
+    const ai = read("components/AiChat.tsx");
+    expect(ai).toContain("setAcceptedAt(checked ? new Date().toISOString() : \"\")");
+    expect(ai).toContain("agreementAcceptedAt: acceptedAt");
+    expect(ai).toContain('AGREEMENT_POLICY_VERSIONS = "terms:v2.1, privacy:v2.5"');
+    const payloads = read("lib/guided-chat/payloads.ts");
+    expect(payloads).toContain("agreementAcceptedAt");
+    expect(payloads).toContain("agreementPolicyVersions");
+  });
+
+  it("uses the one blue ring for every wait and groups the avatar", () => {
+    const ai = read("components/AiChat.tsx");
+    const bubbles = read("components/ChatBubbles.tsx");
+    expect(ai).toContain("ProcessingRow");
+    expect(ai).toContain('label="Sending your request…"');
+    expect(ai).not.toContain(">Typing…</p>");
+    expect(ai).toContain("showAvatar={messages[index - 1]?.role !== \"assistant\"}");
+    expect(bubbles).toContain("showAvatar");
   });
 });

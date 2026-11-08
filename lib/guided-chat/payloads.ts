@@ -16,6 +16,13 @@ export type GuidedChatMeta = {
   formStartedAt: string;
   /** Cloudflare Turnstile token from the confirm step. */
   turnstileToken: string;
+  /** ISO timestamp of the pre-chat agreement tick (lawyer-approved
+   *  recording, Privacy Policy v2.5). Empty when no agreement was
+   *  recorded for the session. */
+  agreementAcceptedAt?: string;
+  /** Policy versions in effect at the agreement, e.g.
+   *  "terms:v2.1, privacy:v2.5". */
+  agreementPolicyVersions?: string;
 };
 
 const QUOTE_PROCUREMENT_NOTE =
@@ -34,6 +41,8 @@ export function buildQuotePayload(
     website: meta.website,
     formStartedAt: meta.formStartedAt,
     turnstileToken: meta.turnstileToken,
+    agreementAcceptedAt: meta.agreementAcceptedAt || "",
+    agreementPolicyVersions: meta.agreementPolicyVersions || "",
     name: answers.name || "",
     company: answers.company || "",
     email: answers.email || "",
@@ -77,6 +86,8 @@ export function buildInquiryPayload(
     website: meta.website,
     formStartedAt: meta.formStartedAt,
     turnstileToken: meta.turnstileToken,
+    agreementAcceptedAt: meta.agreementAcceptedAt || "",
+    agreementPolicyVersions: meta.agreementPolicyVersions || "",
     name: answers.name || "",
     company: answers.company || "",
     email: answers.email || "",
@@ -106,6 +117,8 @@ export function buildCallbackPayload(
     website: meta.website,
     formStartedAt: meta.formStartedAt,
     turnstileToken: meta.turnstileToken,
+    agreementAcceptedAt: meta.agreementAcceptedAt || "",
+    agreementPolicyVersions: meta.agreementPolicyVersions || "",
     name: answers.name || "",
     company: "",
     email: "",

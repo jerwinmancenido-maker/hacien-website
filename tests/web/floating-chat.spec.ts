@@ -44,14 +44,18 @@ describe("Floating chat button", () => {
     expect(floating).toContain('aria-label="Close chat"');
   });
 
-  it("goes near full-screen on phones and a small card on desktop", () => {
+  it("goes near full-screen on phones and a wide, growing card on desktop", () => {
     expect(floating).toContain("inset-x-4 bottom-4 top-20");
     expect(floating).toContain("sm:bottom-6");
     // The launcher hides while the panel is open — no dead space is
     // kept beneath the panel for a button that is not there.
     expect(floating).toContain("{!open ? (");
-    expect(floating).toContain("sm:w-[440px]");
-    expect(floating).toContain("sm:h-[640px]");
+    // Owner decision (2026-11-08): 50% wider than the old 440px
+    // card; starts at 640px tall and grows with the conversation to
+    // at most double, never past the screen.
+    expect(floating).toContain("sm:w-[660px]");
+    expect(floating).toContain("sm:min-h-[640px]");
+    expect(floating).toContain("sm:max-h-[min(1280px,calc(100dvh-5rem))]");
   });
 
   it("sits below the cookie banner so it never covers Accept or Decline", () => {

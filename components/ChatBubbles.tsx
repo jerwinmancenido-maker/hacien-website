@@ -8,12 +8,16 @@ import type { ChatStepKind } from "@/lib/guided-chat/steps";
  *  the guided questions were removed (owner decision, 2026-11-08); the
  *  AI chat is now the panel's only mode. */
 
-export function AgentMessage({ text }: { text: string }) {
+export function AgentMessage({ text, showAvatar = true }: { text: string; showAvatar?: boolean }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-blue text-xs font-bold text-white" aria-hidden="true">
-        H
-      </div>
+      {showAvatar ? (
+        <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-blue text-xs font-bold text-white" aria-hidden="true">
+          H
+        </div>
+      ) : (
+        <div className="h-8 w-8 shrink-0" aria-hidden="true" />
+      )}
       <p className="min-w-0 max-w-[85%] rounded-3xl rounded-tl-md bg-grey-100 px-4 py-3 text-base leading-7 text-ink">{text}</p>
     </div>
   );
@@ -46,6 +50,7 @@ export function MessageComposer({
   placeholder,
   required,
   autoFocus,
+  onAttach,
 }: {
   id: string;
   label: string;
@@ -56,6 +61,9 @@ export function MessageComposer({
   placeholder?: string;
   required?: boolean;
   autoFocus?: boolean;
+  /** When given, a paperclip button sits inside the composer and
+   *  stages a document for the next message. */
+  onAttach?: () => void;
 }) {
   return (
     <form
@@ -69,6 +77,24 @@ export function MessageComposer({
         <label htmlFor={id} className="sr-only">
           {label}
         </label>
+        {onAttach ? (
+          <button
+            type="button"
+            onClick={onAttach}
+            aria-label="Attach a document (BOQ, RFQ, or photo)"
+            className="grid h-11 w-11 shrink-0 cursor-pointer place-items-center rounded-full border border-grey-200 bg-white text-grey-700 hover:border-blue hover:text-blue"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        ) : null}
         {kind === "textarea" ? (
           <textarea
             id={id}
