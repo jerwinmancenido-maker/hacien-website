@@ -670,10 +670,7 @@ export function AiChat({
         <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-blue text-sm font-bold text-white" aria-hidden="true">
           H
         </div>
-        <div>
-          <div className="font-bold text-ink">HACIEN AI assistant</div>
-          <div className="text-xs text-grey-600">AI chat · {replyTime}</div>
-        </div>
+        <div className="font-bold text-ink">HACIEN AI assistant</div>
         {started && submitStatus !== "success" ? (
           <button
             type="button"

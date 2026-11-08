@@ -759,6 +759,19 @@ describe("AI chat agreement gate + processing UI", () => {
     expect(payloads).toContain("agreementPolicyVersions");
   });
 
+  it("keeps the panel header to avatar and title — no subtitle", () => {
+    const ai = read("components/AiChat.tsx");
+    // Owner decision (2026-11-08): the header subtitle (the team's
+    // 1-business-day line) is removed entirely — it read as if the
+    // AI itself took a day to reply. The promise stays on the
+    // confirmation card, where {replyTime} is still used. No
+    // "live dot" either: green is banned in public components by
+    // the brand-colors rules.
+    expect(ai).not.toContain("AI chat · {replyTime}");
+    expect(ai).not.toContain("bg-green-500");
+    expect(ai).toContain("HACIEN AI assistant");
+  });
+
   it("uses the one blue ring for every wait and groups the avatar", () => {
     const ai = read("components/AiChat.tsx");
     const bubbles = read("components/ChatBubbles.tsx");
