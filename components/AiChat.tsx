@@ -980,20 +980,25 @@ export function AiChat({
           ) : (
             <>
               {attachment ? (
-                <div className="flex items-center gap-2 rounded-2xl border border-grey-200 bg-grey-50 px-4 py-2 text-sm text-ink">
-                  <span aria-hidden="true">📎</span>
-                  <span className="min-w-0 flex-1 truncate font-semibold">{attachment.name}</span>
-                  <span className="shrink-0 text-xs text-grey-600">
-                    {(attachment.size / 1024).toFixed(0)} KB — read when you send
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => setAttachment(null)}
-                    className="shrink-0 cursor-pointer font-bold text-blue hover:underline"
-                    aria-label="Remove attachment"
-                  >
-                    ✕
-                  </button>
+                <div className="rounded-2xl border border-grey-200 bg-grey-50 px-4 py-2">
+                  <div className="flex items-center gap-2 text-sm text-ink">
+                    <span aria-hidden="true">📎</span>
+                    <span className="min-w-0 flex-1 truncate font-semibold">{attachment.name}</span>
+                    <span className="shrink-0 text-xs text-grey-600">
+                      {(attachment.size / 1024).toFixed(0)} KB — read when you send
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setAttachment(null)}
+                      className="shrink-0 cursor-pointer font-bold text-blue hover:underline"
+                      aria-label="Remove attachment"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <p className="mt-1 text-xs text-grey-600">
+                    Read only to prepare your request. Please don&rsquo;t attach IDs or tax papers.
+                  </p>
                 </div>
               ) : null}
               {attachError ? (
@@ -1012,9 +1017,6 @@ export function AiChat({
                 autoFocus={false}
                 onAttach={() => fileInputRef.current?.click()}
               />
-              <p className="text-xs text-grey-600">
-                Read only to prepare your request. Please don&rsquo;t attach IDs or tax papers.
-              </p>
             </>
           )}
           <div ref={bottomRef} aria-hidden="true" />
