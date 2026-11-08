@@ -464,7 +464,7 @@ const solutionsContent: CmsSolutionsContent = {
       "Start with the closest area. If the request is unusual, describe it in the RFQ instead of searching through every possible category.",
     fallback: {
       title: "Do not see the exact area?",
-      text: "Use the RFQ form. HACIEN reviews the requirement before treating any solution path as final.",
+      text: "Describe it in the chat instead. HACIEN reviews the requirement before treating any solution path as final.",
       action: { href: "/quote", label: "Describe the requirement" },
     },
   },

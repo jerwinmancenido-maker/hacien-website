@@ -182,7 +182,7 @@ export const privacyPage: LegalPageModel = {
             ],
             [
               "Website and security data",
-              "IP address, browser type, time of form submission, bot-check result",
+              "IP address, browser type, time of submission, bot-check result",
               "Website visitors (automatic)",
             ],
             [
@@ -391,7 +391,7 @@ export const privacyPage: LegalPageModel = {
           "**Cookies:** we do not use advertising cookies. We use Google Analytics cookies only if you click Accept in our cookie notice. Until then, and if you click Decline, Google Analytics stays off.",
           "**Google Analytics:** it shows us pages viewed, device and browser type, approximate location (city or country), and how visitors reached our site. Google Analytics 4 does not log or store IP addresses. We keep this data for 2 months. Advertising features and Google signals are turned off. To withdraw consent, click **Cookie settings** in the footer and choose Decline, or clear your browser's cookies for our site.",
           "**Cloudflare bot check:** the chat and the request-tracking lookup use Cloudflare Turnstile to stop spam. Cloudflare handles technical data for this under its own privacy policy (https://www.cloudflare.com/privacypolicy/).",
-          "**Browser storage:** your RFQ list on our Products pages is saved in your own browser. It is not sent to us until you submit the form. You can clear it by clearing your browser's site data.",
+          "**Browser storage:** your RFQ list on our Products pages is saved in your own browser. It is not sent to us until you send it through the chat. You can clear it by clearing your browser's site data.",
           "**Document tool (Help page):** files you check with this tool are checked in memory on our web server for file type, size (up to 10 MB) and file name only. No outside or AI service reads them, they are not stored after the check finishes, and the tool does not create an official record.",
           "**AI assistant:** our website chat is assisted by an AI service (Anthropic). The messages you type are sent to that service so it can reply, and are handled under its commercial privacy and data processing terms. Under Anthropic's commercial API terms, chat messages sent through our website are **not** used to train AI models. Please do not send passwords, card numbers, government IDs or tax papers through the chat — we will never ask for them there.",
           "**No decisions by AI:** the assistant's answers are information only. It cannot check live prices or stock, and it does not approve or decide anything. A real person from HACIEN reviews every submitted request.",
@@ -578,7 +578,7 @@ export const termsPage: LegalPageModel = {
         ul([
           "give true and complete details;",
           "upload only files you may share and that relate to your request;",
-          "not send government IDs, tax papers, card numbers or passwords through the forms or the chat.",
+          "not send government IDs, tax papers, card numbers or passwords through the chat.",
         ]),
         p("We may decline or delete requests that look fake, abusive or unrelated."),
       ],

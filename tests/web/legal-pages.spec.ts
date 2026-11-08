@@ -345,7 +345,7 @@ describe("legal page content", () => {
     expect(termsText).toContain("5. The AI chat assistant");
     expect(termsText).toContain("the assistant has no authority to bind HACIEN");
     expect(termsText).toContain(
-      "not send government IDs, tax papers, card numbers or passwords through the forms or the chat",
+      "not send government IDs, tax papers, card numbers or passwords through the chat",
     );
     expect(termsText).toContain("Flood or abuse the chat with automated tools");
     expect(termsText).toContain("6. Your responsibilities");
