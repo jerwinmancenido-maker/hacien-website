@@ -32,7 +32,7 @@ export async function submitCustomerSignup(formData: FormData) {
     return {
       success: false,
       message:
-        "Account signup is temporarily unavailable. Please use the quote or contact form.",
+        "Account signup is temporarily unavailable. Please request a quote or message us through the chat instead.",
     };
   }
 }

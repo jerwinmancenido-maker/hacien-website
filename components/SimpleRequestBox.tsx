@@ -75,7 +75,7 @@ export function SimpleRequestBox({ category = "other", categoryLabel = "Other / 
         Send this request
       </button>
       <p className="mt-3 text-sm leading-6 text-slate-600">
-        Sending takes you to the quotation form, where you add your contact details.
+        Sending opens the chat with your request ready — you add your contact details there, review, then send.
       </p>
     </section>
   );
