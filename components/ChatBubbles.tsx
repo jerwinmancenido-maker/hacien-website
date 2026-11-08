@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import type { ChatStepKind } from "@/lib/guided-chat/steps";
 
 /** Shared chat building blocks for the AI chat panel: the agent's grey
@@ -19,6 +20,82 @@ export function AgentMessage({ text, showAvatar = true }: { text: string; showAv
         <div className="h-8 w-8 shrink-0" aria-hidden="true" />
       )}
       <p className="min-w-0 max-w-[85%] rounded-3xl rounded-tl-md bg-grey-100 px-4 py-3 text-base leading-7 text-ink">{text}</p>
+    </div>
+  );
+}
+
+/** The agent's bubble with a typewriter reveal (owner request,
+ *  2026-11-09). The reply arrives whole — it is safety-checked on the
+ *  server before it is ever shown — and is then revealed character by
+ *  character so the chat feels typed rather than pasted in. The reveal
+ *  takes about the same time whatever the reply's length (the step
+ *  grows with the text), tapping the bubble completes it at once, and
+ *  visitors who prefer reduced motion get the full text immediately.
+ *  Screen readers always get the full text. */
+export function TypingAgentMessage({
+  text,
+  showAvatar = true,
+  onTick,
+  onDone,
+}: {
+  text: string;
+  showAvatar?: boolean;
+  onTick?: () => void;
+  onDone: () => void;
+}) {
+  const reducedMotion =
+    typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const [count, setCount] = useState(() => (reducedMotion ? text.length : 0));
+  const timerRef = useRef<number | null>(null);
+  const onTickRef = useRef(onTick);
+  const onDoneRef = useRef(onDone);
+  // Keep the latest callbacks in refs (refs may not be written during
+  // render); this sync runs before the typing effect below.
+  useEffect(() => {
+    onTickRef.current = onTick;
+    onDoneRef.current = onDone;
+  });
+
+  useEffect(() => {
+    if (reducedMotion) {
+      onDoneRef.current();
+      return;
+    }
+    let shown = 0;
+    const step = Math.max(1, Math.ceil(text.length / 60));
+    timerRef.current = window.setInterval(() => {
+      shown = Math.min(text.length, shown + step);
+      setCount(shown);
+      onTickRef.current?.();
+      if (shown >= text.length) {
+        if (timerRef.current) window.clearInterval(timerRef.current);
+        onDoneRef.current();
+      }
+    }, 30);
+    return () => {
+      if (timerRef.current) window.clearInterval(timerRef.current);
+    };
+  }, [text, reducedMotion]);
+
+  function finish() {
+    if (timerRef.current) window.clearInterval(timerRef.current);
+    setCount(text.length);
+    onDoneRef.current();
+  }
+
+  return (
+    <div className="flex items-start gap-3" onClick={finish}>
+      {showAvatar ? (
+        <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-blue text-xs font-bold text-white" aria-hidden="true">
+          H
+        </div>
+      ) : (
+        <div className="h-8 w-8 shrink-0" aria-hidden="true" />
+      )}
+      <p className="min-w-0 max-w-[85%] rounded-3xl rounded-tl-md bg-grey-100 px-4 py-3 text-base leading-7 text-ink">
+        <span className="sr-only">{text}</span>
+        <span aria-hidden="true">{text.slice(0, count)}</span>
+      </p>
     </div>
   );
 }

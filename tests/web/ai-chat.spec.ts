@@ -100,7 +100,7 @@ describe("AI chat panel wiring", () => {
     expect(ai).toContain("bottomRef");
     expect(ai).toContain('closest<HTMLElement>("[data-chat-scroll]")');
     expect(ai).toContain("container.scrollTo({ top: container.scrollHeight");
-    expect(ai).toContain("[messages, sending, readyToReview, submitStatus, notice, companyLookup, started]");
+    expect(ai).toContain("[messages, sending, readyToReview, submitStatus, notice, companyLookup, started, scrollThreadToBottom]");
     // ...but never before the first message: the start screen stays
     // where it opened, with the greeting in view.
     expect(ai).toContain("if (!started) return;");
@@ -679,6 +679,31 @@ describe("sendAiChatDocument", () => {
     formData.set("payload", JSON.stringify({ messages: [{ role: "user", content: "Hi" }] }));
     const result = await sendAiChatDocument(formData);
     expect(result).toEqual({ ok: false, fallback: true, reason: "bad-request" });
+  });
+});
+
+describe("AI chat messaging pass", () => {
+  it("guides the AI to acknowledge specifics and treat documents as already given", () => {
+    const prompt = buildAiChatSystemPrompt();
+    expect(prompt).toContain("Acknowledge specifics before moving on");
+    expect(prompt).toContain("counts as already given");
+  });
+
+  it("types out each fresh AI reply instead of dropping it in whole", () => {
+    const ai = read("components/AiChat.tsx");
+    const bubbles = read("components/ChatBubbles.tsx");
+    expect(bubbles).toContain("TypingAgentMessage");
+    expect(bubbles).toContain("prefers-reduced-motion");
+    expect(ai).toContain("typingIndex");
+    expect(ai).toContain("setTypingIndex(history.length)");
+  });
+
+  it("gives every dead end a next step", () => {
+    const ai = read("components/AiChat.tsx");
+    expect(ai).toContain("The security check didn't go through that time");
+    expect(ai).toContain("Unable to send just now");
+    expect(ai).toContain("we'll pick it up from there");
+    expect(ai).not.toContain("Unable to send. Please try again later.");
   });
 });
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
 import { sendAiChatDocument, sendAiChatMessage } from "@/app/actions/ai-chat";
@@ -9,7 +9,7 @@ import { emailDomain, isFreeMailDomain } from "@/lib/ai/company-lookup";
 import { AI_DOCUMENT_ACCEPT, validateAiDocument } from "@/lib/ai/document";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
 import { replyTime } from "@/data/companyContact";
-import { AgentMessage, MessageComposer, UserBubble } from "@/components/ChatBubbles";
+import { AgentMessage, MessageComposer, TypingAgentMessage, UserBubble } from "@/components/ChatBubbles";
 import { TurnstileField } from "@/components/TurnstileField";
 import { getChatPath } from "@/lib/guided-chat/steps";
 import {
@@ -196,6 +196,9 @@ export function AiChat({
 }) {
   const { requirements, clearRequirements } = useQuoteCart();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
+  // The index of the assistant message currently being typed out
+  // (typewriter reveal), or -1 when no reveal is running.
+  const [typingIndex, setTypingIndex] = useState(-1);
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
   const [path, setPath] = useState<AiChatPath | null>(null);
@@ -265,11 +268,7 @@ export function AiChat({
   // panel state change), scroll the chat panel's scroll area to the
   // bottom sentinel.
   const bottomRef = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    // Before the first message the start screen must stay where it
-    // opened (the lowered, centred greeting) — scrolling on mount
-    // pushed the greeting out of view.
-    if (!started) return;
+  const scrollThreadToBottom = useCallback(() => {
     const node = bottomRef.current;
     if (!node) return;
     const container = node.closest<HTMLElement>("[data-chat-scroll]");
@@ -278,10 +277,18 @@ export function AiChat({
     } else if (typeof node.scrollIntoView === "function") {
       node.scrollIntoView({ behavior: "smooth", block: "end" });
     }
-  }, [messages, sending, readyToReview, submitStatus, notice, companyLookup, started]);
+  }, []);
+  useEffect(() => {
+    // Before the first message the start screen must stay where it
+    // opened (the lowered, centred greeting) — scrolling on mount
+    // pushed the greeting out of view.
+    if (!started) return;
+    scrollThreadToBottom();
+  }, [messages, sending, readyToReview, submitStatus, notice, companyLookup, started, scrollThreadToBottom]);
 
   function resetAll() {
     setMessages([]);
+    setTypingIndex(-1);
     setDraft("");
     setPath(null);
     setFields({});
@@ -410,6 +417,8 @@ export function AiChat({
     const displayText = file ? `${text}\n📎 ${file.name}` : text;
     const history: ChatMessage[] = [...messages, { role: "user", text: displayText }];
     setMessages(history);
+    // A new send finishes any reply still being typed out.
+    setTypingIndex(-1);
 
     // A reference number mentioned anywhere in the message is answered
     // locally with its tracking link — no API call, no guessing at
@@ -485,7 +494,9 @@ export function AiChat({
       } else if (result.reason === "verification-failed") {
         setTurnstileResetSignal((value) => value + 1);
         setTurnstileToken("");
-        setNotice("We couldn't complete the security check. Please press send again.");
+        setNotice(
+          "The security check didn't go through that time. Please press send again — if it keeps happening, email us at sales@haciensolutions.com and we'll take your request there.",
+        );
       } else if (result.reason === "turn-limit") {
         setNotice(
           "This conversation has gone quite long. If your request is complete, its summary is ready above — or you can start over, or email sales@haciensolutions.com and we'll take it from there.",
@@ -499,6 +510,7 @@ export function AiChat({
     }
 
     setMessages([...history, { role: "assistant", text: result.turn.reply }]);
+    setTypingIndex(history.length);
     setPath(result.turn.path);
     setFields(
       pinnedEmail && !result.turn.fields.email
@@ -606,7 +618,9 @@ export function AiChat({
       setTurnstileToken("");
     } else {
       setSubmitStatus("error");
-      setSubmitError(result.error || "Unable to send. Please try again later.");
+      setSubmitError(
+        result.error || "Unable to send just now. Please try again in a moment — or email sales@haciensolutions.com and we'll take it from there.",
+      );
       setTurnstileResetSignal((value) => value + 1);
       setTurnstileToken("");
     }
@@ -728,7 +742,7 @@ export function AiChat({
           </div>
         ) : submitStatus === "error" ? (
           <div className="mt-6 space-y-6">
-            <AgentMessage text="Something went wrong sending that. Your answers are still here — you can try again." />
+            <AgentMessage text="Something went wrong sending that. Your answers are still here — you can try again, or email sales@haciensolutions.com and we'll pick it up from there." />
             <p className="text-sm font-semibold text-red-600" role="alert">
               {submitError}
             </p>
@@ -864,7 +878,16 @@ export function AiChat({
                 <UserBubble key={index} value={message.text} />
               ) : (
                 <div key={index} className="space-y-2">
-                  <AgentMessage text={message.text} showAvatar={messages[index - 1]?.role !== "assistant"} />
+                  {index === typingIndex ? (
+                    <TypingAgentMessage
+                      text={message.text}
+                      showAvatar={messages[index - 1]?.role !== "assistant"}
+                      onTick={scrollThreadToBottom}
+                      onDone={() => setTypingIndex(-1)}
+                    />
+                  ) : (
+                    <AgentMessage text={message.text} showAvatar={messages[index - 1]?.role !== "assistant"} />
+                  )}
                   {message.trackUrl ? (
                     <Link
                       href={message.trackUrl}
