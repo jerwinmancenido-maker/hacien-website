@@ -615,12 +615,14 @@ export function AiChat({
   const reviewSteps = path ? getChatPath(path).steps : [];
   // `started` (above) drives the Tourly-style start: before the first
   // message the panel shows the centered email start; once the email
-  // is sent, the thread takes over — the email pinned at its top and
-  // the composer settled under the messages like a chat app.
+  // is sent, the thread takes over, the composer settled under the
+  // messages like a chat app. The header above the thread never
+  // scrolls (owner screenshot, 2026-11-08: Start over clipped at the
+  // panel top when the whole panel shared one scroll area).
 
   return (
     <div
-      className="relative mx-auto max-w-3xl rounded-3xl"
+      className="relative flex min-h-0 flex-1 flex-col"
       onDragOver={(event) => {
         event.preventDefault();
         setDragOver(true);
@@ -666,11 +668,11 @@ export function AiChat({
           panel's close button, which floats over the top-right
           corner (owner screenshot, 2026-11-08: it clipped the
           Start over label). */}
-      <div className="flex items-center gap-3 pr-12">
+      <div className="flex shrink-0 items-center gap-3 pt-4 pr-12 pl-4 sm:pt-5 sm:pl-5">
         <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-blue text-sm font-bold text-white" aria-hidden="true">
           H
         </div>
-        <div className="font-bold text-ink">HACIEN AI assistant</div>
+        <div className="font-bold whitespace-nowrap text-ink">HACIEN AI assistant</div>
         {started && submitStatus !== "success" ? (
           <button
             type="button"
@@ -682,346 +684,342 @@ export function AiChat({
         ) : null}
       </div>
 
-      {/* The one Turnstile widget for the whole panel, mounted from
-          the start: its first token gates the first AI turn (verified
-          on the server before the model is called), and a fresh token
-          from the same widget later gates the send. Interaction-only
-          appearance — invisible unless Cloudflare challenges. */}
-      <TurnstileField
-        siteKey={turnstileSiteKey}
-        resetSignal={turnstileResetSignal}
-        onTokenChange={handleTurnstileToken}
-      />
+      <div data-chat-scroll className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 sm:px-5 sm:pb-5">
+        {/* The one Turnstile widget for the whole panel, mounted from
+            the start: its first token gates the first AI turn (verified
+            on the server before the model is called), and a fresh token
+            from the same widget later gates the send. Interaction-only
+            appearance — invisible unless Cloudflare challenges. */}
+        <TurnstileField
+          siteKey={turnstileSiteKey}
+          resetSignal={turnstileResetSignal}
+          onTokenChange={handleTurnstileToken}
+        />
 
-      {submitStatus === "success" && path ? (
-        <div className="mt-6 space-y-6">
-          <AgentMessage
-            text={`Thanks${fields.name ? `, ${fields.name}` : ""} — we've got your request. A member of the HACIEN team will review it and reply.`}
-          />
-          <div className="rounded-3xl border border-grey-200 bg-grey-50 p-6 text-center">
-            <div className="text-sm font-bold uppercase tracking-[0.18em] text-grey-600">
-              {SUCCESS_TITLES[path]}
-            </div>
-            <p className="mt-3 text-sm text-grey-600">{replyTime}</p>
-            {confirmationSent ? (
-              <p className="mt-2 text-sm text-grey-600">A confirmation email is on its way to your inbox.</p>
-            ) : null}
-            {referenceNumber ? (
-              <div className="mx-auto mt-5 max-w-sm rounded-2xl border border-grey-200 bg-white p-4 text-sm text-ink">
-                Reference: <span className="font-bold">{referenceNumber}</span>
-                <Link href={`/track/${referenceNumber}`} className="ml-3 font-bold text-blue hover:underline">
-                  Track request
-                </Link>
+        {submitStatus === "success" && path ? (
+          <div className="mt-6 space-y-6">
+            <AgentMessage
+              text={`Thanks${fields.name ? `, ${fields.name}` : ""} — we've got your request. A member of the HACIEN team will review it and reply.`}
+            />
+            <div className="rounded-3xl border border-grey-200 bg-grey-50 p-6 text-center">
+              <div className="text-sm font-bold uppercase tracking-[0.18em] text-grey-600">
+                {SUCCESS_TITLES[path]}
               </div>
-            ) : null}
-          </div>
-          <button
-            type="button"
-            onClick={resetAll}
-            className="button-glow min-h-11 cursor-pointer rounded-full bg-blue px-6 py-3 text-sm font-bold text-white"
-          >
-            Start another request
-          </button>
-        </div>
-      ) : submitStatus === "error" ? (
-        <div className="mt-6 space-y-6">
-          <AgentMessage text="Something went wrong sending that. Your answers are still here — you can try again." />
-          <p className="text-sm font-semibold text-red-600" role="alert">
-            {submitError}
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              setSubmitStatus("idle");
-              setTurnstileResetSignal((value) => value + 1);
-            }}
-            className="min-h-11 cursor-pointer rounded-full border border-danger px-6 py-3 text-sm font-semibold text-red-700 hover:bg-red-100"
-          >
-            Try again
-          </button>
-        </div>
-      ) : unavailable && !started ? (
-        <div className="mt-6 space-y-6 pt-[6vh]">
-          <AgentMessage text={UNAVAILABLE_TEXT} />
-        </div>
-      ) : !gatePassed ? (
-        <div className="mt-6 space-y-6 pt-[6vh]">
-          <div className="text-center">
-            <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-blue text-base font-bold text-white" aria-hidden="true">
-              H
+              <p className="mt-3 text-sm text-grey-600">{replyTime}</p>
+              {confirmationSent ? (
+                <p className="mt-2 text-sm text-grey-600">A confirmation email is on its way to your inbox.</p>
+              ) : null}
+              {referenceNumber ? (
+                <div className="mx-auto mt-5 max-w-sm rounded-2xl border border-grey-200 bg-white p-4 text-sm text-ink">
+                  Reference: <span className="font-bold">{referenceNumber}</span>
+                  <Link href={`/track/${referenceNumber}`} className="ml-3 font-bold text-blue hover:underline">
+                    Track request
+                  </Link>
+                </div>
+              ) : null}
             </div>
-            <h2 className="mt-4 text-2xl font-bold tracking-tight text-ink">{GATE_TITLE}</h2>
-            <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-grey-700">{GATE_TEXT}</p>
-          </div>
-          <div className="mx-auto max-w-md">
-            <p className="text-[13px] leading-5 text-grey-600">{GATE_HELPER}</p>
-            <label
-              htmlFor="ai-chat-agree"
-              className="mt-4 flex cursor-pointer items-start gap-2.5 text-sm leading-6 text-ink"
-            >
-              <input
-                id="ai-chat-agree"
-                type="checkbox"
-                checked={agreed}
-                onChange={(event) => toggleAgreed(event.currentTarget.checked)}
-                className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-[#2563EB]"
-              />
-              <span>
-                I agree to the{" "}
-                <Link href="/terms" className="font-semibold text-blue hover:underline">
-                  Terms of Use
-                </Link>{" "}
-                and have read the{" "}
-                <Link href="/privacy" className="font-semibold text-blue hover:underline">
-                  Privacy Policy
-                </Link>
-                .
-              </span>
-            </label>
             <button
               type="button"
-              onClick={submitGate}
-              disabled={!agreed || gateWaiting}
-              className={
-                agreed && !gateWaiting
-                  ? "button-glow mt-5 min-h-11 w-full cursor-pointer rounded-full bg-blue px-6 text-sm font-bold text-white hover:bg-blue-dark"
-                  : "mt-5 min-h-11 w-full cursor-not-allowed rounded-full bg-grey-200 px-6 text-sm font-bold text-grey-600"
-              }
+              onClick={resetAll}
+              className="button-glow min-h-11 cursor-pointer rounded-full bg-blue px-6 py-3 text-sm font-bold text-white"
             >
-              {gateWaiting ? "Completing security check…" : "Continue"}
+              Start another request
             </button>
-            {gateWaiting ? (
-              <p className="mt-3 text-center text-sm text-grey-600">
-                One moment — completing the security check. If a &lsquo;Verify you are human&rsquo; box appears
-                above, tick it.
-              </p>
-            ) : null}
           </div>
-        </div>
-      ) : !started ? (
-        <div className="mt-6 space-y-6 pt-[6vh]">
-          <div className="text-center">
-            <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-blue text-base font-bold text-white" aria-hidden="true">
-              H
-            </div>
-            <h2 className="mt-4 text-2xl font-bold tracking-tight text-ink">{START_TITLE}</h2>
-            <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-grey-700">{START_TEXT}</p>
-          </div>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-              void submitEmail();
-            }}
-            className="mx-auto max-w-md"
-          >
-            <div className="flex items-end gap-2 rounded-full border border-grey-200 bg-white p-2 shadow-sm focus-within:border-blue">
-              <label htmlFor="ai-chat-email" className="sr-only">
-                Work email
-              </label>
-              <input
-                id="ai-chat-email"
-                type="email"
-                autoComplete="email"
-                value={emailDraft}
-                onChange={(event) => setEmailDraft(event.currentTarget.value)}
-                placeholder="you@company.com"
-                className="min-h-11 min-w-0 flex-1 bg-transparent px-4 text-sm outline-none"
-              />
-              <button
-                type="submit"
-                className="button-glow min-h-11 shrink-0 cursor-pointer rounded-full bg-blue px-6 text-sm font-bold text-white hover:bg-blue-dark"
-              >
-                Go
-              </button>
-            </div>
-            {emailError ? (
-              <p className="mt-2 text-center text-sm font-semibold text-red-600" role="alert">
-                {emailError}
-              </p>
-            ) : null}
-          </form>
-          {notice ? <AgentMessage text={notice} /> : null}
-          {requirements.length > 0 ? (
-            <p className="text-center text-sm text-grey-700">
-              Your list of {requirements.length} item{requirements.length === 1 ? "" : "s"} from Products will be
-              attached to your request.
+        ) : submitStatus === "error" ? (
+          <div className="mt-6 space-y-6">
+            <AgentMessage text="Something went wrong sending that. Your answers are still here — you can try again." />
+            <p className="text-sm font-semibold text-red-600" role="alert">
+              {submitError}
             </p>
-          ) : null}
-          <p className="text-center text-xs leading-5 text-grey-600">
-            We look up your company from a work email — a personal email works too.
-          </p>
-        </div>
-      ) : (
-        <div className="mt-6 space-y-6">
-          {messages.map((message, index) =>
-            message.role === "user" ? (
-              index === 0 ? (
-                // The Tourly pin: the first answer (the email) stays
-                // at the top of the thread while the conversation
-                // scrolls under it.
-                <div key={index} className="sticky top-0 z-10 bg-white/95 pb-1 backdrop-blur-sm">
-                  <UserBubble value={message.text} />
-                </div>
-              ) : (
-                <UserBubble key={index} value={message.text} />
-              )
-            ) : (
-              <div key={index} className="space-y-2">
-                <AgentMessage text={message.text} showAvatar={messages[index - 1]?.role !== "assistant"} />
-                {message.trackUrl ? (
-                  <Link
-                    href={message.trackUrl}
-                    className="ml-11 inline-block rounded-full border border-grey-200 bg-white px-4 py-2 text-sm font-bold text-blue shadow-sm hover:border-blue"
-                  >
-                    Open tracking page →
-                  </Link>
-                ) : null}
-              </div>
-            ),
-          )}
-
-          {sending ? (
-            readingDocument ? (
-              <DocumentProcessingView />
-            ) : (
-              <ProcessingRow />
-            )
-          ) : null}
-          {!sending && companyLookup.status === "searching" ? (
-            <StagedProgressView label="Looking up · Your company" stages={COMPANY_LOOKUP_STAGES} />
-          ) : null}
-          {companyLookup.status === "confirming" ? (
-            <div>
-              <AgentMessage
-                text={`I found ${companyLookup.companyName} at ${companyLookup.domain} — is this your company?`}
-              />
-              <div className="ml-11 mt-2 flex flex-wrap gap-2">
-                <button
-                  type="button"
-                  onClick={confirmCompany}
-                  className="cursor-pointer rounded-full border border-grey-200 bg-white px-4 py-2 text-sm font-semibold text-ink transition hover:border-blue hover:text-blue"
-                >
-                  Yes, that&rsquo;s my company
-                </button>
-                <button
-                  type="button"
-                  onClick={declineCompany}
-                  className="cursor-pointer rounded-full border border-grey-200 bg-white px-4 py-2 text-sm font-semibold text-ink transition hover:border-blue hover:text-blue"
-                >
-                  No, I&rsquo;ll type it
-                </button>
-              </div>
-            </div>
-          ) : null}
-
-          {notice ? <AgentMessage text={notice} /> : null}
-
-          {unavailable ? (
+            <button
+              type="button"
+              onClick={() => {
+                setSubmitStatus("idle");
+                setTurnstileResetSignal((value) => value + 1);
+              }}
+              className="min-h-11 cursor-pointer rounded-full border border-danger px-6 py-3 text-sm font-semibold text-red-700 hover:bg-red-100"
+            >
+              Try again
+            </button>
+          </div>
+        ) : unavailable && !started ? (
+          <div className="mt-6 space-y-6 pt-[6vh]">
             <AgentMessage text={UNAVAILABLE_TEXT} />
-          ) : readyToReview && path && submitStatus !== "sending" ? (
-            <form onSubmit={handleConfirm} className="space-y-6">
-              <div className="absolute -left-[9999px]" aria-hidden="true">
-                <label>
-                  Website
-                  <input type="text" name="_website" tabIndex={-1} autoComplete="off" />
-                </label>
+          </div>
+        ) : !gatePassed ? (
+          <div className="mt-6 space-y-6 pt-[6vh]">
+            <div className="text-center">
+              <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-blue text-base font-bold text-white" aria-hidden="true">
+                H
               </div>
-              <input type="hidden" name="formStartedAt" value={startedAt ? String(startedAt) : ""} readOnly />
-              <AgentMessage text="Here's what I'll send — please check it:" />
-              <div className="rounded-3xl border border-grey-200 bg-white p-5">
-                <p className="text-sm font-semibold text-ink">
-                  Please confirm these details are correct before sending.
-                </p>
-                {reviewSteps.map((step) => {
-                  const value = fields[step.id] || "";
-                  if (!value) return null;
-                  return (
-                    <div key={step.id} className="border-b border-grey-200 py-3 text-sm last:border-0">
-                      <div className="font-semibold text-grey-700">{step.question}</div>
-                      <div className="mt-1 text-ink">{value}</div>
-                    </div>
-                  );
-                })}
-                {path === "quote" && requirements.length > 0 ? (
-                  <div className="py-3 text-sm">
-                    <div className="font-semibold text-grey-700">Requirement package</div>
-                    <div className="mt-1 text-ink">
-                      {requirements.length} item{requirements.length === 1 ? "" : "s"} from the quote page will be
-                      sent with this request.
-                    </div>
-                  </div>
-                ) : null}
-                <p className="pt-3 text-xs leading-5 text-grey-600">
-                  No online payment is collected. Every request receives a reference number and is reviewed before a
-                  quotation is prepared.
-                </p>
-                <p className="mt-2 text-xs text-grey-600">
-                  By submitting, you agree to our{" "}
-                  <Link href="/privacy" className="font-semibold text-blue hover:underline">
-                    Privacy Policy
-                  </Link>{" "}
-                  and{" "}
+              <h2 className="mt-4 text-2xl font-bold tracking-tight text-ink">{GATE_TITLE}</h2>
+              <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-grey-700">{GATE_TEXT}</p>
+            </div>
+            <div className="mx-auto max-w-md">
+              <p className="text-[13px] leading-5 text-grey-600">{GATE_HELPER}</p>
+              <label
+                htmlFor="ai-chat-agree"
+                className="mt-4 flex cursor-pointer items-start gap-2.5 text-sm leading-6 text-ink"
+              >
+                <input
+                  id="ai-chat-agree"
+                  type="checkbox"
+                  checked={agreed}
+                  onChange={(event) => toggleAgreed(event.currentTarget.checked)}
+                  className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-[#2563EB]"
+                />
+                <span>
+                  I agree to the{" "}
                   <Link href="/terms" className="font-semibold text-blue hover:underline">
                     Terms of Use
+                  </Link>{" "}
+                  and have read the{" "}
+                  <Link href="/privacy" className="font-semibold text-blue hover:underline">
+                    Privacy Policy
                   </Link>
                   .
+                </span>
+              </label>
+              <button
+                type="button"
+                onClick={submitGate}
+                disabled={!agreed || gateWaiting}
+                className={
+                  agreed && !gateWaiting
+                    ? "button-glow mt-5 min-h-11 w-full cursor-pointer rounded-full bg-blue px-6 text-sm font-bold text-white hover:bg-blue-dark"
+                    : "mt-5 min-h-11 w-full cursor-not-allowed rounded-full bg-grey-200 px-6 text-sm font-bold text-grey-600"
+                }
+              >
+                {gateWaiting ? "Completing security check…" : "Continue"}
+              </button>
+              {gateWaiting ? (
+                <p className="mt-3 text-center text-sm text-grey-600">
+                  One moment — completing the security check. If a &lsquo;Verify you are human&rsquo; box appears
+                  above, tick it.
                 </p>
+              ) : null}
+            </div>
+          </div>
+        ) : !started ? (
+          <div className="mt-6 space-y-6 pt-[6vh]">
+            <div className="text-center">
+              <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-blue text-base font-bold text-white" aria-hidden="true">
+                H
+              </div>
+              <h2 className="mt-4 text-2xl font-bold tracking-tight text-ink">{START_TITLE}</h2>
+              <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-grey-700">{START_TEXT}</p>
+            </div>
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+                void submitEmail();
+              }}
+              className="mx-auto max-w-md"
+            >
+              <div className="flex items-end gap-2 rounded-full border border-grey-200 bg-white p-2 shadow-sm focus-within:border-blue">
+                <label htmlFor="ai-chat-email" className="sr-only">
+                  Work email
+                </label>
+                <input
+                  id="ai-chat-email"
+                  type="email"
+                  autoComplete="email"
+                  value={emailDraft}
+                  onChange={(event) => setEmailDraft(event.currentTarget.value)}
+                  placeholder="you@company.com"
+                  className="min-h-11 min-w-0 flex-1 bg-transparent px-4 text-sm outline-none"
+                />
                 <button
                   type="submit"
-                  disabled={turnstilePending}
-                  className={`button-glow mt-4 min-h-11 rounded-full bg-blue px-6 py-3 text-sm font-bold text-white ${turnstilePending ? "cursor-wait opacity-60" : "cursor-pointer"}`}
+                  className="button-glow min-h-11 shrink-0 cursor-pointer rounded-full bg-blue px-6 text-sm font-bold text-white hover:bg-blue-dark"
                 >
-                  {turnstilePending ? "Completing security check…" : "Looks good — send request"}
+                  Go
                 </button>
               </div>
-            </form>
-          ) : submitStatus === "sending" ? (
-            <ProcessingRow label="Sending your request…" />
-          ) : (
-            <>
-              {attachment ? (
-                <div className="rounded-2xl border border-grey-200 bg-grey-50 px-4 py-2">
-                  <div className="flex items-center gap-2 text-sm text-ink">
-                    <span aria-hidden="true">📎</span>
-                    <span className="min-w-0 flex-1 truncate font-semibold">{attachment.name}</span>
-                    <span className="shrink-0 text-xs text-grey-600">
-                      {(attachment.size / 1024).toFixed(0)} KB — read when you send
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setAttachment(null)}
-                      className="shrink-0 cursor-pointer font-bold text-blue hover:underline"
-                      aria-label="Remove attachment"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                  <p className="mt-1 text-xs text-grey-600">
-                    Read only to prepare your request. Please don&rsquo;t attach IDs or tax papers.
-                  </p>
-                </div>
-              ) : null}
-              {attachError ? (
-                <p className="text-sm font-semibold text-red-600" role="alert">
-                  {attachError}
+              {emailError ? (
+                <p className="mt-2 text-center text-sm font-semibold text-red-600" role="alert">
+                  {emailError}
                 </p>
               ) : null}
-              <MessageComposer
-                id="ai-chat-message"
-                label="Type your message"
-                kind="text"
-                value={draft}
-                onChange={setDraft}
-                onSubmit={send}
-                placeholder="Type your message…"
-                autoFocus={false}
-                onAttach={() => fileInputRef.current?.click()}
-              />
-            </>
-          )}
-          <div ref={bottomRef} aria-hidden="true" />
-        </div>
-      )}
+            </form>
+            {notice ? <AgentMessage text={notice} /> : null}
+            {requirements.length > 0 ? (
+              <p className="text-center text-sm text-grey-700">
+                Your list of {requirements.length} item{requirements.length === 1 ? "" : "s"} from Products will be
+                attached to your request.
+              </p>
+            ) : null}
+            <p className="text-center text-xs leading-5 text-grey-600">
+              We look up your company from a work email — a personal email works too.
+            </p>
+          </div>
+        ) : (
+          <div className="mt-6 space-y-6">
+            {messages.map((message, index) =>
+              message.role === "user" ? (
+                // Every message scrolls normally — the first one (the
+                // email) was pinned to the thread top in the Tourly
+                // build; the owner asked for the pin to go (2026-11-08).
+                <UserBubble key={index} value={message.text} />
+              ) : (
+                <div key={index} className="space-y-2">
+                  <AgentMessage text={message.text} showAvatar={messages[index - 1]?.role !== "assistant"} />
+                  {message.trackUrl ? (
+                    <Link
+                      href={message.trackUrl}
+                      className="ml-11 inline-block rounded-full border border-grey-200 bg-white px-4 py-2 text-sm font-bold text-blue shadow-sm hover:border-blue"
+                    >
+                      Open tracking page →
+                    </Link>
+                  ) : null}
+                </div>
+              ),
+            )}
+
+            {sending ? (
+              readingDocument ? (
+                <DocumentProcessingView />
+              ) : (
+                <ProcessingRow />
+              )
+            ) : null}
+            {!sending && companyLookup.status === "searching" ? (
+              <StagedProgressView label="Looking up · Your company" stages={COMPANY_LOOKUP_STAGES} />
+            ) : null}
+            {companyLookup.status === "confirming" ? (
+              <div>
+                <AgentMessage
+                  text={`I found ${companyLookup.companyName} at ${companyLookup.domain} — is this your company?`}
+                />
+                <div className="ml-11 mt-2 flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={confirmCompany}
+                    className="cursor-pointer rounded-full border border-grey-200 bg-white px-4 py-2 text-sm font-semibold text-ink transition hover:border-blue hover:text-blue"
+                  >
+                    Yes, that&rsquo;s my company
+                  </button>
+                  <button
+                    type="button"
+                    onClick={declineCompany}
+                    className="cursor-pointer rounded-full border border-grey-200 bg-white px-4 py-2 text-sm font-semibold text-ink transition hover:border-blue hover:text-blue"
+                  >
+                    No, I&rsquo;ll type it
+                  </button>
+                </div>
+              </div>
+            ) : null}
+
+            {notice ? <AgentMessage text={notice} /> : null}
+
+            {unavailable ? (
+              <AgentMessage text={UNAVAILABLE_TEXT} />
+            ) : readyToReview && path && submitStatus !== "sending" ? (
+              <form onSubmit={handleConfirm} className="space-y-6">
+                <div className="absolute -left-[9999px]" aria-hidden="true">
+                  <label>
+                    Website
+                    <input type="text" name="_website" tabIndex={-1} autoComplete="off" />
+                  </label>
+                </div>
+                <input type="hidden" name="formStartedAt" value={startedAt ? String(startedAt) : ""} readOnly />
+                <AgentMessage text="Here's what I'll send — please check it:" />
+                <div className="rounded-3xl border border-grey-200 bg-white p-5">
+                  <p className="text-sm font-semibold text-ink">
+                    Please confirm these details are correct before sending.
+                  </p>
+                  {reviewSteps.map((step) => {
+                    const value = fields[step.id] || "";
+                    if (!value) return null;
+                    return (
+                      <div key={step.id} className="border-b border-grey-200 py-3 text-sm last:border-0">
+                        <div className="font-semibold text-grey-700">{step.question}</div>
+                        <div className="mt-1 text-ink">{value}</div>
+                      </div>
+                    );
+                  })}
+                  {path === "quote" && requirements.length > 0 ? (
+                    <div className="py-3 text-sm">
+                      <div className="font-semibold text-grey-700">Requirement package</div>
+                      <div className="mt-1 text-ink">
+                        {requirements.length} item{requirements.length === 1 ? "" : "s"} from the quote page will be
+                        sent with this request.
+                      </div>
+                    </div>
+                  ) : null}
+                  <p className="pt-3 text-xs leading-5 text-grey-600">
+                    No online payment is collected. Every request receives a reference number and is reviewed before a
+                    quotation is prepared.
+                  </p>
+                  <p className="mt-2 text-xs text-grey-600">
+                    By submitting, you agree to our{" "}
+                    <Link href="/privacy" className="font-semibold text-blue hover:underline">
+                      Privacy Policy
+                    </Link>{" "}
+                    and{" "}
+                    <Link href="/terms" className="font-semibold text-blue hover:underline">
+                      Terms of Use
+                    </Link>
+                    .
+                  </p>
+                  <button
+                    type="submit"
+                    disabled={turnstilePending}
+                    className={`button-glow mt-4 min-h-11 rounded-full bg-blue px-6 py-3 text-sm font-bold text-white ${turnstilePending ? "cursor-wait opacity-60" : "cursor-pointer"}`}
+                  >
+                    {turnstilePending ? "Completing security check…" : "Looks good — send request"}
+                  </button>
+                </div>
+              </form>
+            ) : submitStatus === "sending" ? (
+              <ProcessingRow label="Sending your request…" />
+            ) : (
+              <>
+                {attachment ? (
+                  <div className="rounded-2xl border border-grey-200 bg-grey-50 px-4 py-2">
+                    <div className="flex items-center gap-2 text-sm text-ink">
+                      <span aria-hidden="true">📎</span>
+                      <span className="min-w-0 flex-1 truncate font-semibold">{attachment.name}</span>
+                      <span className="shrink-0 text-xs text-grey-600">
+                        {(attachment.size / 1024).toFixed(0)} KB — read when you send
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setAttachment(null)}
+                        className="shrink-0 cursor-pointer font-bold text-blue hover:underline"
+                        aria-label="Remove attachment"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                    <p className="mt-1 text-xs text-grey-600">
+                      Read only to prepare your request. Please don&rsquo;t attach IDs or tax papers.
+                    </p>
+                  </div>
+                ) : null}
+                {attachError ? (
+                  <p className="text-sm font-semibold text-red-600" role="alert">
+                    {attachError}
+                  </p>
+                ) : null}
+                <MessageComposer
+                  id="ai-chat-message"
+                  label="Type your message"
+                  kind="text"
+                  value={draft}
+                  onChange={setDraft}
+                  onSubmit={send}
+                  placeholder="Type your message…"
+                  autoFocus={false}
+                  onAttach={() => fileInputRef.current?.click()}
+                />
+              </>
+            )}
+            <div ref={bottomRef} aria-hidden="true" />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

@@ -95,7 +95,8 @@ describe("AI chat panel wiring", () => {
   it("auto-scrolls the panel to the newest message after each reply", () => {
     const ai = read("components/AiChat.tsx");
     const floating = read("components/FloatingChat.tsx");
-    expect(floating).toContain("data-chat-scroll");
+    expect(floating).not.toContain("data-chat-scroll");
+    expect(ai).toContain("data-chat-scroll");
     expect(ai).toContain("bottomRef");
     expect(ai).toContain('closest<HTMLElement>("[data-chat-scroll]")');
     expect(ai).toContain("container.scrollTo({ top: container.scrollHeight");
@@ -716,11 +717,14 @@ describe("AI chat document UI wiring", () => {
     expect(ai).toContain("Yes, that&rsquo;s my company");
   });
 
-  it("opens on the Tourly email start: centered, email first, pinned as the first message", () => {
+  it("opens on the Tourly email start: centered, email first, a normal first message", () => {
     const ai = read("components/AiChat.tsx");
     expect(ai).toContain("const started = messages.length > 0");
     expect(ai).toContain("submitEmail");
-    expect(ai).toContain("sticky top-0");
+    // The email was pinned to the thread top in the first Tourly
+    // build; the owner asked for the pin to go (2026-11-08) — every
+    // message scrolls normally now.
+    expect(ai).not.toContain("sticky top-0");
     expect(ai).toContain("pinnedEmail");
     expect(ai).not.toContain("pt-[9vh]");
   });

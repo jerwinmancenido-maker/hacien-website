@@ -55,7 +55,7 @@ describe("Floating chat button", () => {
     // at most double, never past the screen.
     expect(floating).toContain("sm:w-[660px]");
     expect(floating).toContain("sm:min-h-[640px]");
-    expect(floating).toContain("sm:max-h-[min(1280px,calc(100dvh-5rem))]");
+    expect(floating).toContain("sm:max-h-[min(1280px,calc(100dvh-9rem))]");
   });
 
   it("sits below the cookie banner so it never covers Accept or Decline", () => {

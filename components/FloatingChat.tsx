@@ -66,7 +66,7 @@ export function FloatingChat({
         <div
           role="dialog"
           aria-label="Chat with the HACIEN team"
-          className="fixed inset-x-4 bottom-4 top-20 z-40 flex flex-col overflow-hidden rounded-3xl border border-grey-200 bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:top-auto sm:bottom-6 sm:min-h-[640px] sm:w-[660px] sm:max-h-[min(1280px,calc(100dvh-5rem))]"
+          className="fixed inset-x-4 bottom-4 top-20 z-40 flex flex-col overflow-hidden rounded-3xl border border-grey-200 bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:top-auto sm:bottom-6 sm:min-h-[640px] sm:w-[660px] sm:max-h-[min(1280px,calc(100dvh-9rem))]"
         >
           <button
             type="button"
@@ -76,9 +76,7 @@ export function FloatingChat({
           >
             ✕
           </button>
-          <div data-chat-scroll className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-5">
-            <AiChat turnstileSiteKey={turnstileSiteKey} aiConfigured={aiConfigured} />
-          </div>
+          <AiChat turnstileSiteKey={turnstileSiteKey} aiConfigured={aiConfigured} />
           <p className="border-t border-grey-200 px-4 py-2 text-[11px] leading-snug text-grey-600">
             AI-assisted chat (guidance only). Do not send passwords or IDs. See our{" "}
             <Link href="/privacy" className="underline hover:text-blue">
