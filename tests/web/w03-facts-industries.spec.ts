@@ -102,8 +102,8 @@ describe("W03: Facts and Industries Conformance", () => {
       "Within 1 business day (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
     );
 
-    const guidedChat = readFileSync(path.join(process.cwd(), "components/GuidedChat.tsx"), "utf8");
-    expect(guidedChat).toContain("{replyTime}");
+    const aiChat = readFileSync(path.join(process.cwd(), "components/AiChat.tsx"), "utf8");
+    expect(aiChat).toContain("{replyTime}");
 
     const quoteForm = readFileSync(
       path.join(process.cwd(), "components/QuoteRequestForm.tsx"),

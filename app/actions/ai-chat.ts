@@ -42,7 +42,7 @@ import { redis } from "@/lib/redis/upstash";
 const MODEL = process.env.ANTHROPIC_CHAT_MODEL || "claude-haiku-5-5";
 const API_URL = "https://api.anthropic.com/v1/messages";
 const MAX_HISTORY_TURNS = 20;
-const MAX_CONVERSATION_MESSAGES = 40; // ~20 visitor turns, then hand over
+const MAX_CONVERSATION_MESSAGES = 40; // ~20 visitor turns, then the client wraps up
 const MAX_MESSAGE_LENGTH = 2_000;
 const IP_LIMIT_MAX = 20;
 const IP_LIMIT_WINDOW_MS = 10 * 60_000; // 10 minutes
