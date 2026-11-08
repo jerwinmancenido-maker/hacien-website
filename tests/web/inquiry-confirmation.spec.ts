@@ -94,9 +94,10 @@ describe("inquiry confirmation email", () => {
   });
 
   it("the chat success screen mentions the confirmation email", () => {
-    // The full forms are gone (Step B) — the guided chat is the only
-    // success screen left, and it carries the confirmation line.
-    expect(read("components/GuidedChat.tsx")).toContain(
+    // The full forms are gone (Step B) and the guided questions with
+    // them (2026-11-08) — the AI chat is the only success screen left,
+    // and it carries the confirmation line.
+    expect(read("components/AiChat.tsx")).toContain(
       "A confirmation email is on its way to your inbox.",
     );
   });

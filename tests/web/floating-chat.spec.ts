@@ -27,8 +27,9 @@ describe("Floating chat button", () => {
     expect(floating).toContain("<svg");
   });
 
-  it("opens the same guided chat in a panel, closable by its own button or Escape", () => {
-    expect(floating).toContain("GuidedChat");
+  it("opens the AI chat in a panel, closable by its own button or Escape", () => {
+    expect(floating).toContain("AiChat");
+    expect(floating).not.toContain("GuidedChat");
     expect(floating).toContain('role="dialog"');
     expect(floating).toContain("Close chat");
     expect(floating).toContain("Escape");

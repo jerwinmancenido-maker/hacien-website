@@ -271,77 +271,7 @@ describe("shared requirement formatting", () => {
   });
 });
 
-describe("guided chat look", () => {
-  it("reads as a chat: agent messages sit in grey bubbles with a blue avatar", () => {
-    const chat = read("components/GuidedChat.tsx");
-    expect(chat).toContain("rounded-3xl rounded-tl-md bg-grey-100");
-    expect(chat).toContain(
-      'className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-blue',
-    );
-  });
-
-  it("path cards look tappable: white, bordered, blue arrow", () => {
-    const chat = read("components/GuidedChat.tsx");
-    expect(chat).toContain("border border-grey-200 bg-white px-5 py-4");
-    expect(chat).toContain("hover:border-blue");
-    expect(chat).toContain('className="shrink-0 text-xl font-bold text-blue"');
-  });
-
-  it("the path screen always shows a message box, and typing starts an inquiry with the text as the need", () => {
-    const chat = read("components/GuidedChat.tsx");
-    expect(chat).toContain("Type your message…");
-    expect(chat).toContain("startInquiryWithMessage");
-    expect(chat).toContain('choosePath("inquiry", { need: text.trim() })');
-    expect(chat).toContain("MessageComposer");
-  });
-
-  it("answering a step skips a next step that is already answered", () => {
-    const chat = read("components/GuidedChat.tsx");
-    expect(chat).toContain(
-      "while (next < pathSteps.length && nextAnswers[pathSteps[next].id]) next += 1;",
-    );
-  });
-});
-
-describe("guided chat upload", () => {
-  it("the quote path's document step uses the existing parse-document action", () => {
-    const chat = read("components/GuidedChat.tsx");
-    expect(chat).toContain('import { parseDocument } from "@/app/actions/parse-document"');
-    expect(chat).toContain('data.append("document", file)');
-    expect(chat).toContain("await parseDocument(data)");
-  });
-
-  it("the document step is a file picker with the parser's own file rules", () => {
-    const chat = read("components/GuidedChat.tsx");
-    expect(chat).toContain('type="file"');
-    expect(chat).toContain('accept=".pdf,.png,.jpg,.jpeg,.txt"');
-    expect(chat).toContain("Upload and continue");
-    expect(chat).toContain("Checking your file…");
-  });
-
-  it("an uploaded document rides in the payload as the form's attachment fields", () => {
-    const chat = read("components/GuidedChat.tsx");
-    expect(chat).toContain("attachmentName: file.name");
-    expect(chat).toContain("attachmentType: file.type");
-    expect(chat).toContain("attachmentSizeKb: String(sizeKb)");
-  });
-
-  it("skipping the document step drops the file details, and the review shows an attached document", () => {
-    const chat = read("components/GuidedChat.tsx");
-    expect(chat).toContain('if (step.id === "attachment")');
-    expect(chat).toContain("Attached document");
-    expect(chat).toContain("{answers.attachmentName}");
-  });
-
-  it("the chat says plainly that only the file details travel with the request", () => {
-    const chat = read("components/GuidedChat.tsx");
-    expect(chat).toContain(
-      "The file details go with your request; HACIEN will ask for the file itself if needed.",
-    );
-  });
-});
-
-describe("guided chat wiring", () => {
+describe("chat invitation wiring", () => {
   it("quote page shows the chat invitation — the chat lives only in the floating panel", () => {
     const page = read("app/quote/page.tsx");
     expect(page).toContain("<ChatInvitation");
@@ -360,40 +290,6 @@ describe("guided chat wiring", () => {
     }
   });
 
-  it("the chat is the only mode — no full-form switch — and never calls itself AI", () => {
-    const chat = read("components/GuidedChat.tsx");
-    expect(chat).not.toContain("Prefer the full form?");
-    expect(chat).not.toContain("Back to the guided chat");
-    expect(chat).not.toMatch(/AI agent|artificial intelligence/i);
-    expect(chat).toContain("{replyTime}");
-    expect(chat).toContain("<TurnstileField");
-    expect(chat).toContain('name="_website"');
-    expect(chat).toContain('name="formStartedAt"');
-  });
 
-  it("the send button waits for the security-check token instead of sending without one", () => {
-    // Regression: the widget mounts only on the review screen, so its token
-    // could lag behind the customer; sends went out token-less and the
-    // server rejected them ("Turnstile token missing" in the live logs,
-    // 2026-11-07, including from the owner's own phone).
-    const chat = read("components/GuidedChat.tsx");
-    const field = read("components/TurnstileField.tsx");
-    expect(field).toContain("onTokenChange");
-    expect(field).toContain('"expired-callback"');
-    expect(chat).toContain("onTokenChange={setTurnstileToken}");
-    expect(chat).toContain("turnstilePending");
-    expect(chat).toContain("disabled={turnstilePending}");
-    expect(chat).toContain("Completing security check…");
-  });
 
-  it("the chat reads like a support chat: team voice, review summary, and staged processing", () => {
-    const chat = read("components/GuidedChat.tsx");
-    expect(chat).toContain("HACIEN Team");
-    expect(chat).toContain("A real person from the HACIEN team reads every request.");
-    expect(chat).toContain("we've got your request");
-    expect(chat).toContain("Looks good — send request");
-    expect(chat).toContain("Requirement package");
-    expect(chat).toContain("Checking your answers…");
-    expect(chat).toContain("Sending your request…");
-  });
 });

@@ -46,12 +46,14 @@ function read(rel: string): string {
 }
 
 describe("AI chat panel wiring", () => {
-  it("the panel opens on the AI assistant and falls back to guided for the session", () => {
+  it("the panel's only mode is the AI assistant — no guided fallback exists", () => {
     const floating = read("components/FloatingChat.tsx");
     expect(floating).toContain("<AiChat");
-    expect(floating).toContain("<GuidedChat");
-    expect(floating).toContain("onUnavailable");
-    expect(floating).toContain("aiUnavailable ? undefined");
+    expect(floating).not.toContain("GuidedChat");
+    expect(floating).not.toContain("onUnavailable");
+    const ai = read("components/AiChat.tsx");
+    expect(ai).not.toContain("onUseGuided");
+    expect(ai).not.toContain("Use guided questions");
   });
 
   it("the AI chat submits through the same action and payload builders as the guided chat", () => {
@@ -103,25 +105,31 @@ describe("AI chat panel wiring", () => {
     expect(ai).toContain("if (!started) return;");
   });
 
-  it("the start screen is only the greeting and the message box — no menu cards", () => {
+  it("the start screen is the centered email start — no menu cards, no composer yet", () => {
     const ai = read("components/AiChat.tsx");
     expect(ai).not.toContain("CHAT_PATHS");
     expect(ai).not.toContain("PATH_STARTERS");
+    expect(ai).toContain("submitEmail");
+    expect(ai).toContain('id="ai-chat-email"');
+    expect(ai).toContain("Start with your work email");
   });
 
   it("the AI chat is honestly labelled and gates send on the security-check token", () => {
     const ai = read("components/AiChat.tsx");
     expect(ai).toContain("HACIEN AI assistant");
-    expect(ai).toContain("HACIEN AI assistant. Ask me");
+    expect(ai).toContain("HACIEN AI assistant. Start with your work email");
     expect(ai).toContain("onTokenChange={setTurnstileToken}");
     expect(ai).toContain("Completing security check…");
-    expect(ai).toContain("Prefer step-by-step questions?");
+    expect(ai).not.toContain("Prefer step-by-step questions?");
   });
 
-  it("the guided chat offers the switch to the AI assistant", () => {
-    const guided = read("components/GuidedChat.tsx");
-    expect(guided).toContain("onUseAi");
-    expect(guided).toContain("Chat with the AI assistant instead");
+  it("when the AI is unavailable the panel shows the honest message with the team email", () => {
+    const ai = read("components/AiChat.tsx");
+    expect(ai).toContain("aiConfigured");
+    expect(ai).toContain("sales@haciensolutions.com");
+    expect(ai).toContain("UNAVAILABLE_TEXT");
+    const floating = read("components/FloatingChat.tsx");
+    expect(floating).toContain("aiConfigured={aiConfigured}");
   });
 });
 
@@ -696,10 +704,12 @@ describe("AI chat document UI wiring", () => {
     expect(ai).toContain("Yes, that&rsquo;s my company");
   });
 
-  it("starts lowered and centered like the Tourly chat, gliding up on the first message", () => {
+  it("opens on the Tourly email start: centered, email first, pinned as the first message", () => {
     const ai = read("components/AiChat.tsx");
     expect(ai).toContain("const started = messages.length > 0");
-    expect(ai).toContain("pt-[9vh]");
-    expect(ai).toContain("transition-[padding] duration-500");
+    expect(ai).toContain("submitEmail");
+    expect(ai).toContain("sticky top-0");
+    expect(ai).toContain("pinnedEmail");
+    expect(ai).not.toContain("pt-[9vh]");
   });
 });

@@ -9,7 +9,7 @@ import { emailDomain, isFreeMailDomain } from "@/lib/ai/company-lookup";
 import { AI_DOCUMENT_ACCEPT, validateAiDocument } from "@/lib/ai/document";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
 import { replyTime } from "@/data/companyContact";
-import { AgentMessage, MessageComposer, UserBubble } from "@/components/GuidedChat";
+import { AgentMessage, MessageComposer, UserBubble } from "@/components/ChatBubbles";
 import { TurnstileField } from "@/components/TurnstileField";
 import { getChatPath } from "@/lib/guided-chat/steps";
 import {
@@ -21,16 +21,22 @@ import {
 } from "@/lib/guided-chat/payloads";
 import type { AiChatPath } from "@/lib/ai/intake";
 
-/** The AI conversation for the website chat panel.
+/** The AI conversation for the website chat panel — its only mode
+ *  (owner decision, 2026-11-08: the guided questions were removed).
  *
- * The assistant answers questions and collects the same intake fields
- * the guided steps collect (see lib/ai/intake). When the intake is
- * complete, the visitor checks the SAME review card the guided chat
- * shows and the request is submitted through the SAME sendInquiryEmail
- * action — same Gateway record, reference number, and emails.
+ *  The panel opens on a Tourly-style start: one centered question —
+ *  the visitor's work email — with one input. The email becomes the
+ *  first message of the thread, pinned at its top, and everything
+ *  after is messaging. The assistant answers questions and collects
+ *  the intake fields (see lib/ai/intake). When the intake is
+ *  complete, the visitor checks the review card and the request is
+ *  submitted through sendInquiryEmail — the same Gateway record,
+ *  reference number, and emails as every other path.
  *
- * Failure is a mode switch, never a dead end: no API key, the daily
- * cap, or an API error hands the visitor to the guided questions.
+ *  Failure is stated honestly in the thread, never hidden: no API
+ *  key shows the unavailable message with the team's email address;
+ *  an API error or the conversation cap tells the visitor to retry,
+ *  start over, or email the team.
  */
 
 const MIN_SUBMIT_TIME_MS = 3000;
@@ -51,8 +57,18 @@ const SUCCESS_TITLES: Record<AiChatPath, string> = {
   callback: "Callback request received",
 };
 
-const GREETING =
-  "Hi, I'm the HACIEN AI assistant. Ask me about what we supply, delivery, or how quoting works — or just tell me what you need and I'll prepare your request. A real person from the HACIEN team reads every submitted request.";
+/** The Tourly-style start: one question, one input, centered. The
+ *  email is the first thing the assistant works with — it keys the
+ *  company lookup and the eventual request. */
+const START_TITLE = "Let's get started.";
+const START_TEXT =
+  "I'm the HACIEN AI assistant. Start with your work email, and I'll take it from there — a quotation, a question, or a follow-up on an earlier request. A real person from the HACIEN team reads every submitted request.";
+
+/** Mirrors the plausible-email check the server runs (lib/ai/intake). */
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+const UNAVAILABLE_TEXT =
+  "The AI assistant isn't available right now — sorry about that. Email us at sales@haciensolutions.com and we'll take your request from there. We reply within 1 business day.";
 
 /** Staged progress for work the chat does between messages — the
  *  same honest staging as the guided chat's processing view: the
@@ -132,14 +148,13 @@ type ChatMessage = {
 
 export function AiChat({
   turnstileSiteKey,
-  onUseGuided,
-  onUnavailable,
+  aiConfigured,
 }: {
   turnstileSiteKey: string;
-  /** Switch the panel to the guided questions. */
-  onUseGuided: () => void;
-  /** The AI is not configured at all — the panel should stop offering it. */
-  onUnavailable: () => void;
+  /** Whether the server has an AI key (a boolean only, never the key).
+   *  When false, the panel shows the unavailable message instead of
+   *  the start screen. */
+  aiConfigured: boolean;
 }) {
   const { requirements, clearRequirements } = useQuoteCart();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -166,6 +181,15 @@ export function AiChat({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [companyLookup, setCompanyLookup] = useState<CompanyLookupState>({ status: "idle" });
   const lookupAttemptedFor = useRef<string | null>(null);
+  /** Tourly start state: the email is collected on the centered start
+   *  screen before the thread begins, then pinned as its first
+   *  message and kept in the intake fields from the first turn. */
+  const [emailDraft, setEmailDraft] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [pinnedEmail, setPinnedEmail] = useState("");
+  /** The server reported the AI unconfigured mid-conversation. */
+  const [runtimeUnavailable, setRuntimeUnavailable] = useState(false);
+  const unavailable = !aiConfigured || runtimeUnavailable;
 
   /** Stage one file for the next message. The same validation runs
    *  again on the server — this check is only for fast feedback. */
@@ -226,6 +250,10 @@ export function AiChat({
     setReadingDocument(false);
     setCompanyLookup({ status: "idle" });
     lookupAttemptedFor.current = null;
+    setEmailDraft("");
+    setEmailError("");
+    setPinnedEmail("");
+    setRuntimeUnavailable(false);
   }
 
   /** After a quote turn collects a work email but no company yet,
@@ -326,6 +354,9 @@ export function AiChat({
     setReadingDocument(Boolean(file));
     const turnStartedAt = Date.now();
     const apiMessages = history.map((message) => ({ role: message.role, content: message.text }));
+    const baseFields = fieldsOverride ?? fields;
+    const turnFields: GuidedChatAnswers =
+      pinnedEmail && !baseFields.email ? { ...baseFields, email: pinnedEmail } : baseFields;
     let result;
     if (file) {
       const formData = new FormData();
@@ -335,7 +366,7 @@ export function AiChat({
         JSON.stringify({
           messages: apiMessages,
           path,
-          fields: fieldsOverride ?? fields,
+          fields: turnFields,
           turnstileToken,
           gatePass,
         }),
@@ -345,7 +376,7 @@ export function AiChat({
       result = await sendAiChatMessage({
         messages: apiMessages,
         path,
-        fields: fieldsOverride ?? fields,
+        fields: turnFields,
         turnstileToken,
         gatePass,
       });
@@ -371,23 +402,18 @@ export function AiChat({
 
     if (!result.ok) {
       if (result.reason === "not-configured") {
-        onUnavailable();
-        setNotice(
-          "The AI assistant isn't available right now. The guided questions take your request the same way.",
-        );
+        setRuntimeUnavailable(true);
       } else if (result.reason === "verification-failed") {
         setTurnstileResetSignal((value) => value + 1);
         setTurnstileToken("");
-        setNotice(
-          "We couldn't complete the security check. Please press send again, or switch to the guided questions.",
-        );
+        setNotice("We couldn't complete the security check. Please press send again.");
       } else if (result.reason === "turn-limit") {
         setNotice(
-          "This conversation has gone quite long. You can start over, or switch to the guided questions to send your request.",
+          "This conversation has gone quite long. If your request is complete, its summary is ready above — or you can start over, or email sales@haciensolutions.com and we'll take it from there.",
         );
       } else {
         setNotice(
-          "I'm having trouble answering right now. You can retry, or switch to the guided questions.",
+          "I'm having trouble answering right now. Please try sending that again — or email sales@haciensolutions.com.",
         );
       }
       return;
@@ -395,9 +421,35 @@ export function AiChat({
 
     setMessages([...history, { role: "assistant", text: result.turn.reply }]);
     setPath(result.turn.path);
-    setFields(result.turn.fields);
+    setFields(
+      pinnedEmail && !result.turn.fields.email
+        ? { ...result.turn.fields, email: pinnedEmail }
+        : result.turn.fields,
+    );
     setReadyToReview(result.turn.readyToReview);
     void maybeLookupCompany(result.turn, [...history, { role: "assistant", text: result.turn.reply }]);
+  }
+
+  /** The Tourly start's one action: validate the email, hold for the
+   *  security check if it is still running, then open the thread with
+   *  the email as its first (pinned) message and let the AI reply. */
+  function submitEmail() {
+    const email = emailDraft.trim();
+    if (!EMAIL_PATTERN.test(email)) {
+      setEmailError("That email doesn't look complete — check it and try again.");
+      return;
+    }
+    setEmailError("");
+    if (!gatePass && turnstileSiteKey && !turnstileToken) {
+      setNotice(
+        "One moment — completing the security check. If a \u2018Verify you are human\u2019 box appears below, tick it, then press Go again.",
+      );
+      return;
+    }
+    setNotice("");
+    setPinnedEmail(email);
+    setFields({ email });
+    void send(email, { email });
   }
 
   async function handleConfirm(event: React.FormEvent<HTMLFormElement>) {
@@ -448,9 +500,9 @@ export function AiChat({
 
   const reviewSteps = path ? getChatPath(path).steps : [];
   // `started` (above) drives the Tourly-style start: before the first
-  // message the greeting + composer group sits lowered; on the first
-  // send the padding glides away and the conversation takes the full
-  // column, the composer settling under the messages like a chat app.
+  // message the panel shows the centered email start; once the email
+  // is sent, the thread takes over — the email pinned at its top and
+  // the composer settled under the messages like a chat app.
 
   return (
     <div
@@ -496,6 +548,17 @@ export function AiChat({
           </button>
         ) : null}
       </div>
+
+      {/* The one Turnstile widget for the whole panel, mounted from
+          the start: its first token gates the first AI turn (verified
+          on the server before the model is called), and a fresh token
+          from the same widget later gates the send. Interaction-only
+          appearance — invisible unless Cloudflare challenges. */}
+      <TurnstileField
+        siteKey={turnstileSiteKey}
+        resetSignal={turnstileResetSignal}
+        onTokenChange={setTurnstileToken}
+      />
 
       {submitStatus === "success" && path ? (
         <div className="mt-6 space-y-6">
@@ -544,12 +607,77 @@ export function AiChat({
             Try again
           </button>
         </div>
+      ) : unavailable && !started ? (
+        <div className="mt-6 space-y-6 pt-[6vh]">
+          <AgentMessage text={UNAVAILABLE_TEXT} />
+        </div>
+      ) : !started ? (
+        <div className="mt-6 space-y-6 pt-[6vh]">
+          <div className="text-center">
+            <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-blue text-base font-bold text-white" aria-hidden="true">
+              H
+            </div>
+            <h2 className="mt-4 text-2xl font-bold tracking-tight text-ink">{START_TITLE}</h2>
+            <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-grey-700">{START_TEXT}</p>
+          </div>
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              submitEmail();
+            }}
+            className="mx-auto max-w-md"
+          >
+            <div className="flex items-end gap-2 rounded-full border border-grey-200 bg-white p-2 shadow-sm focus-within:border-blue">
+              <label htmlFor="ai-chat-email" className="sr-only">
+                Work email
+              </label>
+              <input
+                id="ai-chat-email"
+                type="email"
+                autoComplete="email"
+                value={emailDraft}
+                onChange={(event) => setEmailDraft(event.currentTarget.value)}
+                placeholder="you@company.com"
+                className="min-h-11 min-w-0 flex-1 bg-transparent px-4 text-sm outline-none"
+              />
+              <button
+                type="submit"
+                className="button-glow min-h-11 shrink-0 cursor-pointer rounded-full bg-blue px-6 text-sm font-bold text-white hover:bg-blue-dark"
+              >
+                Go
+              </button>
+            </div>
+            {emailError ? (
+              <p className="mt-2 text-center text-sm font-semibold text-red-600" role="alert">
+                {emailError}
+              </p>
+            ) : null}
+          </form>
+          {notice ? <AgentMessage text={notice} /> : null}
+          {requirements.length > 0 ? (
+            <p className="text-center text-sm text-grey-700">
+              Your list of {requirements.length} item{requirements.length === 1 ? "" : "s"} from Products will be
+              attached to your request.
+            </p>
+          ) : null}
+          <p className="text-center text-xs leading-5 text-grey-600">
+            We look up your company from a work email — a personal email works too.
+          </p>
+        </div>
       ) : (
-        <div className={`mt-6 space-y-6 transition-[padding] duration-500 ${started ? "pt-0" : "pt-[9vh]"}`}>
-          <AgentMessage text={GREETING} />
+        <div className="mt-6 space-y-6">
           {messages.map((message, index) =>
             message.role === "user" ? (
-              <UserBubble key={index} value={message.text} />
+              index === 0 ? (
+                // The Tourly pin: the first answer (the email) stays
+                // at the top of the thread while the conversation
+                // scrolls under it.
+                <div key={index} className="sticky top-0 z-10 bg-white/95 pb-1 backdrop-blur-sm">
+                  <UserBubble value={message.text} />
+                </div>
+              ) : (
+                <UserBubble key={index} value={message.text} />
+              )
             ) : (
               <div key={index} className="space-y-2">
                 <AgentMessage text={message.text} />
@@ -599,32 +727,11 @@ export function AiChat({
             </div>
           ) : null}
 
-          {notice ? (
-            <div className="space-y-3">
-              <AgentMessage text={notice} />
-              <button
-                type="button"
-                onClick={onUseGuided}
-                className="ml-11 min-h-11 cursor-pointer rounded-full bg-blue px-6 py-3 text-sm font-bold text-white"
-              >
-                Use guided questions
-              </button>
-            </div>
-          ) : null}
+          {notice ? <AgentMessage text={notice} /> : null}
 
-          {/* The one Turnstile widget for the whole panel, mounted
-              from the start: its first token gates the first AI turn
-              (verified on the server before the model is called), and
-              a fresh token from the same widget later gates the send.
-              Interaction-only appearance — invisible unless Cloudflare
-              challenges this visitor. */}
-          <TurnstileField
-            siteKey={turnstileSiteKey}
-            resetSignal={turnstileResetSignal}
-            onTokenChange={setTurnstileToken}
-          />
-
-          {readyToReview && path && submitStatus !== "sending" ? (
+          {unavailable ? (
+            <AgentMessage text={UNAVAILABLE_TEXT} />
+          ) : readyToReview && path && submitStatus !== "sending" ? (
             <form onSubmit={handleConfirm} className="space-y-6">
               <div className="absolute -left-[9999px]" aria-hidden="true">
                 <label>
@@ -724,13 +831,6 @@ export function AiChat({
                   className="cursor-pointer text-sm font-bold text-blue hover:underline"
                 >
                   📎 Attach a document (BOQ, RFQ, or photo)
-                </button>
-                <button
-                  type="button"
-                  onClick={onUseGuided}
-                  className="cursor-pointer text-sm font-bold text-blue hover:underline"
-                >
-                  Prefer step-by-step questions?
                 </button>
               </div>
               <p className="text-xs text-grey-600">
