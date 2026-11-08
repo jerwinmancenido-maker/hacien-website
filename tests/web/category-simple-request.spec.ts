@@ -4,20 +4,20 @@ import { describe, expect, it } from "vitest";
 
 const read = (rel: string) => readFileSync(path.join(process.cwd(), rel), "utf8");
 
-// Owner decision (2026-11-08): category pages drop the simple
-// request box too — the chat takes the description, the detailed
-// builder stays for exact specs.
-describe("category pages: no simple request box — detailed builder optional", () => {
-  it("does not render the SimpleRequestBox", () => {
+// Owner decisions (2026-11-08): category pages drop the simple
+// request box and the detailed builder too — the chat takes the
+// description and the specifications.
+describe("category pages: no request forms — the chat is the front door", () => {
+  it("renders neither the SimpleRequestBox nor the RequirementBuilder", () => {
     const page = read("app/products/[category]/page.tsx");
     expect(page).not.toContain("SimpleRequestBox");
+    expect(page).not.toContain("RequirementBuilder");
+    expect(page).not.toContain("detailed builder");
   });
 
-  it("keeps the detailed builder, described against the chat", () => {
+  it("keeps the category content and procurement note", () => {
     const page = read("app/products/[category]/page.tsx");
-    expect(page).toContain("Need exact specs? Use the detailed builder");
-    expect(page).toContain("describing what you need in the chat is enough.");
-    expect(page).not.toContain("the simple request above");
-    expect(page).toContain("<RequirementBuilder");
+    expect(page).toContain("Procurement note:");
+    expect(page).toContain("ProductGrid");
   });
 });

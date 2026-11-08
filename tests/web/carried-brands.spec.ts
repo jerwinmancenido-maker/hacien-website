@@ -5,7 +5,6 @@ import path from "node:path";
 
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-import { requirementBuilderOptions } from "@/components/RequirementBuilder";
 import { brandPhrases, brandsLine, carriedBrands } from "@/data/companyContact";
 import { categories, products } from "@/data/products";
 import { solutions } from "@/data/solutions";
@@ -79,21 +78,14 @@ describe("carried brands", () => {
     expect(hits).toEqual([]);
   });
 
-  it("keeps HPE, Fortinet, and Synology out of the catalog and requirement options", () => {
+  it("keeps HPE, Fortinet, and Synology out of the catalog", () => {
     const catalog = withoutAllowances(JSON.stringify({ categories, products, solutions }));
-    const options = withoutAllowances(requirementBuilderOptions().join("\n"));
 
     for (const brand of removedBrands) {
       expect(brandPattern(brand).test(catalog), brand).toBe(false);
-      expect(brandPattern(brand).test(options), brand).toBe(false);
     }
 
-    expect(/microsoft\s*365/i.test(`${catalog}\n${options}`)).toBe(false);
-
-    for (const option of requirementBuilderOptions()) {
-      const spelled = carriedBrands.find((brand) => brand.toLowerCase() === option.toLowerCase());
-      if (spelled) expect(option).toBe(spelled);
-    }
+    expect(/microsoft\s*365/i.test(catalog)).toBe(false);
   });
 
 });

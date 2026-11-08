@@ -279,7 +279,7 @@ const cmsInventorySeeds: CmsInventorySeed[] = [
     label: "Homepage sections",
     route: "/",
     ownerType: "cms",
-    currentSource: "app/page.tsx, components/HomeV3Sections.tsx, components/RequirementBuilder.tsx",
+    currentSource: "app/page.tsx, components/HomeV3Sections.tsx",
     editableNow: true,
     publishRisk: "medium",
     validationRequirements: ["claim-safety scan", "mobile density review", "route screenshot QA"],

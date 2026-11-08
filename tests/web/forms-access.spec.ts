@@ -73,14 +73,13 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
   describe("F17: Public form fields have tied labels and required fields marked", () => {
     const publicFormFiles = [
       "components/QuoteRequestForm.tsx",
-      "components/RequirementBuilder.tsx",
       "components/ClarificationReplyForm.tsx",
       "components/TrackReferenceLookup.tsx",
       "components/FaqSearch.tsx",
       "app/search/page.tsx",
     ];
 
-    it("all 6 public form files exist and use React useId or static id tied to label htmlFor", () => {
+    it("all 5 public form files exist and use React useId or static id tied to label htmlFor", () => {
       for (const relativePath of publicFormFiles) {
         const content = readFileSync(path.join(ROOT, relativePath), "utf8");
         expect(content).toMatch(/htmlFor=/);
@@ -113,16 +112,6 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
       expect(form).toMatch(/<label[^>]*htmlFor=[^>]*>\s*Email/);
     });
 
-    it("verifies RequirementBuilder has tied labels with unique ids for all inputs and controls", () => {
-      const builder = readFileSync(path.join(ROOT, "components/RequirementBuilder.tsx"), "utf8");
-      expect(builder).toContain("useId");
-      expect(builder).toMatch(/htmlFor=\{`\$\{baseId\}-category`\}/);
-      expect(builder).toMatch(/htmlFor=\{`\$\{baseId\}-quantity`\}/);
-      expect(builder).toMatch(/htmlFor=\{`\$\{baseId\}-brandPreference`\}/);
-      expect(builder).toMatch(/htmlFor=\{`\$\{baseId\}-equivalentAccepted`\}/);
-      expect(builder).toMatch(/htmlFor=\{fieldId\}/);
-      expect(builder).toMatch(/id=\{id\}/);
-    });
 
     it("verifies ClarificationReplyForm has tied label and aria-required", () => {
       const form = readFileSync(path.join(ROOT, "components/ClarificationReplyForm.tsx"), "utf8");
@@ -160,19 +149,6 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
     });
 
     it("asserts form controls in these components keep w-full", () => {
-      // RequirementBuilder: FieldControl and other form controls keep w-full
-      const builder = readFileSync(path.join(ROOT, "components/RequirementBuilder.tsx"), "utf8");
-      expect(builder).toMatch(/function FieldControl[\s\S]*?<textarea[\s\S]*?className="[^"]*w-full/);
-      expect(builder).toMatch(/function FieldControl[\s\S]*?<select[\s\S]*?className="[^"]*w-full/);
-      expect(builder).toMatch(/function FieldControl[\s\S]*?<input[\s\S]*?className="[^"]*w-full/);
-      expect(builder).toMatch(/id=\{`\$\{baseId\}-category`\}[\s\S]*?className="[^"]*w-full/);
-      expect(builder).toMatch(/id=\{`\$\{baseId\}-quantity`\}[\s\S]*?className="[^"]*w-full/);
-      expect(builder).toMatch(/id=\{`\$\{baseId\}-brandPreference`\}[\s\S]*?className="[^"]*w-full/);
-      expect(builder).toMatch(/id=\{`\$\{baseId\}-equivalentAccepted`\}[\s\S]*?className="[^"]*w-full/);
-      expect(builder).toMatch(/id=\{`\$\{baseId\}-deadline`\}[\s\S]*?className="[^"]*w-full/);
-      expect(builder).toMatch(/id=\{`\$\{baseId\}-deliveryLocation`\}[\s\S]*?className="[^"]*w-full/);
-      expect(builder).toMatch(/id=\{`\$\{baseId\}-notes`\}[\s\S]*?className="[^"]*w-full/);
-
       // QuoteRequestForm
       const quoteForm = readFileSync(path.join(ROOT, "components/QuoteRequestForm.tsx"), "utf8");
       expect(quoteForm).toMatch(/name="requirementType"[\s\S]*?className="[^"]*w-full/);

@@ -9,7 +9,6 @@ import {
 } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { ProductGrid } from "@/components/ProductGrid";
-import { RequirementBuilder } from "@/components/RequirementBuilder";
 import { categories } from "@/data/products";
 import { listErpCatalog } from "@/lib/erp/ecommerce-client";
 import { erpCatalogToWebsiteProducts } from "@/lib/erp/catalog-products";
@@ -86,17 +85,6 @@ export default async function ProductsPage() {
               </div>
             </div>
           ) : null}
-          <details className="rounded-lg border border-slate-200 bg-white p-5 sm:p-6">
-            <summary className="cursor-pointer text-base font-bold text-slate-950">
-              Need exact specs? Use the detailed builder
-            </summary>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              Only use this if you want to specify every field. Most requests do not need it — describing what you need in the chat is enough.
-            </p>
-            <div className="mt-5">
-              <RequirementBuilder initialCategory="computers-laptops" />
-            </div>
-          </details>
         </div>
       </section>
 
