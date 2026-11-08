@@ -29,7 +29,7 @@ describe("content bundle: no registration details, plain buying copy", () => {
     expect(read("app/products/page.tsx")).toContain("Every order is checked fresh");
     expect(read("app/products/page.tsx")).not.toContain("guarantee stock");
     const warranty = read("app/policies/_lib/content.ts");
-    expect(warranty).toContain("request a callback through the contact form");
+    expect(warranty).toContain("request a callback through the chat on the [Contact page](/contact)");
     expect(warranty).not.toContain("by phone or Viber");
   });
 });

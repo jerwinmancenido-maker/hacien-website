@@ -63,7 +63,12 @@ describe("legal page content", () => {
     for (const page of legalPages) {
       expect(page.versionLine).not.toContain("November 1, 2026");
       expect(legalPagePlainText(page)).not.toContain("November 1, 2026");
-      if (page.path === "/privacy" || page.path === "/terms") {
+      if (page.path === "/policies") {
+        // The policies hub is an index, not a document: it carries no
+        // version line date and no Effective meta of its own.
+        expect(page.versionLine).not.toContain("Version");
+        expect(page.meta.find((item) => item.label === "Effective")).toBeUndefined();
+      } else if (page.path === "/privacy" || page.path === "/terms") {
         // The AI-chat update (Privacy v2.4, Terms v2.1) carries its own
         // effective date; the other documents keep the shared date.
         expect(page.versionLine).toContain("November 8, 2026");
@@ -478,7 +483,7 @@ describe("legal routes", () => {
       const html = await response.text();
       expect(response.status, page.path).toBe(200);
       expect(html).toContain(`<title>${renderedTitle(page)}</title>`);
-      expect(html).toContain(LEGAL_PUBLISH_DATE);
+      if (page.path !== "/policies") expect(html).toContain(LEGAL_PUBLISH_DATE);
       expect(html).not.toContain("cinematic-aurora");
       for (const phrase of analyticsBlockPhrases) {
         expect(html, page.path).not.toContain(phrase);

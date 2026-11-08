@@ -36,14 +36,10 @@ export const policiesPage: LegalPageModel = {
   eyebrow: "Policies",
   title: "HACIEN Policies",
   description: "These are the terms and policies that apply to your order and your information.",
-  versionLine: `Version 1.0 · Effective ${published} · Last reviewed ${published}`,
+  versionLine: "Every document's current version is listed in the table below.",
   historyLink: false,
   showContents: false,
-  meta: [
-    { label: "Version", value: "1.0" },
-    { label: "Effective", value: published },
-    { label: "Last reviewed", value: published },
-  ],
+  meta: [],
   intro: [
     p("You probably scanned the QR code on a HACIEN quotation or delivery sheet."),
     p("These are the terms and policies that apply to your order and your information."),
@@ -73,7 +69,7 @@ export const policiesPage: LegalPageModel = {
     p("**Which version applies to my order?**"),
     p("The version printed on your quotation applies. If none is printed, the version in effect on the date of your quotation applies. Older versions stay at [Policy history](/policies/history)."),
     p("**Questions?**"),
-    p("Email sales@haciensolutions.com or use the [contact form](/contact). Mention your quotation, Delivery Receipt or Sales Invoice number."),
+    p("Email sales@haciensolutions.com, or message us through the chat on the [Contact page](/contact). Mention your quotation, Delivery Receipt or Sales Invoice number."),
   ],
   sections: [],
 };
@@ -124,7 +120,7 @@ export const privacyPage: LegalPageModel = {
       blocks: [
         p("Personal data about:"),
         ul([
-          "**Website visitors**, including anyone who uses our contact, support, quotation (RFQ) or tracking forms, or the document tool on the Help page;",
+          "**Website visitors**, including anyone who uses our chat (for contact, support or a quotation), our request-tracking lookup, or the document reader in the chat;",
           "**Customers**: people who buy from us or act for a buying company or government office, such as owners, buyers, accounting staff and receivers;",
           "**Suppliers**: people who sell to us or act for a supplier or brand;",
           "**Delivery receivers and site contacts** named in an order.",
@@ -202,7 +198,7 @@ export const privacyPage: LegalPageModel = {
           ],
         },
         p("Some tax details of individuals may be **sensitive personal information** under the law. We protect them with the extra limits in sections 6 and 11."),
-        p("Please don't send government IDs, tax papers, card numbers or passwords through the website forms. If we need a document for your order, we will ask for it and tell you how to send it."),
+        p("Please don't send government IDs, tax papers, card numbers or passwords through the chat. If we need a document for your order, we will ask for it and tell you how to send it."),
       ],
     },
     {
@@ -257,7 +253,7 @@ export const privacyPage: LegalPageModel = {
               "Chat messages; contact and request details given in the chat",
               "Legitimate interest to answer visitor questions (Sec. 12(f)), and taking steps at your request before a contract when you prepare a quotation request, inquiry, or callback (Sec. 12(b))",
             ],
-            ["Keep the website and forms secure", "Website and security data", "Legitimate interest"],
+            ["Keep the website and the chat secure", "Website and security data", "Legitimate interest"],
           ],
         },
         p("**Marketing email is your choice.** Saying no, or unsubscribing later, does not affect your quotation or order. You will still get the order texts and emails needed to complete your order, and the BIR documents we must issue. Unsubscribing stops bulk marketing emails immediately when you click the unsubscribe link in any marketing email, or within 3 business days if you request it by emailing privacy@haciensolutions.com."),
@@ -394,7 +390,7 @@ export const privacyPage: LegalPageModel = {
         ul([
           "**Cookies:** we do not use advertising cookies. We use Google Analytics cookies only if you click Accept in our cookie notice. Until then, and if you click Decline, Google Analytics stays off.",
           "**Google Analytics:** it shows us pages viewed, device and browser type, approximate location (city or country), and how visitors reached our site. Google Analytics 4 does not log or store IP addresses. We keep this data for 2 months. Advertising features and Google signals are turned off. To withdraw consent, click **Cookie settings** in the footer and choose Decline, or clear your browser's cookies for our site.",
-          "**Cloudflare bot check:** our contact, support and quote forms use Cloudflare Turnstile to stop spam. Cloudflare handles technical data for this under its own privacy policy (https://www.cloudflare.com/privacypolicy/).",
+          "**Cloudflare bot check:** the chat and the request-tracking lookup use Cloudflare Turnstile to stop spam. Cloudflare handles technical data for this under its own privacy policy (https://www.cloudflare.com/privacypolicy/).",
           "**Browser storage:** your RFQ list on our Products pages is saved in your own browser. It is not sent to us until you submit the form. You can clear it by clearing your browser's site data.",
           "**Document tool (Help page):** files you check with this tool are checked in memory on our web server for file type, size (up to 10 MB) and file name only. No outside or AI service reads them, they are not stored after the check finishes, and the tool does not create an official record.",
           "**AI assistant:** our website chat is assisted by an AI service (Anthropic). The messages you type are sent to that service so it can reply, and are handled under its commercial privacy and data processing terms. Under Anthropic's commercial API terms, chat messages sent through our website are **not** used to train AI models. Please do not send passwords, card numbers, government IDs or tax papers through the chat — we will never ask for them there.",
@@ -458,7 +454,7 @@ export const privacyPage: LegalPageModel = {
       title: "11. How we protect it",
       blocks: [
         ul([
-          "Encrypted (HTTPS) connections on our website and forms;",
+          "Encrypted (HTTPS) connections on our website;",
           "Two-step login on our accounts;",
           "Regular backups;",
           "Paper files kept in a locked cabinet;",
@@ -486,7 +482,7 @@ export const privacyPage: LegalPageModel = {
         p("**How to make a privacy request:**"),
         ul([
           "Email **privacy@haciensolutions.com**, addressed to The Proprietor (Data Protection Officer); or",
-          'Use the [contact form](/contact) and choose **"Privacy request"**; or',
+          'Message us through the chat on the [Contact page](/contact) and say it is a **privacy request**; or',
           "Write to The Proprietor at the office address in section 1.",
         ]),
         p("We may ask you to prove who you are before acting on a request. We will confirm we received your request within **5 business days** and resolve it within **15 to 30 days**, depending on the request."),
@@ -537,7 +533,7 @@ export const termsPage: LegalPageModel = {
           "This website helps you learn about HACIEN and send inquiries and requests for quotation (RFQs).",
           "Nothing on the website is a price, offer or promise. Prices and terms are only in our written quotation.",
           "Buying from HACIEN is covered by our [Terms of Sale](/terms-of-sale).",
-          "Please use the site and forms honestly.",
+          "Please use the site honestly.",
           "The website chat is assisted by AI. Its answers are guidance only — prices and terms are only in our written quotation.",
         ]),
       ],
@@ -578,7 +574,7 @@ export const termsPage: LegalPageModel = {
     {
       title: "6. Your responsibilities",
       blocks: [
-        p("When you use our forms, please:"),
+        p("When you use the chat or the tracking lookup, please:"),
         ul([
           "give true and complete details;",
           "upload only files you may share and that relate to your request;",
@@ -896,7 +892,7 @@ export const warrantyPage: LegalPageModel = {
       blocks: [
         ol([
           {
-            text: "**Contact us** by email (sales@haciensolutions.com), or request a callback through the contact form, with:",
+            text: "**Contact us** by email (sales@haciensolutions.com), or request a callback through the chat on the [Contact page](/contact), with:",
             bullets: [
               "your Sales Invoice or DR number, or your warranty card;",
               "the product model and serial number;",
