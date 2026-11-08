@@ -10,7 +10,6 @@ import {
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { ProductGrid } from "@/components/ProductGrid";
 import { RequirementBuilder } from "@/components/RequirementBuilder";
-import { SimpleRequestBox } from "@/components/SimpleRequestBox";
 import { categories } from "@/data/products";
 import { listErpCatalog } from "@/lib/erp/ecommerce-client";
 import { erpCatalogToWebsiteProducts } from "@/lib/erp/catalog-products";
@@ -59,21 +58,15 @@ export default async function ProductsPage() {
         title="Tell us what you need."
         description="Describe it in your own words, or attach a list. HACIEN checks suppliers and sends a quotation within 1 business day."
         image="workstation"
-        primaryAction={{ href: "#simple-request", label: "Send a Request" }}
+        primaryAction={{ href: "/quote", label: "Request a Quote" }}
         secondaryAction={{ href: "/technology", label: "Explore Technology" }}
         highlights={[
-          { label: "One simple request", text: "Describe what you need in your own words — no package to build." },
+          { label: "In your own words", text: "Describe what you need in the chat — no forms, no package to build." },
           { label: "Optional Brands", text: "Choose a preference or keep HACIEN flexible." },
           { label: "Files Welcome", text: "Attach BOQ, specs, images, Excel, or PDF." },
           { label: "Not Listed", text: "Describe the need even when no category fits." },
         ]}
       />
-
-      <section id="simple-request" className="scroll-mt-24 px-4 py-9 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <SimpleRequestBox />
-        </div>
-      </section>
 
       <section className="bg-slate-50 px-4 py-9 sm:px-6 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-7xl">
@@ -98,7 +91,7 @@ export default async function ProductsPage() {
               Need exact specs? Use the detailed builder
             </summary>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              Only use this if you want to specify every field. Most requests do not need it — the simple request above is enough.
+              Only use this if you want to specify every field. Most requests do not need it — describing what you need in the chat is enough.
             </p>
             <div className="mt-5">
               <RequirementBuilder initialCategory="computers-laptops" />
