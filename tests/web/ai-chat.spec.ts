@@ -867,7 +867,7 @@ describe("AI chat agreement gate + processing UI", () => {
     const ai = read("components/AiChat.tsx");
     expect(ai).toContain("setAcceptedAt(checked ? new Date().toISOString() : \"\")");
     expect(ai).toContain("agreementAcceptedAt: acceptedAt");
-    expect(ai).toContain('AGREEMENT_POLICY_VERSIONS = "terms:v2.1, privacy:v2.5"');
+    expect(ai).toContain('AGREEMENT_POLICY_VERSIONS = "terms:v2.1, privacy:v2.6"');
     const payloads = read("lib/guided-chat/payloads.ts");
     expect(payloads).toContain("agreementAcceptedAt");
     expect(payloads).toContain("agreementPolicyVersions");

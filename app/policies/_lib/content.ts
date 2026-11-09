@@ -1052,6 +1052,7 @@ export const policyHistoryPage: LegalPageModel = {
             ["Terms of Sale", "v1.1", "November 2, 2026"],
             ["Terms of Sale", "v1.0", "November 2, 2026"],
             ["Warranty and Returns", "v1.0", "November 2, 2026"],
+            ["Privacy Policy", "v2.5", privacyGateDate],
             ["Privacy Policy", "v2.4", "November 8, 2026"],
             ["Privacy Policy", "v2.3", "November 2, 2026"],
             ["Privacy Policy", "v2.2", "November 2, 2026"],

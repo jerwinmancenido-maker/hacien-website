@@ -31,7 +31,7 @@ import type { AiChatPath } from "@/lib/ai/intake";
  *  (owner decision, 2026-11-08: the guided questions were removed).
  *
  *  The panel opens on the agreement gate (owner + lawyer decision,
- *  2026-11-08, Privacy Policy v2.5): the visitor ticks the Terms of
+ *  2026-11-08, Privacy Policy v2.6): the visitor ticks the Terms of
  *  Use / Privacy Policy agreement and presses Continue — the bot
  *  check completes at that press — and only then does the Tourly-
  *  style start appear: one centered question — the visitor's work
@@ -105,9 +105,9 @@ const GATE_TEXT =
 const GATE_HELPER =
   "AI replies are for product guidance only and are not an official quotation. Please do not enter government IDs, tax papers, or passwords.";
 /** Policy versions recorded with the agreement (the lawyer's
- *  recording for Privacy Policy v2.5): the tick's ISO timestamp and
+ *  recording for Privacy Policy v2.6): the tick's ISO timestamp and
  *  this version string travel with the submitted request. */
-const AGREEMENT_POLICY_VERSIONS = "terms:v2.1, privacy:v2.5";
+const AGREEMENT_POLICY_VERSIONS = "terms:v2.1, privacy:v2.6";
 
 /** Mirrors the plausible-email check the server runs (lib/ai/intake). */
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -279,7 +279,7 @@ export function AiChat({
   const [emailDraft, setEmailDraft] = useState("");
   const [emailError, setEmailError] = useState("");
   const [pinnedEmail, setPinnedEmail] = useState("");
-  /** Pre-chat agreement gate (lawyer-approved, Privacy Policy v2.5):
+  /** Pre-chat agreement gate (lawyer-approved, Privacy Policy v2.6):
    *  the panel opens on the gate and the email step appears only
    *  after the agreement is ticked and Continue is pressed. The
    *  tick's timestamp is recorded and travels with the submission.
