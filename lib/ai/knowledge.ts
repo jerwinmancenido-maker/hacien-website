@@ -17,6 +17,7 @@ import {
   supplyItems,
 } from "@/data/companyContact";
 import { solutions } from "@/data/solutions";
+import { cataloguePromptLines } from "@/lib/ai/chat-catalogue";
 import { AI_INTAKE_FIELDS, AI_INTAKE_REQUIRED } from "@/lib/ai/intake";
 
 const FACTS = [
@@ -105,7 +106,11 @@ export function buildAiChatSystemPrompt(): string {
     "DOCUMENTS",
     DOCUMENT_RULES,
     "",
+    "CATALOGUE",
+    "These published profiles are the only items you may reference for a card. When your reply names one, add its id or slug to products as { \"ref\": \"<id or slug>\" }. Include a ref only when that item's exact name appears in reply. At most 3. You may set mention to a short phrase copied from reply. If you mention something that is not in this list, leave it out of products and do not invent a card. Never put a price, discount, stock level, or lead time in reply or in products.",
+    cataloguePromptLines(),
+    "",
     "OUTPUT FORMAT",
-    'Always answer by calling the "chat_turn" tool — never reply with plain text. Its fields: "reply" (what the visitor reads), "path" ("quote", "inquiry", "callback", or null when no intake is in progress), "fields" (every field collected so far), "readyToReview" (true only when all required fields for the path are collected).',
+    'Always answer by calling the "chat_turn" tool — never reply with plain text. Its fields: "reply" (what the visitor reads), "path" ("quote", "inquiry", "callback", or null when no intake is in progress), "fields" (every field collected so far), "readyToReview" (true only when all required fields for the path are collected), "products" (optional catalogue refs named in reply, or []).',
   ].join("\n");
 }

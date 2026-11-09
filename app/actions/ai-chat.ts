@@ -24,6 +24,8 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { headers } from "next/headers";
 import { Ratelimit } from "@upstash/ratelimit";
+import { catalogueEntriesFromErpItems, mergeChatCatalogue, staticChatCatalogue } from "@/lib/ai/chat-catalogue";
+import { resolveChatProductCards, type ChatProductRef } from "@/lib/ai/chat-product-cards";
 import { buildAiChatSystemPrompt } from "@/lib/ai/knowledge";
 import { screenAiReply } from "@/lib/ai/output-guard";
 import {
@@ -224,6 +226,24 @@ const CHAT_TURN_TOOL = {
         type: "boolean",
         description: "True only when all required fields for the path are collected.",
       },
+      products: {
+        type: "array",
+        maxItems: 8,
+        description:
+          "Catalogue items whose exact name appears in reply. Each ref is an id or slug. Omit, or pass [], when the reply names nothing in the catalogue. Never include a price, stock level, or lead time.",
+        items: {
+          type: "object",
+          additionalProperties: false,
+          properties: {
+            ref: { type: "string" },
+            mention: {
+              type: "string",
+              description: "Optional phrase copied verbatim from reply. No price, stock, or lead time.",
+            },
+          },
+          required: ["ref"],
+        },
+      },
     },
     required: ["reply", "path", "fields", "readyToReview"],
   },
@@ -402,9 +422,44 @@ async function runTurn(
   const screened = screenAiReply(turn.reply);
   if (screened.flagged) {
     console.warn("AI chat: reply replaced by the output guard.");
-    turn = { ...turn, reply: screened.text };
   }
-  return { ok: true, turn };
+  const reply = screened.text;
+  const cards = screened.flagged
+    ? []
+    : resolveChatProductCards(reply, turn.productRefs, await catalogueForRefs(turn.productRefs));
+  return {
+    ok: true,
+    turn: {
+      reply,
+      path: turn.path,
+      fields: turn.fields,
+      readyToReview: turn.readyToReview,
+      cards,
+      productRefs: [],
+    },
+  };
+}
+
+/** Static profiles first. ERP is consulted only for a ref those profiles
+ *  do not already answer, and a failure leaves the static list in place. */
+async function catalogueForRefs(refs: ChatProductRef[]) {
+  const base = staticChatCatalogue();
+  const unresolved = refs.some(
+    (item) =>
+      !base.some(
+        (entry) =>
+          entry.id.toLowerCase() === item.ref.toLowerCase() ||
+          entry.slug.toLowerCase() === item.ref.toLowerCase(),
+      ),
+  );
+  if (!unresolved) return base;
+  try {
+    const { listErpCatalog } = await import("@/lib/erp/ecommerce-client");
+    const catalog = await listErpCatalog();
+    return mergeChatCatalogue(base, catalogueEntriesFromErpItems(catalog.items));
+  } catch {
+    return base;
+  }
 }
 
 export async function sendAiChatMessage(input: {

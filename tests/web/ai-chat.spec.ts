@@ -2,7 +2,13 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+vi.mock("server-only", () => ({}));
+vi.mock("@/lib/erp/ecommerce-client", () => ({
+  listErpCatalog: vi.fn(async () => ({ items: [] })),
+}));
+
 import { sendAiChatDocument, sendAiChatMessage } from "@/app/actions/ai-chat";
+import { listErpCatalog } from "@/lib/erp/ecommerce-client";
 import { validateAiDocument } from "@/lib/ai/document";
 import { buildAiChatSystemPrompt } from "@/lib/ai/knowledge";
 import { AI_SAFE_REPLY, screenAiReply } from "@/lib/ai/output-guard";
@@ -528,6 +534,106 @@ describe("sendAiChatMessage guards", () => {
       expect(result.turn.path).toBe("quote");
       expect(result.turn.fields).toEqual({ need: "10 laptops" });
       expect(result.turn.readyToReview).toBe(false);
+      expect(result.turn.cards).toEqual([]);
+      expect(result.turn.productRefs).toEqual([]);
+    }
+  });
+
+  it("returns a catalogue card for a static ref and does not ask the ERP", async () => {
+    process.env.ANTHROPIC_API_KEY = "test-key";
+    vi.mocked(listErpCatalog).mockClear();
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        anthropicToolResponse({
+          reply: "Business Laptop Class can go on the quotation request.",
+          path: null,
+          fields: {},
+          readyToReview: false,
+          products: [{ ref: "HAC-LTP-001", mention: "quotation request" }],
+        }),
+      ),
+    );
+    const result = await sendAiChatMessage({
+      messages: [{ role: "user", content: "We need laptops" }],
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.turn.cards).toEqual([
+        { name: "Business Laptop Class", mention: "quotation request" },
+      ]);
+      expect(JSON.stringify(result.turn.cards)).not.toMatch(/price|stock|lead time/i);
+    }
+    expect(listErpCatalog).not.toHaveBeenCalled();
+  });
+
+  it("drops cards when the output guard replaces the reply", async () => {
+    process.env.ANTHROPIC_API_KEY = "test-key";
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        anthropicToolResponse({
+          reply: "Business Laptop Class is ₱1250.",
+          path: null,
+          fields: {},
+          readyToReview: false,
+          products: [{ ref: "HAC-LTP-001" }],
+        }),
+      ),
+    );
+    const result = await sendAiChatMessage({
+      messages: [{ role: "user", content: "How much is the laptop?" }],
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.turn.reply).toBe(AI_SAFE_REPLY);
+      expect(result.turn.cards).toEqual([]);
+    }
+  });
+
+  it("matches an ERP ref the static list does not know, without keeping its price", async () => {
+    process.env.ANTHROPIC_API_KEY = "test-key";
+    vi.mocked(listErpCatalog).mockResolvedValue({
+      items: [
+        {
+          id: "erp-9",
+          publicationId: "pub-9",
+          slug: "published-switch",
+          sku: "SW-1",
+          name: "Published Switch",
+          description: null,
+          category: "Network",
+          isAvailable: true,
+          purchaseMode: "rfq",
+          checkoutEnabled: false,
+          manualPaymentEnabled: false,
+          sandboxPaymentEnabled: false,
+          currency: "PHP",
+          price: 999,
+          image: null,
+          specs: null,
+        },
+      ],
+    });
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        anthropicToolResponse({
+          reply: "Published Switch can be part of the request.",
+          path: null,
+          fields: {},
+          readyToReview: false,
+          products: [{ ref: "published-switch", mention: "PHP 999" }],
+        }),
+      ),
+    );
+    const result = await sendAiChatMessage({
+      messages: [{ role: "user", content: "What about that switch?" }],
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.turn.cards).toEqual([{ name: "Published Switch" }]);
+      expect(result.turn.productRefs).toEqual([]);
     }
   });
 

@@ -12,10 +12,12 @@ import { replyTime } from "@/data/companyContact";
 import {
   AgentMessage,
   ChatChoiceBox,
+  ChatProductCards,
   MessageComposer,
   TypingAgentMessage,
   UserBubble,
 } from "@/components/ChatBubbles";
+import { cardsVisibleInReply, type ChatProductCard } from "@/lib/ai/chat-product-cards";
 import { TurnstileField } from "@/components/TurnstileField";
 import { CALLBACK_TIME_OPTIONS, getChatPath } from "@/lib/guided-chat/steps";
 import {
@@ -212,7 +214,22 @@ type ChatMessage = {
   role: "user" | "assistant";
   text: string;
   trackUrl?: string;
+  cards?: ChatProductCard[];
 };
+
+function restoreMessage(message: ChatMessage): ChatMessage {
+  const trackUrl = typeof message.trackUrl === "string" ? message.trackUrl : undefined;
+  if (message.role !== "assistant") {
+    return { role: message.role, text: message.text, ...(trackUrl ? { trackUrl } : {}) };
+  }
+  const cards = cardsVisibleInReply(message.text, message.cards);
+  return {
+    role: "assistant",
+    text: message.text,
+    ...(trackUrl ? { trackUrl } : {}),
+    ...(cards.length > 0 ? { cards } : {}),
+  };
+}
 
 export function AiChat({
   turnstileSiteKey,
@@ -412,7 +429,7 @@ export function AiChat({
           if (parsed.v === 2 && parsed.agreedVersions === AGREEMENT_POLICY_VERSIONS) {
             snapshot = {
               v: 2,
-              messages: parsed.messages,
+              messages: parsed.messages.map((message) => restoreMessage(message)),
               fields: parsed.fields,
               path: parsed.path ?? null,
               readyToReview: Boolean(parsed.readyToReview),
@@ -742,7 +759,14 @@ export function AiChat({
       return;
     }
 
-    setMessages([...history, { role: "assistant", text: result.turn.reply }]);
+    const assistantText = result.turn.reply;
+    const cards = cardsVisibleInReply(assistantText, result.turn.cards);
+    const assistantMessage: ChatMessage = {
+      role: "assistant",
+      text: assistantText,
+      ...(cards.length > 0 ? { cards } : {}),
+    };
+    setMessages([...history, assistantMessage]);
     setTypingIndex(history.length);
     // The reply to a company confirmation carries the "what do you
     // need" choice box (owner design, 2026-11-09); a document turn's
@@ -769,7 +793,7 @@ export function AiChat({
       reviewRefreshRef.current = true;
       setTurnstileResetSignal((value) => value + 1);
     }
-    void maybeLookupCompany(result.turn, [...history, { role: "assistant", text: result.turn.reply }]);
+    void maybeLookupCompany(result.turn, [...history, assistantMessage]);
   }
 
   function toggleAgreed(checked: boolean) {
@@ -1191,6 +1215,14 @@ export function AiChat({
                     >
                       Open tracking page →
                     </Link>
+                  ) : null}
+                  {index !== typingIndex && message.cards && message.cards.length > 0 ? (
+                    <ChatProductCards
+                      cards={message.cards}
+                      tappedName={messages[index + 1]?.role === "user" ? messages[index + 1].text : undefined}
+                      disabled={sending}
+                      onPick={(name) => void send(name)}
+                    />
                   ) : null}
                 </div>
               ),
