@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { appendOtherCard } from "@/lib/ai/chat-product-cards";
+import { UNLISTED_HINT } from "@/lib/ai/chat-product-cards";
 import type { ChatStepKind } from "@/lib/guided-chat/steps";
 
 /** Shared chat building blocks for the AI chat panel: the agent's grey
@@ -268,9 +268,9 @@ export function ChatChoiceBox({ choices, caption }: { choices: ChatChoice[]; cap
   );
 }
 
-/** Cards for catalogue items in this reply, plus "Something else / not listed".
- *  A tap sends the label as the visitor's own message. The card has no
- *  price, stock, or lead time. */
+/** Catalogue cards for this reply. A tap sends the product name.
+ *  The hint under them is how a visitor names something that is not listed.
+ *  No price, stock, or lead time. */
 export function ChatProductCards({
   cards,
   tappedName,
@@ -282,11 +282,10 @@ export function ChatProductCards({
   disabled?: boolean;
   onPick: (name: string) => void;
 }) {
-  const rows = appendOtherCard(cards);
-  if (rows.length === 0) return null;
+  if (cards.length === 0) return null;
   return (
     <div role="group" aria-label="Products mentioned in this reply" className="ml-11 flex flex-col gap-2">
-      {rows.map((card) => {
+      {cards.map((card) => {
         const tapped = tappedName === card.name;
         return (
           <button
@@ -311,6 +310,7 @@ export function ChatProductCards({
           </button>
         );
       })}
+      <p className="px-1 text-sm leading-5 text-grey-600">{UNLISTED_HINT}</p>
     </div>
   );
 }

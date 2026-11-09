@@ -4,10 +4,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   CARD_LEAD_IN,
-  OTHER_CARD_LABEL,
-  OTHER_CARD_REPLY,
-  appendOtherCard,
+  UNLISTED_HINT,
   cardsVisibleInReply,
+  isTypedUnlistedItem,
   presentCatalogueTurn,
   replyAfterTappedProduct,
   resolveChatProductCards,
@@ -180,36 +179,33 @@ describe("sanitizeProductRefs", () => {
   });
 });
 
-describe("unlisted option card", () => {
-  it("adds Something else last, and only when a real catalogue card is shown", () => {
-    expect(appendOtherCard([])).toEqual([]);
-    const shown = appendOtherCard([
-      { name: "Business Laptop Class" },
-      { name: "Business Desktop and Monitor Bundle" },
-      { name: "APC, CyberPower, and Eaton UPS" },
-    ]);
-    expect(shown.map((card) => card.name)).toEqual([
-      "Business Laptop Class",
-      "Business Desktop and Monitor Bundle",
-      "APC, CyberPower, and Eaton UPS",
-      OTHER_CARD_LABEL,
-    ]);
-    expect(appendOtherCard(shown)).toEqual(shown);
-    expect(staticChatCatalogue().some((entry) => entry.name === OTHER_CARD_LABEL)).toBe(false);
-    expect(resolveChatProductCards([{ ref: "something-else" }], CATALOGUE)).toEqual([]);
+describe("typed unlisted item", () => {
+  it("treats free text under the cards as an unlisted item, and a card name as a tap", () => {
+    const shown = ["Business Laptop Class", "Business Desktop and Monitor Bundle"];
+    expect(isTypedUnlistedItem("Cisco Catalyst 9300, 4 units", shown)).toBe(true);
+    expect(isTypedUnlistedItem("  business laptop class  ", shown)).toBe(false);
+    expect(isTypedUnlistedItem("Cisco Catalyst 9300", [])).toBe(false);
+    expect(isTypedUnlistedItem("   ", shown)).toBe(false);
   });
 
-  it("uses Jerwin's reply and does not invent a price, stock, or lead time", () => {
-    expect(OTHER_CARD_REPLY).toBe(
-      "No problem, we can source it. Tell me the item, quantity and specs, or attach your RFQ / spec sheet.",
-    );
-    expect(OTHER_CARD_REPLY).not.toMatch(/price|stock|lead time|₱/i);
+  it("does not invent a card for the typed item, and the hint is not a product", () => {
+    const presented = presentCatalogueTurn({
+      reply: "Tell me the quantity and where it will sit.",
+      refs: [{ ref: "cisco-catalyst-9300" }],
+      catalogue: CATALOGUE,
+      userMessage: "Cisco Catalyst 9300, 4 units",
+    });
+    expect(presented.cards).toEqual([]);
+    expect(presented.reply).not.toBe(CARD_LEAD_IN);
+    expect(staticChatCatalogue().some((entry) => entry.name === UNLISTED_HINT)).toBe(false);
+    expect(UNLISTED_HINT).toBe("Not listed? Just type the item, or attach your RFQ.");
+    expect(UNLISTED_HINT).not.toMatch(/price|stock|lead time|₱/i);
   });
 
-  it("drops the escape label from stored cards so it is not treated as a product", () => {
+  it("keeps a removed escape label from coming back as a stored card", () => {
     const visible = cardsVisibleInReply(CARD_LEAD_IN, [
       { name: "Business Laptop Class" },
-      { name: OTHER_CARD_LABEL },
+      { name: "Something else / not listed" },
     ]);
     expect(visible).toEqual([{ name: "Business Laptop Class" }]);
   });
@@ -257,8 +253,8 @@ describe("catalogue prompt and parser", () => {
     expect(prompt).toContain("do not invent a card");
     expect(prompt).toContain(CARD_LEAD_IN);
     expect(prompt).toContain("quantity, specs, or budget");
-    expect(prompt).toContain(OTHER_CARD_LABEL);
-    expect(prompt).toContain("do not invent a product");
+    expect(prompt).toContain("record that text as the quote need");
+    expect(prompt).not.toContain("Something else / not listed");
     expect(prompt).not.toContain("exact name appears in reply");
     expect(prompt).not.toMatch(/₱\s?\d/);
   });
@@ -284,18 +280,19 @@ describe("chat card wiring", () => {
   it("renders product cards from the reply and sends the product name", () => {
     const bubbles = readFileSync(join(process.cwd(), "components/ChatBubbles.tsx"), "utf8");
     const ai = readFileSync(join(process.cwd(), "components/AiChat.tsx"), "utf8");
-    expect(bubbles).toContain("appendOtherCard");
+    expect(bubbles).toContain("UNLISTED_HINT");
+    expect(bubbles).not.toContain("appendOtherCard");
+    expect(bubbles).not.toContain("Something else / not listed");
     expect(bubbles).toContain("export function ChatProductCards");
     expect(bubbles).toContain('aria-label="Products mentioned in this reply"');
     expect(bubbles).not.toContain("priceCents");
     expect(ai).toContain("ChatProductCards");
     expect(ai).toContain("cardsVisibleInReply");
-    expect(ai).toContain("if (name === OTHER_CARD_LABEL)");
-    expect(ai).toContain("function offerUnlistedItem");
-    expect(ai).toContain("OTHER_CARD_REPLY");
-    expect(ai).toContain('setPath("quote")');
+    expect(ai).toContain("isTypedUnlistedItem");
+    expect(ai).toContain('unlistedTyped ? "quote"');
     expect(ai).toContain("setUnlistedUpload(true)");
     expect(ai).toContain('label: "Attach a document or photo"');
-    expect(ai).not.toContain("send(OTHER_CARD_LABEL)");
+    expect(ai).toContain("onPick={(name) => void send(name)}");
+    expect(ai).not.toContain("Something else / not listed");
   });
 });

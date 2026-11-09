@@ -38,12 +38,8 @@ const MENTION_BLOCK =
 /** Shown instead of a name list when at least one card is real. */
 export const CARD_LEAD_IN = "Here are options we can quote. Tap one to start:";
 
-/** Not a catalogue item. Always last when real cards are shown. */
-export const OTHER_CARD_LABEL = "Something else / not listed";
-
-/** Jerwin's reply for that card. No price, stock, or lead time. */
-export const OTHER_CARD_REPLY =
-  "No problem, we can source it. Tell me the item, quantity and specs, or attach your RFQ / spec sheet.";
+/** Shown under the cards. Not a card and not a catalogue item. */
+export const UNLISTED_HINT = "Not listed? Just type the item, or attach your RFQ.";
 
 const USEFUL_FOLLOW_UP = /\b(how many|quantity|qty|specs?|budget)\b/i;
 
@@ -106,11 +102,11 @@ export function resolveChatProductCards(
   return cards;
 }
 
-/** Real catalogue cards, then the unlisted escape. No cards means no escape. */
-export function appendOtherCard(cards: ChatProductCard[]): ChatProductCard[] {
-  const real = cards.filter((card) => card.name !== OTHER_CARD_LABEL);
-  if (real.length === 0) return [];
-  return [...real, { name: OTHER_CARD_LABEL }];
+/** True when the visitor typed their own item instead of tapping a card. */
+export function isTypedUnlistedItem(text: string, shownCardNames: string[]): boolean {
+  const trimmed = text.trim();
+  if (!trimmed || shownCardNames.length === 0) return false;
+  return !shownCardNames.some((name) => norm(name) === norm(trimmed));
 }
 
 function catalogueNameMatch(value: string, catalogue: ChatCatalogueEntry[]): ChatCatalogueEntry | undefined {
@@ -164,7 +160,7 @@ export function cardsVisibleInReply(reply: string, cards: unknown): ChatProductC
     if (!card || typeof card !== "object") continue;
     const rawName = (card as { name?: unknown }).name;
     const name = typeof rawName === "string" ? rawName.trim().replace(/\s+/g, " ") : "";
-    if (!name || name === OTHER_CARD_LABEL) continue;
+    if (!name || name === "Something else / not listed") continue;
     const rawMention = (card as { mention?: unknown }).mention;
     const mention = mentionForReply(reply, name, typeof rawMention === "string" ? rawMention : undefined);
     visible.push(mention ? { name, mention } : { name });

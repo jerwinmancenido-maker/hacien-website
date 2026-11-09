@@ -605,6 +605,38 @@ describe("sendAiChatMessage guards", () => {
     }
   });
 
+  it("keeps a typed unlisted item as the quote need and does not invent a card", async () => {
+    process.env.ANTHROPIC_API_KEY = "test-key";
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        anthropicToolResponse({
+          reply: "Where should it be delivered?",
+          path: "quote",
+          fields: { need: "Cisco Catalyst 9300, 4 units" },
+          readyToReview: false,
+          products: [{ ref: "cisco-catalyst-9300" }],
+        }),
+      ),
+    );
+    const result = await sendAiChatMessage({
+      messages: [
+        { role: "assistant", content: CARD_LEAD_IN },
+        { role: "user", content: "Cisco Catalyst 9300, 4 units" },
+      ],
+      path: "quote",
+      fields: { need: "Cisco Catalyst 9300, 4 units" },
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.turn.path).toBe("quote");
+      expect(result.turn.fields.need).toBe("Cisco Catalyst 9300, 4 units");
+      expect(result.turn.cards).toEqual([]);
+      expect(result.turn.reply).toBe("Where should it be delivered?");
+      expect(result.turn.reply).not.toContain("Cisco Catalyst 9300");
+    }
+  });
+
   it("drops cards when the output guard replaces the reply", async () => {
     process.env.ANTHROPIC_API_KEY = "test-key";
     vi.stubGlobal(

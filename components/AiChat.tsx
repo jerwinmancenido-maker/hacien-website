@@ -17,7 +17,7 @@ import {
   TypingAgentMessage,
   UserBubble,
 } from "@/components/ChatBubbles";
-import { cardsVisibleInReply, OTHER_CARD_LABEL, OTHER_CARD_REPLY, type ChatProductCard } from "@/lib/ai/chat-product-cards";
+import { cardsVisibleInReply, isTypedUnlistedItem, type ChatProductCard } from "@/lib/ai/chat-product-cards";
 import { TurnstileField } from "@/components/TurnstileField";
 import { CALLBACK_TIME_OPTIONS, getChatPath } from "@/lib/guided-chat/steps";
 import {
@@ -283,7 +283,7 @@ export function AiChat({
    *  is not owed. The box renders only while that message is still
    *  the latest one, so any reply from the visitor retires it. */
   const [needBoxIndex, setNeedBoxIndex] = useState(-1);
-  /** After "Something else / not listed", keep the existing upload choices up. */
+  /** After a typed item that is not one of the cards, keep the upload choices up. */
   const [unlistedUpload, setUnlistedUpload] = useState(false);
   const needReplyRef = useRef(false);
   /** A document turn has landed and its extracted list is waiting
@@ -646,31 +646,6 @@ export function AiChat({
     void send("No, that's not my company.");
   }
 
-  function pickProductCard(name: string) {
-    if (name === OTHER_CARD_LABEL) {
-      offerUnlistedItem();
-      return;
-    }
-    void send(name);
-  }
-
-  /** Local turn: not a catalogue product, no model call, then the quote fields. */
-  function offerUnlistedItem() {
-    if (sending) return;
-    const next: ChatMessage[] = [
-      ...messages,
-      { role: "user", text: OTHER_CARD_LABEL },
-      { role: "assistant", text: OTHER_CARD_REPLY },
-    ];
-    setMessages(next);
-    setTypingIndex(next.length - 1);
-    setNeedBoxIndex(next.length - 1);
-    setUnlistedUpload(true);
-    setPath("quote");
-    setReadyToReview(false);
-    setNotice("");
-  }
-
   async function send(rawText: string, fieldsOverride?: GuidedChatAnswers) {
     const file = attachment;
     const text = rawText.trim() || (file ? "I've attached our requirements document — please read it." : "");
@@ -716,10 +691,19 @@ export function AiChat({
     setSending(true);
     setReadingDocument(Boolean(file));
     const turnStartedAt = Date.now();
+    const shownCards =
+      messages[messages.length - 1]?.role === "assistant"
+        ? (messages[messages.length - 1].cards ?? []).map((card) => card.name)
+        : [];
+    const unlistedTyped = isTypedUnlistedItem(text, shownCards);
+    if (unlistedTyped) setPath("quote");
     const apiMessages = history.map((message) => ({ role: message.role, content: message.text }));
     const baseFields = fieldsOverride ?? fields;
-    const turnFields: GuidedChatAnswers =
+    const withEmail: GuidedChatAnswers =
       pinnedEmail && !baseFields.email ? { ...baseFields, email: pinnedEmail } : baseFields;
+    const turnFields: GuidedChatAnswers =
+      unlistedTyped && !withEmail.need ? { ...withEmail, need: text } : withEmail;
+    const turnPath = unlistedTyped ? "quote" : path;
     let result;
     if (file) {
       const formData = new FormData();
@@ -728,7 +712,7 @@ export function AiChat({
         "payload",
         JSON.stringify({
           messages: apiMessages,
-          path,
+          path: turnPath,
           fields: turnFields,
           turnstileToken,
           gatePass,
@@ -738,7 +722,7 @@ export function AiChat({
     } else {
       result = await sendAiChatMessage({
         messages: apiMessages,
-        path,
+        path: turnPath,
         fields: turnFields,
         turnstileToken,
         gatePass,
@@ -805,12 +789,13 @@ export function AiChat({
       setNeedBoxIndex(history.length);
     }
     if (file) setDocConfirmPending(true);
-    setPath(result.turn.path);
-    setFields(
+    const returnedFields =
       pinnedEmail && !result.turn.fields.email
         ? { ...result.turn.fields, email: pinnedEmail }
-        : result.turn.fields,
-    );
+        : result.turn.fields;
+    setPath(unlistedTyped ? "quote" : result.turn.path);
+    setFields(unlistedTyped && !returnedFields.need ? { ...returnedFields, need: text } : returnedFields);
+    if (unlistedTyped && cards.length === 0) setUnlistedUpload(true);
     setReadyToReview(result.turn.readyToReview);
     // The review step's send needs its own fresh token (the gate
     // token was spent on the first turn) — ask the widget for it
@@ -1249,7 +1234,7 @@ export function AiChat({
                       cards={message.cards}
                       tappedName={messages[index + 1]?.role === "user" ? messages[index + 1].text : undefined}
                       disabled={sending}
-                      onPick={pickProductCard}
+                      onPick={(name) => void send(name)}
                     />
                   ) : null}
                 </div>
