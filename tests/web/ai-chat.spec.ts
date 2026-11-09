@@ -146,6 +146,26 @@ describe("AI chat panel wiring", () => {
     expect(field).toContain("Boolean(window.turnstile)");
   });
 
+  it("the gate's security wait is the chat's spinner row, escalating to the missing tick", () => {
+    const ai = read("components/AiChat.tsx");
+    const field = read("components/TurnstileField.tsx");
+    // While the agreement is ticked but the token is missing, the
+    // chat's one processing row carries the wait under Continue —
+    // not a frozen label inside the button.
+    const gateStart = ai.indexOf("{GATE_HELPER}");
+    const gateEnd = ai.indexOf('id="ai-chat-email"', gateStart);
+    const gateSection = ai.slice(gateStart, gateEnd);
+    expect(gateSection).toContain("<ProcessingRow");
+    expect(gateSection).toContain("Completing security check…");
+    // Past two seconds the label names the missing tick, and the
+    // field rings the challenge box — only while one is visible.
+    expect(gateSection).toContain("box above to continue");
+    expect(ai).toContain("setTimeout(() => setGateWaitLong(true), 2000)");
+    expect(ai).toContain("highlight={gateWaiting && gateWaitLong}");
+    expect(field).toContain("ResizeObserver");
+    expect(field).toContain("ring-blue");
+  });
+
   it("when the AI is unavailable the panel shows the honest message with the team email", () => {
     const ai = read("components/AiChat.tsx");
     expect(ai).toContain("aiConfigured");
@@ -793,9 +813,11 @@ describe("AI chat agreement gate + processing UI", () => {
     expect(ai).toContain(
       "AI replies are for product guidance only and are not an official quotation. Please do not enter government IDs, tax papers, or passwords.",
     );
-    // Continue holds for the bot-check token, then the gate passes.
+    // Continue stays disabled until the bot-check token exists —
+    // the old press-and-park wait read as a hang (owner, 2026-11-09).
     expect(ai).toContain("submitGate");
     expect(ai).toContain("gateWaiting");
+    expect(ai).toContain("disabled={!agreed || !gateTokenReady}");
     // The gate branch renders before the email start branch.
     expect(ai.indexOf("!gatePassed")).toBeLessThan(ai.indexOf('id="ai-chat-email"'));
   });

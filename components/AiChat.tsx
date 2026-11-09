@@ -238,7 +238,10 @@ export function AiChat({
   const [agreed, setAgreed] = useState(false);
   const [acceptedAt, setAcceptedAt] = useState("");
   const [gatePassed, setGatePassed] = useState(false);
-  const [gateWaiting, setGateWaiting] = useState(false);
+  /** The gate's security wait has run long (see the timer below):
+   *  the spinner row under Continue stops calling it a check in
+   *  progress and names the missing tick instead. */
+  const [gateWaitLong, setGateWaitLong] = useState(false);
   /** The server reported the AI unconfigured mid-conversation. */
   const [runtimeUnavailable, setRuntimeUnavailable] = useState(false);
   const unavailable = !aiConfigured || runtimeUnavailable;
@@ -263,6 +266,23 @@ export function AiChat({
 
   const turnstilePending = Boolean(turnstileSiteKey) && turnstileToken.length === 0;
   const started = messages.length > 0;
+
+  /** Both gate ticks are in when the agreement is ticked and the
+   *  security token exists (or no check is configured). Continue
+   *  stays disabled until then — the previous press-and-park wait
+   *  read as a hang (owner report, 2026-11-09: the button said the
+   *  check was "completing" while it actually waited for the
+   *  visitor's tick on the Cloudflare box). */
+  const gateTokenReady = !turnstileSiteKey || gatePass.length > 0 || turnstileToken.length > 0;
+  const gateWaiting = agreed && !gateTokenReady && !gatePassed;
+  // A short wait is the check loading silently; past two seconds it
+  // almost always means Cloudflare wants a tick, so the spinner
+  // row's label escalates to say so (and the field highlights it).
+  useEffect(() => {
+    if (!gateWaiting) return;
+    const timer = setTimeout(() => setGateWaitLong(true), 2000);
+    return () => clearTimeout(timer);
+  }, [gateWaiting]);
 
   // Keep the newest message in view: after every reply (and every
   // panel state change), scroll the chat panel's scroll area to the
@@ -523,34 +543,27 @@ export function AiChat({
 
   function toggleAgreed(checked: boolean) {
     setAgreed(checked);
+    setGateWaitLong(false);
     // The lawyer's recording: the ISO timestamp of the tick itself.
     setAcceptedAt(checked ? new Date().toISOString() : "");
   }
 
-  /** The gate's one action: with the agreement ticked, hold for the
-   *  security check if its token is not ready yet (the widget has
-   *  been loading since the panel opened, so this is normally
-   *  instant); once a token exists, the email step appears. The
-   *  server still verifies the token before the first AI turn —
-   *  this only sequences the screens. */
+  /** The gate's one action: it can only fire with both ticks in —
+   *  the agreement and the security token — because the button
+   *  stays disabled otherwise; there is no press-and-wait state.
+   *  The server still verifies the token before the first AI
+   *  turn — this only sequences the screens. */
   function submitGate() {
-    if (!agreed) return;
-    if (turnstileSiteKey && !gatePass && !turnstileToken) {
-      setGateWaiting(true);
-      return;
-    }
+    if (!agreed || !gateTokenReady) return;
     setGatePassed(true);
   }
 
-  /** The widget's token callback, wrapped: while the gate is
-   *  holding for the security check, the first token that arrives
-   *  passes the gate and the email step appears. */
+  /** The widget's token callback: a token arriving ends the
+   *  gate's security wait (Continue lights up); losing one (expiry,
+   *  error, reset) restarts the wait from the short form. */
   function handleTurnstileToken(token: string) {
     setTurnstileToken(token);
-    if (gateWaiting && token) {
-      setGateWaiting(false);
-      setGatePassed(true);
-    }
+    setGateWaitLong(false);
   }
 
   /** The Tourly start's one action: validate the email, hold for the
@@ -648,6 +661,7 @@ export function AiChat({
       siteKey={turnstileSiteKey}
       resetSignal={turnstileResetSignal}
       onTokenChange={handleTurnstileToken}
+      highlight={gateWaiting && gateWaitLong}
     />
   );
 
@@ -817,20 +831,29 @@ export function AiChat({
               <button
                 type="button"
                 onClick={submitGate}
-                disabled={!agreed || gateWaiting}
+                disabled={!agreed || !gateTokenReady}
                 className={
-                  agreed && !gateWaiting
+                  agreed && gateTokenReady
                     ? "button-glow mt-5 min-h-11 w-full cursor-pointer rounded-full bg-blue px-6 text-sm font-bold text-white hover:bg-blue-dark"
                     : "mt-5 min-h-11 w-full cursor-not-allowed rounded-full bg-grey-200 px-6 text-sm font-bold text-grey-600"
                 }
               >
-                {gateWaiting ? "Completing security check…" : "Continue"}
+                Continue
               </button>
               {gateWaiting ? (
-                <p className="mt-3 text-center text-sm text-grey-600">
-                  One moment — completing the security check. If a &lsquo;Verify you are human&rsquo; box appears
-                  above, tick it.
-                </p>
+                // The chat's own processing row carries the wait —
+                // one loading style for the whole panel. Past two
+                // seconds its label names the missing tick instead of
+                // calling the wait a check in progress.
+                <div className="mt-4">
+                  <ProcessingRow
+                    label={
+                      gateWaitLong
+                        ? "Tick the \u2018Verify you are human\u2019 box above to continue"
+                        : "Completing security check…"
+                    }
+                  />
+                </div>
               ) : null}
             </div>
           </div>
