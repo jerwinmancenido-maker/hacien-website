@@ -11,6 +11,7 @@ import { sendAiChatDocument, sendAiChatMessage } from "@/app/actions/ai-chat";
 import { listErpCatalog } from "@/lib/erp/ecommerce-client";
 import { validateAiDocument } from "@/lib/ai/document";
 import { buildAiChatSystemPrompt } from "@/lib/ai/knowledge";
+import { CARD_LEAD_IN, tappedProductQuestion } from "@/lib/ai/chat-product-cards";
 import { AI_SAFE_REPLY, screenAiReply } from "@/lib/ai/output-guard";
 import {
   intakeReady,
@@ -546,25 +547,62 @@ describe("sendAiChatMessage guards", () => {
       "fetch",
       vi.fn(async () =>
         anthropicToolResponse({
-          reply: "Business Laptop Class can go on the quotation request.",
+          reply: "We can include these: Business Laptop Class, Business Desktop and Monitor Bundle, and APC, CyberPower, and Eaton UPS.",
           path: null,
           fields: {},
           readyToReview: false,
-          products: [{ ref: "HAC-LTP-001", mention: "quotation request" }],
+          products: [
+            { ref: "HAC-LTP-001" },
+            { ref: "office-desktop-monitor-bundle" },
+            { ref: "HAC-PWR-001" },
+          ],
         }),
       ),
     );
     const result = await sendAiChatMessage({
-      messages: [{ role: "user", content: "We need laptops" }],
+      messages: [{ role: "user", content: "We need laptops, desktops, and a UPS for the new office." }],
     });
     expect(result.ok).toBe(true);
     if (result.ok) {
+      expect(result.turn.reply).toBe(CARD_LEAD_IN);
+      expect(result.turn.reply).not.toContain("Business Laptop Class");
       expect(result.turn.cards).toEqual([
-        { name: "Business Laptop Class", mention: "quotation request" },
+        { name: "Business Laptop Class" },
+        { name: "Business Desktop and Monitor Bundle" },
+        { name: "APC, CyberPower, and Eaton UPS" },
       ]);
       expect(JSON.stringify(result.turn.cards)).not.toMatch(/price|stock|lead time/i);
     }
     expect(listErpCatalog).not.toHaveBeenCalled();
+  });
+
+  it("after a tapped product, replaces an unrelated reply with a question about that product", async () => {
+    process.env.ANTHROPIC_API_KEY = "test-key";
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        anthropicToolResponse({
+          reply: "A Cisco Catalyst 9300 is not one of the published profiles I can show here.",
+          path: "quote",
+          fields: {},
+          readyToReview: false,
+          products: [{ ref: "cisco-firewall-options" }],
+        }),
+      ),
+    );
+    const result = await sendAiChatMessage({
+      messages: [
+        { role: "user", content: "We need laptops, desktops, and a UPS for the new office." },
+        { role: "assistant", content: CARD_LEAD_IN },
+        { role: "user", content: "Business Laptop Class" },
+      ],
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.turn.reply).toBe(tappedProductQuestion("Business Laptop Class"));
+      expect(result.turn.reply).not.toContain("Cisco");
+      expect(result.turn.cards).toEqual([]);
+    }
   });
 
   it("drops cards when the output guard replaces the reply", async () => {
@@ -632,6 +670,8 @@ describe("sendAiChatMessage guards", () => {
     });
     expect(result.ok).toBe(true);
     if (result.ok) {
+      expect(result.turn.reply).toBe(CARD_LEAD_IN);
+      expect(result.turn.reply).not.toContain("Published Switch");
       expect(result.turn.cards).toEqual([{ name: "Published Switch" }]);
       expect(result.turn.productRefs).toEqual([]);
     }

@@ -3,9 +3,13 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
 import {
+  CARD_LEAD_IN,
   cardsVisibleInReply,
+  presentCatalogueTurn,
+  replyAfterTappedProduct,
   resolveChatProductCards,
   sanitizeProductRefs,
+  tappedProductQuestion,
   type ChatCatalogueEntry,
 } from "@/lib/ai/chat-product-cards";
 import {
@@ -13,7 +17,6 @@ import {
   mergeChatCatalogue,
   staticChatCatalogue,
 } from "@/lib/ai/chat-catalogue";
-import { AI_SAFE_REPLY } from "@/lib/ai/output-guard";
 import { buildAiChatSystemPrompt } from "@/lib/ai/knowledge";
 import { parseAiChatTurn } from "@/lib/ai/intake";
 
@@ -28,9 +31,8 @@ const REPLY =
   "We can include these in the quotation request: Business Laptop Class, Business Desktop and Monitor Bundle, and APC, CyberPower, and Eaton UPS.";
 
 describe("resolveChatProductCards", () => {
-  it("matches a slug or an id only when the catalogue name is in the reply", () => {
+  it("matches a slug or an id even when the reply does not repeat the name", () => {
     const cards = resolveChatProductCards(
-      REPLY,
       [
         { ref: "business-laptop-16gb" },
         { ref: "HAC-PWR-001" },
@@ -44,29 +46,26 @@ describe("resolveChatProductCards", () => {
     expect(JSON.stringify(cards)).not.toMatch(/price|stock|lead time|leadTime/i);
   });
 
-  it("drops unknown refs, partial names, and names the reply does not say", () => {
+  it("drops unknown refs and partial names, and never invents a card for them", () => {
     const cards = resolveChatProductCards(
-      "We can look at Business Laptop Class.",
       [
         { ref: "cisco-catalyst-9300" },
         { ref: "Business Laptop" },
         { ref: "cisco-firewall-options" },
-        { ref: "office-desktop-monitor-bundle" },
       ],
       CATALOGUE,
     );
-    expect(cards).toEqual([]);
+    expect(cards).toEqual([{ name: "Cisco Firewall Options" }]);
   });
 
-  it("keeps the first three unique matches and ignores a price-like mention", () => {
+  it("keeps the first three unique matches and does not copy a mention onto the card", () => {
     const cards = resolveChatProductCards(
-      `${REPLY} Cisco Firewall Options.`,
       [
         { ref: "business-laptop-16gb", mention: "Business Laptop Class" },
         { ref: "HAC-LTP-001" },
         { ref: "office-desktop-monitor-bundle", mention: "PHP 45000" },
         { ref: "HAC-PWR-001", mention: "in stock next week" },
-        { ref: "cisco-firewall-options", mention: "not in the reply fragment" },
+        { ref: "cisco-firewall-options" },
       ],
       CATALOGUE,
     );
@@ -77,36 +76,88 @@ describe("resolveChatProductCards", () => {
     ]);
   });
 
-  it("keeps a verbatim mention and drops one the output guard would flag", () => {
-    const reply = "Business Laptop Class is the profile to start with.";
-    const cards = resolveChatProductCards(
-      reply,
-      [{ ref: "hac-ltp-001", mention: "the profile to start with" }],
-      CATALOGUE,
-    );
-    expect(cards).toEqual([
-      { name: "Business Laptop Class", mention: "the profile to start with" },
-    ]);
-
-    const priced = resolveChatProductCards(
-      "Business Laptop Class is ₱1250.",
-      [{ ref: "HAC-LTP-001", mention: "₱1250" }],
-      CATALOGUE,
-    );
-    expect(priced).toEqual([{ name: "Business Laptop Class" }]);
-  });
-
-  it("returns no cards when the visitor is shown the safe reply instead", () => {
-    expect(resolveChatProductCards(AI_SAFE_REPLY, [{ ref: "HAC-LTP-001" }], CATALOGUE)).toEqual([]);
-  });
-
   it("does not copy price fields off a catalogue row", () => {
     const dirty = [
       { id: "HAC-LTP-001", slug: "business-laptop-16gb", name: "Business Laptop Class", price: 1250 },
     ] as unknown as ChatCatalogueEntry[];
-    const cards = resolveChatProductCards("Business Laptop Class.", [{ ref: "HAC-LTP-001" }], dirty);
+    const cards = resolveChatProductCards([{ ref: "HAC-LTP-001" }], dirty);
     expect(cards).toEqual([{ name: "Business Laptop Class" }]);
     expect(Object.keys(cards[0] ?? {})).toEqual(["name"]);
+  });
+});
+
+describe("presentCatalogueTurn", () => {
+  it("replaces a name list with the lead-in and keeps only real cards", () => {
+    const presented = presentCatalogueTurn({
+      reply: REPLY,
+      refs: [
+        { ref: "HAC-LTP-001" },
+        { ref: "office-desktop-monitor-bundle" },
+        { ref: "HAC-PWR-001" },
+        { ref: "cisco-catalyst-9300" },
+      ],
+      catalogue: CATALOGUE,
+      userMessage: "We need laptops, desktops, and a UPS for the new office.",
+    });
+    expect(presented.reply).toBe(CARD_LEAD_IN);
+    expect(presented.reply).not.toContain("Business Laptop Class");
+    expect(presented.cards).toEqual([
+      { name: "Business Laptop Class" },
+      { name: "Business Desktop and Monitor Bundle" },
+      { name: "APC, CyberPower, and Eaton UPS" },
+    ]);
+  });
+
+  it("leaves plain text alone when nothing matches the catalogue", () => {
+    const reply = "Tell me the port count and where it will sit.";
+    const presented = presentCatalogueTurn({
+      reply,
+      refs: [{ ref: "cisco-catalyst-9300" }],
+      catalogue: CATALOGUE,
+      userMessage: "What about a Cisco Catalyst 9300?",
+    });
+    expect(presented).toEqual({ reply, cards: [] });
+  });
+});
+
+describe("replyAfterTappedProduct", () => {
+  it("replaces an unrelated reply with a question about the tapped product", () => {
+    const reply = replyAfterTappedProduct(
+      "Business Laptop Class",
+      "A Cisco Catalyst 9300 is not one of the published profiles I can show here.",
+      CATALOGUE,
+    );
+    expect(reply).toBe(tappedProductQuestion("Business Laptop Class"));
+    expect(reply).not.toContain("Cisco");
+    expect(reply).toMatch(/how many/i);
+    expect(reply).toMatch(/specs/i);
+    expect(reply).toMatch(/budget/i);
+  });
+
+  it("replaces a reply that switches to a different catalogue item", () => {
+    const reply = replyAfterTappedProduct(
+      "Business Laptop Class",
+      "Cisco Firewall Options could be quoted instead. How many do you need?",
+      CATALOGUE,
+    );
+    expect(reply).toBe(tappedProductQuestion("Business Laptop Class"));
+    expect(reply).not.toContain("Cisco Firewall Options");
+  });
+
+  it("keeps a follow-up that already asks about the tapped product", () => {
+    const original = "How many Business Laptop Class units should we include?";
+    expect(replyAfterTappedProduct("Business Laptop Class", original, CATALOGUE)).toBe(original);
+  });
+
+  it("does not open another card menu after the tap", () => {
+    const presented = presentCatalogueTurn({
+      reply: "A Cisco Catalyst 9300 is not one of the published profiles I can show here.",
+      refs: [{ ref: "cisco-firewall-options" }],
+      catalogue: CATALOGUE,
+      userMessage: "Business Laptop Class",
+    });
+    expect(presented.cards).toEqual([]);
+    expect(presented.reply).toBe(tappedProductQuestion("Business Laptop Class"));
   });
 });
 
@@ -127,12 +178,13 @@ describe("sanitizeProductRefs", () => {
 });
 
 describe("cardsVisibleInReply", () => {
-  it("drops a stored card whose name is not in the bubble, and any extra fields", () => {
-    const visible = cardsVisibleInReply("See Business Laptop Class.", [
+  it("keeps catalogue names that are not repeated in the lead-in, and drops extra fields", () => {
+    const visible = cardsVisibleInReply(CARD_LEAD_IN, [
       { name: "Business Laptop Class", mention: "See", priceCents: 100 },
       { name: "Cisco Catalyst 9300" },
     ]);
-    expect(visible).toEqual([{ name: "Business Laptop Class", mention: "See" }]);
+    expect(visible).toEqual([{ name: "Business Laptop Class" }, { name: "Cisco Catalyst 9300" }]);
+    expect(JSON.stringify(visible)).not.toMatch(/priceCents|mention/);
   });
 });
 
@@ -165,6 +217,9 @@ describe("catalogue prompt and parser", () => {
     const prompt = buildAiChatSystemPrompt();
     expect(prompt).toContain("HAC-LTP-001 | business-laptop-16gb | Business Laptop Class");
     expect(prompt).toContain("do not invent a card");
+    expect(prompt).toContain(CARD_LEAD_IN);
+    expect(prompt).toContain("quantity, specs, or budget");
+    expect(prompt).not.toContain("exact name appears in reply");
     expect(prompt).not.toMatch(/₱\s?\d/);
   });
 

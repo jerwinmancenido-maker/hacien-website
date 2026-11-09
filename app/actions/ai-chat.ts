@@ -25,7 +25,7 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import { headers } from "next/headers";
 import { Ratelimit } from "@upstash/ratelimit";
 import { catalogueEntriesFromErpItems, mergeChatCatalogue, staticChatCatalogue } from "@/lib/ai/chat-catalogue";
-import { resolveChatProductCards, type ChatProductRef } from "@/lib/ai/chat-product-cards";
+import { presentCatalogueTurn, type ChatProductRef } from "@/lib/ai/chat-product-cards";
 import { buildAiChatSystemPrompt } from "@/lib/ai/knowledge";
 import { screenAiReply } from "@/lib/ai/output-guard";
 import {
@@ -230,7 +230,7 @@ const CHAT_TURN_TOOL = {
         type: "array",
         maxItems: 8,
         description:
-          "Catalogue items whose exact name appears in reply. Each ref is an id or slug. Omit, or pass [], when the reply names nothing in the catalogue. Never include a price, stock level, or lead time.",
+          "Catalogue items to show as cards. Each ref is an id or slug from the catalogue. Do not repeat those names in reply. Omit, or pass [], when nothing in the catalogue applies. Never include a price, stock level, or lead time.",
         items: {
           type: "object",
           additionalProperties: false,
@@ -423,18 +423,23 @@ async function runTurn(
   if (screened.flagged) {
     console.warn("AI chat: reply replaced by the output guard.");
   }
-  const reply = screened.text;
-  const cards = screened.flagged
-    ? []
-    : resolveChatProductCards(reply, turn.productRefs, await catalogueForRefs(turn.productRefs));
+  const userMessage = validated.messages[validated.messages.length - 1]?.content ?? "";
+  const presented = screened.flagged
+    ? { reply: screened.text, cards: [] }
+    : presentCatalogueTurn({
+        reply: screened.text,
+        refs: turn.productRefs,
+        catalogue: await catalogueForRefs(turn.productRefs),
+        userMessage,
+      });
   return {
     ok: true,
     turn: {
-      reply,
+      reply: presented.reply,
       path: turn.path,
       fields: turn.fields,
       readyToReview: turn.readyToReview,
-      cards,
+      cards: presented.cards,
       productRefs: [],
     },
   };
