@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { founderLine, showroomNote } from "@/data/companyContact";
 import { getCmsMediaRecord, getCmsMediaSourceMap, type CmsMediaKey } from "@/lib/cms/media";
 
@@ -31,6 +34,17 @@ export function EnterpriseMediaImage({
   className?: string;
 }) {
   const record = getCmsMediaRecord(image as CmsMediaKey);
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <div
+        className={`absolute inset-0 bg-[#E5E5E5] ${className}`}
+        role="img"
+        aria-label={record.alt}
+      />
+    );
+  }
 
   return (
     <Image
@@ -41,6 +55,7 @@ export function EnterpriseMediaImage({
       quality={enterpriseMediaQuality}
       sizes={sizes}
       className={`object-cover ${className}`}
+      onError={() => setFailed(true)}
     />
   );
 }

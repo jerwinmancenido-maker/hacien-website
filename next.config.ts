@@ -13,6 +13,20 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
   images: {
+    // Hostinger's proxy returns its own HTML 503 (~1s, no Next headers) for
+    // raster /_next/image requests. The route itself is fine: bad params are
+    // Next's 400/404, and SVG (sharp is skipped) is 200. Sharp 0.35 is already
+    // an optional dependency of next, with linux-x64 and musl binaries in the
+    // lockfile, and it is traced into the standalone output. If sharp cannot
+    // be loaded, Next 16 falls back to the original JPEG (200), and an
+    // unwritable .next/cache/images directory still returns 200. The 503 matches
+    // Hostinger's process/memory limit while libvips runs (AVIF also starts
+    // libaom threads). These photos are already 1400–1600px JPEGs under ~150KB,
+    // and /images/* is cached at the CDN, so serve the files directly.
+    // Next refuses user redirects on /_next/* (the compiled regex is
+    // ^(?!/_next)/_next/image, which never matches). middleware.ts sends
+    // already-cached /_next/image?url=/images/<file> requests to the file.
+    unoptimized: true,
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
