@@ -122,7 +122,7 @@ export const projectIntegration = {
     {
       step: "Supply",
       detail:
-        "Supply is ordered against the accepted quotation, so the model and the timing are the ones the quotation confirmed.",
+        "The quotation is the supply list. The models, quantities, and terms it names are what the site receives — nothing swapped in silently.",
     },
     {
       step: "Installation",
