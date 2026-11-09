@@ -64,83 +64,110 @@ export const categories: ProductCategory[] = [
   {
     slug: "computers-laptops",
     name: "Computers & Laptops",
-    summary: "Business desktops, notebooks, workstations, and endpoint packages.",
-    heroCopy: "Prepare an RFQ for business-grade computers and laptops for office, field, and institutional deployments.",
+    summary:
+      "Business desktops, notebooks, and workstations for offices, classrooms, and service counters. Processor class, memory, storage, and the monitor are set for the seat, then confirmed as an exact model in the quotation.",
+    heroCopy:
+      "Business computers and laptops for Philippine offices, schools, and agencies. Set the processor, memory, storage, and display before you ask HACIEN in Pasig for a quotation. The brand and model are confirmed when a distributor confirms them.",
     accent: brandCategoryAccent,
-    seoTitle: "Computers & Laptops | Technology",
-    seoDescription: "HACIEN reviews RFQ requests for business desktops, notebooks, and workstations for Philippine organizations.",
+    seoTitle: "Computers and Laptops for Philippine Offices",
+    seoDescription:
+      "Specification guide for business desktops, laptops, and workstations supplied to Philippine offices, schools, and government agencies from Pasig.",
   },
   {
     slug: "servers-storage",
     name: "Servers & Storage",
-    summary: "Entry to midrange servers, NAS, backup, and storage expansion.",
-    heroCopy: "Review server and NAS storage requirements for workload, budget, and quotation context.",
+    summary:
+      "Tower and rack servers, NAS appliances, and backup storage sized to users, applications, and how long you must restore a file. Disk layout and warranty options are lines in the quotation, not assumptions.",
+    heroCopy:
+      "Servers, NAS appliances, and backup storage for offices and campuses in the Philippines. Describe the workload and the retention. HACIEN quotes the chassis, the disks, and the support option after that, from its Pasig office.",
     accent: brandCategoryAccent,
-    seoTitle: "Servers & Storage | Technology",
-    seoDescription: "HACIEN reviews RFQ requests for servers, NAS appliances, and backup storage for Philippine organizations.",
+    seoTitle: "Servers and NAS Storage for Philippine Sites",
+    seoDescription:
+      "How to specify servers, NAS, RAID, and backup retention when buying IT storage for a Philippine office, school, or agency.",
   },
   {
     slug: "network-equipment",
     name: "Network Equipment",
-    summary: "Switching, routing, access points, firewalls, and structured connectivity.",
-    heroCopy: "Network infrastructure RFQ review, from access layer switches to firewall appliances.",
+    summary:
+      "Managed switches, Wi-Fi access points, firewalls, and structured cabling for floors, campuses, and branches. PoE budget, VLANs, and the Wi-Fi standard belong in the request.",
+    heroCopy:
+      "Switches, Wi-Fi, firewalls, and cabling for Philippine offices, schools, and agencies. This page explains managed and unmanaged switching, PoE, and Wi-Fi 6 so the RFQ is specific before HACIEN quotes it.",
     accent: brandCategoryAccent,
-    seoTitle: "Network Equipment | Technology",
-    seoDescription: "HACIEN reviews RFQ requests for managed switches, wireless access points, firewalls, and network infrastructure.",
+    seoTitle: "Network Switches and Wi-Fi Philippines",
+    seoDescription:
+      "Buyer notes on managed switches, PoE, Wi-Fi 6, firewalls, and structured cabling for offices and campuses in the Philippines.",
   },
   {
     slug: "printers-peripherals",
     name: "Printers & Peripherals",
-    summary: "Printers, scanners, monitors, UPS, and office IT devices.",
-    heroCopy: "Office peripherals and printing solutions sourced for business and institutional buyers.",
+    summary:
+      "Shared printers, scanners, and monitors for departments that already know their monthly pages and paper size. Laser and ink tank solve different volumes. The quotation names the model.",
+    heroCopy:
+      "Printers, scanners, and monitors for Philippine offices and schools. Match laser or ink tank to the monthly volume, then request a quotation. Consumable yield is confirmed with the exact model, not guessed here.",
     accent: brandCategoryAccent,
-    seoTitle: "Printers & Peripherals | Technology",
-    seoDescription: "HACIEN reviews RFQ requests for printers, scanners, monitors, UPS units, and office peripherals.",
+    seoTitle: "Office Printers and Monitors Philippines",
+    seoDescription:
+      "How Philippine offices and schools specify shared printers, scanners, and monitors, including volume, paper size, and network connection.",
   },
   {
     slug: "licensed-software",
     name: "Licensed Software",
-    summary: "Productivity, endpoint security, operating systems, and business apps.",
-    heroCopy: "Software licensing requests reviewed against vendor channel and organization requirements.",
+    summary:
+      "Operating systems, productivity suites, and endpoint protection quoted per user or per device. The license type follows the product and the kind of organization buying it.",
+    heroCopy:
+      "Licensed software for Philippine companies, schools, and agencies: operating systems, productivity suites, and endpoint protection. Counts, term, and edition are confirmed in the quotation. This page does not publish a price list.",
     accent: brandCategoryAccent,
-    seoTitle: "Licensed Software | Technology",
-    seoDescription: "HACIEN reviews RFQ requests for productivity software, endpoint security, and operating system licenses.",
+    seoTitle: "Business Software Licenses Philippines",
+    seoDescription:
+      "How to request operating system, productivity, and endpoint-security licenses for a Philippine office, school, or government buyer.",
   },
   {
     slug: "security-surveillance",
     name: "Security & Surveillance",
-    summary: "CCTV, access control, monitoring, and security infrastructure.",
-    heroCopy: "Site security technology RFQ review: cameras, access control, and monitoring systems.",
+    summary:
+      "CCTV cameras, NVR or DVR recorders, retention disks, and door access control. Resolution, channel count, and days of recording decide the package more than a brand slogan.",
+    heroCopy:
+      "CCTV, recorders, and access control for Philippine sites. Resolution, NVR channels, and retention days are the specs that change the quotation. HACIEN in Pasig prices the package only after those facts are in the request.",
     accent: brandCategoryAccent,
-    seoTitle: "Security & Surveillance | Technology",
-    seoDescription: "HACIEN reviews RFQ requests for CCTV systems, access control, NVR/DVR equipment, and site security technology.",
+    seoTitle: "CCTV and Access Control Philippines",
+    seoDescription:
+      "Specification notes for IP cameras, NVR channels, recording retention, and door access control on Philippine office, school, and agency sites.",
   },
   {
     slug: "accessories-consumables",
     name: "Accessories & Consumables",
-    summary: "Cables, printer supplies, storage media, and deployment essentials.",
-    heroCopy: "Deployment accessories and consumables reviewed alongside the primary IT requirement.",
+    summary:
+      "Patch cords, display cables, adapters, labels, and printer supplies that let a larger order work on delivery day. Length, port, and printer model need to be explicit.",
+    heroCopy:
+      "Cables, adapters, labels, and printer supplies for IT rollouts in the Philippines. Quote them with the computers or switches they belong to so the counts match. HACIEN confirms the exact part in the quotation.",
     accent: brandCategoryAccent,
-    seoTitle: "Accessories & Consumables | Technology",
-    seoDescription: "HACIEN reviews RFQ requests for cables, printer supplies, storage media, and deployment accessories.",
+    seoTitle: "IT Cables and Deployment Supplies",
+    seoDescription:
+      "Patch cords, display cables, adapters, and printer consumables to include in an IT request for a Philippine office or school.",
   },
   {
     slug: "power-ups",
     name: "Power & UPS",
-    summary: "UPS units, voltage regulators, PDUs, and power protection equipment.",
-    heroCopy: "Power protection and UPS requirements reviewed for offices, server rooms, and critical equipment.",
+    summary:
+      "UPS units and voltage regulators sized in watts and minutes, not by the largest number on the box. Line-interactive and online topologies protect different kinds of equipment.",
+    heroCopy:
+      "UPS and voltage regulation for desks, closets, and small server rooms in the Philippines. Size from watts and the minutes you need. HACIEN confirms the model, the VA rating, and the published runtime in the quotation.",
     accent: brandCategoryAccent,
-    seoTitle: "Power & UPS | Technology",
-    seoDescription: "HACIEN reviews RFQ requests for UPS units, voltage regulators, and power distribution equipment.",
+    seoTitle: "UPS Sizing for Philippine Offices",
+    seoDescription:
+      "VA and watt sizing, line-interactive versus online UPS, and what to put in a power-protection request for a Philippine office or server closet.",
   },
   {
     slug: "general-merchandise",
     name: "General Merchandise",
-    summary: "Non-IT goods, office supplies, and general items for institutional procurement packages.",
-    heroCopy: "General merchandise RFQ review for organizations with mixed IT and non-IT requirements.",
+    summary:
+      "Office supplies, tools, and other non-IT goods quoted with or without the IT. Goods that need an FDA or DOH-LTO license are outside this list.",
+    heroCopy:
+      "Office supplies, tools, and hardware materials for buyers who want them on the same quotation as their IT. Describe each line. HACIEN does not supply goods that need an FDA or DOH-LTO license.",
     accent: brandCategoryAccent,
-    seoTitle: "General Merchandise | Technology",
-    seoDescription: "HACIEN reviews RFQ requests for general merchandise and office supplies with mixed procurement requirements.",
+    seoTitle: "Office Supplies with IT Procurement",
+    seoDescription:
+      "Mixed IT and general-merchandise requests for Philippine offices, schools, and agencies, excluding goods that need an FDA or DOH-LTO license.",
   },
 ];
 

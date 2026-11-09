@@ -13,17 +13,17 @@ import { SectionHeading } from "@/components/SectionHeading";
 export const metadata: Metadata = buildPageMetadata({
   title: "Enterprise Technology",
   description:
-    "Explore HACIEN enterprise technology domains including computing, networking, cybersecurity, cloud, software, storage, power, structured cabling, and professional services.",
+    "Computing, networking, cybersecurity, software, storage, UPS, and structured cabling for Philippine offices, with links into the specification guides.",
   path: "/technology",
 });
 
 const technologyDomains = [
-  ["Enterprise Computing", "Business endpoints, workstations, and servers for offices and facilities.", "computers-laptops"],
-  ["Networking", "Switches, wireless access points, firewalls, and structured cabling for offices, facilities, and campuses.", "network-equipment"],
-  ["Cybersecurity", "Endpoint protection, firewall appliances, and network security devices.", "security-surveillance"],
-  ["Cloud", "Cloud services, backup, SaaS, and storage subscriptions, quoted by user count.", "/solutions/cloud-productivity"],
-  ["Software", "Licensed business software, productivity platforms, and security licensing.", "licensed-software"],
-  ["Storage", "Servers, NAS, backup storage, and rack equipment sized to your workload.", "servers-storage"],
+  ["Enterprise Computing", "Business endpoints, workstations, and servers for offices, schools, and facilities. Processor, memory, and SSD size are decided per seat.", "computers-laptops"],
+  ["Networking", "Switches, wireless access points, firewalls, and structured cabling for offices, facilities, and campuses. PoE budget and Wi-Fi standard belong in the request.", "network-equipment"],
+  ["Cybersecurity", "Endpoint protection, firewall appliances, and network security devices sized to users and the internet line.", "security-surveillance"],
+  ["Cloud", "Cloud services, backup, SaaS, and storage subscriptions, quoted by user count and term.", "/solutions/cloud-productivity"],
+  ["Software", "Licensed business software, productivity platforms, and security licensing. Per-user and per-device counts are separate lines.", "licensed-software"],
+  ["Storage", "Servers, NAS, backup storage, and rack equipment sized to the workload and the days you must restore.", "servers-storage"],
   ["Power", "UPS and rack power equipment for continuity.", "power-ups"],
   ["Structured Cabling", "Cabling, racks, cabinets, and network rooms.", "network-equipment"],
   ["Professional Services", "Specification review, procurement support, deployment coordination, and lifecycle assistance.", null],
@@ -49,7 +49,7 @@ export default function TechnologyPage() {
       <PremiumPageHero
         eyebrow="Technology"
         title="Technology is what a solution is built from."
-        description="These are the products and domains behind the work: computing, networking, security, cloud, software, storage, power, and cabling. If you need a full job done rather than a product list, see Solutions."
+        description="These are the products and domains behind the work: computing, networking, security, cloud, software, storage, power, and cabling. Open a category for the specifications buyers write down. If you need a full job done rather than a product list, see Solutions."
         image="silicon"
         primaryAction={{ href: "/quote", label: "Request a Quote" }}
         secondaryAction={{ href: "/solutions", label: "View Solutions" }}

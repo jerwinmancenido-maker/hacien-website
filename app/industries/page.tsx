@@ -8,6 +8,7 @@ import {
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { getIndustriesContent } from "@/lib/cms/content";
 import { getCmsMetadata } from "@/lib/cms/seo";
+import { industryBriefs } from "@/data/buyerCopy";
 
 export const metadata = getCmsMetadata("industries");
 
@@ -68,6 +69,26 @@ export default function IndustriesPage() {
               </AnimatedContent>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="bg-white px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl space-y-10">
+          {industryBriefs.map((brief) => (
+            <article key={brief.title} className="max-w-3xl">
+              <h2 className="text-2xl font-bold tracking-tight text-ink">{brief.title}</h2>
+              <div className="mt-4 space-y-4 text-base leading-7 text-grey-700">
+                {brief.paragraphs.map((paragraph) => (
+                  <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+                ))}
+              </div>
+              <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-grey-700">
+                {brief.points.map((point) => (
+                  <li key={point}>{point}</li>
+                ))}
+              </ul>
+            </article>
+          ))}
         </div>
       </section>
 

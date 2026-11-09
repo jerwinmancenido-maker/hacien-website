@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import { ChatInvitation } from "@/components/ChatInvitation";
 import { BuyingTimeline } from "@/components/BuyingTimeline";
+import { quoteGuide } from "@/data/buyerCopy";
 import billingSettings from "@/config/billing-compliance-settings.json";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Request a quotation",
-  description: "Attach an item list, a supplier quote, an image, a spreadsheet, a PDF, or a ZIP.",
+  description:
+    "Send a list, a purchase request, or a photo. HACIEN quotes computers, networks, and projects for Philippine buyers and replies within 1 business day.",
   path: "/quote",
 });
 
@@ -17,7 +19,7 @@ export default function QuotePage() {
       <PremiumPageHero
         eyebrow="Quotation request"
         title="Request a quotation."
-        description="Attach an item list, a supplier quote, an image, a spreadsheet, a PDF, or a ZIP."
+        description="Send a list, a specification, or a purchase request. HACIEN confirms the model with distributors and replies within 1 business day. You do not need a finished bid document to start."
         image="commandCenter"
         primaryAction={{ href: "#start-chat", label: "Request a Quote" }}
         secondaryAction={{ href: "/products", label: "Product list" }}
@@ -28,6 +30,19 @@ export default function QuotePage() {
       />
 
       <BuyingTimeline />
+
+      <section className="bg-white px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="text-2xl font-bold tracking-tight text-ink">{quoteGuide.title}</h2>
+          <p className="mt-4 text-base leading-7 text-grey-700">{quoteGuide.intro}</p>
+          <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-grey-700">
+            {quoteGuide.checklist.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+          <p className="mt-4 text-sm leading-6 text-grey-700">{quoteGuide.note}</p>
+        </div>
+      </section>
 
       <section id="start-chat" className="scroll-mt-24 px-4 py-12 sm:px-6 lg:px-8 lg:py-14">
         <div className="mx-auto max-w-7xl">

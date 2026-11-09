@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import type { Product } from "@/data/products";
 import { getCategory } from "@/data/products";
+import { getCategoryGuide } from "@/data/categoryGuides";
 import { canCheckout, canRequestQuote, formatPrice } from "@/lib/products/purchase-mode";
 import { ManualPaymentIntentForm } from "@/components/checkout/ManualPaymentIntentForm";
 import { useQuoteCart } from "@/components/QuoteCartProvider";
@@ -23,6 +24,7 @@ export function ProductDetail({ product }: { product: Product }) {
     product.isErpPublished === true && product.sandboxPaymentEnabled === true;
   const stockBadges = billingSettings.stock_badges as Record<string, string>;
   const stockBadgeLabel = stockBadges[product.inventoryPolicy] || "Availability requires review";
+  const guide = getCategoryGuide(product.categorySlug);
 
   function handleAddToRfq() {
     addRequirement({
@@ -58,6 +60,23 @@ export function ProductDetail({ product }: { product: Product }) {
           <div className="text-sm font-semibold text-grey-600">{categoryLabel}</div>
           <h1 className="mt-3 text-3xl font-bold tracking-tight text-ink sm:text-5xl">{product.name}</h1>
           <p className="mt-4 text-base leading-7 text-grey-600">{product.longDescription}</p>
+          {guide ? (
+            <div className="mt-6 max-w-3xl">
+              <h2 className="text-lg font-bold text-ink">What buyers usually decide first</h2>
+              <p className="mt-2 text-sm leading-6 text-grey-700">{guide.whatItIs[0]}</p>
+              <ul className="mt-3 list-disc space-y-1 pl-5 text-sm leading-6 text-grey-700">
+                {guide.specs.slice(0, 3).map((row) => (
+                  <li key={row.topic}>
+                    <span className="font-bold text-ink">{row.topic}. </span>
+                    {row.guidance}
+                  </li>
+                ))}
+              </ul>
+              <Link href={`/products/${product.categorySlug}`} className="mt-3 inline-flex text-sm font-bold text-blue hover:underline">
+                Read the full {categoryLabel.toLowerCase()} guide
+              </Link>
+            </div>
+          ) : null}
 
           <div className="mt-6 rounded-lg border border-grey-200 bg-grey-100 p-5">
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Quotation review</div>
