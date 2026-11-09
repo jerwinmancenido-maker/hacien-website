@@ -17,7 +17,13 @@ import {
   TypingAgentMessage,
   UserBubble,
 } from "@/components/ChatBubbles";
-import { cardsVisibleInReply, isTypedUnlistedItem, type ChatProductCard } from "@/lib/ai/chat-product-cards";
+import {
+  CARDS_INPUT_PLACEHOLDER,
+  cardsVisibleInReply,
+  isTypedUnlistedItem,
+  sanitizeInputHint,
+  type ChatProductCard,
+} from "@/lib/ai/chat-product-cards";
 import { TurnstileField } from "@/components/TurnstileField";
 import { CALLBACK_TIME_OPTIONS, getChatPath } from "@/lib/guided-chat/steps";
 import {
@@ -215,6 +221,8 @@ type ChatMessage = {
   text: string;
   trackUrl?: string;
   cards?: ChatProductCard[];
+  /** Sanitized placeholder hint carried by this assistant turn. */
+  inputHint?: string;
 };
 
 function restoreMessage(message: ChatMessage): ChatMessage {
@@ -223,11 +231,13 @@ function restoreMessage(message: ChatMessage): ChatMessage {
     return { role: message.role, text: message.text, ...(trackUrl ? { trackUrl } : {}) };
   }
   const cards = cardsVisibleInReply(message.text, message.cards);
+  const inputHint = sanitizeInputHint(message.inputHint);
   return {
     role: "assistant",
     text: message.text,
     ...(trackUrl ? { trackUrl } : {}),
     ...(cards.length > 0 ? { cards } : {}),
+    ...(inputHint ? { inputHint } : {}),
   };
 }
 
@@ -357,6 +367,18 @@ export function AiChat({
     !readyToReview &&
     !showNeedChoices &&
     !showDocChoices;
+
+  /** Composer placeholder (Jerwin's approved hint design): while the
+   *  latest reply shows product cards, the box itself carries the
+   *  not-listed line; otherwise the model's own short hint for this
+   *  step; otherwise the plain default. Never a line under the cards. */
+  const lastMessage = messages[messages.length - 1];
+  const composerPlaceholder =
+    lastMessage?.role === "assistant" && lastMessage.cards && lastMessage.cards.length > 0
+      ? CARDS_INPUT_PLACEHOLDER
+      : lastMessage?.role === "assistant" && lastMessage.inputHint
+        ? lastMessage.inputHint
+        : "Type your message…";
 
   /** Both gate ticks are in when the agreement is ticked and the
    *  security token exists (or no check is configured). Continue
@@ -777,6 +799,7 @@ export function AiChat({
       role: "assistant",
       text: assistantText,
       ...(cards.length > 0 ? { cards } : {}),
+      ...(result.turn.inputHint ? { inputHint: result.turn.inputHint } : {}),
     };
     setMessages([...history, assistantMessage]);
     setTypingIndex(history.length);
@@ -1233,7 +1256,7 @@ export function AiChat({
                     <ChatProductCards
                       cards={message.cards}
                       tappedName={messages[index + 1]?.role === "user" ? messages[index + 1].text : undefined}
-                      disabled={sending}
+                      disabled={sending || readyToReview}
                       onPick={(name) => void send(name)}
                     />
                   ) : null}
@@ -1438,7 +1461,7 @@ export function AiChat({
                   value={draft}
                   onChange={setDraft}
                   onSubmit={send}
-                  placeholder="Type your message…"
+                  placeholder={composerPlaceholder}
                   autoFocus={false}
                   onAttach={() => fileInputRef.current?.click()}
                 />

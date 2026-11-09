@@ -10,6 +10,7 @@
  */
 
 import {
+  sanitizeInputHint,
   sanitizeProductRefs,
   type ChatProductCard,
   type ChatProductRef,
@@ -149,6 +150,9 @@ export type AiChatTurn = {
   cards: ChatProductCard[];
   /** Refs the model cited. Cleared before the turn is returned to the browser. */
   productRefs: ChatProductRef[];
+  /** Optional short placeholder hint for the visitor's input box,
+   *  sanitized at parse time. Absent when the model offered none. */
+  inputHint?: string;
 };
 
 function turnFromRecord(record: Record<string, unknown>): AiChatTurn | null {
@@ -163,6 +167,7 @@ function turnFromRecord(record: Record<string, unknown>): AiChatTurn | null {
     readyToReview: path ? intakeReady(path, fields) : false,
     cards: [],
     productRefs: sanitizeProductRefs(record.products),
+    inputHint: sanitizeInputHint(record.inputHint),
   };
 }
 

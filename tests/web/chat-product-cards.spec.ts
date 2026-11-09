@@ -4,12 +4,14 @@ import { describe, expect, it } from "vitest";
 
 import {
   CARD_LEAD_IN,
-  UNLISTED_HINT,
+  CARDS_INPUT_PLACEHOLDER,
+  MAX_INPUT_HINT_LENGTH,
   cardsVisibleInReply,
   isTypedUnlistedItem,
   presentCatalogueTurn,
   replyAfterTappedProduct,
   resolveChatProductCards,
+  sanitizeInputHint,
   sanitizeProductRefs,
   tappedProductQuestion,
   type ChatCatalogueEntry,
@@ -188,7 +190,7 @@ describe("typed unlisted item", () => {
     expect(isTypedUnlistedItem("   ", shown)).toBe(false);
   });
 
-  it("does not invent a card for the typed item, and the hint is not a product", () => {
+  it("does not invent a card for the typed item, and the cards placeholder is not a product", () => {
     const presented = presentCatalogueTurn({
       reply: "Tell me the quantity and where it will sit.",
       refs: [{ ref: "cisco-catalyst-9300" }],
@@ -197,9 +199,9 @@ describe("typed unlisted item", () => {
     });
     expect(presented.cards).toEqual([]);
     expect(presented.reply).not.toBe(CARD_LEAD_IN);
-    expect(staticChatCatalogue().some((entry) => entry.name === UNLISTED_HINT)).toBe(false);
-    expect(UNLISTED_HINT).toBe("Not listed? Just type the item, or attach your RFQ.");
-    expect(UNLISTED_HINT).not.toMatch(/price|stock|lead time|₱/i);
+    expect(staticChatCatalogue().some((entry) => entry.name === CARDS_INPUT_PLACEHOLDER)).toBe(false);
+    expect(CARDS_INPUT_PLACEHOLDER).toBe("Not listed? Type the item or attach your RFQ…");
+    expect(CARDS_INPUT_PLACEHOLDER).not.toMatch(/price|stock|lead time|₱/i);
   });
 
   it("keeps a removed escape label from coming back as a stored card", () => {
@@ -254,6 +256,9 @@ describe("catalogue prompt and parser", () => {
     expect(prompt).toContain(CARD_LEAD_IN);
     expect(prompt).toContain("quantity, specs, or budget");
     expect(prompt).toContain("record that text as the quote need");
+    expect(prompt).toContain("inputHint");
+    expect(prompt).toContain("e.g. Juan Dela Cruz");
+    expect(prompt).toContain("e.g. Dec 15, Pasig City");
     expect(prompt).not.toContain("Something else / not listed");
     expect(prompt).not.toContain("exact name appears in reply");
     expect(prompt).not.toMatch(/₱\s?\d/);
@@ -274,13 +279,58 @@ describe("catalogue prompt and parser", () => {
     ]);
     expect(turn?.cards).toEqual([]);
   });
+
+  it("carries a sanitized input hint on the parsed turn and drops a priced one", () => {
+    const named = parseAiChatTurn({
+      reply: "What name should go on the request?",
+      path: "quote",
+      fields: {},
+      readyToReview: false,
+      inputHint: "e.g. Juan Dela Cruz",
+    });
+    expect(named?.inputHint).toBe("e.g. Juan Dela Cruz");
+    const priced = parseAiChatTurn({
+      reply: "Here is the range.",
+      path: null,
+      fields: {},
+      readyToReview: false,
+      inputHint: "e.g. ₱50,000 budget",
+    });
+    expect(priced?.inputHint).toBeUndefined();
+  });
+});
+
+describe("sanitizeInputHint", () => {
+  it("trims, collapses whitespace, and caps the length", () => {
+    expect(sanitizeInputHint("  e.g.   Dec 15,\nPasig City ")).toBe("e.g. Dec 15, Pasig City");
+    const long = sanitizeInputHint("x".repeat(120));
+    expect(long).toHaveLength(MAX_INPUT_HINT_LENGTH);
+  });
+
+  it("drops non-strings, blanks, and price, stock, or lead-time claims", () => {
+    expect(sanitizeInputHint(undefined)).toBeUndefined();
+    expect(sanitizeInputHint(42)).toBeUndefined();
+    expect(sanitizeInputHint("   ")).toBeUndefined();
+    expect(sanitizeInputHint("Only 3 left in stock")).toBeUndefined();
+    expect(sanitizeInputHint("Lead time is 3 days")).toBeUndefined();
+    expect(sanitizeInputHint("Starts at $500")).toBeUndefined();
+  });
+
+  it("keeps the two approved step examples", () => {
+    expect(sanitizeInputHint("e.g. Juan Dela Cruz")).toBe("e.g. Juan Dela Cruz");
+    expect(sanitizeInputHint("e.g. Dec 15, Pasig City")).toBe("e.g. Dec 15, Pasig City");
+  });
 });
 
 describe("chat card wiring", () => {
   it("renders product cards from the reply and sends the product name", () => {
     const bubbles = readFileSync(join(process.cwd(), "components/ChatBubbles.tsx"), "utf8");
     const ai = readFileSync(join(process.cwd(), "components/AiChat.tsx"), "utf8");
-    expect(bubbles).toContain("UNLISTED_HINT");
+    expect(bubbles).not.toContain("CARDS_INPUT_PLACEHOLDER");
+    expect(ai).toContain("CARDS_INPUT_PLACEHOLDER");
+    expect(ai).toContain("composerPlaceholder");
+    expect(ai).toContain("inputHint");
+    expect(ai).toContain("disabled={sending || readyToReview}");
     expect(bubbles).not.toContain("appendOtherCard");
     expect(bubbles).not.toContain("Something else / not listed");
     expect(bubbles).toContain("export function ChatProductCards");

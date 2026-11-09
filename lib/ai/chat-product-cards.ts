@@ -35,11 +35,30 @@ function norm(value: string): string {
 const MENTION_BLOCK =
   /\b(stock|stocks|lead\s*time|availability|price|priced|discount)\b|₱|\$\s?\d/i;
 
-/** Shown instead of a name list when at least one card is real. */
-export const CARD_LEAD_IN = "Here are options we can quote. Tap one to start:";
+/** Shown instead of a name list when at least one card is real.
+ *  Jerwin's exact line (REQ-WEB-EXTRAS-001 requirements). */
+export const CARD_LEAD_IN = "Here are options we can quote, tap one to start.";
 
-/** Shown under the cards. Not a card and not a catalogue item. */
-export const UNLISTED_HINT = "Not listed? Just type the item, or attach your RFQ.";
+/** The composer placeholder while cards are showing: how a visitor
+ *  names something that is not listed. Jerwin's approved text. It is
+ *  never rendered as a line under the cards and is not a catalogue item. */
+export const CARDS_INPUT_PLACEHOLDER = "Not listed? Type the item or attach your RFQ…";
+
+/** Longest input hint the composer will show. */
+export const MAX_INPUT_HINT_LENGTH = 60;
+
+/** Sanitize the model's optional input hint: one short line of plain
+ *  text. Anything carrying a price, stock, or lead-time claim — or
+ *  tripping the output guard — is dropped, and the composer falls back
+ *  to its default placeholder. */
+export function sanitizeInputHint(raw: unknown): string | undefined {
+  if (typeof raw !== "string") return undefined;
+  const cleaned = raw.trim().replace(/\s+/g, " ").slice(0, MAX_INPUT_HINT_LENGTH).trim();
+  if (!cleaned) return undefined;
+  if (MENTION_BLOCK.test(cleaned)) return undefined;
+  if (screenAiReply(cleaned).flagged) return undefined;
+  return cleaned;
+}
 
 const USEFUL_FOLLOW_UP = /\b(how many|quantity|qty|specs?|budget)\b/i;
 

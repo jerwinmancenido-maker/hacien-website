@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { UNLISTED_HINT } from "@/lib/ai/chat-product-cards";
 import type { ChatStepKind } from "@/lib/guided-chat/steps";
 
 /** Shared chat building blocks for the AI chat panel: the agent's grey
@@ -269,7 +268,8 @@ export function ChatChoiceBox({ choices, caption }: { choices: ChatChoice[]; cap
 }
 
 /** Catalogue cards for this reply. A tap sends the product name.
- *  The hint under them is how a visitor names something that is not listed.
+ *  No hint line under the cards (Jerwin's call): a visitor names
+ *  something unlisted through the composer's placeholder instead.
  *  No price, stock, or lead time. */
 export function ChatProductCards({
   cards,
@@ -310,7 +310,6 @@ export function ChatProductCards({
           </button>
         );
       })}
-      <p className="px-1 text-sm leading-5 text-grey-600">{UNLISTED_HINT}</p>
     </div>
   );
 }

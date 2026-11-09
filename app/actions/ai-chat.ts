@@ -244,6 +244,11 @@ const CHAT_TURN_TOOL = {
           required: ["ref"],
         },
       },
+      inputHint: {
+        type: "string",
+        description:
+          "Optional short placeholder hint for the visitor's message box: one example of what to type next, at most 60 characters (for example 'e.g. Juan Dela Cruz' when asking their name, or 'e.g. Dec 15, Pasig City' when asking the delivery place and date). Omit when the next step needs no example. Never a price, stock level, or lead time.",
+      },
     },
     required: ["reply", "path", "fields", "readyToReview"],
   },
@@ -441,6 +446,8 @@ async function runTurn(
       readyToReview: turn.readyToReview,
       cards: presented.cards,
       productRefs: [],
+      // A guard-replaced reply takes its hint down with it.
+      inputHint: screened.flagged ? undefined : turn.inputHint,
     },
   };
 }
