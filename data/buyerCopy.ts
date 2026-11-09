@@ -122,7 +122,7 @@ export const projectIntegration = {
     {
       step: "Supply",
       detail:
-        "Order from distributors against the accepted quotation. HACIEN does not keep a warehouse of these goods, so the model and the timing are the ones the quotation confirmed.",
+        "Supply is ordered against the accepted quotation, so the model and the timing are the ones the quotation confirmed.",
     },
     {
       step: "Installation",
