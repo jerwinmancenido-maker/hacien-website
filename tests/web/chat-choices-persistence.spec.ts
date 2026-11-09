@@ -112,13 +112,19 @@ describe("never lose the chat (owner decision, 2026-11-09)", () => {
     expect(aiChat).toContain("restoreDoneRef");
   });
 
-  it("version re-prompt discards agreement for old/missing agreedVersions and restores when matching", () => {
-    // Assert the restore code contains the version check
-    expect(aiChat).toContain("parsed.v === 2 &&");
-    expect(aiChat).toContain("parsed.agreedVersions === AGREEMENT_POLICY_VERSIONS");
-    expect(aiChat).toContain("agreed: agreementValid");
-    expect(aiChat).toContain("acceptedAt: agreementValid ?");
-    expect(aiChat).toContain("gatePassed: agreementValid ?");
+  it("version re-prompt discards stored snapshot when version is old/missing/mismatched and restores when matching", () => {
+    // Assert partial agreementValid restoration is gone
+    expect(aiChat).not.toContain("agreementValid");
+
+    // Assert restore code removes the key and sets snapshot null when version is not matching
+    const restoreStart = aiChat.indexOf("let snapshot: ChatSnapshot | null = null;");
+    const restoreEnd = aiChat.indexOf("restoreDoneRef.current = true;", restoreStart);
+    expect(restoreStart).toBeGreaterThan(-1);
+    const restoreBlock = aiChat.slice(restoreStart, restoreEnd);
+
+    expect(restoreBlock).toContain("parsed.v === 2 && parsed.agreedVersions === AGREEMENT_POLICY_VERSIONS");
+    expect(restoreBlock).toContain("window.sessionStorage.removeItem(CHAT_STORAGE_KEY)");
+    expect(restoreBlock).toContain("snapshot = null");
 
     // Extract AGREEMENT_POLICY_VERSIONS from AiChat.tsx
     const match = aiChat.match(/const AGREEMENT_POLICY_VERSIONS = "([^"]+)";/);
@@ -126,68 +132,132 @@ describe("never lose the chat (owner decision, 2026-11-09)", () => {
     const currentVersions = match![1];
     expect(currentVersions).toBe("terms:v2.1, privacy:v2.6");
 
-    // Helper simulating AiChat's restore agreement validation
-    function validateRestoreAgreement(parsed: {
+    // Helper simulating AiChat's restore path
+    type SimMessage = { role: "user" | "assistant"; text: string };
+    type SimSnapshot = {
       v?: number;
+      messages: SimMessage[];
+      fields: Record<string, unknown>;
+      path: "quote" | "inquiry" | "callback" | "track" | null;
       agreed?: boolean;
       agreedVersions?: string;
       gatePassed?: boolean;
       acceptedAt?: string;
-    }) {
-      const agreementValid =
-        parsed.v === 2 &&
-        parsed.agreedVersions === currentVersions &&
-        Boolean(parsed.agreed);
-      return {
-        agreed: agreementValid,
-        acceptedAt: agreementValid ? (parsed.acceptedAt ?? "") : "",
-        gatePassed: agreementValid ? Boolean(parsed.gatePassed) : false,
+      submitStatus?: "idle" | "success" | "error";
+    };
+
+    function simulateRestore(parsed: SimSnapshot) {
+      let snapshot: SimSnapshot | null = null;
+      let removedKey: string | null = null;
+      const fakeStorage = {
+        removeItem: (k: string) => {
+          removedKey = k;
+        },
       };
+
+      if (
+        parsed &&
+        (parsed.v === 1 || parsed.v === 2) &&
+        Array.isArray(parsed.messages) &&
+        parsed.messages.every(
+          (message) =>
+            message &&
+            (message.role === "user" || message.role === "assistant") &&
+            typeof message.text === "string",
+        ) &&
+        parsed.fields &&
+        typeof parsed.fields === "object" &&
+        (parsed.path === null ||
+          parsed.path === "quote" ||
+          parsed.path === "inquiry" ||
+          parsed.path === "callback" ||
+          parsed.path === "track")
+      ) {
+        if (parsed.v === 2 && parsed.agreedVersions === currentVersions) {
+          snapshot = {
+            v: 2,
+            messages: parsed.messages,
+            fields: parsed.fields,
+            path: parsed.path ?? null,
+            agreed: Boolean(parsed.agreed),
+            acceptedAt: parsed.acceptedAt ?? "",
+            agreedVersions: parsed.agreedVersions,
+            gatePassed: Boolean(parsed.gatePassed),
+            submitStatus: parsed.submitStatus ?? "idle",
+          };
+        } else {
+          fakeStorage.removeItem("hacien-ai-chat-v1");
+          snapshot = null;
+        }
+      }
+
+      return { snapshot, removedKey };
     }
 
-    // Old v1 snapshot discards agreement (gate must show again)
-    const v1Result = validateRestoreAgreement({
+    const sampleMessages: SimMessage[] = [{ role: "assistant", text: "Welcome to HACIEN." }];
+    const sampleFields = { company: "Acme Corp" };
+
+    // Old v1 snapshot -> fresh state at the gate (no restore of submitStatus/messages); storage key removed
+    const v1Result = simulateRestore({
       v: 1,
+      messages: sampleMessages,
+      fields: sampleFields,
+      path: "quote",
       agreed: true,
       gatePassed: true,
       acceptedAt: "2026-11-08T00:00:00.000Z",
+      submitStatus: "success",
     });
-    expect(v1Result.agreed).toBe(false);
-    expect(v1Result.acceptedAt).toBe("");
-    expect(v1Result.gatePassed).toBe(false);
+    expect(v1Result.snapshot).toBeNull();
+    expect(v1Result.removedKey).toBe("hacien-ai-chat-v1");
 
-    // v2 snapshot with old/missing agreedVersions discards agreement (gate must show again)
-    const oldVersionResult = validateRestoreAgreement({
+    // v2 snapshot with old/mismatched agreedVersions -> fresh state at the gate; storage key removed
+    const oldVersionResult = simulateRestore({
       v: 2,
+      messages: sampleMessages,
+      fields: sampleFields,
+      path: "quote",
       agreed: true,
       gatePassed: true,
       agreedVersions: "terms:v2.1, privacy:v2.5",
       acceptedAt: "2026-11-08T00:00:00.000Z",
+      submitStatus: "success",
     });
-    expect(oldVersionResult.agreed).toBe(false);
-    expect(oldVersionResult.acceptedAt).toBe("");
-    expect(oldVersionResult.gatePassed).toBe(false);
+    expect(oldVersionResult.snapshot).toBeNull();
+    expect(oldVersionResult.removedKey).toBe("hacien-ai-chat-v1");
 
-    const missingVersionResult = validateRestoreAgreement({
+    // v2 snapshot with missing agreedVersions -> fresh state at the gate; storage key removed
+    const missingVersionResult = simulateRestore({
       v: 2,
+      messages: sampleMessages,
+      fields: sampleFields,
+      path: "quote",
       agreed: true,
       gatePassed: true,
       acceptedAt: "2026-11-08T00:00:00.000Z",
+      submitStatus: "success",
     });
-    expect(missingVersionResult.agreed).toBe(false);
-    expect(missingVersionResult.acceptedAt).toBe("");
-    expect(missingVersionResult.gatePassed).toBe(false);
+    expect(missingVersionResult.snapshot).toBeNull();
+    expect(missingVersionResult.removedKey).toBe("hacien-ai-chat-v1");
 
-    // Matching agreedVersions restores agreement
-    const matchingResult = validateRestoreAgreement({
+    // Matching agreedVersions restores full snapshot including submitStatus and messages
+    const matchingResult = simulateRestore({
       v: 2,
+      messages: sampleMessages,
+      fields: sampleFields,
+      path: "quote",
       agreed: true,
       gatePassed: true,
       agreedVersions: currentVersions,
       acceptedAt: "2026-11-09T08:00:00.000Z",
+      submitStatus: "success",
     });
-    expect(matchingResult.agreed).toBe(true);
-    expect(matchingResult.acceptedAt).toBe("2026-11-09T08:00:00.000Z");
-    expect(matchingResult.gatePassed).toBe(true);
+    expect(matchingResult.snapshot).not.toBeNull();
+    expect(matchingResult.removedKey).toBeNull();
+    expect(matchingResult.snapshot?.agreed).toBe(true);
+    expect(matchingResult.snapshot?.gatePassed).toBe(true);
+    expect(matchingResult.snapshot?.submitStatus).toBe("success");
+    expect(matchingResult.snapshot?.messages).toEqual(sampleMessages);
+    expect(matchingResult.snapshot?.acceptedAt).toBe("2026-11-09T08:00:00.000Z");
   });
 });

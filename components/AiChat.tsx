@@ -405,29 +405,31 @@ export function AiChat({
             parsed.path === "callback" ||
             parsed.path === "track")
         ) {
-          // Version re-prompt: accept only matching AGREEMENT_POLICY_VERSIONS.
+          // Version re-prompt: restore fully only when AGREEMENT_POLICY_VERSIONS matches.
           // Old v1 snapshots or snapshots missing/mismatched agreedVersions
-          // discard the agreement so the visitor must confirm current policies.
-          const agreementValid =
-            parsed.v === 2 &&
-            parsed.agreedVersions === AGREEMENT_POLICY_VERSIONS &&
-            Boolean(parsed.agreed);
-          snapshot = {
-            v: 2,
-            messages: parsed.messages,
-            fields: parsed.fields,
-            path: parsed.path ?? null,
-            readyToReview: Boolean(parsed.readyToReview),
-            startedAt: parsed.startedAt ?? null,
-            pinnedEmail: parsed.pinnedEmail ?? "",
-            agreed: agreementValid,
-            acceptedAt: agreementValid ? (parsed.acceptedAt ?? "") : "",
-            agreedVersions: agreementValid ? parsed.agreedVersions : "",
-            gatePassed: agreementValid ? Boolean(parsed.gatePassed) : false,
-            submitStatus: parsed.submitStatus ?? "idle",
-            referenceNumber: parsed.referenceNumber ?? "",
-            confirmationSent: Boolean(parsed.confirmationSent),
-          };
+          // discard the stored thread entirely so visitor starts fresh at the gate;
+          // prevents success/error chrome from stacking over the re-prompt gate.
+          if (parsed.v === 2 && parsed.agreedVersions === AGREEMENT_POLICY_VERSIONS) {
+            snapshot = {
+              v: 2,
+              messages: parsed.messages,
+              fields: parsed.fields,
+              path: parsed.path ?? null,
+              readyToReview: Boolean(parsed.readyToReview),
+              startedAt: parsed.startedAt ?? null,
+              pinnedEmail: parsed.pinnedEmail ?? "",
+              agreed: Boolean(parsed.agreed),
+              acceptedAt: parsed.acceptedAt ?? "",
+              agreedVersions: parsed.agreedVersions,
+              gatePassed: Boolean(parsed.gatePassed),
+              submitStatus: parsed.submitStatus ?? "idle",
+              referenceNumber: parsed.referenceNumber ?? "",
+              confirmationSent: Boolean(parsed.confirmationSent),
+            };
+          } else {
+            window.sessionStorage.removeItem(CHAT_STORAGE_KEY);
+            snapshot = null;
+          }
         }
       }
     } catch {
