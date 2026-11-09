@@ -29,23 +29,65 @@ export function TurnstileField({
   siteKey,
   resetSignal,
   onTokenChange,
+  highlight,
+  onChallengeVisible,
 }: {
   siteKey: string;
   resetSignal?: number;
   /** Notified with the fresh token, and with "" when the token is lost
    *  (expired, errored, or reset) so callers can gate submit on it. */
   onTokenChange?: (token: string) => void;
+  /** Ring the widget box while the caller is waiting on the visitor's
+   *  tick (the AI chat gate's long wait). The ring only lands when a
+   *  challenge is actually visible — the container has height — so a
+   *  silent load is never outlined. */
+  highlight?: boolean;
+  /** Notified when a challenge box becomes visible or clears, so a
+   *  caller waiting on the token can point the visitor at the box
+   *  (the AI chat's review step). */
+  onChallengeVisible?: (visible: boolean) => void;
 }) {
   const id = useId().replace(/:/g, "");
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const widgetIdRef = useRef<string | null>(null);
-  const [scriptReady, setScriptReady] = useState(false);
+  // Ready at once when the Turnstile API is already on the page: if
+  // this field is ever remounted (a parent subtree swap), it must
+  // not wait for the Script tag's onReady, which only fires for the
+  // first mount — the widget would never re-render and no fresh
+  // token would ever arrive.
+  const [scriptReady, setScriptReady] = useState(
+    () => typeof window !== "undefined" && Boolean(window.turnstile),
+  );
   const [widgetMessage, setWidgetMessage] = useState("");
   const onTokenChangeRef = useRef(onTokenChange);
   useEffect(() => {
     onTokenChangeRef.current = onTokenChange;
   }, [onTokenChange]);
+  const onChallengeVisibleRef = useRef(onChallengeVisible);
+  useEffect(() => {
+    onChallengeVisibleRef.current = onChallengeVisible;
+  }, [onChallengeVisible]);
+
+  // A challenge is visible exactly when the widget container has
+  // height: interaction-only rendering keeps it at zero until
+  // Cloudflare asks for a tick.
+  const [challengeVisible, setChallengeVisible] = useState(false);
+  useEffect(() => {
+    const node = containerRef.current;
+    if (!node || typeof ResizeObserver === "undefined") return;
+    let lastReported = false;
+    const observer = new ResizeObserver(() => {
+      const visible = node.clientHeight > 10;
+      setChallengeVisible(visible);
+      if (visible !== lastReported) {
+        lastReported = visible;
+        onChallengeVisibleRef.current?.(visible);
+      }
+    });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (!siteKey || !scriptReady || !containerRef.current || !window.turnstile) {
@@ -108,7 +150,15 @@ export function TurnstileField({
         onReady={() => setScriptReady(true)}
       />
       <input ref={inputRef} type="hidden" name="cf-turnstile-response" />
-      <div id={`turnstile-${id}`} ref={containerRef} className="min-h-0" />
+      <div
+        id={`turnstile-${id}`}
+        ref={containerRef}
+        className={
+          highlight && challengeVisible
+            ? "mt-1 min-h-0 rounded-md ring-2 ring-blue ring-offset-2"
+            : "min-h-0"
+        }
+      />
       {widgetMessage ? (
         <p className="text-xs font-semibold text-grey-700" role="status" aria-live="polite">
           {widgetMessage}

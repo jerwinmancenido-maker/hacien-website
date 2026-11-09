@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import type { ChatStepKind } from "@/lib/guided-chat/steps";
 
 /** Shared chat building blocks for the AI chat panel: the agent's grey
@@ -8,13 +9,93 @@ import type { ChatStepKind } from "@/lib/guided-chat/steps";
  *  the guided questions were removed (owner decision, 2026-11-08); the
  *  AI chat is now the panel's only mode. */
 
-export function AgentMessage({ text }: { text: string }) {
+export function AgentMessage({ text, showAvatar = true }: { text: string; showAvatar?: boolean }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-blue text-xs font-bold text-white" aria-hidden="true">
-        H
-      </div>
+      {showAvatar ? (
+        <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-blue text-xs font-bold text-white" aria-hidden="true">
+          H
+        </div>
+      ) : (
+        <div className="h-8 w-8 shrink-0" aria-hidden="true" />
+      )}
       <p className="min-w-0 max-w-[85%] rounded-3xl rounded-tl-md bg-grey-100 px-4 py-3 text-base leading-7 text-ink">{text}</p>
+    </div>
+  );
+}
+
+/** The agent's bubble with a typewriter reveal (owner request,
+ *  2026-11-09). The reply arrives whole — it is safety-checked on the
+ *  server before it is ever shown — and is then revealed character by
+ *  character so the chat feels typed rather than pasted in. The reveal
+ *  takes about the same time whatever the reply's length (the step
+ *  grows with the text), tapping the bubble completes it at once, and
+ *  visitors who prefer reduced motion get the full text immediately.
+ *  Screen readers always get the full text. */
+export function TypingAgentMessage({
+  text,
+  showAvatar = true,
+  onTick,
+  onDone,
+}: {
+  text: string;
+  showAvatar?: boolean;
+  onTick?: () => void;
+  onDone: () => void;
+}) {
+  const reducedMotion =
+    typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const [count, setCount] = useState(() => (reducedMotion ? text.length : 0));
+  const timerRef = useRef<number | null>(null);
+  const onTickRef = useRef(onTick);
+  const onDoneRef = useRef(onDone);
+  // Keep the latest callbacks in refs (refs may not be written during
+  // render); this sync runs before the typing effect below.
+  useEffect(() => {
+    onTickRef.current = onTick;
+    onDoneRef.current = onDone;
+  });
+
+  useEffect(() => {
+    if (reducedMotion) {
+      onDoneRef.current();
+      return;
+    }
+    let shown = 0;
+    const step = Math.max(1, Math.ceil(text.length / 60));
+    timerRef.current = window.setInterval(() => {
+      shown = Math.min(text.length, shown + step);
+      setCount(shown);
+      onTickRef.current?.();
+      if (shown >= text.length) {
+        if (timerRef.current) window.clearInterval(timerRef.current);
+        onDoneRef.current();
+      }
+    }, 30);
+    return () => {
+      if (timerRef.current) window.clearInterval(timerRef.current);
+    };
+  }, [text, reducedMotion]);
+
+  function finish() {
+    if (timerRef.current) window.clearInterval(timerRef.current);
+    setCount(text.length);
+    onDoneRef.current();
+  }
+
+  return (
+    <div className="flex items-start gap-3" onClick={finish}>
+      {showAvatar ? (
+        <div className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-blue text-xs font-bold text-white" aria-hidden="true">
+          H
+        </div>
+      ) : (
+        <div className="h-8 w-8 shrink-0" aria-hidden="true" />
+      )}
+      <p className="min-w-0 max-w-[85%] rounded-3xl rounded-tl-md bg-grey-100 px-4 py-3 text-base leading-7 text-ink">
+        <span className="sr-only">{text}</span>
+        <span aria-hidden="true">{text.slice(0, count)}</span>
+      </p>
     </div>
   );
 }
@@ -46,6 +127,7 @@ export function MessageComposer({
   placeholder,
   required,
   autoFocus,
+  onAttach,
 }: {
   id: string;
   label: string;
@@ -56,6 +138,9 @@ export function MessageComposer({
   placeholder?: string;
   required?: boolean;
   autoFocus?: boolean;
+  /** When given, a paperclip button sits inside the composer and
+   *  stages a document for the next message. */
+  onAttach?: () => void;
 }) {
   return (
     <form
@@ -69,6 +154,24 @@ export function MessageComposer({
         <label htmlFor={id} className="sr-only">
           {label}
         </label>
+        {onAttach ? (
+          <button
+            type="button"
+            onClick={onAttach}
+            aria-label="Attach a document (BOQ, RFQ, or photo)"
+            className="grid h-11 w-11 shrink-0 cursor-pointer place-items-center rounded-full border border-grey-200 bg-white text-grey-700 hover:border-blue hover:text-blue"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        ) : null}
         {kind === "textarea" ? (
           <textarea
             id={id}

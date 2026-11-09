@@ -95,11 +95,12 @@ describe("AI chat panel wiring", () => {
   it("auto-scrolls the panel to the newest message after each reply", () => {
     const ai = read("components/AiChat.tsx");
     const floating = read("components/FloatingChat.tsx");
-    expect(floating).toContain("data-chat-scroll");
+    expect(floating).not.toContain("data-chat-scroll");
+    expect(ai).toContain("data-chat-scroll");
     expect(ai).toContain("bottomRef");
     expect(ai).toContain('closest<HTMLElement>("[data-chat-scroll]")');
     expect(ai).toContain("container.scrollTo({ top: container.scrollHeight");
-    expect(ai).toContain("[messages, sending, readyToReview, submitStatus, notice, companyLookup, started]");
+    expect(ai).toContain("[messages, sending, readyToReview, submitStatus, notice, companyLookup, started, scrollThreadToBottom]");
     // ...but never before the first message: the start screen stays
     // where it opened, with the greeting in view.
     expect(ai).toContain("if (!started) return;");
@@ -118,9 +119,92 @@ describe("AI chat panel wiring", () => {
     const ai = read("components/AiChat.tsx");
     expect(ai).toContain("HACIEN AI assistant");
     expect(ai).toContain("HACIEN AI assistant. Start with your work email");
-    expect(ai).toContain("onTokenChange={setTurnstileToken}");
+    expect(ai).toContain("onTokenChange={handleTurnstileToken}");
     expect(ai).toContain("Completing security check…");
     expect(ai).not.toContain("Prefer step-by-step questions?");
+  });
+
+  it("the security-check box sits in the gate column, above the agreement tick — one fixed mount", () => {
+    const ai = read("components/AiChat.tsx");
+    const field = read("components/TurnstileField.tsx");
+    // ONE widget mount for the whole session (owner report,
+    // 2026-11-09: a two-position swap remounted the widget and
+    // Cloudflare challenged the visitor a second time at the email
+    // step). The gate is built around the fixed mount instead: the
+    // intro renders above it and the agreement below it, and while
+    // the gate shows, the mount's wrapper takes the gate column's
+    // width (owner screenshot, 2026-11-09: as a wide bar under the
+    // header the box aligned with nothing).
+    expect(ai.match(/<TurnstileField/g)).toHaveLength(1);
+    expect(ai).toContain("const showGateIntro = !gatePassed && !(unavailable && !started);");
+    expect(ai).toContain('className={showGateIntro ? "mx-auto max-w-md" : widgetDormant ? "hidden" : undefined}');
+    const gateHelper = ai.indexOf("{GATE_HELPER}");
+    const mount = ai.indexOf("<TurnstileField", gateHelper);
+    const agreeBox = ai.indexOf('id="ai-chat-agree"', gateHelper);
+    expect(gateHelper).toBeGreaterThan(-1);
+    expect(mount).toBeGreaterThan(gateHelper);
+    expect(agreeBox).toBeGreaterThan(mount);
+    // If the field is ever remounted by a parent subtree swap, it
+    // must render at once when the Turnstile API is already loaded
+    // rather than waiting for the script tag's onReady, which fires
+    // for the first mount only.
+    expect(field).toContain("Boolean(window.turnstile)");
+  });
+
+  it("the send's fresh token is requested at the review step, never mid-conversation", () => {
+    const ai = read("components/AiChat.tsx");
+    const field = read("components/TurnstileField.tsx");
+    // The gate token is spent on the first turn. Resetting the
+    // widget for a replacement right there dropped a fresh "Verify
+    // you are human" box into the middle of the conversation
+    // whenever Cloudflare wanted a tick for the re-issue (owner
+    // report, 2026-11-09) — so the gate-pass block keeps the pass
+    // and clears the token WITHOUT a reset...
+    const gatePassBlock = ai.slice(ai.indexOf("if (result.gatePass)"), ai.indexOf("if (!result.ok)"));
+    expect(gatePassBlock).toContain("setGatePass(result.gatePass);");
+    expect(gatePassBlock).not.toContain("setTurnstileResetSignal");
+    // ...and the reset fires once, when a turn first reports the
+    // review step is ready — the send's context, not mid-chat.
+    const readyBlock = ai.slice(
+      ai.indexOf("setReadyToReview(result.turn.readyToReview);"),
+      ai.indexOf("void maybeLookupCompany"),
+    );
+    expect(readyBlock).toContain("reviewRefreshRef");
+    expect(readyBlock).toContain("setTurnstileResetSignal");
+    // If that refresh needs a tick, the box sits at the top of the
+    // chat: the field reports its visibility, and the review card
+    // points the visitor at the box while the send waits on it.
+    expect(field).toContain("onChallengeVisible");
+    expect(ai).toContain("onChallengeVisible={setSendChallengeVisible}");
+    expect(ai).toContain("turnstilePending && sendChallengeVisible");
+    expect(ai).toContain("showing at the top of this chat");
+    // And while the pass carries the conversation, the widget's
+    // frame is not drawn at all: left visible, its solved
+    // "Success!" state lingered at the top of the thread for the
+    // whole chat (owner report, 2026-11-09). The wrapper hides —
+    // the widget itself stays mounted, so nothing re-evaluates.
+    expect(ai).toContain("const widgetDormant = gatePass.length > 0 && !readyToReview;");
+    expect(ai).toContain('widgetDormant ? "hidden"');
+  });
+
+  it("the gate's security wait is the chat's spinner row, escalating to the missing tick", () => {
+    const ai = read("components/AiChat.tsx");
+    const field = read("components/TurnstileField.tsx");
+    // While the agreement is ticked but the token is missing, the
+    // chat's one processing row carries the wait under Continue —
+    // not a frozen label inside the button.
+    const gateStart = ai.indexOf("{GATE_HELPER}");
+    const gateEnd = ai.indexOf('id="ai-chat-email"', gateStart);
+    const gateSection = ai.slice(gateStart, gateEnd);
+    expect(gateSection).toContain("<ProcessingRow");
+    expect(gateSection).toContain("Completing security check…");
+    // Past two seconds the label names the missing tick, and the
+    // field rings the challenge box — only while one is visible.
+    expect(gateSection).toContain("box above to continue");
+    expect(ai).toContain("setTimeout(() => setGateWaitLong(true), 2000)");
+    expect(ai).toContain("highlight={gateWaiting && gateWaitLong}");
+    expect(field).toContain("ResizeObserver");
+    expect(field).toContain("ring-blue");
   });
 
   it("when the AI is unavailable the panel shows the honest message with the team email", () => {
@@ -681,17 +765,50 @@ describe("sendAiChatDocument", () => {
   });
 });
 
+describe("AI chat messaging pass", () => {
+  it("guides the AI to acknowledge specifics and treat documents as already given", () => {
+    const prompt = buildAiChatSystemPrompt();
+    expect(prompt).toContain("Acknowledge specifics before moving on");
+    expect(prompt).toContain("counts as already given");
+  });
+
+  it("types out each fresh AI reply instead of dropping it in whole", () => {
+    const ai = read("components/AiChat.tsx");
+    const bubbles = read("components/ChatBubbles.tsx");
+    expect(bubbles).toContain("TypingAgentMessage");
+    expect(bubbles).toContain("prefers-reduced-motion");
+    expect(ai).toContain("typingIndex");
+    expect(ai).toContain("setTypingIndex(history.length)");
+  });
+
+  it("gives every dead end a next step", () => {
+    const ai = read("components/AiChat.tsx");
+    expect(ai).toContain("The security check didn't go through that time");
+    expect(ai).toContain("Unable to send just now");
+    expect(ai).toContain("we'll pick it up from there");
+    expect(ai).not.toContain("Unable to send. Please try again later.");
+  });
+});
+
 describe("AI chat document UI wiring", () => {
   it("offers attach + drag-and-drop, stages one file, and shows the staged reading view", () => {
     const ai = read("components/AiChat.tsx");
+    const bubbles = read("components/ChatBubbles.tsx");
     expect(ai).toContain("sendAiChatDocument");
-    expect(ai).toContain("Attach a document (BOQ, RFQ, or photo)");
+    // The attach entry is the composer's paperclip button (owner
+    // decision, 2026-11-08): the composer carries the labelled
+    // button, AiChat wires it to the hidden file input.
+    expect(ai).toContain("onAttach={() => fileInputRef.current?.click()}");
+    expect(bubbles).toContain("Attach a document (BOQ, RFQ, or photo)");
     expect(ai).toContain("stageFile");
     expect(ai).toContain("dataTransfer.files");
+    // Dragging a file over the chat shows a real drop target, not
+    // just the old dashed outline.
+    expect(ai).toContain("Drop your file here");
     expect(ai).toContain("DocumentProcessingView");
     expect(ai).toContain("Reading · Your document");
     expect(ai).toContain("Extracting the items and quantities");
-    expect(ai).toContain("Documents are read only to prepare your quotation request");
+    expect(ai).toContain("Read only to prepare your request");
   });
 
   it("looks the company up from a work email and asks the visitor to confirm it", () => {
@@ -708,12 +825,74 @@ describe("AI chat document UI wiring", () => {
     expect(ai).toContain("Yes, that&rsquo;s my company");
   });
 
-  it("opens on the Tourly email start: centered, email first, pinned as the first message", () => {
+  it("opens on the Tourly email start: centered, email first, a normal first message", () => {
     const ai = read("components/AiChat.tsx");
     expect(ai).toContain("const started = messages.length > 0");
     expect(ai).toContain("submitEmail");
-    expect(ai).toContain("sticky top-0");
+    // The email was pinned to the thread top in the first Tourly
+    // build; the owner asked for the pin to go (2026-11-08) — every
+    // message scrolls normally now.
+    expect(ai).not.toContain("sticky top-0");
     expect(ai).toContain("pinnedEmail");
     expect(ai).not.toContain("pt-[9vh]");
+  });
+});
+
+describe("AI chat agreement gate + processing UI", () => {
+  it("opens on the gate: agreement first, the email step only after Continue", () => {
+    const ai = read("components/AiChat.tsx");
+    // Owner + lawyer decision (2026-11-08, Privacy Policy v2.5): the
+    // gate is the first screen — no email box until it is passed.
+    expect(ai).toContain("!gatePassed");
+    expect(ai).toContain("Before we start.");
+    expect(ai).toContain('id="ai-chat-agree"');
+    expect(ai).toContain("I agree to the");
+    expect(ai).toContain("Terms of Use");
+    expect(ai).toContain("and have read the");
+    expect(ai).toContain("Privacy Policy");
+    // The lawyer's helper line, verbatim.
+    expect(ai).toContain(
+      "AI replies are for product guidance only and are not an official quotation. Please do not enter government IDs, tax papers, or passwords.",
+    );
+    // Continue stays disabled until the bot-check token exists —
+    // the old press-and-park wait read as a hang (owner, 2026-11-09).
+    expect(ai).toContain("submitGate");
+    expect(ai).toContain("gateWaiting");
+    expect(ai).toContain("disabled={!agreed || !gateTokenReady}");
+    // The gate branch renders before the email start branch.
+    expect(ai.indexOf("!gatePassed")).toBeLessThan(ai.indexOf('id="ai-chat-email"'));
+  });
+
+  it("records the agreement tick and sends it with the submission", () => {
+    const ai = read("components/AiChat.tsx");
+    expect(ai).toContain("setAcceptedAt(checked ? new Date().toISOString() : \"\")");
+    expect(ai).toContain("agreementAcceptedAt: acceptedAt");
+    expect(ai).toContain('AGREEMENT_POLICY_VERSIONS = "terms:v2.1, privacy:v2.5"');
+    const payloads = read("lib/guided-chat/payloads.ts");
+    expect(payloads).toContain("agreementAcceptedAt");
+    expect(payloads).toContain("agreementPolicyVersions");
+  });
+
+  it("keeps the panel header to avatar and title — no subtitle", () => {
+    const ai = read("components/AiChat.tsx");
+    // Owner decision (2026-11-08): the header subtitle (the team's
+    // 1-business-day line) is removed entirely — it read as if the
+    // AI itself took a day to reply. The promise stays on the
+    // confirmation card, where {replyTime} is still used. No
+    // "live dot" either: green is banned in public components by
+    // the brand-colors rules.
+    expect(ai).not.toContain("AI chat · {replyTime}");
+    expect(ai).not.toContain("bg-green-500");
+    expect(ai).toContain("HACIEN AI assistant");
+  });
+
+  it("uses the one blue ring for every wait and groups the avatar", () => {
+    const ai = read("components/AiChat.tsx");
+    const bubbles = read("components/ChatBubbles.tsx");
+    expect(ai).toContain("ProcessingRow");
+    expect(ai).toContain('label="Sending your request…"');
+    expect(ai).not.toContain(">Typing…</p>");
+    expect(ai).toContain("showAvatar={messages[index - 1]?.role !== \"assistant\"}");
+    expect(bubbles).toContain("showAvatar");
   });
 });
