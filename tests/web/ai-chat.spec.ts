@@ -137,7 +137,7 @@ describe("AI chat panel wiring", () => {
     // header the box aligned with nothing).
     expect(ai.match(/<TurnstileField/g)).toHaveLength(1);
     expect(ai).toContain("const showGateIntro = !gatePassed && !(unavailable && !started);");
-    expect(ai).toContain('className={showGateIntro ? "mx-auto max-w-md" : undefined}');
+    expect(ai).toContain('className={showGateIntro ? "mx-auto max-w-md" : widgetDormant ? "hidden" : undefined}');
     const gateHelper = ai.indexOf("{GATE_HELPER}");
     const mount = ai.indexOf("<TurnstileField", gateHelper);
     const agreeBox = ai.indexOf('id="ai-chat-agree"', gateHelper);
@@ -178,6 +178,13 @@ describe("AI chat panel wiring", () => {
     expect(ai).toContain("onChallengeVisible={setSendChallengeVisible}");
     expect(ai).toContain("turnstilePending && sendChallengeVisible");
     expect(ai).toContain("showing at the top of this chat");
+    // And while the pass carries the conversation, the widget's
+    // frame is not drawn at all: left visible, its solved
+    // "Success!" state lingered at the top of the thread for the
+    // whole chat (owner report, 2026-11-09). The wrapper hides —
+    // the widget itself stays mounted, so nothing re-evaluates.
+    expect(ai).toContain("const widgetDormant = gatePass.length > 0 && !readyToReview;");
+    expect(ai).toContain('widgetDormant ? "hidden"');
   });
 
   it("the gate's security wait is the chat's spinner row, escalating to the missing tick", () => {

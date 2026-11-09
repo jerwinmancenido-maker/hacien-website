@@ -674,6 +674,15 @@ export function AiChat({
   // (Success and error both imply the gate already passed, so only
   // the unavailable screen needs an explicit exclusion here.)
   const showGateIntro = !gatePassed && !(unavailable && !started);
+  // While the gate pass is held and the review step is not yet
+  // reached, the widget has no job — but left drawn it keeps its
+  // last frame on screen (the ticked "Success!" bar) for the whole
+  // conversation, reading as a step the chat is stuck on (owner
+  // report, 2026-11-09). Its wrapper is hidden for that window
+  // instead: the widget stays mounted, so nothing re-evaluates,
+  // and it reappears at the review step together with the send's
+  // fresh-token refresh.
+  const widgetDormant = gatePass.length > 0 && !readyToReview;
 
   return (
     <div
@@ -773,8 +782,10 @@ export function AiChat({
             is built around this fixed spot instead: while the gate
             is up, the wrapper takes the gate column's width, which
             puts a challenged box directly above the agreement tick
-            in the branch below. A class change does not remount. */}
-        <div className={showGateIntro ? "mx-auto max-w-md" : undefined}>
+            in the branch below; while the gate pass is held and the
+            review step is still ahead, the wrapper is hidden (see
+            widgetDormant above). A class change does not remount. */}
+        <div className={showGateIntro ? "mx-auto max-w-md" : widgetDormant ? "hidden" : undefined}>
           <TurnstileField
             siteKey={turnstileSiteKey}
             resetSignal={turnstileResetSignal}
