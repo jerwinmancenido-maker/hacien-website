@@ -33,6 +33,12 @@ export function FloatingChat({
   aiConfigured: boolean;
 }) {
   const [open, setOpen] = useState(false);
+  /** Once opened, the panel — and the chat inside it — stays mounted;
+   *  closing only hides it, so a conversation is never lost by
+   *  closing the panel mid-chat (owner decision, 2026-11-09). The
+   *  chat additionally keeps itself in session storage, which covers
+   *  full page loads. */
+  const [hasOpened, setHasOpened] = useState(false);
   const pathname = usePathname();
   const autoOpenedFor = useRef<string | null>(null);
 
@@ -40,11 +46,13 @@ export function FloatingChat({
     if (!pathname || !AUTO_OPEN_PATHS.includes(pathname)) return;
     if (autoOpenedFor.current === pathname) return;
     autoOpenedFor.current = pathname;
+    setHasOpened(true);
     setOpen(true);
   }, [pathname]);
 
   useEffect(() => {
     function onOpenRequest() {
+      setHasOpened(true);
       setOpen(true);
     }
     window.addEventListener(OPEN_CHAT_EVENT, onOpenRequest);
@@ -62,11 +70,11 @@ export function FloatingChat({
 
   return (
     <>
-      {open ? (
+      {hasOpened ? (
         <div
           role="dialog"
           aria-label="Chat with the HACIEN team"
-          className="fixed inset-x-4 bottom-4 top-20 z-40 flex flex-col overflow-hidden rounded-3xl border border-grey-200 bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:top-auto sm:bottom-6 sm:min-h-[640px] sm:w-[660px] sm:max-h-[min(1280px,calc(100dvh-9rem))]"
+          className={`${open ? "flex" : "hidden"} fixed inset-x-4 bottom-4 top-20 z-40 flex-col overflow-hidden rounded-3xl border border-grey-200 bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:top-auto sm:bottom-6 sm:min-h-[640px] sm:w-[660px] sm:max-h-[min(1280px,calc(100dvh-9rem))]`}
         >
           <button
             type="button"
@@ -92,7 +100,10 @@ export function FloatingChat({
       {!open ? (
         <button
           type="button"
-          onClick={() => setOpen(true)}
+          onClick={() => {
+            setHasOpened(true);
+            setOpen(true);
+          }}
           aria-label="Open chat with the HACIEN team"
           aria-expanded={open}
           className="fixed right-6 bottom-6 z-40 grid h-14 w-14 cursor-pointer place-items-center rounded-full bg-blue text-white shadow-2xl hover:bg-blue-dark"

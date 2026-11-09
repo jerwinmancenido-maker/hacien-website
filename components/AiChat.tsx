@@ -9,9 +9,15 @@ import { emailDomain, isFreeMailDomain } from "@/lib/ai/company-lookup";
 import { AI_DOCUMENT_ACCEPT, validateAiDocument } from "@/lib/ai/document";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
 import { replyTime } from "@/data/companyContact";
-import { AgentMessage, MessageComposer, TypingAgentMessage, UserBubble } from "@/components/ChatBubbles";
+import {
+  AgentMessage,
+  ChatChoiceBox,
+  MessageComposer,
+  TypingAgentMessage,
+  UserBubble,
+} from "@/components/ChatBubbles";
 import { TurnstileField } from "@/components/TurnstileField";
-import { getChatPath } from "@/lib/guided-chat/steps";
+import { CALLBACK_TIME_OPTIONS, getChatPath } from "@/lib/guided-chat/steps";
 import {
   buildCallbackPayload,
   buildInquiryPayload,
@@ -50,6 +56,29 @@ const MIN_SENDING_MS = 700;
  *  instead of flashing past when the work is fast (owner request,
  *  2026-11-08). */
 const MIN_STAGED_VIEW_MS = 2_000;
+/** Never lose the chat (owner decision, 2026-11-09): the thread is
+ *  kept in the tab's session storage so closing the panel — or
+ *  moving to another page and back — restores it as it was. The
+ *  signed gate pass and the bot-check token are deliberately NOT
+ *  stored: a restored chat re-verifies silently through the widget
+ *  before its next turn, exactly like a first turn. */
+const CHAT_STORAGE_KEY = "hacien-ai-chat-v1";
+
+type ChatSnapshot = {
+  v: 1;
+  messages: ChatMessage[];
+  fields: GuidedChatAnswers;
+  path: AiChatPath | null;
+  readyToReview: boolean;
+  startedAt: number | null;
+  pinnedEmail: string;
+  agreed: boolean;
+  acceptedAt: string;
+  gatePassed: boolean;
+  submitStatus: "idle" | "success" | "error";
+  referenceNumber: string;
+  confirmationSent: boolean;
+};
 
 function sleep(ms: number) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -230,6 +259,20 @@ export function AiChat({
   /** The send's fresh token is requested once, when the review step
    *  is first reached — never mid-conversation. */
   const reviewRefreshRef = useRef(false);
+  /** Choice boxes (owner design, 2026-11-09): the index of the
+   *  assistant message the "what do you need" box belongs to — set
+   *  when the reply to a company confirmation lands; -1 when the box
+   *  is not owed. The box renders only while that message is still
+   *  the latest one, so any reply from the visitor retires it. */
+  const [needBoxIndex, setNeedBoxIndex] = useState(-1);
+  const needReplyRef = useRef(false);
+  /** A document turn has landed and its extracted list is waiting
+   *  for the visitor's Looks right / Needs changes tap. */
+  const [docConfirmPending, setDocConfirmPending] = useState(false);
+  /** Session restore runs once on mount; saving stays off until it
+   *  has run, so the empty initial state never overwrites a stored
+   *  thread before it is read. */
+  const restoreDoneRef = useRef(false);
   /** Tourly start state: the email is collected on the centered start
    *  screen before the thread begins, then pinned as its first
    *  message and kept in the intake fields from the first turn. */
@@ -275,6 +318,26 @@ export function AiChat({
   const turnstilePending = Boolean(turnstileSiteKey) && turnstileToken.length === 0;
   const started = messages.length > 0;
 
+  /** Choice-box visibility, all derived from the turn state (never
+   *  from the reply's wording): a box shows only under the latest
+   *  assistant message, after its typewriter reveal has finished,
+   *  and only while its question is still open. At most one shows —
+   *  the checks below are ordered by which moment owns the thread. */
+  const lastIsAssistant = messages[messages.length - 1]?.role === "assistant";
+  const boxIdle = started && lastIsAssistant && !sending && typingIndex < 0 && submitStatus !== "success";
+  const showNeedChoices =
+    boxIdle && needBoxIndex === messages.length - 1 && !fields.need && !readyToReview && !attachment;
+  const showDocChoices = boxIdle && docConfirmPending && !readyToReview && !showNeedChoices;
+  const showPathChoices =
+    boxIdle && !path && Boolean(fields.need) && !readyToReview && !showNeedChoices && !showDocChoices;
+  const showCallbackChoices =
+    boxIdle &&
+    path === "callback" &&
+    !fields.bestTime &&
+    !readyToReview &&
+    !showNeedChoices &&
+    !showDocChoices;
+
   /** Both gate ticks are in when the agreement is ticked and the
    *  security token exists (or no check is configured). Continue
    *  stays disabled until then — the previous press-and-park wait
@@ -314,6 +377,102 @@ export function AiChat({
     scrollThreadToBottom();
   }, [messages, sending, readyToReview, submitStatus, notice, companyLookup, started, scrollThreadToBottom]);
 
+  // Restore a stored thread once, on mount. The read is synchronous
+  // and unlocks saving before it returns, so the empty initial state
+  // can never overwrite the stored thread; the state itself is
+  // applied a tick later (the codebase's pattern for mount state).
+  useEffect(() => {
+    let snapshot: ChatSnapshot | null = null;
+    try {
+      const raw = window.sessionStorage.getItem(CHAT_STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw) as ChatSnapshot;
+        if (
+          parsed &&
+          parsed.v === 1 &&
+          Array.isArray(parsed.messages) &&
+          parsed.messages.every(
+            (message) =>
+              message &&
+              (message.role === "user" || message.role === "assistant") &&
+              typeof message.text === "string",
+          ) &&
+          parsed.fields &&
+          typeof parsed.fields === "object" &&
+          (parsed.path === null ||
+            parsed.path === "quote" ||
+            parsed.path === "inquiry" ||
+            parsed.path === "callback" ||
+            parsed.path === "track")
+        ) {
+          snapshot = parsed;
+        }
+      }
+    } catch {
+      snapshot = null;
+    }
+    restoreDoneRef.current = true;
+    if (!snapshot) return;
+    const restored = snapshot;
+    const timer = setTimeout(() => {
+      setMessages(restored.messages);
+      setFields(restored.fields);
+      setPath(restored.path);
+      setReadyToReview(restored.readyToReview);
+      setStartedAt(restored.startedAt);
+      setPinnedEmail(restored.pinnedEmail);
+      setAgreed(restored.agreed);
+      setAcceptedAt(restored.acceptedAt);
+      setGatePassed(restored.gatePassed);
+      setSubmitStatus(restored.submitStatus);
+      setReferenceNumber(restored.referenceNumber);
+      setConfirmationSent(restored.confirmationSent);
+      if (restored.fields.company) lookupAttemptedFor.current = restored.pinnedEmail || null;
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Keep the stored thread current. The bot-check token and the
+  // signed gate pass never enter it (see CHAT_STORAGE_KEY).
+  useEffect(() => {
+    if (!restoreDoneRef.current) return;
+    if (messages.length === 0 && !gatePassed) return;
+    const snapshot: ChatSnapshot = {
+      v: 1,
+      messages,
+      fields,
+      path,
+      readyToReview,
+      startedAt,
+      pinnedEmail,
+      agreed,
+      acceptedAt,
+      gatePassed,
+      submitStatus: submitStatus === "sending" ? "idle" : submitStatus,
+      referenceNumber,
+      confirmationSent,
+    };
+    try {
+      window.sessionStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(snapshot));
+    } catch {
+      // Storage can be unavailable (private mode, quota) — the chat
+      // simply will not restore next time; nothing else changes.
+    }
+  }, [
+    messages,
+    fields,
+    path,
+    readyToReview,
+    startedAt,
+    pinnedEmail,
+    agreed,
+    acceptedAt,
+    gatePassed,
+    submitStatus,
+    referenceNumber,
+    confirmationSent,
+  ]);
+
   function resetAll() {
     setMessages([]);
     setTypingIndex(-1);
@@ -340,6 +499,16 @@ export function AiChat({
     setEmailError("");
     setPinnedEmail("");
     setRuntimeUnavailable(false);
+    setNeedBoxIndex(-1);
+    needReplyRef.current = false;
+    setDocConfirmPending(false);
+    // Start over clears the stored thread too — the next visit opens
+    // on the start screen, not on the conversation just discarded.
+    try {
+      window.sessionStorage.removeItem(CHAT_STORAGE_KEY);
+    } catch {
+      // Nothing to clear when storage is unavailable.
+    }
   }
 
   /** After a quote turn collects a work email but no company yet,
@@ -418,12 +587,14 @@ export function AiChat({
     const nextFields = { ...fields, company: companyLookup.companyName };
     setFields(nextFields);
     setCompanyLookup({ status: "done", email: companyLookup.email });
+    needReplyRef.current = true;
     void send(`Yes — ${companyLookup.companyName} is my company.`, nextFields);
   }
 
   function declineCompany() {
     if (companyLookup.status !== "confirming") return;
     setCompanyLookup({ status: "done", email: companyLookup.email });
+    needReplyRef.current = true;
     void send("No, that's not my company.");
   }
 
@@ -468,6 +639,7 @@ export function AiChat({
       }
     }
 
+    setDocConfirmPending(false);
     setSending(true);
     setReadingDocument(Boolean(file));
     const turnStartedAt = Date.now();
@@ -544,6 +716,15 @@ export function AiChat({
 
     setMessages([...history, { role: "assistant", text: result.turn.reply }]);
     setTypingIndex(history.length);
+    // The reply to a company confirmation carries the "what do you
+    // need" choice box (owner design, 2026-11-09); a document turn's
+    // reply carries the confirm-the-list box. Both key off the state
+    // of this send, never off the reply's wording.
+    if (needReplyRef.current) {
+      needReplyRef.current = false;
+      setNeedBoxIndex(history.length);
+    }
+    if (file) setDocConfirmPending(true);
     setPath(result.turn.path);
     setFields(
       pinnedEmail && !result.turn.fields.email
@@ -1019,6 +1200,61 @@ export function AiChat({
                   </button>
                 </div>
               </div>
+            ) : null}
+
+            {showNeedChoices ? (
+              <ChatChoiceBox
+                caption="Attach works for an RFQ, a bill of quantities, a specification sheet, or a photo of your list — we read it into the request."
+                choices={[
+                  {
+                    label: "Attach a document or photo",
+                    icon: "attach",
+                    onPick: () => {
+                      setNeedBoxIndex(-1);
+                      fileInputRef.current?.click();
+                    },
+                  },
+                  {
+                    label: "I'll type it",
+                    onPick: () => {
+                      setNeedBoxIndex(-1);
+                      document.getElementById("ai-chat-message")?.focus();
+                    },
+                  },
+                  {
+                    label: "Arrange a callback instead",
+                    onPick: () => {
+                      setNeedBoxIndex(-1);
+                      void send("Arrange a callback");
+                    },
+                  },
+                ]}
+              />
+            ) : null}
+            {showDocChoices ? (
+              <ChatChoiceBox
+                choices={[
+                  { label: "Looks right", onPick: () => void send("Looks right") },
+                  { label: "Needs changes", onPick: () => void send("Needs changes") },
+                ]}
+              />
+            ) : null}
+            {showPathChoices ? (
+              <ChatChoiceBox
+                choices={[
+                  { label: "Quotation request", onPick: () => void send("Quotation request") },
+                  { label: "General inquiry", onPick: () => void send("General inquiry") },
+                  { label: "Arrange a callback", onPick: () => void send("Arrange a callback") },
+                ]}
+              />
+            ) : null}
+            {showCallbackChoices ? (
+              <ChatChoiceBox
+                choices={CALLBACK_TIME_OPTIONS.map((option) => ({
+                  label: option,
+                  onPick: () => void send(option),
+                }))}
+              />
             ) : null}
 
             {notice ? <AgentMessage text={notice} /> : null}
