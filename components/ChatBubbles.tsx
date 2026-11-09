@@ -213,3 +213,56 @@ export function MessageComposer({
     </form>
   );
 }
+
+/** One tappable choice in a ChatChoiceBox. `icon: "attach"` marks the
+ *  row as the document action, drawn with the paperclip in a circle. */
+export type ChatChoice = {
+  label: string;
+  icon?: "attach";
+  onPick: () => void;
+};
+
+/** The choice box (owner design, 2026-11-09): at the chat's decision
+ *  points the visitor answers by tapping a row instead of reading the
+ *  options spelled out in the assistant's prose. The box renders under
+ *  the latest assistant message; an optional caption at its foot names
+ *  what an action accepts (the attach row's document kinds). Tapping a
+ *  row either sends its label as the visitor's message or fires an
+ *  action (attach opens the file picker) — the caller decides. */
+export function ChatChoiceBox({ choices, caption }: { choices: ChatChoice[]; caption?: string }) {
+  return (
+    <div className="ml-11 overflow-hidden rounded-2xl border border-grey-300 bg-white shadow-sm">
+      <div className="divide-y divide-grey-200">
+        {choices.map((choice) => (
+          <button
+            key={choice.label}
+            type="button"
+            onClick={choice.onPick}
+            className="flex w-full cursor-pointer items-center gap-2.5 px-4 py-3 text-left text-sm font-semibold text-ink transition hover:bg-grey-50 hover:text-blue"
+          >
+            {choice.icon === "attach" ? (
+              <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-grey-200 text-blue">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+            ) : null}
+            <span>{choice.label}</span>
+            <span aria-hidden="true" className="ml-auto text-lg leading-none text-grey-400">
+              ›
+            </span>
+          </button>
+        ))}
+      </div>
+      {caption ? (
+        <p className="border-t border-grey-200 bg-grey-50 px-4 py-2.5 text-xs leading-5 text-grey-600">{caption}</p>
+      ) : null}
+    </div>
+  );
+}
