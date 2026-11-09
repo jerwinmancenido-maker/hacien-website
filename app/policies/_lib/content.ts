@@ -13,6 +13,11 @@ const aiChatPublishDate = "November 8, 2026";
  *  Policy changed, so it carries its own date like the v2.4 update. */
 const privacyGateDate = "November 9, 2026";
 
+/** Effective date of the Privacy Policy v2.6 update (chat tab browser
+ *  storage line, lawyer-approved 2026-11-09). Only the Privacy Policy
+ *  changed, so it carries its own date like the v2.5 update. */
+const privacyChatTabDate = "November 9, 2026";
+
 function p(text: string): LegalBlock {
   return { kind: "p", text };
 }
@@ -62,7 +67,7 @@ export const policiesPage: LegalPageModel = {
           "Manufacturer or supplier warranty, and how to make a claim",
           "v1.1",
         ],
-        ["[Privacy Policy](/privacy)", "What personal data we keep, why, and your rights", "v2.5"],
+        ["[Privacy Policy](/privacy)", "What personal data we keep, why, and your rights", "v2.6"],
         ["[Website Terms of Use](/terms)", "Rules for using haciensolutions.com", "v2.1"],
         [
           "[Business and Legal Information](/legal)",
@@ -85,13 +90,13 @@ export const privacyPage: LegalPageModel = {
   title: "Privacy Policy",
   description:
     "We collect business and contact details to answer requests, prepare quotations, deliver orders, issue BIR documents and keep proper records.",
-  versionLine: `Version 2.5 · Effective ${privacyGateDate} · Replaces version 2.4 (effective November 8, 2026)`,
+  versionLine: `Version 2.6 · Effective ${privacyChatTabDate} · Replaces version 2.5 (effective November 9, 2026)`,
   historyLink: true,
   showContents: true,
   meta: [
-    { label: "Version", value: "2.5" },
-    { label: "Effective", value: privacyGateDate },
-    { label: "Replaces", value: "2.4 (November 8, 2026)" },
+    { label: "Version", value: "2.6" },
+    { label: "Effective", value: privacyChatTabDate },
+    { label: "Replaces", value: "2.5 (November 9, 2026)" },
   ],
   intro: [],
   sections: [
@@ -397,6 +402,7 @@ export const privacyPage: LegalPageModel = {
           "**Google Analytics:** it shows us pages viewed, device and browser type, approximate location (city or country), and how visitors reached our site. Google Analytics 4 does not log or store IP addresses. We keep this data for 2 months. Advertising features and Google signals are turned off. To withdraw consent, click **Cookie settings** in the footer and choose Decline, or clear your browser's cookies for our site.",
           "**Cloudflare bot check:** the chat and the request-tracking lookup use Cloudflare Turnstile to stop spam. Cloudflare handles technical data for this under its own privacy policy (https://www.cloudflare.com/privacypolicy/).",
           "**Browser storage:** your RFQ list on our Products pages is saved in your own browser. It is not sent to us until you send it through the chat. You can clear it by clearing your browser's site data.",
+          "**Chat in your browser tab:** while you use the chat, a copy of the conversation (your messages, your work email, your answers and your agreement record) is saved in your own browser tab so the chat is not lost if you reload or open another page on our site. This copy stays on your device and is not kept on our servers. It is deleted when you close the tab or tap Start over.",
           "**Document tool (Help page):** files you check with this tool are checked in memory on our web server for file type, size (up to 10 MB) and file name only. No outside or AI service reads them, they are not stored after the check finishes, and the tool does not create an official record.",
           "**AI assistant:** our website chat is assisted by an AI service (Anthropic). The messages you type are sent to that service so it can reply, and are handled under its commercial privacy and data processing terms. Under Anthropic's commercial API terms, chat messages sent through our website are **not** used to train AI models. Please do not send passwords, card numbers, government IDs or tax papers through the chat — we will never ask for them there.",
           "**No decisions by AI:** the assistant's answers are information only. It cannot check live prices or stock, and it does not approve or decide anything. A real person from HACIEN reviews every submitted request.",
@@ -1028,7 +1034,7 @@ export const policyHistoryPage: LegalPageModel = {
       rows: [
         ["[Terms of Sale](/terms-of-sale)", "v1.2", published],
         ["[Warranty and Returns](/warranty)", "v1.1", published],
-        ["[Privacy Policy](/privacy)", "v2.5", privacyGateDate],
+        ["[Privacy Policy](/privacy)", "v2.6", privacyChatTabDate],
         ["[Website Terms of Use](/terms)", "v2.1", aiChatPublishDate],
         ["[Business and Legal Information](/legal)", "v2.0", published],
         ["[HACIEN Policies](/policies)", "v1.0", published],
@@ -1046,6 +1052,7 @@ export const policyHistoryPage: LegalPageModel = {
             ["Terms of Sale", "v1.1", "November 2, 2026"],
             ["Terms of Sale", "v1.0", "November 2, 2026"],
             ["Warranty and Returns", "v1.0", "November 2, 2026"],
+            ["Privacy Policy", "v2.5", privacyGateDate],
             ["Privacy Policy", "v2.4", "November 8, 2026"],
             ["Privacy Policy", "v2.3", "November 2, 2026"],
             ["Privacy Policy", "v2.2", "November 2, 2026"],
@@ -1068,6 +1075,10 @@ export const policyHistoryPage: LegalPageModel = {
         p("**Warranty and Returns: changes from v1.0**"),
         ul([
           "Warranty and Returns v1.1: warranty drop-offs at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
+        ]),
+        p("**Privacy Policy: Changes from v2.5**"),
+        ul([
+          `Version 2.6 (${privacyChatTabDate}): Added that an in-progress chat is saved in the visitor's own browser tab until the tab is closed or Start over is tapped.`,
         ]),
         p("**Privacy Policy: Changes from v2.4**"),
         ul([

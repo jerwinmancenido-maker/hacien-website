@@ -65,7 +65,7 @@ const MIN_STAGED_VIEW_MS = 2_000;
 const CHAT_STORAGE_KEY = "hacien-ai-chat-v1";
 
 type ChatSnapshot = {
-  v: 1;
+  v: 2;
   messages: ChatMessage[];
   fields: GuidedChatAnswers;
   path: AiChatPath | null;
@@ -74,6 +74,7 @@ type ChatSnapshot = {
   pinnedEmail: string;
   agreed: boolean;
   acceptedAt: string;
+  agreedVersions?: string;
   gatePassed: boolean;
   submitStatus: "idle" | "success" | "error";
   referenceNumber: string;
@@ -105,9 +106,9 @@ const GATE_TEXT =
 const GATE_HELPER =
   "AI replies are for product guidance only and are not an official quotation. Please do not enter government IDs, tax papers, or passwords.";
 /** Policy versions recorded with the agreement (the lawyer's
- *  recording for Privacy Policy v2.5): the tick's ISO timestamp and
+ *  recording for Privacy Policy v2.6): the tick's ISO timestamp and
  *  this version string travel with the submitted request. */
-const AGREEMENT_POLICY_VERSIONS = "terms:v2.1, privacy:v2.5";
+const AGREEMENT_POLICY_VERSIONS = "terms:v2.1, privacy:v2.6";
 
 /** Mirrors the plausible-email check the server runs (lib/ai/intake). */
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -279,13 +280,12 @@ export function AiChat({
   const [emailDraft, setEmailDraft] = useState("");
   const [emailError, setEmailError] = useState("");
   const [pinnedEmail, setPinnedEmail] = useState("");
-  /** Pre-chat agreement gate (lawyer-approved, Privacy Policy v2.5):
+  /** Pre-chat agreement gate (lawyer-approved, Privacy Policy v2.6):
    *  the panel opens on the gate and the email step appears only
    *  after the agreement is ticked and Continue is pressed. The
    *  tick's timestamp is recorded and travels with the submission.
-   *  Once passed, the gate stays passed for the panel session —
-   *  Start over returns to the email step, not the gate — so
-   *  resetAll deliberately leaves this state untouched. */
+   *  Start over clears the whole chat including the agreement, so
+   *  the visitor returns to the gate and must confirm again. */
   const [agreed, setAgreed] = useState(false);
   const [acceptedAt, setAcceptedAt] = useState("");
   const [gatePassed, setGatePassed] = useState(false);
@@ -386,10 +386,10 @@ export function AiChat({
     try {
       const raw = window.sessionStorage.getItem(CHAT_STORAGE_KEY);
       if (raw) {
-        const parsed = JSON.parse(raw) as ChatSnapshot;
+        const parsed = JSON.parse(raw) as Partial<Omit<ChatSnapshot, "v">> & { v?: number };
         if (
           parsed &&
-          parsed.v === 1 &&
+          (parsed.v === 1 || parsed.v === 2) &&
           Array.isArray(parsed.messages) &&
           parsed.messages.every(
             (message) =>
@@ -405,7 +405,31 @@ export function AiChat({
             parsed.path === "callback" ||
             parsed.path === "track")
         ) {
-          snapshot = parsed;
+          // Version re-prompt: restore fully only when AGREEMENT_POLICY_VERSIONS matches.
+          // Old v1 snapshots or snapshots missing/mismatched agreedVersions
+          // discard the stored thread entirely so visitor starts fresh at the gate;
+          // prevents success/error chrome from stacking over the re-prompt gate.
+          if (parsed.v === 2 && parsed.agreedVersions === AGREEMENT_POLICY_VERSIONS) {
+            snapshot = {
+              v: 2,
+              messages: parsed.messages,
+              fields: parsed.fields,
+              path: parsed.path ?? null,
+              readyToReview: Boolean(parsed.readyToReview),
+              startedAt: parsed.startedAt ?? null,
+              pinnedEmail: parsed.pinnedEmail ?? "",
+              agreed: Boolean(parsed.agreed),
+              acceptedAt: parsed.acceptedAt ?? "",
+              agreedVersions: parsed.agreedVersions,
+              gatePassed: Boolean(parsed.gatePassed),
+              submitStatus: parsed.submitStatus ?? "idle",
+              referenceNumber: parsed.referenceNumber ?? "",
+              confirmationSent: Boolean(parsed.confirmationSent),
+            };
+          } else {
+            window.sessionStorage.removeItem(CHAT_STORAGE_KEY);
+            snapshot = null;
+          }
         }
       }
     } catch {
@@ -436,9 +460,9 @@ export function AiChat({
   // signed gate pass never enter it (see CHAT_STORAGE_KEY).
   useEffect(() => {
     if (!restoreDoneRef.current) return;
-    if (messages.length === 0 && !gatePassed) return;
+    if (!gatePassed && messages.length === 0) return;
     const snapshot: ChatSnapshot = {
-      v: 1,
+      v: 2,
       messages,
       fields,
       path,
@@ -447,6 +471,7 @@ export function AiChat({
       pinnedEmail,
       agreed,
       acceptedAt,
+      agreedVersions: agreed ? AGREEMENT_POLICY_VERSIONS : "",
       gatePassed,
       submitStatus: submitStatus === "sending" ? "idle" : submitStatus,
       referenceNumber,
@@ -502,8 +527,11 @@ export function AiChat({
     setNeedBoxIndex(-1);
     needReplyRef.current = false;
     setDocConfirmPending(false);
+    setAgreed(false);
+    setAcceptedAt("");
+    setGatePassed(false);
     // Start over clears the stored thread too — the next visit opens
-    // on the start screen, not on the conversation just discarded.
+    // on the agreement gate, not on the conversation just discarded.
     try {
       window.sessionStorage.removeItem(CHAT_STORAGE_KEY);
     } catch {

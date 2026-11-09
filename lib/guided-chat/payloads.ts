@@ -17,11 +17,11 @@ export type GuidedChatMeta = {
   /** Cloudflare Turnstile token from the confirm step. */
   turnstileToken: string;
   /** ISO timestamp of the pre-chat agreement tick (lawyer-approved
-   *  recording, Privacy Policy v2.5). Empty when no agreement was
+   *  recording, Privacy Policy v2.6). Empty when no agreement was
    *  recorded for the session. */
   agreementAcceptedAt?: string;
   /** Policy versions in effect at the agreement, e.g.
-   *  "terms:v2.1, privacy:v2.5". */
+   *  "terms:v2.1, privacy:v2.6". */
   agreementPolicyVersions?: string;
 };
 
