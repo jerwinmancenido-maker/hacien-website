@@ -9,6 +9,15 @@ const protectedPrefixes = [
 ];
 const localCmsPrefixes = ["/cms-preview", "/command-center", "/api/local-cms"];
 
+/** One public JPEG filename. Rejects traversal, nested paths, and remote URLs. */
+const localPhotoFile = /^\/images\/([A-Za-z0-9][A-Za-z0-9._-]*\.jpg)$/;
+
+export function legacyOptimizerPhotoPath(url: string | null): string | null {
+  if (!url) return null;
+  const match = localPhotoFile.exec(url);
+  return match ? `/images/${match[1]}` : null;
+}
+
 function isProtectedRoute(pathname: string) {
   return protectedPrefixes.some((prefix) => pathname.startsWith(prefix));
 }
@@ -19,6 +28,17 @@ function isLocalCmsRoute(pathname: string) {
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+  if (pathname === "/_next/image") {
+    const photoPath = legacyOptimizerPhotoPath(request.nextUrl.searchParams.get("url"));
+    if (!photoPath) {
+      return NextResponse.next();
+    }
+    const destination = request.nextUrl.clone();
+    destination.pathname = photoPath;
+    destination.search = "";
+    return NextResponse.redirect(destination, 307);
+  }
+
   if (isLocalCmsRoute(pathname) && process.env.CMS_PREVIEW_ENABLED !== "true") {
     return new NextResponse("Not found", {
       status: 404,
@@ -44,5 +64,12 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/account/:path*", "/admin/:path*", "/cms-preview", "/command-center/:path*", "/api/local-cms/:path*"],
+  matcher: [
+    "/_next/image",
+    "/account/:path*",
+    "/admin/:path*",
+    "/cms-preview",
+    "/command-center/:path*",
+    "/api/local-cms/:path*",
+  ],
 };

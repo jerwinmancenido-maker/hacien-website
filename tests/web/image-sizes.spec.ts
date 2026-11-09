@@ -1,6 +1,8 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
+import nextConfig from "@/next.config";
+import { legacyOptimizerPhotoPath } from "@/middleware";
 
 const ROOT = process.cwd();
 
@@ -17,6 +19,8 @@ describe("Image sizes and priority (scroll / LCP guardrails)", () => {
   it("EnterpriseMediaImage always carries an alt from its media record", () => {
     const imagery = read("components/EnterpriseImagery.tsx");
     expect(imagery).toMatch(/alt=\{record\.alt\}/);
+    expect(imagery).toMatch(/aria-label=\{record\.alt\}/);
+    expect(imagery).toMatch(/onError=\{\(\) => setFailed\(true\)\}/);
   });
 
   it("EnterpriseMediaImage uses quality 70 and fill + object-cover", () => {
@@ -43,10 +47,21 @@ describe("Image sizes and priority (scroll / LCP guardrails)", () => {
     expect(imagery).toMatch(/enterpriseThumbSizes/);
   });
 
-  it("next.config serves AVIF/WebP and includes the 390 phone device size", () => {
+  it("keeps device sizes and serves photos directly instead of the on-demand optimizer", () => {
     const config = read("next.config.ts");
     expect(config).toMatch(/image\/avif/);
     expect(config).toMatch(/image\/webp/);
     expect(config).toMatch(/deviceSizes: \[390,/);
+    expect(nextConfig.images?.unoptimized).toBe(true);
+  });
+
+  it("sends cached optimizer URLs for local photos to the file and rejects other urls", () => {
+    expect(legacyOptimizerPhotoPath("/images/network.jpg")).toBe("/images/network.jpg");
+    expect(legacyOptimizerPhotoPath("/images/command-center.jpg")).toBe("/images/command-center.jpg");
+    expect(legacyOptimizerPhotoPath("/images/../secret.jpg")).toBeNull();
+    expect(legacyOptimizerPhotoPath("/images/..")).toBeNull();
+    expect(legacyOptimizerPhotoPath("https://example.com/images/network.jpg")).toBeNull();
+    expect(legacyOptimizerPhotoPath("/brand/icon.svg")).toBeNull();
+    expect(legacyOptimizerPhotoPath(null)).toBeNull();
   });
 });
