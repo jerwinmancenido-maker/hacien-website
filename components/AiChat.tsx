@@ -634,6 +634,23 @@ export function AiChat({
   // scrolls (owner screenshot, 2026-11-08: Start over clipped at the
   // panel top when the whole panel shared one scroll area).
 
+  // The one Turnstile widget for the whole panel, in two positions:
+  // while the gate is up it renders inside the gate column, directly
+  // above the agreement tick, so the two boxes a visitor may have to
+  // tick share one alignment (owner screenshot, 2026-11-09: the widget
+  // used to render as a wide bar pinned under the header, far from
+  // the agreement box). Once the gate passes, the same widget renders
+  // at the top of the scroll area, where its fresh token later gates
+  // the send. The position swap remounts the field; TurnstileField
+  // renders immediately on a remount when the API is already loaded.
+  const turnstileField = (
+    <TurnstileField
+      siteKey={turnstileSiteKey}
+      resetSignal={turnstileResetSignal}
+      onTokenChange={handleTurnstileToken}
+    />
+  );
+
   return (
     <div
       className="relative flex min-h-0 flex-1 flex-col"
@@ -699,16 +716,13 @@ export function AiChat({
       </div>
 
       <div data-chat-scroll className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 sm:px-5 sm:pb-5">
-        {/* The one Turnstile widget for the whole panel, mounted from
-            the start: its first token gates the first AI turn (verified
-            on the server before the model is called), and a fresh token
-            from the same widget later gates the send. Interaction-only
+        {/* Post-gate position of the panel's one Turnstile widget (see
+            turnstileField above): mounted from the start either way —
+            its first token gates the first AI turn (verified on the
+            server before the model is called), and a fresh token from
+            the same widget later gates the send. Interaction-only
             appearance — invisible unless Cloudflare challenges. */}
-        <TurnstileField
-          siteKey={turnstileSiteKey}
-          resetSignal={turnstileResetSignal}
-          onTokenChange={handleTurnstileToken}
-        />
+        {gatePassed ? turnstileField : null}
 
         {submitStatus === "success" && path ? (
           <div className="mt-6 space-y-6">
@@ -772,6 +786,11 @@ export function AiChat({
             </div>
             <div className="mx-auto max-w-md">
               <p className="text-[13px] leading-5 text-grey-600">{GATE_HELPER}</p>
+              {/* The security-check box lives here while the gate is
+                  up — directly above the agreement tick, same column,
+                  same left edge (invisible when the check passes
+                  silently, so the gate layout is unchanged then). */}
+              {turnstileField}
               <label
                 htmlFor="ai-chat-agree"
                 className="mt-4 flex cursor-pointer items-start gap-2.5 text-sm leading-6 text-ink"

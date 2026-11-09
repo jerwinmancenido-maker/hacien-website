@@ -11,7 +11,7 @@ const aiChatPublishDate = "November 8, 2026";
 /** Effective date of the Privacy Policy v2.5 update (the pre-chat
  *  agreement step, lawyer-approved 2026-11-08). Only the Privacy
  *  Policy changed, so it carries its own date like the v2.4 update. */
-const privacyGateDate = "November 8, 2026";
+const privacyGateDate = "November 9, 2026";
 
 function p(text: string): LegalBlock {
   return { kind: "p", text };

@@ -40,7 +40,14 @@ export function TurnstileField({
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const widgetIdRef = useRef<string | null>(null);
-  const [scriptReady, setScriptReady] = useState(false);
+  // Ready at once when the Turnstile API is already on the page: a
+  // remount (AiChat moves this field when its gate passes) must not
+  // wait for the Script tag's onReady, which only fires for the first
+  // mount — the widget would never re-render and no fresh token would
+  // ever arrive.
+  const [scriptReady, setScriptReady] = useState(
+    () => typeof window !== "undefined" && Boolean(window.turnstile),
+  );
   const [widgetMessage, setWidgetMessage] = useState("");
   const onTokenChangeRef = useRef(onTokenChange);
   useEffect(() => {

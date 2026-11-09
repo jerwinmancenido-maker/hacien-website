@@ -68,9 +68,17 @@ describe("legal page content", () => {
         // version line date and no Effective meta of its own.
         expect(page.versionLine).not.toContain("Version");
         expect(page.meta.find((item) => item.label === "Effective")).toBeUndefined();
-      } else if (page.path === "/privacy" || page.path === "/terms") {
-        // The AI-chat update (Privacy v2.5, Terms v2.1) carries its own
-        // effective date; the other documents keep the shared date.
+      } else if (page.path === "/privacy") {
+        // Privacy v2.5 carries its own effective date — the gate
+        // release date (November 9, 2026); its version line still
+        // names v2.4's November 8, 2026 in the Replaces part.
+        expect(page.versionLine).toContain("November 9, 2026");
+        expect(page.meta.find((item) => item.label === "Effective")?.value).toBe(
+          "November 9, 2026",
+        );
+      } else if (page.path === "/terms") {
+        // Terms v2.1 carries its own effective date; the other
+        // documents keep the shared date.
         expect(page.versionLine).toContain("November 8, 2026");
         expect(page.meta.find((item) => item.label === "Effective")?.value).toBe(
           "November 8, 2026",
@@ -315,7 +323,7 @@ describe("legal page content", () => {
 
     // Privacy Policy v2.5
     expect(privacy?.versionLine).toBe(
-      "Version 2.5 · Effective November 8, 2026 · Replaces version 2.4 (effective November 8, 2026)",
+      "Version 2.5 · Effective November 9, 2026 · Replaces version 2.4 (effective November 8, 2026)",
     );
     expect(privacy?.meta.find((item) => item.label === "Version")?.value).toBe("2.5");
     expect(privacy?.meta.find((item) => item.label === "Replaces")?.value).toBe(
