@@ -151,6 +151,35 @@ describe("AI chat panel wiring", () => {
     expect(field).toContain("Boolean(window.turnstile)");
   });
 
+  it("the send's fresh token is requested at the review step, never mid-conversation", () => {
+    const ai = read("components/AiChat.tsx");
+    const field = read("components/TurnstileField.tsx");
+    // The gate token is spent on the first turn. Resetting the
+    // widget for a replacement right there dropped a fresh "Verify
+    // you are human" box into the middle of the conversation
+    // whenever Cloudflare wanted a tick for the re-issue (owner
+    // report, 2026-11-09) — so the gate-pass block keeps the pass
+    // and clears the token WITHOUT a reset...
+    const gatePassBlock = ai.slice(ai.indexOf("if (result.gatePass)"), ai.indexOf("if (!result.ok)"));
+    expect(gatePassBlock).toContain("setGatePass(result.gatePass);");
+    expect(gatePassBlock).not.toContain("setTurnstileResetSignal");
+    // ...and the reset fires once, when a turn first reports the
+    // review step is ready — the send's context, not mid-chat.
+    const readyBlock = ai.slice(
+      ai.indexOf("setReadyToReview(result.turn.readyToReview);"),
+      ai.indexOf("void maybeLookupCompany"),
+    );
+    expect(readyBlock).toContain("reviewRefreshRef");
+    expect(readyBlock).toContain("setTurnstileResetSignal");
+    // If that refresh needs a tick, the box sits at the top of the
+    // chat: the field reports its visibility, and the review card
+    // points the visitor at the box while the send waits on it.
+    expect(field).toContain("onChallengeVisible");
+    expect(ai).toContain("onChallengeVisible={setSendChallengeVisible}");
+    expect(ai).toContain("turnstilePending && sendChallengeVisible");
+    expect(ai).toContain("showing at the top of this chat");
+  });
+
   it("the gate's security wait is the chat's spinner row, escalating to the missing tick", () => {
     const ai = read("components/AiChat.tsx");
     const field = read("components/TurnstileField.tsx");

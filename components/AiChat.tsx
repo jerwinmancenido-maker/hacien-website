@@ -215,6 +215,11 @@ export function AiChat({
   /** Signed pass the server issues after the first verified turn;
    *  while it is held, later turns skip the bot check. */
   const [gatePass, setGatePass] = useState("");
+  /** True while the widget is showing a "Verify you are human" box
+   *  (reported by TurnstileField); used to guide the visitor at the
+   *  review step, where the box — at the top of the chat — is what
+   *  the send is waiting on. */
+  const [sendChallengeVisible, setSendChallengeVisible] = useState(false);
   const [attachment, setAttachment] = useState<File | null>(null);
   const [attachError, setAttachError] = useState("");
   const [dragOver, setDragOver] = useState(false);
@@ -222,6 +227,9 @@ export function AiChat({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [companyLookup, setCompanyLookup] = useState<CompanyLookupState>({ status: "idle" });
   const lookupAttemptedFor = useRef<string | null>(null);
+  /** The send's fresh token is requested once, when the review step
+   *  is first reached — never mid-conversation. */
+  const reviewRefreshRef = useRef(false);
   /** Tourly start state: the email is collected on the centered start
    *  screen before the thread begins, then pinned as its first
    *  message and kept in the intake fields from the first turn. */
@@ -321,6 +329,8 @@ export function AiChat({
     setConfirmationSent(false);
     setTurnstileResetSignal((value) => value + 1);
     setTurnstileToken("");
+    reviewRefreshRef.current = false;
+    setSendChallengeVisible(false);
     setAttachment(null);
     setAttachError("");
     setReadingDocument(false);
@@ -500,11 +510,14 @@ export function AiChat({
     setReadingDocument(false);
 
     // A fresh gate pass means the token above was just consumed by
-    // the verification: keep the pass for later turns and let the
-    // widget issue a fresh token for the eventual send.
+    // the verification: keep the pass for later turns. The widget is
+    // NOT reset here — a reset re-evaluates at once, and when
+    // Cloudflare wants a tick for the re-issue, its box appears in
+    // the middle of the conversation, where it reads as a step the
+    // chat is waiting on (owner report, 2026-11-09). The send's own
+    // fresh token is requested later, when the review step arrives.
     if (result.gatePass) {
       setGatePass(result.gatePass);
-      setTurnstileResetSignal((value) => value + 1);
       setTurnstileToken("");
     }
 
@@ -538,6 +551,15 @@ export function AiChat({
         : result.turn.fields,
     );
     setReadyToReview(result.turn.readyToReview);
+    // The review step's send needs its own fresh token (the gate
+    // token was spent on the first turn) — ask the widget for it
+    // only now, so a challenge lands in the send's context instead
+    // of mid-conversation (owner call, 2026-11-09). Once per chat:
+    // later turn results keep reporting readyToReview.
+    if (result.turn.readyToReview && !reviewRefreshRef.current) {
+      reviewRefreshRef.current = true;
+      setTurnstileResetSignal((value) => value + 1);
+    }
     void maybeLookupCompany(result.turn, [...history, { role: "assistant", text: result.turn.reply }]);
   }
 
@@ -758,6 +780,7 @@ export function AiChat({
             resetSignal={turnstileResetSignal}
             onTokenChange={handleTurnstileToken}
             highlight={gateWaiting && gateWaitLong}
+            onChallengeVisible={setSendChallengeVisible}
           />
         </div>
 
@@ -1046,6 +1069,12 @@ export function AiChat({
                   >
                     {turnstilePending ? "Completing security check…" : "Looks good — send request"}
                   </button>
+                  {turnstilePending && sendChallengeVisible ? (
+                    <p className="mt-3 text-xs leading-5 text-grey-600">
+                      A &lsquo;Verify you are human&rsquo; box is showing at the top of this chat — tick it, and this
+                      button will be ready to send.
+                    </p>
+                  ) : null}
                 </div>
               </form>
             ) : submitStatus === "sending" ? (

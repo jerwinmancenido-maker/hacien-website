@@ -30,6 +30,7 @@ export function TurnstileField({
   resetSignal,
   onTokenChange,
   highlight,
+  onChallengeVisible,
 }: {
   siteKey: string;
   resetSignal?: number;
@@ -41,6 +42,10 @@ export function TurnstileField({
    *  challenge is actually visible — the container has height — so a
    *  silent load is never outlined. */
   highlight?: boolean;
+  /** Notified when a challenge box becomes visible or clears, so a
+   *  caller waiting on the token can point the visitor at the box
+   *  (the AI chat's review step). */
+  onChallengeVisible?: (visible: boolean) => void;
 }) {
   const id = useId().replace(/:/g, "");
   const containerRef = useRef<HTMLDivElement>(null);
@@ -59,6 +64,10 @@ export function TurnstileField({
   useEffect(() => {
     onTokenChangeRef.current = onTokenChange;
   }, [onTokenChange]);
+  const onChallengeVisibleRef = useRef(onChallengeVisible);
+  useEffect(() => {
+    onChallengeVisibleRef.current = onChallengeVisible;
+  }, [onChallengeVisible]);
 
   // A challenge is visible exactly when the widget container has
   // height: interaction-only rendering keeps it at zero until
@@ -67,8 +76,14 @@ export function TurnstileField({
   useEffect(() => {
     const node = containerRef.current;
     if (!node || typeof ResizeObserver === "undefined") return;
+    let lastReported = false;
     const observer = new ResizeObserver(() => {
-      setChallengeVisible(node.clientHeight > 10);
+      const visible = node.clientHeight > 10;
+      setChallengeVisible(visible);
+      if (visible !== lastReported) {
+        lastReported = visible;
+        onChallengeVisibleRef.current?.(visible);
+      }
     });
     observer.observe(node);
     return () => observer.disconnect();
