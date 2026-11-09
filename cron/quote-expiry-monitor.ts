@@ -1,5 +1,6 @@
 import type { Order } from "../generated/prisma/client";
 import { prisma } from "../lib/db";
+import { buildQuoteExpiryNoticeHtml } from "../lib/email/quote-expiry-notice";
 
 type NotificationTarget = Pick<Order, "id" | "externalReference" | "createdAt" | "status" | "totalCents" | "currency"> & {
   organization: {
@@ -32,7 +33,7 @@ async function sendEmailNotice(order: NotificationTarget) {
       from: `HACIEN <${fromEmail}>`,
       to,
       subject: "HACIEN draft quotation review window",
-      html: `<p>Your HACIEN draft request ${order.externalReference || order.id} may need follow-up review. Pricing, availability, and documents remain subject to confirmation before any official business record.</p>`,
+      html: buildQuoteExpiryNoticeHtml(order.externalReference || order.id),
     }),
   });
 }
