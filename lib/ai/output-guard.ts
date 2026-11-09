@@ -8,6 +8,9 @@
  * approved facts never trip them (the reply-time fact is about replies,
  * quotations are "valid for 15 days", the warranty is "within 7 days"
  * for dead-on-arrival — none of those state a price or a delivery time).
+ * A third family screens for instruction leakage (owner hardening,
+ * 2026-11-09): phrases that can only appear if the assistant is
+ * talking about its own instructions instead of the visitor's request.
  */
 
 const PRICE_PATTERNS: RegExp[] = [
@@ -33,16 +36,25 @@ const DELIVERY_TIME_PATTERNS: RegExp[] = [
   /\b(lead\s?time|delivery\s?time)\b[^.]{0,30}\b\d+\s*(days?|weeks?|hours?)\b/i,
 ];
 
+const LEAK_PATTERNS: RegExp[] = [
+  /system prompt/i,
+  /\bmy instructions (say|tell|require|are)\b/i,
+  /chat_turn/,
+  /output guard/i,
+  /knowledge sheet/i,
+];
+
 export const AI_SAFE_REPLY =
   "I don't want to give you the wrong information on that — a member of the HACIEN team will confirm it when they reply. If you'd like, tell me what you need and I'll prepare your request for them.";
 
 /** Returns the reply unchanged when it is clean, or the safe wording
- *  when it states a price, a discount, a promise, or a delivery time.
+ *  when it states a price, a discount, a promise, or a delivery time,
+ *  or when it leaks the assistant's own instructions.
  *  Delivery-time patterns are checked per sentence, skipping sentences
  *  about replies — "you'll receive a reply within 1 business day" is an
  *  approved fact, not a delivery claim. */
 export function screenAiReply(reply: string): { text: string; flagged: boolean } {
-  for (const pattern of [...PRICE_PATTERNS, ...PROMISE_PATTERNS]) {
+  for (const pattern of [...PRICE_PATTERNS, ...PROMISE_PATTERNS, ...LEAK_PATTERNS]) {
     if (pattern.test(reply)) {
       return { text: AI_SAFE_REPLY, flagged: true };
     }
