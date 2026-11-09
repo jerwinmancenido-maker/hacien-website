@@ -647,23 +647,11 @@ export function AiChat({
   // scrolls (owner screenshot, 2026-11-08: Start over clipped at the
   // panel top when the whole panel shared one scroll area).
 
-  // The one Turnstile widget for the whole panel, in two positions:
-  // while the gate is up it renders inside the gate column, directly
-  // above the agreement tick, so the two boxes a visitor may have to
-  // tick share one alignment (owner screenshot, 2026-11-09: the widget
-  // used to render as a wide bar pinned under the header, far from
-  // the agreement box). Once the gate passes, the same widget renders
-  // at the top of the scroll area, where its fresh token later gates
-  // the send. The position swap remounts the field; TurnstileField
-  // renders immediately on a remount when the API is already loaded.
-  const turnstileField = (
-    <TurnstileField
-      siteKey={turnstileSiteKey}
-      resetSignal={turnstileResetSignal}
-      onTokenChange={handleTurnstileToken}
-      highlight={gateWaiting && gateWaitLong}
-    />
-  );
+  // The gate's intro (title block + helper line) renders around the
+  // panel's one Turnstile widget mount — see the scroll area below.
+  // (Success and error both imply the gate already passed, so only
+  // the unavailable screen needs an explicit exclusion here.)
+  const showGateIntro = !gatePassed && !(unavailable && !started);
 
   return (
     <div
@@ -730,13 +718,48 @@ export function AiChat({
       </div>
 
       <div data-chat-scroll className="min-h-0 flex-1 overflow-y-auto px-4 pb-4 sm:px-5 sm:pb-5">
-        {/* Post-gate position of the panel's one Turnstile widget (see
-            turnstileField above): mounted from the start either way —
-            its first token gates the first AI turn (verified on the
-            server before the model is called), and a fresh token from
-            the same widget later gates the send. Interaction-only
-            appearance — invisible unless Cloudflare challenges. */}
-        {gatePassed ? turnstileField : null}
+        {/* While the gate is up, its intro renders around the widget
+            mount below: the title block, then the helper line in the
+            gate column. */}
+        {showGateIntro ? (
+          <>
+            <div className="mt-6 pt-[6vh]">
+              <div className="text-center">
+                <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-blue text-base font-bold text-white" aria-hidden="true">
+                  H
+                </div>
+                <h2 className="mt-4 text-2xl font-bold tracking-tight text-ink">{GATE_TITLE}</h2>
+                <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-grey-700">{GATE_TEXT}</p>
+              </div>
+            </div>
+            <div className="mx-auto mt-6 max-w-md">
+              <p className="text-[13px] leading-5 text-grey-600">{GATE_HELPER}</p>
+            </div>
+          </>
+        ) : null}
+
+        {/* The panel's ONE Turnstile widget, in a fixed mount that
+            never moves for the whole session: its first token gates
+            the first AI turn (verified on the server before the model
+            is called), and a fresh token from the same widget later
+            gates the send. Interaction-only appearance — invisible
+            unless Cloudflare challenges. A mount that MOVES remounts
+            the widget, and Cloudflare treats the remount as a new
+            widget and challenges the visitor a second time at the
+            email step (owner report, 2026-11-09; an earlier build
+            swapped this mount between two positions) — so the gate
+            is built around this fixed spot instead: while the gate
+            is up, the wrapper takes the gate column's width, which
+            puts a challenged box directly above the agreement tick
+            in the branch below. A class change does not remount. */}
+        <div className={showGateIntro ? "mx-auto max-w-md" : undefined}>
+          <TurnstileField
+            siteKey={turnstileSiteKey}
+            resetSignal={turnstileResetSignal}
+            onTokenChange={handleTurnstileToken}
+            highlight={gateWaiting && gateWaitLong}
+          />
+        </div>
 
         {submitStatus === "success" && path ? (
           <div className="mt-6 space-y-6">
@@ -790,72 +813,60 @@ export function AiChat({
             <AgentMessage text={UNAVAILABLE_TEXT} />
           </div>
         ) : !gatePassed ? (
-          <div className="mt-6 space-y-6 pt-[6vh]">
-            <div className="text-center">
-              <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-blue text-base font-bold text-white" aria-hidden="true">
-                H
-              </div>
-              <h2 className="mt-4 text-2xl font-bold tracking-tight text-ink">{GATE_TITLE}</h2>
-              <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-grey-700">{GATE_TEXT}</p>
-            </div>
-            <div className="mx-auto max-w-md">
-              <p className="text-[13px] leading-5 text-grey-600">{GATE_HELPER}</p>
-              {/* The security-check box lives here while the gate is
-                  up — directly above the agreement tick, same column,
-                  same left edge (invisible when the check passes
-                  silently, so the gate layout is unchanged then). */}
-              {turnstileField}
-              <label
-                htmlFor="ai-chat-agree"
-                className="mt-4 flex cursor-pointer items-start gap-2.5 text-sm leading-6 text-ink"
-              >
-                <input
-                  id="ai-chat-agree"
-                  type="checkbox"
-                  checked={agreed}
-                  onChange={(event) => toggleAgreed(event.currentTarget.checked)}
-                  className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-[#2563EB]"
+          // The gate's lower half — its intro and the security-check
+          // box render above, around the fixed widget mount. This
+          // arm carries the agreement tick, Continue, and the wait.
+          <div className="mx-auto max-w-md">
+            <label
+              htmlFor="ai-chat-agree"
+              className="mt-4 flex cursor-pointer items-start gap-2.5 text-sm leading-6 text-ink"
+            >
+              <input
+                id="ai-chat-agree"
+                type="checkbox"
+                checked={agreed}
+                onChange={(event) => toggleAgreed(event.currentTarget.checked)}
+                className="mt-0.5 h-5 w-5 shrink-0 cursor-pointer accent-[#2563EB]"
+              />
+              <span>
+                I agree to the{" "}
+                <Link href="/terms" className="font-semibold text-blue hover:underline">
+                  Terms of Use
+                </Link>{" "}
+                and have read the{" "}
+                <Link href="/privacy" className="font-semibold text-blue hover:underline">
+                  Privacy Policy
+                </Link>
+                .
+              </span>
+            </label>
+            <button
+              type="button"
+              onClick={submitGate}
+              disabled={!agreed || !gateTokenReady}
+              className={
+                agreed && gateTokenReady
+                  ? "button-glow mt-5 min-h-11 w-full cursor-pointer rounded-full bg-blue px-6 text-sm font-bold text-white hover:bg-blue-dark"
+                  : "mt-5 min-h-11 w-full cursor-not-allowed rounded-full bg-grey-200 px-6 text-sm font-bold text-grey-600"
+              }
+            >
+              Continue
+            </button>
+            {gateWaiting ? (
+              // The chat's own processing row carries the wait —
+              // one loading style for the whole panel. Past two
+              // seconds its label names the missing tick instead of
+              // calling the wait a check in progress.
+              <div className="mt-4">
+                <ProcessingRow
+                  label={
+                    gateWaitLong
+                      ? "Tick the \u2018Verify you are human\u2019 box above to continue"
+                      : "Completing security check…"
+                  }
                 />
-                <span>
-                  I agree to the{" "}
-                  <Link href="/terms" className="font-semibold text-blue hover:underline">
-                    Terms of Use
-                  </Link>{" "}
-                  and have read the{" "}
-                  <Link href="/privacy" className="font-semibold text-blue hover:underline">
-                    Privacy Policy
-                  </Link>
-                  .
-                </span>
-              </label>
-              <button
-                type="button"
-                onClick={submitGate}
-                disabled={!agreed || !gateTokenReady}
-                className={
-                  agreed && gateTokenReady
-                    ? "button-glow mt-5 min-h-11 w-full cursor-pointer rounded-full bg-blue px-6 text-sm font-bold text-white hover:bg-blue-dark"
-                    : "mt-5 min-h-11 w-full cursor-not-allowed rounded-full bg-grey-200 px-6 text-sm font-bold text-grey-600"
-                }
-              >
-                Continue
-              </button>
-              {gateWaiting ? (
-                // The chat's own processing row carries the wait —
-                // one loading style for the whole panel. Past two
-                // seconds its label names the missing tick instead of
-                // calling the wait a check in progress.
-                <div className="mt-4">
-                  <ProcessingRow
-                    label={
-                      gateWaitLong
-                        ? "Tick the \u2018Verify you are human\u2019 box above to continue"
-                        : "Completing security check…"
-                    }
-                  />
-                </div>
-              ) : null}
-            </div>
+              </div>
+            ) : null}
           </div>
         ) : !started ? (
           <div className="mt-6 space-y-6 pt-[6vh]">

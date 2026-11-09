@@ -124,25 +124,30 @@ describe("AI chat panel wiring", () => {
     expect(ai).not.toContain("Prefer step-by-step questions?");
   });
 
-  it("the security-check box sits in the gate column, above the agreement tick", () => {
+  it("the security-check box sits in the gate column, above the agreement tick — one fixed mount", () => {
     const ai = read("components/AiChat.tsx");
     const field = read("components/TurnstileField.tsx");
-    // One widget element, defined once and placed twice: inside the
-    // gate column while the gate is up (owner screenshot, 2026-11-09:
-    // as a wide bar under the header it aligned with nothing), at the
-    // scroll top once the gate has passed.
-    expect(ai).toContain("const turnstileField = (");
-    expect(ai).toContain("{gatePassed ? turnstileField : null}");
+    // ONE widget mount for the whole session (owner report,
+    // 2026-11-09: a two-position swap remounted the widget and
+    // Cloudflare challenged the visitor a second time at the email
+    // step). The gate is built around the fixed mount instead: the
+    // intro renders above it and the agreement below it, and while
+    // the gate shows, the mount's wrapper takes the gate column's
+    // width (owner screenshot, 2026-11-09: as a wide bar under the
+    // header the box aligned with nothing).
+    expect(ai.match(/<TurnstileField/g)).toHaveLength(1);
+    expect(ai).toContain("const showGateIntro = !gatePassed && !(unavailable && !started);");
+    expect(ai).toContain('className={showGateIntro ? "mx-auto max-w-md" : undefined}');
     const gateHelper = ai.indexOf("{GATE_HELPER}");
-    const inGate = ai.indexOf("{turnstileField}", gateHelper);
+    const mount = ai.indexOf("<TurnstileField", gateHelper);
     const agreeBox = ai.indexOf('id="ai-chat-agree"', gateHelper);
     expect(gateHelper).toBeGreaterThan(-1);
-    expect(inGate).toBeGreaterThan(gateHelper);
-    expect(agreeBox).toBeGreaterThan(inGate);
-    // The position swap remounts the field; it must render at once
-    // when the Turnstile API is already loaded rather than waiting
-    // for the script tag's onReady, which fires for the first mount
-    // only — otherwise no fresh token ever gates the send.
+    expect(mount).toBeGreaterThan(gateHelper);
+    expect(agreeBox).toBeGreaterThan(mount);
+    // If the field is ever remounted by a parent subtree swap, it
+    // must render at once when the Turnstile API is already loaded
+    // rather than waiting for the script tag's onReady, which fires
+    // for the first mount only.
     expect(field).toContain("Boolean(window.turnstile)");
   });
 
