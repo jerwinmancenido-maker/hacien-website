@@ -31,7 +31,7 @@ import type { AiChatPath } from "@/lib/ai/intake";
  *  (owner decision, 2026-11-08: the guided questions were removed).
  *
  *  The panel opens on the agreement gate (owner + lawyer decision,
- *  2026-11-08, Privacy Policy v2.6): the visitor ticks the Terms of
+ *  2026-11-08, Privacy Policy v2.5): the visitor ticks the Terms of
  *  Use / Privacy Policy agreement and presses Continue — the bot
  *  check completes at that press — and only then does the Tourly-
  *  style start appear: one centered question — the visitor's work
@@ -65,7 +65,7 @@ const MIN_STAGED_VIEW_MS = 2_000;
 const CHAT_STORAGE_KEY = "hacien-ai-chat-v1";
 
 type ChatSnapshot = {
-  v: 1;
+  v: 2;
   messages: ChatMessage[];
   fields: GuidedChatAnswers;
   path: AiChatPath | null;
@@ -74,6 +74,7 @@ type ChatSnapshot = {
   pinnedEmail: string;
   agreed: boolean;
   acceptedAt: string;
+  agreedVersions?: string;
   gatePassed: boolean;
   submitStatus: "idle" | "success" | "error";
   referenceNumber: string;
@@ -283,9 +284,8 @@ export function AiChat({
    *  the panel opens on the gate and the email step appears only
    *  after the agreement is ticked and Continue is pressed. The
    *  tick's timestamp is recorded and travels with the submission.
-   *  Once passed, the gate stays passed for the panel session —
-   *  Start over returns to the email step, not the gate — so
-   *  resetAll deliberately leaves this state untouched. */
+   *  Start over clears the whole chat including the agreement, so
+   *  the visitor returns to the gate and must confirm again. */
   const [agreed, setAgreed] = useState(false);
   const [acceptedAt, setAcceptedAt] = useState("");
   const [gatePassed, setGatePassed] = useState(false);
@@ -386,10 +386,10 @@ export function AiChat({
     try {
       const raw = window.sessionStorage.getItem(CHAT_STORAGE_KEY);
       if (raw) {
-        const parsed = JSON.parse(raw) as ChatSnapshot;
+        const parsed = JSON.parse(raw) as Partial<Omit<ChatSnapshot, "v">> & { v?: number };
         if (
           parsed &&
-          parsed.v === 1 &&
+          (parsed.v === 1 || parsed.v === 2) &&
           Array.isArray(parsed.messages) &&
           parsed.messages.every(
             (message) =>
@@ -405,7 +405,29 @@ export function AiChat({
             parsed.path === "callback" ||
             parsed.path === "track")
         ) {
-          snapshot = parsed;
+          // Version re-prompt: accept only matching AGREEMENT_POLICY_VERSIONS.
+          // Old v1 snapshots or snapshots missing/mismatched agreedVersions
+          // discard the agreement so the visitor must confirm current policies.
+          const agreementValid =
+            parsed.v === 2 &&
+            parsed.agreedVersions === AGREEMENT_POLICY_VERSIONS &&
+            Boolean(parsed.agreed);
+          snapshot = {
+            v: 2,
+            messages: parsed.messages,
+            fields: parsed.fields,
+            path: parsed.path ?? null,
+            readyToReview: Boolean(parsed.readyToReview),
+            startedAt: parsed.startedAt ?? null,
+            pinnedEmail: parsed.pinnedEmail ?? "",
+            agreed: agreementValid,
+            acceptedAt: agreementValid ? (parsed.acceptedAt ?? "") : "",
+            agreedVersions: agreementValid ? parsed.agreedVersions : "",
+            gatePassed: agreementValid ? Boolean(parsed.gatePassed) : false,
+            submitStatus: parsed.submitStatus ?? "idle",
+            referenceNumber: parsed.referenceNumber ?? "",
+            confirmationSent: Boolean(parsed.confirmationSent),
+          };
         }
       }
     } catch {
@@ -436,9 +458,9 @@ export function AiChat({
   // signed gate pass never enter it (see CHAT_STORAGE_KEY).
   useEffect(() => {
     if (!restoreDoneRef.current) return;
-    if (messages.length === 0 && !gatePassed) return;
+    if (!gatePassed && messages.length === 0) return;
     const snapshot: ChatSnapshot = {
-      v: 1,
+      v: 2,
       messages,
       fields,
       path,
@@ -447,6 +469,7 @@ export function AiChat({
       pinnedEmail,
       agreed,
       acceptedAt,
+      agreedVersions: agreed ? AGREEMENT_POLICY_VERSIONS : "",
       gatePassed,
       submitStatus: submitStatus === "sending" ? "idle" : submitStatus,
       referenceNumber,
@@ -502,8 +525,11 @@ export function AiChat({
     setNeedBoxIndex(-1);
     needReplyRef.current = false;
     setDocConfirmPending(false);
+    setAgreed(false);
+    setAcceptedAt("");
+    setGatePassed(false);
     // Start over clears the stored thread too — the next visit opens
-    // on the start screen, not on the conversation just discarded.
+    // on the agreement gate, not on the conversation just discarded.
     try {
       window.sessionStorage.removeItem(CHAT_STORAGE_KEY);
     } catch {
