@@ -17,7 +17,7 @@ import {
   TypingAgentMessage,
   UserBubble,
 } from "@/components/ChatBubbles";
-import { cardsVisibleInReply, type ChatProductCard } from "@/lib/ai/chat-product-cards";
+import { cardsVisibleInReply, OTHER_CARD_LABEL, OTHER_CARD_REPLY, type ChatProductCard } from "@/lib/ai/chat-product-cards";
 import { TurnstileField } from "@/components/TurnstileField";
 import { CALLBACK_TIME_OPTIONS, getChatPath } from "@/lib/guided-chat/steps";
 import {
@@ -283,6 +283,8 @@ export function AiChat({
    *  is not owed. The box renders only while that message is still
    *  the latest one, so any reply from the visitor retires it. */
   const [needBoxIndex, setNeedBoxIndex] = useState(-1);
+  /** After "Something else / not listed", keep the existing upload choices up. */
+  const [unlistedUpload, setUnlistedUpload] = useState(false);
   const needReplyRef = useRef(false);
   /** A document turn has landed and its extracted list is waiting
    *  for the visitor's Looks right / Needs changes tap. */
@@ -345,6 +347,7 @@ export function AiChat({
   const showNeedChoices =
     boxIdle && needBoxIndex === messages.length - 1 && !fields.need && !readyToReview && !attachment;
   const showDocChoices = boxIdle && docConfirmPending && !readyToReview && !showNeedChoices;
+  const showUnlistedUpload = boxIdle && unlistedUpload && !readyToReview && !attachment && !showDocChoices;
   const showPathChoices =
     boxIdle && !path && Boolean(fields.need) && !readyToReview && !showNeedChoices && !showDocChoices;
   const showCallbackChoices =
@@ -641,6 +644,31 @@ export function AiChat({
     setCompanyLookup({ status: "done", email: companyLookup.email });
     needReplyRef.current = true;
     void send("No, that's not my company.");
+  }
+
+  function pickProductCard(name: string) {
+    if (name === OTHER_CARD_LABEL) {
+      offerUnlistedItem();
+      return;
+    }
+    void send(name);
+  }
+
+  /** Local turn: not a catalogue product, no model call, then the quote fields. */
+  function offerUnlistedItem() {
+    if (sending) return;
+    const next: ChatMessage[] = [
+      ...messages,
+      { role: "user", text: OTHER_CARD_LABEL },
+      { role: "assistant", text: OTHER_CARD_REPLY },
+    ];
+    setMessages(next);
+    setTypingIndex(next.length - 1);
+    setNeedBoxIndex(next.length - 1);
+    setUnlistedUpload(true);
+    setPath("quote");
+    setReadyToReview(false);
+    setNotice("");
   }
 
   async function send(rawText: string, fieldsOverride?: GuidedChatAnswers) {
@@ -1221,7 +1249,7 @@ export function AiChat({
                       cards={message.cards}
                       tappedName={messages[index + 1]?.role === "user" ? messages[index + 1].text : undefined}
                       disabled={sending}
-                      onPick={(name) => void send(name)}
+                      onPick={pickProductCard}
                     />
                   ) : null}
                 </div>
@@ -1262,7 +1290,7 @@ export function AiChat({
               </div>
             ) : null}
 
-            {showNeedChoices ? (
+            {showNeedChoices || showUnlistedUpload ? (
               <ChatChoiceBox
                 caption="Attach works for an RFQ, a bill of quantities, a specification sheet, or a photo of your list — we read it into the request."
                 choices={[
@@ -1271,6 +1299,7 @@ export function AiChat({
                     icon: "attach",
                     onPick: () => {
                       setNeedBoxIndex(-1);
+                      setUnlistedUpload(false);
                       fileInputRef.current?.click();
                     },
                   },
@@ -1278,6 +1307,7 @@ export function AiChat({
                     label: "I'll type it",
                     onPick: () => {
                       setNeedBoxIndex(-1);
+                      setUnlistedUpload(false);
                       document.getElementById("ai-chat-message")?.focus();
                     },
                   },
@@ -1285,6 +1315,7 @@ export function AiChat({
                     label: "Arrange a callback instead",
                     onPick: () => {
                       setNeedBoxIndex(-1);
+                      setUnlistedUpload(false);
                       void send("Arrange a callback");
                     },
                   },

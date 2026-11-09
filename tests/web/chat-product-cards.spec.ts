@@ -4,6 +4,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   CARD_LEAD_IN,
+  OTHER_CARD_LABEL,
+  OTHER_CARD_REPLY,
+  appendOtherCard,
   cardsVisibleInReply,
   presentCatalogueTurn,
   replyAfterTappedProduct,
@@ -177,6 +180,41 @@ describe("sanitizeProductRefs", () => {
   });
 });
 
+describe("unlisted option card", () => {
+  it("adds Something else last, and only when a real catalogue card is shown", () => {
+    expect(appendOtherCard([])).toEqual([]);
+    const shown = appendOtherCard([
+      { name: "Business Laptop Class" },
+      { name: "Business Desktop and Monitor Bundle" },
+      { name: "APC, CyberPower, and Eaton UPS" },
+    ]);
+    expect(shown.map((card) => card.name)).toEqual([
+      "Business Laptop Class",
+      "Business Desktop and Monitor Bundle",
+      "APC, CyberPower, and Eaton UPS",
+      OTHER_CARD_LABEL,
+    ]);
+    expect(appendOtherCard(shown)).toEqual(shown);
+    expect(staticChatCatalogue().some((entry) => entry.name === OTHER_CARD_LABEL)).toBe(false);
+    expect(resolveChatProductCards([{ ref: "something-else" }], CATALOGUE)).toEqual([]);
+  });
+
+  it("uses Jerwin's reply and does not invent a price, stock, or lead time", () => {
+    expect(OTHER_CARD_REPLY).toBe(
+      "No problem, we can source it. Tell me the item, quantity and specs, or attach your RFQ / spec sheet.",
+    );
+    expect(OTHER_CARD_REPLY).not.toMatch(/price|stock|lead time|₱/i);
+  });
+
+  it("drops the escape label from stored cards so it is not treated as a product", () => {
+    const visible = cardsVisibleInReply(CARD_LEAD_IN, [
+      { name: "Business Laptop Class" },
+      { name: OTHER_CARD_LABEL },
+    ]);
+    expect(visible).toEqual([{ name: "Business Laptop Class" }]);
+  });
+});
+
 describe("cardsVisibleInReply", () => {
   it("keeps catalogue names that are not repeated in the lead-in, and drops extra fields", () => {
     const visible = cardsVisibleInReply(CARD_LEAD_IN, [
@@ -219,6 +257,8 @@ describe("catalogue prompt and parser", () => {
     expect(prompt).toContain("do not invent a card");
     expect(prompt).toContain(CARD_LEAD_IN);
     expect(prompt).toContain("quantity, specs, or budget");
+    expect(prompt).toContain(OTHER_CARD_LABEL);
+    expect(prompt).toContain("do not invent a product");
     expect(prompt).not.toContain("exact name appears in reply");
     expect(prompt).not.toMatch(/₱\s?\d/);
   });
@@ -244,11 +284,18 @@ describe("chat card wiring", () => {
   it("renders product cards from the reply and sends the product name", () => {
     const bubbles = readFileSync(join(process.cwd(), "components/ChatBubbles.tsx"), "utf8");
     const ai = readFileSync(join(process.cwd(), "components/AiChat.tsx"), "utf8");
+    expect(bubbles).toContain("appendOtherCard");
     expect(bubbles).toContain("export function ChatProductCards");
     expect(bubbles).toContain('aria-label="Products mentioned in this reply"');
     expect(bubbles).not.toContain("priceCents");
     expect(ai).toContain("ChatProductCards");
     expect(ai).toContain("cardsVisibleInReply");
-    expect(ai).toContain("onPick={(name) => void send(name)}");
+    expect(ai).toContain("if (name === OTHER_CARD_LABEL)");
+    expect(ai).toContain("function offerUnlistedItem");
+    expect(ai).toContain("OTHER_CARD_REPLY");
+    expect(ai).toContain('setPath("quote")');
+    expect(ai).toContain("setUnlistedUpload(true)");
+    expect(ai).toContain('label: "Attach a document or photo"');
+    expect(ai).not.toContain("send(OTHER_CARD_LABEL)");
   });
 });

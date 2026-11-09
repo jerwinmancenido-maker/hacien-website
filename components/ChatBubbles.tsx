@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { appendOtherCard } from "@/lib/ai/chat-product-cards";
 import type { ChatStepKind } from "@/lib/guided-chat/steps";
 
 /** Shared chat building blocks for the AI chat panel: the agent's grey
@@ -267,9 +268,9 @@ export function ChatChoiceBox({ choices, caption }: { choices: ChatChoice[]; cap
   );
 }
 
-/** Cards for products the assistant has already named in this reply.
- *  A tap sends the product name as the visitor's own message. The card
- *  has no price, stock, or lead time. */
+/** Cards for catalogue items in this reply, plus "Something else / not listed".
+ *  A tap sends the label as the visitor's own message. The card has no
+ *  price, stock, or lead time. */
 export function ChatProductCards({
   cards,
   tappedName,
@@ -281,10 +282,11 @@ export function ChatProductCards({
   disabled?: boolean;
   onPick: (name: string) => void;
 }) {
-  if (cards.length === 0) return null;
+  const rows = appendOtherCard(cards);
+  if (rows.length === 0) return null;
   return (
     <div role="group" aria-label="Products mentioned in this reply" className="ml-11 flex flex-col gap-2">
-      {cards.map((card) => {
+      {rows.map((card) => {
         const tapped = tappedName === card.name;
         return (
           <button
