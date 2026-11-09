@@ -236,7 +236,9 @@ describe("AI chat knowledge sheet", () => {
 
   it("lists every intake path with its required fields", () => {
     const prompt = buildAiChatSystemPrompt();
-    expect(prompt).toContain("quote: required [need, name, company, email, phone, location, targetDate]");
+    expect(prompt).toContain(
+      "quote: required [need, name, company, businessType, position, businessAddress, email, phone, location, targetDate]",
+    );
     expect(prompt).toContain("inquiry: required [inquiryType, need, name, email]");
     expect(prompt).toContain("callback: required [name, phone]");
   });
@@ -408,13 +410,17 @@ describe("AI intake sanitization", () => {
     };
     expect(intakeReady("quote", almost)).toBe(false); // no company yet — card must not appear mid-question
     expect(intakeReady("quote", { ...almost, company: "Acme Corp" })).toBe(false); // no location yet
-    expect(
-      intakeReady("quote", { ...almost, company: "Acme Corp", location: "Pasig City" }),
-    ).toBe(true);
-    // Buyer type never blocks the card, stated or not (owner decision).
-    expect(
-      intakeReady("quote", { ...almost, company: "Acme Corp", location: "Pasig City" }),
-    ).toBe(true);
+    const located = { ...almost, company: "Acme Corp", location: "Pasig City" };
+    expect(intakeReady("quote", located)).toBe(false); // business type, position, and address still missing
+    const quoteReady = {
+      ...located,
+      businessType: "Private company",
+      position: "Procurement Officer",
+      businessAddress: "Pasig City",
+    };
+    expect(intakeReady("quote", quoteReady)).toBe(true);
+    // The old procurementType list never blocks the card (owner decision).
+    expect(intakeReady("quote", quoteReady)).toBe(true);
   });
 });
 

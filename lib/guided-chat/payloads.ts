@@ -28,6 +28,19 @@ export type GuidedChatMeta = {
 const QUOTE_PROCUREMENT_NOTE =
   "HACIEN accepts a quotation request with or without listed technology. The request is reviewed before a quotation is prepared.";
 
+function procurementFromBusinessType(businessType: string): string {
+  switch (businessType) {
+    case "Private company":
+      return "Corporate";
+    case "Government agency or LGU":
+      return "Institutional";
+    case "School":
+      return "Education";
+    default:
+      return "";
+  }
+}
+
 export function buildQuotePayload(
   answers: GuidedChatAnswers,
   requirements: QuoteRequirementInput[],
@@ -48,7 +61,12 @@ export function buildQuotePayload(
     email: answers.email || "",
     phone: answers.phone || "",
     intakePath: "Describe requirements",
-    procurementType: answers.procurementType || "",
+    procurementType: answers.procurementType || procurementFromBusinessType(answers.businessType || ""),
+    businessType: answers.businessType || "",
+    position: answers.position || "",
+    businessAddress: answers.businessAddress || "",
+    tin: answers.tin || "",
+    buyerReference: answers.buyerReference || "",
     location: answers.location || "",
     targetDate: answers.targetDate || "",
     budgetRange: answers.budgetRange || "",

@@ -15,6 +15,8 @@ import {
   type ChatProductCard,
   type ChatProductRef,
 } from "@/lib/ai/chat-product-cards";
+import { normalizeBusinessType, quoteLeadReady } from "@/lib/ai/lead";
+import { isInjectionText } from "@/lib/ai/scope";
 import type { GuidedChatAnswers } from "@/lib/guided-chat/payloads";
 
 export type AiChatPath = "quote" | "inquiry" | "callback";
@@ -36,6 +38,11 @@ export const AI_INTAKE_FIELDS: Record<AiChatPath, string[]> = {
     "location",
     "targetDate",
     "budgetRange",
+    "businessType",
+    "position",
+    "businessAddress",
+    "tin",
+    "buyerReference",
   ],
   inquiry: [
     "inquiryType",
@@ -60,7 +67,18 @@ export const AI_INTAKE_FIELDS: Record<AiChatPath, string[]> = {
  *  in the guided steps but never blocks the AI card — the visitor
  *  states it or it stays blank (owner decision, Nov 8, 2026). */
 export const AI_INTAKE_REQUIRED: Record<AiChatPath, string[]> = {
-  quote: ["need", "name", "company", "email", "phone", "location", "targetDate"],
+  quote: [
+    "need",
+    "name",
+    "company",
+    "businessType",
+    "position",
+    "businessAddress",
+    "email",
+    "phone",
+    "location",
+    "targetDate",
+  ],
   inquiry: ["inquiryType", "need", "name", "email"],
   callback: ["name", "phone"],
 };
@@ -112,6 +130,20 @@ export function sanitizeIntakeFields(
     const cap = LONG_TEXT_FIELDS.has(key) ? MAX_LONG_FIELD_LENGTH : MAX_FIELD_LENGTH;
     const trimmed = value.trim().slice(0, cap);
     if (!trimmed) continue;
+    if (key === "businessType") {
+      const canonical = normalizeBusinessType(trimmed);
+      if (canonical) clean[key] = canonical;
+      continue;
+    }
+    if (key === "need" || key === "details" || key === "message") {
+      const kept = trimmed
+        .split("\n")
+        .filter((line) => !isInjectionText(line))
+        .join("\n")
+        .trim();
+      if (kept) clean[key] = kept;
+      continue;
+    }
     const options = choiceOptions[key];
     if (options) {
       const canonical = options.find((option) => option.toLowerCase() === trimmed.toLowerCase());
@@ -132,6 +164,7 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
  *  digits to call back. A malformed address must never reach the
  *  review card, or the confirmation email goes nowhere. */
 export function intakeReady(path: AiChatPath, fields: GuidedChatAnswers): boolean {
+  if (path === "quote") return quoteLeadReady(fields);
   return AI_INTAKE_REQUIRED[path].every((id) => {
     const value = (fields[id] || "").trim();
     if (!value) return false;

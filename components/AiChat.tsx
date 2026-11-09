@@ -7,6 +7,7 @@ import { sendAiChatDocument, sendAiChatMessage } from "@/app/actions/ai-chat";
 import { lookupCompanyFromEmail } from "@/app/actions/company-lookup";
 import { emailDomain, isFreeMailDomain } from "@/lib/ai/company-lookup";
 import { AI_DOCUMENT_ACCEPT, validateAiDocument } from "@/lib/ai/document";
+import { QUOTE_LEAD_LABELS } from "@/lib/ai/lead";
 import { sendInquiryEmail } from "@/app/actions/send-inquiry";
 import { replyTime } from "@/data/companyContact";
 import {
@@ -796,6 +797,8 @@ export function AiChat({
         setNotice(
           "The security check didn't go through that time. Please press send again — if it keeps happening, email us at sales@haciensolutions.com and we'll take your request there.",
         );
+      } else if (result.reason === "unreadable-file") {
+        setNotice("This file could not be read. Please send a clearer PDF, PNG, or JPG.");
       } else if (result.reason === "turn-limit") {
         setNotice(
           "This conversation has gone quite long. If your request is complete, its summary is ready above — or you can start over, or email sales@haciensolutions.com and we'll take it from there.",
@@ -1319,7 +1322,7 @@ export function AiChat({
 
             {showNeedChoices || showUnlistedUpload ? (
               <ChatChoiceBox
-                caption="Attach works for an RFQ, a bill of quantities, a specification sheet, or a photo of your list — we read it into the request."
+                caption="May RFQ, PR, specs, or a BOQ ka? Attach works for an RFQ, a bill of quantities, a specification sheet, or a photo of your list — we read it into the request. Documents are used only to prepare your quotation."
                 choices={[
                   {
                     label: "Attach a document or photo",
@@ -1403,6 +1406,14 @@ export function AiChat({
                       </div>
                     );
                   })}
+                  {path === "quote"
+                    ? QUOTE_LEAD_LABELS.filter((row) => fields[row.id]).map((row) => (
+                        <div key={row.id} className="border-b border-grey-200 py-3 text-sm last:border-0">
+                          <div className="font-semibold text-grey-700">{row.label}</div>
+                          <div className="mt-1 text-ink">{fields[row.id]}</div>
+                        </div>
+                      ))
+                    : null}
                   {path === "quote" && requirements.length > 0 ? (
                     <div className="py-3 text-sm">
                       <div className="font-semibold text-grey-700">Requirement package</div>

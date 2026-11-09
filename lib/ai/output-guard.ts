@@ -41,7 +41,12 @@ export const AI_SAFE_REPLY =
  *  Delivery-time patterns are checked per sentence, skipping sentences
  *  about replies — "you'll receive a reply within 1 business day" is an
  *  approved fact, not a delivery claim. */
+const PROMPT_LEAK_PATTERNS = [/CURRENT INTAKE STATE/, /MATCHES FROM THE SITE/, /QUOTE LEAD missing/, /chat_turn/];
+
 export function screenAiReply(reply: string): { text: string; flagged: boolean } {
+  if (PROMPT_LEAK_PATTERNS.some((pattern) => pattern.test(reply))) {
+    return { text: AI_SAFE_REPLY, flagged: true };
+  }
   for (const pattern of [...PRICE_PATTERNS, ...PROMISE_PATTERNS]) {
     if (pattern.test(reply)) {
       return { text: AI_SAFE_REPLY, flagged: true };
