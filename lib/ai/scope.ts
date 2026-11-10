@@ -33,10 +33,14 @@ const INJECTION = [
 // a share-price question about Apple or a hack request naming a
 // server is not a HACIEN inquiry however it is dressed up.
 const HARD_ALWAYS_OFF_TOPIC = [
-  /\b(write|debug|compile)\b[^.]{0,48}\b(code|function|script|program|class|algorithm)\b/i,
+  // "program of work" is a construction/RFQ document, not code: the
+  // negative lookahead keeps "write a program of work for the CCTV
+  // installation" in scope while "write a program" stays refused
+  // (CTO review R1).
+  /\b(write|debug|compile)\b[^.]{0,48}\b(code|function|script|program(?!\s+of\s+work)|class|algorithm)\b/i,
   /\b(my code|this function)\b/i,
-  /\b(gawa|gumawa|gawan)\b[^.]{0,40}\b(code|program|script)\b/i,
-  /\b(joke|jokes|knock-knock|magbiro)\b|\bbiro\b/i,
+  /\b(gawa|gumawa|gawan)\b[^.]{0,40}\b(code|program(?!\s+of\s+work)|script)\b/i,
+  /\b(joke|jokes|knock-knock|magbiro)\b/i,
   /\b(who should i vote|politician|pulitika)\b/i,
   /\b(girlfriend|boyfriend|break up)\b/i,
   /\b(stock price|share price)\b/i,
@@ -49,6 +53,11 @@ const HARD_ALWAYS_OFF_TOPIC = [
 // training lab) is a quote, not an off-topic request (Bugbot,
 // PR #88 at bd245d21 — these tokens used to beat the anchors).
 const HARD_CONTEXT_OFF_TOPIC = [
+  // A bare "biro" is idiom as often as it is a joke request ("Hindi
+  // biro, kailangan namin ng 20 laptops" = "seriously, we need 20
+  // laptops"), so it only refuses without an anchor or an open path
+  // (CTO review R1). "magbiro" (to joke) stays always-refused above.
+  /\bbiro\b/i,
   /\b(python|javascript|typescript|leetcode)\b/i,
   /\b(homework|term paper|quiz|coursework)\b/i,
   /\b(solve|sagutan)\b[^.]{0,24}\b(equation|math|calculus)\b/i,
