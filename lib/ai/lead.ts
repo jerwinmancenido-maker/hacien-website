@@ -24,14 +24,28 @@ export const QUOTE_LEAD_LABELS: { id: string; label: string }[] = [
 ];
 
 export function isCompletePersonName(value: string): boolean {
-  const names = value
+  const parts = value
     .trim()
     .split(/\s+/)
-    .map((part) => part.replace(/\./g, ""))
-    .filter((part) => part && !TITLES.has(part.toLowerCase()));
-  if (names.length < 2) return false;
-  if (names[0].length < 2 || names[names.length - 1].length < 2) return false;
-  return names.every((part) => /^[\p{L}][\p{L}'.-]{0,39}$/u.test(part));
+    .filter(Boolean)
+    .map((raw) => ({ raw, name: raw.replace(/\./g, "") }))
+    .filter(({ name }) => name && !TITLES.has(name.toLowerCase()));
+  if (parts.length < 2) return false;
+  // At least one full name word is required — initials alone
+  // ("J. D.") are not a complete name.
+  if (!parts.some(({ name }) => name.length >= 2)) return false;
+  // A single letter in the middle is a middle initial, with or
+  // without its period ("Juan C Dela Cruz"). At the first or last
+  // position it counts only written as an initial, with the period
+  // ("J. Dela Cruz", "Juan D.") — a bare edge letter ("Juan D",
+  // "J Dela Cruz") does not (Bugbot, PR #88 at bd245d21 — the old
+  // first/last length gate rejected initialled names outright).
+  return parts.every(({ raw, name }, index) => {
+    if (!/^[\p{L}][\p{L}'.-]{0,39}$/u.test(name)) return false;
+    if (name.length >= 2) return true;
+    const isEdge = index === 0 || index === parts.length - 1;
+    return isEdge ? raw.includes(".") : true;
+  });
 }
 
 export function isPhilippineMobile(value: string): boolean {

@@ -18,7 +18,10 @@ const INJECTION = [
   /disregard\s+(your\s+|the\s+)?(instructions|rules|prompt)/i,
   /reveal\s+(your\s+|the\s+)?(system\s+)?prompt/i,
   /(show|print|repeat|dump)\s+(me\s+)?(your\s+|the\s+)?(system\s+)?prompt/i,
-  /you are now\b/i,
+  // Persona takeover only: "you are now a/the/my …", a named persona,
+  // or a mode switch. Ordinary procurement phrasing ("you are now
+  // requested to submit a quotation") is not an injection.
+  /you are now\s+(a\s|an\s|the\s|my\s|dan\b|chatgpt\b|gpt\b|in\s+(developer|dan|jailbreak))/i,
   /\b(jailbreak|developer mode|do anything now)\b/i,
   /\bsystem prompt\b/i,
   /kalimutan mo\s+(ang\s+|yung\s+)?(instructions|utos|rules|prompt)/i,
@@ -26,20 +29,30 @@ const INJECTION = [
   /(ipakita|sabihin)\s+(mo\s+)?(ang\s+|yung\s+)?(system\s+)?prompt/i,
 ];
 
-const HARD_OFF_TOPIC = [
+// Refused even when the message also names a product or brand —
+// a share-price question about Apple or a hack request naming a
+// server is not a HACIEN inquiry however it is dressed up.
+const HARD_ALWAYS_OFF_TOPIC = [
   /\b(write|debug|compile)\b[^.]{0,48}\b(code|function|script|program|class|algorithm)\b/i,
-  /\b(python|javascript|typescript|leetcode)\b/i,
   /\b(my code|this function)\b/i,
   /\b(gawa|gumawa|gawan)\b[^.]{0,40}\b(code|program|script)\b/i,
-  /\b(homework|term paper|quiz|coursework)\b/i,
-  /\b(solve|sagutan)\b[^.]{0,24}\b(equation|math|calculus)\b/i,
   /\b(joke|jokes|knock-knock|magbiro)\b|\bbiro\b/i,
-  /\b(weather forecast|recipe for|horoscope|capital of|capital ng|translate this)\b/i,
   /\b(who should i vote|politician|pulitika)\b/i,
   /\b(girlfriend|boyfriend|break up)\b/i,
   /\b(stock price|share price)\b/i,
   /\b(hack\s+(into|a\b|an\b|the\b|someone)|how to hack|hacking tutorial|create malware|write (an? )?exploit)\b/i,
   /\b(bedtime story|quantum physics|world cup)\b/i,
+];
+
+// Refused only when the message carries no product anchor: a school
+// asking for laptops for its Python classes (or a homework-heavy
+// training lab) is a quote, not an off-topic request (Bugbot,
+// PR #88 at bd245d21 — these tokens used to beat the anchors).
+const HARD_CONTEXT_OFF_TOPIC = [
+  /\b(python|javascript|typescript|leetcode)\b/i,
+  /\b(homework|term paper|quiz|coursework)\b/i,
+  /\b(solve|sagutan)\b[^.]{0,24}\b(equation|math|calculus)\b/i,
+  /\b(weather forecast|recipe for|horoscope|capital of|capital ng|translate this)\b/i,
 ];
 
 const GREETING =
@@ -126,10 +139,9 @@ function hasAnchor(text: string, anchor: string): boolean {
   return text.toLowerCase().includes(needle);
 }
 
-function anchors(): string[] {
+function productAnchors(): string[] {
   return [
     ...STATIC_ANCHORS,
-    ...carriedBrands,
     ...solutions.map((solution) => solution.title),
     ...categories.map((category) => category.name),
   ];
@@ -139,15 +151,28 @@ export function isInjectionText(text: string): boolean {
   return INJECTION.some((pattern) => pattern.test(text));
 }
 
+const BARE_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
 export function classifyUserTurn(text: string, path: string | null = null): ScopeDecision {
   const trimmed = text.trim();
   if (!trimmed) return "off-topic";
+  // The chat opens by sending the visitor's work email on its own —
+  // that turn is the intake email step, never off-topic (Bugbot High,
+  // PR #88 at bd245d21).
+  if (BARE_EMAIL.test(trimmed)) return "in-scope";
   if (isInjectionText(trimmed)) return "injection";
-  if (HARD_OFF_TOPIC.some((pattern) => pattern.test(trimmed))) return "off-topic";
+  if (HARD_ALWAYS_OFF_TOPIC.some((pattern) => pattern.test(trimmed))) return "off-topic";
   if (path === "quote" || path === "inquiry" || path === "callback") return "in-scope";
   if (GREETING.test(trimmed)) return "in-scope";
   if (mentionsComparison(trimmed)) return "in-scope";
-  if (anchors().some((anchor) => hasAnchor(trimmed, anchor))) return "in-scope";
+  // Product anchors before the context list: a real quote line that
+  // names a product or industry stays in scope even when it also
+  // carries a token like "python" or "homework" (a school's Python
+  // lab is still a quote). The context list still refuses
+  // anchorless requests outright.
+  if (productAnchors().some((anchor) => hasAnchor(trimmed, anchor))) return "in-scope";
+  if (HARD_CONTEXT_OFF_TOPIC.some((pattern) => pattern.test(trimmed))) return "off-topic";
+  if (carriedBrands.some((brand) => hasAnchor(trimmed, brand))) return "in-scope";
   return "off-topic";
 }
 
