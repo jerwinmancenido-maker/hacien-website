@@ -42,7 +42,7 @@ export default async function InsightDetailPage({
   );
 
   return (
-    <>
+    <div className="va-scope">
       <article className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-3xl">
           <Breadcrumb
@@ -145,6 +145,6 @@ export default async function InsightDetailPage({
       )}
 
       <CTABand />
-    </>
+    </div>
   );
 }

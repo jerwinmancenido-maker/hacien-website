@@ -838,3 +838,82 @@ main {
     display: none;
   }
 }
+
+/* ——— Variant A scope (dark charcoal) ———
+   Approved design direction (2026-11-11): applied route by route, starting
+   with /insights/[slug], /products, and /quote. Restyle only: it recolours
+   the existing markup inside the scope to the Variant A tokens (the
+   approved HACIEN button sheet) without changing structure or behaviour.
+   Canvas #0B0C10 · Surface 1 #15171D · Surface 2 #1E2129 · Band #060F23 ·
+   Text #F4F6FA · Body #C6CBD8 · Muted #9199A8 · Primary #2563EB ·
+   Hover #1F54C8 · Sky #6692F1. Cards separate by surface tone, not borders;
+   buttons inside the scope are full pills. */
+.va-scope {
+  background: #0b0c10;
+  color: #c6cbd8;
+}
+.va-scope h1,
+.va-scope h2,
+.va-scope h3,
+.va-scope h4,
+.va-scope .text-slate-950,
+.va-scope .text-slate-900,
+.va-scope .text-ink {
+  color: #f4f6fa;
+}
+.va-scope .text-slate-600,
+.va-scope .text-slate-700,
+.va-scope .text-grey-700 {
+  color: #c6cbd8;
+}
+.va-scope .text-slate-500,
+.va-scope .text-grey-600 {
+  color: #9199a8;
+}
+.va-scope .bg-white {
+  background-color: #15171d;
+}
+.va-scope .bg-slate-50,
+.va-scope .bg-grey-50 {
+  background-color: #15171d;
+}
+.va-scope .bg-grey-100 {
+  background-color: #1e2129;
+}
+.va-scope .bg-blue-tint {
+  background-color: #060f23;
+}
+.va-scope .surface {
+  background: #15171d;
+  border-color: transparent;
+}
+.va-scope .border-grey-200,
+.va-scope .border-grey-300,
+.va-scope .border-slate-200,
+.va-scope .border-slate-300 {
+  border-color: transparent;
+}
+.va-scope .shadow-sm,
+.va-scope .shadow-md {
+  box-shadow: none;
+}
+.va-scope .rounded-lg {
+  border-radius: 20px;
+}
+.va-scope a.rounded,
+.va-scope button.rounded {
+  border-radius: 999px;
+}
+.va-scope a.rounded.border {
+  background-color: #1e2129;
+  color: #f4f6fa;
+}
+.va-scope .text-\[\#2563EB\] {
+  color: #6692f1;
+}
+.va-scope .hover\:bg-blue-dark:hover {
+  background-color: #1f54c8;
+}
+.va-scope .lift:hover {
+  border-color: transparent;
+}
