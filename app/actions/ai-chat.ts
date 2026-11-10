@@ -429,7 +429,12 @@ async function runTurn(
     console.warn("AI chat: reply replaced by the output guard.");
   }
   const userMessage = validated.messages[validated.messages.length - 1]?.content ?? "";
-  const presented = screened.flagged
+  // A document turn's reply IS the extracted-requirements summary the
+  // visitor is about to confirm (the client's confirm-the-list box
+  // keys off the document having been read): the catalogue
+  // presentation must not replace it with the card lead-in, or the
+  // extracted requirements never reach the visitor (CTO review R1).
+  const presented = screened.flagged || attachment
     ? { reply: screened.text, cards: [] }
     : presentCatalogueTurn({
         reply: screened.text,

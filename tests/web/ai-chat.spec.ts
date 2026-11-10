@@ -897,6 +897,35 @@ describe("sendAiChatDocument", () => {
     expect((requestBody as unknown as { max_tokens: number }).max_tokens).toBe(1600);
   });
 
+  it("keeps the extracted-requirements reply on a document turn even when the model adds product refs", async () => {
+    process.env.ANTHROPIC_API_KEY = "<redacted>";
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        anthropicToolResponse({
+          reply: "I found 2 items in your document: 10 laptops; 5 monitors. Shall I prepare the request?",
+          path: "quote",
+          fields: { need: "10 laptops; 5 monitors" },
+          readyToReview: false,
+          products: [{ ref: "HAC-LTP-001" }],
+        }),
+      ),
+    );
+    const pdfBytes = new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2d]); // "%PDF-"
+    const result = await sendAiChatDocument(
+      docForm(new File([pdfBytes], "boq.pdf", { type: "application/pdf" })),
+    );
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      // The confirm-the-list box refers to this summary: the card
+      // lead-in must not replace it and no cards ride a document turn.
+      expect(result.turn.reply).toContain("I found 2 items in your document");
+      expect(result.turn.reply).not.toBe(CARD_LEAD_IN);
+      expect(result.turn.cards).toEqual([]);
+      expect(result.turn.fields.need).toBe("10 laptops; 5 monitors");
+    }
+  });
+
   it("inlines a plain-text attachment as a labelled data block", async () => {
     process.env.ANTHROPIC_API_KEY = "<redacted>";
     let requestBody: Record<string, unknown> | null = null;
