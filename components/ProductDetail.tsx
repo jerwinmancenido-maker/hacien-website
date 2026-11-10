@@ -73,7 +73,7 @@ export function ProductDetail({ product }: { product: Product }) {
                 ))}
               </ul>
               <Link href={`/products/${product.categorySlug}`} className="mt-3 inline-flex text-sm font-bold text-blue hover:underline">
-                Read the full {categoryLabel.toLowerCase()} guide
+                Read the full {categoryLabel} guide
               </Link>
             </div>
           ) : null}

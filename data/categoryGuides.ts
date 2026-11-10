@@ -105,7 +105,7 @@ export const categoryGuides: CategoryGuide[] = [
       },
     ],
     beyond: beyond(
-      "HACIEN can source any major brand through Philippine distributors; desktops, laptops, and workstations are sourced per order. Buyers often name Dell, HP, Lenovo, Asus, Acer, or Apple. The quotation uses the brand you specify, or an equivalent you approve in writing.",
+      "Desktops, laptops, and workstations are sourced per order. The quotation uses the brand you specify, or an equivalent you approve in writing.",
       "When you ask for it, the quotation can include memory and storage at the tier above, a monitor, a dock, and a keyboard and mouse set so the seat arrives ready to deploy.",
       "Unboxing and placement at the desk can be included when the request says installation. Imaging and joining a domain stay with your IT office unless you ask HACIEN to coordinate that work and it is written into the quotation.",
     ),

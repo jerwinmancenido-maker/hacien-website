@@ -20,7 +20,7 @@ export const metadata: Metadata = buildPageMetadata({
 const technologyDomains = [
   ["Enterprise Computing", "Business endpoints, workstations, and servers for offices, schools, and facilities. Processor, memory, and SSD size are decided per seat.", "computers-laptops"],
   ["Networking", "Switches, wireless access points, firewalls, and structured cabling for offices, facilities, and campuses. PoE budget and Wi-Fi standard belong in the request.", "network-equipment"],
-  ["Cybersecurity", "Endpoint protection, firewall appliances, and network security devices sized to users and the internet line.", "security-surveillance"],
+  ["Cybersecurity", "Endpoint protection, firewall appliances, and network security devices sized to users and the internet line.", "/solutions/cybersecurity"],
   ["Cloud", "Cloud services, backup, SaaS, and storage subscriptions, quoted by user count and term.", "/solutions/cloud-productivity"],
   ["Software", "Licensed business software, productivity platforms, and security licensing. Per-user and per-device counts are separate lines.", "licensed-software"],
   ["Storage", "Servers, NAS, backup storage, and rack equipment sized to the workload and the days you must restore.", "servers-storage"],

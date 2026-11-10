@@ -51,7 +51,7 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
         (sum, section) => sum + section.items.length,
         0,
       );
-      expect(totalQuestions).toBe(16);
+      expect(totalQuestions).toBe(17);
       const questions = faqData.sections.flatMap((section) => section.items.map((item) => item.question));
       expect(questions).toEqual(
         expect.arrayContaining([

@@ -5,7 +5,7 @@ export function CategoryGuide({ guide, categoryName }: { guide: CategoryGuideDat
   return (
     <div className="mt-12 space-y-12">
       <section>
-        <h2 className="text-2xl font-bold tracking-tight text-ink">What {categoryName.toLowerCase()} covers</h2>
+        <h2 className="text-2xl font-bold tracking-tight text-ink">What {categoryName} covers</h2>
         <div className="mt-4 max-w-3xl space-y-4 text-base leading-7 text-grey-700">
           {guide.whatItIs.map((paragraph) => (
             <p key={paragraph.slice(0, 48)}>{paragraph}</p>
@@ -81,7 +81,7 @@ export function CategoryGuide({ guide, categoryName }: { guide: CategoryGuideDat
             href="/quote"
             className="inline-flex min-h-11 items-center justify-center rounded bg-blue px-6 py-3 text-center text-sm font-medium text-white hover:bg-blue-dark"
           >
-            Request a quotation for {categoryName.toLowerCase()}
+            Request a quotation for {categoryName}
           </Link>
           <Link href="/solutions/systems-integration" className="inline-flex min-h-11 items-center text-sm font-bold text-blue hover:underline">
             Need survey, installation, and turnover?
