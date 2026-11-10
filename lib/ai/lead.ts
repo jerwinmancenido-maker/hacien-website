@@ -69,7 +69,10 @@ export function normalizeBusinessType(value: string): BusinessType | "" {
   if (isBusinessType(trimmed)) return trimmed;
   const text = trimmed.toLowerCase();
   if (!text) return "";
-  if (/(government|lgu|nga\b|gocc|philgeps|municipality|city hall|barangay|ahensya|gobyerno|munisipyo)/.test(text)) {
+  // PhilGEPS is deliberately NOT a government marker: private bidders
+  // register on PhilGEPS too, so a mere mention must not reclassify a
+  // private buyer as government (which would force an RFQ/PR number).
+  if (/(government|lgu|nga\b|gocc|municipality|city hall|barangay|ahensya|gobyerno|munisipyo)/.test(text)) {
     return "Government agency or LGU";
   }
   if (/(school|university|college|academy|eskwela|paaralan)/.test(text)) return "School";
@@ -111,7 +114,13 @@ export function quoteLeadIssues(fields: GuidedChatAnswers): { missing: string[];
     if (id === "businessType" && !isBusinessType(value)) invalid.push(id);
     if ((FILLED as readonly string[]).includes(id) && value.length < 2) invalid.push(id);
   }
-  const tin = (fields.tin || "").trim();
+  // The TIN is optional. A visitor without one often answers with a
+  // placeholder ("none", "n/a", "wala") — the collected value can
+  // never be cleared in-chat, so treating a placeholder as an invalid
+  // TIN would block the quote review forever. Placeholders count as
+  // "no TIN given"; a non-placeholder value must still be a real TIN.
+  const tinRaw = (fields.tin || "").trim();
+  const tin = /^(none|n\/?a|na|no tin|wala|not applicable|-+)$/i.test(tinRaw) ? "" : tinRaw;
   if (tin && !isTin(tin)) invalid.push("tin");
   if (isGovernmentBuyer(fields.businessType || "") && !(fields.buyerReference || "").trim()) {
     missing.push("buyerReference");

@@ -7,7 +7,7 @@ import { documentDataNotice, documentHeaderMatches, validateAiDocument } from "@
 import type { AiDocumentMedia } from "@/lib/ai/document";
 import { sanitizeIntakeFields } from "@/lib/ai/intake";
 import { buildAiChatSystemPrompt } from "@/lib/ai/knowledge";
-import { isCompletePersonName, quoteLeadReady } from "@/lib/ai/lead";
+import { isCompletePersonName, normalizeBusinessType, quoteLeadReady } from "@/lib/ai/lead";
 import { matchSiteOfferings } from "@/lib/ai/offerings";
 import { AI_SAFE_REPLY } from "@/lib/ai/output-guard";
 import { SCOPE_REFUSAL, classifyUserTurn, type ScopeDecision } from "@/lib/ai/scope";
@@ -192,6 +192,18 @@ describe("quote lead and documents", () => {
     expect(quoteLeadReady({ ...base, name: "Maria Santos", phone: "12345" })).toBe(false);
     expect(quoteLeadReady({ ...base, name: "Maria Santos", tin: "123" })).toBe(false);
     expect(quoteLeadReady({ ...base, name: "Maria Santos", tin: "123-456-789" })).toBe(true);
+    // No-TIN placeholders count as "no TIN given" (the field is
+    // optional and the value cannot be cleared in-chat).
+    expect(quoteLeadReady({ ...base, name: "Maria Santos", tin: "none" })).toBe(true);
+    expect(quoteLeadReady({ ...base, name: "Maria Santos", tin: "N/A" })).toBe(true);
+    expect(quoteLeadReady({ ...base, name: "Maria Santos", tin: "wala" })).toBe(true);
+  });
+
+  it("does not classify a private buyer as government for mentioning PhilGEPS", () => {
+    expect(normalizeBusinessType("PhilGEPS-registered private company")).toBe("Private company");
+    expect(normalizeBusinessType("private company")).toBe("Private company");
+    expect(normalizeBusinessType("LGU")).toBe("Government agency or LGU");
+    expect(normalizeBusinessType("PhilGEPS")).toBe("");
   });
 
   it("accepts full names with middle initials and rejects single-letter given/family names", () => {
