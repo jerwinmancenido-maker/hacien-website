@@ -1003,6 +1003,19 @@ describe("AI chat document UI wiring", () => {
     expect(ai).toContain("Yes, that&rsquo;s my company");
   });
 
+  it("dismisses the unlisted-upload choices when the company confirm takes the thread", () => {
+    const ai = read("components/AiChat.tsx");
+    // Bugbot (PR #87 at c4baf872): on a lookup hit the flag survived,
+    // so the attach/type/callback box rendered next to the confirm.
+    const lookupBlock = ai.slice(ai.indexOf("async function maybeLookupCompany"), ai.indexOf("async function lookupCompanyAtStart"));
+    const foundBlock = lookupBlock.slice(lookupBlock.indexOf("if (result.found)"), lookupBlock.indexOf("} else {"));
+    expect(foundBlock).toContain("setUnlistedUpload(false);");
+    // And the render condition itself yields while the lookup is
+    // searching or waiting on the visitor's confirm.
+    expect(ai).toContain('companyLookup.status !== "searching"');
+    expect(ai).toContain('companyLookup.status !== "confirming"');
+  });
+
   it("opens on the Tourly email start: centered, email first, a normal first message", () => {
     const ai = read("components/AiChat.tsx");
     expect(ai).toContain("const started = messages.length > 0");

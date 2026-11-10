@@ -357,7 +357,14 @@ export function AiChat({
   const showNeedChoices =
     boxIdle && needBoxIndex === messages.length - 1 && !fields.need && !readyToReview && !attachment;
   const showDocChoices = boxIdle && docConfirmPending && !readyToReview && !showNeedChoices;
-  const showUnlistedUpload = boxIdle && unlistedUpload && !readyToReview && !attachment && !showDocChoices;
+  const showUnlistedUpload =
+    boxIdle &&
+    unlistedUpload &&
+    !readyToReview &&
+    !attachment &&
+    !showDocChoices &&
+    companyLookup.status !== "searching" &&
+    companyLookup.status !== "confirming";
   const showPathChoices =
     boxIdle && !path && Boolean(fields.need) && !readyToReview && !showNeedChoices && !showDocChoices;
   const showCallbackChoices =
@@ -605,6 +612,10 @@ export function AiChat({
     const lookupElapsed = Date.now() - lookupStartedAt;
     if (lookupElapsed < MIN_STAGED_VIEW_MS) await sleep(MIN_STAGED_VIEW_MS - lookupElapsed);
     if (result.found) {
+      // The company confirm owns the thread now: the unlisted-upload
+      // choices belong to the earlier reply and must not render (or
+      // fire) next to the confirm card (Bugbot, PR #87 at c4baf872).
+      setUnlistedUpload(false);
       setCompanyLookup({
         status: "confirming",
         email,
