@@ -43,10 +43,18 @@ describe("Image sizes and priority (scroll / LCP guardrails)", () => {
     expect(imagery).toMatch(/enterpriseThumbSizes/);
   });
 
-  it("next.config serves AVIF/WebP and includes the 390 phone device size", () => {
+  it("next.config serves the original files and includes the 390 phone device size", () => {
     const config = read("next.config.ts");
-    expect(config).toMatch(/image\/avif/);
-    expect(config).toMatch(/image\/webp/);
+    expect(config).toMatch(/unoptimized:\s*true/);
     expect(config).toMatch(/deviceSizes: \[390,/);
+  });
+
+  it("a failed enterprise image is an ink panel, not the alt string painted in the box", () => {
+    const frame = read("components/EnterpriseMediaFrame.tsx");
+    expect(frame).toMatch(/onError=\{\(\) => setFailed\(true\)\}/);
+    expect(frame).toMatch(/role="img"/);
+    expect(frame).toMatch(/aria-label=\{alt\}/);
+    expect(frame).toMatch(/bg-ink/);
+    expect(frame).not.toMatch(/>\s*\{alt\}\s*</);
   });
 });

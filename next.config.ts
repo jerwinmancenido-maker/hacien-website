@@ -13,6 +13,14 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   productionBrowserSourceMaps: false,
   images: {
+    // Hostinger answers a real /_next/image optimization with its own 503
+    // HTML ("temporarily busy", about 1.1s, no Next headers). A rejected
+    // width still returns 400 from Next, and /images/*.jpg returns 200.
+    // Sharp is already traced into the standalone build; hiding it makes
+    // Next pass the original JPEG through in ~30ms, so a missing binary
+    // is not this 503. These source files are already small, so pages
+    // request them directly instead of on-demand AVIF/WebP.
+    unoptimized: true,
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
