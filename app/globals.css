@@ -858,6 +858,7 @@ main {
 .va-scope h4,
 .va-scope .text-slate-950,
 .va-scope .text-slate-900,
+.va-scope .text-slate-800,
 .va-scope .text-ink {
   color: #f4f6fa;
 }
@@ -867,8 +868,21 @@ main {
   color: #c6cbd8;
 }
 .va-scope .text-slate-500,
-.va-scope .text-grey-600 {
+.va-scope .text-grey-600,
+.va-scope .text-grey-400 {
   color: #9199a8;
+}
+/* Deliberately NOT remapped: text-grey-200 and text-grey-300. Their only
+   in-scope use is PremiumPageHero's on-photo captions, which are already
+   light on dark; remapping them would restyle the out-of-scope hero. */
+.va-scope .bg-slate-950 {
+  background-color: #060f23;
+}
+.va-scope .bg-slate-900 {
+  background-color: #1e2129;
+}
+.va-scope .divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #2a2e38;
 }
 .va-scope .bg-white {
   background-color: #15171d;
@@ -900,13 +914,17 @@ main {
 .va-scope .rounded-lg {
   border-radius: 20px;
 }
-.va-scope a.rounded,
-.va-scope button.rounded {
+.va-scope a.button-glow {
   border-radius: 999px;
 }
-.va-scope a.rounded.border {
+/* The article page's secondary CTA only. The border-slate-300 qualifier
+   keeps this off PremiumPageHero's secondary action, which shares the
+   interactive-link + rounded + border shape but uses border-white/25 —
+   the hero is a shared component and stays out of this scope. */
+.va-scope a.interactive-link.rounded.border-slate-300 {
   background-color: #1e2129;
   color: #f4f6fa;
+  border-radius: 999px;
 }
 .va-scope .text-\[\#2563EB\] {
   color: #6692f1;
