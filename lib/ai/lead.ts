@@ -72,7 +72,16 @@ export function normalizeBusinessType(value: string): BusinessType | "" {
   // PhilGEPS is deliberately NOT a government marker: private bidders
   // register on PhilGEPS too, so a mere mention must not reclassify a
   // private buyer as government (which would force an RFQ/PR number).
-  if (/(government|lgu|nga\b|gocc|municipality|city hall|barangay|ahensya|gobyerno|munisipyo)/.test(text)) {
+  // "NGA" is a government marker ONLY as the standalone uppercase
+  // acronym (checked case-sensitively on the original text) or as the
+  // full phrase: the lowercase word "nga" is a Tagalog emphasis
+  // particle ("private company nga po"), never an agency (Bugbot,
+  // PR #88 at 68d0ff2).
+  const isNga = /\bNGA\b/.test(trimmed) || /national government agency/i.test(trimmed);
+  if (
+    isNga ||
+    /(government|lgu|gocc|municipality|city hall|barangay|ahensya|gobyerno|munisipyo)/.test(text)
+  ) {
     return "Government agency or LGU";
   }
   if (/(school|university|college|academy|eskwela|paaralan)/.test(text)) return "School";

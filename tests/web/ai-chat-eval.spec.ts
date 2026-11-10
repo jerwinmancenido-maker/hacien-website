@@ -224,6 +224,15 @@ describe("quote lead and documents", () => {
     expect(normalizeBusinessType("PhilGEPS")).toBe("");
   });
 
+  it("treats only the uppercase NGA acronym (or the full phrase) as a government marker", () => {
+    // "nga" the Tagalog emphasis particle is not an agency (Bugbot,
+    // PR #88 at 68d0ff2).
+    expect(normalizeBusinessType("private company nga po")).toBe("Private company");
+    expect(normalizeBusinessType("kailangan nga namin ng laptops")).toBe("");
+    expect(normalizeBusinessType("NGA")).toBe("Government agency or LGU");
+    expect(normalizeBusinessType("National Government Agency")).toBe("Government agency or LGU");
+  });
+
   it("accepts full names with middle initials and rejects single-letter given/family names", () => {
     expect(isCompletePersonName("Juan C Dela Cruz")).toBe(true);
     expect(isCompletePersonName("Juan C. Dela Cruz")).toBe(true);
