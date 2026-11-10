@@ -30,7 +30,8 @@ export function isCompletePersonName(value: string): boolean {
     .map((part) => part.replace(/\./g, ""))
     .filter((part) => part && !TITLES.has(part.toLowerCase()));
   if (names.length < 2) return false;
-  return names.every((part) => /^[\p{L}][\p{L}'.-]{1,39}$/u.test(part));
+  if (names[0].length < 2 || names[names.length - 1].length < 2) return false;
+  return names.every((part) => /^[\p{L}][\p{L}'.-]{0,39}$/u.test(part));
 }
 
 export function isPhilippineMobile(value: string): boolean {

@@ -36,9 +36,9 @@ const HARD_OFF_TOPIC = [
   /\b(joke|jokes|knock-knock|magbiro)\b|\bbiro\b/i,
   /\b(weather forecast|recipe for|horoscope|capital of|capital ng|translate this)\b/i,
   /\b(who should i vote|politician|pulitika)\b/i,
-  /\b(girlfriend|boyfriend|break up|diagnose|diagnosis|symptom)\b/i,
+  /\b(girlfriend|boyfriend|break up)\b/i,
   /\b(stock price|share price)\b/i,
-  /\b(hack|exploit|malware)\b/i,
+  /\b(hack\s+(into|a\b|an\b|the\b|someone)|how to hack|hacking tutorial|create malware|write (an? )?exploit)\b/i,
   /\b(bedtime story|quantum physics|world cup)\b/i,
 ];
 
@@ -102,6 +102,17 @@ const STATIC_ANCHORS = [
   "warranty",
   "erp",
   "platform",
+  "anti-malware",
+  "antivirus",
+  "firewall",
+  "endpoint",
+  "protection",
+  "exploit",
+  "diagnose",
+  "diagnosis",
+  "equipment",
+  "cybersecurity",
+  "security",
 ];
 
 function escapeRegExp(value: string): string {

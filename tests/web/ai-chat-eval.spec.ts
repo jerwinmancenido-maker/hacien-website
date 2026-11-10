@@ -7,7 +7,7 @@ import { documentDataNotice, documentHeaderMatches, validateAiDocument } from "@
 import type { AiDocumentMedia } from "@/lib/ai/document";
 import { sanitizeIntakeFields } from "@/lib/ai/intake";
 import { buildAiChatSystemPrompt } from "@/lib/ai/knowledge";
-import { quoteLeadReady } from "@/lib/ai/lead";
+import { isCompletePersonName, quoteLeadReady } from "@/lib/ai/lead";
 import { matchSiteOfferings } from "@/lib/ai/offerings";
 import { AI_SAFE_REPLY } from "@/lib/ai/output-guard";
 import { SCOPE_REFUSAL, classifyUserTurn, type ScopeDecision } from "@/lib/ai/scope";
@@ -122,16 +122,25 @@ describe("company-only chat eval", () => {
     expect(matchSiteOfferings("CCTV for a school laboratory").join(" ")).toMatch(/Schools/);
   });
 
-  it("still shows a catalogue card only when the reply names the item", () => {
-    const cards = resolveChatProductCards(
-      "We can include the Business Laptop Class in the quotation.",
-      [{ ref: "business-laptop-16gb" }],
-      staticChatCatalogue(),
-    );
+  it("shows catalogue cards matching refs", () => {
+    const cards = resolveChatProductCards([{ ref: "business-laptop-16gb" }], staticChatCatalogue());
     expect(cards).toEqual([{ name: "Business Laptop Class" }]);
-    expect(
-      resolveChatProductCards("We can quote laptops.", [{ ref: "business-laptop-16gb" }], staticChatCatalogue()),
-    ).toEqual([]);
+    expect(resolveChatProductCards([{ ref: "non-existent" }], staticChatCatalogue())).toEqual([]);
+  });
+
+  it("accepts cybersecurity, anti-malware, exploit handling, and equipment diagnosis in scope", () => {
+    expect(classifyUserTurn("quote anti-malware")).toBe("in-scope");
+    expect(classifyUserTurn("anti-malware")).toBe("in-scope");
+    expect(classifyUserTurn("quote endpoint protection / firewall")).toBe("in-scope");
+    expect(classifyUserTurn("handle an exploit")).toBe("in-scope");
+    expect(classifyUserTurn("diagnose this UPS / this equipment")).toBe("in-scope");
+    expect(classifyUserTurn("diagnose this UPS")).toBe("in-scope");
+    expect(classifyUserTurn("diagnose this equipment")).toBe("in-scope");
+    expect(classifyUserTurn("handle an exploit", "quote")).toBe("in-scope");
+    expect(classifyUserTurn("diagnose this UPS / this equipment", "quote")).toBe("in-scope");
+    expect(classifyUserTurn("how to hack a website")).toBe("off-topic");
+    expect(classifyUserTurn("hack into a server")).toBe("off-topic");
+    expect(classifyUserTurn("create malware")).toBe("off-topic");
   });
 });
 
@@ -153,10 +162,24 @@ describe("quote lead and documents", () => {
     };
     expect(quoteLeadReady({ ...base, name: "Maria" })).toBe(false);
     expect(quoteLeadReady({ ...base, name: "Maria Santos" })).toBe(true);
+    expect(quoteLeadReady({ ...base, name: "Juan C Dela Cruz" })).toBe(true);
+    expect(quoteLeadReady({ ...base, name: "Juan C. Dela Cruz" })).toBe(true);
+    expect(quoteLeadReady({ ...base, name: "J D" })).toBe(false);
     expect(quoteLeadReady({ ...base, name: "Maria Santos", email: "maria@" })).toBe(false);
     expect(quoteLeadReady({ ...base, name: "Maria Santos", phone: "12345" })).toBe(false);
     expect(quoteLeadReady({ ...base, name: "Maria Santos", tin: "123" })).toBe(false);
     expect(quoteLeadReady({ ...base, name: "Maria Santos", tin: "123-456-789" })).toBe(true);
+  });
+
+  it("accepts full names with middle initials and rejects single-letter given/family names", () => {
+    expect(isCompletePersonName("Juan C Dela Cruz")).toBe(true);
+    expect(isCompletePersonName("Juan C. Dela Cruz")).toBe(true);
+    expect(isCompletePersonName("Maria Santos")).toBe(true);
+    expect(isCompletePersonName("J D")).toBe(false);
+    expect(isCompletePersonName("J. D.")).toBe(false);
+    expect(isCompletePersonName("Juan D")).toBe(false);
+    expect(isCompletePersonName("J Dela Cruz")).toBe(false);
+    expect(isCompletePersonName("Maria")).toBe(false);
   });
 
   it("asks a government buyer for an RFQ or PR number, and accepts none", () => {
@@ -248,7 +271,7 @@ describe("mocked chat answers", () => {
     });
     expect(offered.ok).toBe(true);
     if (!offered.ok) return;
-    expect(offered.turn.reply).toContain("formal quotation");
+    expect(offered.turn.reply).toBe("Here are options we can quote, tap one to start.");
     expect(offered.turn.cards).toEqual([{ name: "Business Laptop Class" }]);
 
     vi.stubGlobal(
