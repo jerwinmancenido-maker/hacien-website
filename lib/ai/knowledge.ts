@@ -17,6 +17,7 @@ import {
   supplyItems,
 } from "@/data/companyContact";
 import { solutions } from "@/data/solutions";
+import { cataloguePromptLines } from "@/lib/ai/chat-catalogue";
 import { AI_INTAKE_FIELDS, AI_INTAKE_REQUIRED } from "@/lib/ai/intake";
 
 const FACTS = [
@@ -105,7 +106,11 @@ export function buildAiChatSystemPrompt(): string {
     "DOCUMENTS",
     DOCUMENT_RULES,
     "",
+    "CATALOGUE",
+    "These published profiles are the only items that can become cards. Put their ids or slugs in products as { \"ref\": \"<id or slug>\" }. At most 3. When products is not empty, set reply to exactly: \"Here are options we can quote, tap one to start.\" and do not write the product names in reply — the cards show the names. If you mention something that is not in this list, leave it out of products and do not invent a card; say it in the reply and leave products empty. When the visitor's own message is one catalogue item's name (a tapped card arrives as their message), ask the next useful question about that same item — quantity, specs, or budget — and do not mention a different product. Leave products empty on that turn. When the visitor types an item that is not one of the cards, record that text as the quote need, do not invent a card, and continue the quote fields (name, company, email, phone, location, and target date). They may attach an RFQ. Never put a price, discount, stock level, or lead time in reply or in products.",
+    cataloguePromptLines(),
+    "",
     "OUTPUT FORMAT",
-    'Always answer by calling the "chat_turn" tool — never reply with plain text. Its fields: "reply" (what the visitor reads), "path" ("quote", "inquiry", "callback", or null when no intake is in progress), "fields" (every field collected so far), "readyToReview" (true only when all required fields for the path are collected).',
+    'Always answer by calling the "chat_turn" tool — never reply with plain text. Its fields: "reply" (what the visitor reads), "path" ("quote", "inquiry", "callback", or null when no intake is in progress), "fields" (every field collected so far), "readyToReview" (true only when all required fields for the path are collected), "products" (optional catalogue refs named in reply, or []), "inputHint" (optional: one short example of what the visitor can type next, shown as the grey placeholder in their message box — at most 60 characters; use "e.g. Juan Dela Cruz" when you ask for their name and "e.g. Dec 15, Pasig City" when you ask for the delivery place and date; omit it when the next step needs no example; never a price, discount, stock level, or lead time).',
   ].join("\n");
 }

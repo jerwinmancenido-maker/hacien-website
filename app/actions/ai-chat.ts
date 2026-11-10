@@ -24,6 +24,8 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { headers } from "next/headers";
 import { Ratelimit } from "@upstash/ratelimit";
+import { catalogueEntriesFromErpItems, mergeChatCatalogue, staticChatCatalogue } from "@/lib/ai/chat-catalogue";
+import { presentCatalogueTurn, type ChatProductRef } from "@/lib/ai/chat-product-cards";
 import { buildAiChatSystemPrompt } from "@/lib/ai/knowledge";
 import { screenAiReply } from "@/lib/ai/output-guard";
 import {
@@ -224,6 +226,29 @@ const CHAT_TURN_TOOL = {
         type: "boolean",
         description: "True only when all required fields for the path are collected.",
       },
+      products: {
+        type: "array",
+        maxItems: 8,
+        description:
+          "Catalogue items to show as cards. Each ref is an id or slug from the catalogue. Do not repeat those names in reply. Omit, or pass [], when nothing in the catalogue applies. Never include a price, stock level, or lead time.",
+        items: {
+          type: "object",
+          additionalProperties: false,
+          properties: {
+            ref: { type: "string" },
+            mention: {
+              type: "string",
+              description: "Optional phrase copied verbatim from reply. No price, stock, or lead time.",
+            },
+          },
+          required: ["ref"],
+        },
+      },
+      inputHint: {
+        type: "string",
+        description:
+          "Optional short placeholder hint for the visitor's message box: one example of what to type next, at most 60 characters (for example 'e.g. Juan Dela Cruz' when asking their name, or 'e.g. Dec 15, Pasig City' when asking the delivery place and date). Omit when the next step needs no example. Never a price, stock level, or lead time.",
+      },
     },
     required: ["reply", "path", "fields", "readyToReview"],
   },
@@ -402,9 +427,56 @@ async function runTurn(
   const screened = screenAiReply(turn.reply);
   if (screened.flagged) {
     console.warn("AI chat: reply replaced by the output guard.");
-    turn = { ...turn, reply: screened.text };
   }
-  return { ok: true, turn };
+  const userMessage = validated.messages[validated.messages.length - 1]?.content ?? "";
+  // A document turn's reply IS the extracted-requirements summary the
+  // visitor is about to confirm (the client's confirm-the-list box
+  // keys off the document having been read): the catalogue
+  // presentation must not replace it with the card lead-in, or the
+  // extracted requirements never reach the visitor (CTO review R1).
+  const presented = screened.flagged || attachment
+    ? { reply: screened.text, cards: [] }
+    : presentCatalogueTurn({
+        reply: screened.text,
+        refs: turn.productRefs,
+        catalogue: await catalogueForRefs(turn.productRefs),
+        userMessage,
+      });
+  return {
+    ok: true,
+    turn: {
+      reply: presented.reply,
+      path: turn.path,
+      fields: turn.fields,
+      readyToReview: turn.readyToReview,
+      cards: presented.cards,
+      productRefs: [],
+      // A guard-replaced reply takes its hint down with it.
+      inputHint: screened.flagged ? undefined : turn.inputHint,
+    },
+  };
+}
+
+/** Static profiles first. ERP is consulted only for a ref those profiles
+ *  do not already answer, and a failure leaves the static list in place. */
+async function catalogueForRefs(refs: ChatProductRef[]) {
+  const base = staticChatCatalogue();
+  const unresolved = refs.some(
+    (item) =>
+      !base.some(
+        (entry) =>
+          entry.id.toLowerCase() === item.ref.toLowerCase() ||
+          entry.slug.toLowerCase() === item.ref.toLowerCase(),
+      ),
+  );
+  if (!unresolved) return base;
+  try {
+    const { listErpCatalog } = await import("@/lib/erp/ecommerce-client");
+    const catalog = await listErpCatalog();
+    return mergeChatCatalogue(base, catalogueEntriesFromErpItems(catalog.items));
+  } catch {
+    return base;
+  }
 }
 
 export async function sendAiChatMessage(input: {

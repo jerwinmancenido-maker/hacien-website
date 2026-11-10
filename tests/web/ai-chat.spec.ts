@@ -2,9 +2,16 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
+vi.mock("server-only", () => ({}));
+vi.mock("@/lib/erp/ecommerce-client", () => ({
+  listErpCatalog: vi.fn(async () => ({ items: [] })),
+}));
+
 import { sendAiChatDocument, sendAiChatMessage } from "@/app/actions/ai-chat";
+import { listErpCatalog } from "@/lib/erp/ecommerce-client";
 import { validateAiDocument } from "@/lib/ai/document";
 import { buildAiChatSystemPrompt } from "@/lib/ai/knowledge";
+import { CARD_LEAD_IN, tappedProductQuestion } from "@/lib/ai/chat-product-cards";
 import { AI_SAFE_REPLY, screenAiReply } from "@/lib/ai/output-guard";
 import {
   intakeReady,
@@ -528,6 +535,177 @@ describe("sendAiChatMessage guards", () => {
       expect(result.turn.path).toBe("quote");
       expect(result.turn.fields).toEqual({ need: "10 laptops" });
       expect(result.turn.readyToReview).toBe(false);
+      expect(result.turn.cards).toEqual([]);
+      expect(result.turn.productRefs).toEqual([]);
+    }
+  });
+
+  it("returns a catalogue card for a static ref and does not ask the ERP", async () => {
+    process.env.ANTHROPIC_API_KEY = "test-key";
+    vi.mocked(listErpCatalog).mockClear();
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        anthropicToolResponse({
+          reply: "We can include these: Business Laptop Class, Business Desktop and Monitor Bundle, and APC, CyberPower, and Eaton UPS.",
+          path: null,
+          fields: {},
+          readyToReview: false,
+          products: [
+            { ref: "HAC-LTP-001" },
+            { ref: "office-desktop-monitor-bundle" },
+            { ref: "HAC-PWR-001" },
+          ],
+        }),
+      ),
+    );
+    const result = await sendAiChatMessage({
+      messages: [{ role: "user", content: "We need laptops, desktops, and a UPS for the new office." }],
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.turn.reply).toBe(CARD_LEAD_IN);
+      expect(result.turn.reply).not.toContain("Business Laptop Class");
+      expect(result.turn.cards).toEqual([
+        { name: "Business Laptop Class" },
+        { name: "Business Desktop and Monitor Bundle" },
+        { name: "APC, CyberPower, and Eaton UPS" },
+      ]);
+      expect(JSON.stringify(result.turn.cards)).not.toMatch(/price|stock|lead time/i);
+    }
+    expect(listErpCatalog).not.toHaveBeenCalled();
+  });
+
+  it("after a tapped product, replaces an unrelated reply with a question about that product", async () => {
+    process.env.ANTHROPIC_API_KEY = "test-key";
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        anthropicToolResponse({
+          reply: "A Cisco Catalyst 9300 is not one of the published profiles I can show here.",
+          path: "quote",
+          fields: {},
+          readyToReview: false,
+          products: [{ ref: "cisco-firewall-options" }],
+        }),
+      ),
+    );
+    const result = await sendAiChatMessage({
+      messages: [
+        { role: "user", content: "We need laptops, desktops, and a UPS for the new office." },
+        { role: "assistant", content: CARD_LEAD_IN },
+        { role: "user", content: "Business Laptop Class" },
+      ],
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.turn.reply).toBe(tappedProductQuestion("Business Laptop Class"));
+      expect(result.turn.reply).not.toContain("Cisco");
+      expect(result.turn.cards).toEqual([]);
+    }
+  });
+
+  it("keeps a typed unlisted item as the quote need and does not invent a card", async () => {
+    process.env.ANTHROPIC_API_KEY = "test-key";
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        anthropicToolResponse({
+          reply: "Where should it be delivered?",
+          path: "quote",
+          fields: { need: "Cisco Catalyst 9300, 4 units" },
+          readyToReview: false,
+          products: [{ ref: "cisco-catalyst-9300" }],
+        }),
+      ),
+    );
+    const result = await sendAiChatMessage({
+      messages: [
+        { role: "assistant", content: CARD_LEAD_IN },
+        { role: "user", content: "Cisco Catalyst 9300, 4 units" },
+      ],
+      path: "quote",
+      fields: { need: "Cisco Catalyst 9300, 4 units" },
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.turn.path).toBe("quote");
+      expect(result.turn.fields.need).toBe("Cisco Catalyst 9300, 4 units");
+      expect(result.turn.cards).toEqual([]);
+      expect(result.turn.reply).toBe("Where should it be delivered?");
+      expect(result.turn.reply).not.toContain("Cisco Catalyst 9300");
+    }
+  });
+
+  it("drops cards when the output guard replaces the reply", async () => {
+    process.env.ANTHROPIC_API_KEY = "test-key";
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        anthropicToolResponse({
+          reply: "Business Laptop Class is ₱1250.",
+          path: null,
+          fields: {},
+          readyToReview: false,
+          products: [{ ref: "HAC-LTP-001" }],
+        }),
+      ),
+    );
+    const result = await sendAiChatMessage({
+      messages: [{ role: "user", content: "How much is the laptop?" }],
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.turn.reply).toBe(AI_SAFE_REPLY);
+      expect(result.turn.cards).toEqual([]);
+    }
+  });
+
+  it("matches an ERP ref the static list does not know, without keeping its price", async () => {
+    process.env.ANTHROPIC_API_KEY = "test-key";
+    vi.mocked(listErpCatalog).mockResolvedValue({
+      items: [
+        {
+          id: "erp-9",
+          publicationId: "pub-9",
+          slug: "published-switch",
+          sku: "SW-1",
+          name: "Published Switch",
+          description: null,
+          category: "Network",
+          isAvailable: true,
+          purchaseMode: "rfq",
+          checkoutEnabled: false,
+          manualPaymentEnabled: false,
+          sandboxPaymentEnabled: false,
+          currency: "PHP",
+          price: 999,
+          image: null,
+          specs: null,
+        },
+      ],
+    });
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        anthropicToolResponse({
+          reply: "Published Switch can be part of the request.",
+          path: null,
+          fields: {},
+          readyToReview: false,
+          products: [{ ref: "published-switch", mention: "PHP 999" }],
+        }),
+      ),
+    );
+    const result = await sendAiChatMessage({
+      messages: [{ role: "user", content: "What about that switch?" }],
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.turn.reply).toBe(CARD_LEAD_IN);
+      expect(result.turn.reply).not.toContain("Published Switch");
+      expect(result.turn.cards).toEqual([{ name: "Published Switch" }]);
+      expect(result.turn.productRefs).toEqual([]);
     }
   });
 
@@ -719,6 +897,35 @@ describe("sendAiChatDocument", () => {
     expect((requestBody as unknown as { max_tokens: number }).max_tokens).toBe(1600);
   });
 
+  it("keeps the extracted-requirements reply on a document turn even when the model adds product refs", async () => {
+    process.env.ANTHROPIC_API_KEY = "<redacted>";
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        anthropicToolResponse({
+          reply: "I found 2 items in your document: 10 laptops; 5 monitors. Shall I prepare the request?",
+          path: "quote",
+          fields: { need: "10 laptops; 5 monitors" },
+          readyToReview: false,
+          products: [{ ref: "HAC-LTP-001" }],
+        }),
+      ),
+    );
+    const pdfBytes = new Uint8Array([0x25, 0x50, 0x44, 0x46, 0x2d]); // "%PDF-"
+    const result = await sendAiChatDocument(
+      docForm(new File([pdfBytes], "boq.pdf", { type: "application/pdf" })),
+    );
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      // The confirm-the-list box refers to this summary: the card
+      // lead-in must not replace it and no cards ride a document turn.
+      expect(result.turn.reply).toContain("I found 2 items in your document");
+      expect(result.turn.reply).not.toBe(CARD_LEAD_IN);
+      expect(result.turn.cards).toEqual([]);
+      expect(result.turn.fields.need).toBe("10 laptops; 5 monitors");
+    }
+  });
+
   it("inlines a plain-text attachment as a labelled data block", async () => {
     process.env.ANTHROPIC_API_KEY = "<redacted>";
     let requestBody: Record<string, unknown> | null = null;
@@ -823,6 +1030,19 @@ describe("AI chat document UI wiring", () => {
     expect(ai).toContain("Checking the email domain");
     expect(ai).toContain("is this your company?");
     expect(ai).toContain("Yes, that&rsquo;s my company");
+  });
+
+  it("dismisses the unlisted-upload choices when the company confirm takes the thread", () => {
+    const ai = read("components/AiChat.tsx");
+    // Bugbot (PR #87 at c4baf872): on a lookup hit the flag survived,
+    // so the attach/type/callback box rendered next to the confirm.
+    const lookupBlock = ai.slice(ai.indexOf("async function maybeLookupCompany"), ai.indexOf("async function lookupCompanyAtStart"));
+    const foundBlock = lookupBlock.slice(lookupBlock.indexOf("if (result.found)"), lookupBlock.indexOf("} else {"));
+    expect(foundBlock).toContain("setUnlistedUpload(false);");
+    // And the render condition itself yields while the lookup is
+    // searching or waiting on the visitor's confirm.
+    expect(ai).toContain('companyLookup.status !== "searching"');
+    expect(ai).toContain('companyLookup.status !== "confirming"');
   });
 
   it("opens on the Tourly email start: centered, email first, a normal first message", () => {

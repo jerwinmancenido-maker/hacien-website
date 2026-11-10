@@ -12,10 +12,18 @@ import { replyTime } from "@/data/companyContact";
 import {
   AgentMessage,
   ChatChoiceBox,
+  ChatProductCards,
   MessageComposer,
   TypingAgentMessage,
   UserBubble,
 } from "@/components/ChatBubbles";
+import {
+  CARDS_INPUT_PLACEHOLDER,
+  cardsVisibleInReply,
+  isTypedUnlistedItem,
+  sanitizeInputHint,
+  type ChatProductCard,
+} from "@/lib/ai/chat-product-cards";
 import { TurnstileField } from "@/components/TurnstileField";
 import { CALLBACK_TIME_OPTIONS, getChatPath } from "@/lib/guided-chat/steps";
 import {
@@ -212,7 +220,26 @@ type ChatMessage = {
   role: "user" | "assistant";
   text: string;
   trackUrl?: string;
+  cards?: ChatProductCard[];
+  /** Sanitized placeholder hint carried by this assistant turn. */
+  inputHint?: string;
 };
+
+function restoreMessage(message: ChatMessage): ChatMessage {
+  const trackUrl = typeof message.trackUrl === "string" ? message.trackUrl : undefined;
+  if (message.role !== "assistant") {
+    return { role: message.role, text: message.text, ...(trackUrl ? { trackUrl } : {}) };
+  }
+  const cards = cardsVisibleInReply(message.text, message.cards);
+  const inputHint = sanitizeInputHint(message.inputHint);
+  return {
+    role: "assistant",
+    text: message.text,
+    ...(trackUrl ? { trackUrl } : {}),
+    ...(cards.length > 0 ? { cards } : {}),
+    ...(inputHint ? { inputHint } : {}),
+  };
+}
 
 export function AiChat({
   turnstileSiteKey,
@@ -266,6 +293,8 @@ export function AiChat({
    *  is not owed. The box renders only while that message is still
    *  the latest one, so any reply from the visitor retires it. */
   const [needBoxIndex, setNeedBoxIndex] = useState(-1);
+  /** After a typed item that is not one of the cards, keep the upload choices up. */
+  const [unlistedUpload, setUnlistedUpload] = useState(false);
   const needReplyRef = useRef(false);
   /** A document turn has landed and its extracted list is waiting
    *  for the visitor's Looks right / Needs changes tap. */
@@ -328,6 +357,14 @@ export function AiChat({
   const showNeedChoices =
     boxIdle && needBoxIndex === messages.length - 1 && !fields.need && !readyToReview && !attachment;
   const showDocChoices = boxIdle && docConfirmPending && !readyToReview && !showNeedChoices;
+  const showUnlistedUpload =
+    boxIdle &&
+    unlistedUpload &&
+    !readyToReview &&
+    !attachment &&
+    !showDocChoices &&
+    companyLookup.status !== "searching" &&
+    companyLookup.status !== "confirming";
   const showPathChoices =
     boxIdle && !path && Boolean(fields.need) && !readyToReview && !showNeedChoices && !showDocChoices;
   const showCallbackChoices =
@@ -337,6 +374,18 @@ export function AiChat({
     !readyToReview &&
     !showNeedChoices &&
     !showDocChoices;
+
+  /** Composer placeholder (Jerwin's approved hint design): while the
+   *  latest reply shows product cards, the box itself carries the
+   *  not-listed line; otherwise the model's own short hint for this
+   *  step; otherwise the plain default. Never a line under the cards. */
+  const lastMessage = messages[messages.length - 1];
+  const composerPlaceholder =
+    lastMessage?.role === "assistant" && lastMessage.cards && lastMessage.cards.length > 0
+      ? CARDS_INPUT_PLACEHOLDER
+      : lastMessage?.role === "assistant" && lastMessage.inputHint
+        ? lastMessage.inputHint
+        : "Type your message…";
 
   /** Both gate ticks are in when the agreement is ticked and the
    *  security token exists (or no check is configured). Continue
@@ -412,7 +461,7 @@ export function AiChat({
           if (parsed.v === 2 && parsed.agreedVersions === AGREEMENT_POLICY_VERSIONS) {
             snapshot = {
               v: 2,
-              messages: parsed.messages,
+              messages: parsed.messages.map((message) => restoreMessage(message)),
               fields: parsed.fields,
               path: parsed.path ?? null,
               readyToReview: Boolean(parsed.readyToReview),
@@ -525,6 +574,7 @@ export function AiChat({
     setPinnedEmail("");
     setRuntimeUnavailable(false);
     setNeedBoxIndex(-1);
+    setUnlistedUpload(false);
     needReplyRef.current = false;
     setDocConfirmPending(false);
     setAgreed(false);
@@ -562,6 +612,10 @@ export function AiChat({
     const lookupElapsed = Date.now() - lookupStartedAt;
     if (lookupElapsed < MIN_STAGED_VIEW_MS) await sleep(MIN_STAGED_VIEW_MS - lookupElapsed);
     if (result.found) {
+      // The company confirm owns the thread now: the unlisted-upload
+      // choices belong to the earlier reply and must not render (or
+      // fire) next to the confirm card (Bugbot, PR #87 at c4baf872).
+      setUnlistedUpload(false);
       setCompanyLookup({
         status: "confirming",
         email,
@@ -570,6 +624,7 @@ export function AiChat({
       });
     } else {
       setCompanyLookup({ status: "done", email });
+      setUnlistedUpload(false);
       setMessages([
         ...historyWithReply,
         {
@@ -627,6 +682,7 @@ export function AiChat({
   }
 
   async function send(rawText: string, fieldsOverride?: GuidedChatAnswers) {
+    if (readyToReview) return;
     const file = attachment;
     const text = rawText.trim() || (file ? "I've attached our requirements document — please read it." : "");
     if (!text || sending) return;
@@ -638,6 +694,7 @@ export function AiChat({
       setNotice("One moment — completing the security check. If a \u2018Verify you are human\u2019 box appears above, tick it, then press send again.");
       return;
     }
+    setUnlistedUpload(false);
     if (startedAt === null) setStartedAt(Date.now());
     setDraft("");
     setNotice("");
@@ -671,10 +728,19 @@ export function AiChat({
     setSending(true);
     setReadingDocument(Boolean(file));
     const turnStartedAt = Date.now();
+    const shownCards =
+      messages[messages.length - 1]?.role === "assistant"
+        ? (messages[messages.length - 1].cards ?? []).map((card) => card.name)
+        : [];
+    const unlistedTyped = !file && isTypedUnlistedItem(text, shownCards);
+    if (unlistedTyped) setPath("quote");
     const apiMessages = history.map((message) => ({ role: message.role, content: message.text }));
     const baseFields = fieldsOverride ?? fields;
-    const turnFields: GuidedChatAnswers =
+    const withEmail: GuidedChatAnswers =
       pinnedEmail && !baseFields.email ? { ...baseFields, email: pinnedEmail } : baseFields;
+    const turnFields: GuidedChatAnswers =
+      unlistedTyped && !withEmail.need ? { ...withEmail, need: text } : withEmail;
+    const turnPath = unlistedTyped ? "quote" : path;
     let result;
     if (file) {
       const formData = new FormData();
@@ -683,7 +749,7 @@ export function AiChat({
         "payload",
         JSON.stringify({
           messages: apiMessages,
-          path,
+          path: turnPath,
           fields: turnFields,
           turnstileToken,
           gatePass,
@@ -693,7 +759,7 @@ export function AiChat({
     } else {
       result = await sendAiChatMessage({
         messages: apiMessages,
-        path,
+        path: turnPath,
         fields: turnFields,
         turnstileToken,
         gatePass,
@@ -742,7 +808,15 @@ export function AiChat({
       return;
     }
 
-    setMessages([...history, { role: "assistant", text: result.turn.reply }]);
+    const assistantText = result.turn.reply;
+    const cards = cardsVisibleInReply(assistantText, result.turn.cards);
+    const assistantMessage: ChatMessage = {
+      role: "assistant",
+      text: assistantText,
+      ...(cards.length > 0 ? { cards } : {}),
+      ...(result.turn.inputHint ? { inputHint: result.turn.inputHint } : {}),
+    };
+    setMessages([...history, assistantMessage]);
     setTypingIndex(history.length);
     // The reply to a company confirmation carries the "what do you
     // need" choice box (owner design, 2026-11-09); a document turn's
@@ -753,12 +827,17 @@ export function AiChat({
       setNeedBoxIndex(history.length);
     }
     if (file) setDocConfirmPending(true);
-    setPath(result.turn.path);
-    setFields(
+    const returnedFields =
       pinnedEmail && !result.turn.fields.email
         ? { ...result.turn.fields, email: pinnedEmail }
-        : result.turn.fields,
-    );
+        : result.turn.fields;
+    setPath(unlistedTyped ? "quote" : result.turn.path);
+    setFields(unlistedTyped && !returnedFields.need ? { ...returnedFields, need: text } : returnedFields);
+    if (unlistedTyped && cards.length === 0) {
+      setUnlistedUpload(true);
+    } else {
+      setUnlistedUpload(false);
+    }
     setReadyToReview(result.turn.readyToReview);
     // The review step's send needs its own fresh token (the gate
     // token was spent on the first turn) — ask the widget for it
@@ -769,7 +848,7 @@ export function AiChat({
       reviewRefreshRef.current = true;
       setTurnstileResetSignal((value) => value + 1);
     }
-    void maybeLookupCompany(result.turn, [...history, { role: "assistant", text: result.turn.reply }]);
+    void maybeLookupCompany(result.turn, [...history, assistantMessage]);
   }
 
   function toggleAgreed(checked: boolean) {
@@ -1192,6 +1271,14 @@ export function AiChat({
                       Open tracking page →
                     </Link>
                   ) : null}
+                  {index !== typingIndex && message.cards && message.cards.length > 0 ? (
+                    <ChatProductCards
+                      cards={message.cards}
+                      tappedName={messages[index + 1]?.role === "user" ? messages[index + 1].text : undefined}
+                      disabled={sending || readyToReview}
+                      onPick={readyToReview ? () => {} : (name) => void send(name)}
+                    />
+                  ) : null}
                 </div>
               ),
             )}
@@ -1230,7 +1317,7 @@ export function AiChat({
               </div>
             ) : null}
 
-            {showNeedChoices ? (
+            {showNeedChoices || showUnlistedUpload ? (
               <ChatChoiceBox
                 caption="Attach works for an RFQ, a bill of quantities, a specification sheet, or a photo of your list — we read it into the request."
                 choices={[
@@ -1239,6 +1326,7 @@ export function AiChat({
                     icon: "attach",
                     onPick: () => {
                       setNeedBoxIndex(-1);
+                      setUnlistedUpload(false);
                       fileInputRef.current?.click();
                     },
                   },
@@ -1246,6 +1334,7 @@ export function AiChat({
                     label: "I'll type it",
                     onPick: () => {
                       setNeedBoxIndex(-1);
+                      setUnlistedUpload(false);
                       document.getElementById("ai-chat-message")?.focus();
                     },
                   },
@@ -1253,6 +1342,7 @@ export function AiChat({
                     label: "Arrange a callback instead",
                     onPick: () => {
                       setNeedBoxIndex(-1);
+                      setUnlistedUpload(false);
                       void send("Arrange a callback");
                     },
                   },
@@ -1390,7 +1480,7 @@ export function AiChat({
                   value={draft}
                   onChange={setDraft}
                   onSubmit={send}
-                  placeholder="Type your message…"
+                  placeholder={composerPlaceholder}
                   autoFocus={false}
                   onAttach={() => fileInputRef.current?.click()}
                 />

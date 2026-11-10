@@ -9,6 +9,12 @@
  * list — never trusted from the model alone.
  */
 
+import {
+  sanitizeInputHint,
+  sanitizeProductRefs,
+  type ChatProductCard,
+  type ChatProductRef,
+} from "@/lib/ai/chat-product-cards";
 import type { GuidedChatAnswers } from "@/lib/guided-chat/payloads";
 
 export type AiChatPath = "quote" | "inquiry" | "callback";
@@ -140,6 +146,13 @@ export type AiChatTurn = {
   path: AiChatPath | null;
   fields: GuidedChatAnswers;
   readyToReview: boolean;
+  /** Filled by the server after catalogue matching. The parser leaves this empty. */
+  cards: ChatProductCard[];
+  /** Refs the model cited. Cleared before the turn is returned to the browser. */
+  productRefs: ChatProductRef[];
+  /** Optional short placeholder hint for the visitor's input box,
+   *  sanitized at parse time. Absent when the model offered none. */
+  inputHint?: string;
 };
 
 function turnFromRecord(record: Record<string, unknown>): AiChatTurn | null {
@@ -152,6 +165,9 @@ function turnFromRecord(record: Record<string, unknown>): AiChatTurn | null {
     path,
     fields,
     readyToReview: path ? intakeReady(path, fields) : false,
+    cards: [],
+    productRefs: sanitizeProductRefs(record.products),
+    inputHint: sanitizeInputHint(record.inputHint),
   };
 }
 

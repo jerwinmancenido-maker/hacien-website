@@ -266,3 +266,53 @@ export function ChatChoiceBox({ choices, caption }: { choices: ChatChoice[]; cap
     </div>
   );
 }
+
+/** Catalogue cards for this reply. A tap sends the product name.
+ *  No hint line under the cards (Jerwin's call): a visitor names
+ *  something unlisted through the composer's placeholder instead.
+ *  No price, stock, or lead time. */
+export function ChatProductCards({
+  cards,
+  tappedName,
+  disabled,
+  onPick,
+}: {
+  cards: { name: string; mention?: string }[];
+  tappedName?: string;
+  disabled?: boolean;
+  onPick: (name: string) => void;
+}) {
+  if (cards.length === 0) return null;
+  return (
+    <div role="group" aria-label="Products mentioned in this reply" className="ml-11 flex flex-col gap-2">
+      {cards.map((card) => {
+        const tapped = tappedName === card.name;
+        return (
+          <button
+            key={card.name}
+            type="button"
+            disabled={disabled}
+            aria-pressed={tapped}
+            onClick={() => {
+              if (disabled) return;
+              onPick(card.name);
+            }}
+            className={`focus-ring flex min-h-11 w-full items-center gap-3 rounded-2xl border bg-white px-4 py-3 text-left shadow-sm transition disabled:cursor-not-allowed disabled:pointer-events-none ${
+              tapped ? "border-2 border-blue" : "border-grey-200 hover:border-blue"
+            }`}
+          >
+            <span className="min-w-0 flex-1">
+              <span className="block text-sm font-semibold break-words text-ink">{card.name}</span>
+              {card.mention ? (
+                <span className="mt-0.5 block text-sm leading-5 break-words text-grey-600">{card.mention}</span>
+              ) : null}
+            </span>
+            <span aria-hidden="true" className="text-lg leading-none text-grey-400">
+              ›
+            </span>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
