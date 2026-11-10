@@ -567,6 +567,7 @@ export function AiChat({
     setPinnedEmail("");
     setRuntimeUnavailable(false);
     setNeedBoxIndex(-1);
+    setUnlistedUpload(false);
     needReplyRef.current = false;
     setDocConfirmPending(false);
     setAgreed(false);
@@ -612,6 +613,7 @@ export function AiChat({
       });
     } else {
       setCompanyLookup({ status: "done", email });
+      setUnlistedUpload(false);
       setMessages([
         ...historyWithReply,
         {
@@ -669,6 +671,7 @@ export function AiChat({
   }
 
   async function send(rawText: string, fieldsOverride?: GuidedChatAnswers) {
+    if (readyToReview) return;
     const file = attachment;
     const text = rawText.trim() || (file ? "I've attached our requirements document — please read it." : "");
     if (!text || sending) return;
@@ -680,6 +683,7 @@ export function AiChat({
       setNotice("One moment — completing the security check. If a \u2018Verify you are human\u2019 box appears above, tick it, then press send again.");
       return;
     }
+    setUnlistedUpload(false);
     if (startedAt === null) setStartedAt(Date.now());
     setDraft("");
     setNotice("");
@@ -717,7 +721,7 @@ export function AiChat({
       messages[messages.length - 1]?.role === "assistant"
         ? (messages[messages.length - 1].cards ?? []).map((card) => card.name)
         : [];
-    const unlistedTyped = isTypedUnlistedItem(text, shownCards);
+    const unlistedTyped = !file && isTypedUnlistedItem(text, shownCards);
     if (unlistedTyped) setPath("quote");
     const apiMessages = history.map((message) => ({ role: message.role, content: message.text }));
     const baseFields = fieldsOverride ?? fields;
@@ -818,7 +822,11 @@ export function AiChat({
         : result.turn.fields;
     setPath(unlistedTyped ? "quote" : result.turn.path);
     setFields(unlistedTyped && !returnedFields.need ? { ...returnedFields, need: text } : returnedFields);
-    if (unlistedTyped && cards.length === 0) setUnlistedUpload(true);
+    if (unlistedTyped && cards.length === 0) {
+      setUnlistedUpload(true);
+    } else {
+      setUnlistedUpload(false);
+    }
     setReadyToReview(result.turn.readyToReview);
     // The review step's send needs its own fresh token (the gate
     // token was spent on the first turn) — ask the widget for it
@@ -1257,7 +1265,7 @@ export function AiChat({
                       cards={message.cards}
                       tappedName={messages[index + 1]?.role === "user" ? messages[index + 1].text : undefined}
                       disabled={sending || readyToReview}
-                      onPick={(name) => void send(name)}
+                      onPick={readyToReview ? () => {} : (name) => void send(name)}
                     />
                   ) : null}
                 </div>

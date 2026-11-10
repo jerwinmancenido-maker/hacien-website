@@ -31,17 +31,25 @@ export function catalogueEntriesFromErpItems(items: unknown): ChatCatalogueEntry
   return entries;
 }
 
-/** ERP wins when the same slug exists in both lists. */
+/** Static catalogue entries keep their id and name. ERP may only add entries for slugs
+ *  (or ids) that the static list does not already have. Do not overwrite on collision. */
 export function mergeChatCatalogue(
   base: ChatCatalogueEntry[],
   extra: ChatCatalogueEntry[],
 ): ChatCatalogueEntry[] {
   const bySlug = new Map<string, ChatCatalogueEntry>();
+  const seenIds = new Set<string>();
   for (const entry of base) {
     bySlug.set(entry.slug.toLowerCase(), { id: entry.id, slug: entry.slug, name: entry.name });
+    seenIds.add(entry.id.toLowerCase());
   }
   for (const entry of extra) {
-    bySlug.set(entry.slug.toLowerCase(), { id: entry.id, slug: entry.slug, name: entry.name });
+    const slugKey = entry.slug.toLowerCase();
+    const idKey = entry.id.toLowerCase();
+    if (!bySlug.has(slugKey) && !seenIds.has(idKey)) {
+      bySlug.set(slugKey, { id: entry.id, slug: entry.slug, name: entry.name });
+      seenIds.add(idKey);
+    }
   }
   return [...bySlug.values()];
 }

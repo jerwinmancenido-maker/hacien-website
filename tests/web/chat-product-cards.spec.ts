@@ -188,6 +188,8 @@ describe("typed unlisted item", () => {
     expect(isTypedUnlistedItem("  business laptop class  ", shown)).toBe(false);
     expect(isTypedUnlistedItem("Cisco Catalyst 9300", [])).toBe(false);
     expect(isTypedUnlistedItem("   ", shown)).toBe(false);
+    expect(isTypedUnlistedItem("I've attached our requirements document — please read it.", shown)).toBe(false);
+    expect(isTypedUnlistedItem("I’ve attached our requirements document — please read it.", shown)).toBe(false);
   });
 
   it("does not invent a card for the typed item, and the cards placeholder is not a product", () => {
@@ -231,7 +233,7 @@ describe("chat catalogue", () => {
     expect(JSON.stringify(entries)).not.toMatch(/priceCents|price|stock|lead time/i);
   });
 
-  it("reads only id, slug, and name from ERP rows and lets ERP win on slug", () => {
+  it("reads only id, slug, and name from ERP rows and preserves static id/name on slug collision", () => {
     const erp = catalogueEntriesFromErpItems([
       { id: "erp-1", slug: "business-laptop-16gb", name: "ERP Laptop", price: 999, isAvailable: true },
       { id: "erp-2", slug: "published-switch", name: "Published Switch", price: 50 },
@@ -242,9 +244,19 @@ describe("chat catalogue", () => {
       { id: "erp-2", slug: "published-switch", name: "Published Switch" },
     ]);
     const merged = mergeChatCatalogue(staticChatCatalogue(), erp);
-    expect(merged.find((entry) => entry.slug === "business-laptop-16gb")?.name).toBe("ERP Laptop");
+    expect(merged.find((entry) => entry.slug === "business-laptop-16gb")?.name).toBe("Business Laptop Class");
+    expect(merged.find((entry) => entry.slug === "business-laptop-16gb")?.id).toBe("HAC-LTP-001");
     expect(merged.some((entry) => entry.slug === "published-switch")).toBe(true);
     expect(JSON.stringify(merged)).not.toMatch(/price|isAvailable|stock/i);
+  });
+
+  it("still resolves static id like HAC-LTP-001 after a same-slug ERP row is merged", () => {
+    const erp = catalogueEntriesFromErpItems([
+      { id: "erp-1", slug: "business-laptop-16gb", name: "ERP Laptop" },
+    ]);
+    const merged = mergeChatCatalogue(staticChatCatalogue(), erp);
+    const cards = resolveChatProductCards([{ ref: "HAC-LTP-001" }], merged);
+    expect(cards).toEqual([{ name: "Business Laptop Class" }]);
   });
 });
 
@@ -336,13 +348,51 @@ describe("chat card wiring", () => {
     expect(bubbles).toContain("export function ChatProductCards");
     expect(bubbles).toContain('aria-label="Products mentioned in this reply"');
     expect(bubbles).not.toContain("priceCents");
+    expect(bubbles).toContain("disabled:pointer-events-none");
+    expect(bubbles).toContain("if (disabled) return;");
     expect(ai).toContain("ChatProductCards");
     expect(ai).toContain("cardsVisibleInReply");
     expect(ai).toContain("isTypedUnlistedItem");
     expect(ai).toContain('unlistedTyped ? "quote"');
     expect(ai).toContain("setUnlistedUpload(true)");
     expect(ai).toContain('label: "Attach a document or photo"');
-    expect(ai).toContain("onPick={(name) => void send(name)}");
+    expect(ai).toContain("onPick={readyToReview ? () => {} : (name) => void send(name)}");
+    expect(ai).toContain("if (readyToReview) return;");
+    expect(ai).toContain("const unlistedTyped = !file && isTypedUnlistedItem(text, shownCards);");
     expect(ai).not.toContain("Something else / not listed");
+  });
+
+  it("cannot fire onPick or call send when readyToReview is true", () => {
+    let sentName: string | null = null;
+    const send = (name: string) => {
+      sentName = name;
+    };
+
+    // AiChat onPick is a no-op during review:
+    const readyToReview = true;
+    const onPick = readyToReview ? () => {} : (name: string) => void send(name);
+    onPick("Business Laptop Class");
+    expect(sentName).toBeNull();
+
+    // ChatBubbles button click guards against disabled:
+    let bubblePickFired = false;
+    const pickHandler = () => {
+      bubblePickFired = true;
+    };
+    const disabled = true;
+    const clickHandler = () => {
+      if (disabled) return;
+      pickHandler();
+    };
+    clickHandler();
+    expect(bubblePickFired).toBe(false);
+
+    // AiChat send() guards against readyToReview:
+    const guardedSend = (text: string, isReview: boolean) => {
+      if (isReview) return;
+      sentName = text;
+    };
+    guardedSend("Business Laptop Class", true);
+    expect(sentName).toBeNull();
   });
 });

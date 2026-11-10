@@ -48,6 +48,27 @@ describe("chat choice boxes (owner design, 2026-11-09)", () => {
     expect(knowledge).not.toContain("tap the paperclip to attach");
     expect(knowledge).toContain("tappable choices under that reply");
   });
+
+  it("dismisses unlisted upload choices on send, later assistant turns, and Start over", () => {
+    const resetStart = aiChat.indexOf("function resetAll() {");
+    const resetBody = aiChat.slice(resetStart, aiChat.indexOf("try {", resetStart));
+    expect(resetBody).toContain("setUnlistedUpload(false)");
+
+    const sendStart = aiChat.indexOf("async function send(");
+    const sendPrefix = aiChat.slice(sendStart, aiChat.indexOf("setMessages(history);", sendStart));
+    expect(sendPrefix).toContain("setUnlistedUpload(false)");
+
+    expect(aiChat).toContain("if (unlistedTyped && cards.length === 0) {");
+    expect(aiChat).toContain("setUnlistedUpload(true);");
+    expect(aiChat).toContain("} else {");
+    expect(aiChat).toContain("setUnlistedUpload(false);");
+
+    const lookupMiss = aiChat.slice(
+      aiChat.indexOf('setCompanyLookup({ status: "done", email });'),
+      aiChat.indexOf("setMessages([", aiChat.indexOf('setCompanyLookup({ status: "done", email });')),
+    );
+    expect(lookupMiss).toContain("setUnlistedUpload(false)");
+  });
 });
 
 describe("never lose the chat (owner decision, 2026-11-09)", () => {

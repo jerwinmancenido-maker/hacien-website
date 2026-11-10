@@ -121,10 +121,18 @@ export function resolveChatProductCards(
   return cards;
 }
 
+export const ATTACHED_REQUIREMENTS_CANNED = "I've attached our requirements document — please read it.";
+
 /** True when the visitor typed their own item instead of tapping a card. */
 export function isTypedUnlistedItem(text: string, shownCardNames: string[]): boolean {
   const trimmed = text.trim();
   if (!trimmed || shownCardNames.length === 0) return false;
+  if (
+    trimmed === ATTACHED_REQUIREMENTS_CANNED ||
+    trimmed === "I’ve attached our requirements document — please read it."
+  ) {
+    return false;
+  }
   return !shownCardNames.some((name) => norm(name) === norm(trimmed));
 }
 

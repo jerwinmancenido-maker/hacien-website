@@ -293,8 +293,11 @@ export function ChatProductCards({
             type="button"
             disabled={disabled}
             aria-pressed={tapped}
-            onClick={() => onPick(card.name)}
-            className={`focus-ring flex min-h-11 w-full items-center gap-3 rounded-2xl border bg-white px-4 py-3 text-left shadow-sm transition disabled:cursor-not-allowed ${
+            onClick={() => {
+              if (disabled) return;
+              onPick(card.name);
+            }}
+            className={`focus-ring flex min-h-11 w-full items-center gap-3 rounded-2xl border bg-white px-4 py-3 text-left shadow-sm transition disabled:cursor-not-allowed disabled:pointer-events-none ${
               tapped ? "border-2 border-blue" : "border-grey-200 hover:border-blue"
             }`}
           >
