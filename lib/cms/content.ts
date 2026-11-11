@@ -259,7 +259,8 @@ const navigationContent: CmsNavigationContent = {
     quoteAction: { href: "/quote", label: "Request a Quote" },
   },
   footer: {
-    statement: "Technology procurement clarified before anyone quotes.",
+    statement:
+      "IT supplier in Ortigas, Pasig. Computers, networks, power, security, software, and the papers a quotation needs. Availability and price are confirmed in the quotation, not on this website.",
     groups: [
       {
         title: "Company",
@@ -314,10 +315,10 @@ const homepageContent: CmsHomeContent = {
   slug: "homepage",
   status: "published",
   hero: {
-    eyebrow: "HACIEN",
-    title: "What HACIEN supplies",
+    eyebrow: "IT supplier Philippines",
+    title: "IT supply for offices, schools, and agencies",
     description:
-      "Tell HACIEN what you need. HACIEN checks authorized Philippine distributors and sends a verified quotation within 1 business day.",
+      "HACIEN Information Technology Solutions is a DTI-registered IT supplier in Ortigas, Pasig, and a PhilGEPS-registered supplier for private companies and government agencies. Describe the computers, network, power, security, or software you need. HACIEN checks Philippine distributors and sends a quotation within 1 business day.",
     image: "commandCenter",
     primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/contact", label: "Contact" },
@@ -350,13 +351,14 @@ const homepageContent: CmsHomeContent = {
     eyebrow: "Solutions",
     title: "Work HACIEN takes on.",
     description:
-      "Pick the work closest to yours — infrastructure, workplace technology, cybersecurity, cloud, and support — and send the details HACIEN needs to quote it. You do not need perfect specifications first.",
+      "Work HACIEN takes on includes infrastructure, a surveyed installation, workplace technology, cybersecurity, cloud, and support. Send the details you have. You do not need perfect specifications first.",
     viewAllLabel: "View all solutions →",
   },
   productCatalogPreview: {
     eyebrow: "Technology",
     title: "Technology is what a solution is built from.",
-    description: "Browse product categories to describe what you need. Prices and availability are confirmed in a formal quotation, never assumed.",
+    description:
+      "Technology is what a solution is built from: computers, servers, networks, printers, software, cameras, and power. Open a category for the specifications buyers write into an RFQ. Prices and availability are confirmed in a formal quotation, never assumed.",
   },
   platformPreview: {
     eyebrow: "Requests",
@@ -395,7 +397,7 @@ const aboutContent: CmsAboutContent = {
     eyebrow: "Company",
     title: "About HACIEN.",
     description:
-      "Based in Ortigas Center, Pasig City, HACIEN provides quotation-driven, multi-category procurement for Philippine businesses and government agencies.",
+      "HACIEN Information Technology Solutions supplies and integrates IT for private companies, schools, and government agencies from Ortigas Center, Pasig City. The work is quotation-driven: you describe the requirement, HACIEN confirms the model with distributors, and the quotation states the terms.",
     image: "workspace",
     primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/contact", label: "Contact" },
@@ -409,7 +411,12 @@ const aboutContent: CmsAboutContent = {
   story: {
     eyebrow: "Company",
     title: "Based in Ortigas Center, Pasig City.",
-    paragraphs: [founderLine],
+    paragraphs: [
+      founderLine,
+      "The public record is the office, the registrations, and the way a request is handled. HACIEN is a DTI-registered sole proprietorship, a BIR-registered taxpayer, a holder of the Pasig City Mayor's / Business Permit, and a PhilGEPS-registered supplier. Numbers for those papers are not published online. They are sent on private request when an accreditation packet needs them.",
+      "Buyers use HACIEN for a single laptop and for a floor that needs a survey, a bill of quantities, supply, installation, testing, and turnover. Product categories explain the technology. Solution pages explain the job. Both end in the same place: a quotation a person reviews before anything is ordered.",
+      "Walk-in visits and pick-ups are by prior appointment. Replies go out within 1 business day, Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays.",
+    ],
     signals: [...deliveryClauses],
   },
   workingStandard: {
@@ -437,7 +444,7 @@ const solutionsContent: CmsSolutionsContent = {
     eyebrow: "Solutions",
     title: "Solutions are jobs to be done.",
     description:
-      "A solution is a piece of work HACIEN takes on, from your request to delivery: infrastructure, integration, workplace technology, software, security, and support needs. Technology pages, by contrast, describe the products a solution is built from.",
+      "A solution is a piece of work HACIEN takes on, from your request to delivery: infrastructure, integration, workplace technology, software, security, and support needs. Technology pages, by contrast, describe the products a solution is built from, including the specifications an RFQ should name.",
     image: "commandCenter",
     primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/technology", label: "Explore Technology" },
@@ -452,8 +459,8 @@ const solutionsContent: CmsSolutionsContent = {
     eyebrow: "What Solutions Mean",
     title: "Not a menu of promises. A way to describe work clearly.",
     cards: [
-      { title: "Infrastructure requests need facts.", text: "Devices, servers, storage, network equipment, and power needs are easier to review when usage, site, and scale are clear." },
-      { title: "Integration is more than equipment.", text: "Cabling, network, security, cloud, and software work better when scope and closeout assumptions are visible early." },
+      { title: "Infrastructure requests need facts.", text: "Devices, servers, storage, network equipment, and power needs are easier to review when usage, site, and scale are clear. A floor count and a user count change the switch, the UPS, and the server." },
+      { title: "Integration is a sequence of work.", text: "Site survey, bill of quantities, supply, installation, testing, and turnover are quoted as a project when the buyer wants more than a delivery. Closeout records stay with that request." },
       { title: "Follow-up should not restart the story.", text: "Renewals, replacements, warranty questions, and support needs should stay connected to the original request." },
     ],
   },
@@ -483,7 +490,7 @@ const industriesContent: CmsIndustriesContent = {
     eyebrow: "Industries",
     title: "Different buyers, different requirements.",
     description:
-      "HACIEN shapes each RFQ around the buyer's operating reality: specifications, supplier timing, warranty terms, delivery coordination, and procurement documentation.",
+      "HACIEN shapes each RFQ around the buyer's operating reality: specifications, supplier timing, warranty terms, delivery coordination, and procurement documentation. Government, school, and private buyers in the Philippines do not fill in that list the same way.",
     image: "strategy",
     primaryAction: { href: "/solutions", label: "Explore Solutions" },
     secondaryAction: { href: "/quote", label: "Request a Quote" },
@@ -512,22 +519,22 @@ const industriesContent: CmsIndustriesContent = {
       {
         title: "Government",
         text:
-          "Supplying NGAs, LGUs, SUCs, and GOCCs under PhilGEPS Registration (Shopping, Small Value Procurement, and Public Bidding) with complete BIR Sales Invoices, Delivery Receipts with itemized Packing Lists, and Collection Receipts.",
+          "Supplying NGAs, LGUs, SUCs, and GOCCs under PhilGEPS Registration (Shopping, Small Value Procurement, and Public Bidding) with complete BIR Sales Invoices, Delivery Receipts with itemized Packing Lists, and Collection Receipts. Send the technical specifications and the delivery site. When you need a conforme, HACIEN signs it for the lines the quotation covers. Registration papers are provided on private request, not published here.",
       },
       {
         title: "Corporate & Commercial",
         text:
-          "Supplying offices, BPOs, and growing businesses with laptops, desktops, monitors, printers, UPS power protection, enterprise networking, and office equipment.",
+          "Supplying offices, BPOs, and growing businesses with laptops, desktops, monitors, printers, UPS power protection, enterprise networking, and office equipment. A private buyer can start with a seat count and a floor photo. The quotation splits endpoints, the closet, and installation if you want them together.",
       },
       {
         title: "Schools, Universities & Technical Training",
         text:
-          "Supplying computer laboratories, networking setups, power and hand tools, workshop hardware materials, and instructional/training equipment.",
+          "Supplying computer laboratories, networking setups, power and hand tools, workshop hardware materials, and instructional/training equipment. Laboratory seats, the faculty laptop, and the room switch are separate lines so the quantities stay accurate.",
       },
       {
         title: "Contractors, Facilities & Industrial Maintenance",
         text:
-          "Supplying engineering, construction, and facility teams with CCTV security systems, structured cabling, power and hand tools, hardware materials, and general commercial supplies.",
+          "Supplying engineering, construction, and facility teams with CCTV security systems, structured cabling, power and hand tools, hardware materials, and general commercial supplies. Say whether the gear sits in a finished room or on a job site. Outdoor cameras and power protection depend on that.",
       },
       {
         title: "Healthcare",
@@ -549,9 +556,9 @@ const faqContent: CmsFaqContent = {
   status: "published",
   hero: {
     eyebrow: "FAQ",
-    title: "Evidence-safe answers for HACIEN buyers.",
+    title: "Questions buyers ask before they send a list.",
     description:
-      "Search common questions about RFQ intake, payment posture, documents, warranty questions, and request tracking.",
+      "Computers, networks, UPS sizing, CCTV, government requests, installation, and what this website will not confirm. Search the answers, then send the request.",
     image: "knowledge",
     primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/support", label: "Get support" },

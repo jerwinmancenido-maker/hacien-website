@@ -47,6 +47,52 @@
           "answer": "No. Warranty, returns, replacement, and support terms depend on verified supplier terms and the final accepted quotation or business record."
         }
       ]
+    },
+    {
+      "title": "Specifications",
+      "items": [
+        {
+          "question": "What should a computer or laptop request include?",
+          "answer": "Name the seat (office, faculty, finance, or design), then the processor class, memory, SSD size, and whether you need a desktop or a laptop. 16 GB of memory and a 512 GB SSD are common office baselines. Design seats often need more. The quotation replaces those targets with an exact model."
+        },
+        {
+          "question": "How should we describe a network or Wi-Fi requirement?",
+          "answer": "Send the number of floors, a rough area, how many people use each room, and whether cameras or access points need Power over Ethernet. Managed switches are the usual choice when you need VLANs. Wi-Fi 6 is the usual target for a new office or classroom. A site survey is quoted when installation is part of the job."
+        },
+        {
+          "question": "How do we size a UPS?",
+          "answer": "Add the watts of the devices that must stay on, and say how many minutes you need. A UPS watt rating is often lower than its VA rating. Line-interactive units suit desks and small network gear. Online double-conversion units are the usual choice for servers. The quotation states the model and the runtime the manufacturer publishes at a stated load."
+        },
+        {
+          "question": "What belongs in a CCTV request?",
+          "answer": "Camera count, indoor or outdoor, what each view must show, IP or analog, and how many days of recording you need. Recorders are commonly 4, 8, 16, or 32 channels. Higher resolution uses more disk for the same number of days. Door access control is a separate count of doors."
+        }
+      ]
+    },
+    {
+      "title": "Government buyers and projects",
+      "items": [
+        {
+          "question": "Can a government office request a quotation here?",
+          "answer": "Yes. HACIEN is a PhilGEPS-registered supplier and quotes for national agencies, local governments, state schools, and government-owned corporations, as well as private companies. Attach the technical specifications. Registration numbers are not published on this website. They are sent on private request for accreditation."
+        },
+        {
+          "question": "What is a conforme in this context?",
+          "answer": "A conforme is the supplier's signed statement that the quotation matches the buyer's technical specifications. HACIEN signs one only for the lines the quotation actually covers. If a line cannot be met, HACIEN says so instead of signing past it."
+        },
+        {
+          "question": "Can supply and installation be one quotation?",
+          "answer": "Yes, when you ask for it. The project sequence is a site survey, a bill of quantities, supply, installation, testing, and turnover, with after-sales on the same request. Each of those steps is in scope only when the quotation lists it."
+        },
+        {
+          "question": "How long does an order usually take?",
+          "answer": "Lead time depends on the item; we confirm it in your quote."
+        },
+        {
+          "question": "Do you publish brand partnerships or a client list?",
+          "answer": "No. HACIEN sources items per order and quotes the brand you name, or an equivalent you approve. This website does not publish a client list, a project count, or a claim that HACIEN is an appointed dealer for a manufacturer."
+        }
+      ]
     }
   ]
 }

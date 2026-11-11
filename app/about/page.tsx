@@ -42,6 +42,15 @@ export default function AboutPage() {
         highlights={[]}
       />
 
+      <section className="bg-white px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-3xl space-y-4 text-base leading-7 text-grey-700">
+          <h2 className="text-2xl font-bold tracking-tight text-ink">{content.story.title}</h2>
+          {content.story.paragraphs.map((paragraph) => (
+            <p key={paragraph.slice(0, 40)}>{paragraph}</p>
+          ))}
+        </div>
+      </section>
+
       <section className="py-9 sm:py-12 lg:py-14">
         <div className="mx-auto grid max-w-7xl gap-3 px-4 sm:px-6 sm:grid-cols-2 lg:px-8">
           {factCards.map((card, index) => (

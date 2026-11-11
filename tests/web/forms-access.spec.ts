@@ -46,12 +46,21 @@ describe("PR 5: Forms and access (F17, F29, F31)", () => {
   });
 
   describe("F31: Accessible FAQ disclosure", () => {
-    it("FAQ question count remains exactly 8", () => {
+    it("keeps the original eight FAQ answers and the added buyer questions", () => {
       const totalQuestions = faqData.sections.reduce(
         (sum, section) => sum + section.items.length,
         0,
       );
-      expect(totalQuestions).toBe(8);
+      expect(totalQuestions).toBe(17);
+      const questions = faqData.sections.flatMap((section) => section.items.map((item) => item.question));
+      expect(questions).toEqual(
+        expect.arrayContaining([
+          "Can HACIEN quote without a catalog product?",
+          "Does the website confirm final pricing or stock?",
+          "When is payment due?",
+          "Are warranty or returns guaranteed from website content?",
+        ]),
+      );
     });
 
     it("uses accessible disclosure semantics in components/FaqSearch.tsx", () => {
