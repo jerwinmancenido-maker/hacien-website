@@ -1029,11 +1029,22 @@ main {
 .va-chat .border-slate-300 {
   border-color: transparent;
 }
+/* Outline-only rings (pending staged steps, attach glyph) use
+   rounded-full + border + border-grey-200 with no fill. Restore a
+   surface3 edge so they stay visible after the transparent remap.
+   Spinners use border-2 (not border) and are handled below. */
+.va-chat .rounded-full.border.border-grey-200 {
+  border-color: #2a2e38;
+}
 /* Spinners use border-grey-200 + border-t-blue; the transparent shorthand
    above would wipe every side, so re-assert the track and the blue tip. */
 .va-chat .border-t-blue {
   border-color: #2a2e38;
   border-top-color: #2563eb;
+}
+/* Choice box rows use divide-y divide-grey-200 — remap the light rule. */
+.va-chat .divide-grey-200 > :not(:last-child) {
+  border-color: #2a2e38;
 }
 .va-chat .shadow-sm {
   box-shadow: none;
@@ -1053,6 +1064,10 @@ main {
 }
 .va-chat .hover\:bg-red-100:hover {
   background-color: #3a2228;
+}
+/* Unlayered ink/grey remaps beat layered hover:text-blue; re-assert Sky. */
+.va-chat .hover\:text-blue:hover {
+  color: #6692f1;
 }
 /* Chat fields put the border on the wrapper (focus-within:border-blue),
    not on the input/textarea. Surface3 edge at rest; brand blue on focus. */
