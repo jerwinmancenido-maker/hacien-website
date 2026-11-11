@@ -39,7 +39,12 @@ import {
   type AiChatTurn,
 } from "@/lib/ai/intake";
 import type { GuidedChatAnswers } from "@/lib/guided-chat/payloads";
-import { validateAiDocument, documentDataNotice, documentHeaderMatches, type AiDocumentMedia } from "@/lib/ai/document";
+import {
+  validateAiDocument,
+  documentHeaderMatches,
+  formatAttachmentDataBlock,
+  type AiDocumentMedia,
+} from "@/lib/ai/document";
 import { getClientIp } from "@/lib/security/client-ip";
 import { verifyTrackLookupTurnstile } from "@/lib/security/track-lookup-guard";
 import { redis } from "@/lib/redis/upstash";
@@ -293,9 +298,11 @@ function toClaudeMessages(
         source: { type: "base64", media_type: attachment.media.mediaType, data: attachment.dataBase64 },
       });
     } else if (attachment.media.kind === "text" && attachment.text) {
+      // User-role data block only — never system. Delimited + injection
+      // lines stripped; server-side intake/output guards stay authoritative.
       blocks.push({
         type: "text",
-        text: `${documentDataNotice(attachment.fileName)}\n${attachment.text}`,
+        text: formatAttachmentDataBlock(attachment.fileName, attachment.text),
       });
     }
     blocks.push({ type: "text", text: message.content });

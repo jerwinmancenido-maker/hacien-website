@@ -144,6 +144,10 @@ export function sanitizeIntakeFields(
       if (kept) clean[key] = kept;
       continue;
     }
+    // Single-line fields (company, position, address, …): drop the
+    // whole value when it is an injection attempt — never store it
+    // for later replay into model context.
+    if (isInjectionText(trimmed)) continue;
     const options = choiceOptions[key];
     if (options) {
       const canonical = options.find((option) => option.toLowerCase() === trimmed.toLowerCase());
