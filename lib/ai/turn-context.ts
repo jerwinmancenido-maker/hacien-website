@@ -6,9 +6,8 @@
  * system prompt sent to the model provider.
  */
 
-import { AI_INTAKE_REQUIRED, type AiChatPath } from "@/lib/ai/intake";
+import { intakeFieldIssues, type AiChatPath } from "@/lib/ai/intake";
 import type { GuidedChatAnswers } from "@/lib/guided-chat/payloads";
-import { quoteLeadIssues } from "@/lib/ai/lead";
 import { matchSiteOfferings } from "@/lib/ai/offerings";
 import { mentionsComparison } from "@/lib/ai/scope";
 
@@ -17,10 +16,6 @@ export function collectedFieldKeys(fields: GuidedChatAnswers): string[] {
   return Object.keys(fields)
     .filter((key) => (fields[key] || "").trim().length > 0)
     .sort();
-}
-
-function missingRequiredKeys(path: AiChatPath, fields: GuidedChatAnswers): string[] {
-  return AI_INTAKE_REQUIRED[path].filter((id) => !(fields[id] || "").trim());
 }
 
 export function buildTurnContext(input: {
@@ -34,6 +29,7 @@ export function buildTurnContext(input: {
     lines.push("No path chosen yet; no fields collected.");
   } else {
     const keys = collectedFieldKeys(input.fields);
+    const issues = intakeFieldIssues(input.path, input.fields);
     lines.push(`path: ${input.path}`);
     lines.push(
       keys.length > 0
@@ -41,15 +37,18 @@ export function buildTurnContext(input: {
         : "fields collected (keys only): none",
     );
     if (input.path === "quote") {
-      const issues = quoteLeadIssues(input.fields);
       lines.push(`QUOTE LEAD missing: ${issues.missing.join(", ") || "none"}`);
       lines.push(`QUOTE LEAD invalid: ${issues.invalid.join(", ") || "none"}`);
       lines.push(
         "Ask for at most three missing or invalid details. A formal quotation follows from the team after the visitor confirms the summary.",
       );
     } else {
-      const missing = missingRequiredKeys(input.path, input.fields);
-      lines.push(`required still missing: ${missing.join(", ") || "none"}`);
+      // Inquiry/callback: list invalid as well as empty required ids so
+      // a malformed email/phone is re-asked instead of treated as done
+      // (Bugbot Medium, PR #88 at 9ac4fca).
+      lines.push(`required still missing: ${issues.missing.join(", ") || "none"}`);
+      lines.push(`required invalid: ${issues.invalid.join(", ") || "none"}`);
+      lines.push("Ask again for any invalid required details before offering the review card.");
     }
   }
   const matches = matchSiteOfferings(input.latestUserText);

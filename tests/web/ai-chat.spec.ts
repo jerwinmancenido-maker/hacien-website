@@ -1021,6 +1021,83 @@ describe("sendAiChatDocument", () => {
     expect(system).not.toMatch(/Ignore previous instructions/i);
   });
 
+  it("keeps visitor-stored lead fields when the model guesses different values (Bugbot Medium, PR #88 at 9ac4fca)", async () => {
+    process.env.ANTHROPIC_API_KEY = "<redacted>";
+    const storedEmail = "ana.reyes@acme-procure-test.example";
+    const storedPhone = "09179876543";
+    const guessedEmail = "someone.else@guessed.example";
+    const guessedPhone = "09170000000";
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        anthropicToolResponse({
+          reply: "Thanks — anything else for the quotation?",
+          path: "quote",
+          fields: {
+            name: "Ana Reyes",
+            email: guessedEmail,
+            phone: guessedPhone,
+            company: "Acme Procure Test Corp",
+            need: "10 laptops",
+          },
+          readyToReview: false,
+        }),
+      ),
+    );
+    const result = await sendAiChatMessage({
+      messages: [{ role: "user", content: "We still need those 10 laptops." }],
+      path: "quote",
+      fields: {
+        name: "Ana Reyes",
+        email: storedEmail,
+        phone: storedPhone,
+        company: "Acme Procure Test Corp",
+        need: "10 laptops",
+      },
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.turn.fields.email).toBe(storedEmail);
+      expect(result.turn.fields.phone).toBe(storedPhone);
+      expect(result.turn.fields.email).not.toBe(guessedEmail);
+      expect(result.turn.fields.phone).not.toBe(guessedPhone);
+    }
+  });
+
+  it("lets the model fill or fix an empty/invalid prior field", async () => {
+    process.env.ANTHROPIC_API_KEY = "<redacted>";
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        anthropicToolResponse({
+          reply: "Got it — I have your email now.",
+          path: "inquiry",
+          fields: {
+            inquiryType: "Privacy request",
+            need: "Delete my old request",
+            name: "Ana Reyes",
+            email: "ana.reyes@acme-procure-test.example",
+          },
+          readyToReview: false,
+        }),
+      ),
+    );
+    const result = await sendAiChatMessage({
+      messages: [{ role: "user", content: "My email is ana.reyes@acme-procure-test.example" }],
+      path: "inquiry",
+      fields: {
+        inquiryType: "Privacy request",
+        need: "Delete my old request",
+        name: "Ana Reyes",
+        email: "ana@",
+      },
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.turn.fields.email).toBe("ana.reyes@acme-procure-test.example");
+    }
+  });
+
   it("rejects an unreadable file type before any API call", async () => {
     process.env.ANTHROPIC_API_KEY = "<redacted>";
     const fetchSpy = vi.fn(async () => anthropicToolResponse({ reply: "x", path: null, fields: {}, readyToReview: false }));

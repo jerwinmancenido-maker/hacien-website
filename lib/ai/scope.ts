@@ -23,7 +23,10 @@ const INJECTION = [
   // requested to submit a quotation") is not an injection.
   /you are now\s+(a\s|an\s|the\s|my\s|dan\b|chatgpt\b|gpt\b|in\s+(developer|dan|jailbreak))/i,
   /\b(jailbreak|developer mode|do anything now)\b/i,
-  /\bsystem prompt\b/i,
+  // A bare "system prompt" mention in an RFQ/spec is not injection —
+  // only ask/reveal/dump phrasing above (and the Tagalog forms below).
+  // The output guard remains the leak screen for any reply that echoes
+  // internal prompt state (Bugbot High, PR #88 at a16f881).
   /kalimutan mo\s+(ang\s+|yung\s+)?(instructions|utos|rules|prompt)/i,
   /ignore mo\s+(ang\s+|yung\s+)?(instructions|rules|prompt)/i,
   /(ipakita|sabihin)\s+(mo\s+)?(ang\s+|yung\s+)?(system\s+)?prompt/i,
@@ -33,14 +36,22 @@ const INJECTION = [
 // a share-price question about Apple or a hack request naming a
 // server is not a HACIEN inquiry however it is dressed up.
 const HARD_ALWAYS_OFF_TOPIC = [
-  // "program of work" is a construction/RFQ document, not code: the
-  // negative lookahead keeps "write a program of work for the CCTV
-  // installation" in scope while "write a program" stays refused
-  // (CTO review R1).
-  /\b(write|debug|compile)\b[^.]{0,48}\b(code|function|script|program(?!\s+of\s+work)|class|algorithm)\b/i,
-  /\b(my code|this function)\b/i,
+  // Code-writing requests. "program of work" is an RFQ/construction
+  // document, not code (CTO review R1). Bare "class" is omitted from
+  // the proximity list so a school quote ("write a quotation for our
+  // computer class") stays in scope; "write a class …" is caught by
+  // the dedicated programming-class pattern below (Bugbot High,
+  // PR #88 at a16f881).
+  /\b(write|debug|compile)\b[^.]{0,48}\b(code|function|script|program(?!\s+of\s+work)|algorithm)\b/i,
+  /\b(write|debug|compile)\s+(me\s+|us\s+|a\s+|an\s+|the\s+|my\s+|this\s+)?class\b/i,
+  /\bmy code\b/i,
+  // "this function hall" is a venue, not a programming ask.
+  /\bthis function\b(?!\s+(hall|room|area|venue|building|center|centre|space))/i,
   /\b(gawa|gumawa|gawan)\b[^.]{0,40}\b(code|program(?!\s+of\s+work)|script)\b/i,
-  /\b(joke|jokes|knock-knock|magbiro)\b/i,
+  // "no joke" / "not a joke" is emphasis on a real request, not a
+  // comedy ask (Bugbot High, PR #88 at a16f881).
+  /\b(jokes|knock-knock|magbiro)\b/i,
+  /(?<!\bno\s)(?<!\bnot\s+a\s)\bjoke\b/i,
   /\b(who should i vote|politician|pulitika)\b/i,
   /\b(girlfriend|boyfriend|break up)\b/i,
   /\b(stock price|share price)\b/i,

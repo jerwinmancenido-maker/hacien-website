@@ -33,6 +33,7 @@ import { buildTurnContext } from "@/lib/ai/turn-context";
 import {
   intakeReady,
   isAiChatPath,
+  isUsableIntakeValue,
   parseAiChatTurn,
   sanitizeIntakeFields,
   type AiChatPath,
@@ -448,7 +449,7 @@ async function runTurn(
     fieldsOut =
       turn.path && turn.path !== validated.path
         ? turn.fields
-        : sanitizeIntakeFields(pathOut, mergeFilled(validated.fields, turn.fields));
+        : sanitizeIntakeFields(pathOut, mergeFilled(pathOut, validated.fields, turn.fields));
   }
   // A document turn's reply IS the extracted-requirements summary the
   // visitor is about to confirm (the client's confirm-the-list box
@@ -478,10 +479,36 @@ async function runTurn(
   };
 }
 
-function mergeFilled(prior: GuidedChatAnswers, incoming: GuidedChatAnswers): GuidedChatAnswers {
+/** Identity / contact fields the model must not overwrite once the
+ *  visitor has given a usable value. Free-text need/details/message
+ *  stay open so a document extract or a correction can refine them. */
+const LOCKED_INTAKE_FIELDS = new Set([
+  "email",
+  "phone",
+  "name",
+  "tin",
+  "company",
+  "businessAddress",
+  "businessType",
+  "position",
+]);
+
+/** Merge model fields onto visitor-stored fields. A usable prior value
+ *  on a locked identity field wins — after history scrolls away the
+ *  model must not overwrite a real email/phone/name with a guess
+ *  (Bugbot Medium, PR #88 at 9ac4fca). Empty or invalid prior values
+ *  may still be filled/fixed. */
+function mergeFilled(
+  path: AiChatPath,
+  prior: GuidedChatAnswers,
+  incoming: GuidedChatAnswers,
+): GuidedChatAnswers {
   const merged: GuidedChatAnswers = { ...prior };
   for (const [key, value] of Object.entries(incoming)) {
-    if (value.trim()) merged[key] = value;
+    if (!value.trim()) continue;
+    const existing = prior[key] || "";
+    if (LOCKED_INTAKE_FIELDS.has(key) && isUsableIntakeValue(key, existing, path)) continue;
+    merged[key] = value;
   }
   return merged;
 }
