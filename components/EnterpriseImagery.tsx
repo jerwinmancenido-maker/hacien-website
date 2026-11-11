@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { EnterpriseMediaFrame } from "@/components/EnterpriseMediaFrame";
 import { founderLine, showroomNote } from "@/data/companyContact";
 import { getCmsMediaRecord, getCmsMediaSourceMap, type CmsMediaKey } from "@/lib/cms/media";
 
@@ -33,7 +33,7 @@ export function EnterpriseMediaImage({
   const record = getCmsMediaRecord(image as CmsMediaKey);
 
   return (
-    <Image
+    <EnterpriseMediaFrame
       src={record.source}
       alt={record.alt}
       fill
