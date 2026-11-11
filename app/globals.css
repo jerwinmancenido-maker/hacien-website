@@ -915,17 +915,19 @@ main {
   border-radius: 20px;
 }
 .va-scope a.button-glow,
-.va-scope a.bg-blue,
 .va-scope button.bg-blue,
 .va-scope a.bg-\[\#2563EB\],
 .va-scope button.bg-\[\#2563EB\] {
   border-radius: 999px;
 }
-/* PremiumPageHero exclusion for the broadened rule above: the hero's
-   filled primary shares a.bg-blue, so inside the hero's ink-black
-   photographic section the radius reverts to the hero's own utility. */
-.va-scope section[class*="0A0A0A"] a.bg-blue {
-  border-radius: revert-layer;
+/* PremiumPageHero is excluded from the broadened pill rule structurally:
+   its filled primary shares a.bg-blue, so that selector carries a :not()
+   with the hero's ink-black section as the ancestor context. Inside the
+   hero, no va-scope rule touches the radius at all and Tailwind's own
+   .rounded applies. (An earlier revert-layer exclusion rolled the hero
+   primary back to square in some engines — removed.) */
+.va-scope a.bg-blue:not(section[class*="0A0A0A"] a.bg-blue) {
+  border-radius: 999px;
 }
 /* The article page's secondary CTA only. The border-slate-300 qualifier
    keeps this off PremiumPageHero's secondary action, which shares the
