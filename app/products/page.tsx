@@ -51,7 +51,7 @@ export default async function ProductsPage() {
   const erpProducts = await getErpProducts();
 
   return (
-    <>
+    <div className="va-scope">
       <PremiumPageHero
         eyebrow="Technology RFQ Builder"
         title="Tell us what you need."
@@ -172,6 +172,6 @@ export default async function ProductsPage() {
           </BorderGlow>
         </AnimatedContent>
       </section>
-    </>
+    </div>
   );
 }

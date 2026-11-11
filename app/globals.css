@@ -839,6 +839,149 @@ main {
   }
 }
 
+/* ——— Variant A scope (dark charcoal) ———
+   Approved design direction (2026-11-11): applied route by route, starting
+   with /insights/[slug], /products, and /quote. Restyle only: it recolours
+   the existing markup inside the scope to the Variant A tokens (the
+   approved HACIEN button sheet) without changing structure or behaviour.
+   Canvas #0B0C10 · Surface 1 #15171D · Surface 2 #1E2129 · Band #060F23 ·
+   Text #F4F6FA · Body #C6CBD8 · Muted #9199A8 · Primary #2563EB ·
+   Hover #1F54C8 · Sky #6692F1. Cards separate by surface tone, not borders;
+   buttons inside the scope are full pills. */
+.va-scope {
+  background: #0b0c10;
+  color: #c6cbd8;
+}
+.va-scope h1,
+.va-scope h2,
+.va-scope h3,
+.va-scope h4,
+.va-scope .text-slate-950,
+.va-scope .text-slate-900,
+.va-scope .text-slate-800,
+.va-scope .text-ink {
+  color: #f4f6fa;
+}
+.va-scope .text-slate-600,
+.va-scope .text-slate-700,
+.va-scope .text-grey-700 {
+  color: #c6cbd8;
+}
+.va-scope .text-slate-500,
+.va-scope .text-grey-600,
+.va-scope .text-grey-400 {
+  color: #9199a8;
+}
+/* Deliberately NOT remapped: text-grey-200 and text-grey-300. Their only
+   in-scope use is PremiumPageHero's on-photo captions, which are already
+   light on dark; remapping them would restyle the out-of-scope hero. */
+.va-scope .bg-slate-950 {
+  background-color: #060f23;
+}
+.va-scope .bg-slate-900 {
+  background-color: #1e2129;
+}
+.va-scope .divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
+  border-color: #2a2e38;
+}
+.va-scope .bg-white {
+  background-color: #15171d;
+}
+.va-scope .bg-slate-50,
+.va-scope .bg-grey-50 {
+  background-color: #15171d;
+}
+.va-scope .bg-grey-100 {
+  background-color: #1e2129;
+}
+.va-scope .bg-blue-tint {
+  background-color: #060f23;
+}
+.va-scope .surface {
+  background: #15171d;
+  border-color: transparent;
+}
+.va-scope .border-grey-200,
+.va-scope .border-grey-300,
+.va-scope .border-slate-200,
+.va-scope .border-slate-300 {
+  border-color: transparent;
+}
+.va-scope .shadow-sm,
+.va-scope .shadow-md {
+  box-shadow: none;
+}
+.va-scope .rounded-lg {
+  border-radius: 20px;
+}
+.va-scope a.button-glow,
+.va-scope button.bg-blue,
+.va-scope a.bg-\[\#2563EB\],
+.va-scope button.bg-\[\#2563EB\] {
+  border-radius: 999px;
+}
+/* PremiumPageHero is excluded from the broadened pill rule structurally:
+   its filled primary shares a.bg-blue, so that selector carries a :not()
+   with the hero's ink-black section as the ancestor context. Inside the
+   hero, no va-scope rule touches the radius at all and Tailwind's own
+   .rounded applies. (An earlier revert-layer exclusion rolled the hero
+   primary back to square in some engines — removed.) */
+.va-scope a.bg-blue:not(section[class*="0A0A0A"] a.bg-blue) {
+  border-radius: 999px;
+}
+/* The article page's secondary CTA only. The border-slate-300 qualifier
+   keeps this off PremiumPageHero's secondary action, which shares the
+   interactive-link + rounded + border shape but uses border-white/25 —
+   the hero is a shared component and stays out of this scope. */
+.va-scope a.interactive-link.rounded.border-slate-300 {
+  background-color: #1e2129;
+  color: #f4f6fa;
+  border-radius: 999px;
+}
+.va-scope .text-\[\#2563EB\] {
+  color: #6692f1;
+}
+/* text-blue as TEXT on dark becomes Sky (6.3:1 on the canvas); #2563EB
+   itself (~3.2:1 on the canvas) stays for FILLS only — bg-blue and
+   bg-[#2563EB] are deliberately not remapped. */
+.va-scope .text-blue {
+  color: #6692f1;
+}
+.va-scope .hover\:text-blue:hover {
+  color: #6692f1;
+}
+/* (2) Link hover on dark is Sky, AA-checked at 6.3:1 on the canvas.
+   Scoped to prose, list, and nav links plus the arbitrary-blue text
+   links, so card shells and the hero's actions keep their own hover. */
+.va-scope p a:hover,
+.va-scope li a:hover,
+.va-scope nav a:hover,
+.va-scope a.text-\[\#2563EB\]:hover {
+  color: #6692f1;
+}
+.va-scope .hover\:bg-blue-dark:hover {
+  background-color: #1f54c8;
+}
+.va-scope .lift:hover {
+  border-color: transparent;
+}
+/* Nested tonal steps: a tonal card inside a tonal container steps up one
+   surface (Surface 2), a third level steps again (Surface 3), so nested
+   cards never collapse into one flat tone — e.g. ERP catalogue cards on
+   the slate-50 band, the support notes inside the white panel, and the
+   related-article cards on their band. Standalone cards stay Surface 1. */
+.va-scope
+  :is(.bg-white, .bg-slate-50, .bg-grey-50, .bg-grey-100, .bg-blue-tint, .surface)
+  :is(.bg-white, .bg-slate-50, .bg-grey-50, .bg-grey-100, .surface) {
+  background-color: #1e2129;
+}
+.va-scope
+  :is(.bg-white, .bg-slate-50, .bg-grey-50, .bg-grey-100, .bg-blue-tint, .surface)
+  :is(.bg-white, .bg-slate-50, .bg-grey-50, .bg-grey-100, .surface)
+  :is(.bg-white, .bg-slate-50, .bg-grey-50, .bg-grey-100, .surface) {
+  background-color: #2a2e38;
+}
+
 /* ——— Variant A chat scope ———
    The approved chat-surface restyle (concept C, 2026-11-11): the floating
    chat panel recolours to the same Variant A tokens as .va-scope, without
