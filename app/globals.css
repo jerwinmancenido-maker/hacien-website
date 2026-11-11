@@ -914,8 +914,18 @@ main {
 .va-scope .rounded-lg {
   border-radius: 20px;
 }
-.va-scope a.button-glow {
+.va-scope a.button-glow,
+.va-scope a.bg-blue,
+.va-scope button.bg-blue,
+.va-scope a.bg-\[\#2563EB\],
+.va-scope button.bg-\[\#2563EB\] {
   border-radius: 999px;
+}
+/* PremiumPageHero exclusion for the broadened rule above: the hero's
+   filled primary shares a.bg-blue, so inside the hero's ink-black
+   photographic section the radius reverts to the hero's own utility. */
+.va-scope section[class*="0A0A0A"] a.bg-blue {
+  border-radius: revert-layer;
 }
 /* The article page's secondary CTA only. The border-slate-300 qualifier
    keeps this off PremiumPageHero's secondary action, which shares the
@@ -929,9 +939,43 @@ main {
 .va-scope .text-\[\#2563EB\] {
   color: #6692f1;
 }
+/* text-blue as TEXT on dark becomes Sky (6.3:1 on the canvas); #2563EB
+   itself (~3.2:1 on the canvas) stays for FILLS only — bg-blue and
+   bg-[#2563EB] are deliberately not remapped. */
+.va-scope .text-blue {
+  color: #6692f1;
+}
+.va-scope .hover\:text-blue:hover {
+  color: #6692f1;
+}
+/* (2) Link hover on dark is Sky, AA-checked at 6.3:1 on the canvas.
+   Scoped to prose, list, and nav links plus the arbitrary-blue text
+   links, so card shells and the hero's actions keep their own hover. */
+.va-scope p a:hover,
+.va-scope li a:hover,
+.va-scope nav a:hover,
+.va-scope a.text-\[\#2563EB\]:hover {
+  color: #6692f1;
+}
 .va-scope .hover\:bg-blue-dark:hover {
   background-color: #1f54c8;
 }
 .va-scope .lift:hover {
   border-color: transparent;
+}
+/* Nested tonal steps: a tonal card inside a tonal container steps up one
+   surface (Surface 2), a third level steps again (Surface 3), so nested
+   cards never collapse into one flat tone — e.g. ERP catalogue cards on
+   the slate-50 band, the support notes inside the white panel, and the
+   related-article cards on their band. Standalone cards stay Surface 1. */
+.va-scope
+  :is(.bg-white, .bg-slate-50, .bg-grey-50, .bg-grey-100, .bg-blue-tint, .surface)
+  :is(.bg-white, .bg-slate-50, .bg-grey-50, .bg-grey-100, .surface) {
+  background-color: #1e2129;
+}
+.va-scope
+  :is(.bg-white, .bg-slate-50, .bg-grey-50, .bg-grey-100, .bg-blue-tint, .surface)
+  :is(.bg-white, .bg-slate-50, .bg-grey-50, .bg-grey-100, .surface)
+  :is(.bg-white, .bg-slate-50, .bg-grey-50, .bg-grey-100, .surface) {
+  background-color: #2a2e38;
 }
