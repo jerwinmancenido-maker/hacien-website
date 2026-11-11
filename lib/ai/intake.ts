@@ -15,6 +15,15 @@ import {
   type ChatProductCard,
   type ChatProductRef,
 } from "@/lib/ai/chat-product-cards";
+import {
+  isCompletePersonName,
+  isPhilippineMobile,
+  isTin,
+  normalizeBusinessType,
+  quoteLeadIssues,
+  quoteLeadReady,
+} from "@/lib/ai/lead";
+import { isInjectionText } from "@/lib/ai/scope";
 import type { GuidedChatAnswers } from "@/lib/guided-chat/payloads";
 
 export type AiChatPath = "quote" | "inquiry" | "callback";
@@ -36,6 +45,11 @@ export const AI_INTAKE_FIELDS: Record<AiChatPath, string[]> = {
     "location",
     "targetDate",
     "budgetRange",
+    "businessType",
+    "position",
+    "businessAddress",
+    "tin",
+    "buyerReference",
   ],
   inquiry: [
     "inquiryType",
@@ -60,7 +74,18 @@ export const AI_INTAKE_FIELDS: Record<AiChatPath, string[]> = {
  *  in the guided steps but never blocks the AI card — the visitor
  *  states it or it stays blank (owner decision, Nov 8, 2026). */
 export const AI_INTAKE_REQUIRED: Record<AiChatPath, string[]> = {
-  quote: ["need", "name", "company", "email", "phone", "location", "targetDate"],
+  quote: [
+    "need",
+    "name",
+    "company",
+    "businessType",
+    "position",
+    "businessAddress",
+    "email",
+    "phone",
+    "location",
+    "targetDate",
+  ],
   inquiry: ["inquiryType", "need", "name", "email"],
   callback: ["name", "phone"],
 };
@@ -112,6 +137,24 @@ export function sanitizeIntakeFields(
     const cap = LONG_TEXT_FIELDS.has(key) ? MAX_LONG_FIELD_LENGTH : MAX_FIELD_LENGTH;
     const trimmed = value.trim().slice(0, cap);
     if (!trimmed) continue;
+    if (key === "businessType") {
+      const canonical = normalizeBusinessType(trimmed);
+      if (canonical) clean[key] = canonical;
+      continue;
+    }
+    if (key === "need" || key === "details" || key === "message") {
+      const kept = trimmed
+        .split("\n")
+        .filter((line) => !isInjectionText(line))
+        .join("\n")
+        .trim();
+      if (kept) clean[key] = kept;
+      continue;
+    }
+    // Single-line fields (company, position, address, …): drop the
+    // whole value when it is an injection attempt — never store it
+    // for later replay into model context.
+    if (isInjectionText(trimmed)) continue;
     const options = choiceOptions[key];
     if (options) {
       const canonical = options.find((option) => option.toLowerCase() === trimmed.toLowerCase());
@@ -126,19 +169,57 @@ export function sanitizeIntakeFields(
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
+/** True when a stored value is usable for its field id on this path —
+ *  empty is not; a half name, short phone, or malformed email is not.
+ *  Used by readiness and by the merge that must not let the model
+ *  overwrite a good visitor value (Bugbot Medium, PR #88 at 9ac4fca). */
+export function isUsableIntakeValue(id: string, value: string, path: AiChatPath = "inquiry"): boolean {
+  const trimmed = value.trim();
+  if (!trimmed) return false;
+  if (id === "email") return EMAIL_PATTERN.test(trimmed);
+  if (id === "phone") {
+    return path === "quote" ? isPhilippineMobile(trimmed) : trimmed.replace(/\D/g, "").length >= 7;
+  }
+  if (id === "name") {
+    return path === "quote" ? isCompletePersonName(trimmed) : trimmed.length >= 2;
+  }
+  if (id === "tin") {
+    if (/^(none|n\/?a|na|no tin|wala|not applicable|-+)$/i.test(trimmed)) return true;
+    return isTin(trimmed);
+  }
+  return true;
+}
+
+/** Missing and invalid required field ids for the path — keys only,
+ *  never values. Quote path reuses the lead checker; inquiry/callback
+ *  apply the same email/phone usability rules as intakeReady. */
+export function intakeFieldIssues(
+  path: AiChatPath,
+  fields: GuidedChatAnswers,
+): { missing: string[]; invalid: string[] } {
+  if (path === "quote") return quoteLeadIssues(fields);
+  const missing: string[] = [];
+  const invalid: string[] = [];
+  for (const id of AI_INTAKE_REQUIRED[path]) {
+    const value = (fields[id] || "").trim();
+    if (!value) {
+      missing.push(id);
+      continue;
+    }
+    if (!isUsableIntakeValue(id, value, path)) invalid.push(id);
+  }
+  return { missing, invalid };
+}
+
 /** True only when every required field for the path holds a usable
  *  value — the same standard the guided steps enforce as the visitor
  *  types: an email must look like an email, a phone must carry enough
  *  digits to call back. A malformed address must never reach the
  *  review card, or the confirmation email goes nowhere. */
 export function intakeReady(path: AiChatPath, fields: GuidedChatAnswers): boolean {
-  return AI_INTAKE_REQUIRED[path].every((id) => {
-    const value = (fields[id] || "").trim();
-    if (!value) return false;
-    if (id === "email") return EMAIL_PATTERN.test(value);
-    if (id === "phone") return value.replace(/\D/g, "").length >= 7;
-    return true;
-  });
+  if (path === "quote") return quoteLeadReady(fields);
+  const issues = intakeFieldIssues(path, fields);
+  return issues.missing.length === 0 && issues.invalid.length === 0;
 }
 
 export type AiChatTurn = {
