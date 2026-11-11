@@ -114,9 +114,9 @@ const GATE_TEXT =
 const GATE_HELPER =
   "AI replies are for product guidance only and are not an official quotation. Please do not enter government IDs, tax papers, or passwords.";
 /** Policy versions recorded with the agreement (the lawyer's
- *  recording for Privacy Policy v2.6): the tick's ISO timestamp and
+ *  recording for Privacy Policy v2.7): the tick's ISO timestamp and
  *  this version string travel with the submitted request. */
-const AGREEMENT_POLICY_VERSIONS = "terms:v2.1, privacy:v2.6";
+const AGREEMENT_POLICY_VERSIONS = "terms:v2.1, privacy:v2.7";
 
 /** Mirrors the plausible-email check the server runs (lib/ai/intake). */
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -309,7 +309,7 @@ export function AiChat({
   const [emailDraft, setEmailDraft] = useState("");
   const [emailError, setEmailError] = useState("");
   const [pinnedEmail, setPinnedEmail] = useState("");
-  /** Pre-chat agreement gate (lawyer-approved, Privacy Policy v2.6):
+  /** Pre-chat agreement gate (lawyer-approved, Privacy Policy v2.7):
    *  the panel opens on the gate and the email step appears only
    *  after the agreement is ticked and Continue is pressed. The
    *  tick's timestamp is recorded and travels with the submission.
