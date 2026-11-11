@@ -13,7 +13,7 @@ export const metadata: Metadata = buildPageMetadata({
 
 export default function QuotePage() {
   return (
-    <>
+    <div className="va-scope">
       <PremiumPageHero
         eyebrow="Quotation request"
         title="Request a quotation."
@@ -52,6 +52,6 @@ export default function QuotePage() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
