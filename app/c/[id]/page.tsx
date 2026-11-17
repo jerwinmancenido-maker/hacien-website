@@ -15,7 +15,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   const description = `${card.fullName}, ${card.title} at ${card.organization}. ${card.statusLine}.`;
   return {
-    title: `${card.fullName} — ${card.title} | HACIEN`,
+    // The root layout's title template appends "| HACIEN" — don't repeat it.
+    title: `${card.fullName} — ${card.title}`,
     description,
     robots: { index: false, follow: false },
     openGraph: {
