@@ -77,13 +77,10 @@ export function normalizeBusinessType(value: string): BusinessType | "" {
   // full phrase: the lowercase word "nga" is a Tagalog emphasis
   // particle ("private company nga po"), never an agency (Bugbot,
   // PR #88 at 68d0ff2).
-  // NGO / non-government phrasing is private, not government — checked
-  // before the government markers so "non-government organization"
-  // cannot trip on the substring "government" (Bugbot Medium, PR #88
-  // at a16f881).
-  if (/\b(non[\s-]?government|nongovernment|ngo)\b/i.test(trimmed)) {
-    return "Private company";
-  }
+  // Government markers run first so "government agency, not an NGO"
+  // stays government. Affirmative NGO / non-government phrasing then
+  // maps to private; "not an NGO" / "non-NGO" alone do not (Bugbot
+  // Medium, PR #88 at cdaa1d4).
   const isNga = /\bNGA\b/.test(trimmed) || /national government agency/i.test(trimmed);
   if (
     isNga ||
@@ -92,6 +89,12 @@ export function normalizeBusinessType(value: string): BusinessType | "" {
     )
   ) {
     return "Government agency or LGU";
+  }
+  if (/\b(non[\s-]?government|nongovernment)\b/i.test(trimmed)) {
+    return "Private company";
+  }
+  if (/\bngo\b/i.test(trimmed) && !/\b(not\s+an?\s+ngo|non-?ngo)\b/i.test(trimmed)) {
+    return "Private company";
   }
   if (/(school|university|college|academy|eskwela|paaralan)/.test(text)) return "School";
   if (/(sole|proprietor)/.test(text)) return "Sole proprietor";

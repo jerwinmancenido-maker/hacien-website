@@ -18,15 +18,16 @@ const INJECTION = [
   /disregard\s+(your\s+|the\s+)?(instructions|rules|prompt)/i,
   /reveal\s+(your\s+|the\s+)?(system\s+)?prompt/i,
   /(show|print|repeat|dump)\s+(me\s+)?(your\s+|the\s+)?(system\s+)?prompt/i,
+  // Ask/tell for the system prompt is injection; a bid-form line that
+  // merely mentions "system prompt" is not (Bugbot Medium, PR #88 at
+  // cdaa1d4). Output guard remains the leak screen for echoed state.
+  /\b(tell|ask)\s+(me\s+|us\s+)?(for\s+)?(your\s+|the\s+)?(system\s+)?prompt\b/i,
+  /\bwhat\s+(is|'s|are)\s+(your\s+|the\s+)?(system\s+)?prompt\b/i,
   // Persona takeover only: "you are now a/the/my …", a named persona,
   // or a mode switch. Ordinary procurement phrasing ("you are now
   // requested to submit a quotation") is not an injection.
   /you are now\s+(a\s|an\s|the\s|my\s|dan\b|chatgpt\b|gpt\b|in\s+(developer|dan|jailbreak))/i,
   /\b(jailbreak|developer mode|do anything now)\b/i,
-  // A bare "system prompt" mention in an RFQ/spec is not injection —
-  // only ask/reveal/dump phrasing above (and the Tagalog forms below).
-  // The output guard remains the leak screen for any reply that echoes
-  // internal prompt state (Bugbot High, PR #88 at a16f881).
   /kalimutan mo\s+(ang\s+|yung\s+)?(instructions|utos|rules|prompt)/i,
   /ignore mo\s+(ang\s+|yung\s+)?(instructions|rules|prompt)/i,
   /(ipakita|sabihin)\s+(mo\s+)?(ang\s+|yung\s+)?(system\s+)?prompt/i,
@@ -43,7 +44,10 @@ const HARD_ALWAYS_OFF_TOPIC = [
   // the dedicated programming-class pattern below (Bugbot High,
   // PR #88 at a16f881).
   /\b(write|debug|compile)\b[^.]{0,48}\b(code|function|script|program(?!\s+of\s+work)|algorithm)\b/i,
-  /\b(write|debug|compile)\s+(me\s+|us\s+|a\s+|an\s+|the\s+|my\s+|this\s+)?class\b/i,
+  // Optional pronoun then optional article: "write a class", "write me
+  // a class", "write us a class". School "write a quotation for our
+  // computer class" still misses this (Bugbot Medium, PR #88 at cdaa1d4).
+  /\b(write|debug|compile)\s+((me|us|him|her|them|my|your|this)\s+)?(a\s+|an\s+|the\s+)?class\b/i,
   /\bmy code\b/i,
   // "this function hall" is a venue, not a programming ask.
   /\bthis function\b(?!\s+(hall|room|area|venue|building|center|centre|space))/i,
