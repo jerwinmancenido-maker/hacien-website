@@ -38,8 +38,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-const linkButtonClass =
-  "block w-full rounded-full border border-white/25 bg-white/5 px-5 py-3.5 text-center text-base font-semibold text-white transition hover:bg-white/15 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
+// Button treatment follows the approved HACIEN button sheet (outline rev5
+// §7): full pill; focus = 2px surface ring (offset, in the page colour) plus
+// a 3px Sky #6692F1 ring; pressed state scales to 0.97.
+const focusRingClass =
+  "focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[#6692F1] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A1C42]";
+
+const linkButtonClass = `flex h-11 w-full items-center justify-center rounded-full border border-white/25 bg-white/5 px-5 text-center text-base font-semibold text-white transition hover:bg-white/15 active:scale-[0.97] ${focusRingClass}`;
 
 function socialLinks(card: StaffCard) {
   const links: { label: string; href: string }[] = [];
@@ -57,7 +62,7 @@ export default async function StaffCardPage({ params }: PageProps) {
   const socials = socialLinks(card);
 
   return (
-    <main className="bg-[#0B2545] text-white">
+    <main className="bg-[#0A1C42] text-white">
       <div className="mx-auto flex min-h-dvh w-full max-w-md flex-col px-6 py-10">
         <div className="flex flex-col items-center text-center">
           {/* Official logo from /public/brand — never redrawn. */}
@@ -80,7 +85,7 @@ export default async function StaffCardPage({ params }: PageProps) {
 
         <a
           href={`/c/${card.id}/vcf`}
-          className="mt-9 block w-full rounded-full bg-[#2563EB] px-5 py-4 text-center text-lg font-bold text-white transition hover:bg-[#1D4ED8] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+          className={`mt-9 flex h-[52px] w-full items-center justify-center rounded-full bg-[#2563EB] px-5 text-center text-lg font-bold text-white transition hover:bg-[#1F54C8] active:scale-[0.97] ${focusRingClass}`}
         >
           Save contact
         </a>
