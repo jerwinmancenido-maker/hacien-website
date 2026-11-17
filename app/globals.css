@@ -450,6 +450,15 @@ main {
   box-shadow: var(--focus-ring);
 }
 
+/* Staff contact cards (/c/:id): the approved button sheet's focus treatment
+   (outline rev5 §7) — a 2px surface ring in the Deep Navy page colour plus a
+   3px Sky ring. Unlayered like .focus-ring so it replaces the global
+   :focus-visible outline instead of stacking on top of it. */
+.card-focus-ring:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px #0a1c42, 0 0 0 5px #6692f1;
+}
+
 :focus-visible {
   outline: 2px solid var(--blue);
   outline-offset: 2px;

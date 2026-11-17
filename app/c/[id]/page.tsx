@@ -39,10 +39,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 // Button treatment follows the approved HACIEN button sheet (outline rev5
-// §7): full pill; focus = 2px surface ring (offset, in the page colour) plus
-// a 3px Sky #6692F1 ring; pressed state scales to 0.97.
-const focusRingClass =
-  "focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[#6692F1] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A1C42]";
+// §7): full pill; pressed state scales to 0.97; focus uses the
+// .card-focus-ring rule in globals.css (2px surface ring + 3px Sky ring).
+const focusRingClass = "card-focus-ring";
 
 const linkButtonClass = `flex h-11 w-full items-center justify-center rounded-full border border-white/25 bg-white/5 px-5 text-center text-base font-semibold text-white transition hover:bg-white/15 active:scale-[0.97] ${focusRingClass}`;
 
