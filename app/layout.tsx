@@ -3,6 +3,7 @@ import { Archivo_Black, Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { HideOnCardPages } from "@/components/HideOnCardPages";
 import { FloatingChat } from "@/components/FloatingChat";
 import { CookieNotice } from "@/components/CookieNotice";
 import { isValidGaId } from "@/lib/ga4";
@@ -152,12 +153,16 @@ gtag('config', '${gaId}', {
             <GlobalCinematicBackdrop />
             <Header />
             <main id="content" tabIndex={-1}>{children}</main>
-            <Footer />
+            <HideOnCardPages>
+              <Footer />
+            </HideOnCardPages>
             <FloatingChat turnstileSiteKey={process.env.TURNSTILE_SITE_KEY || ""} aiConfigured={Boolean(process.env.ANTHROPIC_API_KEY)} />
             {/* Bottom scroll room: at maximum scroll the sticky header would
                 otherwise cover the first line of the section above the footer,
                 because the document ends and the page cannot scroll further. */}
-            <div aria-hidden="true" className="h-20 bg-ink" />
+            <HideOnCardPages>
+              <div aria-hidden="true" className="h-20 bg-ink" />
+            </HideOnCardPages>
           </QuoteCartProvider>
         </LenisProvider>
       </body>
