@@ -19,6 +19,14 @@ function isLocalCmsRoute(pathname: string) {
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
+  // Printed calling-card QR codes encode the card path in uppercase
+  // (/C/2611001); the canonical route is lowercase /c/:id.
+  if (pathname.startsWith("/C/")) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/c/${pathname.slice(3)}`;
+    return NextResponse.redirect(url, 308);
+  }
   if (isLocalCmsRoute(pathname) && process.env.CMS_PREVIEW_ENABLED !== "true") {
     return new NextResponse("Not found", {
       status: 404,
@@ -44,5 +52,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/account/:path*", "/admin/:path*", "/cms-preview", "/command-center/:path*", "/api/local-cms/:path*"],
+  matcher: ["/account/:path*", "/admin/:path*", "/cms-preview", "/command-center/:path*", "/api/local-cms/:path*", "/C/:path*"],
 };

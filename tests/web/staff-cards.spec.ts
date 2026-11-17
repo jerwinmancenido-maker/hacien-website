@@ -1,0 +1,62 @@
+import { describe, expect, it } from "vitest";
+
+import { getStaffCard, staffCardVcfFilename } from "@/data/staffCards";
+import { buildVCard } from "@/lib/vcard";
+
+describe("staff cards data", () => {
+  it("resolves Jerwin's printed-card ID", () => {
+    const card = getStaffCard("2611001");
+    expect(card).not.toBeNull();
+    expect(card?.fullName).toBe("Jerwin P. Mancenido");
+    expect(card?.title).toBe("General Manager");
+    expect(card?.mobileIntl).toBe("+639681171158");
+  });
+
+  it("returns null for an unknown card ID", () => {
+    expect(getStaffCard("0000000")).toBeNull();
+  });
+
+  it("records no social URLs until they are confirmed", () => {
+    const card = getStaffCard("2611001");
+    expect(card?.socials?.facebook).toBeUndefined();
+    expect(card?.socials?.linkedin).toBeUndefined();
+    expect(card?.socials?.tiktok).toBeUndefined();
+  });
+});
+
+describe("buildVCard", () => {
+  const card = getStaffCard("2611001")!;
+
+  it("emits a vCard 3.0 document with CRLF line endings", () => {
+    const vcf = buildVCard(card);
+    expect(vcf.startsWith("BEGIN:VCARD\r\nVERSION:3.0\r\n")).toBe(true);
+    expect(vcf.endsWith("END:VCARD\r\n")).toBe(true);
+    expect(vcf).not.toMatch(/[^\r]\n/);
+  });
+
+  it("carries the contact fields from the card record", () => {
+    const vcf = buildVCard(card);
+    expect(vcf).toContain("FN:Jerwin P. Mancenido");
+    expect(vcf).toContain("TITLE:General Manager");
+    expect(vcf).toContain("ORG:HACIEN Information Technology Solutions");
+    expect(vcf).toContain("TEL;TYPE=CELL:+639681171158");
+    expect(vcf).toContain("EMAIL;TYPE=WORK:jerwin@haciensolutions.com");
+    expect(vcf).toContain("EMAIL;TYPE=WORK:sales@haciensolutions.com");
+    expect(vcf).toContain("URL:https://haciensolutions.com");
+    expect(vcf).toContain("Pasig City;;1605;Philippines");
+  });
+
+  it("embeds the logo photo only when base64 is supplied, folded at 75 chars", () => {
+    const photo = Buffer.from("fake-png-bytes").toString("base64");
+    const vcf = buildVCard(card, photo);
+    expect(vcf).toContain(`PHOTO;ENCODING=b;TYPE=PNG:${photo}`);
+    for (const line of vcf.split("\r\n")) {
+      expect(line.length).toBeLessThanOrEqual(75);
+    }
+    expect(buildVCard(card)).not.toContain("PHOTO");
+  });
+
+  it("derives a readable .vcf filename", () => {
+    expect(staffCardVcfFilename(card)).toBe("jerwin-p-mancenido.vcf");
+  });
+});
