@@ -68,6 +68,9 @@ export function FloatingChat({
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
+  // Staff contact cards (/c/:id) are standalone one-screen pages.
+  if (pathname?.startsWith("/c/")) return null;
+
   return (
     <>
       {hasOpened ? (
