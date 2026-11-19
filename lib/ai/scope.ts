@@ -14,23 +14,39 @@ export const SCOPE_REFUSAL =
 export type ScopeDecision = "in-scope" | "off-topic" | "injection";
 
 const INJECTION = [
-  /ignore\s+(all\s+|your\s+|the\s+)?(previous\s+|prior\s+|above\s+)?(instructions|rules|prompt)/i,
-  /disregard\s+(your\s+|the\s+)?(instructions|rules|prompt)/i,
-  /reveal\s+(your\s+|the\s+)?(system\s+)?prompt/i,
-  /(show|print|repeat|dump)\s+(me\s+)?(your\s+|the\s+)?(system\s+)?prompt/i,
+  // Instruction targets only — a bare "prompt" after ask/print/ignore
+  // must not catch RFQ "prompt payment" / "prompt delivery" (Bugbot
+  // High, PR #88 at 4027aba). Match system prompt, your/the prompt,
+  // or previous/above instructions|rules|prompt.
+  /ignore\s+(all\s+|your\s+|the\s+)?((previous|prior|above)\s+)?(instructions|rules)\b/i,
+  /ignore\s+(all\s+|your\s+|the\s+)?(previous|prior|above)\s+prompt\b/i,
+  /ignore\s+(your\s+|the\s+)?system\s+prompt\b/i,
+  /ignore\s+your\s+prompt\b/i,
+  /disregard\s+(your\s+|the\s+)?(instructions|rules)\b/i,
+  /disregard\s+(your\s+|the\s+)?system\s+prompt\b/i,
+  /disregard\s+your\s+prompt\b/i,
+  /reveal\s+((your|the)\s+)?system\s+prompt\b/i,
+  /reveal\s+(your|the)\s+prompt\b/i,
+  /(show|print|repeat|dump)\s+(me\s+)?((your|the)\s+)?system\s+prompt\b/i,
+  /(show|print|repeat|dump)\s+(me\s+)?(your|the)\s+prompt\b/i,
   // Ask/tell for the system prompt is injection; a bid-form line that
   // merely mentions "system prompt" is not (Bugbot Medium, PR #88 at
   // cdaa1d4). Output guard remains the leak screen for echoed state.
-  /\b(tell|ask)\s+(me\s+|us\s+)?(for\s+)?(your\s+|the\s+)?(system\s+)?prompt\b/i,
-  /\bwhat\s+(is|'s|are)\s+(your\s+|the\s+)?(system\s+)?prompt\b/i,
+  /\b(tell|ask)\s+(me\s+|us\s+)?(for\s+)?((your|the)\s+)?system\s+prompt\b/i,
+  /\b(tell|ask)\s+(me\s+|us\s+)?(for\s+)?(your|the)\s+prompt\b/i,
+  /\bwhat\s+(is|'s|are)\s+((your|the)\s+)?system\s+prompt\b/i,
+  /\bwhat\s+(is|'s|are)\s+(your|the)\s+prompt\b/i,
   // Persona takeover only: "you are now a/the/my …", a named persona,
   // or a mode switch. Ordinary procurement phrasing ("you are now
   // requested to submit a quotation") is not an injection.
   /you are now\s+(a\s|an\s|the\s|my\s|dan\b|chatgpt\b|gpt\b|in\s+(developer|dan|jailbreak))/i,
   /\b(jailbreak|developer mode|do anything now)\b/i,
-  /kalimutan mo\s+(ang\s+|yung\s+)?(instructions|utos|rules|prompt)/i,
-  /ignore mo\s+(ang\s+|yung\s+)?(instructions|rules|prompt)/i,
-  /(ipakita|sabihin)\s+(mo\s+)?(ang\s+|yung\s+)?(system\s+)?prompt/i,
+  /kalimutan mo\s+(ang\s+|yung\s+)?(instructions|utos|rules)\b/i,
+  /kalimutan mo\s+(ang\s+|yung\s+)?system\s+prompt\b/i,
+  /ignore mo\s+(ang\s+|yung\s+)?(instructions|rules)\b/i,
+  /ignore mo\s+(ang\s+|yung\s+)?system\s+prompt\b/i,
+  /(ipakita|sabihin)\s+(mo\s+)?(ang\s+|yung\s+)?system\s+prompt\b/i,
+  /(ipakita|sabihin)\s+(mo\s+)?(ang\s+|yung\s+)?(instructions|utos|rules)\b/i,
 ];
 
 // Refused even when the message also names a product or brand —

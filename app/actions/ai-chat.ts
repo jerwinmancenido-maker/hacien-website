@@ -446,10 +446,14 @@ async function runTurn(
   const pathOut = turn.path ?? validated.path;
   let fieldsOut: GuidedChatAnswers = {};
   if (pathOut) {
-    fieldsOut =
-      turn.path && turn.path !== validated.path
-        ? turn.fields
-        : sanitizeIntakeFields(pathOut, mergeFilled(pathOut, validated.fields, turn.fields));
+    // Always merge then sanitize for the outgoing path — a path switch
+    // must still carry usable identity/contact from the prior path
+    // (Bugbot Medium, PR #88 at 4027aba). sanitize drops fields the
+    // new path does not collect.
+    fieldsOut = sanitizeIntakeFields(
+      pathOut,
+      mergeFilled(pathOut, validated.fields, turn.fields),
+    );
   }
   // A document turn's reply IS the extracted-requirements summary the
   // visitor is about to confirm (the client's confirm-the-list box
@@ -555,6 +559,9 @@ export async function sendAiChatMessage(input: {
 
   const latest = validated.messages[validated.messages.length - 1].content;
   if (classifyUserTurn(latest, validated.path) !== "in-scope") {
+    // Keep prior readiness so a completed quote still shows the review
+    // card after an off-topic or injection turn (Bugbot Medium, PR #88
+    // at 4027aba).
     return {
       ok: true,
       gatePass: gate.freshPass,
@@ -562,7 +569,7 @@ export async function sendAiChatMessage(input: {
         reply: SCOPE_REFUSAL,
         path: validated.path,
         fields: validated.fields,
-        readyToReview: false,
+        readyToReview: validated.path ? intakeReady(validated.path, validated.fields) : false,
         cards: [],
         productRefs: [],
       },
@@ -621,7 +628,7 @@ export async function sendAiChatDocument(formData: FormData): Promise<AiChatActi
         reply: SCOPE_REFUSAL,
         path: validated.path,
         fields: validated.fields,
-        readyToReview: false,
+        readyToReview: validated.path ? intakeReady(validated.path, validated.fields) : false,
         cards: [],
         productRefs: [],
       },
