@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { NextRequest } from "next/server";
 
+import StaffCardPage from "@/app/c/[id]/page";
+import { GET as getStaffCardVcf } from "@/app/c/[id]/vcf/route";
 import { getStaffCard, staffCardVcfFilename } from "@/data/staffCards";
 import { buildVCard } from "@/lib/vcard";
 import { middleware } from "@/middleware";
@@ -28,6 +30,22 @@ describe("staff cards data", () => {
 
   it("returns null for an unknown card ID", () => {
     expect(getStaffCard("0000000")).toBeNull();
+  });
+
+  it("treats Object.prototype keys as missing (notFound / vcf 404)", async () => {
+    for (const id of ["constructor", "__proto__"]) {
+      expect(getStaffCard(id)).toBeNull();
+
+      await expect(
+        StaffCardPage({ params: Promise.resolve({ id }) }),
+      ).rejects.toMatchObject({ digest: "NEXT_HTTP_ERROR_FALLBACK;404" });
+
+      const vcf = await getStaffCardVcf(
+        new Request(`https://haciensolutions.com/c/${id}/vcf`),
+        { params: Promise.resolve({ id }) },
+      );
+      expect(vcf.status).toBe(404);
+    }
   });
 
   it("records no social URLs until they are confirmed", () => {

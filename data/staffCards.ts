@@ -71,7 +71,10 @@ export const staffCards: Record<string, StaffCard> = {
 };
 
 export function getStaffCard(id: string): StaffCard | null {
-  return staffCards[id] ?? null;
+  // Own keys only — plain-object lookup would otherwise return prototype
+  // members for ids like "constructor" / "__proto__".
+  if (!Object.hasOwn(staffCards, id)) return null;
+  return staffCards[id];
 }
 
 export function staffCardVcfFilename(card: StaffCard): string {
