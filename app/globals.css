@@ -981,3 +981,115 @@ main {
   :is(.bg-white, .bg-slate-50, .bg-grey-50, .bg-grey-100, .surface) {
   background-color: #2a2e38;
 }
+
+/* ——— Variant A chat scope ———
+   The approved chat-surface restyle (concept C, 2026-11-11): the floating
+   chat panel recolours to the same Variant A tokens as .va-scope, without
+   changing the chat's structure or behaviour. Applied by adding the
+   va-chat class to the panel root in FloatingChat. The wordmark is never
+   dimmed anywhere in this surface — where it appears it renders at full
+   contrast so the blue square in the A keeps its colour. The Turnstile
+   widget is a third-party frame and keeps its own colours. */
+.va-chat {
+  background: #15171d;
+  color: #c6cbd8;
+  border-color: transparent;
+}
+.va-chat h1,
+.va-chat h2,
+.va-chat h3,
+.va-chat .text-ink,
+.va-chat .text-slate-950,
+.va-chat .text-slate-900 {
+  color: #f4f6fa;
+}
+.va-chat .text-grey-700,
+.va-chat .text-slate-600 {
+  color: #c6cbd8;
+}
+.va-chat .text-grey-600,
+.va-chat .text-slate-500 {
+  color: #9199a8;
+}
+.va-chat .bg-white {
+  background-color: #1e2129;
+}
+.va-chat .bg-grey-50 {
+  background-color: #2a2e38;
+}
+.va-chat .bg-grey-100 {
+  background-color: #1e2129;
+}
+.va-chat .bg-grey-200 {
+  background-color: #2a2e38;
+}
+.va-chat .border-grey-200,
+.va-chat .border-grey-300,
+.va-chat .border-slate-200,
+.va-chat .border-slate-300 {
+  border-color: transparent;
+}
+/* Outline-only rings (pending staged steps, attach glyph) use
+   rounded-full + border + border-grey-200 with no fill. Restore a
+   surface3 edge so they stay visible after the transparent remap.
+   Spinners use border-2 (not border) and are handled below. */
+.va-chat .rounded-full.border.border-grey-200 {
+  border-color: #2a2e38;
+}
+/* Spinners use border-grey-200 + border-t-blue; the transparent shorthand
+   above would wipe every side, so re-assert the track and the blue tip. */
+.va-chat .border-t-blue {
+  border-color: #2a2e38;
+  border-top-color: #2563eb;
+}
+/* Choice box rows use divide-y divide-grey-200 — remap the light rule. */
+.va-chat .divide-grey-200 > :not(:last-child) {
+  border-color: #2a2e38;
+}
+.va-chat .shadow-sm {
+  box-shadow: none;
+}
+.va-chat .text-blue {
+  color: #6692f1;
+}
+.va-chat .text-red-600,
+.va-chat .text-red-700 {
+  color: #f08a8a;
+}
+.va-chat .hover\:bg-blue-dark:hover {
+  background-color: #1f54c8;
+}
+.va-chat .hover\:bg-grey-50:hover {
+  background-color: #2a2e38;
+}
+.va-chat .hover\:bg-red-100:hover {
+  background-color: #3a2228;
+}
+/* Unlayered ink/grey remaps beat layered hover:text-blue; re-assert Sky. */
+.va-chat .hover\:text-blue:hover {
+  color: #6692f1;
+}
+/* Chat fields put the border on the wrapper (focus-within:border-blue),
+   not on the input/textarea. Surface3 edge at rest; brand blue on focus. */
+.va-chat .focus-within\:border-blue {
+  border-color: #2a2e38;
+}
+.va-chat .focus-within\:border-blue:focus-within {
+  border-color: #2563eb;
+}
+/* Email-gate wrapper is rounded-full + border-grey-200 + focus-within:border-blue.
+   The outline-ring restore above is more specific than the focus rule, so
+   re-assert brand blue at matching specificity when focus is inside. */
+.va-chat .rounded-full.border.border-grey-200.focus-within\:border-blue:focus-within {
+  border-color: #2563eb;
+}
+.va-chat input,
+.va-chat textarea {
+  color: #f4f6fa;
+}
+.va-chat ::placeholder {
+  color: #9199a8;
+}
+.va-chat-launcher:hover {
+  background-color: #1f54c8;
+}

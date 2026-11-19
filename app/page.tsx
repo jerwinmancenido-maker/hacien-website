@@ -1,5 +1,6 @@
 import { Hero } from "@/components/Hero";
 import { BuyingTimeline } from "@/components/BuyingTimeline";
+import { ProjectIntegration } from "@/components/ProjectIntegration";
 import { replyTime } from "@/data/companyContact";
 import {
   CTABand,
@@ -16,6 +17,7 @@ export default function Home() {
     <>
       <Hero />
       <PremiumStatementBand />
+      <ProjectIntegration />
       <TechnologyEcosystem />
       <TrustV3 />
       <BuyingTimeline />

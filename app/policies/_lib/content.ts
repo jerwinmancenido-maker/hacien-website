@@ -18,6 +18,11 @@ const privacyGateDate = "November 9, 2026";
  *  changed, so it carries its own date like the v2.5 update. */
 const privacyChatTabDate = "November 9, 2026";
 
+/** Effective date of the Privacy Policy v2.7 update (order texts,
+ *  retention, rights; owner-approved 2026-11-10). Only the Privacy
+ *  Policy changed, so it carries its own date like the v2.6 update. */
+const privacyV27Date = "November 10, 2026";
+
 function p(text: string): LegalBlock {
   return { kind: "p", text };
 }
@@ -67,7 +72,7 @@ export const policiesPage: LegalPageModel = {
           "Manufacturer or supplier warranty, and how to make a claim",
           "v1.1",
         ],
-        ["[Privacy Policy](/privacy)", "What personal data we keep, why, and your rights", "v2.6"],
+        ["[Privacy Policy](/privacy)", "What personal data we keep, why, and your rights", "v2.7"],
         ["[Website Terms of Use](/terms)", "Rules for using haciensolutions.com", "v2.1"],
         [
           "[Business and Legal Information](/legal)",
@@ -90,13 +95,13 @@ export const privacyPage: LegalPageModel = {
   title: "Privacy Policy",
   description:
     "We collect business and contact details to answer requests, prepare quotations, deliver orders, issue BIR documents and keep proper records.",
-  versionLine: `Version 2.6 · Effective ${privacyChatTabDate} · Replaces version 2.5 (effective November 9, 2026)`,
+  versionLine: `Version 2.7 · Effective ${privacyV27Date} · Replaces version 2.6 (effective ${privacyChatTabDate})`,
   historyLink: true,
   showContents: true,
   meta: [
-    { label: "Version", value: "2.6" },
-    { label: "Effective", value: privacyChatTabDate },
-    { label: "Replaces", value: "2.5 (November 9, 2026)" },
+    { label: "Version", value: "2.7" },
+    { label: "Effective", value: privacyV27Date },
+    { label: "Replaces", value: `2.6 (${privacyChatTabDate})` },
   ],
   intro: [],
   sections: [
@@ -107,8 +112,8 @@ export const privacyPage: LegalPageModel = {
           "We collect business and contact details to answer requests, prepare quotations, deliver orders, issue BIR documents and keep proper records.",
           "For customers and suppliers we also keep tax and registration papers, such as BIR Form 2303. **Only the Proprietor and authorized HACIEN staff can see them.**",
           "We share data only when needed: with suppliers and brands, couriers, government offices when the law requires, and the services that run our website, email, files and order texts.",
-          "We text order updates to the mobile number on your order. We never send promotional texts.",
-          "We send marketing emails only if you sign up for them, and you can unsubscribe in any email.",
+          'We text order updates (Order confirmed, Delivered, Payment received) from sender ID "Hacien ITS" to the contact mobile number on your order. These texts have no ads and no links. We never send promotional texts.',
+          "When offered, we send marketing emails (via Hostinger Reach) only if you opt in, and you can unsubscribe using the link in every email.",
           "Some of these services store data outside the Philippines. Our website and email are hosted by Hostinger in Singapore, and our staff app by Hostinger in Indonesia.",
           "With your consent, we use Google Analytics to see how visitors use our website. It stays off unless you click Accept in our cookie notice.",
           "Our website chat is assisted by AI (see section 9). A real person from HACIEN reviews every request that is submitted.",
@@ -182,13 +187,13 @@ export const privacyPage: LegalPageModel = {
             ],
             [
               "Order texts",
-              "Mobile number, order reference, order status, time sent, delivery result",
+              "Name and mobile number of the contact on the order, order reference, order status, time sent, delivery result",
               "Made by HACIEN for each order",
             ],
             [
               "Marketing email choices",
               "Email address, name, whether you signed up, when and how, unsubscribe date, and basic email activity such as delivery and unsubscribes",
-              "Customers and website visitors who sign up",
+              "Customers and website visitors who sign up (when offered)",
             ],
             [
               "Website and security data",
@@ -224,14 +229,14 @@ export const privacyPage: LegalPageModel = {
               "Needed for the contract (RA 10173 Sec. 12(b)), and to protect lawful rights and claims (Sec. 13(f))",
             ],
             [
-              "Issue BIR invoices, handle Form 2307, keep tax books for 10 years",
+              "Issue BIR invoices, handle Form 2307, and keep tax and contract records",
               "TINs, BIR Forms 2303 and 2307, transaction records",
-              "Legal obligation under the Tax Code and the Ease of Paying Taxes (EOPT) Act (Sec. 12(c), 13(b))",
+              "Legal obligation under the Tax Code, as amended by the Ease of Paying Taxes (EOPT) Act (RA 11976) (Sec. 12(c), 13(b)), and to protect lawful rights and claims (Sec. 13(f))",
             ],
             [
               "Accredit customers, check credit, confirm who receives a delivery or pick-up",
               "DTI/SEC papers, Mayor's Permit, PhilGEPS details, receiver's name and signature, and a sight-check of a company or valid ID for high-value deliveries or pick-ups (not copied or kept)",
-              "Steps before a contract and our legitimate interest (Sec. 12(b), 12(f)). For sensitive personal information: your explicit consent, and protecting legal claims (Sec. 13(a), 13(f))",
+              "Steps before a contract and our legitimate interest (RA 10173 Sec. 12(b), 12(f)), and protecting lawful rights and claims (Sec. 13(f))",
             ],
             [
               "Share end-user details with brands and distributors for project pricing, deal registration, licensing and warranty",
@@ -244,12 +249,12 @@ export const privacyPage: LegalPageModel = {
               "Legitimate interest (Sec. 12(f)). You can ask us to stop at any time.",
             ],
             [
-              'Send order-status texts (order confirmed, ready, out for delivery, delivered) from sender name "HACIEN"',
-              "Mobile number, order reference and status",
-              "Needed for the contract (Sec. 12(b)). These texts are about your order only. We do not send promotional or marketing texts.",
+              'Send order-status texts (Order confirmed, Delivered, Payment received) from sender ID "Hacien ITS" to the buyer or named receiver (as applicable)',
+              "Name, mobile number, order reference and status",
+              "Needed for the contract with the buyer (RA 10173 Sec. 12(b)) and our legitimate interest in coordinating order delivery with the buyer's named receiver (Sec. 12(f)). Texts are for order status only and contain no ads and no links. Anyone who receives a text in error or wishes to remove their number may email privacy@haciensolutions.com.",
             ],
             [
-              "Send bulk marketing emails, such as new products, offers and newsletters",
+              "Send marketing emails (such as product updates, offers and newsletters) via Hostinger Reach, when offered and if you opt in",
               "Email address, name, company",
               "Your consent (Sec. 12(a)). We ask with a separate checkbox that is **not ticked** for you. Every marketing email has an unsubscribe link.",
             ],
@@ -263,10 +268,11 @@ export const privacyPage: LegalPageModel = {
               "Work email address, chat messages, and agreement timestamp/version",
               "Needed to take steps at your request before a contract (RA 10173 Sec. 12(b)) and our legitimate interest in answering B2B inquiries and keeping the chat secure (Sec. 12(f)). Ticking the box before starting the chat records your agreement to our Terms of Use and confirms that you were shown this Privacy Policy (Sec. 16(a)).",
             ],
-            ["Keep the website and the chat secure", "Website and security data", "Legitimate interest"],
+            ["Keep the website and the chat secure", "Website and security data", "Legitimate interest (Sec. 12(f))"],
           ],
         },
-        p("**Marketing email is your choice.** Saying no, or unsubscribing later, does not affect your quotation or order. You will still get the order texts and emails needed to complete your order, and the BIR documents we must issue. Unsubscribing stops bulk marketing emails immediately when you click the unsubscribe link in any marketing email, or within 3 business days if you request it by emailing privacy@haciensolutions.com."),
+        p("Order texts go to the contact mobile number on the order. If you give us another person's mobile number (for example, a receiver at your site), please make sure they know they may get these texts. They can ask us to stop at any time by emailing privacy@haciensolutions.com."),
+        p("**Marketing email is your choice.** Saying no, or unsubscribing later, does not affect your quotation or order. You will still get the order texts and emails needed to complete your order, and the BIR documents we must issue. Unsubscribing stops marketing emails immediately when you click the unsubscribe link in any marketing email, or within 3 business days if you request it by emailing privacy@haciensolutions.com."),
       ],
     },
     {
@@ -315,18 +321,18 @@ export const privacyPage: LegalPageModel = {
               "As required",
             ],
             [
-              "Service providers that store or process our data",
-              "To run our website, email, files, messages, order texts and marketing email (section 8)",
+              "Cloud, email, messaging and analytics providers listed in section 8 (Hostinger, Google, Apple iCloud, Viber)",
+              "To run our website, email, files, messages and website statistics (section 8)",
               "Data stored in or passing through their systems",
             ],
             [
               "UniSMS (Unisoft Ventures Corporation) or a similar Philippine SMS gateway provider",
               "To send order-status texts",
-              "Mobile number and text content (order reference and status)",
+              "Mobile number and text content (contact first name, order reference and status)",
             ],
             [
               "Hostinger (Hostinger Reach)",
-              "To send marketing emails to people who signed up",
+              "To send marketing emails to people who opted in (when offered)",
               "Email address, name, company, sign-up and unsubscribe records",
             ],
             [
@@ -375,7 +381,7 @@ export const privacyPage: LegalPageModel = {
               "UniSMS (Philippines) and its cloud hosting and Philippine telecommunications network providers",
             ],
             [
-              "Hostinger Reach",
+              "Hostinger Reach (when offered)",
               "Marketing email list and sending",
               "Hostinger and its cloud service providers, which may be located outside the Philippines",
             ],
@@ -419,31 +425,35 @@ export const privacyPage: LegalPageModel = {
           rows: [
             [
               "Inquiries and RFQs that did not become orders",
-              "10 years (or until HACIEN closes)",
+              "2 years from your last contact with us (or sooner if you ask us to delete it)",
               "Follow-up and repeat requests",
             ],
             [
               "Customer and supplier records, quotations, POs, DRs, Sales Invoices, Collection Receipts, payment records, Form 2307",
-              "10 years",
-              "Tax and accounting rules",
+              "At least 5 years, and up to 10 years",
+              "BIR tax rules (5 years under NIRC Sec. 235 as amended by the EOPT Act, RA 11976, and up to 10 years under NIRC Sec. 222 and Civil Code Art. 1144 for written contracts and legal claims)",
             ],
             [
               "BIR Form 2303, DTI/SEC papers, permits",
-              "10 years",
-              "Invoicing and tax compliance",
+              "At least 5 years, and up to 10 years",
+              "Invoicing and tax compliance (same BIR tax rules as the row above)",
             ],
-            ["Warranty claim records", "10 years", "Handling the claim"],
+            [
+              "Warranty claim records",
+              "For the warranty period plus 2 years (or up to 10 years where part of a tax invoice, credit note or refund record)",
+              "Handling the claim and tax/contract rules",
+            ],
             ["Website security logs and bot-check data", "90 days to 1 year", "Security"],
             ["Google Analytics data (only if you accept)", "2 months", "Website statistics"],
             [
               "Order-text logs (number, status sent, delivery result)",
-              "1 year in SMS gateway logs for delivery support; up to 10 years where order status forms part of the main order record",
+              "1 year in SMS gateway logs for delivery support; where order status forms part of the main order record, as long as that order record is kept (see above)",
               "Proof of delivery notices, customer support, and BIR record-keeping rules",
             ],
             [
               "Marketing email sign-up and unsubscribe records",
-              "While you are subscribed, plus 4 years after you unsubscribe (we also keep a minimal suppression record so we do not email you again)",
-              "Proof of consent and legal compliance (Civil Code Art. 1146)",
+              "While you are subscribed, plus up to 4 years after you unsubscribe (we also keep a minimal suppression record so we do not email you again, unless you ask us to erase it completely)",
+              "Proof of consent and to defend against legal or regulatory claims",
             ],
             [
               "Marketing email list entry",
@@ -469,7 +479,7 @@ export const privacyPage: LegalPageModel = {
           "Two-step login on our accounts;",
           "Regular backups;",
           "Paper files kept in a locked cabinet;",
-          "Access to tax papers and IDs limited to the Proprietor and authorized HACIEN staff;",
+          "Access to tax papers limited to the Proprietor and authorized HACIEN staff;",
           "Written confidentiality rules for all HACIEN staff.",
         ]),
         p("No system is perfectly safe, but we work to protect your data and act fast if something goes wrong."),
@@ -482,21 +492,22 @@ export const privacyPage: LegalPageModel = {
         ul([
           "**be informed** about how your data is used;",
           "**access** your data and get a copy;",
-          "**object** to processing, including sales messages;",
+          "**object** to processing, including direct sales messages, automated decision-making, or profiling;",
           "**withdraw your consent** to marketing emails at any time, using the unsubscribe link in any email or by emailing privacy@haciensolutions.com. This does not affect order texts and emails needed for your order;",
           "**correct** wrong or outdated data;",
-          "**have data deleted or blocked** when it is no longer needed, unless the law (such as BIR rules) requires us to keep it (for example, tax records we must keep for 10 years);",
+          "**have data deleted or blocked** when it is no longer needed, unless the law (such as BIR rules) requires us to keep it (for example, tax records we must keep for at least 5 years, and up to 10 years — see section 10);",
           "**data portability**, where it applies;",
           "**claim damages** if you are harmed by wrong or unlawful use of your data;",
           "**complain** to the National Privacy Commission.",
         ]),
+        p("If you are incapacitated or deceased, your lawful heirs or assigns may exercise these rights on your behalf (RA 10173 Sec. 17)."),
         p("**How to make a privacy request:**"),
         ul([
           "Email **privacy@haciensolutions.com**, addressed to The Proprietor (Data Protection Officer); or",
           'Message us through the chat on the [Contact page](/contact) and say it is a **privacy request**; or',
           "Write to The Proprietor at the office address in section 1.",
         ]),
-        p("We may ask you to prove who you are before acting on a request. We will confirm we received your request within **5 business days** and resolve it within **15 to 30 days**, depending on the request."),
+        p("We may ask you to prove who you are before acting on a request. We will confirm we received your request within **5 business days** and resolve it within **15 business days** (or up to **30 business days** for complex requests, in which case we will tell you why)."),
       ],
     },
     {
@@ -1034,7 +1045,7 @@ export const policyHistoryPage: LegalPageModel = {
       rows: [
         ["[Terms of Sale](/terms-of-sale)", "v1.2", published],
         ["[Warranty and Returns](/warranty)", "v1.1", published],
-        ["[Privacy Policy](/privacy)", "v2.6", privacyChatTabDate],
+        ["[Privacy Policy](/privacy)", "v2.7", privacyV27Date],
         ["[Website Terms of Use](/terms)", "v2.1", aiChatPublishDate],
         ["[Business and Legal Information](/legal)", "v2.0", published],
         ["[HACIEN Policies](/policies)", "v1.0", published],
@@ -1052,6 +1063,7 @@ export const policyHistoryPage: LegalPageModel = {
             ["Terms of Sale", "v1.1", "November 2, 2026"],
             ["Terms of Sale", "v1.0", "November 2, 2026"],
             ["Warranty and Returns", "v1.0", "November 2, 2026"],
+            ["Privacy Policy", "v2.6", privacyChatTabDate],
             ["Privacy Policy", "v2.5", privacyGateDate],
             ["Privacy Policy", "v2.4", "November 8, 2026"],
             ["Privacy Policy", "v2.3", "November 2, 2026"],
@@ -1075,6 +1087,10 @@ export const policyHistoryPage: LegalPageModel = {
         p("**Warranty and Returns: changes from v1.0**"),
         ul([
           "Warranty and Returns v1.1: warranty drop-offs at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
+        ]),
+        p("**Privacy Policy: Changes from v2.6**"),
+        ul([
+          `Version 2.7 · Effective ${privacyV27Date} — Order texts now come from sender ID "Hacien ITS" and cover Order confirmed, Delivered and Payment received (no ads, no links), with an opt-out for anyone texted in error; marketing email described as opt-in when offered; tax record keeping restated as 5 years under the EOPT Act and up to 10 years for tax and contract claims; unconverted inquiries now kept 2 years and warranty records for the warranty period plus 2 years; clearer rights section (profiling, heirs, response times).`,
         ]),
         p("**Privacy Policy: Changes from v2.5**"),
         ul([

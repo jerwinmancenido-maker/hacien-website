@@ -14,6 +14,7 @@ import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { solutions } from "@/data/solutions";
 import { getSolutionsContent } from "@/lib/cms/content";
 import { getCmsMetadata } from "@/lib/cms/seo";
+import { ProjectIntegration } from "@/components/ProjectIntegration";
 
 export const metadata = getCmsMetadata("solutions");
 
@@ -68,6 +69,8 @@ export default function SolutionsPage() {
           </div>
         </div>
       </section>
+
+      <ProjectIntegration />
 
       <section className="bg-transparent py-12 lg:py-14">
         <div className="mx-auto grid max-w-7xl gap-8 px-4 sm:px-6 lg:grid-cols-[0.78fr_1.22fr] lg:items-start lg:px-8">

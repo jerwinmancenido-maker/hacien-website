@@ -15,42 +15,43 @@ const cmsSeoRecords: Record<CmsSeoKey, CmsSeoRecord> = {
   homepage: {
     key: "homepage",
     route: "/",
-    title: "What we supply",
+    title: "IT Supplier in Pasig",
     description:
-      "IT & Office Technology. Tools, Hardware Materials & General Merchandise (excluding products requiring special regulatory licenses such as FDA or DOH-LTO).",
+      "HACIEN is an IT supplier in Ortigas, Pasig for computers, networks, servers, CCTV, UPS, and licensed software. Quotations for Philippine businesses and government agencies. Excludes products that need an FDA or DOH-LTO license.",
   },
   about: {
     key: "about",
     route: "/about",
     title: "About",
     description:
-      "Based in Ortigas Center, Pasig City, HACIEN provides quotation-driven, multi-category procurement for Philippine businesses and government agencies.",
+      "HACIEN Information Technology Solutions in Ortigas Center, Pasig City: what the company supplies, how quotations work, and which registration papers are available on private request.",
   },
   solutions: {
     key: "solutions",
     route: "/solutions",
     title: "IT Solutions and Systems Integration Philippines",
     description:
-      "HACIEN provides IT infrastructure, systems integration, networking, cybersecurity, servers, storage, cloud, software licensing, managed IT, and project delivery support in the Philippines.",
+      "IT integration and supply in the Philippines: site survey, bill of quantities, installation, and quotation-ready infrastructure, network, security, and software work.",
   },
   industries: {
     key: "industries",
     route: "/industries",
-    title: "Industries Served",
+    title: "Government, Schools, and Business IT",
     description:
-      "Explore how HACIEN supports government, corporate & commercial, education, healthcare, and construction buyers with RFQ-first procurement.",
+      "How a PhilGEPS IT supplier in Pasig supports government agencies, schools, private offices, healthcare operations, and contractors. Requirements differ by buyer.",
   },
   faq: {
     key: "faq",
     route: "/faq",
-    title: "FAQ",
-    description: "Search HACIEN RFQ, payment, document, support, and tracking questions with evidence-safe answers.",
+    title: "IT Procurement Questions",
+    description:
+      "Answers on RFQs, computer and network specifications, UPS sizing, CCTV requests, PhilGEPS buyers, payment terms, and how to track a HACIEN quotation.",
   },
   help: {
     key: "help",
     route: "/help",
     title: "Help Center",
-    description: "HACIEN help center for RFQ preparation, request tracking, and prototype document parsing.",
+    description: "Prepare an IT quotation request: what to attach, what the website will not confirm, and where to track a reference.",
   },
 };
 

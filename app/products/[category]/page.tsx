@@ -5,6 +5,8 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { AnimatedSection } from "@/components/motion";
 import { ProductGrid } from "@/components/ProductGrid";
+import { CategoryGuide } from "@/components/CategoryGuide";
+import { getCategoryGuide } from "@/data/categoryGuides";
 import { categories, getCategory, getProductsByCategory } from "@/data/products";
 import { listErpCatalog } from "@/lib/erp/ecommerce-client";
 import { erpCatalogToWebsiteProducts } from "@/lib/erp/catalog-products";
@@ -28,7 +30,10 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const category = getCategory(categorySlug);
   return buildPageMetadata({
     title: category ? category.seoTitle.replace("Products", "Technology") : "Technology Category",
-    description: category?.heroCopy ?? category?.seoDescription ?? "Review HACIEN technology categories and request a quotation.",
+    description:
+      category?.seoDescription ??
+      category?.heroCopy ??
+      "Review a HACIEN technology category and request a quotation.",
     path: `/products/${categorySlug}`,
   });
 }
@@ -43,6 +48,7 @@ export default async function ProductCategoryPage({ params }: { params: Promise<
       ? erpProducts.filter((product) => product.categorySlug === category.slug)
       : getProductsByCategory(category.slug);
   const isErpCatalog = erpProducts.length > 0;
+  const guide = getCategoryGuide(category.slug);
 
   return (
     <>
@@ -55,6 +61,7 @@ export default async function ProductCategoryPage({ params }: { params: Promise<
             title={category.name}
             description={category.heroCopy}
           />
+          {guide ? <CategoryGuide guide={guide} categoryName={category.name} /> : null}
           {categoryProducts.length > 0 ? (
             <div className="mt-10">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">

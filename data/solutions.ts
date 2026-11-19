@@ -129,10 +129,12 @@ export const solutions: Solution[] = [
     title: "Systems Integration",
     shortTitle: "Integration",
     category: "Core",
-    summary: "Procurement-side coordination for an IT rollout: delivery sequencing, setup needs, and closeout documents.",
-    heroCopy: "HACIEN coordinates the procurement side of your rollout, so equipment, setup, and sign-off land in sequence.",
+    summary:
+      "A quoted project for a floor, a laboratory, or a building: site survey, bill of quantities, supply, installation, testing, turnover, and after-sales.",
+    heroCopy:
+      "HACIEN quotes IT integration as a sequence: survey the site, write the bill of quantities, supply, install, test, and turn the work over.",
     detail:
-      "HACIEN coordinates the procurement side of systems integration: equipment delivery in sequence, setup requirements, project documentation, and closeout. HACIEN supports implementation teams with procurement and logistics; it does not replace them.",
+      "When the request is a place rather than a single box, HACIEN carries the procurement and the site work that the quotation lists. The sequence is a site survey, a bill of quantities, supply, installation, testing, turnover, and after-sales on the same request. HACIEN does not replace the buyer's IT office or a building electrician. Work that is not written in the quotation is not part of the job.",
     outcomes: [
       "Endpoint deployment support",
       "Configuration coordination",
@@ -141,36 +143,36 @@ export const solutions: Solution[] = [
       "Closeout planning",
     ],
     workflow: [
-      { step: "Plan rollout", detail: "HACIEN confirms the sites, the phases, and the order of delivery." },
-      { step: "Prepare materials", detail: "HACIEN prepares the equipment and installation material lists." },
-      { step: "Review setup details", detail: "HACIEN checks setup requirements and delivery schedules against the plan." },
-      { step: "Document closeout", detail: "HACIEN prepares delivery acceptance documentation, serial number logs, and warranty registration support." },
+      { step: "Survey the site", detail: "HACIEN confirms rooms, counts, power, and pathways from a visit or from plans and photos." },
+      { step: "Write the quantities", detail: "HACIEN turns that survey into a bill of quantities with equipment, cable, and labor lines." },
+      { step: "Supply and install", detail: "HACIEN orders against the accepted quotation and installs only the lines that quotation includes." },
+      { step: "Test and turn over", detail: "HACIEN labels, tests, and hands over serials and warranty papers. After-sales stays on the same request." },
     ],
     sections: [
       {
         heading: "What this work covers",
-        body: "Delivery sequencing for single-site and multi-site rollouts, installation material lists, project status tracking, and closeout documents including acceptance records, serial number logs, and warranty registration support.",
+        body: "The quoted scope can include a site survey, a bill of quantities, supply of the equipment, installation, testing against that bill, turnover of serial numbers and warranty papers, and after-sales on the same request. Single-site and multi-site work are both accepted. Each site keeps its own quantities.",
       },
       {
         heading: "Typical situations",
-        body: "A phased deployment across several sites, or a single rollout where equipment, accessories, and documentation must arrive in the right order.",
+        body: "A laboratory or office floor that needs cable, switching, computers, and power together. A CCTV package that should not arrive before the switch that powers the cameras. A buyer who wants one party to survey, supply, and hand over.",
       },
       {
         heading: "What to send",
-        body: "The sites and phases, the equipment list, your target schedule, and any setup or sign-off requirements your team already has.",
+        body: "The sites, a plan or photos, the equipment you already know you want, and whether installation is included. If a government office has technical specifications, attach them. Say which lines allow an approved equivalent.",
       },
       {
         heading: "What HACIEN checks",
-        body: "HACIEN checks supplier delivery schedules against your rollout plan, that accessories are included with the equipment, and that acceptance documentation is prepared for sign-off. HACIEN supports implementation teams; it does not replace them.",
+        body: "HACIEN checks the bill of quantities against distributor availability, checks that accessories are on the same quotation as the equipment they serve, and prepares the acceptance list for turnover. Equivalents are offered only with your approval. HACIEN supports the buyer's team. It does not replace them.",
       },
     ],
     relatedSlugs: ["it-infrastructure", "managed-it-support", "project-delivery-support"],
     ctaLabel: "Discuss Your Integration Project",
     ctaUrl: "/contact",
     icon: "SYS",
-    seoTitle: "Systems Integration Support",
+    seoTitle: "IT Integration from Survey to Turnover",
     seoDescription:
-      "HACIEN coordinates procurement for systems integration rollouts: delivery sequencing, setup needs, and closeout documentation.",
+      "Site survey, bill of quantities, supply, installation, testing, and turnover for IT projects at Philippine offices, schools, and agencies.",
   },
   {
     slug: "managed-it-support",

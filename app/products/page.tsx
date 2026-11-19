@@ -16,7 +16,7 @@ import { erpCatalogToWebsiteProducts } from "@/lib/erp/catalog-products";
 export const metadata: Metadata = buildPageMetadata({
   title: "Products",
   description:
-    "Build one RFQ package with multiple technology requirements, optional brand preferences, and supporting details before sending it to HACIEN.",
+    "Browse IT categories for Philippine offices and agencies, then send one quotation request. Specifications, brands, and installation scope are confirmed in the quotation.",
   path: "/products",
 });
 
@@ -55,7 +55,7 @@ export default async function ProductsPage() {
       <PremiumPageHero
         eyebrow="Technology RFQ Builder"
         title="Tell us what you need."
-        description="Describe it in your own words, or attach a list. HACIEN checks suppliers and sends a quotation within 1 business day."
+        description="Describe the computers, network, power, cameras, or software in your own words, or attach a list. HACIEN checks distributors and sends a quotation within 1 business day. Category pages explain the specifications worth deciding first."
         image="workstation"
         primaryAction={{ href: "/quote", label: "Request a Quote" }}
         secondaryAction={{ href: "/technology", label: "Explore Technology" }}
@@ -96,7 +96,7 @@ export default async function ProductsPage() {
               Common categories HACIEN can discuss with customers.
             </h2>
             <p className="mt-4 max-w-3xl text-sm leading-7 text-slate-600">
-              These categories are examples of supported technology areas. They are not a complete catalog and do not limit what customers may request.
+              Each category explains what the equipment is, where Philippine offices, schools, and agencies use it, and which specifications change the quotation. The list is not a complete catalog, and it does not limit what you may request.
             </p>
           </AnimatedContent>
           <div className="mt-6 grid gap-3 md:mt-10 md:grid-cols-2 md:gap-5 lg:grid-cols-3">
@@ -122,7 +122,7 @@ export default async function ProductsPage() {
                     </div>
                     <div className="p-4 sm:p-6">
                       <h3 className="text-lg font-bold text-slate-950 group-hover:text-[#2563EB] sm:text-xl">{category.name}</h3>
-                      <p className="mt-2 line-clamp-2 text-sm leading-6 text-slate-600 sm:mt-3 sm:line-clamp-none">{category.summary}</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-600 sm:mt-3">{category.summary}</p>
                       <div className="mt-3 text-sm font-bold text-[#2563EB] sm:mt-5">See example details</div>
                     </div>
                   </SpotlightCard>

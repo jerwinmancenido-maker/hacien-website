@@ -74,7 +74,7 @@ export function FloatingChat({
         <div
           role="dialog"
           aria-label="Chat with the HACIEN team"
-          className={`${open ? "flex" : "hidden"} fixed inset-x-4 bottom-4 top-20 z-40 flex-col overflow-hidden rounded-3xl border border-grey-200 bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:top-auto sm:bottom-6 sm:min-h-[640px] sm:w-[660px] sm:max-h-[min(1280px,calc(100dvh-9rem))]`}
+          className={`${open ? "flex" : "hidden"} fixed inset-x-4 bottom-4 top-20 z-40 flex-col va-chat overflow-hidden rounded-3xl border border-grey-200 bg-white shadow-2xl sm:inset-x-auto sm:right-6 sm:top-auto sm:bottom-6 sm:min-h-[640px] sm:w-[660px] sm:max-h-[min(1280px,calc(100dvh-9rem))]`}
         >
           <button
             type="button"
@@ -106,7 +106,7 @@ export function FloatingChat({
           }}
           aria-label="Open chat with the HACIEN team"
           aria-expanded={open}
-          className="fixed right-6 bottom-6 z-40 grid h-14 w-14 cursor-pointer place-items-center rounded-full bg-blue text-white shadow-2xl hover:bg-blue-dark"
+          className="va-chat-launcher fixed right-6 bottom-6 z-40 grid h-14 w-14 cursor-pointer place-items-center rounded-full bg-blue text-white shadow-2xl hover:bg-blue-dark"
         >
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path
