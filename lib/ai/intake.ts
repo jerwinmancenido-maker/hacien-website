@@ -141,11 +141,23 @@ export function intakeReady(path: AiChatPath, fields: GuidedChatAnswers): boolea
   });
 }
 
-/** True when the reply is still asking the visitor something. Opening
- *  the summary on that turn replaces the composer, so the question
- *  (budget is the common case) can never be answered. */
+/** True when the reply's last non-empty sentence/line ends with a
+ *  question mark — opening the summary on that turn replaces the
+ *  composer, so the question (budget is the common case) can never be
+ *  answered. '?' inside URLs and earlier sentences do not count. */
 export function replyAsksVisitor(reply: string): boolean {
-  return reply.includes("?");
+  const withoutUrls = reply.replace(/https?:\/\/\S+/gi, " ");
+  const units = withoutUrls.split(/\n+|(?<=[.!?])\s+/);
+  let last = "";
+  for (const unit of units) {
+    const trimmed = unit.trim();
+    if (trimmed) last = trimmed;
+  }
+  if (!last) return false;
+  const cleaned = last
+    .replace(/(?:["'`“”‘’«»„‟]|\p{Extended_Pictographic}|\uFE0F|\u200D|\s)+$/gu, "")
+    .trim();
+  return cleaned.endsWith("?");
 }
 
 export type AiChatTurn = {

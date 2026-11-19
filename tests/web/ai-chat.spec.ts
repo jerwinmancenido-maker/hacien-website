@@ -414,7 +414,14 @@ describe("AI intake sanitization", () => {
 
   it("holds the summary when the reply still asks a question (budget must wait for an answer)", () => {
     expect(replyAsksVisitor("Is there a budget range we should work within?")).toBe(true);
+    expect(replyAsksVisitor("Noted. Is there a budget range?")).toBe(true);
     expect(replyAsksVisitor("Here's what I'll send — please check it:")).toBe(false);
+    // Query-string '?' must not hold the summary when the reply ends as a statement.
+    expect(
+      replyAsksVisitor("See https://haciensolutions.com/track?ref=HAC-1 for tracking. We're ready to send."),
+    ).toBe(false);
+    // A mid-reply question followed by a closing statement opens the summary.
+    expect(replyAsksVisitor("Is there a budget range? Here's what I'll send.")).toBe(false);
 
     const quoteFields = {
       need: "20 laptops",
