@@ -411,11 +411,15 @@ export function AiChat({
   const scrollThreadToBottom = useCallback(() => {
     const node = bottomRef.current;
     if (!node) return;
+    const reducedMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const behavior: ScrollBehavior = reducedMotion ? "auto" : "smooth";
     const container = node.closest<HTMLElement>("[data-chat-scroll]");
     if (container) {
-      container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
+      container.scrollTo({ top: container.scrollHeight, behavior });
     } else if (typeof node.scrollIntoView === "function") {
-      node.scrollIntoView({ behavior: "smooth", block: "end" });
+      node.scrollIntoView({ behavior, block: "end" });
     }
   }, []);
   useEffect(() => {
@@ -425,6 +429,30 @@ export function AiChat({
     if (!started) return;
     scrollThreadToBottom();
   }, [messages, sending, readyToReview, submitStatus, notice, companyLookup, started, scrollThreadToBottom]);
+
+  // Product cards and choice boxes mount only after the typewriter
+  // finishes, so the scroll above often runs against short text and
+  // leaves the taller chrome under the composer. Re-scroll once that
+  // chrome has laid out; plain-text replies stay on the effect above.
+  const hasTallReplyChrome =
+    typingIndex < 0 &&
+    ((lastMessage?.role === "assistant" && Boolean(lastMessage.cards?.length)) ||
+      showNeedChoices ||
+      showDocChoices ||
+      showPathChoices ||
+      showCallbackChoices ||
+      showUnlistedUpload);
+  useEffect(() => {
+    if (!started || !hasTallReplyChrome) return;
+    const content = bottomRef.current?.parentElement;
+    scrollThreadToBottom();
+    if (!content || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(() => {
+      scrollThreadToBottom();
+    });
+    observer.observe(content);
+    return () => observer.disconnect();
+  }, [started, hasTallReplyChrome, messages, typingIndex, scrollThreadToBottom]);
 
   // Restore a stored thread once, on mount. The read is synchronous
   // and unlocks saving before it returns, so the empty initial state

@@ -141,6 +141,13 @@ export function intakeReady(path: AiChatPath, fields: GuidedChatAnswers): boolea
   });
 }
 
+/** True when the reply is still asking the visitor something. Opening
+ *  the summary on that turn replaces the composer, so the question
+ *  (budget is the common case) can never be answered. */
+export function replyAsksVisitor(reply: string): boolean {
+  return reply.includes("?");
+}
+
 export type AiChatTurn = {
   reply: string;
   path: AiChatPath | null;
@@ -160,11 +167,13 @@ function turnFromRecord(record: Record<string, unknown>): AiChatTurn | null {
   if (!reply) return null;
   const path = isAiChatPath(record.path) ? record.path : null;
   const fields = path ? sanitizeIntakeFields(path, record.fields) : {};
+  const ready =
+    path && intakeReady(path, fields) && !replyAsksVisitor(reply);
   return {
     reply: reply.slice(0, MAX_REPLY_LENGTH),
     path,
     fields,
-    readyToReview: path ? intakeReady(path, fields) : false,
+    readyToReview: Boolean(ready),
     cards: [],
     productRefs: sanitizeProductRefs(record.products),
     inputHint: sanitizeInputHint(record.inputHint),
