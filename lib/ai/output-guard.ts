@@ -37,11 +37,23 @@ export const AI_SAFE_REPLY =
   "I don't want to give you the wrong information on that — a member of the HACIEN team will confirm it when they reply. If you'd like, tell me what you need and I'll prepare your request for them.";
 
 /** Returns the reply unchanged when it is clean, or the safe wording
- *  when it states a price, a discount, a promise, or a delivery time.
+ *  when it states a price, a discount, a promise, or a delivery time,
+ *  or when it leaks the assistant's own instructions.
  *  Delivery-time patterns are checked per sentence, skipping sentences
  *  about replies — "you'll receive a reply within 1 business day" is an
  *  approved fact, not a delivery claim. */
-const PROMPT_LEAK_PATTERNS = [/CURRENT INTAKE STATE/, /MATCHES FROM THE SITE/, /QUOTE LEAD missing/, /chat_turn/];
+const PROMPT_LEAK_PATTERNS = [
+  /CURRENT INTAKE STATE/,
+  /MATCHES FROM THE SITE/,
+  /QUOTE LEAD missing/,
+  /chat_turn/,
+  // Instruction-leak family (ported from PR #82): phrases that appear
+  // when the assistant talks about its own rules instead of the request.
+  /system prompt/i,
+  /\bmy instructions (say|tell|require|are)\b/i,
+  /output guard/i,
+  /knowledge sheet/i,
+];
 
 export function screenAiReply(reply: string): { text: string; flagged: boolean } {
   if (PROMPT_LEAK_PATTERNS.some((pattern) => pattern.test(reply))) {
