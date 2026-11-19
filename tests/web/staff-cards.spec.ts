@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
+import { NextRequest } from "next/server";
 
 import { getStaffCard, staffCardVcfFilename } from "@/data/staffCards";
 import { buildVCard } from "@/lib/vcard";
+import { middleware } from "@/middleware";
 
 describe("staff cards data", () => {
   it("resolves Jerwin's printed-card ID", () => {
@@ -10,6 +12,18 @@ describe("staff cards data", () => {
     expect(card?.fullName).toBe("Jerwin P. Mancenido");
     expect(card?.title).toBe("General Manager");
     expect(card?.mobileIntl).toBe("+639681171158");
+  });
+
+  it("redirects uppercase QR paths /C/:id to the canonical /c/:id card route", () => {
+    const response = middleware(
+      new NextRequest("https://haciensolutions.com/C/2611001"),
+    );
+    expect(response.status).toBe(308);
+    expect(response.headers.get("location")).toBe(
+      "https://haciensolutions.com/c/2611001",
+    );
+    // After the redirect lands, the same ID still resolves to the card.
+    expect(getStaffCard("2611001")?.id).toBe("2611001");
   });
 
   it("returns null for an unknown card ID", () => {
