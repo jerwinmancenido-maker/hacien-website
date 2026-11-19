@@ -144,20 +144,22 @@ export function intakeReady(path: AiChatPath, fields: GuidedChatAnswers): boolea
 /** True when the reply's last non-empty sentence/line ends with a
  *  question mark — opening the summary on that turn replaces the
  *  composer, so the question (budget is the common case) can never be
- *  answered. '?' inside URLs and earlier sentences do not count. */
+ *  answered. '?' inside URLs and earlier sentences do not count.
+ *  Trailing quotes / emoji / whitespace are stripped before the last
+ *  unit is chosen so "? 😊" still counts as a question. */
 export function replyAsksVisitor(reply: string): boolean {
   const withoutUrls = reply.replace(/https?:\/\/\S+/gi, " ");
-  const units = withoutUrls.split(/\n+|(?<=[.!?])\s+/);
+  const withoutTrailing = withoutUrls
+    .replace(/(?:["'`“”‘’«»„‟]|\p{Extended_Pictographic}|\uFE0F|\u200D|\s)+$/gu, "")
+    .trim();
+  if (!withoutTrailing) return false;
+  const units = withoutTrailing.split(/\n+|(?<=[.!?])\s+/);
   let last = "";
   for (const unit of units) {
     const trimmed = unit.trim();
     if (trimmed) last = trimmed;
   }
-  if (!last) return false;
-  const cleaned = last
-    .replace(/(?:["'`“”‘’«»„‟]|\p{Extended_Pictographic}|\uFE0F|\u200D|\s)+$/gu, "")
-    .trim();
-  return cleaned.endsWith("?");
+  return last.endsWith("?");
 }
 
 export type AiChatTurn = {

@@ -419,6 +419,10 @@ describe("AI intake sanitization", () => {
   it("holds the summary when the reply still asks a question (budget must wait for an answer)", () => {
     expect(replyAsksVisitor("Is there a budget range we should work within?")).toBe(true);
     expect(replyAsksVisitor("Noted. Is there a budget range?")).toBe(true);
+    // Trailing emoji after '?' must not become the last unit and clear the hold.
+    expect(replyAsksVisitor("Is there a budget range? 😊")).toBe(true);
+    expect(replyAsksVisitor("Is there a budget range? 🙂")).toBe(true);
+    expect(replyAsksVisitor("Is there a budget range? 👍")).toBe(true);
     expect(replyAsksVisitor("Here's what I'll send — please check it:")).toBe(false);
     // Query-string '?' must not hold the summary when the reply ends as a statement.
     expect(
@@ -445,6 +449,14 @@ describe("AI intake sanitization", () => {
       readyToReview: true,
     });
     expect(asking?.readyToReview).toBe(false);
+
+    const askingWithEmoji = parseAiChatTurn({
+      reply: "Is there a budget range? 😊",
+      path: "quote",
+      fields: quoteFields,
+      readyToReview: true,
+    });
+    expect(askingWithEmoji?.readyToReview).toBe(false);
 
     const answered = parseAiChatTurn({
       reply: "Noted — under PHP 500,000. Here's what I'll send.",
