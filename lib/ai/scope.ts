@@ -16,26 +16,30 @@ export type ScopeDecision = "in-scope" | "off-topic" | "injection";
 const INJECTION = [
   // Instruction targets only — a bare "prompt" after ask/print/ignore
   // must not catch RFQ "prompt payment" / "prompt delivery" (Bugbot
-  // High, PR #88 at 4027aba). Match system prompt, your/the prompt,
-  // or previous/above instructions|rules|prompt.
+  // High, PR #88 at 4027aba). Match system prompt, your/the prompt
+  // (not followed by payment|delivery), or previous/above
+  // instructions|rules|prompt.
   /ignore\s+(all\s+|your\s+|the\s+)?((previous|prior|above)\s+)?(instructions|rules)\b/i,
   /ignore\s+(all\s+|your\s+|the\s+)?(previous|prior|above)\s+prompt\b/i,
   /ignore\s+(your\s+|the\s+)?system\s+prompt\b/i,
-  /ignore\s+your\s+prompt\b/i,
-  /disregard\s+(your\s+|the\s+)?(instructions|rules)\b/i,
+  /ignore\s+your\s+prompt\b(?!\s+(payment|delivery))/i,
+  /disregard\s+(your\s+|the\s+)?((previous|prior|above)\s+)?(instructions|rules)\b/i,
   /disregard\s+(your\s+|the\s+)?system\s+prompt\b/i,
-  /disregard\s+your\s+prompt\b/i,
+  /disregard\s+your\s+prompt\b(?!\s+(payment|delivery))/i,
   /reveal\s+((your|the)\s+)?system\s+prompt\b/i,
-  /reveal\s+(your|the)\s+prompt\b/i,
+  /reveal\s+(your|the)\s+prompt\b(?!\s+(payment|delivery))/i,
   /(show|print|repeat|dump)\s+(me\s+)?((your|the)\s+)?system\s+prompt\b/i,
-  /(show|print|repeat|dump)\s+(me\s+)?(your|the)\s+prompt\b/i,
+  /(show|print|repeat|dump)\s+(me\s+)?(your|the)\s+prompt\b(?!\s+(payment|delivery))/i,
+  // "print your instructions" is injection; printing product install
+  // instructions for an RFQ is not.
+  /(show|print|repeat|dump)\s+(me\s+)?your\s+(instructions|rules)\b/i,
   // Ask/tell for the system prompt is injection; a bid-form line that
   // merely mentions "system prompt" is not (Bugbot Medium, PR #88 at
   // cdaa1d4). Output guard remains the leak screen for echoed state.
   /\b(tell|ask)\s+(me\s+|us\s+)?(for\s+)?((your|the)\s+)?system\s+prompt\b/i,
-  /\b(tell|ask)\s+(me\s+|us\s+)?(for\s+)?(your|the)\s+prompt\b/i,
+  /\b(tell|ask)\s+(me\s+|us\s+)?(for\s+)?(your|the)\s+prompt\b(?!\s+(payment|delivery))/i,
   /\bwhat\s+(is|'s|are)\s+((your|the)\s+)?system\s+prompt\b/i,
-  /\bwhat\s+(is|'s|are)\s+(your|the)\s+prompt\b/i,
+  /\bwhat\s+(is|'s|are)\s+(your|the)\s+prompt\b(?!\s+(payment|delivery))/i,
   // Persona takeover only: "you are now a/the/my …", a named persona,
   // or a mode switch. Ordinary procurement phrasing ("you are now
   // requested to submit a quotation") is not an injection.
