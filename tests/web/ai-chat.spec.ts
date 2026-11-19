@@ -121,6 +121,10 @@ describe("AI chat panel wiring", () => {
     expect(ai).toContain("hasTallReplyChrome");
     expect(ai).toContain("ResizeObserver");
     expect(ai).toContain("observer.observe(content)");
+    // One-shot: disconnect after the layout settle scroll so a visitor
+    // who scrolled up is not yanked back on later reflows.
+    expect(ai).toContain("observer.disconnect()");
+    expect(ai).toMatch(/scrollThreadToBottom\(\);\s*observer\.disconnect\(\);/);
     // Plain-text replies keep the original messages-driven scroll only;
     // the tall-chrome observer is gated and does not replace it.
     expect(ai).toContain("if (!started || !hasTallReplyChrome) return;");

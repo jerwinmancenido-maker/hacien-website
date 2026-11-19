@@ -433,7 +433,9 @@ export function AiChat({
   // Product cards and choice boxes mount only after the typewriter
   // finishes, so the scroll above often runs against short text and
   // leaves the taller chrome under the composer. Re-scroll once that
-  // chrome has laid out; plain-text replies stay on the effect above.
+  // chrome has laid out, then disconnect — a lasting observer would
+  // yank a visitor who scrolled up to re-read. Plain-text replies stay
+  // on the effect above.
   const hasTallReplyChrome =
     typingIndex < 0 &&
     ((lastMessage?.role === "assistant" && Boolean(lastMessage.cards?.length)) ||
@@ -449,6 +451,7 @@ export function AiChat({
     if (!content || typeof ResizeObserver === "undefined") return;
     const observer = new ResizeObserver(() => {
       scrollThreadToBottom();
+      observer.disconnect();
     });
     observer.observe(content);
     return () => observer.disconnect();
