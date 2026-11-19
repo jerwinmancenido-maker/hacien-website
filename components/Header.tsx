@@ -64,6 +64,9 @@ export function Header() {
     return pathname === href || pathname.startsWith(`${href}/`);
   }
 
+  // Staff contact cards (/c/:id) are standalone one-screen pages.
+  if (pathname?.startsWith("/c/")) return null;
+
   return (
     <header
       className={`sticky top-0 z-50 border-b border-grey-200 bg-white transition-shadow duration-300 ${
