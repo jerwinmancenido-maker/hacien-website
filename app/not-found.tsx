@@ -1,12 +1,35 @@
 import Link from "next/link";
-import { BrandLogo } from "@/components/BrandLogo";
 
 export default function NotFoundPage() {
   return (
     <section className="motion-slide-up flex min-h-[65vh] items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="surface mx-auto max-w-2xl rounded p-8 text-center sm:p-12">
         <div className="mx-auto flex flex-col items-center gap-4">
-          <BrandLogo variant="icon" height={56} />
+          {/*
+            Inline SVG (same paths as /brand/icon.svg) instead of BrandLogo <img>.
+            Next 16 preloads <img> assets from the root notFound slot on every
+            route via Flight :HL links; /brand/icon.svg was then unused on real
+            pages and triggered the console preload warning. Favicons stay on
+            metadata.icons / file-convention icons.
+          */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 240 240"
+            width={56}
+            height={56}
+            className="block"
+            aria-hidden="true"
+          >
+            <title>HACIEN</title>
+            <rect width="240" height="240" fill="#FFFFFF" />
+            <g transform="translate(-97.0 51.5)">
+              <path
+                fill="#0A0A0A"
+                d="M147 140L217.0 -3L287 140H242.465L217.0 87.979L191.535 140z"
+              />
+              <rect x="207.0" y="120" width="20" height="20" fill="#2563EB" />
+            </g>
+          </svg>
           <span className="inline-flex items-center rounded border border-grey-200 bg-grey-50 px-3.5 py-1 text-xs font-semibold text-grey-700">
             Error Code 404
           </span>
