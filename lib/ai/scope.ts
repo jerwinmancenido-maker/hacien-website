@@ -18,39 +18,14 @@ export const SCOPE_CLARIFY =
 
 export type ScopeDecision = "in-scope" | "off-topic" | "injection" | "clarify";
 
-/** Shared RFQ-safe negation before ignore/disregard of instructions|rules.
- *  Covers common English and Tagalog negations; "not" may sit up to two
- *  words before the verb ("must not ever ignore") (Bugbot Medium at da710aa). */
-const NEGATION_BEFORE_IGNORE_DISREGARD =
-  /\b(?:not|never|no|cannot|can'?t|can\s+not|mustn'?t|shouldn'?t|won'?t|don'?t|dont|do\s+not|shall\s+not|must\s+not|should\s+not|huwag|wag)\b(?:\s+\S+){0,2}\s*$/i;
-
-/** ignore|disregard … instructions|rules — matched separately so the
- *  shared negation check applies to every variant (bare, your/my,
- *  previous/above, all). */
-const IGNORE_OR_DISREGARD_INSTRUCTIONS =
-  /\b(ignore|disregard)\s+(?:all\s+)?(?:(?:your|my|the)\s+)?(?:(?:previous|prior|above)\s+)?(instructions|rules)\b/gi;
-
-function isNegatedIgnoreOrDisregardPrefix(prefix: string): boolean {
-  return NEGATION_BEFORE_IGNORE_DISREGARD.test(prefix);
-}
-
-function hasUnnegatedIgnoreOrDisregardInstructions(text: string): boolean {
-  for (const match of text.matchAll(IGNORE_OR_DISREGARD_INSTRUCTIONS)) {
-    if (!isNegatedIgnoreOrDisregardPrefix(text.slice(0, match.index ?? 0))) return true;
-  }
-  return false;
-}
-
 const INJECTION = [
   // Instruction targets only — RFQ "prompt payment" / "prompt delivery"
-  // must not match (Bugbot High, PR #88 at 4027aba). ignore/disregard of
-  // instructions|rules is handled in isInjectionText via the shared
-  // negation check above. Bare "the prompt" / "prompt" still catches
-  // jailbreaks like "ignore the prompt" / "reveal prompt".
-  /ignore\s+(your\s+|the\s+)?system\s+prompt\b/i,
-  /disregard\s+(your\s+|the\s+)?system\s+prompt\b/i,
-  /ignore\s+(your\s+|the\s+)?prompt\b(?!\s+(payment|delivery))/i,
-  /disregard\s+(your\s+|the\s+)?prompt\b(?!\s+(payment|delivery))/i,
+  // must not match (Bugbot High, PR #88 at 4027aba). Any ignore/disregard
+  // of instructions|rules|prompt|directions is injection with no
+  // negation carve-out (owner, 2026-11-21 — Bugbot High at 2512683).
+  /\b(ignore|disregard)\s+(?:all\s+)?(?:(?:your|my|the)\s+)?(?:(?:previous|prior|above)\s+)?(instructions|rules|directions)\b/i,
+  /\b(ignore|disregard)\s+(?:all\s+)?(?:(?:your|my|the)\s+)?(?:(?:previous|prior|above)\s+)?system\s+prompt\b/i,
+  /\b(ignore|disregard)\s+(?:all\s+)?(?:(?:your|my|the)\s+)?(?:(?:previous|prior|above)\s+)?prompt\b(?!\s+(payment|delivery))/i,
   /reveal\s+((your|the)\s+)?system\s+prompt\b/i,
   /reveal\s+(your\s+|the\s+)?prompt\b(?!\s+(payment|delivery))/i,
   /(show|print|repeat|dump)\s+(me\s+)?((your|the)\s+)?system\s+prompt\b/i,
@@ -228,7 +203,6 @@ function productAnchors(): string[] {
 }
 
 export function isInjectionText(text: string): boolean {
-  if (hasUnnegatedIgnoreOrDisregardInstructions(text)) return true;
   return INJECTION.some((pattern) => pattern.test(text));
 }
 
