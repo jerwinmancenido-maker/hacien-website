@@ -139,7 +139,8 @@ const nextConfig: NextConfig = {
     }
 
     // Match root layout `export const revalidate = 300` so CDN/edge does not
-    // hold /products or /c/* longer than ISR (cap stale-while-revalidate too).
+    // hold /products or staff card HTML longer than ISR (cap SWR too).
+    // /c/:id is single-segment only — do not override /c/:id/vcf (max-age=3600).
     const isrAlignedCacheControl = "public, s-maxage=300, stale-while-revalidate=300";
 
     return [
@@ -159,7 +160,7 @@ const nextConfig: NextConfig = {
         headers: [{ key: "Cache-Control", value: isrAlignedCacheControl }],
       },
       {
-        source: "/c/:path*",
+        source: "/c/:id",
         headers: [{ key: "Cache-Control", value: isrAlignedCacheControl }],
       },
     ];

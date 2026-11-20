@@ -27,13 +27,7 @@ export default function LoginPage() {
           <p id="login-status" className="mt-4 text-sm leading-6 text-slate-600">
             Customer account login will use HACIEN ERP-backed access after account verification. Existing workspace users should use the workspace login.
           </p>
-          <div className="mt-8 grid gap-3 sm:flex">
-            <Link
-              href="/quote"
-              className="inline-flex rounded bg-[#2563EB] px-5 py-3 text-sm font-bold text-white"
-            >
-              Request a Quote
-            </Link>
+          <div className="mt-8">
             <Link
               href={workspaceUrl}
               target={isErpExternal ? "_blank" : undefined}
