@@ -853,11 +853,10 @@ main {
    with /insights/[slug], /products, and /quote. Restyle only: it recolours
    the existing markup inside the scope to the Variant A tokens (the
    approved HACIEN button sheet) without changing structure or behaviour.
-   Canvas #0B0C10 · Surface 1 #15171D · Surface 2 #0A0A0A (brand ink; was
-   off-token rgb(30,33,41)/#1E2129) · Band #060F23 · Text #F4F6FA ·
-   Body #C6CBD8 · Muted #9199A8 · Primary #2563EB · Hover #1F54C8 ·
-   Sky #6692F1. Cards separate by surface tone, not borders; buttons inside
-   the scope are full pills. */
+   Canvas #0B0C10 · Surface 1 #15171D · Surface 2 #1E2129 · Band #060F23 ·
+   Text #F4F6FA · Body #C6CBD8 · Muted #9199A8 · Primary #2563EB ·
+   Hover #1F54C8 · Sky #6692F1. Cards separate by surface tone, not borders;
+   buttons inside the scope are full pills. */
 .va-scope {
   background: #0b0c10;
   color: #c6cbd8;
@@ -889,7 +888,7 @@ main {
   background-color: #060f23;
 }
 .va-scope .bg-slate-900 {
-  background-color: #0a0a0a;
+  background-color: #1e2129;
 }
 .va-scope .divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
   border-color: #2a2e38;
@@ -902,7 +901,7 @@ main {
   background-color: #15171d;
 }
 .va-scope .bg-grey-100 {
-  background-color: #0a0a0a;
+  background-color: #1e2129;
 }
 .va-scope .bg-blue-tint {
   background-color: #060f23;
@@ -944,7 +943,7 @@ main {
    interactive-link + rounded + border shape but uses border-white/25 —
    the hero is a shared component and stays out of this scope. */
 .va-scope a.interactive-link.rounded.border-slate-300 {
-  background-color: #0a0a0a;
+  background-color: #1e2129;
   color: #f4f6fa;
   border-radius: 999px;
 }
@@ -983,7 +982,7 @@ main {
 .va-scope
   :is(.bg-white, .bg-slate-50, .bg-grey-50, .bg-grey-100, .bg-blue-tint, .surface)
   :is(.bg-white, .bg-slate-50, .bg-grey-50, .bg-grey-100, .surface) {
-  background-color: #0a0a0a;
+  background-color: #1e2129;
 }
 .va-scope
   :is(.bg-white, .bg-slate-50, .bg-grey-50, .bg-grey-100, .bg-blue-tint, .surface)
@@ -1022,13 +1021,13 @@ main {
   color: #9199a8;
 }
 .va-chat .bg-white {
-  background-color: #0a0a0a;
+  background-color: #1e2129;
 }
 .va-chat .bg-grey-50 {
   background-color: #2a2e38;
 }
 .va-chat .bg-grey-100 {
-  background-color: #0a0a0a;
+  background-color: #1e2129;
 }
 .va-chat .bg-grey-200 {
   background-color: #2a2e38;
