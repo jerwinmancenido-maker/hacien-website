@@ -20,19 +20,20 @@ export type ScopeDecision = "in-scope" | "off-topic" | "injection" | "clarify";
 
 const INJECTION = [
   // Instruction targets only — RFQ "prompt payment" / "prompt delivery"
-  // must not match (Bugbot High, PR #88 at 4027aba). Ignore/disregard of
-  // instructions|rules requires an assistant/system target so RFQ lines
-  // like "bidders must not ignore the instructions" stay in scope
-  // (Bugbot Medium at e14aa70). Bare "the prompt" / "prompt" still
-  // catches jailbreaks like "ignore the prompt" / "reveal prompt"
-  // (Bugbot High at e14aa70).
+  // must not match (Bugbot High, PR #88 at 4027aba). Assistant-targeted
+  // ignore/disregard of instructions|rules, plus bare "ignore/disregard
+  // (the) instructions|rules" with a not/never lookbehind so RFQ
+  // "must not ignore the instructions" stays in scope (Bugbot High at
+  // f697ff1). Bare "the prompt" / "prompt" still catches jailbreaks.
   /ignore\s+(all\s+)?(your\s+|my\s+)((previous|prior|above)\s+)?(instructions|rules)\b/i,
   /ignore\s+(all\s+)?(the\s+)?(previous|prior|above)\s+(instructions|rules)\b/i,
   /ignore\s+all\s+(the\s+)?(instructions|rules)\b/i,
   /disregard\s+(all\s+)?(your\s+|my\s+)((previous|prior|above)\s+)?(instructions|rules)\b/i,
   /disregard\s+(all\s+)?(the\s+)?(previous|prior|above)\s+(instructions|rules)\b/i,
-  // Bare "disregard the rules" is a jailbreak; RFQ "must not disregard
-  // the instructions" is excluded by the not/never lookbehind.
+  // Bare "ignore/disregard (the) instructions|rules" is a jailbreak;
+  // RFQ "must not / do not ignore the instructions" is excluded by the
+  // not/never/don't lookbehind (same shape for ignore and disregard).
+  /(?<!\b(?:not|never|don'?t|dont)\s+)ignore\s+(the\s+)?(instructions|rules)\b/i,
   /(?<!\b(?:not|never|don'?t|dont)\s+)disregard\s+(the\s+)?(instructions|rules)\b/i,
   /ignore\s+(your\s+|the\s+)?system\s+prompt\b/i,
   /disregard\s+(your\s+|the\s+)?system\s+prompt\b/i,
