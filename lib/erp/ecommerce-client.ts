@@ -21,16 +21,22 @@ function getErpApiUrl() {
   return url;
 }
 
-async function erpFetch<T>(path: string, init?: RequestInit): Promise<T> {
+async function erpFetch<T>(
+  path: string,
+  init?: RequestInit & { next?: { revalidate?: number | false } },
+): Promise<T> {
+  const { cache, next, ...rest } = init || {};
   const response = await fetch(`${getErpApiUrl()}${path}`, {
-    ...init,
+    ...rest,
     headers: {
       "content-type": "application/json",
-      ...(init?.headers || {}),
+      ...(rest.headers || {}),
     },
-    cache: "no-store",
+    // Optional cache mode: callers may pass `next` (ISR) or `cache`.
+    // Default remains today's no-store so POSTs stay uncached.
+    ...(next ? { next } : { cache: cache ?? "no-store" }),
     signal:
-      init?.signal ||
+      rest.signal ||
       AbortSignal.timeout(Number(process.env.HACIEN_ECOMMERCE_TIMEOUT_MS || 3000)),
   });
 
@@ -42,12 +48,15 @@ async function erpFetch<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export function listErpCatalog() {
-  return erpFetch<{ items: ErpCatalogProduct[] }>("/ecommerce/catalog");
+  return erpFetch<{ items: ErpCatalogProduct[] }>("/ecommerce/catalog", {
+    next: { revalidate: 300 },
+  });
 }
 
 export function getErpCatalogProduct(slug: string) {
   return erpFetch<{ item: ErpCatalogProduct }>(
     `/ecommerce/catalog/${encodeURIComponent(slug)}`,
+    { next: { revalidate: 300 } },
   );
 }
 

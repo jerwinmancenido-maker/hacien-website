@@ -16,6 +16,8 @@ export function generateStaticParams() {
   return categories.map((category) => ({ category: category.slug }));
 }
 
+export const dynamicParams = false;
+
 async function getErpProducts() {
   try {
     const catalog = await listErpCatalog();
