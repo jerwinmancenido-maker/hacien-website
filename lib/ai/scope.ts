@@ -18,23 +18,35 @@ export const SCOPE_CLARIFY =
 
 export type ScopeDecision = "in-scope" | "off-topic" | "injection" | "clarify";
 
+/** Shared RFQ-safe negation before ignore/disregard of instructions|rules.
+ *  Covers common English and Tagalog negations; "not" may sit up to two
+ *  words before the verb ("must not ever ignore") (Bugbot Medium at da710aa). */
+const NEGATION_BEFORE_IGNORE_DISREGARD =
+  /\b(?:not|never|no|cannot|can'?t|can\s+not|mustn'?t|shouldn'?t|won'?t|don'?t|dont|do\s+not|shall\s+not|must\s+not|should\s+not|huwag|wag)\b(?:\s+\S+){0,2}\s*$/i;
+
+/** ignore|disregard … instructions|rules — matched separately so the
+ *  shared negation check applies to every variant (bare, your/my,
+ *  previous/above, all). */
+const IGNORE_OR_DISREGARD_INSTRUCTIONS =
+  /\b(ignore|disregard)\s+(?:all\s+)?(?:(?:your|my|the)\s+)?(?:(?:previous|prior|above)\s+)?(instructions|rules)\b/gi;
+
+function isNegatedIgnoreOrDisregardPrefix(prefix: string): boolean {
+  return NEGATION_BEFORE_IGNORE_DISREGARD.test(prefix);
+}
+
+function hasUnnegatedIgnoreOrDisregardInstructions(text: string): boolean {
+  for (const match of text.matchAll(IGNORE_OR_DISREGARD_INSTRUCTIONS)) {
+    if (!isNegatedIgnoreOrDisregardPrefix(text.slice(0, match.index ?? 0))) return true;
+  }
+  return false;
+}
+
 const INJECTION = [
   // Instruction targets only — RFQ "prompt payment" / "prompt delivery"
-  // must not match (Bugbot High, PR #88 at 4027aba). Assistant-targeted
-  // ignore/disregard of instructions|rules, plus bare "ignore/disregard
-  // (the) instructions|rules" with a not/never lookbehind so RFQ
-  // "must not ignore the instructions" stays in scope (Bugbot High at
-  // f697ff1). Bare "the prompt" / "prompt" still catches jailbreaks.
-  /ignore\s+(all\s+)?(your\s+|my\s+)((previous|prior|above)\s+)?(instructions|rules)\b/i,
-  /ignore\s+(all\s+)?(the\s+)?(previous|prior|above)\s+(instructions|rules)\b/i,
-  /ignore\s+all\s+(the\s+)?(instructions|rules)\b/i,
-  /disregard\s+(all\s+)?(your\s+|my\s+)((previous|prior|above)\s+)?(instructions|rules)\b/i,
-  /disregard\s+(all\s+)?(the\s+)?(previous|prior|above)\s+(instructions|rules)\b/i,
-  // Bare "ignore/disregard (the) instructions|rules" is a jailbreak;
-  // RFQ "must not / do not ignore the instructions" is excluded by the
-  // not/never/don't lookbehind (same shape for ignore and disregard).
-  /(?<!\b(?:not|never|don'?t|dont)\s+)ignore\s+(the\s+)?(instructions|rules)\b/i,
-  /(?<!\b(?:not|never|don'?t|dont)\s+)disregard\s+(the\s+)?(instructions|rules)\b/i,
+  // must not match (Bugbot High, PR #88 at 4027aba). ignore/disregard of
+  // instructions|rules is handled in isInjectionText via the shared
+  // negation check above. Bare "the prompt" / "prompt" still catches
+  // jailbreaks like "ignore the prompt" / "reveal prompt".
   /ignore\s+(your\s+|the\s+)?system\s+prompt\b/i,
   /disregard\s+(your\s+|the\s+)?system\s+prompt\b/i,
   /ignore\s+(your\s+|the\s+)?prompt\b(?!\s+(payment|delivery))/i,
@@ -216,6 +228,7 @@ function productAnchors(): string[] {
 }
 
 export function isInjectionText(text: string): boolean {
+  if (hasUnnegatedIgnoreOrDisregardInstructions(text)) return true;
   return INJECTION.some((pattern) => pattern.test(text));
 }
 
