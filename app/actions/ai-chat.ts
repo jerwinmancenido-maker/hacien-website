@@ -28,7 +28,7 @@ import { catalogueEntriesFromErpItems, mergeChatCatalogue, staticChatCatalogue }
 import { presentCatalogueTurn, type ChatProductRef } from "@/lib/ai/chat-product-cards";
 import { buildAiChatSystemPrompt } from "@/lib/ai/knowledge";
 import { screenAiReply } from "@/lib/ai/output-guard";
-import { SCOPE_REFUSAL, classifyUserTurn } from "@/lib/ai/scope";
+import { SCOPE_CLARIFY, SCOPE_REFUSAL, classifyUserTurn } from "@/lib/ai/scope";
 import { buildTurnContext } from "@/lib/ai/turn-context";
 import {
   intakeReady,
@@ -558,15 +558,17 @@ export async function sendAiChatMessage(input: {
   if (!gate.ok) return { ok: false, fallback: true, reason: "verification-failed" };
 
   const latest = validated.messages[validated.messages.length - 1].content;
-  if (classifyUserTurn(latest, validated.path) !== "in-scope") {
+  const scope = classifyUserTurn(latest, validated.path);
+  if (scope !== "in-scope") {
     // Keep prior readiness so a completed quote still shows the review
-    // card after an off-topic or injection turn (Bugbot Medium, PR #88
-    // at 4027aba).
+    // card after an off-topic, clarify, or injection turn (Bugbot Medium,
+    // PR #88 at 4027aba). Clarify-first softens thin first messages
+    // (owner, 2026-11-20); hard off-topic and injection still refuse.
     return {
       ok: true,
       gatePass: gate.freshPass,
       turn: {
-        reply: SCOPE_REFUSAL,
+        reply: scope === "clarify" ? SCOPE_CLARIFY : SCOPE_REFUSAL,
         path: validated.path,
         fields: validated.fields,
         readyToReview: validated.path ? intakeReady(validated.path, validated.fields) : false,

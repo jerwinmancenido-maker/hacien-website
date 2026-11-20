@@ -15,7 +15,7 @@ import { buildAiChatSystemPrompt } from "@/lib/ai/knowledge";
 import { isCompletePersonName, normalizeBusinessType, quoteLeadReady } from "@/lib/ai/lead";
 import { matchSiteOfferings } from "@/lib/ai/offerings";
 import { AI_SAFE_REPLY } from "@/lib/ai/output-guard";
-import { SCOPE_REFUSAL, classifyUserTurn, type ScopeDecision } from "@/lib/ai/scope";
+import { SCOPE_CLARIFY, SCOPE_REFUSAL, classifyUserTurn, type ScopeDecision } from "@/lib/ai/scope";
 import { buildTurnContext } from "@/lib/ai/turn-context";
 import { buildQuotePayload } from "@/lib/guided-chat/payloads";
 
@@ -255,9 +255,16 @@ describe("company-only chat eval", () => {
   it("keeps an anchored quote line in scope despite a hard off-topic token (Bugbot, PR #88 at bd245d21)", () => {
     expect(classifyUserTurn("We need 30 laptops for our Python training lab")).toBe("in-scope");
     expect(classifyUserTurn("Laptops for students, please translate this list into a quote")).toBe("in-scope");
-    // Anchorless requests are still refused.
+    // Hard off-topic without a product anchor is still refused.
     expect(classifyUserTurn("Write my python homework")).toBe("off-topic");
     expect(classifyUserTurn("Translate this poem")).toBe("off-topic");
+  });
+
+  it("softens thin first messages to clarify-first and still refuses clear off-topic (owner, 2026-11-20)", () => {
+    expect(classifyUserTurn("a monitor")).toBe("clarify");
+    expect(classifyUserTurn("a monitor", "quote")).toBe("in-scope"); // open path stays open
+    expect(classifyUserTurn("Tell me a joke.")).toBe("off-topic");
+    expect(classifyUserTurn("Write an essay about Rizal.")).toBe("off-topic");
   });
 
   it("assembles a prompt from site content, with catalogue cards and no prices", () => {
@@ -327,6 +334,46 @@ describe("quote lead and documents", () => {
     expect(quoteLeadReady({ ...base, name: "Maria Santos", tin: "none" })).toBe(true);
     expect(quoteLeadReady({ ...base, name: "Maria Santos", tin: "N/A" })).toBe(true);
     expect(quoteLeadReady({ ...base, name: "Maria Santos", tin: "wala" })).toBe(true);
+  });
+
+  it("treats businessType, position, and businessAddress as optional for quote readiness (owner, 2026-11-20)", () => {
+    const withoutOptional = {
+      need: "10 laptops, 16GB",
+      name: "Maria Santos",
+      company: "Northwind BPO",
+      email: "maria.santos@northwind.example",
+      phone: "09171234567",
+      location: "Pasig City",
+      targetDate: "2026-12-15",
+    };
+    expect(quoteLeadReady(withoutOptional)).toBe(true);
+    const payloadBare = buildQuotePayload(withoutOptional, [], {
+      website: "",
+      formStartedAt: "1",
+      turnstileToken: "test-token",
+    });
+    expect(payloadBare.businessType).toBe("");
+    expect(payloadBare.position).toBe("");
+    expect(payloadBare.businessAddress).toBe("");
+    // procurementType does not depend on businessType being required.
+    expect(payloadBare.procurementType).toBe("");
+
+    const withOptional = {
+      ...withoutOptional,
+      businessType: "Private company",
+      position: "Buyer",
+      businessAddress: "Pasig City",
+    };
+    expect(quoteLeadReady(withOptional)).toBe(true);
+    const payloadFull = buildQuotePayload(withOptional, [], {
+      website: "",
+      formStartedAt: "1",
+      turnstileToken: "test-token",
+    });
+    expect(payloadFull.businessType).toBe("Private company");
+    expect(payloadFull.position).toBe("Buyer");
+    expect(payloadFull.businessAddress).toBe("Pasig City");
+    expect(payloadFull.procurementType).toBe("Corporate");
   });
 
   it("does not classify a private buyer as government for mentioning PhilGEPS", () => {
@@ -573,6 +620,15 @@ describe("mocked chat answers", () => {
     });
     expect(joke).toMatchObject({ ok: true, turn: { reply: SCOPE_REFUSAL, cards: [] } });
     expect(injected).toMatchObject({ ok: true, turn: { reply: SCOPE_REFUSAL } });
+    expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it("clarifies a thin first message instead of refusing (owner, 2026-11-20)", async () => {
+    process.env.ANTHROPIC_API_KEY = "test-key";
+    const fetchSpy = vi.fn();
+    vi.stubGlobal("fetch", fetchSpy);
+    const thin = await sendAiChatMessage({ messages: [{ role: "user", content: "a monitor" }] });
+    expect(thin).toMatchObject({ ok: true, turn: { reply: SCOPE_CLARIFY, cards: [] } });
     expect(fetchSpy).not.toHaveBeenCalled();
   });
 

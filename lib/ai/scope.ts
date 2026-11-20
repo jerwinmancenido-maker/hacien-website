@@ -11,7 +11,12 @@ import { solutions } from "@/data/solutions";
 export const SCOPE_REFUSAL =
   "I can only help with HACIEN IT products and services, quotes, orders, delivery, support, and contact — what can I help you with?";
 
-export type ScopeDecision = "in-scope" | "off-topic" | "injection";
+/** Soft first-turn reply when the message is too thin to classify —
+ *  ask what they need instead of refusing (owner decision, 2026-11-20). */
+export const SCOPE_CLARIFY =
+  "Happy to help — could you tell me a bit more about what you need from HACIEN? A quotation, a product question, support, or something else?";
+
+export type ScopeDecision = "in-scope" | "off-topic" | "injection" | "clarify";
 
 const INJECTION = [
   // Instruction targets only — a bare "prompt" after ask/print/ignore
@@ -81,6 +86,13 @@ const HARD_ALWAYS_OFF_TOPIC = [
   /\b(stock price|share price)\b/i,
   /\b(hack\s+(into|a\b|an\b|the\b|someone)|how to hack|hacking tutorial|create malware|write (an? )?exploit)\b/i,
   /\b(bedtime story|quantum physics|world cup)\b/i,
+  // Clear general-knowledge asks stay refused (owner clarify-first is
+  // only for thin / product-adjacent first messages, not essays, weather,
+  // cooking, or relationship advice).
+  /\bweather\b/i,
+  /\brelationship advice\b/i,
+  /\b(write|draft)\b[^.]{0,48}\b(essay|poem)\b/i,
+  /\b(cook|how to cook|recipe)\b/i,
 ];
 
 // Refused only when the message carries no product anchor: a school
@@ -217,7 +229,9 @@ export function classifyUserTurn(text: string, path: string | null = null): Scop
   if (productAnchors().some((anchor) => hasAnchor(trimmed, anchor))) return "in-scope";
   if (HARD_CONTEXT_OFF_TOPIC.some((pattern) => pattern.test(trimmed))) return "off-topic";
   if (carriedBrands.some((brand) => hasAnchor(trimmed, brand))) return "in-scope";
-  return "off-topic";
+  // No product/HACIEN anchor and not clearly off-topic — ask for a
+  // clearer request instead of refusing (owner, 2026-11-20).
+  return "clarify";
 }
 
 export function mentionsComparison(text: string): boolean {

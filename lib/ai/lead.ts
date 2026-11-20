@@ -1,5 +1,7 @@
 /** Quote-lead checks. procurementType stays optional, as already decided.
- *  The extra fields are what a formal quotation needs.
+ *  businessType, position, and businessAddress are optional too (owner
+ *  decision, 2026-11-20) — when given they still travel in the Gateway
+ *  payload; they must not block the review card.
  */
 
 import type { GuidedChatAnswers } from "@/lib/guided-chat/payloads";
@@ -107,6 +109,8 @@ export function isGovernmentBuyer(value: string): boolean {
 }
 
 const FILLED = ["company", "position", "businessAddress", "location", "need", "targetDate"] as const;
+/** Optional lead fields: empty is fine; a present value must still be usable. */
+const OPTIONAL_LEAD = ["businessType", "position", "businessAddress"] as const;
 
 export function quoteLeadIssues(fields: GuidedChatAnswers): { missing: string[]; invalid: string[] } {
   const missing: string[] = [];
@@ -115,9 +119,6 @@ export function quoteLeadIssues(fields: GuidedChatAnswers): { missing: string[];
     "need",
     "name",
     "company",
-    "businessType",
-    "position",
-    "businessAddress",
     "email",
     "phone",
     "location",
@@ -132,6 +133,11 @@ export function quoteLeadIssues(fields: GuidedChatAnswers): { missing: string[];
     if (id === "name" && !isCompletePersonName(value)) invalid.push(id);
     if (id === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) invalid.push(id);
     if (id === "phone" && !isPhilippineMobile(value)) invalid.push(id);
+    if ((FILLED as readonly string[]).includes(id) && value.length < 2) invalid.push(id);
+  }
+  for (const id of OPTIONAL_LEAD) {
+    const value = (fields[id] || "").trim();
+    if (!value) continue;
     if (id === "businessType" && !isBusinessType(value)) invalid.push(id);
     if ((FILLED as readonly string[]).includes(id) && value.length < 2) invalid.push(id);
   }
@@ -143,6 +149,9 @@ export function quoteLeadIssues(fields: GuidedChatAnswers): { missing: string[];
   const tinRaw = (fields.tin || "").trim();
   const tin = /^(none|n\/?a|na|no tin|wala|not applicable|-+)$/i.test(tinRaw) ? "" : tinRaw;
   if (tin && !isTin(tin)) invalid.push("tin");
+  // buyerReference is required only when the visitor gave a government
+  // businessType — procurementType derivation never depends on
+  // businessType being required (owner decision, 2026-11-20).
   if (isGovernmentBuyer(fields.businessType || "") && !(fields.buyerReference || "").trim()) {
     missing.push("buyerReference");
   }

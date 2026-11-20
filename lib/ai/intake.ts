@@ -70,17 +70,15 @@ export const AI_INTAKE_FIELDS: Record<AiChatPath, string[]> = {
 
 /** Required before the review card may be shown — the fields the
  *  guided steps mark required, plus the substance of the request.
- *  One deliberate exception: procurementType (buyer type) is required
- *  in the guided steps but never blocks the AI card — the visitor
- *  states it or it stays blank (owner decision, Nov 8, 2026). */
+ *  Deliberate exceptions that never block the AI card: procurementType
+ *  (owner, Nov 8, 2026) and businessType / position / businessAddress
+ *  (owner, 2026-11-20). When those optional fields are given they still
+ *  travel in the Gateway payload. */
 export const AI_INTAKE_REQUIRED: Record<AiChatPath, string[]> = {
   quote: [
     "need",
     "name",
     "company",
-    "businessType",
-    "position",
-    "businessAddress",
     "email",
     "phone",
     "location",

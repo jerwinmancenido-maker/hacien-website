@@ -8,6 +8,9 @@
  * approved facts never trip them (the reply-time fact is about replies,
  * quotations are "valid for 15 days", the warranty is "within 7 days"
  * for dead-on-arrival — none of those state a price or a delivery time).
+ * A third family screens for instruction leakage (owner hardening /
+ * PR #82 nits, 2026-11-20): phrases that appear when the assistant talks
+ * about its own instructions instead of the visitor's request.
  */
 
 const PRICE_PATTERNS: RegExp[] = [
@@ -36,27 +39,41 @@ const DELIVERY_TIME_PATTERNS: RegExp[] = [
 export const AI_SAFE_REPLY =
   "I don't want to give you the wrong information on that — a member of the HACIEN team will confirm it when they reply. If you'd like, tell me what you need and I'll prepare your request for them.";
 
+/** Instruction-leak family. Verbs beyond say/tell/require/are catch the
+ *  paraphrase bypasses from the #82 adversarial nits; chat_turn is
+ *  case-insensitive; "system prompt" skips ordinary software UX wording. */
+const PROMPT_LEAK_PATTERNS = [
+  /CURRENT INTAKE STATE/,
+  /MATCHES FROM THE SITE/,
+  /QUOTE LEAD missing/,
+  /chat_turn/i,
+  /\bmy system instructions\b/i,
+  /\bmy instructions\b[^.]{0,48}\b(say|tell|require|are|allow|forbid|state|include|don'?t allow|do not allow)\b/i,
+  /output guard/i,
+  /knowledge sheet/i,
+];
+
+const SYSTEM_PROMPT_LEAK = /\bsystem prompts?\b/i;
+const SYSTEM_PROMPT_SOFTWARE_UX =
+  /\b([\w']+\s+)?(software|POS|OS|application|app|program)\b[^.]{0,48}\bsystem prompts?\b/i;
+const SYSTEM_PROMPT_UX_VERB =
+  /\bsystem prompts?\s+(you|the\s+(user|cashier|operator)|guide|guides)\b/i;
+
+function leaksSystemPrompt(reply: string): boolean {
+  if (!SYSTEM_PROMPT_LEAK.test(reply)) return false;
+  if (SYSTEM_PROMPT_SOFTWARE_UX.test(reply)) return false;
+  if (SYSTEM_PROMPT_UX_VERB.test(reply)) return false;
+  return true;
+}
+
 /** Returns the reply unchanged when it is clean, or the safe wording
  *  when it states a price, a discount, a promise, or a delivery time,
  *  or when it leaks the assistant's own instructions.
  *  Delivery-time patterns are checked per sentence, skipping sentences
  *  about replies — "you'll receive a reply within 1 business day" is an
  *  approved fact, not a delivery claim. */
-const PROMPT_LEAK_PATTERNS = [
-  /CURRENT INTAKE STATE/,
-  /MATCHES FROM THE SITE/,
-  /QUOTE LEAD missing/,
-  /chat_turn/,
-  // Instruction-leak family (ported from PR #82): phrases that appear
-  // when the assistant talks about its own rules instead of the request.
-  /system prompt/i,
-  /\bmy instructions (say|tell|require|are)\b/i,
-  /output guard/i,
-  /knowledge sheet/i,
-];
-
 export function screenAiReply(reply: string): { text: string; flagged: boolean } {
-  if (PROMPT_LEAK_PATTERNS.some((pattern) => pattern.test(reply))) {
+  if (PROMPT_LEAK_PATTERNS.some((pattern) => pattern.test(reply)) || leaksSystemPrompt(reply)) {
     return { text: AI_SAFE_REPLY, flagged: true };
   }
   for (const pattern of [...PRICE_PATTERNS, ...PROMISE_PATTERNS]) {
