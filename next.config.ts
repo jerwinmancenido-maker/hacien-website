@@ -138,6 +138,10 @@ const nextConfig: NextConfig = {
       headers["Strict-Transport-Security"] = hstsValue;
     }
 
+    // Match root layout `export const revalidate = 300` so CDN/edge does not
+    // hold /products or /c/* longer than ISR (cap stale-while-revalidate too).
+    const isrAlignedCacheControl = "public, s-maxage=300, stale-while-revalidate=300";
+
     return [
       {
         source: "/(.*)",
@@ -145,6 +149,18 @@ const nextConfig: NextConfig = {
           key,
           value,
         })),
+      },
+      {
+        source: "/products",
+        headers: [{ key: "Cache-Control", value: isrAlignedCacheControl }],
+      },
+      {
+        source: "/products/:path*",
+        headers: [{ key: "Cache-Control", value: isrAlignedCacheControl }],
+      },
+      {
+        source: "/c/:path*",
+        headers: [{ key: "Cache-Control", value: isrAlignedCacheControl }],
       },
     ];
   },
