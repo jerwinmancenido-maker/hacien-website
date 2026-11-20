@@ -22,8 +22,15 @@ async function getErpProducts() {
   try {
     const catalog = await listErpCatalog();
     return erpCatalogToWebsiteProducts(catalog.items || []);
-  } catch {
-    return [];
+  } catch (error) {
+    // Swallow only during `next build` so known categories prerender with the
+    // local fallback grid. Outside the build (including ISR revalidation),
+    // rethrow so Next keeps serving the last-good stale page instead of
+    // regenerating onto that local fallback.
+    if (process.env.NEXT_PHASE === "phase-production-build") {
+      return [];
+    }
+    throw error;
   }
 }
 
