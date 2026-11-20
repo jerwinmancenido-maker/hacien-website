@@ -15,6 +15,7 @@ import { CARD_LEAD_IN, tappedProductQuestion } from "@/lib/ai/chat-product-cards
 import { AI_SAFE_REPLY, screenAiReply } from "@/lib/ai/output-guard";
 import {
   intakeReady,
+  isUsableIntakeValue,
   parseAiChatTurn,
   sanitizeIntakeFields,
 } from "@/lib/ai/intake";
@@ -825,6 +826,40 @@ describe("sendAiChatMessage guards", () => {
       expect(injection.turn.readyToReview).toBe(true);
     }
     expect(fetchSpy).not.toHaveBeenCalled();
+  });
+
+  it("treats TIN placeholders as empty so a later real TIN can replace them (Bugbot Medium at e14aa70)", async () => {
+    expect(isUsableIntakeValue("tin", "none", "quote")).toBe(false);
+    expect(isUsableIntakeValue("tin", "wala", "quote")).toBe(false);
+    expect(isUsableIntakeValue("tin", "123-456-789", "quote")).toBe(true);
+    expect(sanitizeIntakeFields("quote", { tin: "none", need: "10 laptops" })).toEqual({
+      need: "10 laptops",
+    });
+    expect(sanitizeIntakeFields("quote", { tin: "123-456-789", need: "10 laptops" })).toEqual({
+      tin: "123-456-789",
+      need: "10 laptops",
+    });
+    process.env.ANTHROPIC_API_KEY = "test-key";
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(async () =>
+        anthropicToolResponse({
+          reply: "Noted the TIN for the invoice.",
+          path: "quote",
+          fields: { tin: "123-456-789" },
+          readyToReview: false,
+        }),
+      ),
+    );
+    const result = await sendAiChatMessage({
+      messages: [{ role: "user", content: "My TIN is 123-456-789" }],
+      path: "quote",
+      fields: { need: "10 laptops", tin: "none" },
+    });
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.turn.fields.tin).toBe("123-456-789");
+    }
   });
 
   it("carries usable identity across a path switch (Bugbot Medium, PR #88 at 4027aba)", async () => {

@@ -19,6 +19,7 @@ import {
   isCompletePersonName,
   isPhilippineMobile,
   isTin,
+  isTinPlaceholder,
   normalizeBusinessType,
   quoteLeadIssues,
   quoteLeadReady,
@@ -140,6 +141,9 @@ export function sanitizeIntakeFields(
       if (canonical) clean[key] = canonical;
       continue;
     }
+    // TIN placeholders are empty — never store or lock them
+    // (Bugbot Medium at e14aa70).
+    if (key === "tin" && isTinPlaceholder(trimmed)) continue;
     if (key === "need" || key === "details" || key === "message") {
       const kept = trimmed
         .split("\n")
@@ -182,7 +186,9 @@ export function isUsableIntakeValue(id: string, value: string, path: AiChatPath 
     return path === "quote" ? isCompletePersonName(trimmed) : trimmed.length >= 2;
   }
   if (id === "tin") {
-    if (/^(none|n\/?a|na|no tin|wala|not applicable|-+)$/i.test(trimmed)) return true;
+    // Placeholders are empty, not usable — mergeFilled must not lock
+    // "none"/"wala" over a later real TIN (Bugbot Medium at e14aa70).
+    if (isTinPlaceholder(trimmed)) return false;
     return isTin(trimmed);
   }
   return true;

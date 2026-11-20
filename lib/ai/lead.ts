@@ -62,6 +62,13 @@ export function isTin(value: string): boolean {
   return digits.length === 9 || digits.length === 12;
 }
 
+/** Visitor placeholders for "no TIN" — treat as empty everywhere
+ *  (readiness, usability, sanitize), never as a locked real value
+ *  (Bugbot Medium at e14aa70). */
+export function isTinPlaceholder(value: string): boolean {
+  return /^(none|n\/?a|na|no tin|wala|not applicable|-+)$/i.test(value.trim());
+}
+
 export function isBusinessType(value: string): value is BusinessType {
   return (BUSINESS_TYPES as readonly string[]).includes(value);
 }
@@ -147,7 +154,7 @@ export function quoteLeadIssues(fields: GuidedChatAnswers): { missing: string[];
   // TIN would block the quote review forever. Placeholders count as
   // "no TIN given"; a non-placeholder value must still be a real TIN.
   const tinRaw = (fields.tin || "").trim();
-  const tin = /^(none|n\/?a|na|no tin|wala|not applicable|-+)$/i.test(tinRaw) ? "" : tinRaw;
+  const tin = isTinPlaceholder(tinRaw) ? "" : tinRaw;
   if (tin && !isTin(tin)) invalid.push("tin");
   // buyerReference is required only when the visitor gave a government
   // businessType — procurementType derivation never depends on

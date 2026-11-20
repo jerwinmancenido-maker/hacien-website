@@ -19,20 +19,27 @@ export const SCOPE_CLARIFY =
 export type ScopeDecision = "in-scope" | "off-topic" | "injection" | "clarify";
 
 const INJECTION = [
-  // Instruction targets only — a bare "prompt" after ask/print/ignore
-  // must not catch RFQ "prompt payment" / "prompt delivery" (Bugbot
-  // High, PR #88 at 4027aba). Match system prompt, your/the prompt
-  // (not followed by payment|delivery), or previous/above
-  // instructions|rules|prompt.
-  /ignore\s+(all\s+|your\s+|the\s+)?((previous|prior|above)\s+)?(instructions|rules)\b/i,
-  /ignore\s+(all\s+|your\s+|the\s+)?(previous|prior|above)\s+prompt\b/i,
+  // Instruction targets only — RFQ "prompt payment" / "prompt delivery"
+  // must not match (Bugbot High, PR #88 at 4027aba). Ignore/disregard of
+  // instructions|rules requires an assistant/system target so RFQ lines
+  // like "bidders must not ignore the instructions" stay in scope
+  // (Bugbot Medium at e14aa70). Bare "the prompt" / "prompt" still
+  // catches jailbreaks like "ignore the prompt" / "reveal prompt"
+  // (Bugbot High at e14aa70).
+  /ignore\s+(all\s+)?(your\s+|my\s+)((previous|prior|above)\s+)?(instructions|rules)\b/i,
+  /ignore\s+(all\s+)?(the\s+)?(previous|prior|above)\s+(instructions|rules)\b/i,
+  /ignore\s+all\s+(the\s+)?(instructions|rules)\b/i,
+  /disregard\s+(all\s+)?(your\s+|my\s+)((previous|prior|above)\s+)?(instructions|rules)\b/i,
+  /disregard\s+(all\s+)?(the\s+)?(previous|prior|above)\s+(instructions|rules)\b/i,
+  // Bare "disregard the rules" is a jailbreak; RFQ "must not disregard
+  // the instructions" is excluded by the not/never lookbehind.
+  /(?<!\b(?:not|never|don'?t|dont)\s+)disregard\s+(the\s+)?(instructions|rules)\b/i,
   /ignore\s+(your\s+|the\s+)?system\s+prompt\b/i,
-  /ignore\s+your\s+prompt\b(?!\s+(payment|delivery))/i,
-  /disregard\s+(your\s+|the\s+)?((previous|prior|above)\s+)?(instructions|rules)\b/i,
   /disregard\s+(your\s+|the\s+)?system\s+prompt\b/i,
-  /disregard\s+your\s+prompt\b(?!\s+(payment|delivery))/i,
+  /ignore\s+(your\s+|the\s+)?prompt\b(?!\s+(payment|delivery))/i,
+  /disregard\s+(your\s+|the\s+)?prompt\b(?!\s+(payment|delivery))/i,
   /reveal\s+((your|the)\s+)?system\s+prompt\b/i,
-  /reveal\s+(your|the)\s+prompt\b(?!\s+(payment|delivery))/i,
+  /reveal\s+(your\s+|the\s+)?prompt\b(?!\s+(payment|delivery))/i,
   /(show|print|repeat|dump)\s+(me\s+)?((your|the)\s+)?system\s+prompt\b/i,
   /(show|print|repeat|dump)\s+(me\s+)?(your|the)\s+prompt\b(?!\s+(payment|delivery))/i,
   // "print your instructions" is injection; printing product install
@@ -51,9 +58,9 @@ const INJECTION = [
   /you are now\s+(a\s|an\s|the\s|my\s|dan\b|chatgpt\b|gpt\b|in\s+(developer|dan|jailbreak))/i,
   /\b(jailbreak|developer mode|do anything now)\b/i,
   /kalimutan mo\s+(ang\s+|yung\s+)?(instructions|utos|rules)\b/i,
-  /kalimutan mo\s+(ang\s+|yung\s+)?system\s+prompt\b/i,
+  /kalimutan mo\s+(ang\s+|yung\s+)?(system\s+)?prompt\b/i,
   /ignore mo\s+(ang\s+|yung\s+)?(instructions|rules)\b/i,
-  /ignore mo\s+(ang\s+|yung\s+)?system\s+prompt\b/i,
+  /ignore mo\s+(ang\s+|yung\s+)?(system\s+)?prompt\b/i,
   /(ipakita|sabihin)\s+(mo\s+)?(ang\s+|yung\s+)?system\s+prompt\b/i,
   /(ipakita|sabihin)\s+(mo\s+)?(ang\s+|yung\s+)?(instructions|utos|rules)\b/i,
 ];
@@ -87,12 +94,12 @@ const HARD_ALWAYS_OFF_TOPIC = [
   /\b(hack\s+(into|a\b|an\b|the\b|someone)|how to hack|hacking tutorial|create malware|write (an? )?exploit)\b/i,
   /\b(bedtime story|quantum physics|world cup)\b/i,
   // Clear general-knowledge asks stay refused (owner clarify-first is
-  // only for thin / product-adjacent first messages, not essays, weather,
-  // cooking, or relationship advice).
-  /\bweather\b/i,
+  // only for thin / product-adjacent first messages, not essays or
+  // relationship advice). Weather/cook/recipe sit in HARD_CONTEXT so
+  // product-anchored "all-weather" / "weather-resistant" CCTV quotes
+  // stay in scope (Bugbot High at e14aa70).
   /\brelationship advice\b/i,
   /\b(write|draft)\b[^.]{0,48}\b(essay|poem)\b/i,
-  /\b(cook|how to cook|recipe)\b/i,
 ];
 
 // Refused only when the message carries no product anchor: a school
@@ -109,6 +116,10 @@ const HARD_CONTEXT_OFF_TOPIC = [
   /\b(homework|term paper|quiz|coursework)\b/i,
   /\b(solve|sagutan)\b[^.]{0,24}\b(equation|math|calculus)\b/i,
   /\b(weather forecast|recipe for|horoscope|capital of|capital ng|translate this)\b/i,
+  // After product anchors: plain weather/cooking asks refuse; anchored
+  // "all-weather CCTV" / outdoor equipment quotes pass.
+  /\bweather\b/i,
+  /\b(cook|how to cook|recipe)\b/i,
 ];
 
 const GREETING =
