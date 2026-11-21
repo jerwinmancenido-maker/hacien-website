@@ -1102,3 +1102,28 @@ main {
 .va-chat-launcher:hover {
   background-color: #1f54c8;
 }
+
+/* Minimal print stylesheet — hide chrome; black on white; show external URLs */
+@media print {
+  header,
+  header nav,
+  footer,
+  .va-chat,
+  .va-chat-launcher,
+  [aria-label="Chat with the HACIEN team"],
+  [aria-label="Open chat with the HACIEN team"],
+  aside[role="dialog"][aria-label="Cookie preferences"] {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  a[href^="http://"]::after,
+  a[href^="https://"]::after {
+    content: " (" attr(href) ")";
+    word-break: break-all;
+  }
+}

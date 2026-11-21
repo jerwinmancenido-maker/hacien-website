@@ -1,7 +1,6 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
-import { LoginForm } from "@/components/auth/LoginForm";
 import { GradientBackground } from "@/app/components/reactbits";
 
 export const metadata: Metadata = {
@@ -28,13 +27,7 @@ export default function LoginPage() {
           <p id="login-status" className="mt-4 text-sm leading-6 text-slate-600">
             Customer account login will use HACIEN ERP-backed access after account verification. Existing workspace users should use the workspace login.
           </p>
-          <div className="mt-8 grid gap-3 sm:flex">
-            <Link
-              href="/quote"
-              className="inline-flex rounded bg-[#2563EB] px-5 py-3 text-sm font-bold text-white"
-            >
-              Request a Quote
-            </Link>
+          <div className="mt-8">
             <Link
               href={workspaceUrl}
               target={isErpExternal ? "_blank" : undefined}
@@ -46,7 +39,28 @@ export default function LoginPage() {
           </div>
         </div>
 
-        <LoginForm />
+        <aside className="surface grid gap-4 rounded p-6" aria-labelledby="login-accounts-heading">
+          <h2 id="login-accounts-heading" className="text-lg font-bold tracking-tight text-slate-950">
+            Customer accounts are not open yet
+          </h2>
+          <p className="text-sm leading-6 text-slate-600">
+            To reach us today, request a quotation or send an account request — we reply within 1 business day.
+          </p>
+          <div className="grid gap-3 sm:flex">
+            <Link
+              href="/quote"
+              className="inline-flex justify-center rounded bg-[#2563EB] px-5 py-3 text-sm font-bold text-white"
+            >
+              Request a quotation
+            </Link>
+            <Link
+              href="/signup"
+              className="inline-flex justify-center rounded-full border border-slate-300 px-5 py-3 text-sm font-bold text-slate-900"
+            >
+              Send an account request
+            </Link>
+          </div>
+        </aside>
       </div>
     </section>
   );

@@ -138,6 +138,11 @@ const nextConfig: NextConfig = {
       headers["Strict-Transport-Security"] = hstsValue;
     }
 
+    // Match root layout `export const revalidate = 300` so CDN/edge does not
+    // hold /products or staff card HTML longer than ISR (cap SWR too).
+    // /c/:id is single-segment only — do not override /c/:id/vcf (max-age=3600).
+    const isrAlignedCacheControl = "public, s-maxage=300, stale-while-revalidate=300";
+
     return [
       {
         source: "/(.*)",
@@ -145,6 +150,18 @@ const nextConfig: NextConfig = {
           key,
           value,
         })),
+      },
+      {
+        source: "/products",
+        headers: [{ key: "Cache-Control", value: isrAlignedCacheControl }],
+      },
+      {
+        source: "/products/:path*",
+        headers: [{ key: "Cache-Control", value: isrAlignedCacheControl }],
+      },
+      {
+        source: "/c/:id",
+        headers: [{ key: "Cache-Control", value: isrAlignedCacheControl }],
       },
     ];
   },
