@@ -194,6 +194,15 @@ function hasAnchor(text: string, anchor: string): boolean {
   return text.toLowerCase().includes(needle);
 }
 
+/** Brand anchors match on word boundaries only: with 72 carried brands,
+ *  substring matching would flip scope on ordinary words that merely
+ *  contain a brand name ("pineapple" -> Apple, "canonical" -> Canon). */
+function hasBrandAnchor(text: string, brand: string): boolean {
+  const needle = brand.trim().toLowerCase();
+  if (needle.length < 3) return false;
+  return new RegExp(`\\b${escapeRegExp(needle)}\\b`, "i").test(text);
+}
+
 function productAnchors(): string[] {
   return [
     ...STATIC_ANCHORS,
@@ -227,7 +236,7 @@ export function classifyUserTurn(text: string, path: string | null = null): Scop
   // anchorless requests outright.
   if (productAnchors().some((anchor) => hasAnchor(trimmed, anchor))) return "in-scope";
   if (HARD_CONTEXT_OFF_TOPIC.some((pattern) => pattern.test(trimmed))) return "off-topic";
-  if (carriedBrands.some((brand) => hasAnchor(trimmed, brand))) return "in-scope";
+  if (carriedBrands.some((brand) => hasBrandAnchor(trimmed, brand))) return "in-scope";
   // No product/HACIEN anchor and not clearly off-topic — ask for a
   // clearer request instead of refusing (owner, 2026-11-20).
   return "clarify";

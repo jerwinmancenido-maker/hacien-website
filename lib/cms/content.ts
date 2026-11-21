@@ -2,6 +2,7 @@ import faqData from "../../config/faq-data.json";
 import type { CmsMediaKey } from "@/lib/cms/media";
 import {
   brandsLine,
+  brandsSummaryLine,
   companyContact,
   deliveryClauses,
   deliveryLine,
@@ -404,7 +405,7 @@ const aboutContent: CmsAboutContent = {
     highlights: [
       { label: "Office address", text: companyContact.addressOneLine },
       { label: "Appointments", text: showroomNote },
-      { label: "Brands", text: brandsLine },
+      { label: "Brands", text: brandsSummaryLine },
       { label: "Delivery", text: "Nationwide across the Philippines." },
     ],
   },
@@ -422,7 +423,7 @@ const aboutContent: CmsAboutContent = {
   workingStandard: {
     eyebrow: "What HACIEN supplies",
     title: "What HACIEN supplies",
-    description: `${brandsLine} ${supplyException}`,
+    description: `${brandsSummaryLine} ${supplyException}`,
     cards: [
       ...supplyItems.map((item) => ({ title: item.title, text: item.text })),
       { title: "Appointments", text: showroomNote },

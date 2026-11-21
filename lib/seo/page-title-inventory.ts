@@ -31,6 +31,7 @@ export const staticPageTitleSegments: Record<string, string> = {
   "/portal": "Customer Workspace",
   "/customer-workspace": "Customer Workspace",
   "/about/company-profile": "Company Profile",
+  "/brands": "Brands we carry",
   "/insights": "Enterprise Technology Knowledge Center | Insights",
   "/cms-preview": "CMS Preview",
   "/command-center/cms": "Command Center CMS Drafts",

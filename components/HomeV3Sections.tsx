@@ -47,9 +47,6 @@ export function TechnologyEcosystem() {
       <div className="mx-auto max-w-3xl px-4 sm:px-6">
         <div className="text-xs font-semibold uppercase tracking-[0.18em] text-grey-600">{homepageContent.rfqReadiness.eyebrow}</div>
         <h2 className="mt-4 text-2xl font-bold tracking-tight text-ink sm:text-3xl">{homepageContent.rfqReadiness.title}</h2>
-        <p className="mt-4 text-base leading-7 text-grey-700">
-          {homepageContent.rfqReadiness.description}
-        </p>
         <StaggerContainer className="mt-8 grid gap-3 sm:grid-cols-2">
           {homepageContent.rfqReadiness.cards.map((item, index) => (
             <AnimatedCard key={`${item.title}-${index}`} className="rounded-3xl border border-grey-200 bg-grey-50 p-5">

@@ -8,6 +8,7 @@ import {
   TechnologyEcosystem,
   TrustV3,
 } from "@/components/HomeV3Sections";
+import { BrandsSection } from "@/components/BrandsSection";
 import { getCmsMetadata } from "@/lib/cms/seo";
 
 export const metadata = getCmsMetadata("homepage");
@@ -19,6 +20,7 @@ export default function Home() {
       <PremiumStatementBand />
       <ProjectIntegration />
       <TechnologyEcosystem />
+      <BrandsSection />
       <TrustV3 />
       <BuyingTimeline />
       <CTABand
