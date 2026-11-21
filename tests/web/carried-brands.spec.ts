@@ -5,7 +5,15 @@ import path from "node:path";
 
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 
-import { brandPhrases, brandsLine, carriedBrands } from "@/data/companyContact";
+import {
+  brandCategories,
+  brandPhrases,
+  brandsLine,
+  brandsSummaryLine,
+  carriedBrands,
+  featuredBrandNames,
+} from "@/data/companyContact";
+import { classifyUserTurn } from "@/lib/ai/scope";
 import { categories, products } from "@/data/products";
 import { solutions } from "@/data/solutions";
 import { getAboutContent, getHomepageContent, getPublishedCmsContent } from "@/lib/cms/content";
@@ -40,21 +48,54 @@ function walkSource(dir: string): string[] {
 }
 
 describe("carried brands", () => {
-  it("renders the brands section as the 19 brands plus the two phrases", () => {
-    expect(carriedBrands).toHaveLength(19);
+  it("renders the brands line as the 72 unique brands plus the two phrases", () => {
+    expect(carriedBrands).toHaveLength(72);
     expect(brandsLine.split(", ")).toEqual([...carriedBrands, ...brandPhrases]);
 
     const homepage = getHomepageContent();
     expect(homepage.rfqReadiness.title).toBe("Brands");
     expect(homepage.rfqReadiness.description).toBe(brandsLine);
+  });
+
+  it("keeps the structured list at 77 tiles, 72 unique, in the six mocked categories", () => {
+    expect(brandCategories.map((category) => category.brands.length)).toEqual([12, 15, 12, 16, 10, 12]);
+    const tiles = brandCategories.flatMap((category) => category.brands.map((brand) => brand.name));
+    expect(tiles).toHaveLength(77);
+    expect(new Set(tiles).size).toBe(72);
+    expect(new Set(tiles)).toEqual(new Set(carriedBrands));
+    // Cisco Meraki and HPE Aruba Networking count as brands of their own.
+    expect(carriedBrands).toContain("Cisco Meraki");
+    expect(carriedBrands).toContain("HPE Aruba Networking");
+    expect(carriedBrands).toContain("Zebra");
+    expect(featuredBrandNames).toHaveLength(24);
+    for (const name of featuredBrandNames) {
+      expect(carriedBrands).toContain(name);
+    }
+  });
+
+  it("uses the short summary line, not the 72-name list, in prose contexts", () => {
+    expect(brandsSummaryLine).toBe("more than 70 leading brands");
 
     const aboutBrand = getAboutContent().hero.highlights.find((item) => item.label === "Brands");
-    expect(aboutBrand?.text).toBe(brandsLine);
+    expect(aboutBrand?.text).toBe(brandsSummaryLine);
+    expect(getAboutContent().workingStandard.description).toBe(
+      `${brandsSummaryLine} (excluding products requiring special regulatory licenses such as FDA or DOH-LTO)`,
+    );
 
     const aboutPage = readFileSync(path.join(process.cwd(), "app/about/page.tsx"), "utf8");
     const contactPage = readFileSync(path.join(process.cwd(), "app/contact/page.tsx"), "utf8");
-    expect(aboutPage).toContain('{ title: "Brands", text: brandsLine }');
-    expect(contactPage).toContain('{ label: "Brands", text: brandsLine }');
+    expect(aboutPage).toContain('{ title: "Brands", text: brandsSummaryLine }');
+    expect(contactPage).toContain('{ label: "Brands", text: brandsSummaryLine }');
+  });
+
+  it("classifies brand questions in scope without substring false positives", () => {
+    expect(classifyUserTurn("Do you sell Hikvision?")).toBe("in-scope");
+    expect(classifyUserTurn("Do you carry Fortinet?")).toBe("in-scope");
+    expect(classifyUserTurn("HPE Aruba Networking")).toBe("in-scope");
+    expect(classifyUserTurn("Canon")).toBe("in-scope");
+    // Ordinary words that merely contain a brand name must not flip scope.
+    expect(classifyUserTurn("Pineapple is my favourite fruit")).toBe("clarify");
+    expect(classifyUserTurn("That wording is not canonical")).toBe("clarify");
   });
 
   it("does not say exclusive distributor, partner, or dealer", () => {
