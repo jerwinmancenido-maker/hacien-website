@@ -1121,6 +1121,59 @@ main {
     color: #000 !important;
   }
 
+  /* R2-PC-1: the Variant A dark home surfaces and the /c/[id] card page
+     pair near-white text with dark backgrounds; print strips those
+     backgrounds, leaving the text illegible on paper. Force the dark
+     containers to white and their light text tokens to black. Brand
+     blue (#2563EB) and ink (#0A0A0A) backgrounds are site-wide, so
+     those two are reset only inside the home wrapper / card page,
+     where this build introduced them. */
+  .bg-\[\#0B0C10\],
+  .bg-\[\#15171D\],
+  .bg-\[\#1E2129\],
+  .bg-\[\#060F23\],
+  .bg-\[\#0A1C42\] {
+    background-color: #fff !important;
+  }
+
+  .bg-\[\#0B0C10\] .bg-\[\#2563EB\],
+  .bg-\[\#0A1C42\] .bg-\[\#2563EB\],
+  .bg-\[\#0B0C10\] .bg-\[\#0A0A0A\] {
+    background-color: #fff !important;
+  }
+
+  .text-\[\#F4F6FA\],
+  .text-\[\#C3C8D2\],
+  .text-\[\#9AA1B1\],
+  .text-\[\#6692F1\] {
+    color: #000 !important;
+  }
+
+  /* The white/NN opacity variants are used only by the card page. */
+  .bg-\[\#0B0C10\] .text-white,
+  .bg-\[\#0A1C42\] .text-white,
+  .bg-\[\#0A1C42\] .text-white\/85,
+  .bg-\[\#0A1C42\] .text-white\/70,
+  .bg-\[\#0A1C42\] .text-white\/60,
+  .bg-\[\#0A1C42\] .text-white\/50 {
+    color: #000 !important;
+  }
+
+  /* The card's outline buttons keep a visible outline on paper. */
+  .bg-\[\#0A1C42\] .bg-white\/5 {
+    background-color: #fff !important;
+  }
+
+  .bg-\[\#0A1C42\] .border-white\/25 {
+    border-color: #000 !important;
+  }
+
+  /* The card page renders the white logo, invisible on white paper —
+     swap in the dark version of the same official logo for print. */
+  img[src="/brand/logo-full-white.svg"] {
+    content: url("/brand/logo-full.svg");
+  }
+
   a[href^="http://"]::after,
   a[href^="https://"]::after {
     content: " (" attr(href) ")";
