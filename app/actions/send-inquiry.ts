@@ -298,6 +298,20 @@ export async function sendInquiryEmail(
     if (normalizedType.includes("quote") || normalizedType.includes("rfq")) {
       const notes = getString(formData.notes).trim();
       if (notes) summaryLines.push(`What you need: ${notes}`);
+      const extra: Array<[string, string]> = [
+        ["Business type", "businessType"],
+        ["Position", "position"],
+        ["Business address", "businessAddress"],
+        ["Delivery location", "location"],
+        ["Needed by", "targetDate"],
+        ["Budget or ABC", "budgetRange"],
+        ["TIN", "tin"],
+        ["RFQ or PR number", "buyerReference"],
+      ];
+      for (const [label, key] of extra) {
+        const value = getString(formData[key]).trim();
+        if (value) summaryLines.push(`${label}: ${value}`);
+      }
       const count = Number(formData.requirementCount);
       if (Number.isFinite(count) && count > 0) {
         summaryLines.push(`Requirement package: ${count} item${count === 1 ? "" : "s"}`);
