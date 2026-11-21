@@ -1,9 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { NextRequest } from "next/server";
 
-import StaffCardPage from "@/app/c/[id]/page";
+import StaffCardPage, {
+  dynamicParams,
+  generateStaticParams,
+} from "@/app/c/[id]/page";
 import { GET as getStaffCardVcf } from "@/app/c/[id]/vcf/route";
-import { getStaffCard, staffCardVcfFilename } from "@/data/staffCards";
+import { getStaffCard, staffCards, staffCardVcfFilename } from "@/data/staffCards";
 import { buildVCard } from "@/lib/vcard";
 import { middleware } from "@/middleware";
 
@@ -14,6 +17,14 @@ describe("staff cards data", () => {
     expect(card?.fullName).toBe("Jerwin P. Mancenido");
     expect(card?.title).toBe("General Manager");
     expect(card?.mobileIntl).toBe("+639681171158");
+  });
+
+  it("prebuilds only known card IDs and rejects unknown dynamic params", () => {
+    expect(dynamicParams).toBe(false);
+    expect(generateStaticParams()).toEqual(
+      Object.keys(staffCards).map((id) => ({ id })),
+    );
+    expect(generateStaticParams()).toContainEqual({ id: "2611001" });
   });
 
   it("redirects uppercase QR paths /C/:id to the canonical /c/:id card route", () => {

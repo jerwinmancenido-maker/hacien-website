@@ -2,11 +2,19 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import { getStaffCard, type StaffCard } from "@/data/staffCards";
+import { getStaffCard, staffCards, type StaffCard } from "@/data/staffCards";
 
 type PageProps = {
   params: Promise<{ id: string }>;
 };
+
+// Only known card IDs are valid — unknown /c/[id] paths must hard-404
+// (not soft-404 with a 200 not-found body).
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return Object.keys(staffCards).map((id) => ({ id }));
+}
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
