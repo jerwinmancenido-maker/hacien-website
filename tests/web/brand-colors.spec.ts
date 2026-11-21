@@ -206,13 +206,28 @@ describe("HACIEN brand colors", () => {
     const heroSource = readFileSync(join(ROOT, "components/Hero.tsx"), "utf8");
     const premiumHeroSource = readFileSync(join(ROOT, "components/PremiumPageHero.tsx"), "utf8");
 
-    // The Home hero is light (site restyle, chat visual language): white
-    // surface with ink text. It must not carry the old dark boxes.
-    expect(heroSource).toMatch(/bg-white/);
+    // The Home hero is dark Variant A (approved full-dark mock v5,
+    // REQ-WEB-RESTYLE-001): heading/body text in the Variant A tokens on the
+    // #0B0C10 canvas, signals panel on Surface 1 (#15171D). It must not carry
+    // the old light (bg-white) surface or the old dark boxes.
+    expect(heroSource).toContain("@/lib/variant-a");
+    expect(heroSource).toMatch(/VA_PANEL/);
+    expect(heroSource).not.toMatch(/bg-white/);
     expect(heroSource).not.toMatch(/bg-\[#0A0A0A\]/);
     expect(heroSource).not.toMatch(/bg-\[#141414\]/);
-    const inkOnWhite = contrastRatio("#0A0A0A", "#FFFFFF");
-    expect(inkOnWhite, "ink on white must meet WCAG AA (>= 4.5)").toBeGreaterThanOrEqual(4.5);
+    const variantASource = readFileSync(join(ROOT, "lib/variant-a.ts"), "utf8");
+    expect(variantASource).toContain("bg-[#15171D]");
+    const vaPairs = [
+      { name: "Variant A heading", text: "#F4F6FA", bg: "#0B0C10" },
+      { name: "Variant A body", text: "#C3C8D2", bg: "#0B0C10" },
+      { name: "Variant A muted", text: "#9AA1B1", bg: "#0B0C10" },
+      { name: "Variant A heading on Surface 1 panel", text: "#F4F6FA", bg: "#15171D" },
+      { name: "Variant A card text on Surface 1 panel", text: "#C3C8D2", bg: "#15171D" },
+    ];
+    for (const pair of vaPairs) {
+      const ratio = contrastRatio(pair.text, pair.bg);
+      expect(ratio, `${pair.name} (${pair.text} on ${pair.bg}) must meet WCAG AA (>= 4.5)`).toBeGreaterThanOrEqual(4.5);
+    }
 
     // PremiumPageHero (all other hero pages) still uses solid dark box
     // containers to prevent photo bleed-through.

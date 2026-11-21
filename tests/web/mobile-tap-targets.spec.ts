@@ -22,17 +22,20 @@ describe("Mobile tap targets (390px)", () => {
 
   it("IMPROVEMENT: Hero primary action is at least 44px tall on mobile, not just sm+", () => {
     const hero = read("components/Hero.tsx");
-    // Today: "py-2.5 ... sm:py-3" — mobile is one step below 44px.
-    // Fix: add min-h-11 to the primary action link.
-    expect(hero).toMatch(/min-h-11/);
+    // Variant A (REQ-WEB-RESTYLE-001): hero actions are 52px full pills at
+    // every width, via the shared VA_BTN_*_52 classes in lib/variant-a.ts.
+    expect(hero).toMatch(/VA_BTN_PRIMARY_52/);
+    const variantA = read("lib/variant-a.ts");
+    expect(variantA).toMatch(/VA_BTN_PRIMARY_52[\s\S]*?h-\[52px\]/);
   });
 
-  it("Header quote action is not the only CTA on mobile (it is lg:flex only)", () => {
-    // This is a content check, not a size check: on mobile the header CTA
-    // disappears, so the hero primary action must carry the quote path.
-    // If this ever changes, update the hero test above in the same PR.
+  it("Header quote action hides only at phone width (<=560px), per mock v5", () => {
+    // REQ-WEB-RESTYLE-001 (prep correction C6): mock v5 keeps the 44px header
+    // CTA beside the menu button at tablet widths and hides it only at
+    // <=560px, where the hero primary action carries the quote path.
     const header = read("components/Header.tsx");
-    expect(header).toMatch(/hidden[\s\S]*?lg:flex[\s\S]*?quoteAction/);
+    expect(header).toMatch(/max-\[560px\]:hidden[\s\S]*?quoteAction|quoteAction[\s\S]*?max-\[560px\]:hidden/);
+    expect(header).toMatch(/VA_BTN_PRIMARY_44/);
     const hero = read("components/Hero.tsx");
     expect(hero).toMatch(/primaryAction/);
   });

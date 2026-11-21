@@ -5,28 +5,18 @@ import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { BrandLogo } from "@/components/BrandLogo";
 import { getNavigationContent } from "@/lib/cms/content";
+import { VA_BTN_PRIMARY_44, VA_FOCUS_ON_CANVAS, VA_WRAP } from "@/lib/variant-a";
 
 const navigationContent = getNavigationContent();
 const navItems = navigationContent.header.primaryItems;
 
 export function Header() {
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const wasOpenRef = useRef(false);
   const menuId = useId();
-
-  useEffect(() => {
-    function updateScrolled() {
-      setScrolled(window.scrollY > 8);
-    }
-
-    updateScrolled();
-    window.addEventListener("scroll", updateScrolled, { passive: true });
-    return () => window.removeEventListener("scroll", updateScrolled);
-  }, []);
 
   useEffect(() => {
     if (!open) {
@@ -68,82 +58,72 @@ export function Header() {
   if (pathname?.startsWith("/c/")) return null;
 
   return (
-    <header
-      className={`sticky top-0 z-50 border-b border-grey-200 bg-white transition-shadow duration-300 ${
-        scrolled ? "shadow-[0_1px_2px_rgba(0,0,0,0.06)]" : ""
-      }`}
-    >
-      <div
-        className={`mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 sm:px-6 lg:gap-4 lg:px-8 ${
-          scrolled ? "py-1.5" : "py-2"
-        }`}
-      >
+    <header className="sticky top-0 z-50 bg-[#0B0C10]">
+      <div className={`${VA_WRAP} flex items-center justify-between gap-4 py-[14px]`}>
         {/*
-          Wordmark 28px tall (within 24–32). BrandLogo adds clear space X = 0.286×CH.
-          Width at 28px tall ≈ 142px (≥ 96px minimum). Never retype HACIEN in a font.
-          F18: keep wordmark on phone and tablet (not icon-only).
+          White wordmark-only variant at 28px tall, full contrast, never dimmed.
+          BrandLogo adds clear space X = 0.286×CH.
           G09: -ml-[7px] offsets BrandLogo internal clear space so visual letter 'H' aligns with container edge at 1440.
         */}
         <Link
           href="/"
-          className="group -ml-[7px] inline-flex min-h-11 min-w-11 shrink-0 items-center rounded focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+          className={`-ml-[7px] inline-flex min-h-11 min-w-11 shrink-0 items-center rounded-full ${VA_FOCUS_ON_CANVAS}`}
           aria-label="HACIEN home"
         >
-          <BrandLogo variant="wordmark" height={28} priority />
+          <BrandLogo variant="wordmark-white" height={28} priority />
         </Link>
 
-        <nav className="hidden items-center gap-1 text-sm font-medium text-grey-600 lg:flex">
+        <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
           {navItems.map((item) => {
             const active = isActive(item.href);
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative inline-flex items-center gap-2 rounded px-3 py-2 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue ${
-                  active ? "bg-grey-100 font-semibold text-ink" : "hover:bg-grey-100 hover:text-ink"
+                aria-current={active ? "page" : undefined}
+                className={`inline-flex items-center rounded-full px-3 py-2.5 text-[14.5px] transition-colors hover:bg-[#15171D] hover:text-[#F4F6FA] ${VA_FOCUS_ON_CANVAS} ${
+                  active ? "font-semibold text-[#F4F6FA]" : "font-medium text-[#C3C8D2]"
                 }`}
               >
-                {active ? <span className="pixel-marker !mr-0" aria-hidden="true" /> : null}
                 {item.label}
               </Link>
             );
           })}
         </nav>
 
-        <div className="hidden shrink-0 items-center gap-2 lg:flex">
+        <div className="flex shrink-0 items-center gap-2.5">
           <Link
             href={navigationContent.header.quoteAction.href}
-            className="rounded bg-blue px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-blue-dark focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+            className={`${VA_BTN_PRIMARY_44} max-[560px]:hidden`}
           >
             {navigationContent.header.quoteAction.label}
           </Link>
-        </div>
 
-        <button
-          ref={menuButtonRef}
-          className="grid h-11 w-11 place-items-center rounded border border-grey-200 bg-white text-ink transition-colors hover:bg-grey-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue lg:hidden"
-          onClick={() => setOpen((value) => !value)}
-          aria-expanded={open}
-          aria-controls={menuId}
-          aria-label={open ? "Close navigation" : "Open navigation"}
-        >
-          <span className="sr-only">Menu</span>
-          <span className="grid gap-1.5" aria-hidden="true">
-            <span className="block h-0.5 w-4 bg-current" />
-            <span className="block h-0.5 w-4 bg-current" />
-          </span>
-        </button>
+          <button
+            ref={menuButtonRef}
+            className={`grid h-11 w-11 place-items-center rounded-full bg-[#1E2129] text-[#F4F6FA] transition-colors hover:bg-[#2A2E38] ${VA_FOCUS_ON_CANVAS} lg:hidden`}
+            onClick={() => setOpen((value) => !value)}
+            aria-expanded={open}
+            aria-controls={menuId}
+            aria-label={open ? "Close navigation" : "Open navigation"}
+          >
+            <span className="sr-only">Menu</span>
+            <span className="grid gap-1.5" aria-hidden="true">
+              <span className="block h-0.5 w-4 bg-current" />
+              <span className="block h-0.5 w-4 bg-current" />
+            </span>
+          </button>
+        </div>
       </div>
 
       {open ? (
-        <div id={menuId} className="motion-slide-up border-t border-grey-200 bg-white px-4 py-4 lg:hidden">
-          <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 pb-3">
-            <div className="text-xs font-semibold uppercase tracking-[0.08em] text-grey-600">Menu</div>
+        <div id={menuId} className="motion-slide-up bg-[#0B0C10] px-6 py-4 lg:hidden">
+          <div className="mx-auto flex w-full max-w-[1180px] items-center justify-end pb-3">
             <button
               ref={closeButtonRef}
               type="button"
               onClick={closeMenu}
-              className="inline-flex h-11 w-11 items-center justify-center rounded border border-grey-200 bg-white text-ink transition-colors hover:bg-grey-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue"
+              className={`inline-flex h-11 w-11 items-center justify-center rounded-full bg-[#1E2129] text-[#F4F6FA] transition-colors hover:bg-[#2A2E38] ${VA_FOCUS_ON_CANVAS}`}
               aria-label="Close navigation"
             >
               <span aria-hidden="true" className="text-xl leading-none">
@@ -151,25 +131,28 @@ export function Header() {
               </span>
             </button>
           </div>
-          <nav className="mx-auto grid max-w-7xl gap-1 text-sm font-medium text-grey-700">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={closeMenu}
-                className={`inline-flex min-h-11 items-center gap-2 rounded px-3 py-3 transition-colors ${
-                  isActive(item.href) ? "bg-grey-100 font-semibold text-ink" : "hover:bg-grey-100 hover:text-ink"
-                }`}
-              >
-                {isActive(item.href) ? <span className="pixel-marker !mr-0" aria-hidden="true" /> : null}
-                {item.label}
-              </Link>
-            ))}
-            <div className="mt-3 border-t border-grey-200 pt-4">
+          <nav className="mx-auto grid w-full max-w-[1180px] gap-1" aria-label="Menu">
+            {navItems.map((item) => {
+              const active = isActive(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={closeMenu}
+                  aria-current={active ? "page" : undefined}
+                  className={`inline-flex min-h-11 items-center rounded-full px-3 py-3 text-[14.5px] transition-colors hover:bg-[#15171D] hover:text-[#F4F6FA] ${VA_FOCUS_ON_CANVAS} ${
+                    active ? "bg-[#15171D] font-semibold text-[#F4F6FA]" : "font-medium text-[#C3C8D2]"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+            <div className="mt-3 pt-4 shadow-[0_-1px_0_#15171D]">
               <Link
                 href={navigationContent.header.quoteAction.href}
                 onClick={closeMenu}
-                className="inline-flex min-h-11 w-full items-center justify-center rounded bg-blue px-4 py-3 text-center font-medium text-white hover:bg-blue-dark"
+                className={`${VA_BTN_PRIMARY_44} w-full`}
               >
                 {navigationContent.header.quoteAction.label}
               </Link>

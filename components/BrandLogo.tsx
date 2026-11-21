@@ -11,7 +11,14 @@
  * rasterizes SVGs and can wash out white lockups on dark backgrounds.
  */
 
-type LogoVariant = "wordmark" | "full" | "full-white" | "mono" | "icon" | "icon-dark";
+type LogoVariant =
+  | "wordmark"
+  | "wordmark-white"
+  | "full"
+  | "full-white"
+  | "mono"
+  | "icon"
+  | "icon-dark";
 
 type BrandLogoProps = {
   variant: LogoVariant;
@@ -25,6 +32,7 @@ type BrandLogoProps = {
 
 const VIEWBOX = {
   wordmark: { w: 819, h: 161 },
+  "wordmark-white": { w: 819, h: 161 },
   full: { w: 819, h: 220.6 },
   "full-white": { w: 819, h: 220.6 },
   mono: { w: 819, h: 220.6 },
@@ -34,6 +42,10 @@ const VIEWBOX = {
 
 const SRC: Record<LogoVariant, string> = {
   wordmark: "/brand/logo-wordmark.svg",
+  // White wordmark-only rendering for dark surfaces (Variant A shell).
+  // Derived mechanically from logo-wordmark.svg: letters recoloured
+  // #0A0A0A -> #FFFFFF, blue square untouched, paths never redrawn.
+  "wordmark-white": "/brand/logo-wordmark-white.svg",
   full: "/brand/logo-full.svg",
   "full-white": "/brand/logo-full-white.svg",
   mono: "/brand/logo-mono-black.svg",
@@ -43,6 +55,7 @@ const SRC: Record<LogoVariant, string> = {
 
 const MIN_WIDTH: Record<LogoVariant, number> = {
   wordmark: 96,
+  "wordmark-white": 96,
   full: 200,
   "full-white": 200,
   mono: 200,
@@ -53,6 +66,7 @@ const MIN_WIDTH: Record<LogoVariant, number> = {
 /** Cap height as a fraction of the SVG viewBox height (CH=140; wordmark vb h=161, full vb h=220.6). */
 const CH_FRACTION: Record<LogoVariant, number> = {
   wordmark: 140 / 161,
+  "wordmark-white": 140 / 161,
   full: 140 / 220.6,
   "full-white": 140 / 220.6,
   mono: 140 / 220.6,
@@ -63,6 +77,7 @@ const CH_FRACTION: Record<LogoVariant, number> = {
 
 const ALT: Record<LogoVariant, string> = {
   wordmark: "HACIEN",
+  "wordmark-white": "HACIEN",
   full: "HACIEN Information Technology Solutions",
   "full-white": "HACIEN Information Technology Solutions",
   mono: "HACIEN Information Technology Solutions",
@@ -81,7 +96,7 @@ function resolveSize(variant: LogoVariant, height?: number, width?: number) {
   } else if (height != null) {
     h = height;
     w = height * (vb.w / vb.h);
-  } else if (variant === "wordmark") {
+  } else if (variant === "wordmark" || variant === "wordmark-white") {
     h = 28;
     w = h * (vb.w / vb.h);
   } else if (variant.startsWith("icon")) {

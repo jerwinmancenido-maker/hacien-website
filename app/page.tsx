@@ -1,30 +1,26 @@
 import { Hero } from "@/components/Hero";
-import { BuyingTimeline } from "@/components/BuyingTimeline";
-import { ProjectIntegration } from "@/components/ProjectIntegration";
-import { replyTime } from "@/data/companyContact";
+import { PremiumStatementBand } from "@/components/EnterpriseImagery";
+import { TrustV3 } from "@/components/HomeV3Sections";
 import {
-  CTABand,
-  PremiumStatementBand,
-  TechnologyEcosystem,
-  TrustV3,
-} from "@/components/HomeV3Sections";
+  HomeBrandsSection,
+  HomeBuyingSteps,
+  HomeCTABand,
+  HomeDeliveryWarranty,
+} from "@/components/HomeVariantASections";
 import { getCmsMetadata } from "@/lib/cms/seo";
 
 export const metadata = getCmsMetadata("homepage");
 
 export default function Home() {
   return (
-    <>
+    <div className="bg-[#0B0C10]">
       <Hero />
       <PremiumStatementBand />
-      <ProjectIntegration />
-      <TechnologyEcosystem />
+      <HomeBuyingSteps />
+      <HomeBrandsSection />
       <TrustV3 />
-      <BuyingTimeline />
-      <CTABand
-        title="Request a quotation."
-        description={replyTime}
-      />
-    </>
+      <HomeDeliveryWarranty />
+      <HomeCTABand />
+    </div>
   );
 }

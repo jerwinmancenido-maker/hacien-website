@@ -10,7 +10,17 @@ import {
 } from "@/components/EnterpriseImagery";
 import { SectionHeading } from "@/components/SectionHeading";
 import { AnimatedCard, AnimatedSection, StaggerContainer } from "@/components/motion";
-import { registeredCompanyName, registrationPapersNote, registrationStatuses } from "@/data/companyContact";
+import { companyContact, registrationPapersNote, registrationStatuses } from "@/data/companyContact";
+import {
+  VA_CARD,
+  VA_CARD_TEXT,
+  VA_FOCUS_ON_CANVAS,
+  VA_H2,
+  VA_H3,
+  VA_LEAD,
+  VA_SECTION,
+  VA_WRAP,
+} from "@/lib/variant-a";
 import { categories } from "@/data/products";
 import { solutions } from "@/data/solutions";
 import { getHomepageContent } from "@/lib/cms/content";
@@ -222,28 +232,28 @@ export function ErpPreviewV3() {
 
 export function TrustV3() {
   return (
-    <AnimatedSection className="bg-transparent py-9 sm:py-12 lg:py-14">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <SectionHeading
-          eyebrow="Registrations"
-          title={registeredCompanyName}
-          description={registrationPapersNote}
-        />
-        <StaggerContainer className="mt-6 grid gap-3 md:mt-10 md:grid-cols-2 md:gap-5 lg:grid-cols-4">
+    <section className={VA_SECTION}>
+      <div className={VA_WRAP}>
+        <h2 className={VA_H2}>{companyContact.legalName}</h2>
+        <p className={`${VA_LEAD} mt-3 max-w-[760px]`}>{registrationPapersNote}</p>
+        <div className="mt-[30px] grid gap-[14px] min-[561px]:grid-cols-2 lg:grid-cols-4">
           {registrationStatuses.map((item) => (
-            <AnimatedCard key={item.label} className="rounded-3xl border border-grey-200 bg-grey-50 p-4 sm:p-5">
-              <div className="font-bold text-slate-950">{item.label}</div>
-              {item.status ? <p className="mt-2 text-sm leading-6 text-slate-600">{item.status}</p> : null}
-            </AnimatedCard>
+            <div key={item.label} className={VA_CARD}>
+              <h3 className={VA_H3}>{item.label}</h3>
+              {item.status ? <p className={`${VA_CARD_TEXT} mt-2`}>{item.status}</p> : null}
+            </div>
           ))}
-        </StaggerContainer>
-        <div className="mt-8">
-          <Link href="/compliance" className="interactive-link inline-flex text-sm font-bold text-[#2563EB] hover:underline">
+        </div>
+        <div className="mt-[22px]">
+          <Link
+            href="/compliance"
+            className={`inline-flex h-11 items-center px-1 text-[14.5px] font-semibold text-[#6692F1] hover:underline ${VA_FOCUS_ON_CANVAS}`}
+          >
             See Government Compliance
           </Link>
         </div>
       </div>
-    </AnimatedSection>
+    </section>
   );
 }
 

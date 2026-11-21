@@ -161,7 +161,7 @@ gtag('config', '${gaId}', {
                 otherwise cover the first line of the section above the footer,
                 because the document ends and the page cannot scroll further. */}
             <HideOnCardPages>
-              <div aria-hidden="true" className="h-20 bg-ink" />
+              <div aria-hidden="true" className="h-20 bg-[#060F23]" />
             </HideOnCardPages>
           </QuoteCartProvider>
         </LenisProvider>

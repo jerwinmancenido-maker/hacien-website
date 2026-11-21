@@ -11,7 +11,8 @@ describe("visual inspection fixes (sticky header, checks verbs, duplication, quo
   it("gives the page bottom scroll room below the sticky header", () => {
     expect(layout).toContain("<Footer />");
     const footerAt = layout.indexOf("<Footer />");
-    const spacerAt = layout.indexOf('className="h-20 bg-ink"', footerAt);
+    // Spacer carries the Variant A Band colour (prep C12, REQ-WEB-RESTYLE-001).
+    const spacerAt = layout.indexOf('className="h-20 bg-[#060F23]"', footerAt);
     expect(spacerAt).toBeGreaterThan(footerAt);
   });
 

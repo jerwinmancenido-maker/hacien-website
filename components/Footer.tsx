@@ -5,6 +5,7 @@ import { companyContact } from "@/data/companyContact";
 import { getNavigationContent } from "@/lib/cms/content";
 import { CookieSettingsButton } from "@/components/CookieNotice";
 import { isValidGaId } from "@/lib/ga4";
+import { VA_FOCUS_ON_BAND, VA_WRAP } from "@/lib/variant-a";
 
 /** Second caption line. Shown even when BIR_RSN is unset. */
 export const birRmcCaption = "per BIR RMC No. 38-2026";
@@ -31,31 +32,40 @@ export function Footer() {
     : [...navigationContent.footer.groups, { title: "Legal", links: [...siteFooterPolicyLinks] }];
 
   return (
-    <footer className="relative z-10 border-t border-grey-200 bg-ink text-white">
-      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="grid gap-8 border-b border-white/10 pb-8 lg:grid-cols-[1.05fr_1.6fr] lg:items-start">
+    <footer className="relative z-10 bg-[#060F23] text-[#C3C8D2]">
+      <div className={`${VA_WRAP} pt-14`}>
+        <div className="grid gap-8 lg:grid-cols-[1.05fr_1.6fr] lg:items-start">
           <div>
             {/*
-              Full white lockup on ink. Width ≥ 200px (handoff min).
-              230px on narrow viewports, 280px from sm up — both above the 200px floor.
-              BrandLogo adds clear space X = 0.286×CH. Never retype HACIEN — SVG only.
+              White wordmark-only variant at 40px tall, full contrast, never dimmed.
+              (The full lockup cannot render at this height — its 200px minimum
+              width puts it at ~54px tall — so the shell uses the wordmark.)
             */}
-            <BrandLogo variant="full-white" width={280} />
+            <Link
+              href="/"
+              className={`inline-flex items-center rounded-full ${VA_FOCUS_ON_BAND}`}
+              aria-label="HACIEN home"
+            >
+              <BrandLogo variant="wordmark-white" height={40} />
+            </Link>
             {navigationContent.footer.statement ? (
-              <p className="mt-4 max-w-lg text-sm leading-6 text-grey-300">
+              <p className="mt-4 max-w-[480px] text-sm leading-[1.6]">
                 {navigationContent.footer.statement}
               </p>
             ) : null}
           </div>
 
-          <div className="rounded border border-white/10 bg-white/[0.04] p-5 text-sm text-grey-300">
-            <address className="not-italic leading-6">
-              <span className="block text-xs font-semibold uppercase tracking-[0.08em] text-grey-300">
+          <div className="rounded-[20px] bg-[#15171D] p-[22px] text-sm leading-[1.65]">
+            <address className="not-italic">
+              <span className="mb-1.5 block text-[13.5px] font-semibold text-[#F4F6FA]">
                 {companyContact.addressLabel}
               </span>
-              <span>{companyContact.addressLines.join(", ")}</span>
+              <span>{companyContact.addressOneLine}</span>
               <span className="mt-2 block">
-                <a href={`mailto:${companyContact.email}`} className="text-white hover:underline">
+                <a
+                  href={`mailto:${companyContact.email}`}
+                  className={`font-semibold text-white hover:underline ${VA_FOCUS_ON_BAND}`}
+                >
                   {companyContact.email}
                 </a>
               </span>
@@ -63,16 +73,16 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-11 grid grid-cols-2 gap-7 min-[561px]:grid-cols-3 lg:grid-cols-5">
           {groups.map((group) => (
             <div key={group.title}>
-              <div className="text-sm font-medium text-white">{group.title}</div>
-              <div className="mt-4 grid gap-1 text-sm text-grey-300 sm:gap-3">
+              <div className="mb-3.5 text-sm font-semibold text-[#F4F6FA]">{group.title}</div>
+              <div className="grid text-sm">
                 {group.links.map((link) => (
                   <Link
                     key={`${group.title}-${link.href}`}
                     href={link.href}
-                    className="inline-flex min-h-11 items-center hover:text-white sm:min-h-0"
+                    className={`block rounded py-[5px] transition-colors hover:text-[#F4F6FA] ${VA_FOCUS_ON_BAND}`}
                   >
                     {link.label}
                   </Link>
@@ -85,8 +95,8 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-3">
-          <Link href="/compliance" className="inline-flex max-w-full">
+        <div className="mt-9 flex flex-wrap items-center gap-x-4 gap-y-3">
+          <Link href="/compliance" className={`inline-flex max-w-full rounded ${VA_FOCUS_ON_BAND}`}>
             {/* Official BIR seal. Scale only: the file is served unaltered so the QR stays scannable. */}
             {/* eslint-disable-next-line @next/next/no-img-element -- BIR RMC No. 38-2026 requires the seal unaltered; next/image recompresses it */}
             <img
@@ -98,13 +108,13 @@ export function Footer() {
               decoding="async"
             />
           </Link>
-          <p className="text-sm leading-5 text-grey-300">
+          <p className="text-[13.5px] leading-[1.5]">
             <span className="block whitespace-nowrap">{birBadgeLabel()}</span>
             <span className="block whitespace-nowrap">{birRmcCaption}</span>
           </p>
         </div>
       </div>
-      <div className="border-t border-white/10 px-4 py-4 text-center text-xs text-grey-300">
+      <div className="mt-9 px-6 pt-[18px] pb-[22px] text-center text-[12.5px] text-[#9AA1B1] shadow-[0_-1px_0_rgba(255,255,255,0.08)]">
         <span>© {new Date().getFullYear()} HACIEN Information Technology Solutions. All rights reserved.</span>
       </div>
     </footer>

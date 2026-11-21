@@ -83,6 +83,60 @@ export const registrationStatuses = [
   { label: "PhilGEPS Registered Supplier", status: "" },
 ] as const;
 
+/**
+ * STUB — REQ-WEB-RESTYLE-001, brief §7 placeholder.
+ *
+ * This is the structured brands list shape REQ-WEB-BRANDS-001 (Stream D)
+ * builds in this file: one entry per unique brand (name + category or
+ * categories + logo file where one is held). Until that build lands, this
+ * stub carries ONLY the homepage mock v5 featured 24, in mock order, so the
+ * restyled home page can render its brands section against the real shape.
+ * REQ-WEB-BRANDS-001 replaces this list wholesale with the full 72-brand
+ * list; the home section component consumes `brandsList` unchanged.
+ */
+export type CarriedBrandEntry = {
+  name: string;
+  categories: readonly string[];
+  /** Public path of the held logo SVG, where one is held. */
+  logo?: string;
+  /** Styled-wordmark tile data for brands without a held logo (mock v5 treatment). */
+  wordmark?: {
+    text: string;
+    color?: string;
+    letterSpacing?: string;
+    small?: string;
+  };
+  /** Homepage featured grid (mock v5), in list order. */
+  featured?: boolean;
+};
+
+export const brandsList: readonly CarriedBrandEntry[] = [
+  { name: "Dell", categories: ["Laptops, Desktops & Mobile", "Servers & Storage"], logo: "/brand/logos/dell.svg", featured: true },
+  { name: "HP", categories: ["Laptops, Desktops & Mobile", "Printing, Displays & Collaboration"], logo: "/brand/logos/hp.svg", featured: true },
+  { name: "Lenovo", categories: ["Laptops, Desktops & Mobile", "Servers & Storage"], logo: "/brand/logos/lenovo.svg", featured: true },
+  { name: "Apple", categories: ["Laptops, Desktops & Mobile"], logo: "/brand/logos/apple.svg", featured: true },
+  { name: "Asus", categories: ["Laptops, Desktops & Mobile"], logo: "/brand/logos/asus.svg", featured: true },
+  { name: "Acer", categories: ["Laptops, Desktops & Mobile"], logo: "/brand/logos/acer.svg", featured: true },
+  { name: "Microsoft", categories: ["Laptops, Desktops & Mobile", "Software & Cloud"], wordmark: { text: "Microsoft", color: "#5B5FC7" }, featured: true },
+  { name: "Samsung", categories: ["Laptops, Desktops & Mobile", "Printing, Displays & Collaboration"], wordmark: { text: "SAMSUNG", color: "#1428A0", letterSpacing: "0.18em" }, featured: true },
+  { name: "Cisco", categories: ["Networking & Power"], logo: "/brand/logos/cisco.svg", featured: true },
+  { name: "Canon", categories: ["Printing, Displays & Collaboration"], logo: "/brand/logos/canon.svg", featured: true },
+  { name: "Epson", categories: ["Printing, Displays & Collaboration"], logo: "/brand/logos/epson.svg", featured: true },
+  { name: "APC", categories: ["Networking & Power"], logo: "/brand/logos/apc.svg", featured: true },
+  { name: "Fortinet", categories: ["Security & Data Protection"], wordmark: { text: "FORTINET", color: "#EE3124", letterSpacing: "0.06em" }, featured: true },
+  { name: "Hikvision", categories: ["Security & Data Protection"], logo: "/brand/logos/hikvision.svg", featured: true },
+  { name: "Dahua", categories: ["Security & Data Protection"], logo: "/brand/logos/dahua.svg", featured: true },
+  { name: "Huawei", categories: ["Laptops, Desktops & Mobile"], wordmark: { text: "HUAWEI", color: "#CF0A2C" }, featured: true },
+  { name: "NVIDIA", categories: ["Servers & Storage"], wordmark: { text: "NVIDIA", color: "#76B900" }, featured: true },
+  { name: "IBM", categories: ["Servers & Storage"], wordmark: { text: "IBM", color: "#0530AD", letterSpacing: "0.22em" }, featured: true },
+  { name: "Oracle", categories: ["Software & Cloud"], wordmark: { text: "ORACLE", color: "#C74634", letterSpacing: "0.16em" }, featured: true },
+  { name: "Adobe", categories: ["Software & Cloud"], wordmark: { text: "Adobe", color: "#EB1000" }, featured: true },
+  { name: "VMware", categories: ["Software & Cloud"], wordmark: { text: "VMware", color: "#607078", small: "BY BROADCOM" }, featured: true },
+  { name: "LG", categories: ["Printing, Displays & Collaboration"], wordmark: { text: "LG", color: "#A50034" }, featured: true },
+  { name: "Panasonic", categories: ["Printing, Displays & Collaboration"], wordmark: { text: "Panasonic", color: "#004B8D" }, featured: true },
+  { name: "Synology", categories: ["Servers & Storage"], wordmark: { text: "Synology" }, featured: true },
+];
+
 export const insightAuthor = "HACIEN Team";
 
 export const companyContact = {

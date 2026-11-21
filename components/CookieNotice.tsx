@@ -165,7 +165,7 @@ export function CookieSettingsButton() {
     <button
       type="button"
       onClick={handleCookieSettings}
-      className="inline-flex min-h-11 items-center text-left text-sm text-grey-300 hover:text-white sm:min-h-0 cursor-pointer"
+      className="inline-flex min-h-11 items-center text-left text-sm text-[#C3C8D2] hover:text-[#F4F6FA] sm:min-h-0 cursor-pointer"
     >
       Cookie settings
     </button>
