@@ -141,6 +141,27 @@ export function intakeReady(path: AiChatPath, fields: GuidedChatAnswers): boolea
   });
 }
 
+/** True when the reply's last non-empty sentence/line ends with a
+ *  question mark — opening the summary on that turn replaces the
+ *  composer, so the question (budget is the common case) can never be
+ *  answered. '?' inside URLs and earlier sentences do not count.
+ *  Trailing quotes / emoji / whitespace are stripped before the last
+ *  unit is chosen so "? 😊" still counts as a question. */
+export function replyAsksVisitor(reply: string): boolean {
+  const withoutUrls = reply.replace(/https?:\/\/\S+/gi, " ");
+  const withoutTrailing = withoutUrls
+    .replace(/(?:["'`“”‘’«»„‟]|\p{Extended_Pictographic}|\uFE0F|\u200D|\s)+$/gu, "")
+    .trim();
+  if (!withoutTrailing) return false;
+  const units = withoutTrailing.split(/\n+|(?<=[.!?])\s+/);
+  let last = "";
+  for (const unit of units) {
+    const trimmed = unit.trim();
+    if (trimmed) last = trimmed;
+  }
+  return last.endsWith("?");
+}
+
 export type AiChatTurn = {
   reply: string;
   path: AiChatPath | null;
@@ -160,11 +181,13 @@ function turnFromRecord(record: Record<string, unknown>): AiChatTurn | null {
   if (!reply) return null;
   const path = isAiChatPath(record.path) ? record.path : null;
   const fields = path ? sanitizeIntakeFields(path, record.fields) : {};
+  const ready =
+    path && intakeReady(path, fields) && !replyAsksVisitor(reply);
   return {
     reply: reply.slice(0, MAX_REPLY_LENGTH),
     path,
     fields,
-    readyToReview: path ? intakeReady(path, fields) : false,
+    readyToReview: Boolean(ready),
     cards: [],
     productRefs: sanitizeProductRefs(record.products),
     inputHint: sanitizeInputHint(record.inputHint),

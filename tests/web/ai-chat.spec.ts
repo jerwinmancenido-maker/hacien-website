@@ -16,6 +16,7 @@ import { AI_SAFE_REPLY, screenAiReply } from "@/lib/ai/output-guard";
 import {
   intakeReady,
   parseAiChatTurn,
+  replyAsksVisitor,
   sanitizeIntakeFields,
 } from "@/lib/ai/intake";
 import { findTrackUrl } from "@/lib/guided-chat/payloads";
@@ -111,6 +112,25 @@ describe("AI chat panel wiring", () => {
     // ...but never before the first message: the start screen stays
     // where it opened, with the greeting in view.
     expect(ai).toContain("if (!started) return;");
+  });
+
+  it("re-scrolls after product cards or choice boxes lay out, and skips smooth scroll when reduced motion is on", () => {
+    const ai = read("components/AiChat.tsx");
+    expect(ai).toContain('window.matchMedia("(prefers-reduced-motion: reduce)")');
+    expect(ai).toContain('const behavior: ScrollBehavior = reducedMotion ? "auto" : "smooth"');
+    expect(ai).toContain("hasTallReplyChrome");
+    expect(ai).toContain("ResizeObserver");
+    expect(ai).toContain("observer.observe(content)");
+    // One-shot: disconnect after the layout settle scroll so a visitor
+    // who scrolled up is not yanked back on later reflows.
+    expect(ai).toContain("observer.disconnect()");
+    expect(ai).toMatch(/scrollThreadToBottom\(\);\s*observer\.disconnect\(\);/);
+    // Plain-text replies keep the original messages-driven scroll only;
+    // the tall-chrome observer is gated and does not replace it.
+    expect(ai).toContain("if (!started || !hasTallReplyChrome) return;");
+    expect(ai).toContain("lastMessage.cards");
+    expect(ai).toContain("showNeedChoices");
+    expect(ai).toContain("showCallbackChoices");
   });
 
   it("the start screen is the centered email start — no menu cards, no composer yet", () => {
@@ -257,6 +277,13 @@ describe("AI chat knowledge sheet", () => {
     expect(prompt).toContain("collect the name first and the phone number second");
   });
 
+  it("forbids opening the summary on a turn that still asks a question (budget waits)", () => {
+    const prompt = buildAiChatSystemPrompt();
+    expect(prompt).toContain("Never open the summary (readyToReview true) on a turn where your reply asks a question");
+    expect(prompt).toContain("do not ask about budget");
+    expect(prompt).toContain("in the same turn you open the summary");
+  });
+
   it("forbids stating or guessing any request status or lead details", () => {
     const prompt = buildAiChatSystemPrompt();
     expect(prompt).toContain("never state or guess a request's status");
@@ -387,6 +414,58 @@ describe("AI intake sanitization", () => {
       readyToReview: true,
     });
     expect(complete?.readyToReview).toBe(true);
+  });
+
+  it("holds the summary when the reply still asks a question (budget must wait for an answer)", () => {
+    expect(replyAsksVisitor("Is there a budget range we should work within?")).toBe(true);
+    expect(replyAsksVisitor("Noted. Is there a budget range?")).toBe(true);
+    // Trailing emoji after '?' must not become the last unit and clear the hold.
+    expect(replyAsksVisitor("Is there a budget range? 😊")).toBe(true);
+    expect(replyAsksVisitor("Is there a budget range? 🙂")).toBe(true);
+    expect(replyAsksVisitor("Is there a budget range? 👍")).toBe(true);
+    expect(replyAsksVisitor("Here's what I'll send — please check it:")).toBe(false);
+    // Query-string '?' must not hold the summary when the reply ends as a statement.
+    expect(
+      replyAsksVisitor("See https://haciensolutions.com/track?ref=HAC-1 for tracking. We're ready to send."),
+    ).toBe(false);
+    // A mid-reply question followed by a closing statement opens the summary.
+    expect(replyAsksVisitor("Is there a budget range? Here's what I'll send.")).toBe(false);
+
+    const quoteFields = {
+      need: "20 laptops",
+      name: "Ana Reyes",
+      company: "Acme PH",
+      email: "ana@acme.ph",
+      phone: "0917 555 0101",
+      location: "Makati",
+      targetDate: "Dec 15",
+    };
+    expect(intakeReady("quote", quoteFields)).toBe(true);
+
+    const asking = parseAiChatTurn({
+      reply: "Is there a budget range we should work within?",
+      path: "quote",
+      fields: quoteFields,
+      readyToReview: true,
+    });
+    expect(asking?.readyToReview).toBe(false);
+
+    const askingWithEmoji = parseAiChatTurn({
+      reply: "Is there a budget range? 😊",
+      path: "quote",
+      fields: quoteFields,
+      readyToReview: true,
+    });
+    expect(askingWithEmoji?.readyToReview).toBe(false);
+
+    const answered = parseAiChatTurn({
+      reply: "Noted — under PHP 500,000. Here's what I'll send.",
+      path: "quote",
+      fields: { ...quoteFields, budgetRange: "Under PHP 500,000" },
+      readyToReview: true,
+    });
+    expect(answered?.readyToReview).toBe(true);
+    expect(answered?.fields.budgetRange).toBe("Under PHP 500,000");
   });
 
   it("computes readiness from the required list, per path", () => {
