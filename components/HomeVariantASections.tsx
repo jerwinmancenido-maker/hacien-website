@@ -1,9 +1,11 @@
 import Link from "next/link";
 import { buyingSteps } from "@/components/BuyingTimeline";
 import {
-  brandsList,
+  brandCategories,
   deliveryClauses,
+  featuredBrandNames,
   replyTime,
+  type CarriedBrand,
 } from "@/data/companyContact";
 import { projectIntegration } from "@/data/buyerCopy";
 import {
@@ -55,8 +57,15 @@ export function HomeBuyingSteps() {
   );
 }
 
+const brandByName = new Map<string, CarriedBrand>(
+  brandCategories.flatMap((category) => category.brands.map((brand) => [brand.name, brand] as const)),
+);
+
+const featuredBrands = featuredBrandNames
+  .map((name) => brandByName.get(name))
+  .filter((brand): brand is CarriedBrand => Boolean(brand));
+
 export function HomeBrandsSection() {
-  const featured = brandsList.filter((brand) => brand.featured);
   return (
     <section className={VA_SECTION}>
       <div className={VA_WRAP}>
@@ -68,7 +77,7 @@ export function HomeBrandsSection() {
           </p>
         </div>
         <div className="mt-[26px] grid grid-cols-3 gap-2 min-[561px]:grid-cols-4 min-[561px]:gap-[10px] lg:grid-cols-6">
-          {featured.map((brand) => (
+          {featuredBrands.map((brand) => (
             <div
               key={brand.name}
               className="flex h-[58px] min-w-0 items-center justify-center overflow-hidden rounded-[14px] bg-[#F5F5F5] p-2 min-[561px]:h-16 min-[561px]:rounded-2xl min-[561px]:p-[10px]"
@@ -76,30 +85,26 @@ export function HomeBrandsSection() {
               {brand.logo ? (
                 // eslint-disable-next-line @next/next/no-img-element -- brand logo SVGs stay vector; next/image rasterizes them
                 <img
-                  src={brand.logo}
+                  src={`/brand/logos/${brand.logo}`}
                   alt={brand.name}
                   className="max-h-[21px] w-auto max-w-[80%] min-[561px]:max-h-[26px]"
                   loading="lazy"
                   decoding="async"
                 />
-              ) : brand.wordmark ? (
+              ) : (
                 <div
                   className="text-center text-[13.5px] leading-[1.1] font-bold tracking-[0.01em] text-[#0A0A0A] min-[561px]:text-[16.5px]"
                   style={{
-                    color: brand.wordmark.color,
-                    letterSpacing: brand.wordmark.letterSpacing,
+                    color: brand.color,
+                    letterSpacing: brand.spacing,
                   }}
                 >
-                  {brand.wordmark.text}
-                  {brand.wordmark.small ? (
+                  {brand.display ?? brand.name}
+                  {brand.sub ? (
                     <small className="mt-[2px] block text-[8.5px] font-semibold tracking-[0.14em] text-[#525252] min-[561px]:text-[10.5px]">
-                      {brand.wordmark.small}
+                      {brand.sub}
                     </small>
                   ) : null}
-                </div>
-              ) : (
-                <div className="text-center text-[13.5px] leading-[1.1] font-bold text-[#0A0A0A] min-[561px]:text-[16.5px]">
-                  {brand.name}
                 </div>
               )}
             </div>
