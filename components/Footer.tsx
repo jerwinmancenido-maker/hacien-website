@@ -8,7 +8,7 @@ import { isValidGaId } from "@/lib/ga4";
 import { VA_FOCUS_ON_BAND, VA_WRAP } from "@/lib/variant-a";
 
 /** Second caption line. Shown even when BIR_RSN is unset. */
-export const birRmcCaption = "per BIR RMC No. 38-2026";
+export const birRmcCaption = "Issued under BIR RMC No. 38-2026";
 
 /** BIR registration serial, read at build time. Unset omits the RSN. */
 export function birBadgeLabel(rsn: string | undefined = process.env.BIR_RSN) {

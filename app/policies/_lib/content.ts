@@ -23,6 +23,14 @@ const privacyChatTabDate = "November 9, 2026";
  *  Policy changed, so it carries its own date like the v2.6 update. */
 const privacyV27Date = "November 10, 2026";
 
+/** Effective date of the Privacy Policy v2.8 and Website Terms of Use
+ *  v2.2 update (optional BIR Form 2303 chat upload; OpenBot lawyer
+ *  ruling 2026-11-23, owner-approved 2026-11-23). Only those two
+ *  documents changed, so they carry their own date like the v2.4
+ *  update. Set at publish: if the release ships on another day, this
+ *  date moves with it. */
+const tinGateDate = "November 23, 2026";
+
 function p(text: string): LegalBlock {
   return { kind: "p", text };
 }
@@ -65,15 +73,15 @@ export const policiesPage: LegalPageModel = {
         [
           "[Terms of Sale](/terms-of-sale)",
           "Quotations, orders, delivery, payment, cancellations and returns",
-          "v1.2",
+          "v1.3",
         ],
         [
           "[Warranty and Returns](/warranty)",
           "Manufacturer or supplier warranty, and how to make a claim",
           "v1.1",
         ],
-        ["[Privacy Policy](/privacy)", "What personal data we keep, why, and your rights", "v2.7"],
-        ["[Website Terms of Use](/terms)", "Rules for using haciensolutions.com", "v2.1"],
+        ["[Privacy Policy](/privacy)", "What personal data we keep, why, and your rights", "v2.8"],
+        ["[Website Terms of Use](/terms)", "Rules for using haciensolutions.com", "v2.2"],
         [
           "[Business and Legal Information](/legal)",
           "Who we are, our documents, and where to send notices",
@@ -95,13 +103,13 @@ export const privacyPage: LegalPageModel = {
   title: "Privacy Policy",
   description:
     "We collect business and contact details to answer requests, prepare quotations, deliver orders, issue BIR documents and keep proper records.",
-  versionLine: `Version 2.7 · Effective ${privacyV27Date} · Replaces version 2.6 (effective ${privacyChatTabDate})`,
+  versionLine: `Version 2.8 · Effective ${tinGateDate} · Replaces version 2.7 (effective ${privacyV27Date})`,
   historyLink: true,
   showContents: true,
   meta: [
-    { label: "Version", value: "2.7" },
-    { label: "Effective", value: privacyV27Date },
-    { label: "Replaces", value: `2.6 (${privacyChatTabDate})` },
+    { label: "Version", value: "2.8" },
+    { label: "Effective", value: tinGateDate },
+    { label: "Replaces", value: `2.7 (${privacyV27Date})` },
   ],
   intro: [],
   sections: [
@@ -163,7 +171,7 @@ export const privacyPage: LegalPageModel = {
             [
               "Tax and registration papers",
               "TIN, BIR Form 2303, BIR Form 2307 (withholding tax certificates), DTI or SEC papers, Mayor's/Business Permit, PhilGEPS registration details",
-              "Customers, suppliers",
+              "Customers, suppliers, and website visitors who optionally upload BIR Form 2303 in the chat to pre-fill a quotation request",
             ],
             [
               "Receiver and pick-up checks",
@@ -182,7 +190,7 @@ export const privacyPage: LegalPageModel = {
             ],
             [
               "AI chat details",
-              "Your work email address, chat messages, and the date, time, and policy version of your Terms of Use and Privacy Policy agreement before starting the chat",
+              "Your work email address, chat messages, the date, time, and policy version of your Terms of Use and Privacy Policy agreement before starting the chat, and (if you optionally upload a BIR Form 2303 to pre-fill a quotation request) the registered name, business address, and TIN extracted from it (the uploaded file itself is not kept)",
               "Website visitors who use the AI chat",
             ],
             [
@@ -213,7 +221,7 @@ export const privacyPage: LegalPageModel = {
           ],
         },
         p("Some tax details of individuals may be **sensitive personal information** under the law. We protect them with the extra limits in sections 6 and 11."),
-        p("Please don't send government IDs, tax papers, card numbers or passwords through the chat. If we need a document for your order, we will ask for it and tell you how to send it."),
+        p("Please don't send government IDs, card numbers, passwords, or tax papers through the chat — except a BIR Form 2303 (Certificate of Registration) that you voluntarily upload to pre-fill a quotation request, from which we extract only your registered name, business address, and TIN without storing the file. If we need any other document for your order, we will ask for it and tell you how to send it."),
       ],
     },
     {
@@ -225,8 +233,8 @@ export const privacyPage: LegalPageModel = {
           rows: [
             [
               "Answer inquiries, prepare quotations, process and deliver orders, handle warranty claims",
-              "Contact, request and order details, transaction records",
-              "Needed for the contract (RA 10173 Sec. 12(b)), and to protect lawful rights and claims (Sec. 13(f))",
+              "Contact, request and order details, transaction records, and (if you optionally upload BIR Form 2303 in the chat for a quotation) the extracted registered name, business address, and TIN",
+              "Your consent when you voluntarily upload BIR Form 2303 to pre-fill a quotation (RA 10173 Sec. 12(a), 13(a)); needed to take steps at your request before or for a contract (Sec. 12(b)); and to protect lawful rights and claims (Sec. 13(f))",
             ],
             [
               "Issue BIR invoices, handle Form 2307, and keep tax and contract records",
@@ -265,8 +273,8 @@ export const privacyPage: LegalPageModel = {
             ],
             [
               "Run the website AI chat and follow up on your inquiry",
-              "Work email address, chat messages, and agreement timestamp/version",
-              "Needed to take steps at your request before a contract (RA 10173 Sec. 12(b)) and our legitimate interest in answering B2B inquiries and keeping the chat secure (Sec. 12(f)). Ticking the box before starting the chat records your agreement to our Terms of Use and confirms that you were shown this Privacy Policy (Sec. 16(a)).",
+              "Work email address, chat messages, agreement timestamp/version, and (if you optionally upload BIR Form 2303 for a quotation request) the extracted registered name, business address, and TIN",
+              "Needed to take steps at your request before a contract (RA 10173 Sec. 12(b)) and our legitimate interest in answering B2B inquiries and keeping the chat secure (Sec. 12(f)). Ticking the box before starting the chat records your agreement to our Terms of Use and confirms that you were shown this Privacy Policy (Sec. 16(a)). If you voluntarily upload a BIR Form 2303 in the chat, doing so is your explicit consent for us to extract your registered name, business address, and TIN solely to pre-fill and forward your quotation request to authorized HACIEN staff (Sec. 12(a), 13(a)).",
             ],
             ["Keep the website and the chat secure", "Website and security data", "Legitimate interest (Sec. 12(f))"],
           ],
@@ -343,7 +351,7 @@ export const privacyPage: LegalPageModel = {
             [
               "Anthropic (Anthropic PBC)",
               "To generate replies in the website chat",
-              "The messages you type into the chat and the details you give during the conversation",
+              "The messages you type into the chat, the details you give during the conversation, and any extracted registered name, business address, and TIN from a BIR Form 2303 you optionally upload",
             ],
           ],
         },
@@ -408,9 +416,10 @@ export const privacyPage: LegalPageModel = {
           "**Google Analytics:** it shows us pages viewed, device and browser type, approximate location (city or country), and how visitors reached our site. Google Analytics 4 does not log or store IP addresses. We keep this data for 2 months. Advertising features and Google signals are turned off. To withdraw consent, click **Cookie settings** in the footer and choose Decline, or clear your browser's cookies for our site.",
           "**Cloudflare bot check:** the chat and the request-tracking lookup use Cloudflare Turnstile to stop spam. Cloudflare handles technical data for this under its own privacy policy (https://www.cloudflare.com/privacypolicy/).",
           "**Browser storage:** your RFQ list on our Products pages is saved in your own browser. It is not sent to us until you send it through the chat. You can clear it by clearing your browser's site data.",
-          "**Chat in your browser tab:** while you use the chat, a copy of the conversation (your messages, your work email, your answers and your agreement record) is saved in your own browser tab so the chat is not lost if you reload or open another page on our site. This copy stays on your device and is not kept on our servers. It is deleted when you close the tab or tap Start over.",
+          "**Chat in your browser tab:** while you use the chat, a copy of the conversation (your messages, your work email, your answers, any registered name, business address, and TIN pre-filled from an optional BIR Form 2303 upload, and your agreement record) is saved in your own browser tab so the chat is not lost if you reload or open another page on our site. The uploaded BIR Form 2303 file itself is never saved in your browser tab or on our servers. This copy stays on your device and is not kept on our servers. It is deleted when you close the tab or tap Start over.",
           "**Document tool (Help page):** files you check with this tool are checked in memory on our web server for file type, size (up to 10 MB) and file name only. No outside or AI service reads them, they are not stored after the check finishes, and the tool does not create an official record.",
-          "**AI assistant:** our website chat is assisted by an AI service (Anthropic). The messages you type are sent to that service so it can reply, and are handled under its commercial privacy and data processing terms. Under Anthropic's commercial API terms, chat messages sent through our website are **not** used to train AI models. Please do not send passwords, card numbers, government IDs or tax papers through the chat — we will never ask for them there.",
+          "**BIR Form 2303 reader in the chat:** if you voluntarily upload a BIR Form 2303 (Certificate of Registration) in the chat to pre-fill a quotation request, the file is read in memory on our web server solely to extract your registered name, business address, and TIN. The uploaded file is processed in the moment through our AI/extraction service solely to extract your registered name, business address, and TIN (under commercial terms that prohibit AI model training, with API safety logs deleted within 30 days) and is never stored on our servers or forwarded to third parties.",
+          "**AI assistant:** our website chat is assisted by an AI service (Anthropic). The messages you type are sent to that service so it can reply, and are handled under its commercial privacy and data processing terms. Under Anthropic's commercial API terms, chat messages sent through our website are **not** used to train AI models. Please do not send passwords, card numbers, government IDs, or tax papers through the chat, except an optional BIR Form 2303 upload to pre-fill a quotation request — we will never ask for any other tax papers or IDs there.",
           "**No decisions by AI:** the assistant's answers are information only. It cannot check live prices or stock, and it does not approve or decide anything. A real person from HACIEN reviews every submitted request.",
         ]),
       ],
@@ -462,7 +471,7 @@ export const privacyPage: LegalPageModel = {
             ],
             [
               "Chat conversations",
-              "We do not keep chat transcripts on our servers. Anthropic retains API inputs and outputs for up to 30 days for safety and abuse monitoring before automatic deletion. If you submit a request through the chat, the submitted details are kept under \"Inquiries and RFQs that did not become orders\" above.",
+              "We do not keep chat transcripts on our servers. Anthropic retains API inputs and outputs for up to 30 days for safety and abuse monitoring before automatic deletion. If you submit a request through the chat, the submitted details are kept under \"Inquiries and RFQs that did not become orders\" above. If you optionally upload a BIR Form 2303 in the chat to pre-fill a quotation request, the uploaded file itself is discarded immediately after extraction and is never stored. If you submit the quotation request, the extracted registered name, business address, and TIN are kept with your inquiry under 'Inquiries and RFQs that did not become orders' above (2 years from your last contact with us, or sooner if you ask us to delete it), unless your inquiry becomes an order.",
               "To answer the conversation; submitted requests follow the normal record rules",
             ],
           ],
@@ -538,13 +547,13 @@ export const termsPage: LegalPageModel = {
   title: "Website Terms of Use",
   description:
     "This website helps you learn about HACIEN and send inquiries and requests for quotation (RFQs).",
-  versionLine: `Version 2.1 · Effective ${aiChatPublishDate} · Replaces version 2.0 (effective November 2, 2026)`,
+  versionLine: `Version 2.2 · Effective ${tinGateDate} · Replaces version 2.1 (effective ${aiChatPublishDate})`,
   historyLink: true,
   showContents: false,
   meta: [
-    { label: "Version", value: "2.1" },
-    { label: "Effective", value: aiChatPublishDate },
-    { label: "Replaces", value: "2.0 (November 2, 2026)" },
+    { label: "Version", value: "2.2" },
+    { label: "Effective", value: tinGateDate },
+    { label: "Replaces", value: "2.1 (November 8, 2026)" },
   ],
   intro: [],
   sections: [
@@ -596,12 +605,7 @@ export const termsPage: LegalPageModel = {
     {
       title: "6. Your responsibilities",
       blocks: [
-        p("When you use the chat or the tracking lookup, please:"),
-        ul([
-          "give true and complete details;",
-          "upload only files you may share and that relate to your request;",
-          "not send government IDs, tax papers, card numbers or passwords through the chat.",
-        ]),
+        p("When you use the chat or the tracking lookup, please: give true and complete details; upload only files you may share and that relate to your request; and not send government IDs, card numbers, passwords, or tax papers through the chat (except a BIR Form 2303 that you voluntarily upload to pre-fill a quotation request)."),
         p("We may decline or delete requests that look fake, abusive or unrelated."),
       ],
     },
@@ -1043,10 +1047,10 @@ export const policyHistoryPage: LegalPageModel = {
       kind: "table",
       headers: ["Policy", "Version", "Effective"],
       rows: [
-        ["[Terms of Sale](/terms-of-sale)", "v1.2", published],
+        ["[Terms of Sale](/terms-of-sale)", "v1.3", published],
         ["[Warranty and Returns](/warranty)", "v1.1", published],
-        ["[Privacy Policy](/privacy)", "v2.7", privacyV27Date],
-        ["[Website Terms of Use](/terms)", "v2.1", aiChatPublishDate],
+        ["[Privacy Policy](/privacy)", "v2.8", tinGateDate],
+        ["[Website Terms of Use](/terms)", "v2.2", tinGateDate],
         ["[Business and Legal Information](/legal)", "v2.0", published],
         ["[HACIEN Policies](/policies)", "v1.0", published],
       ],
@@ -1092,6 +1096,10 @@ export const policyHistoryPage: LegalPageModel = {
         ul([
           "Warranty and Returns v1.1: warranty drop-offs at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
         ]),
+        p("**Privacy Policy: Changes from v2.7**"),
+        ul([
+          "Privacy Policy v2.8: the website chat accepts one optional upload — a BIR Form 2303 (Certificate of Registration) to pre-fill a quotation request. Only the registered name, business address, and TIN are extracted; the file itself is not stored. Sections 3, 4, 7, 9 and 10 now describe the upload, its consent basis, and how long the extracted details are kept.",
+        ]),
         p("**Privacy Policy: Changes from v2.6**"),
         ul([
           `Version 2.7 · Effective ${privacyV27Date} — Order texts now come from sender ID "Hacien ITS" and cover Order confirmed, Delivered and Payment received (no ads, no links), with an opt-out for anyone texted in error; marketing email described as opt-in when offered; tax record keeping restated as 5 years under the EOPT Act and up to 10 years for tax and contract claims; unconverted inquiries now kept 2 years and warranty records for the warranty period plus 2 years; clearer rights section (profiling, heirs, response times).`,
@@ -1107,6 +1115,10 @@ export const policyHistoryPage: LegalPageModel = {
         p("**Privacy Policy: Changes from v2.3**"),
         ul([
           "Added the AI-assisted website chat: chat messages are collected, and Anthropic (Anthropic PBC) is named as the service that generates chat replies, processing in the United States. Under Anthropic's commercial API terms, chat messages are not used to train AI models, and Anthropic keeps API inputs and outputs for up to 30 days for safety and abuse monitoring. We do not keep chat transcripts. Added the legal basis for chat processing, and a note that the assistant makes no decisions — a person reviews every submitted request.",
+        ]),
+        p("**Website Terms of Use: Changes from v2.1**"),
+        ul([
+          "Website Terms of Use v2.2: section 6 allows one exception to the chat document rule — a BIR Form 2303 that you voluntarily upload to pre-fill a quotation request.",
         ]),
         p("**Website Terms of Use: Changes from v2.0**"),
         ul([

@@ -113,11 +113,11 @@ const GATE_TEXT =
   "I'm the HACIEN AI assistant. One quick step first — please confirm the two policies, and you're in.";
 /** The lawyer-approved helper line on the gate screen (2026-11-08). */
 const GATE_HELPER =
-  "AI replies are for product guidance only and are not an official quotation. Please do not enter government IDs, tax papers, or passwords.";
+  "AI replies are for product guidance only and are not an official quotation. Please do not enter government IDs, card numbers, passwords, or tax papers (except an optional BIR Form 2303 upload to pre-fill a quotation request).";
 /** Policy versions recorded with the agreement (the lawyer's
  *  recording for Privacy Policy v2.7): the tick's ISO timestamp and
  *  this version string travel with the submitted request. */
-const AGREEMENT_POLICY_VERSIONS = "terms:v2.1, privacy:v2.7";
+const AGREEMENT_POLICY_VERSIONS = "terms:v2.2, privacy:v2.8";
 
 /** Mirrors the plausible-email check the server runs (lib/ai/intake). */
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -1506,7 +1506,7 @@ export function AiChat({
                       </button>
                     </div>
                     <p className="mt-1 text-xs text-grey-600">
-                      Read only to prepare your request. Please don&rsquo;t attach IDs or tax papers.
+                      Read only to prepare your request. Please don&rsquo;t attach IDs or tax papers (except an optional BIR Form 2303 upload to pre-fill a quotation request).
                     </p>
                   </div>
                 ) : null}
@@ -1526,6 +1526,9 @@ export function AiChat({
                   autoFocus={false}
                   onAttach={() => fileInputRef.current?.click()}
                 />
+                <p className="text-xs text-grey-600">
+                  Optional: Upload BIR Form 2303 to auto-fill your registered name, business address, and TIN for your quote request. Only those 3 details are used; the file itself is not stored.
+                </p>
               </>
             )}
             <div ref={bottomRef} aria-hidden="true" />
