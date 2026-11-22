@@ -127,12 +127,15 @@ describe("legal page content", () => {
       "[Privacy Policy](/privacy) What personal data we keep, why, and your rights v2.8",
     );
     expect(historyText).toContain("[Terms of Sale](/terms-of-sale) v1.3");
+    expect(historyText).toContain("Terms of Sale v1.2 November 2, 2026");
     expect(historyText).toContain("Terms of Sale v1.1 November 2, 2026");
     expect(historyText).toContain("[Warranty and Returns](/warranty) v1.1");
     expect(historyText).toContain("[Privacy Policy](/privacy) v2.8");
+    expect(historyText).toContain("Privacy Policy v2.7 November 10, 2026");
     expect(historyText).toContain("Privacy Policy v2.6 November 9, 2026");
     expect(historyText).toContain("Privacy Policy v2.4 November 8, 2026");
     expect(historyText).toContain("Privacy Policy v2.3 November 2, 2026");
+    expect(historyText).toContain("Website Terms of Use v2.1 November 8, 2026");
     expect(historyText).toContain("Website Terms of Use v2.0 November 2, 2026");
     expect(historyText).toContain("Privacy Policy: Changes from v2.6");
     expect(historyText).toContain("Privacy Policy: Changes from v2.5");
@@ -289,7 +292,7 @@ describe("legal page content", () => {
       "Version 1.3 · Effective November 2, 2026 · Replaces version 1.2",
     );
     expect(tos?.meta.find((item) => item.label === "Version")?.value).toBe("1.3");
-    expect(tos?.meta.find((item) => item.label === "Replaces")?.value).toBe("1.1");
+    expect(tos?.meta.find((item) => item.label === "Replaces")?.value).toBe("1.2");
     expect(tosText).toContain(
       "**Office pick-up:** pick-ups at our Suntree Tower office are by prior appointment (Monday to Friday, 9:00 AM – 6:00 PM PHT, excluding holidays).",
     );

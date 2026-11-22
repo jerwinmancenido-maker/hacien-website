@@ -669,7 +669,7 @@ export const termsOfSalePage: LegalPageModel = {
   meta: [
     { label: "Version", value: "1.3" },
     { label: "Effective", value: published },
-    { label: "Replaces", value: "1.1" },
+    { label: "Replaces", value: "1.2" },
   ],
   intro: [],
   sections: [
@@ -1064,9 +1064,11 @@ export const policyHistoryPage: LegalPageModel = {
           kind: "table",
           headers: ["Policy", "Version", "Effective"],
           rows: [
+            ["Terms of Sale", "v1.2", published],
             ["Terms of Sale", "v1.1", "November 2, 2026"],
             ["Terms of Sale", "v1.0", "November 2, 2026"],
             ["Warranty and Returns", "v1.0", "November 2, 2026"],
+            ["Privacy Policy", "v2.7", privacyV27Date],
             ["Privacy Policy", "v2.6", privacyChatTabDate],
             ["Privacy Policy", "v2.5", privacyGateDate],
             ["Privacy Policy", "v2.4", "November 8, 2026"],
@@ -1075,6 +1077,7 @@ export const policyHistoryPage: LegalPageModel = {
             ["Privacy Policy", "v2.1", "November 2, 2026"],
             ["Privacy Policy", "v2.0", "November 2, 2026"],
             ["Privacy Policy", "v1.0", "July 1, 2026"],
+            ["Website Terms of Use", "v2.1", aiChatPublishDate],
             ["Website Terms of Use", "v2.0", "November 2, 2026"],
             ["Website Terms of Use", "v1.0", "July 1, 2026"],
             ["Business and Legal Information", "v1.0", "June 30, 2026"],

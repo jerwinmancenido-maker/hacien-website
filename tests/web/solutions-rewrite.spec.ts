@@ -46,6 +46,7 @@ describe("solutions rewrite (plain, informative, no invented offerings)", () => 
   it("states the Technology vs Solutions distinction on the solutions index page", () => {
     const solutionsHero = getSolutionsContent().hero;
     expect(solutionsHero.title).toContain("jobs to be done");
-    expect(solutionsHero.description).toContain("Technology pages");
+    expect(solutionsHero.description).toContain("Product pages");
+    expect(solutionsHero.description).not.toContain("Technology pages");
   });
 });
