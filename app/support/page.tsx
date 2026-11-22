@@ -15,7 +15,7 @@ export const metadata: Metadata = buildPageMetadata({
 
 const supportPaths = [
   ["RFQ follow-up", "Check the status of a submitted request, or clarify requirements, quantities, deadlines, or product details.", "/track", "documentation"],
-  ["Procurement question", "Ask about supplier availability, equivalent options, or quotation assumptions for review.", "/contact", "network"],
+  ["Procurement question", "Ask about supplier availability or equivalent options before requesting a quotation.", "/contact", "network"],
   ["Delivery coordination", "Share delivery details or receiver requirements for review.", "/track", "cabling"],
   ["Warranty or replacement", "Route questions with the product, quotation, supplier, and delivery details available for review.", "/warranty", "storage"],
   ["Supplier or partner", "Introduce supply, fulfillment, implementation, or service capability.", "/contact", "workspace"],
@@ -26,7 +26,7 @@ const expectations = [
   "Support starts with clear details, not a ticket number promise.",
   "Response expectations are confirmed through the active support conversation or formal business communication.",
   "Payment, warranty, delivery, tax, and return commitments must come from formal documents or verified policies.",
-  "Use RFQ for new requirements and Contact for follow-up details.",
+  "Use RFQ for new requirements; follow-up details belong here in Support.",
 ];
 
 export default function SupportPage() {

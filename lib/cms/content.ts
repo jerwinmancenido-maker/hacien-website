@@ -284,7 +284,6 @@ const navigationContent: CmsNavigationContent = {
           { href: "/track", label: "Track Request" },
           { href: "/products", label: "Product list" },
           { href: "/support", label: "Support" },
-          { href: "/support", label: "Help Center" },
           { href: "/faq", label: "FAQ" },
         ],
       },
