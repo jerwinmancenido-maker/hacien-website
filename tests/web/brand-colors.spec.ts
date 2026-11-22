@@ -154,14 +154,13 @@ describe("HACIEN brand colors", () => {
     expect(offenders, offenders.join("\n")).toEqual([]);
   });
 
-  it("ensures hero box text meets WCAG AA (4.5:1) at 390 and 1280 on all 14 hero pages", () => {
+  it("ensures hero box text meets WCAG AA (4.5:1) at 390 and 1280 on all 13 hero pages", () => {
     const heroPages = [
       { name: "Home", file: "app/page.tsx", component: "Hero" },
       { name: "About", file: "app/about/page.tsx", component: "PremiumPageHero" },
       { name: "Access", file: "app/access/page.tsx", component: "PremiumPageHero" },
       { name: "Quote", file: "app/quote/page.tsx", component: "PremiumPageHero" },
       { name: "Products", file: "app/products/page.tsx", component: "PremiumPageHero" },
-      { name: "Technology", file: "app/technology/page.tsx", component: "PremiumPageHero" },
       { name: "Platform", file: "app/platform/page.tsx", component: "PremiumPageHero" },
       { name: "Solutions", file: "app/solutions/page.tsx", component: "PremiumPageHero" },
       { name: "Contact", file: "app/contact/page.tsx", component: "PremiumPageHero" },
@@ -172,9 +171,9 @@ describe("HACIEN brand colors", () => {
       { name: "Insights", file: "app/insights/page.tsx", component: "PremiumPageHero" },
     ];
 
-    expect(heroPages.length).toBe(14);
+    expect(heroPages.length).toBe(13);
 
-    // Verify all 14 hero pages import and render their hero component
+    // Verify all 13 hero pages import and render their hero component
     for (const page of heroPages) {
       const source = readFileSync(join(ROOT, page.file), "utf8");
       expect(source, `${page.name} should use ${page.component}`).toContain(page.component);

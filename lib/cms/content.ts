@@ -249,13 +249,8 @@ export function assertCmsContentSafe(content: unknown) {
 const navigationContent: CmsNavigationContent = {
   header: {
     primaryItems: [
-      { href: "/", label: "Home" },
-      { href: "/solutions", label: "Solutions" },
-      { href: "/technology", label: "Technology" },
       { href: "/products", label: "Products" },
-      { href: "/insights", label: "Insights" },
-      { href: "/about", label: "Company" },
-      { href: "/contact", label: "Contact" },
+      { href: "/solutions", label: "Services" },
     ],
     quoteAction: { href: "/quote", label: "Request a Quote" },
   },
@@ -276,7 +271,7 @@ const navigationContent: CmsNavigationContent = {
         title: "Explore",
         links: [
           { href: "/solutions", label: "Solutions" },
-          { href: "/technology", label: "Technology" },
+          { href: "/products", label: "Products" },
           { href: "/industries", label: "Industries" },
           { href: "/platform", label: "Platform" },
           { href: "/insights", label: "Insights" },
@@ -448,7 +443,7 @@ const solutionsContent: CmsSolutionsContent = {
       "A solution is a piece of work HACIEN takes on, from your request to delivery: infrastructure, integration, workplace technology, software, security, and support needs. Technology pages, by contrast, describe the products a solution is built from, including the specifications an RFQ should name.",
     image: "commandCenter",
     primaryAction: { href: "/quote", label: "Request a Quote" },
-    secondaryAction: { href: "/technology", label: "Explore Technology" },
+    secondaryAction: { href: "/products", label: "Explore Products" },
     highlights: [
       { label: "Infrastructure", text: "Endpoints, servers, networks, power, and site details." },
       { label: "Integration", text: "Materials, setup needs, and closeout assumptions." },

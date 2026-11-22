@@ -3,9 +3,8 @@ import { describe, expect, it } from "vitest";
 import { getHomepageContent, getIndustriesContent } from "@/lib/cms/content";
 
 const platformPage = readFileSync("app/platform/page.tsx", "utf8");
-const technologyPage = readFileSync("app/technology/page.tsx", "utf8");
 
-describe("site rewrite batch 2 (home, industries, platform, technology intros)", () => {
+describe("site rewrite batch 2 (home, industries, platform intros)", () => {
   it("gives the homepage a real hero description instead of a lone qualifier", () => {
     const home = getHomepageContent();
     expect(home.hero.description).toContain("within 1 business day");
@@ -31,12 +30,5 @@ describe("site rewrite batch 2 (home, industries, platform, technology intros)",
   it("states plainly that the platform is internal, not a product for sale", () => {
     expect(platformPage).toContain("not a product you buy");
     expect(platformPage).toContain("not sold as a product");
-  });
-
-  it("names products in every technology domain line", () => {
-    for (const noun of ["servers", "Switches", "Endpoint protection", "subscriptions", "Licensed", "NAS", "UPS", "Cabling"]) {
-      expect(technologyPage).toContain(noun);
-    }
-    expect(technologyPage).not.toContain("for serious operations");
   });
 });

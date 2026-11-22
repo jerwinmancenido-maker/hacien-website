@@ -90,6 +90,8 @@ const nextConfig: NextConfig = {
         destination: "https://haciensolutions.com/:path*",
         permanent: true,
       },
+      // Taxonomy merge (2026-11-22): /technology retired into /products.
+      { source: "/technology", destination: "/products", permanent: true },
       ...retiredRedirects,
     ];
   },

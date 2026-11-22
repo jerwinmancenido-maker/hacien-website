@@ -16,7 +16,6 @@ import { metadata as homeMeta } from "@/app/page";
 import { metadata as aboutMeta } from "@/app/about/page";
 import { metadata as companyProfileMeta } from "@/app/about/company-profile/page";
 import { metadata as solutionsMeta } from "@/app/solutions/page";
-import { metadata as technologyMeta } from "@/app/technology/page";
 import { metadata as platformMeta } from "@/app/platform/page";
 import { metadata as productsMeta } from "@/app/products/page";
 import { metadata as industriesMeta } from "@/app/industries/page";
@@ -65,7 +64,6 @@ async function collectAllPublicPageMetadata(): Promise<PageMetadataEntry[]> {
     { route: "/about", metadata: aboutMeta },
     { route: "/about/company-profile", metadata: companyProfileMeta },
     { route: "/solutions", metadata: solutionsMeta },
-    { route: "/technology", metadata: technologyMeta },
     { route: "/platform", metadata: platformMeta },
     { route: "/products", metadata: productsMeta },
     { route: "/industries", metadata: industriesMeta },
@@ -134,7 +132,7 @@ function resolveCanonical(metadata: Metadata): string | null {
 describe("SEO: Search engine tags (PR 6)", () => {
   it("provides every public page with a unique title and unique description", async () => {
     const entries = await collectAllPublicPageMetadata();
-    expect(entries.length).toBeGreaterThanOrEqual(69);
+    expect(entries.length).toBeGreaterThanOrEqual(68);
 
     const titleMap = new Map<string, string>();
     const descMap = new Map<string, string>();

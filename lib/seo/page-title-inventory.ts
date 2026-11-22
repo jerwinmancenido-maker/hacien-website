@@ -17,8 +17,7 @@ export type PageTitleEntry = {
  * Keep in sync with each route's `metadata.title` / `generateMetadata` fallbacks.
  */
 export const staticPageTitleSegments: Record<string, string> = {
-  "/products": "Products",
-  "/technology": "Enterprise Technology",
+  "/products": "IT Products & Equipment for Philippine Offices",
   "/quote": "Request a quotation",
   "/support": "Support",
   "/track": "Track a Request",
