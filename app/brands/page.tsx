@@ -7,7 +7,7 @@ import { buildPageMetadata } from "@/lib/seo/site-metadata";
 export const metadata: Metadata = buildPageMetadata({
   title: "Brands we carry",
   description:
-    "More than 70 brands across computing, networking, security, printing, power and software — every item genuine, with official warranty, sourced per order by HACIEN.",
+    "More than 70 brands across computing, networking, security, printing, power and software — Every item is genuine, covered by the official brand warranty, and sourced per order by our team.",
   path: "/brands",
 });
 
@@ -21,7 +21,7 @@ export default function BrandsPage() {
           </h1>
           <p className="mt-3 max-w-[760px] text-[15.5px] leading-[1.5] text-[#D6D6D6]">
             More than 70 brands across computing, networking, security, printing, power and software —
-            every item genuine, with official warranty, sourced per order by our team.
+            Every item is genuine, covered by the official brand warranty, and sourced per order by our team.
           </p>
         </div>
       </section>

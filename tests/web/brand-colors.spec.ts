@@ -166,7 +166,7 @@ describe("HACIEN brand colors", () => {
       { name: "Solutions", file: "app/solutions/page.tsx", component: "PremiumPageHero" },
       { name: "Contact", file: "app/contact/page.tsx", component: "PremiumPageHero" },
       { name: "Support", file: "app/support/page.tsx", component: "PremiumPageHero" },
-      { name: "Customer Workspace", file: "app/portal/page.tsx", component: "PremiumPageHero" },
+      { name: "Customer Workspace", file: "app/customer-workspace/page.tsx", component: "PremiumPageHero" },
       { name: "FAQ", file: "app/faq/page.tsx", component: "PremiumPageHero" },
       { name: "Search", file: "app/search/page.tsx", component: "PremiumPageHero" },
       { name: "Insights", file: "app/insights/page.tsx", component: "PremiumPageHero" },
