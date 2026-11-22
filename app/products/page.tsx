@@ -14,7 +14,7 @@ import { listErpCatalog } from "@/lib/erp/ecommerce-client";
 import { erpCatalogToWebsiteProducts } from "@/lib/erp/catalog-products";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Products",
+  title: "IT Products & Equipment for Philippine Offices",
   description:
     "Browse IT categories for Philippine offices and agencies, then send one quotation request. Specifications, brands, and installation scope are confirmed in the quotation.",
   path: "/products",
@@ -54,11 +54,11 @@ export default async function ProductsPage() {
     <div className="va-scope">
       <PremiumPageHero
         eyebrow="Technology RFQ Builder"
-        title="Tell us what you need."
+        title="IT Products & Equipment for Philippine Offices"
         description="Describe the computers, network, power, cameras, or software in your own words, or attach a list. HACIEN checks distributors and sends a quotation within 1 business day. Category pages explain the specifications worth deciding first."
         image="workstation"
         primaryAction={{ href: "/quote", label: "Request a Quote" }}
-        secondaryAction={{ href: "/technology", label: "Explore Technology" }}
+        secondaryAction={{ href: "/solutions", label: "Explore Products" }}
         highlights={[
           { label: "In your own words", text: "Describe what you need in the chat — no forms, no package to build." },
           { label: "Optional Brands", text: "Choose a preference or keep HACIEN flexible." },

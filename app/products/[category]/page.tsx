@@ -41,8 +41,11 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   // before notFound() runs, producing a soft-404 (404 UI with status 200).
   if (!category) notFound();
   return buildPageMetadata({
-    title: category.seoTitle.replace("Products", "Technology"),
-    description: category.seoDescription ?? category.heroCopy,
+    title: category.seoTitle,
+    description:
+      category.seoDescription ??
+      category.heroCopy ??
+      "Review a HACIEN technology category and request a quotation.",
     path: `/products/${categorySlug}`,
   });
 }
@@ -63,9 +66,9 @@ export default async function ProductCategoryPage({ params }: { params: Promise<
     <>
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <Breadcrumb items={[{ label: "Technology", href: "/technology" }, { label: category.name }]} />
+          <Breadcrumb items={[{ label: "Products", href: "/products" }, { label: category.name }]} />
           <SectionHeading
-            eyebrow="Technology Category"
+            eyebrow="Product Category"
             as="h1"
             title={category.name}
             description={category.heroCopy}

@@ -1,5 +1,5 @@
-export function BuyingTimeline() {
-  const steps = [
+/** The six buying steps, in order. Shared by /quote (BuyingTimeline) and the home page variant. */
+export const buyingSteps = [
     { title: "Request", text: "Send an item list, specifications, files, or a plain description of the need." },
     { title: "Reply within 1 business day", text: "HACIEN replies Monday to Friday, 9:00 AM \u2013 6:00 PM PHT, excluding holidays." },
     { title: "Quotation valid 15 days", text: "The quotation states the exact model, lead time, delivery conditions, and commercial terms." },
@@ -7,6 +7,9 @@ export function BuyingTimeline() {
     { title: "Supplier order", text: "HACIEN orders from the supplier after acceptance and confirmation of the payment terms." },
     { title: "Delivery", text: "Delivery is by the agreed date and time. The delivery receipt confirms box count and outside condition only. Report contents problems within 3 days and visible damage within 24 hours." },
   ];
+
+export function BuyingTimeline() {
+  const steps = buyingSteps;
   return (
     <section className="px-4 py-12 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-7xl">

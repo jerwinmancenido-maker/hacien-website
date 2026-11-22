@@ -1,6 +1,15 @@
 import Link from "next/link";
 import { EnterpriseMediaFrame } from "@/components/EnterpriseMediaFrame";
 import { founderLine, showroomNote } from "@/data/companyContact";
+import {
+  VA_BTN_PRIMARY_52,
+  VA_BTN_SECONDARY_52,
+  VA_H2,
+  VA_LEAD,
+  VA_PANEL,
+  VA_SECTION,
+  VA_WRAP,
+} from "@/lib/variant-a";
 import { getCmsMediaRecord, getCmsMediaSourceMap, type CmsMediaKey } from "@/lib/cms/media";
 
 export const enterpriseImages = getCmsMediaSourceMap();
@@ -84,30 +93,22 @@ export function EnterprisePhotoPanel({
 
 export function PremiumStatementBand() {
   return (
-    <section className="bg-white px-4 py-12 sm:px-6 lg:py-16">
-      <div className="mx-auto max-w-3xl text-center">
-        <div className="text-xs font-semibold uppercase tracking-[0.18em] text-grey-600">Company</div>
-        <h2 className="mt-4 text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-          About HACIEN.
-        </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-grey-700">
-          {founderLine}
-        </p>
-        <div className="mt-8 flex flex-col items-center gap-2 sm:flex-row sm:justify-center sm:gap-3">
-          <Link href="/quote" className="inline-flex min-h-11 items-center justify-center rounded-full bg-blue px-6 py-3 text-center text-sm font-medium text-white hover:bg-blue-dark">
-            Request a Quote
-          </Link>
-          <Link href="/contact" className="inline-flex min-h-11 items-center justify-center rounded-full border border-grey-300 bg-white px-6 py-3 text-center text-sm font-medium text-ink hover:bg-grey-50">
-            Contact
-          </Link>
+    <section className={VA_SECTION}>
+      <div className={VA_WRAP}>
+        <div className="mx-auto max-w-[760px] text-center">
+          <h2 className={VA_H2}>About HACIEN</h2>
+          <p className={`${VA_LEAD} mt-3.5`}>{founderLine}</p>
+          <div className="mt-7 flex flex-wrap justify-center gap-3">
+            <Link href="/quote" className={VA_BTN_PRIMARY_52}>
+              Request a Quote
+            </Link>
+            <Link href="/contact" className={VA_BTN_SECONDARY_52}>
+              Contact
+            </Link>
+          </div>
         </div>
-        <div className="mt-10 text-left">
-          <EnterprisePhotoPanel
-            image="network"
-            eyebrow="Appointments"
-            title={showroomNote}
-            caption=""
-          />
+        <div className={`${VA_PANEL} mt-9 text-center`}>
+          <p className="text-[15.5px] font-semibold text-[#F4F6FA]">{showroomNote}</p>
         </div>
       </div>
     </section>

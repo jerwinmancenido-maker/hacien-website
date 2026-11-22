@@ -13,19 +13,6 @@ function read(rel: string) {
 // Source-test pattern: assertions are on the source that ships.
 
 describe("Live-site fixes", () => {
-  it("Technology Cloud and Software cards do not reuse the hero image", () => {
-    const page = read("app/technology/page.tsx");
-    // Hero uses "silicon"; the priority-grid mapping must give Cloud and
-    // Software different keys. "silicon", "cloud" and "knowledge" all alias
-    // to /images/workspace.jpg in lib/cms/media.ts, so reusing any of them
-    // repeats the hero photo on the same page.
-    const mapping = page.match(/const technologyImages[\s\S]*?};/)?.[0] ?? "";
-    expect(mapping).toContain('Cloud: "commandCenter"');
-    expect(mapping).toContain('Software: "office"');
-    expect(mapping).not.toContain('Cloud: "cloud"');
-    expect(mapping).not.toContain('Software: "silicon"');
-  });
-
   it("FAQ states when payment is due, in the owner-approved neutral wording", () => {
     const payments = faqData.sections.find((s) => s.title === "Payments and documents");
     const item = payments?.items.find((i) => i.question === "When is payment due?");

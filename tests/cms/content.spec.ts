@@ -59,9 +59,10 @@ describe("CMS read layer", () => {
   it("loads header and footer navigation from CMS", () => {
     const navigation = getNavigationContent();
 
-    expect(navigation.header.primaryItems.map((item) => item.href)).toEqual(
-      expect.arrayContaining(["/", "/solutions", "/technology", "/products", "/insights", "/about"]),
-    );
+    expect(navigation.header.primaryItems).toEqual([
+      { href: "/products", label: "Products" },
+      { href: "/solutions", label: "Services" },
+    ]);
     expect(navigation.footer.groups.flatMap((group) => group.links.map((link) => link.href))).toEqual(
       expect.arrayContaining(["/support", "/faq", "/track", "/privacy", "/terms", "/legal"]),
     );
@@ -229,7 +230,6 @@ describe("CMS read layer", () => {
       "customer-workspace",
       "solutions.index",
       "solutions.detail",
-      "technology",
       "platform",
       "industries",
       "insights.index",
@@ -548,13 +548,8 @@ describe("CMS read layer", () => {
       fields: {
         title: "Header navigation",
         links: [
-          { label: "Home", href: "/" },
-          { label: "Solutions", href: "/solutions" },
-          { label: "Technology", href: "/technology" },
           { label: "Products", href: "/products" },
-          { label: "Insights", href: "/insights" },
-          { label: "Company", href: "/about" },
-          { label: "Contact", href: "/contact" },
+          { label: "Services", href: "/solutions" },
           { label: "Request Quote", href: "/quote" },
         ],
         reviewNotes: "Route crawl before apply.",
@@ -923,13 +918,8 @@ describe("CMS read layer", () => {
       fields: {
         title: "Header navigation",
         links: [
-          { label: "Home", href: "/" },
-          { label: "Solutions", href: "/solutions" },
-          { label: "Technology", href: "/technology" },
           { label: "Products", href: "/products" },
-          { label: "Insights", href: "/insights" },
-          { label: "Company", href: "/about" },
-          { label: "Contact", href: "/contact" },
+          { label: "Services", href: "/solutions" },
           { label: "Request Quote", href: "/quote" },
         ],
         reviewNotes: "Route crawl before apply.",
@@ -940,7 +930,7 @@ describe("CMS read layer", () => {
     const source = `const navigationContent = {\n  header: {\n    primaryItems: [\n      { href: \"/old\", label: \"Old\" },\n    ],\n    accessAction: { href: \"/old-access\", label: \"Old Access\" },\n    quoteAction: { href: \"/old-quote\", label: \"Old Quote\" },\n  },\n};\n`;
     const nextSource = applyCmsDraftToSource(source, plan);
 
-    expect(nextSource).toContain('{ href: "/solutions", label: "Solutions" },');
+    expect(nextSource).toContain('{ href: "/solutions", label: "Services" },');
     expect(nextSource).not.toContain("accessAction");
     expect(nextSource).toContain('quoteAction: { href: "/quote", label: "Request Quote" },');
   });
@@ -960,7 +950,7 @@ describe("CMS read layer", () => {
     expect(plan.applySupported).toBe(true);
     expect(plan.errors).toEqual([]);
     expect(nextSource).toContain('{ href: "/products", label: "Products" },');
-    expect(nextSource).toContain('{ href: "/contact", label: "Contact" },');
+    expect(nextSource).toContain('{ href: "/solutions", label: "Services" },');
     expect(nextSource).toContain('quoteAction: { href: "/quote", label: "Request a Quote" },');
   });
 
@@ -983,7 +973,7 @@ describe("CMS read layer", () => {
 
     expect(plan.applySupported).toBe(false);
     expect(plan.errors).toContain(
-      "Header navigation apply requires 8 links: the current primary links and a quote action.",
+      "Header navigation apply requires 3 links: the current primary links and a quote action.",
     );
   });
 

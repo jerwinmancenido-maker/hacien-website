@@ -154,27 +154,26 @@ describe("HACIEN brand colors", () => {
     expect(offenders, offenders.join("\n")).toEqual([]);
   });
 
-  it("ensures hero box text meets WCAG AA (4.5:1) at 390 and 1280 on all 14 hero pages", () => {
+  it("ensures hero box text meets WCAG AA (4.5:1) at 390 and 1280 on all 13 hero pages", () => {
     const heroPages = [
       { name: "Home", file: "app/page.tsx", component: "Hero" },
       { name: "About", file: "app/about/page.tsx", component: "PremiumPageHero" },
       { name: "Access", file: "app/access/page.tsx", component: "PremiumPageHero" },
       { name: "Quote", file: "app/quote/page.tsx", component: "PremiumPageHero" },
       { name: "Products", file: "app/products/page.tsx", component: "PremiumPageHero" },
-      { name: "Technology", file: "app/technology/page.tsx", component: "PremiumPageHero" },
       { name: "Platform", file: "app/platform/page.tsx", component: "PremiumPageHero" },
       { name: "Solutions", file: "app/solutions/page.tsx", component: "PremiumPageHero" },
       { name: "Contact", file: "app/contact/page.tsx", component: "PremiumPageHero" },
       { name: "Support", file: "app/support/page.tsx", component: "PremiumPageHero" },
-      { name: "Customer Workspace", file: "app/portal/page.tsx", component: "PremiumPageHero" },
+      { name: "Customer Workspace", file: "app/customer-workspace/page.tsx", component: "PremiumPageHero" },
       { name: "FAQ", file: "app/faq/page.tsx", component: "PremiumPageHero" },
       { name: "Search", file: "app/search/page.tsx", component: "PremiumPageHero" },
       { name: "Insights", file: "app/insights/page.tsx", component: "PremiumPageHero" },
     ];
 
-    expect(heroPages.length).toBe(14);
+    expect(heroPages.length).toBe(13);
 
-    // Verify all 14 hero pages import and render their hero component
+    // Verify all 13 hero pages import and render their hero component
     for (const page of heroPages) {
       const source = readFileSync(join(ROOT, page.file), "utf8");
       expect(source, `${page.name} should use ${page.component}`).toContain(page.component);
@@ -206,13 +205,28 @@ describe("HACIEN brand colors", () => {
     const heroSource = readFileSync(join(ROOT, "components/Hero.tsx"), "utf8");
     const premiumHeroSource = readFileSync(join(ROOT, "components/PremiumPageHero.tsx"), "utf8");
 
-    // The Home hero is light (site restyle, chat visual language): white
-    // surface with ink text. It must not carry the old dark boxes.
-    expect(heroSource).toMatch(/bg-white/);
+    // The Home hero is dark Variant A (approved full-dark mock v5,
+    // REQ-WEB-RESTYLE-001): heading/body text in the Variant A tokens on the
+    // #0B0C10 canvas, signals panel on Surface 1 (#15171D). It must not carry
+    // the old light (bg-white) surface or the old dark boxes.
+    expect(heroSource).toContain("@/lib/variant-a");
+    expect(heroSource).toMatch(/VA_PANEL/);
+    expect(heroSource).not.toMatch(/bg-white/);
     expect(heroSource).not.toMatch(/bg-\[#0A0A0A\]/);
     expect(heroSource).not.toMatch(/bg-\[#141414\]/);
-    const inkOnWhite = contrastRatio("#0A0A0A", "#FFFFFF");
-    expect(inkOnWhite, "ink on white must meet WCAG AA (>= 4.5)").toBeGreaterThanOrEqual(4.5);
+    const variantASource = readFileSync(join(ROOT, "lib/variant-a.ts"), "utf8");
+    expect(variantASource).toContain("bg-[#15171D]");
+    const vaPairs = [
+      { name: "Variant A heading", text: "#F4F6FA", bg: "#0B0C10" },
+      { name: "Variant A body", text: "#C3C8D2", bg: "#0B0C10" },
+      { name: "Variant A muted", text: "#9AA1B1", bg: "#0B0C10" },
+      { name: "Variant A heading on Surface 1 panel", text: "#F4F6FA", bg: "#15171D" },
+      { name: "Variant A card text on Surface 1 panel", text: "#C3C8D2", bg: "#15171D" },
+    ];
+    for (const pair of vaPairs) {
+      const ratio = contrastRatio(pair.text, pair.bg);
+      expect(ratio, `${pair.name} (${pair.text} on ${pair.bg}) must meet WCAG AA (>= 4.5)`).toBeGreaterThanOrEqual(4.5);
+    }
 
     // PremiumPageHero (all other hero pages) still uses solid dark box
     // containers to prevent photo bleed-through.

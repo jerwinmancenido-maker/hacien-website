@@ -57,11 +57,16 @@ describe("Search grid columns helper (F05)", () => {
   });
 });
 
-describe("Home page photo card eyebrow label", () => {
-  it("uses 'Appointments' as eyebrow in PremiumStatementBand matching /contact", () => {
+describe("Home page appointment note (Variant A, REQ-WEB-RESTYLE-001)", () => {
+  it("renders the appointment note as a plain panel in PremiumStatementBand, no photo card or eyebrow", () => {
+    // Mock v5 replaces the photo panel + "Appointments" eyebrow with a plain
+    // Surface 1 panel carrying the showroom note; eyebrows are banned.
     const source = readFileSync(path.join(process.cwd(), "components/EnterpriseImagery.tsx"), "utf8");
-    expect(source).toMatch(/eyebrow="Appointments"/);
+    expect(source).not.toMatch(/eyebrow="Appointments"/);
     expect(source).not.toMatch(/eyebrow="Per order"/);
+    const band = source.slice(source.indexOf("PremiumStatementBand"));
+    expect(band).toContain("showroomNote");
+    expect(band).not.toContain("EnterprisePhotoPanel");
   });
 });
 

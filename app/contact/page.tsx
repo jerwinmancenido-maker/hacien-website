@@ -4,7 +4,7 @@ import { AnimatedContent, BorderGlow, SpotlightCard } from "@/app/components/rea
 import { ChatInvitation } from "@/components/ChatInvitation";
 import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
-import { brandsLine, companyContact, deliveryLine } from "@/data/companyContact";
+import { brandsSummaryLine, companyContact, deliveryLine } from "@/data/companyContact";
 import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 export const metadata: Metadata = buildPageMetadata({
@@ -54,7 +54,7 @@ export default function ContactPage() {
         primaryAction={{ href: "/quote", label: "Request a Quote" }}
         secondaryAction={{ href: "#start-chat", label: "Send Inquiry" }}
         highlights={[
-          { label: "Brands", text: brandsLine },
+          { label: "Brands", text: brandsSummaryLine },
           { label: "Delivery", text: deliveryLine },
         ]}
       />

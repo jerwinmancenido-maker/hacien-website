@@ -1,9 +1,6 @@
-import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { solutions } from "@/data/solutions";
 import { getSolutionsContent } from "@/lib/cms/content";
-
-const technologyPage = readFileSync("app/technology/page.tsx", "utf8");
 
 describe("solutions rewrite (plain, informative, no invented offerings)", () => {
   it("covers all 12 solutions", () => {
@@ -46,11 +43,9 @@ describe("solutions rewrite (plain, informative, no invented offerings)", () => 
     expect(copy).not.toContain("may involve");
   });
 
-  it("states the Technology vs Solutions distinction on both index pages", () => {
+  it("states the Technology vs Solutions distinction on the solutions index page", () => {
     const solutionsHero = getSolutionsContent().hero;
     expect(solutionsHero.title).toContain("jobs to be done");
     expect(solutionsHero.description).toContain("Technology pages");
-    expect(technologyPage).toContain("Technology is what a solution is built from.");
-    expect(technologyPage).toContain("see Solutions");
   });
 });

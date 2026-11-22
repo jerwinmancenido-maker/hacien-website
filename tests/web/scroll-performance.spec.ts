@@ -25,9 +25,12 @@ describe("Scroll performance: smooth scroll, header blur, scroll animations", ()
       expect(provider).toContain("return children;");
     });
 
-    it("Header scroll listener is passive", () => {
+    it("Header has no scroll listener (scrolled appearance removed, REQ-WEB-RESTYLE-001)", () => {
+      // Mock v5 forbids a separate scrolled header appearance, so the scroll
+      // state and its listener were removed entirely — no scroll work at all.
       const header = read("components/Header.tsx");
-      expect(header).toMatch(/addEventListener\("scroll",\s*updateScrolled,\s*\{\s*passive:\s*true\s*\}\)/);
+      expect(header).not.toMatch(/addEventListener\("scroll"/);
+      expect(header).not.toMatch(/scrolled/);
     });
 
     it("AnimatedContent disconnects its IntersectionObserver after appearing", () => {

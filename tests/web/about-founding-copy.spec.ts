@@ -17,6 +17,9 @@ describe("about founding copy (owner decision: no date, no registration details)
 
   it("uses the approved neutral About wording", () => {
     expect(content).toContain('title: "About HACIEN."');
-    expect(band).toContain("About HACIEN.");
+    // REQ-WEB-RESTYLE-001: mock v5 approves the heading-period removal on the
+    // home page only — the band renders "About HACIEN" (no trailing period).
+    expect(band).toContain("About HACIEN");
+    expect(band).not.toContain("About HACIEN.");
   });
 });

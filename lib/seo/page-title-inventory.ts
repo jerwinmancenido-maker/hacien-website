@@ -17,8 +17,7 @@ export type PageTitleEntry = {
  * Keep in sync with each route's `metadata.title` / `generateMetadata` fallbacks.
  */
 export const staticPageTitleSegments: Record<string, string> = {
-  "/products": "Products",
-  "/technology": "Enterprise Technology",
+  "/products": "IT Products & Equipment for Philippine Offices",
   "/quote": "Request a quotation",
   "/support": "Support",
   "/track": "Track a Request",
@@ -31,11 +30,12 @@ export const staticPageTitleSegments: Record<string, string> = {
   "/portal": "Customer Workspace",
   "/customer-workspace": "Customer Workspace",
   "/about/company-profile": "Company Profile",
+  "/brands": "Brands we carry",
   "/insights": "Enterprise Technology Knowledge Center | Insights",
   "/cms-preview": "CMS Preview",
   "/command-center/cms": "Command Center CMS Drafts",
   "/product/[slug]": "Product Detail",
-  "/products/[category]": "Technology Category",
+  "/products/[category]": "Product Category",
   "/products/[category]/[product]": "Product Detail",
   "/solutions/[slug]": "Solution",
   "/insights/[slug]": "Insights",
@@ -80,7 +80,7 @@ export function buildPageTitleInventory(): PageTitleEntry[] {
   }
 
   for (const category of categories) {
-    const segment = category.seoTitle.replace("Products", "Technology");
+    const segment = category.seoTitle;
     entries.push({
       route: `/products/${category.slug}`,
       segment,

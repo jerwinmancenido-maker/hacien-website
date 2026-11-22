@@ -23,7 +23,7 @@ describe("products: no request forms — the chat is the front door", () => {
 
   it("sends the hero's main action to /quote as Request a Quote", () => {
     const page = read("app/products/page.tsx");
-    expect(page).toContain("Tell us what you need.");
+    expect(page).toContain("IT Products & Equipment for Philippine Offices");
     expect(page).toContain('primaryAction={{ href: "/quote", label: "Request a Quote" }}');
   });
 });

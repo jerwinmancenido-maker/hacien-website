@@ -8,7 +8,7 @@ import {
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { CompanyCredentials } from "@/components/TrustConfidence";
 import {
-  brandsLine,
+  brandsSummaryLine,
   deliveryClauses,
   showroomNote,
   supplyException,
@@ -19,7 +19,7 @@ import { getCmsMetadata } from "@/lib/cms/seo";
 
 const factCards = [
   ...supplyItems.map((item) => ({ title: item.title, text: item.text })),
-  { title: "Brands", text: brandsLine },
+  { title: "Brands", text: brandsSummaryLine },
   ...deliveryClauses.map((text) => ({ title: text, text: "" })),
   { title: showroomNote, text: "" },
   { title: supplyException, text: "" },
