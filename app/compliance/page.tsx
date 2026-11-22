@@ -5,7 +5,7 @@ import { birBadgeAlt, birBadgeLabel, birRmcCaption } from "@/components/Footer";
 import { registrationPapersNote, registrationStatuses } from "@/data/companyContact";
 import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
-const registrationSentence = "HACIEN Information Technology Solutions is registered with the Bureau of Internal Revenue.";
+const registrationSentence = "HACIEN Information Technology Solutions is registered with the Bureau of Internal Revenue. We display our BIR Registration Seal Badge (issued via BIR ORUS under RMC No. 38-2026; mandatory display currently suspended under RMC No. 113-2026). Scan the QR code on the badge to verify our registration with the BIR.";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Government Compliance",

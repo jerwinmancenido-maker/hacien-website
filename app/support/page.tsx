@@ -15,9 +15,9 @@ export const metadata: Metadata = buildPageMetadata({
 
 const supportPaths = [
   ["RFQ follow-up", "Check the status of a submitted request, or clarify requirements, quantities, deadlines, or product details.", "/track", "documentation"],
-  ["Procurement question", "Ask about supplier availability or equivalent options before requesting a quotation.", "/contact", "network"],
+  ["Procurement question", "Ask about stock availability, equivalent options, or quotation assumptions for review.", "/contact", "network"],
   ["Delivery coordination", "Share delivery details or receiver requirements for review.", "/track", "cabling"],
-  ["Warranty or replacement", "Route questions with the product, quotation, supplier, and delivery details available for review.", "/warranty", "storage"],
+  ["Warranty or replacement", "Route warranty or replacement questions with your product model, serial number, Sales Invoice or Delivery Receipt (DR) number, and delivery details for review.", "/warranty", "storage"],
   ["Supplier or partner", "Introduce supply, fulfillment, implementation, or service capability.", "/contact", "workspace"],
   ["Policy question", "Review Trust & Compliance before relying on a commercial term.", "/trust-center", "cybersecurity"],
 ];
@@ -42,7 +42,7 @@ export default function SupportPage() {
         highlights={[
           { label: "RFQ Follow-Up", text: "Continue from a reference or submitted requirement." },
           { label: "Delivery", text: "Share receiver, schedule, and site access details." },
-          { label: "Warranty", text: "Route warranty questions with product, supplier, and quote details." },
+          { label: "Warranty", text: "Route warranty questions with your product model, serial number, and invoice or quotation details." },
           { label: "Supplier", text: "Introduce capability through the right business channel." },
         ]}
       />
