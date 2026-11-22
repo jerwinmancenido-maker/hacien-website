@@ -439,7 +439,7 @@ const solutionsContent: CmsSolutionsContent = {
     eyebrow: "Solutions",
     title: "Solutions are jobs to be done.",
     description:
-      "A solution is a piece of work HACIEN takes on, from your request to delivery: infrastructure, integration, workplace technology, software, security, and support needs. Technology pages, by contrast, describe the products a solution is built from, including the specifications an RFQ should name.",
+      "A solution is a piece of work HACIEN takes on, from your request to delivery: infrastructure, integration, workplace technology, software, security, and support needs. Product pages, by contrast, describe the products a solution is built from, including the specifications an RFQ should name.",
     image: "commandCenter",
     primaryAction: { href: "/quote", label: "Request a Quote" },
     secondaryAction: { href: "/products", label: "Explore Products" },
