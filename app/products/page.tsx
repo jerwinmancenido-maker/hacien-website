@@ -58,7 +58,7 @@ export default async function ProductsPage() {
         description="Describe the computers, network, power, cameras, or software in your own words, or attach a list. HACIEN checks distributors and sends a quotation within 1 business day. Category pages explain the specifications worth deciding first."
         image="workstation"
         primaryAction={{ href: "/quote", label: "Request a Quote" }}
-        secondaryAction={{ href: "/products", label: "Explore Products" }}
+        secondaryAction={{ href: "/solutions", label: "Explore Products" }}
         highlights={[
           { label: "In your own words", text: "Describe what you need in the chat — no forms, no package to build." },
           { label: "Optional Brands", text: "Choose a preference or keep HACIEN flexible." },
