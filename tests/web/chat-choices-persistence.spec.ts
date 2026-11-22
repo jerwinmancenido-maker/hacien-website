@@ -151,7 +151,7 @@ describe("never lose the chat (owner decision, 2026-11-09)", () => {
     const match = aiChat.match(/const AGREEMENT_POLICY_VERSIONS = "([^"]+)";/);
     expect(match).not.toBeNull();
     const currentVersions = match![1];
-    expect(currentVersions).toBe("terms:v2.1, privacy:v2.7");
+    expect(currentVersions).toBe("terms:v2.2, privacy:v2.8");
 
     // Helper simulating AiChat's restore path
     type SimMessage = { role: "user" | "assistant"; text: string };

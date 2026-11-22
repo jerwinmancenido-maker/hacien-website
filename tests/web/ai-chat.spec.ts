@@ -1457,7 +1457,7 @@ describe("AI chat agreement gate + processing UI", () => {
     expect(ai).toContain("Privacy Policy");
     // The lawyer's helper line, verbatim.
     expect(ai).toContain(
-      "AI replies are for product guidance only and are not an official quotation. Please do not enter government IDs, tax papers, or passwords.",
+      "AI replies are for product guidance only and are not an official quotation. Please do not enter government IDs, card numbers, passwords, or tax papers (except an optional BIR Form 2303 upload to pre-fill a quotation request).",
     );
     // Continue stays disabled until the bot-check token exists —
     // the old press-and-park wait read as a hang (owner, 2026-11-09).
@@ -1472,7 +1472,7 @@ describe("AI chat agreement gate + processing UI", () => {
     const ai = read("components/AiChat.tsx");
     expect(ai).toContain("setAcceptedAt(checked ? new Date().toISOString() : \"\")");
     expect(ai).toContain("agreementAcceptedAt: acceptedAt");
-    expect(ai).toContain('AGREEMENT_POLICY_VERSIONS = "terms:v2.1, privacy:v2.7"');
+    expect(ai).toContain('AGREEMENT_POLICY_VERSIONS = "terms:v2.2, privacy:v2.8"');
     const payloads = read("lib/guided-chat/payloads.ts");
     expect(payloads).toContain("agreementAcceptedAt");
     expect(payloads).toContain("agreementPolicyVersions");
