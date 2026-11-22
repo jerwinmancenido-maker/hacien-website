@@ -54,7 +54,7 @@ export default async function ProductsPage() {
     <div className="va-scope">
       <PremiumPageHero
         eyebrow="Technology RFQ Builder"
-        title="Tell us what you need."
+        title="IT Products & Equipment for Philippine Offices"
         description="Describe the computers, network, power, cameras, or software in your own words, or attach a list. HACIEN checks distributors and sends a quotation within 1 business day. Category pages explain the specifications worth deciding first."
         image="workstation"
         primaryAction={{ href: "/quote", label: "Request a Quote" }}
