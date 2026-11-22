@@ -42,20 +42,12 @@ export async function generateMetadata({
 
   const product = getProduct(productSlug);
 
-  if (!category || !product) {
-    return buildPageMetadata({
-      title: "Product Detail",
-      description: "Product profile not found.",
-      path,
-    });
-  }
-
-  if (product.categorySlug !== category.slug) {
-    return buildPageMetadata({
-      title: "Product Detail",
-      description: "Product not found in this category.",
-      path,
-    });
+  // Same missing check as the page — fallback metadata here would commit HTTP 200
+  // before notFound() runs, producing a soft-404 (404 UI with status 200).
+  // resolveErpProduct swallows fetch failures to null; a known local product still
+  // resolves below, so a transient ERP outage is not turned into notFound().
+  if (!category || !product || product.categorySlug !== category.slug) {
+    notFound();
   }
 
   return buildPageMetadata({

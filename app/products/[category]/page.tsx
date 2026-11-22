@@ -37,11 +37,14 @@ async function getErpProducts() {
 export async function generateMetadata({ params }: { params: Promise<{ category: string }> }): Promise<Metadata> {
   const { category: categorySlug } = await params;
   const category = getCategory(categorySlug);
+  // Same missing check as the page — fallback metadata here would commit HTTP 200
+  // before notFound() runs, producing a soft-404 (404 UI with status 200).
+  if (!category) notFound();
   return buildPageMetadata({
-    title: category ? category.seoTitle : "Product Category",
+    title: category.seoTitle,
     description:
-      category?.seoDescription ??
-      category?.heroCopy ??
+      category.seoDescription ??
+      category.heroCopy ??
       "Review a HACIEN technology category and request a quotation.",
     path: `/products/${categorySlug}`,
   });
