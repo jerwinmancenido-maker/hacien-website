@@ -35,7 +35,7 @@ export const staticPageTitleSegments: Record<string, string> = {
   "/cms-preview": "CMS Preview",
   "/command-center/cms": "Command Center CMS Drafts",
   "/product/[slug]": "Product Detail",
-  "/products/[category]": "Technology Category",
+  "/products/[category]": "Product Category",
   "/products/[category]/[product]": "Product Detail",
   "/solutions/[slug]": "Solution",
   "/insights/[slug]": "Insights",
@@ -80,7 +80,7 @@ export function buildPageTitleInventory(): PageTitleEntry[] {
   }
 
   for (const category of categories) {
-    const segment = category.seoTitle.replace("Products", "Technology");
+    const segment = category.seoTitle;
     entries.push({
       route: `/products/${category.slug}`,
       segment,

@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: { params: Promise<{ category:
   const { category: categorySlug } = await params;
   const category = getCategory(categorySlug);
   return buildPageMetadata({
-    title: category ? category.seoTitle.replace("Products", "Technology") : "Technology Category",
+    title: category ? category.seoTitle : "Product Category",
     description:
       category?.seoDescription ??
       category?.heroCopy ??
@@ -63,9 +63,9 @@ export default async function ProductCategoryPage({ params }: { params: Promise<
     <>
       <section className="px-4 py-12 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <Breadcrumb items={[{ label: "Technology", href: "/products" }, { label: category.name }]} />
+          <Breadcrumb items={[{ label: "Products", href: "/products" }, { label: category.name }]} />
           <SectionHeading
-            eyebrow="Technology Category"
+            eyebrow="Product Category"
             as="h1"
             title={category.name}
             description={category.heroCopy}
