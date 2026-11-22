@@ -60,8 +60,11 @@ export function SignupForm() {
         disabled={status === "submitting"}
         className="button-glow rounded bg-blue px-5 py-3 text-sm font-bold text-white disabled:bg-slate-300"
       >
-        {status === "submitting" ? "Submitting..." : "Create account request"}
+        {status === "submitting" ? "Submitting..." : "Submit access request"}
       </button>
+      <p className="text-xs text-grey-600">
+        We use these details only to review and verify your access request under our Privacy Policy.
+      </p>
       {message ? (
         <p
           className={

@@ -659,11 +659,11 @@ export const termsOfSalePage: LegalPageModel = {
   eyebrow: "Terms of Sale",
   title: "Terms of Sale",
   description: "We buy every item per order and keep no stock. Prices and lead times depend on our suppliers.",
-  versionLine: version("1.2", "Replaces version 1.1"),
+  versionLine: version("1.3", "Replaces version 1.2"),
   historyLink: true,
   showContents: true,
   meta: [
-    { label: "Version", value: "1.2" },
+    { label: "Version", value: "1.3" },
     { label: "Effective", value: published },
     { label: "Replaces", value: "1.1" },
   ],
@@ -675,7 +675,7 @@ export const termsOfSalePage: LegalPageModel = {
         ul([
           "We buy every item **per order** and keep no stock. Prices and lead times depend on our suppliers.",
           "A quotation is valid for **15 days** unless the quotation states otherwise.",
-          "Payment terms are as stated in your quotation. Unless your quotation states approved credit terms, payment is due before ordering and delivery. Software and special orders are paid **100% upfront**.",
+          "Payment terms are stated in each quotation and confirmed before an order proceeds. No single default payment schedule applies to all orders.",
           "When you sign our Delivery Receipt, you confirm the **box count and outside condition** only. You then have **3 days** to report problems with what's inside (**24 hours** for visible physical damage). Your legal rights for hidden defects are not affected.",
           "Warranty is the **manufacturer's or supplier's warranty only**. We help you claim it.",
           "Once we order from the supplier, the order can't be cancelled. No change-of-mind returns, but defective, damaged or wrong items are always covered.",
@@ -714,7 +714,7 @@ export const termsOfSalePage: LegalPageModel = {
           "You accept our quotation in any of these ways: a signed quotation, a purchase order (PO) that refers to it, or an email.",
           "We check availability with our supplier.",
           "We confirm the order by email, by signing your PO back, or by giving you a sales order (SO) number. The order is binding only after we confirm it.",
-          "We place the supplier order after we receive the down payment (section 8).",
+          "We place the supplier order once your order is confirmed and any pre-order payment condition stated in your quotation has been met (section 8).",
         ]),
       ],
     },
@@ -734,7 +734,7 @@ export const termsOfSalePage: LegalPageModel = {
         ul([
           "Prices are in **Philippine pesos (PHP)**, as stated on the quotation.",
           "HACIEN is a **non-VAT registered** business. Our prices and Sales Invoices do not include VAT.",
-          '**Withholding tax:** if your company withholds tax on payments to us, please tell us before paying and give us BIR Form 2307 for the amount withheld. Our Sales Invoice has a "Less: Withholding Tax" line for this.',
+          '**Withholding tax:** if you are required by Philippine tax law to withhold creditable tax on payments to HACIEN (such as expanded withholding tax, or creditable percentage tax for government agencies), please notify us before paying so we can reflect the deduction on the "Less: Withholding Tax" line of our Sales Invoice, and provide BIR Form 2307 upon payment (or within 20 days after the quarter ends). Any amount withheld without a valid BIR Form 2307 remains payable.',
           "**Delivery fee:** quoted separately on the quotation.",
         ]),
       ],
@@ -779,10 +779,10 @@ export const termsOfSalePage: LegalPageModel = {
       title: "8. Payment",
       blocks: [
         ul([
-          "**Payment terms:** as stated in your quotation. Unless your quotation states approved credit terms, payment is due as stated in your quotation before ordering and delivery.",
-          "**Software and special orders:** 100% payment before we order.",
-          "**Credit terms:** 30 days, only for approved corporate and government accounts, and only when stated in your quotation.",
-          "Payment is applied to your order only when received in the account printed on your quotation.",
+          "**Payment terms:** payment timing, deposit (if any), and method are stated in your quotation and govern your order.",
+          "**Pre-order payment conditions:** where your quotation requires full or partial payment before procurement (such as for software licenses or special-order items), we place the supplier order only after that payment is received and cleared.",
+          "**Credit terms:** credit terms (such as Net 30) apply only to approved corporate and government accounts, and only when expressly stated in your quotation.",
+          "**Payment destination and check clearing:** payment is credited to your order only when received in the HACIEN account printed on your quotation (or, where your quotation states cash on delivery, by our authorized delivery representative against an official HACIEN Sales Invoice or Collection Receipt). Checks are credited only after clearing.",
           "**Payment methods:** bank transfer, check, or cash.",
           "**Where to pay:** only to the payee name and bank account printed on your HACIEN quotation or Delivery Details sheet. Checks are payable to **HACIEN INFORMATION TECHNOLOGY SOLUTIONS**.",
           "**HACIEN will never change its bank details by email or chat alone.** If anyone asks you to pay a different account, call or email us at sales@haciensolutions.com before paying.",
@@ -1083,6 +1083,10 @@ export const policyHistoryPage: LegalPageModel = {
         p("**Terms of Sale: changes from v1.1**"),
         ul([
           "Terms of Sale v1.2: Payment terms are as stated in your quotation. Unless your quotation states approved credit terms, payment is due before ordering and delivery. The 50% down / 50% on delivery default is removed; software and special orders remain 100% upfront; credit terms apply only when stated in your quotation.",
+        ]),
+        p("**Terms of Sale: changes from v1.2**"),
+        ul([
+          "Terms of Sale v1.3: Payment terms are stated in each quotation and govern the order; no single default payment schedule applies to all orders. Withholding tax wording updated for creditable tax required by Philippine tax law, shown on the 'Less: Withholding Tax' line against BIR Form 2307.",
         ]),
         p("**Warranty and Returns: changes from v1.0**"),
         ul([
