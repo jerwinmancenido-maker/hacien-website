@@ -6,7 +6,7 @@ import { PremiumPageHero } from "@/components/PremiumPageHero";
 export const metadata: Metadata = {
   title: "Customer Workspace",
   description:
-    "HACIEN Customer Workspace direction for future RFQ tracking, quotation visibility, documents, support, and account continuity.",
+    "HACIEN Customer Workspace for customers with approved access: RFQ tracking, quotation visibility, documents, support, and account continuity. Request access to get started.",
   robots: {
     index: false,
     follow: false,
@@ -31,12 +31,13 @@ export default function CustomerWorkspacePage() {
     <>
       <PremiumPageHero
         eyebrow="Customer Workspace"
-        title="A future workspace for customer continuity."
-        description="Customer Workspace is HACIEN's planned customer layer for tracking requests, viewing approved documents, continuing support, and preserving procurement history."
+        title="A workspace for customers with approved access."
+        description="Customer Workspace is HACIEN's customer layer for tracking requests, viewing approved documents, continuing support, and preserving procurement history. Access is granted once an access request is approved."
         image="workspace"
         primaryAction={{ href: "/quote", label: "Request a Quote" }}
+        secondaryAction={{ href: "/signup", label: "Request Access" }}
         highlights={[
-          { label: "Coming Soon", text: "Private customer access will be introduced when ready." },
+          { label: "Request Access", text: "Submit an access request — HACIEN verifies your email and organization, then contacts you once access is approved." },
           { label: "Controlled Visibility", text: "Customer-facing records will follow approved visibility rules." },
           { label: "Account Memory", text: "Requests, quotes, documents, and support belong to one history." },
           { label: "Available Now", text: "RFQ, tracking, clarification, contact, and support paths are active." },
@@ -53,8 +54,9 @@ export default function CustomerWorkspacePage() {
               Customers can already begin and continue a request.
             </h2>
             <p className="mt-4 text-sm leading-7 text-grey-600">
-              Customer Workspace is not publicly open yet. Until private access is introduced, customers
-              should use the active public paths for requests, tracking, clarification, and support.
+              Customer Workspace is for customers with approved access. If your access has not been
+              approved yet, you can submit an access request — and the active public paths below
+              stay open for requests, tracking, clarification, and support.
             </p>
           </AnimatedContent>
 
@@ -83,13 +85,14 @@ export default function CustomerWorkspacePage() {
         <div className="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
           <AnimatedContent>
             <div className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">
-              Planned Workspace
+              Inside the Workspace
             </div>
             <h2 className="mt-4 max-w-3xl text-2xl font-bold tracking-tight text-ink sm:text-3xl">
-              Private access will be useful only when it protects customer records.
+              Access stays private so customer records stay protected.
             </h2>
             <p className="mt-4 text-sm leading-6 text-grey-600">
-              This page shows the planned direction without implying private customer access is live.
+              Customers sign in with an approved account to see the records connected to it, under the
+              visibility rules approved for each record.
             </p>
           </AnimatedContent>
           <div className="grid gap-3 md:grid-cols-2">
@@ -122,7 +125,7 @@ export default function CustomerWorkspacePage() {
             </h2>
             <p className="mt-5 text-sm leading-7 text-grey-300">
               The public website begins the request. Gateway preserves it. Workspace operates it.
-              Customer Workspace will eventually continue it with controlled visibility.
+              Customer Workspace continues it for approved customers, with controlled visibility.
             </p>
           </AnimatedContent>
 

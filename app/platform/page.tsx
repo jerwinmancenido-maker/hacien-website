@@ -8,7 +8,7 @@ import { SectionHeading } from "@/components/SectionHeading";
 export const metadata: Metadata = buildPageMetadata({
   title: "Platform | Operating Model",
   description:
-    "HACIEN's internal operating platform for request intake, account memory, and operational guidance. It is not a product for sale; customer continuity features are future.",
+    "HACIEN's internal operating platform for request intake, account memory, and operational guidance. It is not a product for sale; customer continuity runs through the Customer Workspace.",
   path: "/platform",
 });
 
@@ -16,7 +16,7 @@ const platformLayers = [
   ["Workspace", "The secure internal operating workspace HACIEN uses to review requests, manage work, and keep operations moving."],
   ["Timeline", "The account memory that records meaningful customer milestones without exposing internal operational noise."],
   ["Guardian", "The guidance layer that helps prevent missed follow-ups, incomplete records, and avoidable operational mistakes."],
-  ["Customer Workspace", "The future customer continuity layer for request tracking, quotations, documents, support, and account history."],
+  ["Customer Workspace", "The customer continuity layer for request tracking, quotations, documents, support, and account history, for customers with approved access."],
   ["Account Continuity", "The principle that every inquiry, quote, delivery, document, and support interaction belongs to one account record."],
 ];
 
@@ -48,7 +48,7 @@ export default function PlatformPage() {
           { label: "Workspace", text: "Secure internal operations for requests, reviews, and follow-up." },
           { label: "Timeline", text: "Account memory for meaningful customer milestones." },
           { label: "Guardian", text: "Operational guidance that helps prevent missed details." },
-          { label: "Customer Workspace", text: "Future continuity for tracking, documents, and support." },
+          { label: "Customer Workspace", text: "Continuity for approved customers: tracking, documents, and support." },
         ]}
       />
 
