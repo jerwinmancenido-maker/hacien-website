@@ -7,6 +7,7 @@ import { sendInquiryConfirmationEmail } from "@/lib/email/inquiry-confirmation";
 import { sendStaffNotificationEmail } from "@/lib/email/staff-notification";
 import { getClientIp } from "@/lib/security/client-ip";
 import { redis } from "@/lib/redis/upstash";
+import { validateInquiryPayload } from "@/lib/validation/inquiry";
 
 const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
 const RATE_LIMIT_MAX = 10; // max submissions per window per IP (updated to 10 per 360-degree audit)
@@ -269,6 +270,15 @@ export async function sendInquiryEmail(
   const inquiryType = getString(formData.inquiryType).trim();
   if (inquiryType && !isContactInquiryType(inquiryType)) {
     return { success: false, error: "Please choose a valid inquiry type." };
+  }
+
+  // Field validation (R5-FIX-9, n-13): the one shared schema, enforced
+  // server-side before anything reaches the Gateway - required fields, the
+  // email pattern, and the per-field length caps the chat path already
+  // applies on the client.
+  const validation = validateInquiryPayload(formData);
+  if (!validation.ok) {
+    return { success: false, error: validation.error };
   }
 
   // ── Log: submission received ──

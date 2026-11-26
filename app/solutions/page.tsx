@@ -12,6 +12,8 @@ import {
 } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { solutions } from "@/data/solutions";
+import { JsonLd } from "@/components/JsonLd";
+import { itemListJsonLd } from "@/lib/seo/json-ld";
 import { getSolutionsContent } from "@/lib/cms/content";
 import { getCmsMetadata } from "@/lib/cms/seo";
 import { ProjectIntegration } from "@/components/ProjectIntegration";
@@ -38,6 +40,7 @@ export default function SolutionsPage() {
 
   return (
     <>
+      <JsonLd data={itemListJsonLd(solutions.map((solution) => ({ name: solution.title, href: `/solutions/${solution.slug}` })))} />
       {/* No hero highlights: they duplicated the meaning cards and solution list below. */}
       <PremiumPageHero
         eyebrow={content.hero.eyebrow}

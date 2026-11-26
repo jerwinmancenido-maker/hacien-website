@@ -35,6 +35,7 @@ import {
   type GuidedChatAnswers,
 } from "@/lib/guided-chat/payloads";
 import type { AiChatPath } from "@/lib/ai/intake";
+import { INQUIRY_EMAIL_PATTERN as EMAIL_PATTERN } from "@/lib/validation/inquiry";
 
 /** The AI conversation for the website chat panel — its only mode
  *  (owner decision, 2026-11-08: the guided questions were removed).
@@ -119,8 +120,6 @@ const GATE_HELPER =
  *  this version string travel with the submitted request. */
 const AGREEMENT_POLICY_VERSIONS = "terms:v2.2, privacy:v2.8";
 
-/** Mirrors the plausible-email check the server runs (lib/ai/intake). */
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const UNAVAILABLE_TEXT =
   "The AI assistant isn't available right now — sorry about that. Email us at sales@haciensolutions.com and we'll take your request from there. We reply within 1 business day.";

@@ -10,6 +10,8 @@ import { enterpriseImages } from "@/components/EnterpriseImagery";
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { insightAuthor } from "@/data/companyContact";
 import { insights } from "@/data/insights";
+import { JsonLd } from "@/components/JsonLd";
+import { itemListJsonLd } from "@/lib/seo/json-ld";
 import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 export const metadata: Metadata = buildPageMetadata({
@@ -53,6 +55,7 @@ function insightImage(category: string, slug?: string) {
 export default function InsightsPage() {
   return (
     <>
+      <JsonLd data={itemListJsonLd(insights.map((insight) => ({ name: insight.title, href: `/insights/${insight.slug}` })))} />
       {/* No hero highlights: they duplicated the knowledge areas and article list below. */}
       <PremiumPageHero
         eyebrow="Insights"
