@@ -94,7 +94,7 @@ export function Header() {
         <div className="flex shrink-0 items-center gap-2.5">
           <Link
             href={navigationContent.header.quoteAction.href}
-            className={`${VA_BTN_PRIMARY_44} max-[560px]:hidden`}
+            className={`${VA_BTN_PRIMARY_44}`}
           >
             {navigationContent.header.quoteAction.label}
           </Link>

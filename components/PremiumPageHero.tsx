@@ -5,6 +5,7 @@ import {
   enterpriseImages,
 } from "@/components/EnterpriseImagery";
 import { StaggerContainer } from "@/components/motion";
+import { VA_H1 } from "@/lib/variant-a";
 
 type HeroAction = {
   href: string;
@@ -54,18 +55,18 @@ export function PremiumPageHero({
           <div className="mb-3 inline-flex w-fit rounded border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur sm:mb-5">
             {eyebrow}
           </div>
-          <h1 className="font-display max-w-4xl text-3xl tracking-tight hyphens-none sm:text-5xl">
+          <h1 className={`${VA_H1} max-w-4xl hyphens-none`}>
             {title}
           </h1>
           <p className="mt-3 max-w-2xl text-sm leading-6 text-grey-200 hyphens-none sm:mt-5 sm:text-base sm:leading-7">
             {description}
           </p>
           <div className="mt-5 flex flex-col gap-2 sm:mt-7 sm:flex-row sm:gap-3">
-            <Link href={primaryAction.href} className="rounded bg-blue px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-dark sm:px-6 sm:py-3 cursor-pointer">
+            <Link href={primaryAction.href} className="inline-flex h-11 cursor-pointer items-center justify-center whitespace-nowrap rounded-full bg-blue px-6 text-center text-[14.5px] font-semibold text-white transition-transform hover:bg-blue-dark active:scale-[0.97] min-[561px]:h-[52px] min-[561px]:px-[30px] min-[561px]:text-[15.5px]">
               {primaryAction.label}
             </Link>
             {secondaryAction ? (
-              <Link href={secondaryAction.href} className="interactive-link rounded border border-white/25 bg-transparent px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-white/5 sm:px-6 sm:py-3 cursor-pointer">
+              <Link href={secondaryAction.href} className="interactive-link inline-flex h-11 cursor-pointer items-center justify-center whitespace-nowrap rounded-full border border-white/25 bg-transparent px-6 text-center text-[14.5px] font-semibold text-white transition-transform hover:bg-white/5 active:scale-[0.97] min-[561px]:h-[52px] min-[561px]:px-[30px] min-[561px]:text-[15.5px]">
                 {secondaryAction.label}
               </Link>
             ) : null}

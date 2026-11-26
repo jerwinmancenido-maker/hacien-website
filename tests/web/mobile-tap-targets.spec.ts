@@ -29,13 +29,14 @@ describe("Mobile tap targets (390px)", () => {
     expect(variantA).toMatch(/VA_BTN_PRIMARY_52[\s\S]*?h-\[52px\]/);
   });
 
-  it("Header quote action hides only at phone width (<=560px), per mock v5", () => {
-    // REQ-WEB-RESTYLE-001 (prep correction C6): mock v5 keeps the 44px header
-    // CTA beside the menu button at tablet widths and hides it only at
-    // <=560px, where the hero primary action carries the quote path.
+  it("Header quote action stays visible at phone width (<=560px) — Minor 996 directed fix", () => {
+    // R5-FIX-4 (run-81 Minor 996; Jerwin-directed 2026-11-26): the header
+    // quote pill shows at every width, so the quote path's primary CTA is
+    // tappable at 390px/560px too. This supersedes the REQ-WEB-RESTYLE-001
+    // mock-v5 behaviour, which hid the pill at <=560px.
     const header = read("components/Header.tsx");
-    expect(header).toMatch(/max-\[560px\]:hidden[\s\S]*?quoteAction|quoteAction[\s\S]*?max-\[560px\]:hidden/);
     expect(header).toMatch(/VA_BTN_PRIMARY_44/);
+    expect(header).not.toMatch(/max-\[560px\]:hidden/);
     const hero = read("components/Hero.tsx");
     expect(hero).toMatch(/primaryAction/);
   });
