@@ -10,6 +10,8 @@ import {
 import { PremiumPageHero } from "@/components/PremiumPageHero";
 import { ProductGrid } from "@/components/ProductGrid";
 import { categories } from "@/data/products";
+import { JsonLd } from "@/components/JsonLd";
+import { itemListJsonLd } from "@/lib/seo/json-ld";
 import { listErpCatalog } from "@/lib/erp/ecommerce-client";
 import { erpCatalogToWebsiteProducts } from "@/lib/erp/catalog-products";
 
@@ -52,6 +54,7 @@ export default async function ProductsPage() {
 
   return (
     <div className="va-scope">
+      <JsonLd data={itemListJsonLd(categories.map((category) => ({ name: category.name, href: `/products/${category.slug}` })))} />
       <PremiumPageHero
         eyebrow="Technology RFQ Builder"
         title="IT Products & Equipment for Philippine Offices"

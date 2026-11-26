@@ -3,6 +3,8 @@ import Link from "next/link";
 import { BrandGrid } from "@/components/BrandsSection";
 import { brandCategories } from "@/data/companyContact";
 import { buildPageMetadata } from "@/lib/seo/site-metadata";
+import { JsonLd } from "@/components/JsonLd";
+import { itemListJsonLd } from "@/lib/seo/json-ld";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Brands we carry",
@@ -14,6 +16,13 @@ export const metadata: Metadata = buildPageMetadata({
 export default function BrandsPage() {
   return (
     <>
+      <JsonLd
+        data={itemListJsonLd(
+          Array.from(
+            new Set(brandCategories.flatMap((category) => category.brands.map((brand) => brand.name))),
+          ).map((name) => ({ name })),
+        )}
+      />
       <section className="bg-ink px-4 py-[42px] text-white sm:px-6 lg:px-8">
         <div className="mx-auto max-w-[1180px]">
           <h1 className="text-[32px] font-extrabold leading-[1.12] tracking-[-0.01em] max-sm:text-[27px]">
