@@ -19,8 +19,10 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const insight = getInsight(slug);
+  // PR #102 pattern (R5-FIX-5): unknown slug, real not-found title.
+  if (!insight) notFound();
   return buildPageMetadata({
-    title: insight ? insight.seoTitle : "Insights",
+    title: insight.seoTitle,
     description:
       insight?.seoDescription ??
       "Practical IT procurement guides and resources from HACIEN.",

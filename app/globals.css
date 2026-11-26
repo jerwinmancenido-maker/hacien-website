@@ -1179,4 +1179,12 @@ main {
     content: " (" attr(href) ")";
     word-break: break-all;
   }
+
+  /* The card page's link pills are fixed-height buttons: an expanded URL
+     printed inside one overflows the pill and overlaps its neighbours
+     (Round 4 print finding c-1). Pill/button anchors are exempt from print
+     URL expansion; body-text links still expand. */
+  a.card-link-pill::after {
+    content: none;
+  }
 }

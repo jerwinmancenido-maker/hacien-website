@@ -1,4 +1,4 @@
-import { notFound, redirect } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import type { Metadata } from "next";
 import { ProductDetail } from "@/components/ProductDetail";
 import { getCategory, getProduct, products } from "@/data/products";
@@ -30,8 +30,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   const product = getProduct(slug);
+  // PR #102 pattern (R5-FIX-5): an unknown slug gets the real not-found
+  // response — title included — instead of a generic "Product Detail"
+  // title on the 404 page. The ERP branch above is untouched.
+  if (!product) notFound();
   return {
-    title: product ? product.name : "Product Detail",
+    title: product.name,
     description: product?.shortDescription ?? "View HACIEN product details and request a quotation.",
     robots: { index: false, follow: false },
   };
@@ -53,7 +57,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   const category = getCategory(product.categorySlug);
   if (category) {
-    redirect(`/products/${category.slug}/${product.slug}`);
+    permanentRedirect(`/products/${category.slug}/${product.slug}`);
   }
 
   return (

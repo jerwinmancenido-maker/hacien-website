@@ -16,8 +16,10 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
   const solution = getSolution(slug);
+  // PR #102 pattern (R5-FIX-5): unknown slug, real not-found title.
+  if (!solution) notFound();
   return buildPageMetadata({
-    title: solution ? solution.seoTitle : "Solution",
+    title: solution.seoTitle,
     description: solution?.seoDescription ?? "Explore HACIEN IT infrastructure, procurement, and systems integration solutions.",
     path: `/solutions/${slug}`,
   });
