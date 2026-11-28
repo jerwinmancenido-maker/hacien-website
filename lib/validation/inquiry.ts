@@ -33,8 +33,12 @@
  * object where prose belongs) is rejected rather than skipped, so content
  * cannot ride past the caps in a shape the length check cannot measure.
  * The only non-string fields allowed are the quote builder's machine
- * fields (the requirement blocks and their counters); an absent
- * (null/undefined) value counts as an empty field, as it does today.
+ * fields, and they are typed per key, never skipped by name: the counters
+ * must be numbers, the flag a boolean, and the requirement blocks an
+ * array whose entries are measured by their serialized length. Their
+ * sizes count toward the same absolute ceiling, so no key name is a
+ * route around the caps. An absent (null/undefined) value counts as an
+ * empty field, as it does today.
  */
 
 export const INQUIRY_EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -66,9 +70,11 @@ const UNVALIDATED_FIELDS = new Set([
 
 /** Machine fields that legitimately carry non-string values: the quote
  *  builder's requirement blocks (an array) and its counters/flags
- *  (numbers, a boolean). Everything else on a payload is prose and must
- *  arrive as a string. */
-const NON_STRING_FIELDS = new Set([
+ *  (numbers, a boolean). Being listed here exempts a field from the
+ *  string checks only - machineFieldSize() below validates each one per
+ *  key. Everything else on a payload is prose and must arrive as a
+ *  string. */
+const MACHINE_FIELDS = new Set([
   "requirementBlocks",
   "requirementCount",
   "attachmentSizeKb",
@@ -126,6 +132,73 @@ function isUsablePhone(value: string): boolean {
   return value.replace(/\D/g, "").length >= 7;
 }
 
+const FIELD_READ_ERROR =
+  "One of the fields could not be read - please re-enter it and try again.";
+const FIELD_TOO_LONG_ERROR =
+  "One of the fields is too long - please shorten it and try again.";
+
+type MachineFieldSize =
+  | { ok: true; size: number }
+  | { ok: false; error: string };
+
+/** Serialized length of a value, or -1 when it cannot be serialized (a
+ *  circular structure) and so cannot be measured. */
+function serializedLength(value: unknown): number {
+  try {
+    return JSON.stringify(value)?.length ?? 0;
+  } catch {
+    return -1;
+  }
+}
+
+/** The per-key type contract for the quote builder's machine fields. A
+ *  counter must arrive as a finite number, the flag as a boolean, and the
+ *  requirement blocks as an array whose entries are the builder's blocks
+ *  (objects of capped strings; a bare string entry is measured the same
+ *  way). Each block is measured by its serialized length and held to the
+ *  composed-field ceiling on its own; the caller sums the sizes of all
+ *  four fields against the same ceiling, so the fields are bounded
+ *  together as well as one by one. Any other shape is rejected - a
+ *  machine-field name is never a free pass. */
+function machineFieldSize(key: string, value: unknown): MachineFieldSize {
+  switch (key) {
+    case "requirementCount":
+    case "attachmentSizeKb":
+      return typeof value === "number" && Number.isFinite(value)
+        ? { ok: true, size: String(value).length }
+        : { ok: false, error: FIELD_READ_ERROR };
+    case "acceptsZeroCatalogProducts":
+      return typeof value === "boolean"
+        ? { ok: true, size: String(value).length }
+        : { ok: false, error: FIELD_READ_ERROR };
+    case "requirementBlocks": {
+      if (!Array.isArray(value)) {
+        return { ok: false, error: FIELD_READ_ERROR };
+      }
+      let size = 0;
+      for (const entry of value) {
+        if (
+          typeof entry !== "string" &&
+          (typeof entry !== "object" || entry === null)
+        ) {
+          return { ok: false, error: FIELD_READ_ERROR };
+        }
+        const entrySize = serializedLength(entry);
+        if (entrySize < 0) {
+          return { ok: false, error: FIELD_READ_ERROR };
+        }
+        if (entrySize > INQUIRY_COMPOSED_FIELD_LENGTH_CAP) {
+          return { ok: false, error: FIELD_TOO_LONG_ERROR };
+        }
+        size += entrySize;
+      }
+      return { ok: true, size };
+    }
+    default:
+      return { ok: false, error: FIELD_READ_ERROR };
+  }
+}
+
 export function validateInquiryPayload(
   formData: Record<string, unknown>,
 ): InquiryValidation {
@@ -151,13 +224,27 @@ export function validateInquiryPayload(
   }
 
   const composed = composedFieldKeys(formData);
+  let machineSize = 0;
   for (const [key, value] of Object.entries(formData)) {
-    if (UNVALIDATED_FIELDS.has(key) || NON_STRING_FIELDS.has(key)) {
+    if (UNVALIDATED_FIELDS.has(key)) {
       continue;
     }
     // Absent values count as empty fields; any other non-string value is
     // content in a shape the caps cannot measure, so it is rejected.
     if (value === null || value === undefined) continue;
+    if (MACHINE_FIELDS.has(key)) {
+      // Machine fields are typed and measured per key, and their sizes
+      // count toward the composed-field ceiling like any composed text.
+      const machine = machineFieldSize(key, value);
+      if (!machine.ok) {
+        return { ok: false, error: machine.error };
+      }
+      machineSize += machine.size;
+      if (machineSize > INQUIRY_COMPOSED_FIELD_LENGTH_CAP) {
+        return { ok: false, error: FIELD_TOO_LONG_ERROR };
+      }
+      continue;
+    }
     if (typeof value !== "string") {
       return {
         ok: false,
