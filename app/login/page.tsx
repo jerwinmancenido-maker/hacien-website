@@ -4,9 +4,9 @@ import type { Metadata } from "next";
 import { GradientBackground } from "@/app/components/reactbits";
 
 export const metadata: Metadata = {
-  title: "Customer Login",
+  title: "Customer Accounts by Request",
   description:
-    "Customer account sign-in preview for HACIEN. Public access to RFQ and workspace request paths remains active.",
+    "Customer accounts are by request: submit a request and our team reviews it. Sign-in opens for approved accounts when the Customer Workspace launches. The workspace sign-in on this page is for HACIEN staff and existing workspace users only.",
   robots: {
     index: false,
     follow: false,
