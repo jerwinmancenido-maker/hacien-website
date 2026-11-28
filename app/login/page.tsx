@@ -23,9 +23,9 @@ export default function LoginPage() {
       <div className="mx-auto grid max-w-4xl gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-grey-600">Customer Access</p>
-          <h1 className="mt-5 max-w-2xl text-3xl font-bold tracking-tight text-slate-950 sm:text-5xl">Customer access is being prepared</h1>
+          <h1 className="mt-5 max-w-2xl text-3xl font-bold tracking-tight text-slate-950 sm:text-5xl">Customer accounts are by request</h1>
           <p id="login-status" className="mt-4 text-sm leading-6 text-slate-600">
-            Customer account login will use HACIEN ERP-backed access after account verification. Existing workspace users should use the workspace login.
+            Customer accounts are by request. Submit a request and our team reviews it. Sign-in opens for approved accounts when the Customer Workspace launches; we&apos;ll let you know.
           </p>
           <div className="mt-8">
             <Link
@@ -41,7 +41,7 @@ export default function LoginPage() {
 
         <aside className="surface grid gap-4 rounded p-6" aria-labelledby="login-accounts-heading">
           <h2 id="login-accounts-heading" className="text-lg font-bold tracking-tight text-slate-950">
-            Customer accounts are not open yet
+            Reach us today
           </h2>
           <p className="text-sm leading-6 text-slate-600">
             To reach us today, request a quotation or send an account request — we reply within 1 business day.

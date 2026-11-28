@@ -20,6 +20,7 @@ const SURFACES = [
   "app/customer-workspace/page.tsx",
   "app/actions/auth.ts",
   "app/signup/page.tsx",
+  "app/login/page.tsx",
   "app/access/page.tsx",
   "app/platform/page.tsx",
 ];
@@ -35,6 +36,9 @@ const BANNED = [
   "approved customer",
   "accounts are not open yet",
   "sign in with an approved",
+  "being prepared",
+  "account verification",
+  "not open yet",
 ];
 
 function source(rel: string) {
@@ -42,13 +46,19 @@ function source(rel: string) {
 }
 
 function flat(text: string) {
-  return text.replace(/\s+/g, " ");
+  // &apos; is how the canonical "we'll" is written in JSX text (lint rule
+  // react/no-unescaped-entities); it renders as a plain apostrophe.
+  return text.replace(/&apos;/g, "'").replace(/\s+/g, " ");
 }
 
 describe("customer account posture: one by-request message everywhere", () => {
   it("the workspace hero and the sign-in refusal carry the canonical statement verbatim", () => {
     expect(flat(source("app/customer-workspace/page.tsx"))).toContain(CANONICAL);
     expect(flat(source("app/actions/auth.ts"))).toContain(CANONICAL);
+  });
+
+  it("the login page carries the canonical statement verbatim", () => {
+    expect(flat(source("app/login/page.tsx"))).toContain(CANONICAL);
   });
 
   it("every posture surface states accounts are by request", () => {

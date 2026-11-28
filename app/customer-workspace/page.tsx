@@ -92,7 +92,7 @@ export default function CustomerWorkspacePage() {
             </h2>
             <p className="mt-4 text-sm leading-6 text-grey-600">
               Customer accounts are by request. Submit a request and our team reviews it. Sign-in opens
-              for approved accounts when the Customer Workspace launches; we'll let you know. Each account
+              for approved accounts when the Customer Workspace launches; we&apos;ll let you know. Each account
               will see only the records connected to it, under the visibility rules approved for each record.
             </p>
           </AnimatedContent>
