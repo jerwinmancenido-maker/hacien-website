@@ -6,7 +6,7 @@ import { PremiumPageHero } from "@/components/PremiumPageHero";
 export const metadata: Metadata = {
   title: "Customer Workspace",
   description:
-    "HACIEN Customer Workspace for customers with approved access: RFQ tracking, quotation visibility, documents, support, and account continuity. Request access to get started.",
+    "HACIEN Customer Workspace. Customer accounts are by request: submit a request and our team reviews it. Sign-in opens for approved accounts when the Customer Workspace launches.",
   robots: {
     index: false,
     follow: false,
@@ -31,13 +31,13 @@ export default function CustomerWorkspacePage() {
     <>
       <PremiumPageHero
         eyebrow="Customer Workspace"
-        title="A workspace for customers with approved access."
-        description="Customer Workspace is HACIEN's customer layer for tracking requests, viewing approved documents, continuing support, and preserving procurement history. Access is granted once an access request is approved."
+        title="Customer accounts are by request."
+        description="Customer accounts are by request. Submit a request and our team reviews it. Sign-in opens for approved accounts when the Customer Workspace launches; we'll let you know."
         image="workspace"
         primaryAction={{ href: "/quote", label: "Request a Quote" }}
         secondaryAction={{ href: "/signup", label: "Request Access" }}
         highlights={[
-          { label: "Request Access", text: "Submit an access request — HACIEN verifies your email and organization, then contacts you once access is approved." },
+          { label: "Request Access", text: "Submit a request and our team reviews it — sign-in opens for approved accounts when the Customer Workspace launches; we'll let you know." },
           { label: "Controlled Visibility", text: "Customer-facing records will follow approved visibility rules." },
           { label: "Account Memory", text: "Requests, quotes, documents, and support belong to one history." },
           { label: "Available Now", text: "RFQ, tracking, clarification, contact, and support paths are active." },
@@ -54,9 +54,9 @@ export default function CustomerWorkspacePage() {
               Customers can already begin and continue a request.
             </h2>
             <p className="mt-4 text-sm leading-7 text-grey-600">
-              Customer Workspace is for customers with approved access. If your access has not been
-              approved yet, you can submit an access request — and the active public paths below
-              stay open for requests, tracking, clarification, and support.
+              Customer accounts are by request. Submit a request and our team reviews it; sign-in
+              opens for approved accounts when the Customer Workspace launches. Until then, the
+              active public paths below stay open for requests, tracking, clarification, and support.
             </p>
           </AnimatedContent>
 
@@ -91,8 +91,9 @@ export default function CustomerWorkspacePage() {
               Access stays private so customer records stay protected.
             </h2>
             <p className="mt-4 text-sm leading-6 text-grey-600">
-              Customer accounts are not open yet. Access starts with a request, and each account will
-              see only the records connected to it, under the visibility rules approved for each record.
+              Customer accounts are by request. Submit a request and our team reviews it. Sign-in opens
+              for approved accounts when the Customer Workspace launches; we'll let you know. Each account
+              will see only the records connected to it, under the visibility rules approved for each record.
             </p>
           </AnimatedContent>
           <div className="grid gap-3 md:grid-cols-2">
@@ -125,7 +126,7 @@ export default function CustomerWorkspacePage() {
             </h2>
             <p className="mt-5 text-sm leading-7 text-grey-300">
               The public website begins the request. Gateway preserves it. Workspace operates it.
-              Customer Workspace continues it for approved customers, with controlled visibility.
+              Once it launches, Customer Workspace continues it for approved accounts, with controlled visibility.
             </p>
           </AnimatedContent>
 

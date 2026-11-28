@@ -27,8 +27,8 @@ const accessOptions = [
   },
   {
     title: "Customer Workspace",
-    eyebrow: "Approved customer access",
-    body: "The customer workspace for tracking requests, viewing quotations, accessing documents, continuing support, and preserving account history. Access is granted once a request is approved.",
+    eyebrow: "Customer accounts by request",
+    body: "The customer workspace for tracking requests, viewing quotations, accessing documents, continuing support, and preserving account history. Customer accounts are by request, and sign-in opens for approved accounts when the Customer Workspace launches.",
     href: "/customer-workspace",
     label: "Learn More",
     external: false,
@@ -55,9 +55,9 @@ export default function AccessPage() {
         secondaryAction={{ href: "/contact", label: "Contact HACIEN" }}
         highlights={[
           { label: "Internal Workspace", text: "Secure access for authorized HACIEN personnel." },
-          { label: "Customer Workspace", text: "Continuity for approved customers: tracking, documents, and support." },
+          { label: "Customer Workspace", text: "Continuity for customer accounts at launch: tracking, documents, and support." },
           { label: "Support", text: "Help with inquiry, quotation, reference, or follow-up details." },
-          { label: "Account Access", text: "One connected path for public, internal, and approved customer use." },
+          { label: "Account Access", text: "One connected path for public, internal, and customer use." },
         ]}
       />
 

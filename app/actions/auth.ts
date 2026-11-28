@@ -66,7 +66,7 @@ export async function loginCustomer(formData: FormData): Promise<AuthActionResul
     return {
       success: false,
       message:
-        "Customer accounts are not open yet. Please request access, or continue with RFQ/contact for public paths.",
+        "Customer accounts are by request. Submit a request and our team reviews it. Sign-in opens for approved accounts when the Customer Workspace launches; we'll let you know.",
       nextUrl: authConfig.workspaceRoute,
     };
   }
