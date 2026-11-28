@@ -9,7 +9,10 @@ import { buildPageMetadata } from "@/lib/seo/site-metadata";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Contact",
-  description: companyContact.replyTime,
+  // R5-FIX-6 (C-M3): the description names what this page offers - the
+  // email address, the chat, and the support route - composed from
+  // companyContact values, instead of the reply-time fragment alone.
+  description: `Contact HACIEN by email at ${companyContact.email}, through the chat for a business inquiry, or through support for follow-up on an existing request. ${companyContact.replyTime}`,
   path: "/contact",
 });
 
