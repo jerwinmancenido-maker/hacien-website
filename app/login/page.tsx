@@ -34,8 +34,11 @@ export default function LoginPage() {
               rel={isErpExternal ? "noopener noreferrer" : undefined}
               className="inline-flex rounded-full border border-slate-300 px-5 py-3 text-sm font-bold text-slate-900"
             >
-              Open Workspace Access
+              Staff / existing workspace sign-in
             </Link>
+            <p className="mt-3 text-sm leading-6 text-slate-600">
+              For HACIEN staff and existing workspace users only. Customer accounts are by request.
+            </p>
           </div>
         </div>
 

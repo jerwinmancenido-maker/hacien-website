@@ -61,6 +61,27 @@ describe("customer account posture: one by-request message everywhere", () => {
     expect(flat(source("app/login/page.tsx"))).toContain(CANONICAL);
   });
 
+  it("the login page's workspace button is labelled for staff and existing workspace users only", () => {
+    const login = flat(source("app/login/page.tsx"));
+
+    expect(login).toContain("Staff / existing workspace sign-in");
+    expect(login).toContain(
+      "For HACIEN staff and existing workspace users only. Customer accounts are by request.",
+    );
+    expect(login).not.toContain("Open Workspace Access");
+
+    // The button block itself (from the workspace link onward) must carry
+    // the staff-only label and line, with no customer-facing sign-in wording
+    // that could make a customer mistake it for their sign-in.
+    const start = login.indexOf("href={workspaceUrl}");
+    expect(start).toBeGreaterThan(-1);
+    const buttonBlock = login.slice(start, start + 900);
+    expect(buttonBlock).toContain("Staff / existing workspace sign-in");
+    expect(buttonBlock).toContain("For HACIEN staff and existing workspace users only.");
+    expect(buttonBlock.toLowerCase()).not.toContain("customer sign-in");
+    expect(buttonBlock.toLowerCase()).not.toContain("customer login");
+  });
+
   it("every posture surface states accounts are by request", () => {
     for (const rel of SURFACES) {
       expect(flat(source(rel)).toLowerCase(), rel).toContain("by request");
