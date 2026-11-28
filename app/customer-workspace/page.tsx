@@ -91,8 +91,8 @@ export default function CustomerWorkspacePage() {
               Access stays private so customer records stay protected.
             </h2>
             <p className="mt-4 text-sm leading-6 text-grey-600">
-              Customers sign in with an approved account to see the records connected to it, under the
-              visibility rules approved for each record.
+              Customer accounts are not open yet. Access starts with a request, and each account will
+              see only the records connected to it, under the visibility rules approved for each record.
             </p>
           </AnimatedContent>
           <div className="grid gap-3 md:grid-cols-2">
