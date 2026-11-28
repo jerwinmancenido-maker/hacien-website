@@ -167,6 +167,36 @@ describe("legal page content", () => {
     expect(historyText).toContain("June 30, 2026");
   });
 
+  it("composes the Terms of Sale version line from its own record's effective date", () => {
+    const page = legalPages.find((candidate) => candidate.path === "/terms-of-sale");
+    expect(page).toBeDefined();
+    const effective = page?.meta.find((item) => item.label === "Effective")?.value;
+    expect(effective).toBe("November 2, 2026");
+    expect(page?.versionLine).toBe(
+      `Version 1.3 · Effective ${effective} · Replaces version 1.2`,
+    );
+  });
+
+  it("composes the Warranty version line from its own record's effective date", () => {
+    const page = legalPages.find((candidate) => candidate.path === "/warranty");
+    expect(page).toBeDefined();
+    const effective = page?.meta.find((item) => item.label === "Effective")?.value;
+    expect(effective).toBe("November 2, 2026");
+    expect(page?.versionLine).toBe(
+      `Version 1.1 · Effective ${effective} · Replaces version 1.0 (effective November 2, 2026)`,
+    );
+  });
+
+  it("composes the Legal version line from its own record's effective date", () => {
+    const page = legalPages.find((candidate) => candidate.path === "/legal");
+    expect(page).toBeDefined();
+    const effective = page?.meta.find((item) => item.label === "Effective")?.value;
+    expect(effective).toBe("November 2, 2026");
+    expect(page?.versionLine).toBe(
+      `Version 2.0 · Effective ${effective} · Replaces version 1.0 (effective June 30, 2026)`,
+    );
+  });
+
   it("omits the analytics block and keeps the default privacy section 9", () => {
     const combined = legalPages.map((page) => legalPagePlainText(page)).join("\n");
     for (const phrase of analyticsBlockPhrases) {

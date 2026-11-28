@@ -49,9 +49,90 @@ function ol(items: Array<string | ListItem>): LegalBlock {
   };
 }
 
-function version(number: string, extra?: string) {
-  const line = `Version ${number} · Effective ${published}`;
+/** A document's version line, composed from its own version record —
+ *  the header stamps that record's current.effective, never the shared
+ *  publish date. */
+function version(doc: DocumentVersions, extra?: string) {
+  const line = `Version ${doc.current.version} · Effective ${doc.current.effective}`;
   return extra ? `${line} · ${extra}` : line;
+}
+
+// ── Version records (R5-FIX-1: derive, don't duplicate) ─────────────────────
+// Every version surface — a document's versionLine, its Replaces meta box,
+// the Policies index "Current version" cell, and the Policy history tables —
+// is composed from ONE record per document, so a version bump edits a single
+// list and every surface follows. `earlier` is newest-first: earlier[0] is
+// the version the current one replaces, and the history page's
+// earlier-versions rows are generated from these lists, so a superseded
+// version gains its history row automatically when a new version ships.
+type VersionEntry = { version: string; effective: string };
+type DocumentVersions = { current: VersionEntry; earlier: VersionEntry[] };
+
+const termsOfSaleVersions: DocumentVersions = {
+  current: { version: "1.3", effective: published },
+  earlier: [
+    { version: "1.2", effective: published },
+    { version: "1.1", effective: "November 2, 2026" },
+    { version: "1.0", effective: "November 2, 2026" },
+  ],
+};
+
+const warrantyVersions: DocumentVersions = {
+  current: { version: "1.1", effective: published },
+  earlier: [{ version: "1.0", effective: "November 2, 2026" }],
+};
+
+const privacyVersions: DocumentVersions = {
+  current: { version: "2.8", effective: tinGateDate },
+  earlier: [
+    { version: "2.7", effective: privacyV27Date },
+    { version: "2.6", effective: privacyChatTabDate },
+    { version: "2.5", effective: privacyGateDate },
+    { version: "2.4", effective: "November 8, 2026" },
+    { version: "2.3", effective: "November 2, 2026" },
+    { version: "2.2", effective: "November 2, 2026" },
+    { version: "2.1", effective: "November 2, 2026" },
+    { version: "2.0", effective: "November 2, 2026" },
+    { version: "1.0", effective: "July 1, 2026" },
+  ],
+};
+
+const termsVersions: DocumentVersions = {
+  current: { version: "2.2", effective: tinGateDate },
+  earlier: [
+    { version: "2.1", effective: aiChatPublishDate },
+    { version: "2.0", effective: "November 2, 2026" },
+    { version: "1.0", effective: "July 1, 2026" },
+  ],
+};
+
+const legalVersions: DocumentVersions = {
+  current: { version: "2.0", effective: published },
+  earlier: [{ version: "1.0", effective: "June 30, 2026" }],
+};
+
+/** The version the current one replaces: earlier[0]. A document with
+ *  no earlier version falls back to its current entry, so an empty
+ *  history can never throw here. */
+function replacedEntry(doc: DocumentVersions): VersionEntry {
+  return doc.earlier[0] ?? doc.current;
+}
+
+/** "Replaces version X (effective DATE)" — the versionLine tail. */
+function replacesWithDate(doc: DocumentVersions): string {
+  const prev = replacedEntry(doc);
+  return `Replaces version ${prev.version} (effective ${prev.effective})`;
+}
+
+/** The Replaces meta-box value with its date: "X (DATE)". */
+function replacesBoxWithDate(doc: DocumentVersions): string {
+  const prev = replacedEntry(doc);
+  return `${prev.version} (${prev.effective})`;
+}
+
+/** One document's earlier-versions rows for the Policy history table. */
+function earlierVersionRows(name: string, doc: DocumentVersions): string[][] {
+  return doc.earlier.map((entry) => [name, `v${entry.version}`, entry.effective]);
 }
 
 export const policiesPage: LegalPageModel = {
@@ -73,19 +154,19 @@ export const policiesPage: LegalPageModel = {
         [
           "[Terms of Sale](/terms-of-sale)",
           "Quotations, orders, delivery, payment, cancellations and returns",
-          "v1.3",
+          `v${termsOfSaleVersions.current.version}`,
         ],
         [
           "[Warranty and Returns](/warranty)",
           "Manufacturer or supplier warranty, and how to make a claim",
-          "v1.1",
+          `v${warrantyVersions.current.version}`,
         ],
-        ["[Privacy Policy](/privacy)", "What personal data we keep, why, and your rights", "v2.8"],
-        ["[Website Terms of Use](/terms)", "Rules for using haciensolutions.com", "v2.2"],
+        ["[Privacy Policy](/privacy)", "What personal data we keep, why, and your rights", `v${privacyVersions.current.version}`],
+        ["[Website Terms of Use](/terms)", "Rules for using haciensolutions.com", `v${termsVersions.current.version}`],
         [
           "[Business and Legal Information](/legal)",
           "Who we are, our documents, and where to send notices",
-          "v2.0",
+          `v${legalVersions.current.version}`,
         ],
       ],
     },
@@ -103,13 +184,13 @@ export const privacyPage: LegalPageModel = {
   title: "Privacy Policy",
   description:
     "We collect business and contact details to answer requests, prepare quotations, deliver orders, issue BIR documents and keep proper records.",
-  versionLine: `Version 2.8 · Effective ${tinGateDate} · Replaces version 2.7 (effective ${privacyV27Date})`,
+  versionLine: `Version ${privacyVersions.current.version} · Effective ${privacyVersions.current.effective} · ${replacesWithDate(privacyVersions)}`,
   historyLink: true,
   showContents: true,
   meta: [
-    { label: "Version", value: "2.8" },
-    { label: "Effective", value: tinGateDate },
-    { label: "Replaces", value: `2.7 (${privacyV27Date})` },
+    { label: "Version", value: privacyVersions.current.version },
+    { label: "Effective", value: privacyVersions.current.effective },
+    { label: "Replaces", value: replacesBoxWithDate(privacyVersions) },
   ],
   intro: [],
   sections: [
@@ -547,13 +628,13 @@ export const termsPage: LegalPageModel = {
   title: "Website Terms of Use",
   description:
     "This website helps you learn about HACIEN and send inquiries and requests for quotation (RFQs).",
-  versionLine: `Version 2.2 · Effective ${tinGateDate} · Replaces version 2.1 (effective ${aiChatPublishDate})`,
+  versionLine: `Version ${termsVersions.current.version} · Effective ${termsVersions.current.effective} · ${replacesWithDate(termsVersions)}`,
   historyLink: true,
   showContents: false,
   meta: [
-    { label: "Version", value: "2.2" },
-    { label: "Effective", value: tinGateDate },
-    { label: "Replaces", value: "2.1 (November 8, 2026)" },
+    { label: "Version", value: termsVersions.current.version },
+    { label: "Effective", value: termsVersions.current.effective },
+    { label: "Replaces", value: replacesBoxWithDate(termsVersions) },
   ],
   intro: [],
   sections: [
@@ -663,13 +744,13 @@ export const termsOfSalePage: LegalPageModel = {
   eyebrow: "Terms of Sale",
   title: "Terms of Sale",
   description: "We buy every item per order and keep no stock. Prices and lead times depend on our suppliers.",
-  versionLine: version("1.3", "Replaces version 1.2"),
+  versionLine: version(termsOfSaleVersions, `Replaces version ${replacedEntry(termsOfSaleVersions).version}`),
   historyLink: true,
   showContents: true,
   meta: [
-    { label: "Version", value: "1.3" },
-    { label: "Effective", value: published },
-    { label: "Replaces", value: "1.2" },
+    { label: "Version", value: termsOfSaleVersions.current.version },
+    { label: "Effective", value: termsOfSaleVersions.current.effective },
+    { label: "Replaces", value: replacedEntry(termsOfSaleVersions).version },
   ],
   intro: [],
   sections: [
@@ -875,13 +956,13 @@ export const warrantyPage: LegalPageModel = {
   eyebrow: "Warranty",
   title: "Warranty and Returns",
   description: "HACIEN does not give its own warranty.",
-  versionLine: version("1.1", "Replaces version 1.0 (effective November 2, 2026)"),
+  versionLine: version(warrantyVersions, replacesWithDate(warrantyVersions)),
   historyLink: true,
   showContents: false,
   meta: [
-    { label: "Version", value: "1.1" },
-    { label: "Effective", value: published },
-    { label: "Replaces", value: "1.0 (November 2, 2026)" },
+    { label: "Version", value: warrantyVersions.current.version },
+    { label: "Effective", value: warrantyVersions.current.effective },
+    { label: "Replaces", value: replacesBoxWithDate(warrantyVersions) },
   ],
   intro: [],
   sections: [
@@ -959,13 +1040,13 @@ export const legalPage: LegalPageModel = {
   eyebrow: "Legal",
   title: "Business and Legal Information",
   description: "Who we are, our documents, and where to send notices.",
-  versionLine: version("2.0", "Replaces version 1.0 (effective June 30, 2026)"),
+  versionLine: version(legalVersions, replacesWithDate(legalVersions)),
   historyLink: true,
   showContents: false,
   meta: [
-    { label: "Version", value: "2.0" },
-    { label: "Effective", value: published },
-    { label: "Replaces", value: "1.0 (June 30, 2026)" },
+    { label: "Version", value: legalVersions.current.version },
+    { label: "Effective", value: legalVersions.current.effective },
+    { label: "Replaces", value: replacesBoxWithDate(legalVersions) },
   ],
   intro: [],
   sections: [
@@ -1047,11 +1128,11 @@ export const policyHistoryPage: LegalPageModel = {
       kind: "table",
       headers: ["Policy", "Version", "Effective"],
       rows: [
-        ["[Terms of Sale](/terms-of-sale)", "v1.3", published],
-        ["[Warranty and Returns](/warranty)", "v1.1", published],
-        ["[Privacy Policy](/privacy)", "v2.8", tinGateDate],
-        ["[Website Terms of Use](/terms)", "v2.2", tinGateDate],
-        ["[Business and Legal Information](/legal)", "v2.0", published],
+        ["[Terms of Sale](/terms-of-sale)", `v${termsOfSaleVersions.current.version}`, termsOfSaleVersions.current.effective],
+        ["[Warranty and Returns](/warranty)", `v${warrantyVersions.current.version}`, warrantyVersions.current.effective],
+        ["[Privacy Policy](/privacy)", `v${privacyVersions.current.version}`, privacyVersions.current.effective],
+        ["[Website Terms of Use](/terms)", `v${termsVersions.current.version}`, termsVersions.current.effective],
+        ["[Business and Legal Information](/legal)", `v${legalVersions.current.version}`, legalVersions.current.effective],
         ["[HACIEN Policies](/policies)", "v1.0", published],
       ],
     },
@@ -1064,23 +1145,11 @@ export const policyHistoryPage: LegalPageModel = {
           kind: "table",
           headers: ["Policy", "Version", "Effective"],
           rows: [
-            ["Terms of Sale", "v1.2", published],
-            ["Terms of Sale", "v1.1", "November 2, 2026"],
-            ["Terms of Sale", "v1.0", "November 2, 2026"],
-            ["Warranty and Returns", "v1.0", "November 2, 2026"],
-            ["Privacy Policy", "v2.7", privacyV27Date],
-            ["Privacy Policy", "v2.6", privacyChatTabDate],
-            ["Privacy Policy", "v2.5", privacyGateDate],
-            ["Privacy Policy", "v2.4", "November 8, 2026"],
-            ["Privacy Policy", "v2.3", "November 2, 2026"],
-            ["Privacy Policy", "v2.2", "November 2, 2026"],
-            ["Privacy Policy", "v2.1", "November 2, 2026"],
-            ["Privacy Policy", "v2.0", "November 2, 2026"],
-            ["Privacy Policy", "v1.0", "July 1, 2026"],
-            ["Website Terms of Use", "v2.1", aiChatPublishDate],
-            ["Website Terms of Use", "v2.0", "November 2, 2026"],
-            ["Website Terms of Use", "v1.0", "July 1, 2026"],
-            ["Business and Legal Information", "v1.0", "June 30, 2026"],
+            ...earlierVersionRows("Terms of Sale", termsOfSaleVersions),
+            ...earlierVersionRows("Warranty and Returns", warrantyVersions),
+            ...earlierVersionRows("Privacy Policy", privacyVersions),
+            ...earlierVersionRows("Website Terms of Use", termsVersions),
+            ...earlierVersionRows("Business and Legal Information", legalVersions),
           ],
         },
         p("**Terms of Sale: changes from v1.0**"),
