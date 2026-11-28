@@ -230,4 +230,83 @@ describe("validateInquiryPayload", () => {
     payload.company = ["c".repeat(601)];
     expect(validateInquiryPayload(payload).ok).toBe(false);
   });
+
+  const quotePayload = () =>
+    buildQuotePayload(
+      {
+        name: "Example Person",
+        email: "buyer@example.com",
+        need: "Office fit-out for a new floor",
+      },
+      [REQUIREMENT_BLOCK],
+      META,
+    );
+
+  it("rejects an unbounded string riding in the requirementCount machine field", () => {
+    // A machine-field name is not a route around the caps: the counter
+    // must arrive as a number, so a raw POST cannot hide a 200 KB string
+    // in it.
+    const payload = quotePayload();
+    payload.requirementCount = "x".repeat(200_000);
+    expect(validateInquiryPayload(payload).ok).toBe(false);
+  });
+
+  it("rejects a string in the requirementCount machine field", () => {
+    const payload = quotePayload();
+    payload.requirementCount = "1";
+    expect(validateInquiryPayload(payload).ok).toBe(false);
+  });
+
+  it("rejects a string in the attachmentSizeKb machine field", () => {
+    const payload = quotePayload();
+    payload.attachmentSizeKb = "245";
+    expect(validateInquiryPayload(payload).ok).toBe(false);
+  });
+
+  it("rejects a string in the acceptsZeroCatalogProducts machine field", () => {
+    const payload = quotePayload();
+    payload.acceptsZeroCatalogProducts = "true";
+    expect(validateInquiryPayload(payload).ok).toBe(false);
+  });
+
+  it("rejects a non-array in the requirementBlocks machine field", () => {
+    const payload = quotePayload();
+    payload.requirementBlocks = "Computers & Laptops";
+    expect(validateInquiryPayload(payload).ok).toBe(false);
+  });
+
+  it("rejects an oversized requirementBlocks entry", () => {
+    const payload = quotePayload();
+    payload.requirementBlocks = [
+      "x".repeat(INQUIRY_COMPOSED_FIELD_LENGTH_CAP + 1),
+    ];
+    expect(validateInquiryPayload(payload).ok).toBe(false);
+  });
+
+  it("counts requirementBlocks sizes toward the absolute ceiling", () => {
+    // Each entry is under the ceiling on its own; together they pass it.
+    const payload = quotePayload();
+    payload.requirementBlocks = ["a".repeat(60_000), "b".repeat(60_000)];
+    expect(validateInquiryPayload(payload).ok).toBe(false);
+  });
+
+  it("accepts a real quote payload with an attachment, machine fields and all", () => {
+    const payload = buildQuotePayload(
+      {
+        name: "Example Person",
+        email: "buyer@example.com",
+        need: "Office fit-out for a new floor",
+        attachmentName: "BOQ.pdf",
+        attachmentType: "application/pdf",
+        attachmentSizeKb: "245",
+      },
+      [REQUIREMENT_BLOCK],
+      META,
+    );
+    expect(payload.requirementCount).toBe(1);
+    expect(payload.attachmentSizeKb).toBe(245);
+    expect(payload.acceptsZeroCatalogProducts).toBe(true);
+    expect(Array.isArray(payload.requirementBlocks)).toBe(true);
+    expect(validateInquiryPayload(payload)).toEqual({ ok: true });
+  });
 });
