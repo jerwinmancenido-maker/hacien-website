@@ -49,8 +49,11 @@ function ol(items: Array<string | ListItem>): LegalBlock {
   };
 }
 
-function version(number: string, extra?: string) {
-  const line = `Version ${number} · Effective ${published}`;
+/** A document's version line, composed from its own version record —
+ *  the header stamps that record's current.effective, never the shared
+ *  publish date. */
+function version(doc: DocumentVersions, extra?: string) {
+  const line = `Version ${doc.current.version} · Effective ${doc.current.effective}`;
   return extra ? `${line} · ${extra}` : line;
 }
 
@@ -108,8 +111,11 @@ const legalVersions: DocumentVersions = {
   earlier: [{ version: "1.0", effective: "June 30, 2026" }],
 };
 
+/** The version the current one replaces: earlier[0]. A document with
+ *  no earlier version falls back to its current entry, so an empty
+ *  history can never throw here. */
 function replacedEntry(doc: DocumentVersions): VersionEntry {
-  return doc.earlier[0];
+  return doc.earlier[0] ?? doc.current;
 }
 
 /** "Replaces version X (effective DATE)" — the versionLine tail. */
@@ -738,7 +744,7 @@ export const termsOfSalePage: LegalPageModel = {
   eyebrow: "Terms of Sale",
   title: "Terms of Sale",
   description: "We buy every item per order and keep no stock. Prices and lead times depend on our suppliers.",
-  versionLine: version(termsOfSaleVersions.current.version, `Replaces version ${replacedEntry(termsOfSaleVersions).version}`),
+  versionLine: version(termsOfSaleVersions, `Replaces version ${replacedEntry(termsOfSaleVersions).version}`),
   historyLink: true,
   showContents: true,
   meta: [
@@ -950,7 +956,7 @@ export const warrantyPage: LegalPageModel = {
   eyebrow: "Warranty",
   title: "Warranty and Returns",
   description: "HACIEN does not give its own warranty.",
-  versionLine: version(warrantyVersions.current.version, replacesWithDate(warrantyVersions)),
+  versionLine: version(warrantyVersions, replacesWithDate(warrantyVersions)),
   historyLink: true,
   showContents: false,
   meta: [
@@ -1034,7 +1040,7 @@ export const legalPage: LegalPageModel = {
   eyebrow: "Legal",
   title: "Business and Legal Information",
   description: "Who we are, our documents, and where to send notices.",
-  versionLine: version(legalVersions.current.version, replacesWithDate(legalVersions)),
+  versionLine: version(legalVersions, replacesWithDate(legalVersions)),
   historyLink: true,
   showContents: false,
   meta: [
