@@ -42,7 +42,7 @@
   --color-hacien-violet: #2563eb;
 
   --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-archivo-black), "Archivo Black", "Archivo", var(--font-sans);
+  --font-display: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
 
   /*
    * Brand kit Inter weights are 400/500/600 only (no 700).
@@ -53,10 +53,10 @@
 
   --radius-sm: 4px;
   --radius: 6px;
-  --radius-lg: 6px;
-  --radius-xl: 6px;
-  --radius-2xl: 6px;
-  --radius-3xl: 6px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
 }
 
 /* G17: Hand pointer on all buttons */
@@ -181,7 +181,7 @@ h1,
 h2,
 .font-display {
   font-family: var(--font-display);
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
 }
 
 main {
@@ -929,13 +929,10 @@ main {
 .va-scope button.bg-\[\#2563EB\] {
   border-radius: 999px;
 }
-/* PremiumPageHero is excluded from the broadened pill rule structurally:
-   its filled primary shares a.bg-blue, so that selector carries a :not()
-   with the hero's ink-black section as the ancestor context. Inside the
-   hero, no va-scope rule touches the radius at all and Tailwind's own
-   .rounded applies. (An earlier revert-layer exclusion rolled the hero
-   primary back to square in some engines — removed.) */
-.va-scope a.bg-blue:not(section[class*="0A0A0A"] a.bg-blue) {
+/* R5-FIX-3: PremiumPageHero takes the pill treatment in its own component
+   (full-pill actions at VA heights), so the broadened pill rule now applies
+   inside the hero too — the former :not() exclusion is removed at the root. */
+.va-scope a.bg-blue {
   border-radius: 999px;
 }
 /* The article page's secondary CTA only. The border-slate-300 qualifier

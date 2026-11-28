@@ -137,12 +137,15 @@ describe("PR 4 Speed Optimizations (F16, N01, G12, F30)", () => {
       expect(premiumHtml).not.toMatch(/motion-fade[^>]*><h1/);
     });
 
-    it("configures Archivo Black with fallback font and adjustFontFallback in layout", () => {
+    it("does not load the unused Archivo Black in layout; Inter carries the font-loading contract", () => {
       const layoutSource = readFileSync(path.join(ROOT, "app/layout.tsx"), "utf8");
 
-      expect(layoutSource).toMatch(/Archivo_Black\(\{[\s\S]*?adjustFontFallback:\s*true/);
-      expect(layoutSource).toMatch(/Archivo_Black\(\{[\s\S]*?preload:\s*true/);
-      expect(layoutSource).toMatch(/Archivo_Black\(\{[\s\S]*?fallback:\s*\[/);
+      // --font-display resolves to Inter (globals.css); Archivo Black is unused and must not be loaded.
+      expect(layoutSource).not.toMatch(/Archivo_Black/);
+      expect(layoutSource).not.toMatch(/archivoBlack/);
+      expect(layoutSource).toMatch(/Inter\(\{[\s\S]*?adjustFontFallback:\s*true/);
+      expect(layoutSource).toMatch(/Inter\(\{[\s\S]*?preload:\s*true/);
+      expect(layoutSource).toMatch(/Inter\(\{[\s\S]*?fallback:\s*\[/);
     });
   });
 });

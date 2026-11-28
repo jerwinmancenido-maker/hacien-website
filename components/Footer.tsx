@@ -64,7 +64,7 @@ export function Footer() {
               <span className="mt-2 block">
                 <a
                   href={`mailto:${companyContact.email}`}
-                  className={`font-semibold text-white hover:underline ${VA_FOCUS_ON_BAND}`}
+                  className={`inline-flex min-h-11 items-center font-semibold text-white hover:underline ${VA_FOCUS_ON_BAND}`}
                 >
                   {companyContact.email}
                 </a>
@@ -82,7 +82,7 @@ export function Footer() {
                   <Link
                     key={`${group.title}-${link.href}`}
                     href={link.href}
-                    className={`block rounded py-[5px] transition-colors hover:text-[#F4F6FA] ${VA_FOCUS_ON_BAND}`}
+                    className={`flex min-h-11 items-center rounded py-[5px] transition-colors hover:text-[#F4F6FA] ${VA_FOCUS_ON_BAND}`}
                   >
                     {link.label}
                   </Link>

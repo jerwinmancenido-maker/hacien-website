@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Archivo_Black, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -16,16 +16,6 @@ const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   variable: "--font-inter",
-  display: "swap",
-  preload: true,
-  fallback: ["Arial", "sans-serif"],
-  adjustFontFallback: true,
-});
-
-const archivoBlack = Archivo_Black({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-archivo-black",
   display: "swap",
   preload: true,
   fallback: ["Arial", "sans-serif"],
@@ -113,7 +103,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   };
 
   return (
-    <html lang="en" className={`${inter.variable} ${archivoBlack.variable}`}>
+    <html lang="en" className={inter.variable}>
       <body className="font-sans antialiased">
         <a
           href="#content"
