@@ -6,7 +6,7 @@ import { PremiumPageHero } from "@/components/PremiumPageHero";
 export const metadata: Metadata = {
   title: "Access",
   description:
-    "Access HACIEN Workspace, learn about the future Customer Workspace, or contact HACIEN support.",
+    "Access HACIEN Workspace, learn about the Customer Workspace, or contact HACIEN support.",
   robots: {
     index: false,
     follow: false,
@@ -27,8 +27,8 @@ const accessOptions = [
   },
   {
     title: "Customer Workspace",
-    eyebrow: "Future customer continuity",
-    body: "A future customer workspace for tracking requests, viewing quotations, accessing documents, continuing support, and preserving account history.",
+    eyebrow: "Customer accounts by request",
+    body: "The customer workspace for tracking requests, viewing quotations, accessing documents, continuing support, and preserving account history. Customer accounts are by request, and sign-in opens for approved accounts when the Customer Workspace launches.",
     href: "/customer-workspace",
     label: "Learn More",
     external: false,
@@ -49,15 +49,15 @@ export default function AccessPage() {
       <PremiumPageHero
         eyebrow="Access HACIEN"
         title="One access point for HACIEN’s connected ecosystem."
-        description="Open the internal Workspace, learn about the future Customer Workspace, or contact HACIEN for support."
+        description="Open the internal Workspace, learn about the Customer Workspace, or contact HACIEN for support."
         image="workspace"
         primaryAction={{ href: erpUrl, label: "Open Workspace" }}
         secondaryAction={{ href: "/contact", label: "Contact HACIEN" }}
         highlights={[
           { label: "Internal Workspace", text: "Secure access for authorized HACIEN personnel." },
-          { label: "Customer Workspace", text: "Future continuity for tracking, documents, and support." },
+          { label: "Customer Workspace", text: "Continuity for customer accounts at launch: tracking, documents, and support." },
           { label: "Support", text: "Help with inquiry, quotation, reference, or follow-up details." },
-          { label: "Account Access", text: "One connected path for public, internal, and future customer use." },
+          { label: "Account Access", text: "One connected path for public, internal, and customer use." },
         ]}
       />
 
