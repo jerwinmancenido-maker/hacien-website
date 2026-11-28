@@ -19,7 +19,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
   const card = getStaffCard(id);
-  if (!card) return { title: "Contact card" };
+  if (!card) notFound();
 
   const description = `${card.fullName}, ${card.title} at ${card.organization}. ${card.statusLine}.`;
   return {
@@ -51,7 +51,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 // .card-focus-ring rule in globals.css (2px surface ring + 3px Sky ring).
 const focusRingClass = "card-focus-ring";
 
-const linkButtonClass = `flex h-11 w-full items-center justify-center rounded-full border border-white/25 bg-white/5 px-5 text-center text-base font-semibold text-white transition hover:bg-white/15 active:scale-[0.97] ${focusRingClass}`;
+const linkButtonClass = `card-link-pill flex h-11 w-full items-center justify-center rounded-full border border-white/25 bg-white/5 px-5 text-center text-base font-semibold text-white transition hover:bg-white/15 active:scale-[0.97] ${focusRingClass}`;
 
 function socialLinks(card: StaffCard) {
   const links: { label: string; href: string }[] = [];

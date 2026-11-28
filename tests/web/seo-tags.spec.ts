@@ -47,7 +47,6 @@ import { generateMetadata as generateInsightMeta } from "@/app/insights/[slug]/p
 import { metadata as accessMeta } from "@/app/access/page";
 import { metadata as cmsPreviewMeta } from "@/app/cms-preview/page";
 import { metadata as customerWorkspaceMeta } from "@/app/customer-workspace/page";
-import { metadata as portalMeta } from "@/app/portal/page";
 import { metadata as loginMeta } from "@/app/login/page";
 import { metadata as signupMeta } from "@/app/signup/page";
 import { metadata as commandCenterCmsMeta } from "@/app/command-center/cms/page";
@@ -246,7 +245,9 @@ describe("SEO: Search engine tags (PR 6)", () => {
       { name: "/access", meta: accessMeta },
       { name: "/cms-preview", meta: cmsPreviewMeta },
       { name: "/customer-workspace", meta: customerWorkspaceMeta },
-      { name: "/portal", meta: portalMeta },
+      // R5-FIX-5: /portal declares no metadata of its own anymore — it is a
+      // permanent redirect to /customer-workspace, whose noindex entry above
+      // is the one canonical record for the workspace door.
       { name: "/login", meta: loginMeta },
       { name: "/signup", meta: signupMeta },
       { name: "/command-center/cms", meta: commandCenterCmsMeta },

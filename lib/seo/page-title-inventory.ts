@@ -27,7 +27,6 @@ export const staticPageTitleSegments: Record<string, string> = {
   "/platform": "Platform | Operating Model",
   "/login": "Customer Login",
   "/signup": "Request Customer Access",
-  "/portal": "Customer Workspace",
   "/customer-workspace": "Customer Workspace",
   "/about/company-profile": "Company Profile",
   "/brands": "Brands we carry",
