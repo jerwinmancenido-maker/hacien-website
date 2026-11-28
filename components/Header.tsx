@@ -59,7 +59,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-[#0B0C10]">
-      <div className={`${VA_WRAP} flex items-center justify-between gap-4 py-[14px]`}>
+      <div className={`${VA_WRAP} flex items-center justify-between gap-2 py-[14px] sm:gap-4`}>
         {/*
           White wordmark-only variant at 28px tall, full contrast, never dimmed.
           BrandLogo adds clear space X = 0.286×CH.
@@ -70,7 +70,13 @@ export function Header() {
           className={`-ml-[7px] inline-flex min-h-11 min-w-11 shrink-0 items-center rounded-full ${VA_FOCUS_ON_CANVAS}`}
           aria-label="HACIEN home"
         >
-          <BrandLogo variant="wordmark-white" height={28} priority />
+          {/* Below sm the wordmark steps down to 22px so logo + quote pill + menu button fit a 360px viewport. */}
+          <span className="sm:hidden">
+            <BrandLogo variant="wordmark-white" height={22} priority />
+          </span>
+          <span className="hidden sm:inline-flex">
+            <BrandLogo variant="wordmark-white" height={28} priority />
+          </span>
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
@@ -91,10 +97,10 @@ export function Header() {
           })}
         </nav>
 
-        <div className="flex shrink-0 items-center gap-2.5">
+        <div className="flex shrink-0 items-center gap-2 sm:gap-2.5">
           <Link
             href={navigationContent.header.quoteAction.href}
-            className={`${VA_BTN_PRIMARY_44}`}
+            className={`${VA_BTN_PRIMARY_44} max-sm:px-3.5 max-sm:text-[12.5px]`}
           >
             {navigationContent.header.quoteAction.label}
           </Link>
