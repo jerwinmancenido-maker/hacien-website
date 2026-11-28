@@ -53,6 +53,15 @@ describe("searchCatalog (F05)", () => {
     expect(searchCatalog("asdfghjklqwerty", index)).toEqual([]);
   });
 
+  it("tolerates a one-letter typo in a brand name", () => {
+    const results = searchCatalog("Hikvison", index);
+    expect(results.some((r) => r.title.includes("Hikvision"))).toBe(true);
+  });
+
+  it("still returns none for an unrelated real word", () => {
+    expect(searchCatalog("Meralco", index)).toEqual([]);
+  });
+
   it("matches case-insensitively", () => {
     expect(searchCatalog("LAPTOP", index).length).toBe(searchCatalog("laptop", index).length);
     expect(searchCatalog("Cctv", index).length).toBe(searchCatalog("cctv", index).length);

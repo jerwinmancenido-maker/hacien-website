@@ -7,10 +7,12 @@ import { HideOnCardPages } from "@/components/HideOnCardPages";
 import { FloatingChat } from "@/components/FloatingChat";
 import { CookieNotice } from "@/components/CookieNotice";
 import { isValidGaId } from "@/lib/ga4";
+import { JsonLd } from "@/components/JsonLd";
+import { localBusinessJsonLd, organizationJsonLd } from "@/lib/seo/json-ld";
 import { GlobalCinematicBackdrop } from "@/components/GlobalCinematicBackdrop";
 import { QuoteCartProvider } from "@/components/QuoteCartProvider";
 import { LenisProvider } from "@/components/motion/LenisProvider";
-import { companyContact, founderLine } from "@/data/companyContact";
+import { founderLine } from "@/data/companyContact";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -82,26 +84,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const rawGaId = process.env.NEXT_PUBLIC_HACIEN_GA4_ID?.trim();
   const gaId = isValidGaId(rawGaId) ? rawGaId : undefined;
-  const organizationJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    name: "HACIEN Information Technology Solutions",
-    alternateName: "HACIEN",
-    url: "https://haciensolutions.com",
-    logo: "https://haciensolutions.com/brand/icon-512.png",
-    ...(companyContact.email ? { email: companyContact.email } : {}),
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: "Unit D, 6th Floor, Suntree Tower, 13 Meralco Avenue, Ortigas Center, Brgy. San Antonio",
-      addressLocality: "Pasig City",
-      addressRegion: "Metro Manila",
-      postalCode: "1605",
-      addressCountry: "PH",
-    },
-    areaServed: "Philippines",
-    description: founderLine,
-  };
-
   return (
     <html lang="en" className={inter.variable}>
       <body className="font-sans antialiased">
@@ -111,10 +93,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         >
           Skip to content
         </a>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-        />
+        <JsonLd data={organizationJsonLd()} />
+        <JsonLd data={localBusinessJsonLd()} />
         {gaId ? (
           <>
             <script

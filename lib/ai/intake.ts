@@ -26,6 +26,10 @@ import {
 } from "@/lib/ai/lead";
 import { isInjectionText } from "@/lib/ai/scope";
 import type { GuidedChatAnswers } from "@/lib/guided-chat/payloads";
+import {
+  INQUIRY_FIELD_LENGTH_CAP,
+  INQUIRY_LONG_FIELD_LENGTH_CAP,
+} from "@/lib/validation/inquiry";
 
 export type AiChatPath = "quote" | "inquiry" | "callback";
 
@@ -109,11 +113,11 @@ const CHOICE_FIELD_OPTIONS: Partial<Record<AiChatPath, Record<string, readonly s
   },
 };
 
-const MAX_FIELD_LENGTH = 600;
+const MAX_FIELD_LENGTH = INQUIRY_FIELD_LENGTH_CAP;
 /** The substantive free-text fields can carry a whole requirements
  *  list extracted from an attached BOQ — they get a longer cap. */
 const LONG_TEXT_FIELDS = new Set(["need", "details", "message"]);
-const MAX_LONG_FIELD_LENGTH = 4_000;
+const MAX_LONG_FIELD_LENGTH = INQUIRY_LONG_FIELD_LENGTH_CAP;
 const MAX_REPLY_LENGTH = 2_000;
 
 export function isAiChatPath(value: unknown): value is AiChatPath {
